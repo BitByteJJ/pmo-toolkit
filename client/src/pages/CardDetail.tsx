@@ -74,99 +74,129 @@ export default function CardDetail() {
 
   return (
     <div className="min-h-screen bg-[#FAFAF8] pb-24">
-      {/* Card Header */}
+      {/* Card Header — illustration sits behind text as a seamless background */}
       <div
-        className="px-4 pt-14 pb-5 relative"
-        style={{ backgroundColor: deck?.bgColor ?? '#F8F8F6' }}
+        className="relative overflow-hidden"
+        style={{ backgroundColor: deck?.bgColor ?? '#F8F8F6', minHeight: getCardIllustration(card.id) ? '260px' : 'auto' }}
       >
-        {/* Top bar */}
-        <div className="flex items-center justify-between mb-4">
-          <button
-            onClick={() => navigate(`/deck/${card.deckId}`)}
-            className="flex items-center gap-1.5 text-[11px] font-semibold opacity-60 hover:opacity-100 transition-opacity"
-            style={{ color: deck?.textColor }}
-          >
-            <ArrowLeft size={13} />
-            {deck?.title ?? 'Back'}
-          </button>
-          <div className="flex items-center gap-2">
-            <span className="text-[10px] font-medium opacity-50" style={{ color: deck?.textColor }}>
-              {currentIndex + 1} / {deckCards.length}
-            </span>
-            <button
-              onClick={() => toggleBookmark(card.id)}
-              className="p-2 rounded-xl transition-all hover:scale-110 active:scale-90"
-              style={{ backgroundColor: deck?.color + '20' }}
-            >
-              {bookmarked ? (
-                <BookmarkCheck size={16} className="text-rose-500" />
-              ) : (
-                <Bookmark size={16} style={{ color: deck?.textColor, opacity: 0.7 }} />
-              )}
-            </button>
-          </div>
-        </div>
-
-        {/* Card code badge + type */}
-        <div className="flex items-center gap-2 mb-2.5">
-          <span
-            className="text-[11px] font-mono font-bold px-2.5 py-1 rounded-lg"
-            style={{ backgroundColor: deck?.color, color: '#fff' }}
-          >
-            {card.code}
-          </span>
-          <span
-            className="text-[10px] font-semibold capitalize px-2 py-0.5 rounded-full"
-            style={{ backgroundColor: deck?.color + '20', color: deck?.textColor, opacity: 0.8 }}
-          >
-            {card.type}
-          </span>
-          {copyrightNotices.length > 0 && (
-            <span
-              className="text-[9px] font-semibold px-2 py-0.5 rounded-full flex items-center gap-1"
-              style={{ backgroundColor: '#FEF3C7', color: '#92400E' }}
-            >
-              <ShieldCheck size={9} />
-              Proprietary
-            </span>
-          )}
-        </div>
-
-        {/* Title */}
-        <h1
-          className="text-[22px] font-bold leading-tight mb-2"
-          style={{ fontFamily: 'Sora, sans-serif', color: deck?.textColor }}
-        >
-          {card.title}
-        </h1>
-
-        {/* Tagline */}
-        <p className="text-sm leading-relaxed" style={{ color: deck?.textColor, opacity: 0.7 }}>
-          {card.tagline}
-        </p>
-
-        {/* Illustration in header */}
+        {/* Illustration as absolute background layer */}
         {getCardIllustration(card.id) && (
-          <div className="mt-4 rounded-2xl overflow-hidden" style={{ background: 'rgba(255,255,255,0.35)' }}>
+          <div
+            className="absolute inset-0 pointer-events-none"
+            style={{ zIndex: 0 }}
+          >
             <img
               src={getCardIllustration(card.id)!}
-              alt={`${card.title} illustration`}
-              className="w-full h-auto block"
-              style={{ maxHeight: '220px', objectFit: 'contain', padding: '12px', mixBlendMode: 'multiply' }}
+              alt=""
+              aria-hidden="true"
+              className="absolute"
+              style={{
+                right: '-10%',
+                bottom: '-5%',
+                width: '75%',
+                maxWidth: '300px',
+                height: 'auto',
+                objectFit: 'contain',
+                mixBlendMode: 'multiply',
+                opacity: 0.55,
+              }}
               loading="eager"
+            />
+            {/* Gradient fade on the left so text stays readable */}
+            <div
+              className="absolute inset-0"
+              style={{
+                background: `linear-gradient(to right, ${deck?.bgColor ?? '#F8F8F6'} 35%, ${deck?.bgColor ?? '#F8F8F6'}CC 60%, transparent 100%)`,
+              }}
+            />
+            {/* Gradient fade at bottom */}
+            <div
+              className="absolute inset-x-0 bottom-0 h-16"
+              style={{
+                background: `linear-gradient(to bottom, transparent, ${deck?.bgColor ?? '#F8F8F6'})`,
+              }}
             />
           </div>
         )}
 
-        {/* Progress bar */}
-        <div className="mt-4 h-1 rounded-full bg-black/10 overflow-hidden">
-          <motion.div
-            className="h-full rounded-full"
-            initial={{ width: 0 }}
-            animate={{ width: `${progress}%` }}
-            transition={{ duration: 0.5, delay: 0.2 }}
-            style={{ backgroundColor: deck?.color }}
-          />
+        {/* Foreground content */}
+        <div className="relative px-4 pt-14 pb-5" style={{ zIndex: 1 }}>
+          {/* Top bar */}
+          <div className="flex items-center justify-between mb-4">
+            <button
+              onClick={() => navigate(`/deck/${card.deckId}`)}
+              className="flex items-center gap-1.5 text-[11px] font-semibold opacity-60 hover:opacity-100 transition-opacity"
+              style={{ color: deck?.textColor }}
+            >
+              <ArrowLeft size={13} />
+              {deck?.title ?? 'Back'}
+            </button>
+            <div className="flex items-center gap-2">
+              <span className="text-[10px] font-medium opacity-50" style={{ color: deck?.textColor }}>
+                {currentIndex + 1} / {deckCards.length}
+              </span>
+              <button
+                onClick={() => toggleBookmark(card.id)}
+                className="p-2 rounded-xl transition-all hover:scale-110 active:scale-90"
+                style={{ backgroundColor: deck?.color + '20' }}
+              >
+                {bookmarked ? (
+                  <BookmarkCheck size={16} className="text-rose-500" />
+                ) : (
+                  <Bookmark size={16} style={{ color: deck?.textColor, opacity: 0.7 }} />
+                )}
+              </button>
+            </div>
+          </div>
+
+          {/* Card code badge + type */}
+          <div className="flex items-center gap-2 mb-2.5">
+            <span
+              className="text-[11px] font-mono font-bold px-2.5 py-1 rounded-lg"
+              style={{ backgroundColor: deck?.color, color: '#fff' }}
+            >
+              {card.code}
+            </span>
+            <span
+              className="text-[10px] font-semibold capitalize px-2 py-0.5 rounded-full"
+              style={{ backgroundColor: deck?.color + '20', color: deck?.textColor, opacity: 0.8 }}
+            >
+              {card.type}
+            </span>
+            {copyrightNotices.length > 0 && (
+              <span
+                className="text-[9px] font-semibold px-2 py-0.5 rounded-full flex items-center gap-1"
+                style={{ backgroundColor: '#FEF3C7', color: '#92400E' }}
+              >
+                <ShieldCheck size={9} />
+                Proprietary
+              </span>
+            )}
+          </div>
+
+          {/* Title */}
+          <h1
+            className="text-[22px] font-bold leading-tight mb-2"
+            style={{ fontFamily: 'Sora, sans-serif', color: deck?.textColor, maxWidth: '68%' }}
+          >
+            {card.title}
+          </h1>
+
+          {/* Tagline */}
+          <p className="text-sm leading-relaxed" style={{ color: deck?.textColor, opacity: 0.7, maxWidth: '68%' }}>
+            {card.tagline}
+          </p>
+
+          {/* Progress bar */}
+          <div className="mt-5 h-1 rounded-full bg-black/10 overflow-hidden">
+            <motion.div
+              className="h-full rounded-full"
+              initial={{ width: 0 }}
+              animate={{ width: `${progress}%` }}
+              transition={{ duration: 0.5, delay: 0.2 }}
+              style={{ backgroundColor: deck?.color }}
+            />
+          </div>
         </div>
       </div>
 
