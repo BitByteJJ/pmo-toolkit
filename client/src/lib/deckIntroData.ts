@@ -18,6 +18,8 @@ export interface CategoryItem {
   name: string;
   description: string;
   color: string;
+  /** Tags used to filter cards in this category. Cards matching ANY of these tags are shown. */
+  filterTags?: string[];
 }
 
 export interface DeckIntro {
@@ -68,9 +70,9 @@ export const DECK_INTROS: DeckIntro[] = [
       'Closure is often skipped — but lessons learned are your most valuable asset.',
     ],
     categories: [
-      { icon: '🚀', name: 'Setup', description: 'Define scope, team, methodology, and risk framework.', color: '#D97706' },
-      { icon: '⚡', name: 'Execution', description: 'Deliver, monitor, adapt, and communicate progress.', color: '#EA580C' },
-      { icon: '🏁', name: 'Closure', description: 'Handover, document, celebrate, and capture lessons.', color: '#B45309' },
+      { icon: '🚀', name: 'Setup', description: 'Define scope, team, methodology, and risk framework.', color: '#D97706', filterTags: ['setup', 'planning', 'scope'] },
+      { icon: '⚡', name: 'Execution', description: 'Deliver, monitor, adapt, and communicate progress.', color: '#EA580C', filterTags: ['execution', 'tracking', 'communication'] },
+      { icon: '🏁', name: 'Closure', description: 'Handover, document, celebrate, and capture lessons.', color: '#B45309', filterTags: ['closure', 'handover', 'lessons learned'] },
     ],
   },
   {
@@ -109,9 +111,9 @@ export const DECK_INTROS: DeckIntro[] = [
       'Revisit if the project context changes significantly mid-delivery.',
     ],
     categories: [
-      { icon: '🔍', name: 'AG1 — Complexity', description: 'Assess how novel, complex, and uncertain the project is.', color: '#0D9488' },
-      { icon: '🤝', name: 'AG2 — Team & Stakeholders', description: 'Evaluate experience, clarity, and engagement levels.', color: '#0891B2' },
-      { icon: '✅', name: 'AG3 — Recommendation', description: 'Get a methodology recommendation based on your scores.', color: '#059669' },
+      { icon: '🔍', name: 'AG1 — Complexity', description: 'Assess how novel, complex, and uncertain the project is.', color: '#0D9488', filterTags: ['complexity', 'assessment', 'risk'] },
+      { icon: '🤝', name: 'AG2 — Team & Stakeholders', description: 'Evaluate experience, clarity, and engagement levels.', color: '#0891B2', filterTags: ['agile', 'hybrid', 'waterfall', 'questions'] },
+      { icon: '✅', name: 'AG3 — Recommendation', description: 'Get a methodology recommendation based on your scores.', color: '#059669', filterTags: ['decision', 'methodology selection'] },
     ],
   },
   {
@@ -156,10 +158,10 @@ export const DECK_INTROS: DeckIntro[] = [
     ],
     systemTerminal: 'Use Waterfall — sequential, document-driven delivery.',
     categories: [
-      { icon: '💧', name: 'M1 — Waterfall', description: 'Sequential phases with defined deliverables at each gate.', color: '#4F46E5' },
-      { icon: '🏃', name: 'M2 — Agile', description: 'Iterative sprints with continuous stakeholder feedback.', color: '#7C3AED' },
-      { icon: '📋', name: 'M3 — Kanban', description: 'Flow-based delivery with WIP limits and visual boards.', color: '#6D28D9' },
-      { icon: '🔀', name: 'M4 — Hybrid', description: 'Blend of Waterfall and Agile tailored to context.', color: '#5B21B6' },
+      { icon: '💧', name: 'M1 — Waterfall', description: 'Sequential phases with defined deliverables at each gate.', color: '#4F46E5', filterTags: ['waterfall', 'sequential', 'gates'] },
+      { icon: '🏃', name: 'M2 — Agile', description: 'Iterative sprints with continuous stakeholder feedback.', color: '#7C3AED', filterTags: ['agile', 'sprints', 'iterative', 'backlog'] },
+      { icon: '📋', name: 'M3 — Kanban', description: 'Flow-based delivery with WIP limits and visual boards.', color: '#6D28D9', filterTags: ['kanban', 'WIP', 'flow', 'visual'] },
+      { icon: '🔀', name: 'M4 — Hybrid', description: 'Blend of Waterfall and Agile tailored to context.', color: '#5B21B6', filterTags: ['hybrid', 'blended', 'compliance'] },
     ],
   },
   {
@@ -198,10 +200,10 @@ export const DECK_INTROS: DeckIntro[] = [
       'Psychological safety (A59 SCARF) is the foundation of high-performing teams.',
     ],
     categories: [
-      { icon: '👥', name: 'Team Leadership', description: 'Lead, motivate, and develop your project team.', color: '#E11D48' },
-      { icon: '🤝', name: 'Stakeholders', description: 'Identify, engage, and manage stakeholder expectations.', color: '#BE185D' },
-      { icon: '💬', name: 'Communication', description: 'Build shared understanding and manage conflict.', color: '#9D174D' },
-      { icon: '🌱', name: 'Culture & Change', description: 'Foster ownership, resilience, and adaptability.', color: '#831843' },
+      { icon: '👥', name: 'Team Leadership', description: 'Lead, motivate, and develop your project team.', color: '#E11D48', filterTags: ['leadership', 'team', 'performance', 'coaching', 'empowerment', 'delegation', 'training', 'team building', 'emotional intelligence'] },
+      { icon: '🤝', name: 'Stakeholders', description: 'Identify, engage, and manage stakeholder expectations.', color: '#BE185D', filterTags: ['stakeholders', 'engagement', 'collaboration', 'negotiation', 'vendors'] },
+      { icon: '💬', name: 'Communication', description: 'Build shared understanding and manage conflict.', color: '#9D174D', filterTags: ['communication', 'conflict', 'alignment', 'brainstorming', 'ground rules'] },
+      { icon: '🌱', name: 'Culture & Change', description: 'Foster ownership, resilience, and adaptability.', color: '#831843', filterTags: ['virtual teams', 'remote', 'mentoring', 'knowledge transfer', 'wellbeing'] },
     ],
   },
   {
@@ -240,10 +242,10 @@ export const DECK_INTROS: DeckIntro[] = [
       'Quality is built in, not inspected in — define acceptance criteria upfront.',
     ],
     categories: [
-      { icon: '📐', name: 'Planning', description: 'Scope, WBS, scheduling, and resource planning.', color: '#059669' },
-      { icon: '⚠️', name: 'Risk & Quality', description: 'Identify, assess, and mitigate risks; assure quality.', color: '#0D9488' },
-      { icon: '💰', name: 'Budget & Procurement', description: 'Estimate, track, and control project costs.', color: '#0891B2' },
-      { icon: '📊', name: 'Monitoring & Governance', description: 'Track progress, manage changes, report status.', color: '#0284C7' },
+      { icon: '📐', name: 'Planning', description: 'Scope, WBS, scheduling, and resource planning.', color: '#059669', filterTags: ['scope', 'schedule', 'integration', 'methodology', 'planning'] },
+      { icon: '⚠️', name: 'Risk & Quality', description: 'Identify, assess, and mitigate risks; assure quality.', color: '#0D9488', filterTags: ['risk', 'quality', 'issues'] },
+      { icon: '💰', name: 'Budget & Procurement', description: 'Estimate, track, and control project costs.', color: '#0891B2', filterTags: ['budget', 'procurement', 'vendors'] },
+      { icon: '📊', name: 'Monitoring & Governance', description: 'Track progress, manage changes, report status.', color: '#0284C7', filterTags: ['governance', 'change control', 'communication', 'stakeholders', 'documents', 'knowledge transfer', 'closure'] },
     ],
   },
   {
@@ -282,10 +284,10 @@ export const DECK_INTROS: DeckIntro[] = [
       'External changes (PESTLE) can invalidate your business case — review quarterly.',
     ],
     categories: [
-      { icon: '⚖️', name: 'Compliance', description: 'Legal, regulatory, and ethical obligations.', color: '#7C3AED' },
-      { icon: '💎', name: 'Benefits', description: 'Define, track, and realise project benefits.', color: '#6D28D9' },
-      { icon: '🌍', name: 'External Environment', description: 'PESTLE, market forces, and external change.', color: '#5B21B6' },
-      { icon: '🔄', name: 'Organisational Change', description: 'Manage the human side of transformation.', color: '#4C1D95' },
+      { icon: '⚖️', name: 'Compliance', description: 'Legal, regulatory, and ethical obligations.', color: '#7C3AED', filterTags: ['compliance', 'regulatory', 'audit', 'risk'] },
+      { icon: '💎', name: 'Benefits', description: 'Define, track, and realise project benefits.', color: '#6D28D9', filterTags: ['benefits', 'value', 'ROI', 'scorecard', 'realisation'] },
+      { icon: '🌍', name: 'External Environment', description: 'PESTLE, market forces, and external change.', color: '#5B21B6', filterTags: ['SWOT', 'PESTLE', 'environment', 'scenario planning', 'external'] },
+      { icon: '🔄', name: 'Organisational Change', description: 'Manage the human side of transformation.', color: '#4C1D95', filterTags: ['change management', 'organisational change', 'Kotter', 'Lewin'] },
     ],
   },
   {
@@ -324,10 +326,10 @@ export const DECK_INTROS: DeckIntro[] = [
       'The Visual Reference on each card shows the template structure at a glance.',
     ],
     categories: [
-      { icon: '📅', name: 'Planning Tools', description: 'Gantt, WBS, Kanban, and scheduling templates.', color: '#0284C7' },
-      { icon: '⚠️', name: 'Risk & Decision Tools', description: 'Risk Register, Decision Log, MoSCoW prioritisation.', color: '#0369A1' },
-      { icon: '👥', name: 'People & Communication Tools', description: 'RACI Matrix, Stakeholder Matrix, Communication Plan.', color: '#075985' },
-      { icon: '📊', name: 'Performance Tools', description: 'Balanced Scorecard, EVM, Lessons Learned Register.', color: '#0C4A6E' },
+      { icon: '📅', name: 'Planning Tools', description: 'Gantt, WBS, Kanban, and scheduling templates.', color: '#0284C7', filterTags: ['schedule', 'planning', 'WBS', 'kanban', 'WIP', 'flow', 'visual management', 'scope statement', 'scope', 'burndown'] },
+      { icon: '⚠️', name: 'Risk & Decision Tools', description: 'Risk Register, Decision Log, MoSCoW prioritisation.', color: '#0369A1', filterTags: ['risk', 'decision tree', 'MoSCoW', 'prioritisation', 'Monte Carlo', 'Force Field', 'Fishbone', 'root cause'] },
+      { icon: '👥', name: 'People & Communication Tools', description: 'RACI Matrix, Stakeholder Matrix, Communication Plan.', color: '#075985', filterTags: ['RACI', 'stakeholders', 'communication', 'roles', 'accountability', 'governance'] },
+      { icon: '📊', name: 'Performance Tools', description: 'Balanced Scorecard, EVM, Lessons Learned Register.', color: '#0C4A6E', filterTags: ['EVM', 'Balanced Scorecard', 'KPIs', 'performance', 'measurement', 'Delphi', 'CBA', 'cost-benefit'] },
     ],
   },
   {
@@ -356,7 +358,7 @@ export const DECK_INTROS: DeckIntro[] = [
         steps: [
           'Work through A1–A82 to explore all 82 techniques.',
           'Save any technique you have used or want to try.',
-          'Revisit your saved cards before each new project.'
+          'Revisit your saved cards before each new project.',
         ],
       },
     ],
@@ -366,10 +368,22 @@ export const DECK_INTROS: DeckIntro[] = [
       'Many techniques have proprietary origins — check the copyright notice at the bottom of each card.',
     ],
     categories: [
-      { icon: '🔍', name: 'Analysis & Planning', description: 'Root cause analysis, estimation, risk quantification.', color: '#475569' },
-      { icon: '🤝', name: 'Negotiation & Influence', description: 'BATNA, stakeholder influence, conflict resolution.', color: '#334155' },
-      { icon: '🚀', name: 'Agile & Lean', description: 'Scrum, Kanban, WSJF, retrospectives, and more.', color: '#1E293B' },
-      { icon: '🔄', name: 'Change & Leadership', description: 'ADKAR, Kotter, SCARF, and transformation models.', color: '#0F172A' },
+      {
+        icon: '🔍', name: 'Analysis & Planning', description: 'Root cause analysis, estimation, risk quantification.', color: '#475569',
+        filterTags: ['analysis', 'estimation', 'risk', 'planning', 'root cause', '5 Whys', 'RCA', 'PERT', 'Monte Carlo', 'Delphi', 'rolling wave', 'progressive elaboration', 'scenario planning', 'SWOT', 'Pareto', '80/20', 'probability', 'heat map', 'should-cost', 'cost estimation', 'quantitative risk', 'Wideband Delphi', 'story points', 'planning poker', 'CCPM', 'critical chain', 'buffers', 'Cynefin', 'sense-making', 'complexity', 'PMBOK', 'process groups', 'A3', 'one-page', 'TOC', 'Theory of Constraints', 'bottleneck', 'throughput', 'VSM', 'value stream mapping', 'waste', 'Lean', 'BCG matrix', 'portfolio', 'NPS', 'customer satisfaction', 'TRIZ', 'inventive problem solving', 'contradiction', 'design thinking', 'user-centred', 'prototype', 'empathy', 'requirements', 'traceability', 'scope', 'gap assessment', 'compliance', 'audit', 'governance', 'decision making', 'accountability', 'dashboard', 'visual management', 'communications', 'status reporting', 'document management', 'version control', 'automation', 'lightweight', 'agile', 'decision-making', 'knowledge base', 'documentation', 'post-implementation', 'lessons learned', 'retrospective', 'continuous improvement', 'knowledge', 'PIR', 'post-launch', 'benefits realisation', 'ROI', 'value', 'change control', 'change request', 'baseline', 'hybrid', 'Waterfall', 'Agile', 'mapping', 'integrated change'],
+      },
+      {
+        icon: '🤝', name: 'Negotiation & Influence', description: 'BATNA, stakeholder influence, conflict resolution.', color: '#334155',
+        filterTags: ['negotiation', 'BATNA', 'ZOPA', 'walk-away', 'win-win', 'agreements', 'interests', 'conflict', 'TKI', 'modes', 'Thomas-Kilmann', 'stakeholder engagement', 'stakeholders', 'influence', 'power', 'DACI', 'facilitation', 'large groups', 'Open Space', 'self-organisation', 'social contract', 'team norms', 'ground rules', 'team charter', 'nudge theory', 'behavioural economics', 'defaults', 'social triggers', 'psychological safety', 'neuroscience', 'SCARF', 'Johari Window', 'self-awareness', 'blind spots', 'feedback', 'brainstorming', 'virtual', 'remote', 'collaboration', 'co-creation', 'empowerment', 'delegation'],
+      },
+      {
+        icon: '🚀', name: 'Agile & Lean', description: 'Scrum, Kanban, WSJF, retrospectives, and more.', color: '#1E293B',
+        filterTags: ['agile', 'Agile', 'WSJF', 'SAFe', 'backlog', 'sprints', 'timeboxing', 'time management', 'velocity', 'burndown', 'Lean', 'Lean Startup', 'MVP', 'prototype', 'iterative', 'Kaizen', 'PDCA', 'Deming', 'continuous improvement', 'quality', 'Six Sigma', 'DMAIC', 'defects', '8D', 'problem solving', 'rapid improvement', 'VSM', 'value stream mapping', 'waste', 'flow', 'throughput', 'TOC', 'Theory of Constraints', 'bottleneck', 'kanban', 'WIP', 'visual', 'management 3.0', 'self-organisation', 'retrospective', 'hybrid', 'planning poker', 'story points', 'estimation', 'SSM', 'soft systems', 'messy problems', 'rich pictures'],
+      },
+      {
+        icon: '🔄', name: 'Change & Leadership', description: 'ADKAR, Kotter, SCARF, and transformation models.', color: '#0F172A',
+        filterTags: ['change management', 'ADKAR', 'Prosci', 'adoption', 'Kotter', '8 steps', 'Lewin', 'unfreeze', 'refreeze', 'transition model', 'transition', 'endings', 'neutral zone', 'Kübler-Ross', 'change curve', 'grief stages', 'emotional change', 'resistance', 'Heart Head Hands', '3H', 'organisational change', 'organisational culture', 'cultural web', 'paradigm', 'McKinsey 7S', 'alignment', 'organisational design', 'strategy', 'leadership', 'leadership style', 'situational leadership', 'Hersey', 'Blanchard', 'delegation', 'autocratic', 'democratic', 'Tuckman', 'Forming', 'Storming', 'Performing', 'team development', 'team building', 'team roles', 'Belbin', 'Plant', 'Completer-Finisher', '5 Dysfunctions', 'Lencioni', 'trust', 'DISC', 'MBTI', 'personality', 'motivation', 'McClelland', 'Achievement', 'Affiliation', 'Power', 'Vroom', 'expectancy theory', 'rewards', 'performance', 'hierarchy of needs', 'psychology', 'wellbeing', 'emotional', 'empathy', 'diffusion of innovation', 'Rogers', 'early adopters', 'McKinsey', '3 horizons', 'innovation', 'portfolio', 'futures', 'force field analysis', 'driving forces', 'restraining forces', 'Porter', 'five forces', 'competitive analysis', 'market strategy', 'business environment', 'KCS', 'knowledge base', 'reuse', 'reverse mentoring', 'digital skills', 'digital tools'],
+      },
     ],
   },
 ];
