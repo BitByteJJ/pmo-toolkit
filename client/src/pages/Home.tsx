@@ -1,6 +1,6 @@
 // PMO Toolkit Navigator — Home Page
 // Design: "Clarity Cards" — fun physical card-deck aesthetic
-// Each deck shows its cover illustration as a visual background
+// Each deck shows its cover illustration + progress bar
 // Fonts: Sora (display) + Inter (body)
 
 import { useLocation } from 'wouter';
@@ -9,10 +9,11 @@ import { Layers, Zap, BookOpen, Search, ArrowRight } from 'lucide-react';
 import BottomNav from '@/components/BottomNav';
 import { DECKS, CARDS, getCardsByDeck } from '@/lib/pmoData';
 import { useBookmarks } from '@/contexts/BookmarksContext';
+import { useCardProgress } from '@/hooks/useCardProgress';
 
 const HERO_IMG = 'https://private-us-east-1.manuscdn.com/sessionFile/wGRSygz6Vjmbiu3SMWngYA/sandbox/8jjxsB34pPKxphOQiFs3Lq-img-1_1771664268000_na1fn_aG9tZS1oZXJvLWlsbHVzdHJhdGlvbg.png?x-oss-process=image/resize,w_1920,h_1920/format,webp/quality,q_80&Expires=1798761600&Policy=eyJTdGF0ZW1lbnQiOlt7IlJlc291cmNlIjoiaHR0cHM6Ly9wcml2YXRlLXVzLWVhc3QtMS5tYW51c2Nkbi5jb20vc2Vzc2lvbkZpbGUvd0dSU3lnejZWam1iaXUzU01XbmdZQS9zYW5kYm94LzhqanhzQjM0cFBLeHBoT1FpRnMzTHEtaW1nLTFfMTc3MTY2NDI2ODAwMF9uYTFmbl9hRzl0WlMxb1pYSnZMV2xzYkhWemRISmhkR2x2YmcucG5nP3gtb3NzLXByb2Nlc3M9aW1hZ2UvcmVzaXplLHdfMTkyMCxoXzE5MjAvZm9ybWF0LHdlYnAvcXVhbGl0eSxxXzgwIiwiQ29uZGl0aW9uIjp7IkRhdGVMZXNzVGhhbiI6eyJBV1M6RXBvY2hUaW1lIjoxNzk4NzYxNjAwfX19XX0_&Key-Pair-Id=K2HSFNDJXOU9YS&Signature=S4o3nchQdvzrXjUzaEmILHtCFu3pQr8MJpBH6Vvsi3RozJHomZIlRLfeUaXF5eJgP~rOqh8WXVwSJysXS95gf7QCOlA4MTjVZoGtUUBSGKOCK68-X7QS6NNnpM0OMV1Ce3T6e-XJitV2r2ErD5-LvTGahuVXBqv9fy52lSsonVrGXHbs9zcV3M7ZrkaZy2ZVyoL1MNkLv4srxJia9Sdi2R0np11He-mXIiX4vBuQfFXTXVCyS717hslV5omlIwCxEm37whyzscAz9IHG29-6bviv8gQn09Is7qp5DxrCId89EM2kCQfoMp6CSsAHTddeIM3eHbREOv3gQRyEZs8OUA__';
 
-// Cover illustrations for each deck (from deckIntroData)
+// Cover illustrations for each deck
 const DECK_COVERS: Record<string, string> = {
   phases:        'https://files.manuscdn.com/user_upload_by_module/session_file/310419663029097403/epNvaChDmInzjphr.png',
   archetypes:    'https://files.manuscdn.com/user_upload_by_module/session_file/310419663029097403/UHlTjAHHMkQgHafH.png',
@@ -24,14 +25,18 @@ const DECK_COVERS: Record<string, string> = {
   techniques:    'https://files.manuscdn.com/user_upload_by_module/session_file/310419663029097403/nazJKMRPUyxDWRas.png',
 };
 
-// Tilt angles for each deck to give a physical stacked-cards feel
 const DECK_TILTS = [1.5, -1.2, 2.0, -0.8, 1.8, -1.5, 0.9, -2.2];
 
 function PhysicalDeckCard({ deck, index }: { deck: typeof DECKS[0]; index: number }) {
   const [, navigate] = useLocation();
+  const { deckProgress, deckReadCount } = useCardProgress();
   const cards = getCardsByDeck(deck.id);
+  const cardIds = cards.map(c => c.id);
   const tilt = DECK_TILTS[index % DECK_TILTS.length];
   const coverImg = DECK_COVERS[deck.id];
+  const pct = Math.round(deckProgress(cardIds) * 100);
+  const readCount = deckReadCount(cardIds);
+  const isComplete = pct === 100;
 
   return (
     <motion.div
@@ -42,24 +47,14 @@ function PhysicalDeckCard({ deck, index }: { deck: typeof DECKS[0]; index: numbe
       style={{ marginBottom: '4px' }}
       onClick={() => navigate(`/deck/${deck.id}`)}
     >
-      {/* Card stack layers (back cards) */}
+      {/* Card stack layers */}
       <div
         className="absolute inset-0 rounded-2xl"
-        style={{
-          backgroundColor: deck.color,
-          opacity: 0.25,
-          transform: `rotate(${tilt * 1.8}deg) translateY(4px)`,
-          zIndex: 0,
-        }}
+        style={{ backgroundColor: deck.color, opacity: 0.25, transform: `rotate(${tilt * 1.8}deg) translateY(4px)`, zIndex: 0 }}
       />
       <div
         className="absolute inset-0 rounded-2xl"
-        style={{
-          backgroundColor: deck.color,
-          opacity: 0.15,
-          transform: `rotate(${tilt * 0.9}deg) translateY(2px)`,
-          zIndex: 1,
-        }}
+        style={{ backgroundColor: deck.color, opacity: 0.15, transform: `rotate(${tilt * 0.9}deg) translateY(2px)`, zIndex: 1 }}
       />
 
       {/* Main card face */}
@@ -68,15 +63,12 @@ function PhysicalDeckCard({ deck, index }: { deck: typeof DECKS[0]; index: numbe
         whileTap={{ scale: 0.97 }}
         transition={{ type: 'spring', stiffness: 400, damping: 25 }}
         className="relative w-full text-left rounded-2xl overflow-hidden"
-        style={{
-          zIndex: 2,
-          boxShadow: `0 4px 16px ${deck.color}30, 0 2px 6px rgba(0,0,0,0.08)`,
-        }}
+        style={{ zIndex: 2, boxShadow: `0 4px 16px ${deck.color}30, 0 2px 6px rgba(0,0,0,0.08)` }}
       >
-        {/* Card background */}
+        {/* Background */}
         <div className="absolute inset-0" style={{ backgroundColor: deck.bgColor }} />
 
-        {/* Cover illustration — right-aligned, fades left */}
+        {/* Cover illustration */}
         {coverImg && (
           <div className="absolute inset-0 overflow-hidden pointer-events-none" style={{ zIndex: 1 }}>
             <img
@@ -96,25 +88,31 @@ function PhysicalDeckCard({ deck, index }: { deck: typeof DECKS[0]; index: numbe
                 opacity: 0.88,
               }}
             />
-            {/* Left-to-right fade so text stays readable */}
             <div
               className="absolute inset-0"
-              style={{
-                background: `linear-gradient(to right, ${deck.bgColor} 38%, ${deck.bgColor}CC 58%, transparent 85%)`,
-              }}
+              style={{ background: `linear-gradient(to right, ${deck.bgColor} 38%, ${deck.bgColor}CC 58%, transparent 85%)` }}
             />
           </div>
         )}
 
         {/* Card content */}
         <div className="relative px-4 py-4" style={{ zIndex: 2 }}>
-          {/* Top row: icon + card count badge */}
+          {/* Top row */}
           <div className="flex items-start justify-between mb-3">
             <div
-              className="w-10 h-10 rounded-xl flex items-center justify-center text-xl shrink-0"
+              className="w-10 h-10 rounded-xl flex items-center justify-center text-xl shrink-0 relative"
               style={{ backgroundColor: deck.color + '22' }}
             >
               {deck.icon}
+              {/* Completion badge */}
+              {isComplete && (
+                <span
+                  className="absolute -top-1 -right-1 w-4 h-4 rounded-full flex items-center justify-center text-[8px]"
+                  style={{ backgroundColor: deck.color, color: '#fff' }}
+                >
+                  ✓
+                </span>
+              )}
             </div>
             <div
               className="flex items-center gap-1 px-2.5 py-1 rounded-full text-white text-[10px] font-bold"
@@ -151,14 +149,36 @@ function PhysicalDeckCard({ deck, index }: { deck: typeof DECKS[0]; index: numbe
             {deck.description}
           </p>
 
-          {/* Bottom: open deck CTA */}
+          {/* Progress bar */}
+          {readCount > 0 && (
+            <div className="mb-3">
+              <div className="flex items-center justify-between mb-1">
+                <span className="text-[9px] font-semibold" style={{ color: deck.textColor, opacity: 0.5 }}>
+                  {readCount} / {cards.length} read
+                </span>
+                <span className="text-[9px] font-bold" style={{ color: deck.color }}>
+                  {pct}%{isComplete ? ' ✓' : ''}
+                </span>
+              </div>
+              <div className="h-1 rounded-full overflow-hidden" style={{ backgroundColor: deck.color + '25' }}>
+                <motion.div
+                  className="h-full rounded-full"
+                  initial={{ width: 0 }}
+                  animate={{ width: `${pct}%` }}
+                  transition={{ duration: 0.6, ease: 'easeOut' }}
+                  style={{ backgroundColor: deck.color }}
+                />
+              </div>
+            </div>
+          )}
+
+          {/* Bottom */}
           <div className="flex items-center justify-between">
-            {/* Mini card previews */}
             <div className="flex items-center gap-1">
               {cards.slice(0, 4).map((c, i) => (
                 <div
                   key={c.id}
-                  className="w-6 h-8 rounded-md flex items-center justify-center"
+                  className="w-6 h-8 rounded-md"
                   style={{
                     backgroundColor: deck.color,
                     opacity: 0.15 + i * 0.15,
@@ -170,17 +190,14 @@ function PhysicalDeckCard({ deck, index }: { deck: typeof DECKS[0]; index: numbe
                 />
               ))}
             </div>
-            <div
-              className="flex items-center gap-1 text-[11px] font-bold"
-              style={{ color: deck.color }}
-            >
-              Open deck
+            <div className="flex items-center gap-1 text-[11px] font-bold" style={{ color: deck.color }}>
+              {readCount === 0 ? 'Start deck' : isComplete ? 'Review deck' : 'Continue'}
               <ArrowRight size={12} />
             </div>
           </div>
         </div>
 
-        {/* Bottom color accent bar */}
+        {/* Bottom accent bar */}
         <div className="h-1 w-full" style={{ backgroundColor: deck.color }} />
       </motion.div>
     </motion.div>
@@ -189,30 +206,35 @@ function PhysicalDeckCard({ deck, index }: { deck: typeof DECKS[0]; index: numbe
 
 function QuickStats() {
   const { bookmarks } = useBookmarks();
+  const { deckProgress } = useCardProgress();
+  const totalCards = CARDS.length;
+  const readCount = DECKS.reduce((sum, d) => {
+    const ids = getCardsByDeck(d.id).map(c => c.id);
+    return sum + Math.round(deckProgress(ids) * ids.length);
+  }, 0);
+
   const stats = [
-    { icon: Layers, label: 'Cards', value: CARDS.length, color: '#0284C7', bg: '#EFF6FF', textColor: '#1E40AF' },
+    { icon: Layers, label: 'Cards', value: totalCards, color: '#0284C7', bg: '#EFF6FF', textColor: '#1E40AF' },
     { icon: BookOpen, label: 'Decks', value: DECKS.length, color: '#059669', bg: '#ECFDF5', textColor: '#065F46' },
+    { icon: Zap, label: 'Read', value: readCount, color: '#D97706', bg: '#FEF3C7', textColor: '#92400E' },
     { icon: Zap, label: 'Saved', value: bookmarks.length, color: '#E11D48', bg: '#FFF1F2', textColor: '#9F1239' },
   ];
 
   return (
-    <div className="grid grid-cols-3 gap-2.5">
+    <div className="grid grid-cols-4 gap-2">
       {stats.map(({ icon: Icon, label, value, color, bg, textColor }) => (
         <motion.div
           key={label}
           initial={{ opacity: 0, scale: 0.9 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.3 }}
-          className="rounded-2xl p-3 text-center relative overflow-hidden"
+          className="rounded-2xl p-2.5 text-center relative overflow-hidden"
           style={{ backgroundColor: bg }}
         >
-          <div
-            className="absolute -bottom-3 -right-3 w-12 h-12 rounded-full opacity-10"
-            style={{ backgroundColor: color }}
-          />
-          <Icon size={16} className="mx-auto mb-1" style={{ color }} />
-          <div className="text-xl font-bold" style={{ fontFamily: 'Sora, sans-serif', color: textColor }}>{value}</div>
-          <div className="text-[10px] font-semibold" style={{ color: textColor, opacity: 0.6 }}>{label}</div>
+          <div className="absolute -bottom-3 -right-3 w-10 h-10 rounded-full opacity-10" style={{ backgroundColor: color }} />
+          <Icon size={14} className="mx-auto mb-1" style={{ color }} />
+          <div className="text-lg font-bold" style={{ fontFamily: 'Sora, sans-serif', color: textColor }}>{value}</div>
+          <div className="text-[9px] font-semibold" style={{ color: textColor, opacity: 0.6 }}>{label}</div>
         </motion.div>
       ))}
     </div>
@@ -250,39 +272,25 @@ export default function Home() {
             {CARDS.length} tools, techniques & frameworks
           </p>
         </motion.div>
-        {/* Hero illustration */}
         <motion.div
           initial={{ opacity: 0, scale: 0.96 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.55, delay: 0.08 }}
           className="w-full rounded-2xl overflow-hidden relative"
-          style={{
-            backgroundColor: '#fff',
-            boxShadow: '0 4px 20px rgba(0,0,0,0.07), 0 1px 4px rgba(0,0,0,0.05)',
-          }}
+          style={{ backgroundColor: '#fff', boxShadow: '0 4px 20px rgba(0,0,0,0.07), 0 1px 4px rgba(0,0,0,0.05)' }}
         >
           <img
             src={HERO_IMG}
-            alt="PMO Toolkit — your project management card deck"
+            alt="PMO Toolkit"
             className="w-full"
-            style={{
-              display: 'block',
-              mixBlendMode: 'multiply',
-              maxHeight: '220px',
-              objectFit: 'contain',
-              objectPosition: 'center',
-            }}
+            style={{ display: 'block', mixBlendMode: 'multiply', maxHeight: '220px', objectFit: 'contain', objectPosition: 'center' }}
           />
         </motion.div>
       </div>
 
       <div className="px-4 pt-3 space-y-5">
         {/* Quick Stats */}
-        <motion.div
-          initial={{ opacity: 0, y: 8 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.4, delay: 0.05 }}
-        >
+        <motion.div initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.4, delay: 0.05 }}>
           <QuickStats />
         </motion.div>
 
@@ -304,7 +312,7 @@ export default function Home() {
           <ArrowRight size={14} className="text-stone-300 shrink-0" />
         </motion.button>
 
-        {/* All Decks — physical card stack layout */}
+        {/* All Decks */}
         <div>
           <motion.div
             initial={{ opacity: 0 }}
@@ -312,12 +320,9 @@ export default function Home() {
             transition={{ delay: 0.12 }}
             className="flex items-center justify-between mb-3"
           >
-            <h2 className="text-[11px] font-black text-stone-400 uppercase tracking-[0.12em]">
-              All Decks
-            </h2>
+            <h2 className="text-[11px] font-black text-stone-400 uppercase tracking-[0.12em]">All Decks</h2>
             <span className="text-[10px] text-stone-400 font-medium">{DECKS.length} decks</span>
           </motion.div>
-
           <div className="space-y-3">
             {DECKS.map((deck, index) => (
               <PhysicalDeckCard key={deck.id} deck={deck} index={index} />
@@ -325,7 +330,7 @@ export default function Home() {
           </div>
         </div>
 
-        {/* Quick Reference — horizontal scroll */}
+        {/* Quick Reference */}
         <div>
           <motion.h2
             initial={{ opacity: 0 }}
@@ -353,13 +358,10 @@ export default function Home() {
                   transition={{ delay: 0.3 + i * 0.06 }}
                   onClick={() => navigate(`/card/${card.id}`)}
                   className="flex-shrink-0 w-44 text-left rounded-2xl p-3.5 bg-white relative overflow-hidden"
-                  style={{
-                    boxShadow: `0 2px 8px ${deck?.color ?? '#ccc'}20, 0 1px 3px rgba(0,0,0,0.06)`,
-                  }}
+                  style={{ boxShadow: `0 2px 8px ${deck?.color ?? '#ccc'}20, 0 1px 3px rgba(0,0,0,0.06)` }}
                   whileHover={{ scale: 1.03, y: -2 }}
                   whileTap={{ scale: 0.97 }}
                 >
-                  {/* Top color strip */}
                   <div className="absolute top-0 left-0 right-0 h-1 rounded-t-2xl" style={{ backgroundColor: deck?.color }} />
                   <div
                     className="text-[9px] font-mono font-bold mb-2 px-1.5 py-0.5 rounded-md inline-block mt-1"
@@ -370,9 +372,7 @@ export default function Home() {
                   <h3 className="text-xs font-bold text-stone-800 leading-tight mb-1.5" style={{ fontFamily: 'Sora, sans-serif' }}>
                     {card.title}
                   </h3>
-                  <p className="text-[10px] text-stone-400 line-clamp-2 leading-relaxed">
-                    {card.tagline}
-                  </p>
+                  <p className="text-[10px] text-stone-400 line-clamp-2 leading-relaxed">{card.tagline}</p>
                 </motion.button>
               );
             })}
