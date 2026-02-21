@@ -391,12 +391,15 @@ export default function LessonPage() {
     const nextIndex = state.activeSession.questionIndex;
     const isLastQuestion = nextIndex >= lesson.questions.length;
 
-    if (isLastQuestion) {
-      completeLesson();
-      setShowCompleteScreen(true);
-    }
     setPendingContinue(false);
     setLastAnswerCorrect(null);
+
+    if (isLastQuestion) {
+      // Set showCompleteScreen FIRST so the complete screen guard fires
+      // before the !currentQuestion guard on the next render.
+      setShowCompleteScreen(true);
+      completeLesson();
+    }
   }, [lesson, state.activeSession, completeLesson]);
 
   const handleAbandon = useCallback(() => {
@@ -417,17 +420,10 @@ export default function LessonPage() {
     );
   }
 
-  // ── Guard: no hearts ─────────────────────────────────────────────────────
-  if (state.hearts <= 0 && !state.activeSession) {
-    return (
-      <NoHeartsScreen
-        onEarnHeart={() => navigate('/journey/earn-heart')}
-        onGoBack={() => navigate('/journey')}
-      />
-    );
-  }
-
-  // ── Complete screen ──────────────────────────────────────────────────────
+  // ── Complete screen — MUST be before the currentQuestion guard ─────────
+  // After the last question is answered, questionIndex goes out of bounds
+  // (currentQuestion becomes null) BEFORE completeLesson clears activeSession.
+  // Checking showCompleteScreen first prevents the "Loading lesson..." flash.
   if (showCompleteScreen) {
     const session = state.completedSessions[lesson.id];
     return (
@@ -438,6 +434,16 @@ export default function LessonPage() {
         totalCount={lesson.questions.length}
         xpEarned={session?.xpEarned ?? 0}
         onContinue={handleCompleteFinish}
+      />
+    );
+  }
+
+  // ── Guard: no hearts ─────────────────────────────────────────────────────
+  if (state.hearts <= 0 && !state.activeSession) {
+    return (
+      <NoHeartsScreen
+        onEarnHeart={() => navigate('/journey/earn-heart')}
+        onGoBack={() => navigate('/journey')}
       />
     );
   }

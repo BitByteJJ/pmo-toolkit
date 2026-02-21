@@ -28,3 +28,4 @@
 - [x] Day streak tracking
 - [x] All journey state persisted to localStorage
 - [x] 22 vitest unit tests for journey reducer logic (all passing)
+- [x] Fix: lesson hangs on "Loading lesson..." after the 5th question
