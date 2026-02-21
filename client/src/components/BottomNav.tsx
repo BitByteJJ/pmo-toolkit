@@ -7,7 +7,7 @@ import { useBookmarks } from '@/contexts/BookmarksContext';
 
 const tabs = [
   { path: '/', icon: Home, label: 'Home' },
-  { path: '/deck/tools', icon: LayoutGrid, label: 'Decks' },
+  { path: '/decks', icon: LayoutGrid, label: 'Decks' },
   { path: '/search', icon: Search, label: 'Search' },
   { path: '/bookmarks', icon: Bookmark, label: 'Saved' },
 ];
@@ -18,7 +18,7 @@ export default function BottomNav() {
 
   const isActive = (path: string) => {
     if (path === '/') return location === '/';
-    if (path === '/deck/tools') return location.startsWith('/deck');
+    if (path === '/decks') return location.startsWith('/deck') || location === '/decks';
     return location.startsWith(path);
   };
 

@@ -14,6 +14,7 @@ import DeckView from "./pages/DeckView";
 import CardDetail from "./pages/CardDetail";
 import SearchPage from "./pages/SearchPage";
 import BookmarksPage from "./pages/BookmarksPage";
+import DecksPage from "./pages/DecksPage";
 import { BookmarksProvider } from "./contexts/BookmarksContext";
 import TopNav from "./components/TopNav";
 import { getDeckById, getCardById } from "./lib/pmoData";
@@ -68,6 +69,7 @@ function Router() {
         <Route path="/" component={Home} />
         <Route path="/deck/:deckId" component={DeckView} />
         <Route path="/card/:cardId" component={CardDetail} />
+        <Route path="/decks" component={DecksPage} />
         <Route path="/search" component={SearchPage} />
         <Route path="/bookmarks" component={BookmarksPage} />
         <Route path="/404" component={NotFound} />
