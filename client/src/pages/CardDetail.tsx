@@ -22,6 +22,7 @@ import { useCardProgress } from '@/hooks/useCardProgress';
 import { useCardNotes } from '@/hooks/useCardNotes';
 import { getTemplateByCardId } from '@/lib/templateData';
 import { MarkdownTemplateRenderer, templateToCSV } from '@/components/MarkdownTemplateRenderer';
+import { getCardLevel, LEVEL_LABELS, LEVEL_COLORS } from '@/lib/cardLevels';
 
 // ─── Sub-components ───────────────────────────────────────────────────────────
 
@@ -520,6 +521,19 @@ export default function CardDetail() {
                 <Zap size={8} />
                 {readCount}/{deckCards.length} read
               </span>
+              {/* Difficulty level badge */}
+              {(() => {
+                const lvl = getCardLevel(card.id);
+                const lc = LEVEL_COLORS[lvl];
+                return (
+                  <span
+                    className="text-[9px] font-semibold px-2 py-0.5 rounded-full"
+                    style={{ backgroundColor: lc.bg, color: lc.text, border: `1px solid ${lc.border}` }}
+                  >
+                    {LEVEL_LABELS[lvl]}
+                  </span>
+                );
+              })()}
               {copyrightNotices.length > 0 && (
                 <span
                   className="text-[9px] font-semibold px-2 py-0.5 rounded-full flex items-center gap-1"
@@ -530,7 +544,6 @@ export default function CardDetail() {
                 </span>
               )}
             </div>
-
             {/* Title */}
             <h1
               className="text-[22px] font-bold leading-tight mb-2"

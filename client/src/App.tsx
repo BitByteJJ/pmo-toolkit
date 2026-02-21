@@ -19,6 +19,7 @@ import JourneyPage from './pages/JourneyPage';
 import LessonPage from './pages/LessonPage';
 import EarnHeartPage from './pages/EarnHeartPage';
 import DecisionHelper from './pages/DecisionHelper';
+import WelcomeModal from './components/WelcomeModal';
 import { BookmarksProvider } from './contexts/BookmarksContext';
 import { JourneyProvider } from './contexts/JourneyContext';
 import TopNav from './components/TopNav';
@@ -98,6 +99,7 @@ function App() {
         <BookmarksProvider>
           <TooltipProvider>
             <Toaster />
+            <WelcomeModal />
             <Router />
           </TooltipProvider>
         </BookmarksProvider>

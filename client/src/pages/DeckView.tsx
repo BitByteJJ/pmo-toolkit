@@ -13,6 +13,7 @@ import {
 import { useState, useMemo, useRef, useCallback } from 'react';
 import BottomNav from '@/components/BottomNav';
 import { getCardsByDeck, getDeckById } from '@/lib/pmoData';
+import { getCardLevel, LEVEL_LABELS, LEVEL_COLORS, DifficultyLevel } from '@/lib/cardLevels';
 import { getCardIllustration } from '@/lib/toolImages';
 import { getDeckIntro } from '@/lib/deckIntroData';
 import { useBookmarks } from '@/contexts/BookmarksContext';
@@ -482,6 +483,7 @@ export default function DeckView() {
   const [activeTag, setActiveTag] = useState<string | null>(null);
   const [sortOrder, setSortOrder] = useState<'default' | 'alpha' | 'unread'>('default');
   const [showFilters, setShowFilters] = useState(false);
+  const [activeLevel, setActiveLevel] = useState<DifficultyLevel | null>(null);
 
   // Ref used to scroll to the card list after a category is selected
   const cardListRef = useRef<HTMLDivElement>(null);
@@ -509,13 +511,14 @@ export default function DeckView() {
     } else if (activeTag) {
       result = result.filter(c => c.tags?.includes(activeTag));
     }
+    if (activeLevel) result = result.filter(c => getCardLevel(c.id) === activeLevel);
     if (sortOrder === 'alpha') result.sort((a, b) => a.title.localeCompare(b.title));
     return result;
-  }, [allCards, activeCategoryTags, activeTag, sortOrder]);
+  }, [allCards, activeCategoryTags, activeTag, sortOrder, activeLevel]);
 
   const readCount = deckReadCount(allCards.map(c => c.id));
   const pct = Math.round(deckProgress(allCards.map(c => c.id)) * 100);
-  const isFiltered = activeCategory !== null || activeTag !== null;
+  const isFiltered = activeCategory !== null || activeTag !== null || activeLevel !== null;
 
   // Select a category: clear individual tag filter, scroll to card list
   const handleCategorySelect = useCallback((name: string | null) => {
@@ -533,10 +536,14 @@ export default function DeckView() {
     setActiveTag(tag);
     setActiveCategory(null);
   }, []);
+  const handleLevelSelect = useCallback((level: DifficultyLevel | null) => {
+    setActiveLevel(prev => prev === level ? null : level);
+  }, []);
 
   const clearFilter = useCallback(() => {
     setActiveCategory(null);
     setActiveTag(null);
+    setActiveLevel(null);
   }, []);
 
   if (!deck) {
@@ -726,6 +733,27 @@ export default function DeckView() {
             )}
           </AnimatePresence>
 
+          {/* Difficulty level filter pills */}
+          <div className="flex gap-2 flex-wrap pb-2">
+            {(['beginner', 'intermediate', 'advanced'] as DifficultyLevel[]).map(lvl => {
+              const lc = LEVEL_COLORS[lvl];
+              const isActive = activeLevel === lvl;
+              return (
+                <button
+                  key={lvl}
+                  onClick={() => handleLevelSelect(lvl)}
+                  className="text-[10px] font-bold px-2.5 py-1 rounded-full transition-all"
+                  style={{
+                    backgroundColor: isActive ? lc.text : lc.bg,
+                    color: isActive ? '#fff' : lc.text,
+                    border: `1px solid ${lc.border}`,
+                  }}
+                >
+                  {LEVEL_LABELS[lvl]}
+                </button>
+              );
+            })}
+          </div>
           {/* Advanced tag filter pills (opened via Filter button) */}
           <AnimatePresence>
             {showFilters && allTags.length > 0 && (

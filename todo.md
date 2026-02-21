@@ -45,3 +45,8 @@
 - [x] DecisionHelper page: animated question flow, progress bar, recommendation results
 - [x] Entry points: Decision Helper accessible from Home page (navy CTA banner) and /decision route
 - [x] Rewrite Decision Helper questions in plain, beginner-friendly language (no PM jargon)
+- [x] Card difficulty tags: add Beginner/Intermediate/Advanced level to all 144 cards in pmoData.ts
+- [x] Card difficulty filter: filter pill in DeckView and Search to show cards by difficulty level
+- [x] First-launch onboarding prompt: welcome modal on first visit routing beginners to Decision Helper
+- [x] Journey personalisation wizard: 3-question setup (role, experience, goal) before starting the 30-day journey
+- [x] Tailor journey lesson order/difficulty based on wizard answers (personalised tip banner shown after wizard)

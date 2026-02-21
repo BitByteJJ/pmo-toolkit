@@ -18,6 +18,9 @@ import {
 } from 'lucide-react';
 import { useJourney, MAX_HEARTS, TOPICS_TO_EARN_HEART } from '@/contexts/JourneyContext';
 import { JOURNEY_LESSONS, JOURNEY_UNITS, getLevelForXP, getNextLevel } from '@/lib/journeyData';
+import { useState, useEffect } from 'react';
+import { X } from 'lucide-react';
+import JourneySetupWizard, { JOURNEY_PROFILE_KEY, getPersonalisedTip, type JourneyProfile } from '@/components/JourneySetupWizard';
 
 // ─── HEARTS DISPLAY ───────────────────────────────────────────────────────────
 function HeartsBar() {
@@ -263,6 +266,25 @@ const NODE_POSITIONS: Array<'left' | 'center' | 'right'> = [
 
 export default function JourneyPage() {
   const [, navigate] = useLocation();
+  const [showWizard, setShowWizard] = useState(false);
+  const [profile, setProfile] = useState<JourneyProfile | null>(null);
+  const [showTip, setShowTip] = useState(false);
+
+  useEffect(() => {
+    const saved = localStorage.getItem(JOURNEY_PROFILE_KEY);
+    if (saved) {
+      try { setProfile(JSON.parse(saved)); } catch {}
+    } else {
+      const t = setTimeout(() => setShowWizard(true), 400);
+      return () => clearTimeout(t);
+    }
+  }, []);
+
+  function handleWizardComplete(p: JourneyProfile) {
+    setProfile(p);
+    setShowWizard(false);
+    setShowTip(true);
+  }
 
   // Group lessons by unit
   const unitGroups = JOURNEY_UNITS.map(unit => ({
@@ -273,6 +295,8 @@ export default function JourneyPage() {
   }));
 
   return (
+    <>
+    {showWizard && <JourneySetupWizard onComplete={handleWizardComplete} />}
     <div className="min-h-screen pb-28" style={{ backgroundColor: '#F5F3EE' }}>
       {/* Header */}
       <div
@@ -309,6 +333,33 @@ export default function JourneyPage() {
         <StatsStrip />
       </div>
 
+      {/* Personalised tip banner (shown after wizard completes) */}
+      <AnimatePresence>
+        {profile && showTip && (
+          <motion.div
+            initial={{ opacity: 0, y: -8 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0 }}
+            className="mx-4 mt-3 mb-1 rounded-2xl p-4 relative"
+            style={{ background: 'linear-gradient(135deg, #7c3aed12, #2563eb08)', border: '1.5px solid #7c3aed30' }}
+          >
+            <button
+              onClick={() => setShowTip(false)}
+              className="absolute top-3 right-3 p-1 rounded-full hover:bg-stone-100 transition-colors"
+              aria-label="Dismiss"
+            >
+              <X size={12} className="text-stone-400" />
+            </button>
+            <div className="flex items-start gap-3">
+              <span className="text-xl shrink-0">✨</span>
+              <div className="pr-4">
+                <p className="text-[11px] font-bold text-violet-700 mb-1">Your personalised path</p>
+                <p className="text-[11px] text-stone-600 leading-relaxed">{getPersonalisedTip(profile)}</p>
+              </div>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
       {/* No hearts banner */}
       <NoHeartsBanner />
 
@@ -359,5 +410,6 @@ export default function JourneyPage() {
         </div>
       </div>
     </div>
+    </>
   );
 }

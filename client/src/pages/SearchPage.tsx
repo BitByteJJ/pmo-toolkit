@@ -8,6 +8,7 @@ import { Search, X, Bookmark, BookmarkCheck } from 'lucide-react';
 import BottomNav from '@/components/BottomNav';
 import { searchCards, getDeckById, DECKS, getCardsByDeck } from '@/lib/pmoData';
 import { useBookmarks } from '@/contexts/BookmarksContext';
+import { getCardLevel, LEVEL_LABELS, LEVEL_COLORS, DifficultyLevel } from '@/lib/cardLevels';
 
 const DECK_FILTERS = [
   { id: 'all', label: 'All' },
@@ -18,6 +19,7 @@ export default function SearchPage() {
   const [, navigate] = useLocation();
   const [query, setQuery] = useState('');
   const [activeDeck, setActiveDeck] = useState('all');
+  const [activeLevel, setActiveLevel] = useState<DifficultyLevel | null>(null);
   const { isBookmarked, toggleBookmark } = useBookmarks();
 
   const results = useMemo(() => {
@@ -25,8 +27,11 @@ export default function SearchPage() {
     if (activeDeck !== 'all') {
       cards = cards.filter(c => c.deckId === activeDeck);
     }
+    if (activeLevel) {
+      cards = cards.filter(c => getCardLevel(c.id) === activeLevel);
+    }
     return cards;
-  }, [query, activeDeck]);
+  }, [query, activeDeck, activeLevel]);
 
   const popularSearches = ['RACI', 'risk', 'stakeholder', 'Agile', 'SWOT', 'communication', 'change', 'Kanban'];
 
@@ -72,8 +77,29 @@ export default function SearchPage() {
           )}
         </div>
 
+        {/* Difficulty level filter pills */}
+        <div className="flex gap-2 mt-2.5 flex-wrap">
+          {(['beginner', 'intermediate', 'advanced'] as DifficultyLevel[]).map(lvl => {
+            const lc = LEVEL_COLORS[lvl];
+            const isActive = activeLevel === lvl;
+            return (
+              <button
+                key={lvl}
+                onClick={() => setActiveLevel(prev => prev === lvl ? null : lvl)}
+                className="text-[10px] font-bold px-2.5 py-1 rounded-full transition-all"
+                style={{
+                  backgroundColor: isActive ? lc.text : lc.bg,
+                  color: isActive ? '#fff' : lc.text,
+                  border: `1px solid ${lc.border}`,
+                }}
+              >
+                {LEVEL_LABELS[lvl]}
+              </button>
+            );
+          })}
+        </div>
         {/* Deck filter chips */}
-        <div className="flex gap-1.5 mt-2.5 overflow-x-auto pb-0.5 scrollbar-hide -mx-4 px-4">
+        <div className="flex gap-1.5 mt-2 overflow-x-auto pb-0.5 scrollbar-hide -mx-4 px-4">
           {DECK_FILTERS.map(f => {
             const deck = DECKS.find(d => d.id === f.id);
             const isActive = activeDeck === f.id;
