@@ -39,3 +39,4 @@
 - [x] Redesign templateData.ts: structured JSON format (sections, tables, checklists) instead of raw Markdown
 - [x] Build MarkdownTemplateRenderer component: styled HTML tables, section cards, colour-coded headers
 - [x] Add CSV download and copy-as-text export options
+- [x] Hide Template tab on cards that have no template entry in templateData.ts

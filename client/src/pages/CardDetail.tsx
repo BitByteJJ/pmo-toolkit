@@ -269,6 +269,12 @@ export default function CardDetail() {
 
   const template = getTemplateByCardId(card?.id ?? '');
 
+  // Reset tab to overview when navigating to a card without a template
+  useEffect(() => {
+    if (!template) setActiveTab('overview');
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [cardId]);
+
   const handleCopyTemplate = useCallback(() => {
     if (!template) return;
     const text = template.sections
@@ -584,7 +590,7 @@ export default function CardDetail() {
       <div className="sticky top-0 z-30 bg-[#FAFAF8]/95 backdrop-blur-sm border-b border-stone-100">
         <div className="max-w-2xl mx-auto px-4">
           <div className="flex gap-1 pt-2 pb-0">
-            {(['overview', 'template'] as const).map(tab => (
+            {(['overview', ...(template ? ['template'] : [])] as ('overview' | 'template')[]).map(tab => (
               <button
                 key={tab}
                 onClick={() => setActiveTab(tab)}
