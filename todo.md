@@ -75,8 +75,10 @@
 - [x] Case studies: short real-world stories on each card showing the tool in action
 - [x] Create caseStudiesData.ts with real-world PM case studies linked to cards
 - [x] Add Case Studies tab to CardDetail page (conditional — only shows when a case study exists)
-- [ ] Create standalone CaseStudiesPage browser
-- [ ] Wire CaseStudiesPage into App.tsx routing and Home CTAs
+- [x] Create standalone CaseStudiesPage browser with deck/industry filters
+- [x] Wire CaseStudiesPage into App.tsx routing, BottomNav, and Home CTAs
+- [x] Expand case studies data to cover remaining People, Process, and Techniques cards (60 total)
+- [x] Add case-study badge indicator in DeckView card list items
 
 ### Team Mode
 - [ ] Team mode: shared workspace with user accounts, shared collections, card assignments, and comments

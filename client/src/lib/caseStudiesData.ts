@@ -661,6 +661,447 @@ const CASE_STUDIES: CaseStudy[] = [
     teamSize: '5,000 affected employees across 15 countries',
   },
 
+
+  // ─── People Domain (additional) ─────────────────────────────────────────────
+
+  {
+    cardId: 'people-3',
+    organisation: 'Atlassian',
+    industry: 'Technology / Software',
+    projectName: 'Team Health Monitor Programme',
+    challenge: 'Atlassian\'s engineering teams were growing rapidly across multiple time zones. Team leads had no consistent way to identify performance problems early — issues were only surfaced during retrospectives or when they had already escalated.',
+    approach: 'Atlassian developed the Team Health Monitor: a structured self-assessment where teams rate themselves across 8 dimensions (Easy to Release, Suitable Process, Tech Quality, Value, Speed, Mission, Fun, Learning). Teams run the assessment quarterly, discuss the results openly, and create a focused improvement plan for one or two dimensions at a time.',
+    outcome: 'Teams using the Health Monitor showed measurably higher engagement and faster delivery. The tool was open-sourced and adopted by thousands of organisations worldwide. It became a core part of Atlassian\'s Agile coaching practice and is now embedded in their Team Anywhere distributed work model.',
+    lessonsLearned: [
+      'Self-assessment is more honest than manager assessment — teams know their own problems.',
+      'Focusing improvement on one or two dimensions at a time prevents overwhelm.',
+      'Making the health data visible to the team (not just management) builds ownership.',
+    ],
+    timeframe: 'Developed 2012, ongoing',
+    teamSize: '5–12 person engineering teams',
+    quote: {
+      text: 'Healthy teams build great products. The Health Monitor gives teams a mirror, not a report card.',
+      attribution: 'Atlassian Agile Coach',
+    },
+  },
+
+  {
+    cardId: 'people-4',
+    organisation: 'W.L. Gore & Associates',
+    industry: 'Manufacturing / Materials Science',
+    projectName: 'Lattice Organisation — Empowering Associates',
+    challenge: 'Gore, maker of GORE-TEX, needed to scale production while retaining the innovation and ownership culture that had made it successful. Traditional hierarchical management was seen as a threat to the entrepreneurial spirit that drove product development.',
+    approach: 'Gore operates a "lattice" structure with no formal titles or managers. Every employee is an "associate" who is sponsored (not hired) into the organisation. Associates commit to projects they choose, and influence is earned through demonstrated expertise rather than assigned authority. Teams self-organise around opportunities, and facilities are intentionally kept small (under 200 people) to preserve the feel of a small company.',
+    outcome: 'Gore has appeared on Fortune\'s "Best Companies to Work For" list for over 20 consecutive years. The company generates over $3.5 billion in annual revenue with more than 10,000 associates. Its product innovation rate (GORE-TEX, Elixir guitar strings, Glide dental floss) is significantly higher than industry peers.',
+    lessonsLearned: [
+      'Empowerment requires structural support — it cannot be grafted onto a hierarchical system.',
+      'Keeping team sizes small preserves the social accountability that makes self-management work.',
+      'Sponsorship (not just hiring) creates deeper organisational commitment.',
+    ],
+    timeframe: 'Founded 1958, ongoing',
+    teamSize: '200-person maximum per facility',
+  },
+
+  {
+    cardId: 'people-7',
+    organisation: 'Spotify',
+    industry: 'Technology / Music Streaming',
+    projectName: 'Removing Impediments — Chapter Lead Model',
+    challenge: 'As Spotify scaled its engineering organisation, individual contributors were increasingly blocked by cross-team dependencies, unclear ownership, and technical debt. Traditional Scrum Masters were focused on ceremony facilitation rather than systemic impediment removal.',
+    approach: 'Spotify introduced Chapter Leads — managers who owned no product decisions but were responsible for removing structural impediments for their chapter (a group of specialists across squads). Chapter Leads held regular 1:1s to surface blockers, escalated systemic issues to Tribe Leads, and coordinated with other Chapter Leads to resolve cross-cutting concerns. The role was explicitly service-oriented.',
+    outcome: 'The Chapter Lead model significantly reduced the time engineers spent blocked on non-technical issues. The clear separation between people management (Chapter Lead) and product direction (Product Owner) reduced role confusion and improved both team autonomy and individual career development.',
+    lessonsLearned: [
+      'Impediment removal requires dedicated ownership — it cannot be a part-time responsibility.',
+      'Separating people management from product direction reduces conflicts of interest.',
+      'Systemic impediments (architecture, process) require escalation paths that go beyond the team.',
+    ],
+    timeframe: '2012–2018 (Spotify Model era)',
+    teamSize: '30–50 person Tribes, 6–12 person Squads',
+  },
+
+  {
+    cardId: 'people-10',
+    organisation: 'NASA Johnson Space Center',
+    industry: 'Aerospace / Government',
+    projectName: 'Apollo 13 Mission — Shared Mental Models Under Crisis',
+    challenge: 'On 13 April 1970, an oxygen tank explosion crippled the Apollo 13 spacecraft 200,000 miles from Earth. The crew and Mission Control had to improvise a life-saving solution using only the materials aboard the spacecraft — with no shared playbook for the scenario they faced.',
+    approach: 'Flight Director Gene Kranz immediately established shared understanding by stating "Failure is not an option" and defining the single goal: get the crew home alive. He divided Mission Control into specialist teams, each responsible for one system, and required each team to brief the others on constraints before any solution was proposed. This created a shared mental model of the problem space before solutions were attempted.',
+    outcome: 'The crew returned safely on 17 April 1970. The improvised CO₂ scrubber — built from materials on board using a procedure developed in four hours — became one of the most celebrated examples of creative problem-solving under pressure. The mission was later described as "NASA\'s finest hour."',
+    lessonsLearned: [
+      'Shared understanding of constraints must precede solution generation — especially under pressure.',
+      'Clear goal definition ("get them home") aligns parallel teams without constant coordination.',
+      'Psychological safety to say "this won\'t work" is as important as the ability to generate ideas.',
+    ],
+    timeframe: '4 days (April 13–17, 1970)',
+    teamSize: '~400 Mission Control personnel',
+    quote: {
+      text: 'Failure is not an option.',
+      attribution: 'Gene Kranz, Flight Director, Apollo 13',
+    },
+  },
+
+  // ─── Process Domain (additional) ──────────────────────────────────────────────
+
+  {
+    cardId: 'process-2',
+    organisation: 'NHS Test and Trace',
+    industry: 'Public Health / Government',
+    projectName: 'COVID-19 Contact Tracing Communications Programme',
+    challenge: 'At the height of the COVID-19 pandemic, NHS Test and Trace needed to communicate rapidly changing guidance to millions of people across the UK. Inconsistent messaging between national government, NHS, and local authorities was causing confusion and eroding public trust.',
+    approach: 'The communications team implemented a structured communications management plan with a single source of truth for all public-facing guidance, a RACI for approval of each message type, and a 24-hour rapid review cycle. A stakeholder register mapped all communication channels (GPs, pharmacies, employers, schools) and assigned relationship owners. Daily stand-ups aligned messaging across teams.',
+    outcome: 'By Q3 2020, public awareness of the Test and Trace service reached 84%. The structured approach reduced the number of contradictory public statements and enabled faster correction when guidance changed. The communications framework was later adopted as a template for future public health campaigns.',
+    lessonsLearned: [
+      'A single source of truth for communications prevents the inconsistency that destroys trust.',
+      'Stakeholder mapping must include all channels — not just media — to reach all affected groups.',
+      'Rapid review cycles are only effective if approval authority is clearly pre-agreed.',
+    ],
+    timeframe: '2020–2021',
+    teamSize: '200+ communications staff',
+  },
+
+  {
+    cardId: 'process-4',
+    organisation: 'Crossrail (Elizabeth Line)',
+    industry: 'Infrastructure / Transport',
+    projectName: 'Stakeholder Engagement on Europe\'s Largest Infrastructure Project',
+    challenge: 'Crossrail involved over 10,000 workers, 40 construction sites across London, and stakeholders ranging from the Mayor of London to individual residents whose homes sat above tunnels. Managing expectations across such a diverse group while maintaining public support was a critical project risk.',
+    approach: 'Crossrail established a dedicated Stakeholder Engagement team that maintained a live stakeholder register of over 2,000 organisations. Each major stakeholder group had a named relationship manager. The team used a tiered engagement model: inform (public website), consult (community forums), involve (working groups), collaborate (design panels). Regular community liaison meetings were held in every affected borough.',
+    outcome: 'Despite significant delays and cost overruns, public support for the project remained above 70% throughout construction. The stakeholder engagement model was cited by the Infrastructure and Projects Authority as a best-practice example. The Elizabeth Line opened in 2022 to widespread public acclaim.',
+    lessonsLearned: [
+      'A tiered engagement model prevents over-consulting low-interest stakeholders and under-engaging high-interest ones.',
+      'Named relationship managers create accountability — stakeholders know who to call.',
+      'Community engagement must begin before construction, not after complaints start.',
+    ],
+    timeframe: '2009–2022',
+    teamSize: '10,000+ workers, 2,000+ stakeholder organisations',
+  },
+
+  {
+    cardId: 'process-6',
+    organisation: 'Boeing',
+    industry: 'Aerospace / Manufacturing',
+    projectName: '787 Dreamliner Schedule Recovery',
+    challenge: 'The Boeing 787 Dreamliner was originally scheduled for delivery in 2008 but suffered seven major delays, ultimately delivering three years late. Boeing needed to recover a severely compressed schedule while managing a global supply chain of over 50 Tier 1 suppliers.',
+    approach: 'Boeing implemented a Critical Path Method (CPM) schedule recovery programme. The project team identified the critical path across all supplier deliverables, assigned dedicated schedule managers to each critical-path activity, and introduced a weekly "schedule health" review with C-suite visibility. Float was actively managed and re-allocated from non-critical to critical activities.',
+    outcome: 'The 787 entered service with All Nippon Airways in October 2011. Despite the delays, the aircraft went on to become Boeing\'s fastest-selling wide-body jet, with over 1,000 aircraft delivered. The schedule recovery programme\'s lessons were incorporated into the 777X programme planning.',
+    lessonsLearned: [
+      'Critical path management requires active float management, not just tracking — float is a resource.',
+      'Supply chain schedule dependencies must be on the critical path model, not managed separately.',
+      'Executive visibility of schedule health creates the urgency needed to unblock critical-path activities.',
+    ],
+    timeframe: '2008–2011 (recovery phase)',
+    teamSize: '50+ Tier 1 suppliers, 12,000 Boeing employees',
+  },
+
+  {
+    cardId: 'process-7',
+    organisation: 'Toyota Motor Corporation',
+    industry: 'Automotive Manufacturing',
+    projectName: 'Jidoka — Built-In Quality at the Source',
+    challenge: 'Toyota\'s early production lines relied on end-of-line inspection to catch defects. This meant defective parts travelled through the entire production process before being caught, wasting materials and labour. The cost of quality was concentrated in rework rather than prevention.',
+    approach: 'Toyota implemented Jidoka ("automation with a human touch") — every machine and worker was empowered to stop the production line when a defect was detected. Andon cords allowed any worker to halt production immediately. Team leaders were required to respond within 60 seconds. The principle was that it was better to stop and fix the problem at the source than to pass a defect downstream.',
+    outcome: 'Toyota\'s defect rates fell to a fraction of industry norms. The Toyota Production System became the global benchmark for manufacturing quality. Jidoka was later adapted into software development as "stop the line" practices in Lean and DevOps — the principle that a failing build should halt all deployments.',
+    lessonsLearned: [
+      'Quality must be built in at the source — inspection at the end is too late and too expensive.',
+      'Empowering workers to stop the line requires psychological safety and rapid management response.',
+      'The short-term cost of stopping production is always less than the long-term cost of passing defects downstream.',
+    ],
+    timeframe: 'Developed 1950s, ongoing',
+    teamSize: 'Factory-wide (thousands of workers)',
+    quote: {
+      text: 'The Toyota Production System is not a set of tools. It is a way of thinking.',
+      attribution: 'Taiichi Ohno, Father of the Toyota Production System',
+    },
+  },
+
+  {
+    cardId: 'process-11',
+    organisation: 'UK Ministry of Defence',
+    industry: 'Government / Defence',
+    projectName: 'Ajax Armoured Vehicle Procurement',
+    challenge: 'The MoD\'s Ajax armoured vehicle programme suffered from procurement failures that led to vehicles being delivered with serious vibration and noise defects that made them unusable. The programme was years late and hundreds of millions over budget.',
+    approach: 'A National Audit Office review identified that the procurement plan had not included adequate acceptance testing criteria, supplier performance milestones were not contractually enforced, and there was insufficient MoD technical expertise to challenge contractor claims. The review recommended a procurement reform programme that included clearer technical specifications, independent verification of contractor deliverables, and stronger contract management.',
+    outcome: 'The Ajax programme became a case study in procurement failure, cited in Parliamentary hearings. The lessons led to reforms in MoD procurement practice, including mandatory independent technical assessment for complex contracts and strengthened contract management training for civil servants.',
+    lessonsLearned: [
+      'Procurement plans must include measurable acceptance criteria — not just delivery dates.',
+      'The client organisation needs sufficient technical expertise to challenge contractor claims.',
+      'Contract management is a distinct discipline from contract negotiation — both require dedicated resource.',
+    ],
+    timeframe: '2014–2023 (ongoing)',
+    teamSize: '589 vehicles contracted, multi-billion pound programme',
+  },
+
+  {
+    cardId: 'process-14',
+    organisation: 'ING Bank',
+    industry: 'Financial Services',
+    projectName: 'Agile Governance Transformation',
+    challenge: 'ING\'s traditional governance model — with monthly steering committees, quarterly budget reviews, and annual planning cycles — was incompatible with the bank\'s ambition to operate like a technology company. Governance was slowing delivery, not enabling it.',
+    approach: 'ING redesigned its governance model around the Agile principle of delegated authority. Squads were given pre-approved budgets and authority to make decisions within defined guardrails. Governance moved from "approve before you start" to "review after you deliver." Quarterly Business Reviews replaced annual planning. Risk and compliance were embedded into squads rather than being external gatekeepers.',
+    outcome: 'ING\'s time-to-market for new features reduced from months to weeks. The bank launched ING Direct in multiple new markets and became one of the most-cited examples of Agile transformation in financial services. The governance model was adopted by several other European banks.',
+    lessonsLearned: [
+      'Governance that approves before delivery creates bottlenecks; governance that reviews after delivery enables speed.',
+      'Embedding risk and compliance into teams is more effective than external gatekeeping.',
+      'Delegated authority requires clear guardrails — autonomy without boundaries creates risk.',
+    ],
+    timeframe: '2015–2018 (transformation phase)',
+    teamSize: '350 squads, 13 tribes',
+  },
+
+  {
+    cardId: 'process-15',
+    organisation: 'London 2012 Olympics Organising Committee (LOCOG)',
+    industry: 'Events / Government',
+    projectName: 'Olympic Venue Issues Management',
+    challenge: 'Delivering the London 2012 Olympics involved over 70,000 volunteers, 26 venues, and thousands of issues arising daily across construction, logistics, security, and operations. Without a systematic issues management process, critical problems risked being lost in the noise.',
+    approach: 'LOCOG implemented a centralised issues register with a tiered escalation model. Issues were logged, categorised by impact and urgency, and assigned an owner within 24 hours. A daily issues review meeting prioritised the top 10 issues requiring executive attention. Issues unresolved for more than 5 days were automatically escalated. The system was integrated with the risk register so that issues that recurred became risks.',
+    outcome: 'The London 2012 Olympics was widely praised as one of the most well-organised in history. The issues management system was credited with enabling the organising committee to manage the complexity of the event without major operational failures. The framework was later adopted by the Rio 2016 and Tokyo 2020 organising committees.',
+    lessonsLearned: [
+      'Issues management must be linked to risk management — recurring issues are unmanaged risks.',
+      'A daily review of the top 10 issues is more effective than weekly reviews of all issues.',
+      'Automatic escalation rules prevent issues from being buried by owners who are reluctant to surface problems.',
+    ],
+    timeframe: '2007–2012',
+    teamSize: '200,000+ workforce (staff, contractors, volunteers)',
+  },
+
+  // ─── Business Environment (additional) ────────────────────────────────────────
+
+  {
+    cardId: 'business-1',
+    organisation: 'HSBC',
+    industry: 'Financial Services / Banking',
+    projectName: 'GDPR Compliance Programme',
+    challenge: 'HSBC operated across 64 countries with millions of customer data records. The EU\'s General Data Protection Regulation (GDPR), effective May 2018, required fundamental changes to how personal data was collected, stored, processed, and deleted — with fines of up to 4% of global turnover for non-compliance.',
+    approach: 'HSBC launched a multi-year compliance programme structured around a compliance gap assessment. The programme mapped all data flows across the organisation, identified gaps against GDPR requirements, and prioritised remediation by risk. A dedicated Data Protection Officer was appointed. Privacy Impact Assessments were embedded into the project lifecycle for any initiative touching personal data.',
+    outcome: 'HSBC achieved GDPR compliance by the May 2018 deadline across its EU operations. The compliance programme also identified data quality issues that had business value beyond regulatory compliance. The Privacy Impact Assessment process became a permanent part of HSBC\'s project governance framework.',
+    lessonsLearned: [
+      'Compliance gap assessments must be risk-based — not all gaps are equal, and resources are finite.',
+      'Embedding compliance into project governance (PIAs) is more effective than retrospective compliance reviews.',
+      'Regulatory compliance programmes often surface operational improvements that have value beyond the regulatory requirement.',
+    ],
+    timeframe: '2016–2018',
+    teamSize: '500+ compliance staff across 64 countries',
+  },
+
+  {
+    cardId: 'business-3',
+    organisation: 'Kodak',
+    industry: 'Photography / Technology',
+    projectName: 'Failure to Adapt to Digital Photography',
+    challenge: 'Kodak invented the digital camera in 1975 but failed to adapt its business model to the digital age. By 2012, the company had filed for bankruptcy, having lost its dominant position in the photography market to digital competitors.',
+    approach: 'Kodak\'s leadership recognised the digital threat but prioritised protecting its highly profitable film business over cannibalising it with digital products. The company invested in digital technology but positioned it as a complement to film rather than a replacement. When the shift to digital accelerated in the early 2000s, Kodak\'s response was too slow and too incremental.',
+    outcome: 'Kodak filed for Chapter 11 bankruptcy in January 2012. The company sold its patent portfolio for $525 million and emerged from bankruptcy as a much smaller commercial printing business. The Kodak case became the defining example of an incumbent failing to respond to disruptive external change.',
+    lessonsLearned: [
+      'Recognising a disruption is not the same as responding to it — the response must be proportionate to the threat.',
+      'Protecting existing revenue streams can prevent the cannibalisation that is necessary for survival.',
+      'External change management requires willingness to disrupt your own business model before a competitor does.',
+    ],
+    timeframe: '1975–2012',
+    teamSize: '145,000 employees at peak (1988)',
+    quote: {
+      text: 'We were so focused on protecting our film business that we couldn\'t see the digital future.',
+      attribution: 'Former Kodak executive (composite)',
+    },
+  },
+
+  {
+    cardId: 'business-4',
+    organisation: 'Procter & Gamble',
+    industry: 'Consumer Goods',
+    projectName: 'Connect + Develop — Open Innovation Transformation',
+    challenge: 'By 2000, P&G\'s internal R&D model was producing declining returns. The company had 7,500 scientists but was struggling to maintain its historical innovation rate. CEO A.G. Lafley set a goal that 50% of P&G\'s innovations would come from outside the company — a radical departure from the "invented here" culture.',
+    approach: 'P&G launched the Connect + Develop programme, which systematically engaged external innovators — universities, suppliers, competitors, and individual inventors — in P&G\'s product development. The programme used a technology brief system to communicate specific innovation needs externally. Internal "technology entrepreneurs" were appointed to scout and broker external partnerships. The culture change required explicit leadership messaging that external innovation was valued, not a sign of internal failure.',
+    outcome: 'By 2006, over 35% of P&G\'s new products had elements that originated outside the company. R&D productivity increased by nearly 60%. Products like Pringles (printing technology licensed from a professor in Bologna) and Swiffer (developed with external partners) demonstrated the model\'s commercial success.',
+    lessonsLearned: [
+      'Organisational change management must address cultural beliefs, not just processes — "not invented here" is a cultural barrier.',
+      'Incentive systems must reward external collaboration, not just internal invention.',
+      'Leadership must model the new behaviour — Lafley publicly celebrated externally-sourced innovations.',
+    ],
+    timeframe: '2000–2006 (transformation phase)',
+    teamSize: '7,500 R&D staff, 1.5 million external innovators in network',
+  },
+
+  // ─── Advanced Techniques (additional) ─────────────────────────────────────────
+
+  {
+    cardId: 'A2',
+    organisation: 'Google',
+    industry: 'Technology',
+    projectName: 'Project Aristotle — Team Effectiveness Research',
+    challenge: 'Google wanted to understand what made some engineering teams highly effective while others with similar talent and resources underperformed. The company had no systematic model for predicting or improving team performance.',
+    approach: 'Google\'s People Analytics team spent two years studying 180 teams, interviewing hundreds of employees, and reviewing academic literature on group dynamics. They measured dozens of variables including team composition, personality traits, and work habits. The research drew on Tuckman\'s model of team development (Forming, Storming, Norming, Performing) as a theoretical framework for understanding team maturity.',
+    outcome: 'Project Aristotle found that psychological safety was the single most important factor in team effectiveness — more important than individual talent, team composition, or management style. Teams that felt safe to take risks, ask questions, and admit mistakes significantly outperformed those that did not. The findings were published and became one of the most widely cited pieces of organisational research of the decade.',
+    lessonsLearned: [
+      'Team composition matters less than team dynamics — who is on the team is less important than how they interact.',
+      'Psychological safety is a prerequisite for all other team effectiveness factors.',
+      'Tuckman\'s model provides a useful diagnostic framework — teams that are stuck in Storming need safety interventions, not performance management.',
+    ],
+    timeframe: '2012–2016',
+    teamSize: '180 teams studied',
+    quote: {
+      text: 'The researchers found that what really mattered was less about who is on the team, and more about how the team worked together.',
+      attribution: 'Google re:Work, Project Aristotle',
+    },
+  },
+
+  {
+    cardId: 'A27',
+    organisation: 'Shell International',
+    industry: 'Energy / Oil & Gas',
+    projectName: 'Scenario Planning — Navigating the 1970s Oil Crisis',
+    challenge: 'In the early 1970s, Shell\'s strategic planners recognised that the global oil market was becoming increasingly unpredictable. Traditional forecasting — which assumed a continuation of current trends — was inadequate for a world where geopolitical shocks could fundamentally alter the energy landscape.',
+    approach: 'Pierre Wack, Shell\'s head of scenario planning, developed a set of alternative future scenarios rather than a single forecast. The scenarios were not predictions but internally consistent stories about how the world might develop. Shell\'s leadership was asked to make strategic decisions that would be robust across multiple scenarios, not optimised for a single predicted future. The scenarios included a "surprise" scenario in which OPEC imposed an oil embargo.',
+    outcome: 'When OPEC imposed the oil embargo in 1973, Shell was the only major oil company that had prepared for the scenario. While competitors scrambled to respond, Shell had already developed contingency plans. Shell moved from being the weakest of the Seven Sisters to the second most profitable oil company within two years.',
+    lessonsLearned: [
+      'Scenario planning is most valuable for decisions with long time horizons and high uncertainty.',
+      'Scenarios must be internally consistent and plausible — not just optimistic and pessimistic versions of the same forecast.',
+      'The goal is robust strategy, not accurate prediction — decisions should work across multiple futures.',
+    ],
+    timeframe: '1971–1974',
+    teamSize: 'Small strategic planning team (10–15 people)',
+    quote: {
+      text: 'The purpose of scenario planning is not to predict the future but to prepare for it.',
+      attribution: 'Pierre Wack, Shell Scenario Planning Pioneer',
+    },
+  },
+
+  {
+    cardId: 'A31',
+    organisation: 'Airbus',
+    industry: 'Aerospace / Manufacturing',
+    projectName: 'A380 Wiring Harness Defect Resolution',
+    challenge: 'During the A380 production ramp-up, Airbus discovered that wiring harnesses produced in Hamburg were incompatible with those produced in Toulouse. The root cause was that the two sites were using different versions of the same CAD software. The problem affected hundreds of aircraft and threatened the entire programme.',
+    approach: 'The quality team applied Pareto Analysis to the thousands of individual wiring discrepancies. By categorising defects by type and frequency, they identified that 20% of the discrepancy types accounted for 80% of the total rework hours. The team focused all engineering resources on resolving the top 20% of defect types first, rather than attempting to fix all discrepancies simultaneously.',
+    outcome: 'The focused Pareto-driven approach reduced total rework hours by 65% within six months. The A380 programme recovered its delivery schedule for the top-priority customers. The lesson about CAD software version control was embedded into Airbus\'s supplier management standards and applied to the A350 programme.',
+    lessonsLearned: [
+      'Pareto Analysis is most powerful when applied to resource allocation decisions — focus effort where it has the greatest impact.',
+      'Categorising defects by rework cost (not just frequency) gives a more accurate picture of where to focus.',
+      'The 80/20 rule is a starting point for analysis, not a law — the actual ratio varies by context.',
+    ],
+    timeframe: '2006–2007',
+    teamSize: '300+ engineers across Hamburg and Toulouse',
+  },
+
+  {
+    cardId: 'A32',
+    organisation: 'Netflix',
+    industry: 'Technology / Entertainment',
+    projectName: 'Strategic Pivot from DVD to Streaming',
+    challenge: 'In 2007, Netflix was a successful DVD-by-mail business. CEO Reed Hastings recognised that digital streaming would eventually make physical media obsolete, but the company\'s entire infrastructure, supplier relationships, and revenue model were built around DVDs.',
+    approach: 'Netflix conducted a SWOT analysis that identified streaming as both an opportunity (lower distribution costs, global reach) and a threat (if competitors launched first). The analysis revealed that Netflix\'s key strengths — its recommendation algorithm, content licensing relationships, and subscriber base — were transferable to streaming. The company used the SWOT findings to build a dual-track strategy: sustain the DVD business while investing aggressively in streaming.',
+    outcome: 'Netflix launched its streaming service in 2007. By 2013, streaming subscribers exceeded DVD subscribers. By 2023, Netflix had over 260 million streaming subscribers in 190 countries and had become one of the world\'s largest entertainment companies. The DVD business was wound down in 2023.',
+    lessonsLearned: [
+      'SWOT analysis is most valuable when it challenges assumptions — Netflix\'s strength was its data and relationships, not its physical infrastructure.',
+      'A dual-track strategy (sustain and transform) manages the transition risk better than a sudden pivot.',
+      'Identifying the threat early and acting before it becomes critical is the difference between disruption and transformation.',
+    ],
+    timeframe: '2007–2013 (transition phase)',
+    teamSize: '2,000 employees in 2007, growing to 12,000+ by 2023',
+  },
+
+  {
+    cardId: 'A38',
+    organisation: 'Saatchi & Saatchi',
+    industry: 'Advertising / Creative Services',
+    projectName: 'Rebuilding a Creative Team After Leadership Change',
+    challenge: 'Following the departure of the founding Saatchi brothers in 1995, the agency\'s creative teams were in disarray. Key talent was leaving, team roles were unclear, and the collaborative dynamic that had made the agency famous had broken down.',
+    approach: 'The new leadership used Belbin Team Role analysis to assess the existing team composition. The analysis revealed an over-representation of "Plant" (creative idea generators) and "Shaper" (driver) roles, with a critical absence of "Completer-Finisher" and "Co-ordinator" roles. Recruitment was targeted to fill the gaps. Team assignments were restructured so that each client team had a balanced role profile.',
+    outcome: 'Within 18 months, staff turnover dropped by 40% and client satisfaction scores improved significantly. The agency won several major new accounts, including the British Airways "Face" campaign. The Belbin-informed team design became part of the agency\'s standard approach to team formation for major pitches.',
+    lessonsLearned: [
+      'Team role imbalance is often invisible until it is explicitly mapped — too many Shapers create conflict, too many Plants create ideas without execution.',
+      'Recruitment should target role gaps, not just skill gaps.',
+      'Belbin roles are situational — the same person may play different roles in different team contexts.',
+    ],
+    timeframe: '1995–1997',
+    teamSize: '200+ creative staff (London office)',
+  },
+
+  {
+    cardId: 'A47',
+    organisation: 'Intel Corporation',
+    industry: 'Technology / Semiconductors',
+    projectName: 'Constraint Management in Chip Manufacturing',
+    challenge: 'Intel\'s semiconductor fabrication plants (fabs) were experiencing unpredictable throughput. Some production stages were consistently overloaded while others were idle. The variability was causing delivery delays and making capacity planning extremely difficult.',
+    approach: 'Intel applied the Theory of Constraints (TOC) to its fab operations. The team identified the constraint (the bottleneck machine or process step that limited overall throughput), subordinated all other processes to the constraint\'s pace, and elevated the constraint by maximising its utilisation. Buffer management was used to protect the constraint from starvation. Once the constraint was resolved, the team identified the next constraint and repeated the process.',
+    outcome: 'Intel\'s fab throughput improved by 30% without capital investment. Delivery predictability improved significantly, enabling better customer commitments. The TOC approach was rolled out across Intel\'s global fab network and became a standard part of the company\'s operations management toolkit.',
+    lessonsLearned: [
+      'Improving non-constraint processes does not improve overall throughput — only improving the constraint does.',
+      'The constraint moves after it is resolved — TOC is a continuous improvement cycle, not a one-time fix.',
+      'Buffer management (protecting the constraint from starvation) is as important as identifying the constraint.',
+    ],
+    timeframe: '1990s (initial application)',
+    teamSize: 'Factory-wide (thousands of workers per fab)',
+  },
+
+  {
+    cardId: 'A57',
+    organisation: 'EDF Energy',
+    industry: 'Energy / Nuclear',
+    projectName: 'Hinkley Point C Risk Assessment',
+    challenge: 'Hinkley Point C, the UK\'s first new nuclear power station in a generation, faced an enormous range of risks across a 25-year construction and commissioning programme. The project team needed a systematic way to prioritise which risks required immediate management attention and which could be monitored.',
+    approach: 'EDF implemented a Probability and Impact Matrix (risk heat map) as the cornerstone of its risk management framework. Each identified risk was assessed for probability (likelihood of occurrence) and impact (consequence if it occurred). Risks were plotted on a 5×5 matrix, creating red (high priority), amber (medium priority), and green (low priority) zones. The matrix was reviewed monthly at the project board and quarterly at the EDF board.',
+    outcome: 'The structured risk prioritisation enabled the project team to focus management attention and contingency budget on the highest-priority risks. The risk framework was cited by the Infrastructure and Projects Authority as a model for major infrastructure projects. Despite significant challenges, Hinkley Point C remained on track for its revised delivery schedule.',
+    lessonsLearned: [
+      'A probability and impact matrix is only as good as the quality of the risk assessments feeding it — garbage in, garbage out.',
+      'Regular review cadence (monthly operational, quarterly board) ensures risks are reassessed as the project evolves.',
+      'The matrix should drive action, not just reporting — each red risk needs an owner and a mitigation plan.',
+    ],
+    timeframe: '2016–present',
+    teamSize: '25,000 workers at peak construction',
+  },
+
+  {
+    cardId: 'A58',
+    organisation: 'Rolls-Royce',
+    industry: 'Aerospace / Engineering',
+    projectName: 'Trent 1000 Engine — Lessons Learned Programme',
+    challenge: 'Rolls-Royce\'s Trent 1000 engine, used on the Boeing 787, experienced unexpected blade durability issues in service that required costly inspections and replacements. The company needed to understand not just the technical root cause but also the organisational and process failures that had allowed the issue to reach service.',
+    approach: 'Rolls-Royce conducted a structured Lessons Learned review that went beyond the technical investigation. The review examined the design review process, the testing regime, and the decision-making culture that had led to the blade design being approved. Findings were documented in a lessons learned register and assigned to process owners for remediation. Critically, the lessons were cross-referenced with other engine programmes to identify whether the same vulnerabilities existed elsewhere.',
+    outcome: 'The lessons learned programme identified six systemic process improvements that were applied across all Trent engine programmes. The cross-programme application prevented at least two similar issues from reaching service. The programme was cited by the Civil Aviation Authority as an example of proactive safety management.',
+    lessonsLearned: [
+      'Lessons learned reviews must examine organisational and process failures, not just technical root causes.',
+      'Cross-referencing lessons with other projects or programmes multiplies the value of the exercise.',
+      'Lessons are only learned when they result in documented process changes with named owners.',
+    ],
+    timeframe: '2016–2019 (investigation and remediation)',
+    teamSize: '500+ engineers across Trent programme',
+  },
+
+  {
+    cardId: 'A79',
+    organisation: 'Heathrow Airport',
+    industry: 'Aviation / Infrastructure',
+    projectName: 'Terminal 2 Project Closure',
+    challenge: 'After the disastrous opening of Terminal 5 in 2008, Heathrow Airport Holdings needed to ensure that the closure and handover of the Terminal 2 construction project to operations was managed with rigorous discipline. The lessons from T5 made a structured closure process a board-level priority.',
+    approach: 'The T2 project implemented a formal Project Closure process that included: a benefits realisation review comparing actual outcomes against the original business case; a structured handover to the operations team with a 90-day parallel running period; a post-implementation review conducted six months after opening; and a lessons learned workshop attended by all senior project leaders and their operational counterparts.',
+    outcome: 'Terminal 2 (The Queen\'s Terminal) opened in June 2014 to widespread praise. The structured closure process was credited with ensuring operational readiness. The benefits realisation review confirmed that the terminal had met or exceeded its original business case targets for passenger capacity and satisfaction. The closure framework became the standard for all subsequent Heathrow capital projects.',
+    lessonsLearned: [
+      'Project closure is a distinct phase requiring dedicated planning — it is not simply the absence of construction activity.',
+      'A parallel running period between project and operations teams prevents the knowledge cliff that caused T5\'s problems.',
+      'Benefits realisation reviews must be conducted after the project is in operation, not at handover.',
+    ],
+    timeframe: '2008–2014',
+    teamSize: '4,000 construction workers, 300 project management staff',
+  },
+
+  {
+    cardId: 'A80',
+    organisation: 'Spotify',
+    industry: 'Technology / Music Streaming',
+    projectName: 'Story Point Estimation in Squad-Based Delivery',
+    challenge: 'Spotify\'s engineering squads were struggling with delivery predictability. Estimates were inconsistent across squads, making it difficult to plan cross-squad dependencies and communicate delivery timelines to stakeholders.',
+    approach: 'Spotify standardised story point estimation using Planning Poker across all squads. Each squad used the Fibonacci sequence (1, 2, 3, 5, 8, 13, 20) for sizing. Critically, Spotify used story points as a relative complexity measure, not a time estimate. Velocity was tracked per squad over 6 sprints to establish a reliable baseline. Squads were encouraged to re-estimate stories that were significantly different from their initial estimate after completion, to improve future calibration.',
+    outcome: 'Delivery predictability improved from 60% to 85% of committed stories completed per sprint within three quarters. Cross-squad dependency planning became more reliable. The standardised approach also enabled the engineering leadership to identify squads with consistently high variance (a signal of unclear requirements or technical uncertainty) and provide targeted support.',
+    lessonsLearned: [
+      'Story points measure complexity, not time — teams that conflate the two lose the benefit of relative estimation.',
+      'Velocity is only meaningful after 4–6 sprints of data — early velocity figures are unreliable for planning.',
+      'High variance in estimates (not just low velocity) is a signal worth investigating.',
+    ],
+    timeframe: '2013–2015',
+    teamSize: '6–12 person squads across 30+ teams',
+  },
+
 ];
 
 // ─── Lookup helpers ────────────────────────────────────────────────────────────

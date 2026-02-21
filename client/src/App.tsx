@@ -20,6 +20,7 @@ import LessonPage from './pages/LessonPage';
 import EarnHeartPage from './pages/EarnHeartPage';
 import DecisionHelper from './pages/DecisionHelper';
 import QuizPage from './pages/QuizPage';
+import CaseStudiesPage from './pages/CaseStudiesPage';
 import WelcomeModal from './components/WelcomeModal';
 import { BookmarksProvider } from './contexts/BookmarksContext';
 import { JourneyProvider } from './contexts/JourneyContext';
@@ -87,6 +88,7 @@ function Router() {
         <Route path="/journey/earn-heart" component={EarnHeartPage} />
         <Route path="/decision" component={DecisionHelper} />
         <Route path="/quiz/:deckId" component={QuizPage} />
+        <Route path="/case-studies" component={CaseStudiesPage} />
         <Route path="/404" component={NotFound} />
         <Route component={NotFound} />
       </Switch>

@@ -19,6 +19,8 @@ import { getDeckIntro } from '@/lib/deckIntroData';
 import { useBookmarks } from '@/contexts/BookmarksContext';
 import { useCardProgress } from '@/hooks/useCardProgress';
 import SprintMode from '@/components/SprintMode';
+import { CARDS_WITH_CASE_STUDIES } from '@/lib/caseStudiesData';
+import { BookOpen } from 'lucide-react';
 
 const itemVariants = {
   hidden: { opacity: 0, y: 12 },
@@ -432,6 +434,16 @@ function CardListItem({
               {read && (
                 <span className="text-[9px] font-bold" style={{ color: deck.color }}>
                   ✓
+                </span>
+              )}
+              {CARDS_WITH_CASE_STUDIES.has(card.id) && (
+                <span
+                  className="flex items-center gap-0.5 text-[8px] font-bold px-1 py-0.5 rounded-md"
+                  style={{ backgroundColor: '#0284C720', color: '#0284C7' }}
+                  title="Has case study"
+                >
+                  <BookOpen size={8} />
+                  Case
                 </span>
               )}
             </div>
