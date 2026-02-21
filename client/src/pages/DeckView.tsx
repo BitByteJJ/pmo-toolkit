@@ -33,8 +33,8 @@ function TitleCard({ deck, intro }: { deck: NonNullable<ReturnType<typeof getDec
         <img
           src={intro.coverImage}
           alt={deck.title}
-          className="w-full object-cover object-center"
-          style={{ maxHeight: '360px', minHeight: '280px' }}
+          className="w-full object-contain object-center"
+          style={{ maxHeight: '360px', minHeight: '280px', mixBlendMode: 'multiply' }}
         />
       </div>
 

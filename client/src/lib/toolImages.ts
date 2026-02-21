@@ -1,193 +1,168 @@
-// PMO Toolkit Navigator — Visual Reference diagrams
-// Maps card IDs to CDN image URLs shown as "Visual Reference" in CardDetail
+// Card illustrations and deck cover CDN URLs
+// Style: fine-line caricature with soft pastel watercolor washes
 
-export const TOOL_IMAGES: Record<string, { url: string; caption: string }> = {
-
-  // ─── PROJECT PHASES ────────────────────────────────────────────────────────
-  'phase-setup': {
-    url: 'https://files.manuscdn.com/user_upload_by_module/session_file/310419663029097403/fyxggZtPrYvhQrUq.png',
-    caption: 'Project Initiation Flow — from defining objectives through stakeholder identification, feasibility assessment, and sponsor approval to an approved Project Charter.',
-  },
-  'phase-execution': {
-    url: 'https://files.manuscdn.com/user_upload_by_module/session_file/310419663029097403/GXngRGaUjJVVOCoB.png',
-    caption: 'Execution & Monitor-Control Loop — six concurrent activities (track progress, manage risks, control scope, report status, manage stakeholders, lead team) feeding into the central execute-and-monitor cycle.',
-  },
-  'phase-closure': {
-    url: 'https://files.manuscdn.com/user_upload_by_module/session_file/310419663029097403/CfNGRdVboFBbWqAu.png',
-    caption: 'Project Closure Checklist — eight closure actions from deliverable acceptance and lessons learned through contract closure, resource release, and team celebration.',
-  },
-
-  // ─── ARCHETYPING GUIDE ─────────────────────────────────────────────────────
-  AG1: {
-    url: 'https://files.manuscdn.com/user_upload_by_module/session_file/310419663029097403/cOTaJhgRFoUzoPED.png',
-    caption: 'AG1 Project Complexity Self-Assessment — rate your project across five dimensions (stakeholder complexity, technical uncertainty, organisational change, regulatory constraints, team distribution) to determine overall complexity level.',
-  },
-  AG2: {
-    url: 'https://files.manuscdn.com/user_upload_by_module/session_file/310419663029097403/gYXGQaBVKJKpXZOe.png',
-    caption: 'AG2 Methodology Selection Matrix — a 2×2 grid mapping uncertainty vs. governance level to the most appropriate delivery approach: Waterfall, Agile/Scrum, PRINCE2/PMI, or Hybrid.',
-  },
-  AG3: {
-    url: 'https://files.manuscdn.com/user_upload_by_module/session_file/310419663029097403/etUxiEvHxvUSqLhm.png',
-    caption: 'AG3 Team & Stakeholder Archetype Radar — compare current state vs. ideal across six dimensions: sponsor engagement, team maturity, stakeholder alignment, change readiness, risk tolerance, and resource availability.',
-  },
-
-  // ─── METHODOLOGIES ─────────────────────────────────────────────────────────
-  M1: {
-    url: 'https://files.manuscdn.com/user_upload_by_module/session_file/310419663029097403/LCPGZXmqcxUHQUNu.png',
-    caption: 'M1 Waterfall Methodology — sequential cascade of phases: Requirements → Design → Development → Testing → Deployment → Maintenance. Each phase completes before the next begins.',
-  },
-  M2: {
-    url: 'https://files.manuscdn.com/user_upload_by_module/session_file/310419663029097403/UYcVglOkpMVpdUAy.png',
-    caption: 'M2 Agile/Scrum Sprint Cycle — iterative loop of Sprint Planning, Daily Standup, Sprint Review, Sprint Retrospective, and Backlog Refinement, driven by the Product Backlog.',
-  },
-  M3: {
-    url: 'https://files.manuscdn.com/user_upload_by_module/session_file/310419663029097403/CsqhdAhsnaSeCdVT.png',
-    caption: 'M3 Kanban Board — four-column workflow (Backlog → In Progress → Review → Done) with WIP limits to prevent bottlenecks and maintain flow.',
-  },
-  M4: {
-    url: 'https://files.manuscdn.com/user_upload_by_module/session_file/310419663029097403/GLWlNSeGILqUXCTw.png',
-    caption: 'M4 Hybrid Methodology — Waterfall governance (Initiation → Closure) wrapping three Agile delivery sprints, combining structured oversight with iterative execution.',
-  },
-
-  // ─── PEOPLE DOMAIN ─────────────────────────────────────────────────────────
-  'people-1': {
-    url: 'https://files.manuscdn.com/user_upload_by_module/session_file/310419663029097403/joFVLWglKrOEuDNh.png',
-    caption: 'P01 Conflict Resolution Modes — Thomas-Kilmann model mapping five conflict styles (Collaborate, Compete, Accommodate, Avoid, Compromise) on assertiveness vs. cooperativeness axes.',
-  },
-  'people-2': {
-    url: 'https://files.manuscdn.com/user_upload_by_module/session_file/310419663029097403/hlfZNIgBOqrgVNTz.png',
-    caption: "P02 Tuckman's Team Development Stages — five progressive stages (Forming → Storming → Norming → Performing → Adjourning) shown as ascending bars reflecting growing team capability.",
-  },
-  'people-8': {
-    url: 'https://files.manuscdn.com/user_upload_by_module/session_file/310419663029097403/kTEZFYDYxqsZnnOi.png',
-    caption: 'P08 Negotiation Preparation Framework — five-step process: Clarify Interests → Know Your BATNA → Set ZOPA → Prepare Options → Agree & Document.',
-  },
-
-  // ─── PROCESS DOMAIN ────────────────────────────────────────────────────────
-  'process-1': {
-    url: 'https://files.manuscdn.com/user_upload_by_module/session_file/310419663029097403/nOLsrybylEFSWDXL.png',
-    caption: 'PR01 Scope Management Process — six sequential steps: Plan Scope → Collect Requirements → Define Scope → Create WBS → Validate Scope → Control Scope.',
-  },
-  'process-5': {
-    url: 'https://files.manuscdn.com/user_upload_by_module/session_file/310419663029097403/RGPeOVnwcJbNsYOR.png',
-    caption: 'PR05 Risk Management Cycle — six-step iterative loop: Identify → Qualitative Analysis → Quantitative Analysis → Plan Responses → Implement Responses → Monitor Risks.',
-  },
-  'process-14': {
-    url: 'https://files.manuscdn.com/user_upload_by_module/session_file/310419663029097403/tPdUWhhIRjACfCpG.png',
-    caption: 'PR14 Governance Framework — hierarchical pyramid from Steering Committee at the top through PMO, Project Manager, Work Package Owners, to Team Members. Authority flows top-down; accountability flows bottom-up.',
-  },
-
-  // ─── BUSINESS ENVIRONMENT ──────────────────────────────────────────────────
-  'business-1': {
-    url: 'https://files.manuscdn.com/user_upload_by_module/session_file/310419663029097403/JlfVOFBPgagEItPH.png',
-    caption: 'BE1 PESTLE Analysis — six-factor external environment scan: Political, Economic, Social, Technological, Legal, Environmental.',
-  },
-  'business-2': {
-    url: 'https://files.manuscdn.com/user_upload_by_module/session_file/310419663029097403/bFiaGziSFwPEiPNY.png',
-    caption: 'BE2 SWOT Analysis — 2×2 matrix of internal Strengths & Weaknesses vs. external Opportunities & Threats, with example items in each quadrant.',
-  },
-
-  // ─── TOOLS DECK (T1–T17) ───────────────────────────────────────────────────
-  T1: {
-    url: 'https://files.manuscdn.com/user_upload_by_module/session_file/310419663029097403/KqQaIPXAZEiOLZHq.png',
-    caption: 'Gantt Chart — visual timeline showing tasks, durations, and dependencies across project phases.',
-  },
-  T2: {
-    url: 'https://files.manuscdn.com/user_upload_by_module/session_file/310419663029097403/kbwYzpXfjLATzPVf.png',
-    caption: 'Kanban Board — three-column workflow (To Do → In Progress → Done) with WIP limits.',
-  },
-  T3: {
-    url: 'https://files.manuscdn.com/user_upload_by_module/session_file/310419663029097403/WKXesVWeqIQTgMUR.png',
-    caption: 'Work Breakdown Structure (WBS) — hierarchical decomposition of deliverables into manageable tasks.',
-  },
-  T4: {
-    url: 'https://files.manuscdn.com/user_upload_by_module/session_file/310419663029097403/zTiROVhuEgRFvtOj.png',
-    caption: 'Earned Value Management (EVM) — PV vs EV vs AC curves showing schedule and cost performance.',
-  },
-  T5: {
-    url: 'https://files.manuscdn.com/user_upload_by_module/session_file/310419663029097403/nYUOxirbRBMlmegk.png',
-    caption: 'RACI Matrix — Responsible, Accountable, Consulted, Informed assignments per task and role.',
-  },
-  T6: {
-    url: 'https://files.manuscdn.com/user_upload_by_module/session_file/310419663029097403/KVyQJNkcynnBTiMk.png',
-    caption: 'Risk Register — log of risks rated by probability and impact, with owners and mitigation plans.',
-  },
-  T7: {
-    url: 'https://files.manuscdn.com/user_upload_by_module/session_file/310419663029097403/WvENiKXTUySqXYKE.png',
-    caption: "MoSCoW Prioritisation — Must Have, Should Have, Could Have, and Won't Have categories.",
-  },
-  T8: {
-    url: 'https://files.manuscdn.com/user_upload_by_module/session_file/310419663029097403/sZqMVVlMVtOCfLqs.png',
-    caption: 'Fishbone (Ishikawa) Diagram — cause-and-effect analysis across Methods, Materials, Machines, Manpower, Measurement, and Environment.',
-  },
-  T9: {
-    url: 'https://files.manuscdn.com/user_upload_by_module/session_file/310419663029097403/NgqpigseHRtFjtzj.png',
-    caption: 'Monte Carlo Simulation — probability distributions for cost and duration across 1,000 iterations.',
-  },
-  T10: {
-    url: 'https://files.manuscdn.com/user_upload_by_module/session_file/310419663029097403/MQMnrWddmivLfdiG.png',
-    caption: 'Decision Tree Analysis — branching paths with probabilities and expected value outcomes.',
-  },
-  T11: {
-    url: 'https://files.manuscdn.com/user_upload_by_module/session_file/310419663029097403/uoaLVkgUykbCQyWL.png',
-    caption: 'Balanced Scorecard — KPIs across Financial, Customer, Internal Process, and Learning & Growth perspectives.',
-  },
-  T12: {
-    url: 'https://files.manuscdn.com/user_upload_by_module/session_file/310419663029097403/QsMktCvOrvnwJsjy.png',
-    caption: 'Delphi Technique — iterative anonymous expert consensus cycle from question definition to convergence.',
-  },
-  T13: {
-    url: 'https://files.manuscdn.com/user_upload_by_module/session_file/310419663029097403/BacdoXXeEAjqJMrJ.png',
-    caption: 'Cost-Benefit Analysis — comparing total costs vs. total benefits to determine net value.',
-  },
-  T14: {
-    url: 'https://files.manuscdn.com/user_upload_by_module/session_file/310419663029097403/JJqRUnVyqidssjnl.png',
-    caption: 'Project Scope Statement — objectives, in-scope/out-of-scope items, constraints, and assumptions.',
-  },
-  T15: {
-    url: 'https://files.manuscdn.com/user_upload_by_module/session_file/310419663029097403/VQGXtLvVGpPbSkDk.png',
-    caption: 'Force Field Analysis — driving forces vs. restraining forces for a proposed change.',
-  },
-  T16: {
-    url: 'https://files.manuscdn.com/user_upload_by_module/session_file/310419663029097403/FmeoIjfNDKGQKePG.png',
-    caption: 'Stakeholder Matrix — power/interest grid for tailoring engagement strategies per stakeholder.',
-  },
-  T17: {
-    url: 'https://files.manuscdn.com/user_upload_by_module/session_file/310419663029097403/GexJFOWQKagjXowv.png',
-    caption: 'Burndown Chart — remaining story points vs. time, comparing actual vs. ideal burn rate.',
-  },
-
-  // ─── ADVANCED TECHNIQUES ───────────────────────────────────────────────────
-  A2: {
-    url: 'https://files.manuscdn.com/user_upload_by_module/session_file/310419663029097403/wnoCfMCNHhqUylrn.png',
-    caption: "Tuckman's Ladder — team performance curve showing the dip at Storming and rise through Norming to peak performance, with Adjourning at close.",
-  },
-  A8: {
-    url: 'https://files.manuscdn.com/user_upload_by_module/session_file/310419663029097403/LISScExBfTCdvDvt.png',
-    caption: "ZOPA & BATNA Negotiation Map — number line showing Buyer's BATNA (walk-away max price), Seller's BATNA (walk-away min price), and the Zone of Possible Agreement (ZOPA) between them.",
-  },
-  A21: {
-    url: 'https://files.manuscdn.com/user_upload_by_module/session_file/310419663029097403/LRUVPgpzfTOiVweP.png',
-    caption: 'Six Sigma DMAIC Cycle — five sequential phases: Define → Measure → Analyse → Improve → Control, each with specific objectives and outputs.',
-  },
-  A29: {
-    url: 'https://files.manuscdn.com/user_upload_by_module/session_file/310419663029097403/WkwnkjboJAdQJxQc.png',
-    caption: '5 Whys Root Cause Drill-Down — iterative questioning from surface problem through five levels of "Why?" to identify the true root cause and assign a process owner.',
-  },
-  A35: {
-    url: 'https://files.manuscdn.com/user_upload_by_module/session_file/310419663029097403/RAfZMZaAaMrnIvPT.png',
-    caption: "Kotter's 8-Step Change Model — sequential steps from creating urgency through forming a coalition, communicating vision, removing obstacles, celebrating wins, and anchoring change in culture.",
-  },
-  A36: {
-    url: 'https://files.manuscdn.com/user_upload_by_module/session_file/310419663029097403/tPrUjgouHokHVcfN.png',
-    caption: 'Critical Chain PM (CCPM) — critical chain tasks with project buffer at the end, plus a feeding chain with its own feeding buffer merging into the critical chain.',
-  },
-  A60: {
-    url: 'https://files.manuscdn.com/user_upload_by_module/session_file/310419663029097403/HlIVJOSgMOevEmBm.png',
-    caption: 'TKI Conflict Mode Instrument — five conflict-handling modes (Collaborate, Compete, Accommodate, Avoid, Compromise) mapped on assertiveness vs. cooperativeness axes.',
-  },
-  A75: {
-    url: 'https://files.manuscdn.com/user_upload_by_module/session_file/310419663029097403/ZailnucEuRRUAZAc.png',
-    caption: 'ADKAR® Change Management Model (Prosci®) — five building blocks of individual change: Awareness → Desire → Knowledge → Ability → Reinforcement.',
-  },
+export const CARD_ILLUSTRATIONS: Record<string, string> = {
+  "A1": "https://files.manuscdn.com/user_upload_by_module/session_file/310419663029097403/OFNDnapbATSrBwGa.png",
+  "A10": "https://files.manuscdn.com/user_upload_by_module/session_file/310419663029097403/OoHcrLTpAMLuGLkz.png",
+  "A11": "https://files.manuscdn.com/user_upload_by_module/session_file/310419663029097403/GGJZZXdXaKPdnTcR.png",
+  "A12": "https://files.manuscdn.com/user_upload_by_module/session_file/310419663029097403/KPUGgwltUAHjxWlB.png",
+  "A13": "https://files.manuscdn.com/user_upload_by_module/session_file/310419663029097403/okdVyULUcQxObjSw.png",
+  "A14": "https://files.manuscdn.com/user_upload_by_module/session_file/310419663029097403/zBTMGFZQZtYJFEbr.png",
+  "A15": "https://files.manuscdn.com/user_upload_by_module/session_file/310419663029097403/JGBlPjvEGFTwvRXG.png",
+  "A16": "https://files.manuscdn.com/user_upload_by_module/session_file/310419663029097403/JyQTWepmQCcMETbe.png",
+  "A17": "https://files.manuscdn.com/user_upload_by_module/session_file/310419663029097403/myFFhmvnAyscxCFM.png",
+  "A18": "https://files.manuscdn.com/user_upload_by_module/session_file/310419663029097403/oEtmeDDChvdieguM.png",
+  "A19": "https://files.manuscdn.com/user_upload_by_module/session_file/310419663029097403/EcGmOcpRrpcvVJyM.png",
+  "A2": "https://files.manuscdn.com/user_upload_by_module/session_file/310419663029097403/nRvkkCOjguZRDPwS.png",
+  "A20": "https://files.manuscdn.com/user_upload_by_module/session_file/310419663029097403/huousrRQavNyvsmp.png",
+  "A21": "https://files.manuscdn.com/user_upload_by_module/session_file/310419663029097403/jVGLixbNDBKORocO.png",
+  "A22": "https://files.manuscdn.com/user_upload_by_module/session_file/310419663029097403/PbZVMixCLznnCLkT.png",
+  "A23": "https://files.manuscdn.com/user_upload_by_module/session_file/310419663029097403/gfehlBUeSXHnoHdm.png",
+  "A24": "https://files.manuscdn.com/user_upload_by_module/session_file/310419663029097403/cQKbzaiZaemmBtxN.png",
+  "A25": "https://files.manuscdn.com/user_upload_by_module/session_file/310419663029097403/YjTtbuDeVufPBFLX.png",
+  "A26": "https://files.manuscdn.com/user_upload_by_module/session_file/310419663029097403/NGOwvAEdPhCTwJvp.png",
+  "A27": "https://files.manuscdn.com/user_upload_by_module/session_file/310419663029097403/IyUIIeummBVdtNiK.png",
+  "A28": "https://files.manuscdn.com/user_upload_by_module/session_file/310419663029097403/AxIsVCqVAIySFezM.png",
+  "A29": "https://files.manuscdn.com/user_upload_by_module/session_file/310419663029097403/ITNgJlsVifXbIKVJ.png",
+  "A3": "https://files.manuscdn.com/user_upload_by_module/session_file/310419663029097403/AqKvmHgsLXizjvXl.png",
+  "A30": "https://files.manuscdn.com/user_upload_by_module/session_file/310419663029097403/gbpJKPbANKRBbRrP.png",
+  "A31": "https://files.manuscdn.com/user_upload_by_module/session_file/310419663029097403/rtGaiNejaCSZiFwI.png",
+  "A32": "https://files.manuscdn.com/user_upload_by_module/session_file/310419663029097403/kWPDnXQtczeWXYJC.png",
+  "A33": "https://files.manuscdn.com/user_upload_by_module/session_file/310419663029097403/VcOUYxKHHFFuvQwN.png",
+  "A34": "https://files.manuscdn.com/user_upload_by_module/session_file/310419663029097403/uZAYgaAcOZqlpJse.png",
+  "A35": "https://files.manuscdn.com/user_upload_by_module/session_file/310419663029097403/wXBIUJKiBjTUKQSS.png",
+  "A36": "https://files.manuscdn.com/user_upload_by_module/session_file/310419663029097403/JCHROTMJYfSRnbTm.png",
+  "A37": "https://files.manuscdn.com/user_upload_by_module/session_file/310419663029097403/RLvbBhCsRLTHHkFb.png",
+  "A38": "https://files.manuscdn.com/user_upload_by_module/session_file/310419663029097403/SzqMZYemWOEEdKjn.png",
+  "A39": "https://files.manuscdn.com/user_upload_by_module/session_file/310419663029097403/wGeHgGjFzkERgWLD.png",
+  "A4": "https://files.manuscdn.com/user_upload_by_module/session_file/310419663029097403/hEoThcoRckuqKOLy.png",
+  "A40": "https://files.manuscdn.com/user_upload_by_module/session_file/310419663029097403/OpJMWbAxVYNNaYnQ.png",
+  "A41": "https://files.manuscdn.com/user_upload_by_module/session_file/310419663029097403/yYphhuqocsneDPGR.png",
+  "A42": "https://files.manuscdn.com/user_upload_by_module/session_file/310419663029097403/cYnIbNAdMyxwxIoL.png",
+  "A43": "https://files.manuscdn.com/user_upload_by_module/session_file/310419663029097403/adVfvcKVuxVkBONt.png",
+  "A44": "https://files.manuscdn.com/user_upload_by_module/session_file/310419663029097403/othwlNdwXBrUGiTN.png",
+  "A45": "https://files.manuscdn.com/user_upload_by_module/session_file/310419663029097403/aUOHgrXrvKaSgsvF.png",
+  "A46": "https://files.manuscdn.com/user_upload_by_module/session_file/310419663029097403/vTvImBeodsSmMwEh.png",
+  "A47": "https://files.manuscdn.com/user_upload_by_module/session_file/310419663029097403/FppPFMSSXVXEhWQL.png",
+  "A48": "https://files.manuscdn.com/user_upload_by_module/session_file/310419663029097403/gRRtxeexcVgFzrOU.png",
+  "A49": "https://files.manuscdn.com/user_upload_by_module/session_file/310419663029097403/nqfVifqKPMUQUPQa.png",
+  "A5": "https://files.manuscdn.com/user_upload_by_module/session_file/310419663029097403/jXIvVoTiMxIiKmeR.png",
+  "A50": "https://files.manuscdn.com/user_upload_by_module/session_file/310419663029097403/lnLyheMTRSPNkFHk.png",
+  "A51": "https://files.manuscdn.com/user_upload_by_module/session_file/310419663029097403/kiwuPwHNMGfbjGQk.png",
+  "A52": "https://files.manuscdn.com/user_upload_by_module/session_file/310419663029097403/fQIJUbxKtCDlXXox.png",
+  "A53": "https://files.manuscdn.com/user_upload_by_module/session_file/310419663029097403/ONPojDlDSeopMIYw.png",
+  "A54": "https://files.manuscdn.com/user_upload_by_module/session_file/310419663029097403/TAAqyjObyKbutNHf.png",
+  "A55": "https://files.manuscdn.com/user_upload_by_module/session_file/310419663029097403/rrPvsufRxfQSFTcS.png",
+  "A56": "https://files.manuscdn.com/user_upload_by_module/session_file/310419663029097403/PpFZPPMtCwQKpLLm.png",
+  "A57": "https://files.manuscdn.com/user_upload_by_module/session_file/310419663029097403/KfYcVISfuIEMAimL.png",
+  "A58": "https://files.manuscdn.com/user_upload_by_module/session_file/310419663029097403/wIPQKmOTEISTqXbg.png",
+  "A59": "https://files.manuscdn.com/user_upload_by_module/session_file/310419663029097403/dkFnvjonTJKDYLtb.png",
+  "A6": "https://files.manuscdn.com/user_upload_by_module/session_file/310419663029097403/gMKAYXmqQtcRYUGa.png",
+  "A60": "https://files.manuscdn.com/user_upload_by_module/session_file/310419663029097403/tzyOtdIANiNSnpfz.png",
+  "A61": "https://files.manuscdn.com/user_upload_by_module/session_file/310419663029097403/VtrrzXxNpwpsLLJl.png",
+  "A62": "https://files.manuscdn.com/user_upload_by_module/session_file/310419663029097403/tGbXRUDjthnGsctM.png",
+  "A63": "https://files.manuscdn.com/user_upload_by_module/session_file/310419663029097403/vVNfsghtqqDCEAxy.png",
+  "A64": "https://files.manuscdn.com/user_upload_by_module/session_file/310419663029097403/LvqUHItFTFhRKTgu.png",
+  "A65": "https://files.manuscdn.com/user_upload_by_module/session_file/310419663029097403/zUIyrxVaLmHQyYSs.png",
+  "A66": "https://files.manuscdn.com/user_upload_by_module/session_file/310419663029097403/NDkbmkBcwStYOLBl.png",
+  "A67": "https://files.manuscdn.com/user_upload_by_module/session_file/310419663029097403/UVeOSmRIOQyAAEfa.png",
+  "A68": "https://files.manuscdn.com/user_upload_by_module/session_file/310419663029097403/cOwDZmFxnxPFGNnv.png",
+  "A69": "https://files.manuscdn.com/user_upload_by_module/session_file/310419663029097403/FCpZPVKwxWwwYLzn.png",
+  "A7": "https://files.manuscdn.com/user_upload_by_module/session_file/310419663029097403/ysfGqyTcplmhqxVQ.png",
+  "A70": "https://files.manuscdn.com/user_upload_by_module/session_file/310419663029097403/rUOdeVtjGuyArKYp.png",
+  "A71": "https://files.manuscdn.com/user_upload_by_module/session_file/310419663029097403/IUCGOZPJMJZxctKJ.png",
+  "A72": "https://files.manuscdn.com/user_upload_by_module/session_file/310419663029097403/XRhMNCOPzTTyCtfV.png",
+  "A73": "https://files.manuscdn.com/user_upload_by_module/session_file/310419663029097403/YCXwOcFVexAYIxXQ.png",
+  "A74": "https://files.manuscdn.com/user_upload_by_module/session_file/310419663029097403/CzvqjwAcPFjZLTgC.png",
+  "A75": "https://files.manuscdn.com/user_upload_by_module/session_file/310419663029097403/bDpQbSySTNhdiSrn.png",
+  "A76": "https://files.manuscdn.com/user_upload_by_module/session_file/310419663029097403/FIzTFEDOphQXBrCi.png",
+  "A77": "https://files.manuscdn.com/user_upload_by_module/session_file/310419663029097403/krBkiWTCCVqBVrEp.png",
+  "A78": "https://files.manuscdn.com/user_upload_by_module/session_file/310419663029097403/haJJmyfEfuqaZGjj.png",
+  "A79": "https://files.manuscdn.com/user_upload_by_module/session_file/310419663029097403/kQnldduRDYGBSUPl.png",
+  "A8": "https://files.manuscdn.com/user_upload_by_module/session_file/310419663029097403/ATebDzhiAGcbCwjh.png",
+  "A80": "https://files.manuscdn.com/user_upload_by_module/session_file/310419663029097403/nbExtRSZNdLqEedS.png",
+  "A81": "https://files.manuscdn.com/user_upload_by_module/session_file/310419663029097403/vuibdaIcilSMtRto.png",
+  "A82": "https://files.manuscdn.com/user_upload_by_module/session_file/310419663029097403/yPXqZOrkHyyVUynX.png",
+  "A9": "https://files.manuscdn.com/user_upload_by_module/session_file/310419663029097403/aOPwNlywwBViXCoz.png",
+  "AG1": "https://files.manuscdn.com/user_upload_by_module/session_file/310419663029097403/UmsIxCljKFJbGxRR.png",
+  "AG2": "https://files.manuscdn.com/user_upload_by_module/session_file/310419663029097403/JRCZkOTZRgEwCGQB.png",
+  "AG3": "https://files.manuscdn.com/user_upload_by_module/session_file/310419663029097403/ABkVxRtiXKGINOwG.png",
+  "M1": "https://files.manuscdn.com/user_upload_by_module/session_file/310419663029097403/LCivoactXWydcCtZ.png",
+  "M2": "https://files.manuscdn.com/user_upload_by_module/session_file/310419663029097403/JFkgfuUOSaNUomfg.png",
+  "M3": "https://files.manuscdn.com/user_upload_by_module/session_file/310419663029097403/bLNovUeGbFoWQwYz.png",
+  "M4": "https://files.manuscdn.com/user_upload_by_module/session_file/310419663029097403/TKqdfMgMtJbHbyJu.png",
+  "T1": "https://files.manuscdn.com/user_upload_by_module/session_file/310419663029097403/ulwHyJyMZJWSVldB.png",
+  "T10": "https://files.manuscdn.com/user_upload_by_module/session_file/310419663029097403/aHJOAlVQEegyFLDM.png",
+  "T11": "https://files.manuscdn.com/user_upload_by_module/session_file/310419663029097403/GfvLRWwPuFLItekx.png",
+  "T12": "https://files.manuscdn.com/user_upload_by_module/session_file/310419663029097403/HJUzMcqSXnAxFYKd.png",
+  "T13": "https://files.manuscdn.com/user_upload_by_module/session_file/310419663029097403/MBqGHZbbjQyEHjaz.png",
+  "T14": "https://files.manuscdn.com/user_upload_by_module/session_file/310419663029097403/EgCxBtxjtGdYqpBM.png",
+  "T15": "https://files.manuscdn.com/user_upload_by_module/session_file/310419663029097403/kBTjtJDniEmLVraY.png",
+  "T16": "https://files.manuscdn.com/user_upload_by_module/session_file/310419663029097403/xjqUWMpfjkemCdjy.png",
+  "T17": "https://files.manuscdn.com/user_upload_by_module/session_file/310419663029097403/kLxyoTeKGWuBBClf.png",
+  "T2": "https://files.manuscdn.com/user_upload_by_module/session_file/310419663029097403/zGqCwHObeyfLaRCV.png",
+  "T3": "https://files.manuscdn.com/user_upload_by_module/session_file/310419663029097403/EnoclcmdMemdERVh.png",
+  "T4": "https://files.manuscdn.com/user_upload_by_module/session_file/310419663029097403/MAZFfveFHwYwvKXi.png",
+  "T5": "https://files.manuscdn.com/user_upload_by_module/session_file/310419663029097403/ROXQmxFaCpQamHDT.png",
+  "T6": "https://files.manuscdn.com/user_upload_by_module/session_file/310419663029097403/ibFQJDCypGBTDcCr.png",
+  "T7": "https://files.manuscdn.com/user_upload_by_module/session_file/310419663029097403/ugewbMlJLFnxhZFI.png",
+  "T8": "https://files.manuscdn.com/user_upload_by_module/session_file/310419663029097403/rzbGpMICAxuMHTyH.png",
+  "T9": "https://files.manuscdn.com/user_upload_by_module/session_file/310419663029097403/mVhRfOEuSEoTEFsp.png",
+  "business-1": "https://files.manuscdn.com/user_upload_by_module/session_file/310419663029097403/hwtFUYAEhOdOPufM.png",
+  "business-2": "https://files.manuscdn.com/user_upload_by_module/session_file/310419663029097403/zseZquIPLYRLZFsI.png",
+  "business-3": "https://files.manuscdn.com/user_upload_by_module/session_file/310419663029097403/IOxclraxyOxYahgM.png",
+  "business-4": "https://files.manuscdn.com/user_upload_by_module/session_file/310419663029097403/HmpAwThCxVxOllsp.png",
+  "people-1": "https://files.manuscdn.com/user_upload_by_module/session_file/310419663029097403/rKdndDZapkunnjeO.png",
+  "people-10": "https://files.manuscdn.com/user_upload_by_module/session_file/310419663029097403/eQbqkVtayDaYzXFU.png",
+  "people-11": "https://files.manuscdn.com/user_upload_by_module/session_file/310419663029097403/jNnKKZDmFdRmPnHv.png",
+  "people-12": "https://files.manuscdn.com/user_upload_by_module/session_file/310419663029097403/SDjIYKBWISiluIau.png",
+  "people-13": "https://files.manuscdn.com/user_upload_by_module/session_file/310419663029097403/VrkDJiVsAuuSTNGY.png",
+  "people-14": "https://files.manuscdn.com/user_upload_by_module/session_file/310419663029097403/QRWJpbxhyAgFOjkh.png",
+  "people-2": "https://files.manuscdn.com/user_upload_by_module/session_file/310419663029097403/mmxNQffPFaSeXaAb.png",
+  "people-3": "https://files.manuscdn.com/user_upload_by_module/session_file/310419663029097403/nAYIFTILitTaGqkI.png",
+  "people-4": "https://files.manuscdn.com/user_upload_by_module/session_file/310419663029097403/vmAoLEkyGpwPiGym.png",
+  "people-5": "https://files.manuscdn.com/user_upload_by_module/session_file/310419663029097403/TkjESKHAcZGjXLPY.png",
+  "people-6": "https://files.manuscdn.com/user_upload_by_module/session_file/310419663029097403/JiCwChaDGtlSnGEL.png",
+  "people-7": "https://files.manuscdn.com/user_upload_by_module/session_file/310419663029097403/OLjdcSJtvCALdill.png",
+  "people-8": "https://files.manuscdn.com/user_upload_by_module/session_file/310419663029097403/lDAYnNnkzJSrhHgl.png",
+  "people-9": "https://files.manuscdn.com/user_upload_by_module/session_file/310419663029097403/rCjoLcIuaBgztvri.png",
+  "phase-closure": "https://files.manuscdn.com/user_upload_by_module/session_file/310419663029097403/fisUtFPcWIiezOzf.png",
+  "phase-execution": "https://files.manuscdn.com/user_upload_by_module/session_file/310419663029097403/aizXqBMMQmsZgRcU.png",
+  "phase-setup": "https://files.manuscdn.com/user_upload_by_module/session_file/310419663029097403/LSOGUIlRglMNdiIa.png",
+  "process-1": "https://files.manuscdn.com/user_upload_by_module/session_file/310419663029097403/RjOBIgULdqIiYLva.png",
+  "process-10": "https://files.manuscdn.com/user_upload_by_module/session_file/310419663029097403/PTkkHeYPiTMIrvuW.png",
+  "process-11": "https://files.manuscdn.com/user_upload_by_module/session_file/310419663029097403/fpMYmYJyiwUdijnu.png",
+  "process-12": "https://files.manuscdn.com/user_upload_by_module/session_file/310419663029097403/ImhbHDLYnZCDppGa.png",
+  "process-13": "https://files.manuscdn.com/user_upload_by_module/session_file/310419663029097403/pUZPKiDAwhgBPxhb.png",
+  "process-14": "https://files.manuscdn.com/user_upload_by_module/session_file/310419663029097403/MqoElrisZKFdfMIC.png",
+  "process-15": "https://files.manuscdn.com/user_upload_by_module/session_file/310419663029097403/CZjluYtyKDMPghaj.png",
+  "process-16": "https://files.manuscdn.com/user_upload_by_module/session_file/310419663029097403/dRbcUGNZvISeXLDi.png",
+  "process-17": "https://files.manuscdn.com/user_upload_by_module/session_file/310419663029097403/XnMbabtTzsmXKXBY.png",
+  "process-2": "https://files.manuscdn.com/user_upload_by_module/session_file/310419663029097403/aTszlByyeCtmdaXj.png",
+  "process-3": "https://files.manuscdn.com/user_upload_by_module/session_file/310419663029097403/GegduBFfeTSgRWHG.png",
+  "process-4": "https://files.manuscdn.com/user_upload_by_module/session_file/310419663029097403/SwgiDbgfsuAlTUBJ.png",
+  "process-5": "https://files.manuscdn.com/user_upload_by_module/session_file/310419663029097403/fNJNsLpSmsJrBzsK.png",
+  "process-6": "https://files.manuscdn.com/user_upload_by_module/session_file/310419663029097403/yBaxmjbadmpnslpQ.png",
+  "process-7": "https://files.manuscdn.com/user_upload_by_module/session_file/310419663029097403/DNkimkFoBxkicaDN.png",
+  "process-8": "https://files.manuscdn.com/user_upload_by_module/session_file/310419663029097403/WAqHnxFUiQgbehvP.png",
+  "process-9": "https://files.manuscdn.com/user_upload_by_module/session_file/310419663029097403/PMMPXuTYeXUlebKs.png",
 };
+
+export const DECK_COVERS: Record<string, string> = {
+  "phases": "https://files.manuscdn.com/user_upload_by_module/session_file/310419663029097403/epNvaChDmInzjphr.png",
+  "archetypes": "https://files.manuscdn.com/user_upload_by_module/session_file/310419663029097403/UHlTjAHHMkQgHafH.png",
+  "methodologies": "https://files.manuscdn.com/user_upload_by_module/session_file/310419663029097403/bdAxarcmvXIHqVvw.png",
+  "people": "https://files.manuscdn.com/user_upload_by_module/session_file/310419663029097403/TOYDIIqTWyLFwfCY.png",
+  "process": "https://files.manuscdn.com/user_upload_by_module/session_file/310419663029097403/GrdQOwJjSnFKcKVn.png",
+  "business": "https://files.manuscdn.com/user_upload_by_module/session_file/310419663029097403/CbjqUzAWrljDJesJ.png",
+  "tools": "https://files.manuscdn.com/user_upload_by_module/session_file/310419663029097403/wYAdBnNHDXPbyggk.png",
+  "techniques": "https://files.manuscdn.com/user_upload_by_module/session_file/310419663029097403/nazJKMRPUyxDWRas.png",
+};
+
+export function getCardIllustration(cardId: string): string | undefined {
+  return CARD_ILLUSTRATIONS[cardId];
+}
+
+export function getDeckCover(deckId: string): string | undefined {
+  return DECK_COVERS[deckId];
+}

@@ -34,7 +34,7 @@ export interface DeckIntro {
 export const DECK_INTROS: DeckIntro[] = [
   {
     deckId: 'phases',
-    coverImage: 'https://files.manuscdn.com/user_upload_by_module/session_file/310419663029097403/cSQpYVEAfLPesRoG.png',
+    coverImage: 'https://files.manuscdn.com/user_upload_by_module/session_file/310419663029097403/epNvaChDmInzjphr.png',
     tagline: 'Navigate any project from first idea to final handover.',
     howToStart: [
       {
@@ -75,7 +75,7 @@ export const DECK_INTROS: DeckIntro[] = [
   },
   {
     deckId: 'archetypes',
-    coverImage: 'https://files.manuscdn.com/user_upload_by_module/session_file/310419663029097403/QEceUWieUQUtnEWH.png',
+    coverImage: 'https://files.manuscdn.com/user_upload_by_module/session_file/310419663029097403/UHlTjAHHMkQgHafH.png',
     tagline: 'Find the right approach before you commit to a methodology.',
     howToStart: [
       {
@@ -116,7 +116,7 @@ export const DECK_INTROS: DeckIntro[] = [
   },
   {
     deckId: 'methodologies',
-    coverImage: 'https://files.manuscdn.com/user_upload_by_module/session_file/310419663029097403/FssjyIjnhAtcPcBc.png',
+    coverImage: 'https://files.manuscdn.com/user_upload_by_module/session_file/310419663029097403/bdAxarcmvXIHqVvw.png',
     tagline: 'Choose the delivery approach that fits your project reality.',
     howToStart: [
       {
@@ -164,7 +164,7 @@ export const DECK_INTROS: DeckIntro[] = [
   },
   {
     deckId: 'people',
-    coverImage: 'https://files.manuscdn.com/user_upload_by_module/session_file/310419663029097403/yVhFWdfOogMnEhtQ.png',
+    coverImage: 'https://files.manuscdn.com/user_upload_by_module/session_file/310419663029097403/TOYDIIqTWyLFwfCY.png',
     tagline: 'Lead, motivate, and align the humans behind every project.',
     howToStart: [
       {
@@ -206,7 +206,7 @@ export const DECK_INTROS: DeckIntro[] = [
   },
   {
     deckId: 'process',
-    coverImage: 'https://files.manuscdn.com/user_upload_by_module/session_file/310419663029097403/yUmGACarpRuSKXfc.png',
+    coverImage: 'https://files.manuscdn.com/user_upload_by_module/session_file/310419663029097403/GrdQOwJjSnFKcKVn.png',
     tagline: 'Execute with rigour — scope, risk, budget, quality, and governance.',
     howToStart: [
       {
@@ -248,7 +248,7 @@ export const DECK_INTROS: DeckIntro[] = [
   },
   {
     deckId: 'business',
-    coverImage: 'https://files.manuscdn.com/user_upload_by_module/session_file/310419663029097403/XYeqTmtqvQMRTygX.png',
+    coverImage: 'https://files.manuscdn.com/user_upload_by_module/session_file/310419663029097403/CbjqUzAWrljDJesJ.png',
     tagline: 'Operate within the broader organisational and external context.',
     howToStart: [
       {
@@ -290,7 +290,7 @@ export const DECK_INTROS: DeckIntro[] = [
   },
   {
     deckId: 'tools',
-    coverImage: 'https://files.manuscdn.com/user_upload_by_module/session_file/310419663029097403/fgwrHgyStovMWziF.png',
+    coverImage: 'https://files.manuscdn.com/user_upload_by_module/session_file/310419663029097403/wYAdBnNHDXPbyggk.png',
     tagline: '17 practical templates ready to use on any project.',
     howToStart: [
       {
@@ -332,7 +332,7 @@ export const DECK_INTROS: DeckIntro[] = [
   },
   {
     deckId: 'techniques',
-    coverImage: 'https://files.manuscdn.com/user_upload_by_module/session_file/310419663029097403/SLetIrODidTBEINy.png',
+    coverImage: 'https://files.manuscdn.com/user_upload_by_module/session_file/310419663029097403/nazJKMRPUyxDWRas.png',
     tagline: '82 advanced techniques to deepen your project management mastery.',
     howToStart: [
       {
