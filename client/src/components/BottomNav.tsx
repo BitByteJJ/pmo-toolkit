@@ -49,6 +49,7 @@ export default function BottomNav() {
                 active ? 'bg-stone-100' : 'hover:bg-stone-50'
               }`}
             >
+              {/* Icon row with badge for bookmarks */}
               <div className="relative">
                 <Icon
                   size={20}
@@ -60,18 +61,26 @@ export default function BottomNav() {
                     {bookmarks.length > 9 ? '9+' : bookmarks.length}
                   </span>
                 )}
-                {isJourneyTab && (
-                  <span className="absolute -top-1.5 -right-1.5 flex items-center gap-px">
-                    {Array.from({ length: MAX_HEARTS }).map((_, i) => (
-                      <Heart
-                        key={i}
-                        size={7}
-                        className={i < journeyState.hearts ? 'text-rose-500 fill-rose-500' : 'text-stone-300 fill-stone-200'}
-                      />
-                    ))}
-                  </span>
-                )}
               </div>
+
+              {/* Hearts row — only on Journey tab, centred below icon */}
+              {isJourneyTab && (
+                <span className="flex items-center justify-center gap-px">
+                  {Array.from({ length: MAX_HEARTS }).map((_, i) => (
+                    <Heart
+                      key={i}
+                      size={6}
+                      className={
+                        i < journeyState.hearts
+                          ? 'text-rose-500 fill-rose-500'
+                          : 'text-stone-300 fill-stone-200'
+                      }
+                    />
+                  ))}
+                </span>
+              )}
+
+              {/* Label */}
               <span
                 className={`text-[9px] font-semibold leading-none ${
                   active ? 'text-stone-900' : 'text-stone-400'

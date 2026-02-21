@@ -469,7 +469,12 @@ export default function LessonPage() {
   }
 
   // ── Active lesson ────────────────────────────────────────────────────────
-  if (!state.activeSession || !currentQuestion) {
+  // IMPORTANT: Do NOT show "Loading lesson..." when pendingContinue is true.
+  // After answering the last question, questionIndex advances past the end
+  // (making currentQuestion null) BEFORE the user clicks Continue.
+  // In that state, pendingContinue=true and we still need to render the
+  // feedback panel with the Continue button.
+  if (!state.activeSession || (!currentQuestion && !pendingContinue)) {
     return (
       <div className="min-h-screen flex items-center justify-center">
         <div className="text-center px-6">

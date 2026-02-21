@@ -30,3 +30,5 @@
 - [x] 22 vitest unit tests for journey reducer logic (all passing)
 - [x] Fix: lesson hangs on "Loading lesson..." after the 5th question
 - [x] Fix: app completely inaccessible after last deployment (stale localStorage session + storage key bump)
+- [x] Fix: hearts icon misaligned in Journey bottom nav tab
+- [x] Fix: after lesson completion, journey map/lesson flow broken until page refresh
