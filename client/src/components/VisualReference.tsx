@@ -657,7 +657,7 @@ export function BalancedScorecardDiagram() {
     { label: 'FINANCIAL', kpis: ['Revenue +12%', 'Cost -8%'], color: LINE3, x: 160, y: 40 },
     { label: 'CUSTOMER', kpis: ['NPS 72', 'Retention 94%'], color: LINE, x: 80, y: 110 },
     { label: 'INTERNAL', kpis: ['Cycle time -20%', 'Defects -15%'], color: LINE2, x: 240, y: 110 },
-    { label: 'LEARNING', kpis: ['Training hrs', 'Innovation'], color: '#A78BFA', x: 160, y: 175 },
+    { label: 'LEARNING', kpis: ['Training hrs', 'Innovation'], color: '#A58BFA', x: 160, y: 175 },
   ];
   const center = { x: 160, y: 110 };
 
@@ -826,7 +826,7 @@ export function ScopeStatementDiagram() {
     { label: 'OBJECTIVES', items: ['Deliver MVP by Q3', 'Meet compliance'], color: LINE, x: 10, y: 10 },
     { label: 'DELIVERABLES', items: ['Software v1.0', 'User docs', 'Training'], color: LINE2, x: 10, y: 90 },
     { label: 'EXCLUSIONS', items: ['Phase 2 features', 'Legacy migration'], color: LINE3, x: 170, y: 10 },
-    { label: 'CONSTRAINTS', items: ['Budget: £500k', 'Timeline: 6mo'], color: '#A78BFA', x: 170, y: 110 },
+    { label: 'CONSTRAINTS', items: ['Budget: £500k', 'Timeline: 6mo'], color: '#A58BFA', x: 170, y: 110 },
   ];
 
   return (
@@ -1112,7 +1112,7 @@ export function KanbanMethodDiagram() {
     { label: 'LEAD TIME', value: '8 days', color: LINE3 },
     { label: 'CYCLE TIME', value: '3 days', color: LINE },
     { label: 'THROUGHPUT', value: '4/wk', color: LINE2 },
-    { label: 'WIP LIMIT', value: '3 items', color: '#A78BFA' },
+    { label: 'WIP LIMIT', value: '3 items', color: '#A58BFA' },
   ];
 
   return (
@@ -1306,7 +1306,7 @@ export function PeopleDiagram({ title }: { title?: string }) {
     { label: 'PM', x: cx, y: cy, r: 18, color: LINE, main: true },
     { label: 'TEAM', x: cx - 80, y: cy - 40, r: 13, color: LINE2 },
     { label: 'SPONSOR', x: cx + 80, y: cy - 40, r: 13, color: LINE3 },
-    { label: 'STAKEHOLDERS', x: cx - 70, y: cy + 55, r: 13, color: '#A78BFA' },
+    { label: 'STAKEHOLDERS', x: cx - 70, y: cy + 55, r: 13, color: '#A58BFA' },
     { label: 'VENDORS', x: cx + 70, y: cy + 55, r: 13, color: LINE },
   ];
 
@@ -1554,7 +1554,7 @@ export function TuckmanDiagram() {
 }
 
 // ═══════════════════════════════════════════════════════════════════════════════
-// A17/A77 — Risk Matrix (Probability × Impact)
+// A14/A57 — Risk Matrix (Probability × Impact)
 // ═══════════════════════════════════════════════════════════════════════════════
 export function RiskMatrixDiagram() {
   const svgW = 320; const svgH = 200;
@@ -1609,7 +1609,7 @@ export function RiskMatrixDiagram() {
 }
 
 // ═══════════════════════════════════════════════════════════════════════════════
-// A21 — Six Sigma DMAIC
+// A18 — Six Sigma DMAIC
 // ═══════════════════════════════════════════════════════════════════════════════
 export function DMAICDiagram() {
   const svgW = 320; const svgH = 160;
@@ -1622,7 +1622,7 @@ export function DMAICDiagram() {
   ];
   const w = (svgW - 20) / 5;
   return (
-    <DiagramWrapper label="SIX SIGMA DMAIC // A21">
+    <DiagramWrapper label="SIX SIGMA DMAIC // A18">
       <svg viewBox={`0 0 ${svgW} ${svgH}`} className="w-full" style={{ display: 'block' }}>
         <GridBg w={svgW} h={svgH} />
         {steps.map((s, i) => {
@@ -1648,7 +1648,7 @@ export function DMAICDiagram() {
 }
 
 // ═══════════════════════════════════════════════════════════════════════════════
-// A35 — Kotter's 8 Steps
+// A28 — Kotter's 8 Steps
 // ═══════════════════════════════════════════════════════════════════════════════
 export function KotterDiagram() {
   const svgW = 320; const svgH = 200;
@@ -1658,7 +1658,7 @@ export function KotterDiagram() {
   ];
   const colors = [LINE3, LINE3, LINE, LINE, LINE2, LINE2, LINE, LINE2];
   return (
-    <DiagramWrapper label="KOTTER'S 8 STEPS // A35">
+    <DiagramWrapper label="KOTTER'S 8 STEPS // A28">
       <svg viewBox={`0 0 ${svgW} ${svgH}`} className="w-full" style={{ display: 'block' }}>
         <GridBg w={svgW} h={svgH} />
         {steps.map((s, i) => {
@@ -1688,7 +1688,7 @@ export function KotterDiagram() {
 }
 
 // ═══════════════════════════════════════════════════════════════════════════════
-// A39 — SWOT Analysis
+// A32 — SWOT Analysis
 // ═══════════════════════════════════════════════════════════════════════════════
 export function SWOTDiagram() {
   const svgW = 320; const svgH = 200;
@@ -1699,7 +1699,7 @@ export function SWOTDiagram() {
     { label: 'THREATS', sub: 'External · Negative', color: '#FF2244', x: 164, y: 104 },
   ];
   return (
-    <DiagramWrapper label="SWOT ANALYSIS // A39">
+    <DiagramWrapper label="SWOT ANALYSIS // A32">
       <svg viewBox={`0 0 ${svgW} ${svgH}`} className="w-full" style={{ display: 'block' }}>
         <GridBg w={svgW} h={svgH} />
         {quads.map((q, i) => (
@@ -1723,7 +1723,7 @@ export function SWOTDiagram() {
 }
 
 // ═══════════════════════════════════════════════════════════════════════════════
-// A47 — PDCA Cycle
+// A40 — PDCA Cycle
 // ═══════════════════════════════════════════════════════════════════════════════
 export function PDCADiagram() {
   const svgW = 320; const svgH = 200;
@@ -1735,7 +1735,7 @@ export function PDCADiagram() {
     { label: 'ACT', sub: 'Standardise', color: LINE, angle: 135 },
   ];
   return (
-    <DiagramWrapper label="PDCA CYCLE // A47">
+    <DiagramWrapper label="PDCA CYCLE // A40">
       <svg viewBox={`0 0 ${svgW} ${svgH}`} className="w-full" style={{ display: 'block' }}>
         <GridBg w={svgW} h={svgH} />
         <circle cx={cx} cy={cy} r={R} fill="none" stroke={DIM} strokeWidth="1" opacity="0.3" />
@@ -1767,7 +1767,7 @@ export function PDCADiagram() {
 }
 
 // ═══════════════════════════════════════════════════════════════════════════════
-// A75 — ADKAR Model
+// A55 — ADKAR Model
 // ═══════════════════════════════════════════════════════════════════════════════
 export function ADKARDiagram() {
   const svgW = 320; const svgH = 160;
@@ -1780,7 +1780,7 @@ export function ADKARDiagram() {
   ];
   const w = (svgW - 20) / 5;
   return (
-    <DiagramWrapper label="ADKAR MODEL // A75">
+    <DiagramWrapper label="ADKAR MODEL // A55">
       <svg viewBox={`0 0 ${svgW} ${svgH}`} className="w-full" style={{ display: 'block' }}>
         <GridBg w={svgW} h={svgH} />
         {steps.map((s, i) => {
@@ -1806,7 +1806,7 @@ export function ADKARDiagram() {
 }
 
 // ═══════════════════════════════════════════════════════════════════════════════
-// A29 — 5 Whys (drill-down chain)
+// A23 — 5 Whys (drill-down chain)
 // ═══════════════════════════════════════════════════════════════════════════════
 export function FiveWhysDiagram() {
   const svgW = 320; const svgH = 200;
@@ -1819,7 +1819,7 @@ export function FiveWhysDiagram() {
     { label: 'ROOT CAUSE', sub: 'Process gap', color: LINE2, y: 188 },
   ];
   return (
-    <DiagramWrapper label="5 WHYS ROOT CAUSE // A29">
+    <DiagramWrapper label="5 WHYS ROOT CAUSE // A23">
       <svg viewBox={`0 0 ${svgW} ${svgH + 10}`} className="w-full" style={{ display: 'block' }}>
         <GridBg w={svgW} h={svgH + 10} />
         {levels.map((l, i) => (
@@ -1844,7 +1844,7 @@ export function FiveWhysDiagram() {
 }
 
 // ═══════════════════════════════════════════════════════════════════════════════
-// A38 — Pareto Chart
+// A31 — Pareto Chart
 // ═══════════════════════════════════════════════════════════════════════════════
 export function ParetoDiagram() {
   const svgW = 320; const svgH = 200;
@@ -1857,7 +1857,7 @@ export function ParetoDiagram() {
   ];
   const barW = 44; const maxH = 120; const ox = 40; const oy = 160;
   return (
-    <DiagramWrapper label="PARETO CHART // A38">
+    <DiagramWrapper label="PARETO CHART // A31">
       <svg viewBox={`0 0 ${svgW} ${svgH}`} className="w-full" style={{ display: 'block' }}>
         <GridBg w={svgW} h={svgH} />
         {/* 80% line */}
@@ -1892,7 +1892,7 @@ export function ParetoDiagram() {
 }
 
 // ═══════════════════════════════════════════════════════════════════════════════
-// A40 — WSJF Prioritisation
+// A33 — WSJF Prioritisation
 // ═══════════════════════════════════════════════════════════════════════════════
 export function WSJFDiagram() {
   const svgW = 320; const svgH = 200;
@@ -1904,7 +1904,7 @@ export function WSJFDiagram() {
     { label: 'Nice-to-have', cod: 2, size: 8, wsjf: 0.3, color: DIM },
   ];
   return (
-    <DiagramWrapper label="WSJF PRIORITISATION // A40">
+    <DiagramWrapper label="WSJF PRIORITISATION // A33">
       <svg viewBox={`0 0 ${svgW} ${svgH}`} className="w-full" style={{ display: 'block' }}>
         <GridBg w={svgW} h={svgH} />
         {/* Header */}
@@ -1930,7 +1930,7 @@ export function WSJFDiagram() {
 }
 
 // ═══════════════════════════════════════════════════════════════════════════════
-// A55 — Porter's Five Forces
+// A72 — Porter's Five Forces
 // ═══════════════════════════════════════════════════════════════════════════════
 export function FiveForcesD() {
   const svgW = 320; const svgH = 200;
@@ -1942,7 +1942,7 @@ export function FiveForcesD() {
     { label: 'SUBSTITUTES', sub: 'Threat', color: LINE3, x: cx, y: 180 },
   ];
   return (
-    <DiagramWrapper label="PORTER'S FIVE FORCES // A55">
+    <DiagramWrapper label="PORTER'S FIVE FORCES // A72">
       <svg viewBox={`0 0 ${svgW} ${svgH}`} className="w-full" style={{ display: 'block' }}>
         <GridBg w={svgW} h={svgH} />
         {/* Center */}
@@ -1973,7 +1973,7 @@ export function FiveForcesD() {
 }
 
 // ═══════════════════════════════════════════════════════════════════════════════
-// A58 — BCG Matrix
+// A75 — BCG Matrix
 // ═══════════════════════════════════════════════════════════════════════════════
 export function BCGDiagram() {
   const svgW = 320; const svgH = 200;
@@ -1984,7 +1984,7 @@ export function BCGDiagram() {
     { label: 'DOG', sub: 'Low growth · Low share', color: DIM, x: 10, y: 104 },
   ];
   return (
-    <DiagramWrapper label="BCG MATRIX // A58">
+    <DiagramWrapper label="BCG MATRIX // A75">
       <svg viewBox={`0 0 ${svgW} ${svgH}`} className="w-full" style={{ display: 'block' }}>
         <GridBg w={svgW} h={svgH} />
         {quads.map((q, i) => (
@@ -3269,7 +3269,7 @@ export function SituationalLeadershipDiagram() {
     { label: 'SUPPORTING', sub: 'Low task · High support', x: 245, y: 135, c: LINE2 },
   ];
   return (
-    <DiagramWrapper label="SITUATIONAL LEADERSHIP MODEL // A53">
+    <DiagramWrapper label="SITUATIONAL LEADERSHIP MODEL // A71">
       <svg viewBox={`0 0 ${W} ${H}`} className="w-full" style={{ display: 'block' }}>
         <GridBg w={W} h={H} />
         <line x1={160} y1={10} x2={160} y2={H-10} stroke={DIM} strokeWidth="1" opacity="0.5" />
@@ -3389,11 +3389,11 @@ export function KaizenDiagram() {
 }
 
 
-// A13 — Reverse Mentoring
+// A11 — Reverse Mentoring
 export function ReverseMentoringDiagram() {
   const W = 320; const H = 180;
   return (
-    <DiagramWrapper label="REVERSE MENTORING EXCHANGE // A13">
+    <DiagramWrapper label="REVERSE MENTORING EXCHANGE // A11">
       <svg viewBox={`0 0 ${W} ${H}`} className="w-full" style={{ display: 'block' }}>
         <GridBg w={W} h={H} />
         <rect x={20} y={40} width={110} height={90} rx="6" fill={LINE2} opacity="0.1" />
@@ -3419,14 +3419,14 @@ export function ReverseMentoringDiagram() {
   );
 }
 
-// A14 — Design Thinking
+// A12 — Design Thinking
 export function DesignThinkingDiagram() {
   const W = 320; const H = 180;
   const phases = ['EMPATHISE','DEFINE','IDEATE','PROTOTYPE','TEST'];
   const xs = [30, 95, 160, 225, 290];
   const colors = [LINE2, LINE, LINE3, LINE, LINE2];
   return (
-    <DiagramWrapper label="DESIGN THINKING PROCESS // A37">
+    <DiagramWrapper label="DESIGN THINKING PROCESS // A30">
       <svg viewBox={`0 0 ${W} ${H}`} className="w-full" style={{ display: 'block' }}>
         <GridBg w={W} h={H} />
         {phases.map((p, i) => (
@@ -3448,13 +3448,13 @@ export function DesignThinkingDiagram() {
   );
 }
 
-// A15 — Lean Startup
+// A13 — Lean Startup
 export function LeanStartupDiagram() {
   const W = 320; const H = 180;
   const cx = 160; const cy = 90;
   const steps = ['BUILD','MEASURE','LEARN'];
   return (
-    <DiagramWrapper label="LEAN STARTUP BUILD-MEASURE-LEARN // A15">
+    <DiagramWrapper label="LEAN STARTUP BUILD-MEASURE-LEARN // A13">
       <svg viewBox={`0 0 ${W} ${H}`} className="w-full" style={{ display: 'block' }}>
         <GridBg w={W} h={H} />
         <circle cx={cx} cy={cy} r={60} fill="none" stroke={DIM} strokeWidth="0.5" strokeDasharray="4,2" opacity="0.3" />
@@ -3483,7 +3483,7 @@ export function LeanStartupDiagram() {
   );
 }
 
-// A16 — Agile Scaling
+// A61 — Agile Scaling
 export function AgileScalingDiagram() {
   const W = 320; const H = 180;
   const frameworks = [
@@ -3495,7 +3495,7 @@ export function AgileScalingDiagram() {
     { label: 'DA', sub: 'Disciplined Agile', x: 265, y: 130, c: LINE3 },
   ];
   return (
-    <DiagramWrapper label="AGILE SCALING FRAMEWORKS // A16">
+    <DiagramWrapper label="AGILE SCALING FRAMEWORKS // A61">
       <svg viewBox={`0 0 ${W} ${H}`} className="w-full" style={{ display: 'block' }}>
         <GridBg w={W} h={H} />
         {frameworks.map((f, i) => (
@@ -3512,7 +3512,7 @@ export function AgileScalingDiagram() {
   );
 }
 
-// A18 — Sprint Planning
+// A15 — Sprint Planning
 export function SprintPlanningDiagram() {
   const W = 320; const H = 180;
   const items = [
@@ -3521,7 +3521,7 @@ export function SprintPlanningDiagram() {
     { label: 'SPRINT GOAL', items: ['Deliver MVP','By Friday','Demo ready'], x: 230, c: LINE2 },
   ];
   return (
-    <DiagramWrapper label="SPRINT PLANNING BOARD // A18">
+    <DiagramWrapper label="SPRINT PLANNING BOARD // A15">
       <svg viewBox={`0 0 ${W} ${H}`} className="w-full" style={{ display: 'block' }}>
         <GridBg w={W} h={H} />
         {items.map((col, i) => (
@@ -3544,7 +3544,7 @@ export function SprintPlanningDiagram() {
   );
 }
 
-// A19 — Retrospective
+// A16 — Retrospective
 export function RetrospectiveDiagram() {
   const W = 320; const H = 180;
   const columns = [
@@ -3553,7 +3553,7 @@ export function RetrospectiveDiagram() {
     { label: 'ACTION ▶', items: ['Add buffer','Weekly risk'], c: LINE },
   ];
   return (
-    <DiagramWrapper label="RETROSPECTIVE BOARD // A19">
+    <DiagramWrapper label="RETROSPECTIVE BOARD // A16">
       <svg viewBox={`0 0 ${W} ${H}`} className="w-full" style={{ display: 'block' }}>
         <GridBg w={W} h={H} />
         {columns.map((col, i) => (
@@ -3576,7 +3576,7 @@ export function RetrospectiveDiagram() {
   );
 }
 
-// A20 — Velocity Tracking
+// A17 — Velocity Tracking
 export function VelocityDiagram() {
   const W = 320; const H = 180;
   const sprints = ['S1','S2','S3','S4','S5','S6'];
@@ -3586,7 +3586,7 @@ export function VelocityDiagram() {
   const toY = (v: number) => H - 30 - (v / maxV) * (H - 55);
   const toX = (i: number) => 30 + i * 50;
   return (
-    <DiagramWrapper label="SPRINT VELOCITY CHART // A20">
+    <DiagramWrapper label="SPRINT VELOCITY CHART // A17">
       <svg viewBox={`0 0 ${W} ${H}`} className="w-full" style={{ display: 'block' }}>
         <GridBg w={W} h={H} />
         <line x1={20} y1={toY(avg)} x2={W-10} y2={toY(avg)} stroke={LINE3} strokeWidth="0.8" strokeDasharray="4,2" opacity="0.5" />
@@ -3609,7 +3609,7 @@ export function VelocityDiagram() {
   );
 }
 
-// A22 — Value Stream Mapping
+// A62 — Value Stream Mapping
 export function ValueStreamDiagram() {
   const W = 320; const H = 180;
   const steps = [
@@ -3620,7 +3620,7 @@ export function ValueStreamDiagram() {
     { label: 'SHIP', va: 1, nva: 1, x: 295 },
   ];
   return (
-    <DiagramWrapper label="VALUE STREAM MAP // A41">
+    <DiagramWrapper label="VALUE STREAM MAP // A34">
       <svg viewBox={`0 0 ${W} ${H}`} className="w-full" style={{ display: 'block' }}>
         <GridBg w={W} h={H} />
         {steps.map((s, i) => (
@@ -3644,13 +3644,13 @@ export function ValueStreamDiagram() {
   );
 }
 
-// A23 — Lean Principles
+// A19 — Lean Principles
 export function LeanPrinciplesDiagram() {
   const W = 320; const H = 180;
   const principles = ['DEFINE VALUE','MAP VALUE STREAM','CREATE FLOW','ESTABLISH PULL','SEEK PERFECTION'];
   const xs = [30, 95, 160, 225, 290];
   return (
-    <DiagramWrapper label="5 LEAN PRINCIPLES // A23">
+    <DiagramWrapper label="5 LEAN PRINCIPLES // A19">
       <svg viewBox={`0 0 ${W} ${H}`} className="w-full" style={{ display: 'block' }}>
         <GridBg w={W} h={H} />
         {principles.map((p, i) => {
@@ -3673,13 +3673,13 @@ export function LeanPrinciplesDiagram() {
   );
 }
 
-// A24 — Theory of Constraints
+// A20 — Theory of Constraints
 export function TOCDiagram() {
   const W = 320; const H = 180;
   const steps = ['IDENTIFY\\nCONSTRAINT','EXPLOIT\\nCONSTRAINT','SUBORDINATE\\nEVERYTHING','ELEVATE\\nCONSTRAINT','REPEAT'];
   const xs = [30, 95, 160, 225, 290];
   return (
-    <DiagramWrapper label="THEORY OF CONSTRAINTS // A66">
+    <DiagramWrapper label="THEORY OF CONSTRAINTS // A47">
       <svg viewBox={`0 0 ${W} ${H}`} className="w-full" style={{ display: 'block' }}>
         <GridBg w={W} h={H} />
         {steps.map((s, i) => {
@@ -3703,7 +3703,7 @@ export function TOCDiagram() {
   );
 }
 
-// A25 — Cynefin Framework
+// A21 — Cynefin Framework
 export function CynefinDiagram() {
   const W = 320; const H = 180;
   const cx = 160; const cy = 90;
@@ -3715,7 +3715,7 @@ export function CynefinDiagram() {
     { label: 'DISORDER', sub: 'Unknown domain', x: cx, y: cy, c: LABEL },
   ];
   return (
-    <DiagramWrapper label="CYNEFIN FRAMEWORK // A73">
+    <DiagramWrapper label="CYNEFIN FRAMEWORK // A53">
       <svg viewBox={`0 0 ${W} ${H}`} className="w-full" style={{ display: 'block' }}>
         <GridBg w={W} h={H} />
         <line x1={cx} y1={10} x2={cx} y2={H-10} stroke={DIM} strokeWidth="1" opacity="0.4" />
@@ -3745,7 +3745,7 @@ export function CynefinDiagram() {
   );
 }
 
-// A26 — Systems Thinking
+// A63 — Systems Thinking
 export function SystemsThinkingDiagram() {
   const W = 320; const H = 180;
   const cx = 160; const cy = 90;
@@ -3756,7 +3756,7 @@ export function SystemsThinkingDiagram() {
     { label: 'FEEDBACK', x: cx, y: 145, c: LINE },
   ];
   return (
-    <DiagramWrapper label="SYSTEMS THINKING MODEL // A26">
+    <DiagramWrapper label="SYSTEMS THINKING MODEL // A63">
       <svg viewBox={`0 0 ${W} ${H}`} className="w-full" style={{ display: 'block' }}>
         <GridBg w={W} h={H} />
         <line x1={70} y1={cy} x2={cx-28} y2={55} stroke={LINE} strokeWidth="0.8" strokeDasharray="3,2" opacity="0.5" />
@@ -3776,7 +3776,7 @@ export function SystemsThinkingDiagram() {
   );
 }
 
-// A27 — Complexity Theory
+// A22 — Complexity Theory
 export function ComplexityDiagram() {
   const W = 320; const H = 180;
   const zones = [
@@ -3786,7 +3786,7 @@ export function ComplexityDiagram() {
     { label: 'CHAOTIC', sub: 'Novel practice', x: 245, y: 135, c: LINE3 },
   ];
   return (
-    <DiagramWrapper label="COMPLEXITY ZONES // A27">
+    <DiagramWrapper label="COMPLEXITY ZONES // A22">
       <svg viewBox={`0 0 ${W} ${H}`} className="w-full" style={{ display: 'block' }}>
         <GridBg w={W} h={H} />
         <line x1={160} y1={10} x2={160} y2={H-10} stroke={DIM} strokeWidth="1" opacity="0.4" />
@@ -3807,7 +3807,7 @@ export function ComplexityDiagram() {
   );
 }
 
-// A28 — Scenario Planning
+// A64 — Scenario Planning
 export function ScenarioPlanningDiagram() {
   const W = 320; const H = 180;
   const cx = 160; const cy = 90;
@@ -3818,7 +3818,7 @@ export function ScenarioPlanningDiagram() {
     { label: 'WILD CARD', sub: 'Regulatory block', x: cx - 90, y: cy, c: LINE3 },
   ];
   return (
-    <DiagramWrapper label="SCENARIO PLANNING // A34">
+    <DiagramWrapper label="SCENARIO PLANNING // A27">
       <svg viewBox={`0 0 ${W} ${H}`} className="w-full" style={{ display: 'block' }}>
         <GridBg w={W} h={H} />
         {scenarios.map((s, i) => (
@@ -3842,7 +3842,7 @@ export function ScenarioPlanningDiagram() {
   );
 }
 
-// A30 — Affinity Mapping
+// A24 — Affinity Mapping
 export function AffinityDiagram() {
   const W = 320; const H = 180;
   const clusters = [
@@ -3851,7 +3851,7 @@ export function AffinityDiagram() {
     { label: 'TECHNOLOGY', items: ['Legacy tools','No API'], x: 220, c: LINE2 },
   ];
   return (
-    <DiagramWrapper label="AFFINITY MAP // A30">
+    <DiagramWrapper label="AFFINITY MAP // A24">
       <svg viewBox={`0 0 ${W} ${H}`} className="w-full" style={{ display: 'block' }}>
         <GridBg w={W} h={H} />
         {clusters.map((col, i) => (
@@ -3874,7 +3874,7 @@ export function AffinityDiagram() {
   );
 }
 
-// A31 — Nominal Group Technique
+// A25 — Nominal Group Technique
 export function NGTDiagram() {
   const W = 320; const H = 180;
   const ideas = [
@@ -3885,7 +3885,7 @@ export function NGTDiagram() {
     { label: 'Improve comms', votes: 2, c: DIM },
   ];
   return (
-    <DiagramWrapper label="NOMINAL GROUP TECHNIQUE // A31">
+    <DiagramWrapper label="NOMINAL GROUP TECHNIQUE // A25">
       <svg viewBox={`0 0 ${W} ${H}`} className="w-full" style={{ display: 'block' }}>
         <GridBg w={W} h={H} />
         {ideas.map((idea, i) => {
@@ -3905,7 +3905,7 @@ export function NGTDiagram() {
   );
 }
 
-// A32 — Delphi Technique (Advanced)
+// A65 — Delphi Technique (Advanced)
 export function DelphiAdvancedDiagram() {
   const W = 320; const H = 180;
   const rounds = [
@@ -3914,7 +3914,7 @@ export function DelphiAdvancedDiagram() {
     { round: 'ROUND 3', range: '11-13 months', consensus: 85, c: LINE2 },
   ];
   return (
-    <DiagramWrapper label="DELPHI CONSENSUS CONVERGENCE // A32">
+    <DiagramWrapper label="DELPHI CONSENSUS CONVERGENCE // A65">
       <svg viewBox={`0 0 ${W} ${H}`} className="w-full" style={{ display: 'block' }}>
         <GridBg w={W} h={H} />
         {rounds.map((r, i) => {
@@ -3936,14 +3936,14 @@ export function DelphiAdvancedDiagram() {
   );
 }
 
-// A33 — TRIZ
+// A26 — TRIZ
 export function TRIZDiagram() {
   const W = 320; const H = 180;
   const steps = ['SPECIFIC\\nPROBLEM','ABSTRACT\\nPROBLEM','ABSTRACT\\nSOLUTION','SPECIFIC\\nSOLUTION'];
   const xs = [40, 130, 190, 280];
   const ys = [50, 50, 130, 130];
   return (
-    <DiagramWrapper label="TRIZ PROBLEM-SOLVING MODEL // A67">
+    <DiagramWrapper label="TRIZ PROBLEM-SOLVING MODEL // A78">
       <svg viewBox={`0 0 ${W} ${H}`} className="w-full" style={{ display: 'block' }}>
         <GridBg w={W} h={H} />
         <line x1={xs[0]+28} y1={ys[0]} x2={xs[1]-28} y2={ys[1]} stroke={LINE3} strokeWidth="1" strokeDasharray="3,2" opacity="0.5" />
@@ -3969,7 +3969,7 @@ export function TRIZDiagram() {
   );
 }
 
-// A34 — Lateral Thinking
+// A27 — Lateral Thinking
 export function LateralThinkingDiagram() {
   const W = 320; const H = 180;
   const hats = [
@@ -3981,7 +3981,7 @@ export function LateralThinkingDiagram() {
     { label: 'BLUE', sub: 'Process', x: 240, y: 135, c: LINE },
   ];
   return (
-    <DiagramWrapper label="SIX THINKING HATS // A34">
+    <DiagramWrapper label="SIX THINKING HATS // A27">
       <svg viewBox={`0 0 ${W} ${H}`} className="w-full" style={{ display: 'block' }}>
         <GridBg w={W} h={H} />
         {hats.map((h, i) => (
@@ -3998,14 +3998,14 @@ export function LateralThinkingDiagram() {
   );
 }
 
-// A36 — Appreciative Inquiry
+// A29 — Appreciative Inquiry
 export function AppreciativeInquiryDiagram() {
   const W = 320; const H = 180;
   const phases = ['DISCOVER','DREAM','DESIGN','DELIVER'];
   const xs = [40, 120, 200, 280];
   const colors = [LINE, LINE2, LINE2, LINE3];
   return (
-    <DiagramWrapper label="APPRECIATIVE INQUIRY 4D MODEL // A36">
+    <DiagramWrapper label="APPRECIATIVE INQUIRY 4D MODEL // A29">
       <svg viewBox={`0 0 ${W} ${H}`} className="w-full" style={{ display: 'block' }}>
         <GridBg w={W} h={H} />
         {phases.map((p, i) => {
@@ -4028,11 +4028,11 @@ export function AppreciativeInquiryDiagram() {
   );
 }
 
-// A37 — Future State Mapping
+// A30 — Future State Mapping
 export function FutureStateDiagram() {
   const W = 320; const H = 180;
   return (
-    <DiagramWrapper label="CURRENT → FUTURE STATE MAP // A37">
+    <DiagramWrapper label="CURRENT → FUTURE STATE MAP // A30">
       <svg viewBox={`0 0 ${W} ${H}`} className="w-full" style={{ display: 'block' }}>
         <GridBg w={W} h={H} />
         <rect x={10} y={30} width={120} height={120} rx="6" fill={LINE3} opacity="0.08" />
@@ -4055,13 +4055,13 @@ export function FutureStateDiagram() {
   );
 }
 
-// A41 — SAFe PI Planning
+// A34 — SAFe PI Planning
 export function PIPlanningDiagram() {
   const W = 320; const H = 180;
   const teams = ['Team A','Team B','Team C'];
   const sprints = ['S1','S2','S3','S4','IP'];
   return (
-    <DiagramWrapper label="SAFe PI PLANNING BOARD // A41">
+    <DiagramWrapper label="SAFe PI PLANNING BOARD // A34">
       <svg viewBox={`0 0 ${W} ${H}`} className="w-full" style={{ display: 'block' }}>
         <GridBg w={W} h={H} />
         {sprints.map((s, i) => (
@@ -4089,11 +4089,11 @@ export function PIPlanningDiagram() {
   );
 }
 
-// A42 — OKR Cascade
+// A35 — OKR Cascade
 export function OKRCascadeDiagram() {
   const W = 320; const H = 180;
   return (
-    <DiagramWrapper label="OKR CASCADE // A42">
+    <DiagramWrapper label="OKR CASCADE // A35">
       <svg viewBox={`0 0 ${W} ${H}`} className="w-full" style={{ display: 'block' }}>
         <GridBg w={W} h={H} />
         <rect x={80} y={10} width={160} height={36} rx="4" fill={LINE2} opacity="0.1" />
@@ -4126,7 +4126,7 @@ export function OKRCascadeDiagram() {
   );
 }
 
-// A43 — Portfolio Management
+// A36 — Portfolio Management
 export function PortfolioDiagram() {
   const W = 320; const H = 180;
   const projects = [
@@ -4139,7 +4139,7 @@ export function PortfolioDiagram() {
   const toX = (e: number) => 30 + (e / 100) * 260;
   const toY = (v: number) => H - 20 - (v / 100) * (H - 40);
   return (
-    <DiagramWrapper label="PORTFOLIO BUBBLE CHART // A43">
+    <DiagramWrapper label="PORTFOLIO BUBBLE CHART // A36">
       <svg viewBox={`0 0 ${W} ${H}`} className="w-full" style={{ display: 'block' }}>
         <GridBg w={W} h={H} />
         <line x1={25} y1={H-18} x2={W-10} y2={H-18} stroke={DIM} strokeWidth="1" opacity="0.5" />
@@ -4159,7 +4159,7 @@ export function PortfolioDiagram() {
   );
 }
 
-// A44 — Program Management
+// A37 — Program Management
 export function ProgramMgmtDiagram() {
   const W = 320; const H = 180;
   const projects = [
@@ -4172,7 +4172,7 @@ export function ProgramMgmtDiagram() {
   ];
   const cx = 160; const cy = 90;
   return (
-    <DiagramWrapper label="PROGRAM MANAGEMENT STRUCTURE // A44">
+    <DiagramWrapper label="PROGRAM MANAGEMENT STRUCTURE // A37">
       <svg viewBox={`0 0 ${W} ${H}`} className="w-full" style={{ display: 'block' }}>
         <GridBg w={W} h={H} />
         {projects.map((p, i) => (
@@ -4195,7 +4195,7 @@ export function ProgramMgmtDiagram() {
   );
 }
 
-// A45 — Benefits Realisation
+// A38 — Benefits Realisation
 export function BenefitsRealisationDiagram() {
   const W = 320; const H = 180;
   const benefits = [
@@ -4205,7 +4205,7 @@ export function BenefitsRealisationDiagram() {
     { label: 'Time-to-mkt -30%', actual: 40, target: 100, c: LINE3 },
   ];
   return (
-    <DiagramWrapper label="BENEFITS REALISATION TRACKER // A33">
+    <DiagramWrapper label="BENEFITS REALISATION TRACKER // A26">
       <svg viewBox={`0 0 ${W} ${H}`} className="w-full" style={{ display: 'block' }}>
         <GridBg w={W} h={H} />
         {benefits.map((b, i) => {
@@ -4227,7 +4227,7 @@ export function BenefitsRealisationDiagram() {
   );
 }
 
-// A46 — Change Impact Assessment
+// A39 — Change Impact Assessment
 export function ChangeImpactDiagram() {
   const W = 320; const H = 180;
   const areas = [
@@ -4239,7 +4239,7 @@ export function ChangeImpactDiagram() {
     { label: 'SYSTEMS', impact: 'MED', readiness: 'HIGH', x: 265, y: 130, c: LINE2 },
   ];
   return (
-    <DiagramWrapper label="CHANGE IMPACT ASSESSMENT // A46">
+    <DiagramWrapper label="CHANGE IMPACT ASSESSMENT // A39">
       <svg viewBox={`0 0 ${W} ${H}`} className="w-full" style={{ display: 'block' }}>
         <GridBg w={W} h={H} />
         {areas.map((a, i) => (
@@ -4257,7 +4257,7 @@ export function ChangeImpactDiagram() {
   );
 }
 
-// A48 — Earned Schedule
+// A66 — Earned Schedule
 export function EarnedScheduleDiagram() {
   const W = 320; const H = 180;
   const months = ['M1','M2','M3','M4','M5','M6'];
@@ -4266,7 +4266,7 @@ export function EarnedScheduleDiagram() {
   const toY = (v: number) => H - 25 - (v / 110) * (H - 50);
   const toX = (i: number) => 30 + i * 50;
   return (
-    <DiagramWrapper label="EARNED SCHEDULE (ES) // A48">
+    <DiagramWrapper label="EARNED SCHEDULE (ES) // A66">
       <svg viewBox={`0 0 ${W} ${H}`} className="w-full" style={{ display: 'block' }}>
         <GridBg w={W} h={H} />
         <polyline points={months.map((_, i) => `${toX(i)},${toY(pv[i])}`).join(' ')} fill="none" stroke={LINE2} strokeWidth="1.5" style={{ filter: GLOW2 }} />
@@ -4288,7 +4288,7 @@ export function EarnedScheduleDiagram() {
   );
 }
 
-// A49 — Critical Path Method
+// A67 — Critical Path Method
 export function CPMDiagram() {
   const W = 320; const H = 180;
   const nodes = [
@@ -4305,7 +4305,7 @@ export function CPMDiagram() {
     { from: 3, to: 5, cp: false }, { from: 4, to: 5, cp: true },
   ];
   return (
-    <DiagramWrapper label="CRITICAL PATH METHOD // A49">
+    <DiagramWrapper label="CRITICAL PATH METHOD // A67">
       <svg viewBox={`0 0 ${W} ${H}`} className="w-full" style={{ display: 'block' }}>
         <GridBg w={W} h={H} />
         {edges.map((e, i) => (
@@ -4329,7 +4329,7 @@ export function CPMDiagram() {
   );
 }
 
-// A50 — Resource Levelling
+// A68 — Resource Levelling
 export function ResourceLevellingDiagram() {
   const W = 320; const H = 180;
   const weeks = ['W1','W2','W3','W4','W5','W6'];
@@ -4339,7 +4339,7 @@ export function ResourceLevellingDiagram() {
   const toY = (v: number) => H - 25 - (v / 7) * (H - 50);
   const toX = (i: number) => 30 + i * 46;
   return (
-    <DiagramWrapper label="RESOURCE LEVELLING // A50">
+    <DiagramWrapper label="RESOURCE LEVELLING // A68">
       <svg viewBox={`0 0 ${W} ${H}`} className="w-full" style={{ display: 'block' }}>
         <GridBg w={W} h={H} />
         <line x1={20} y1={toY(capacity)} x2={W-10} y2={toY(capacity)} stroke={LINE3} strokeWidth="0.8" strokeDasharray="4,2" opacity="0.6" />
@@ -4361,12 +4361,12 @@ export function ResourceLevellingDiagram() {
   );
 }
 
-// A51 — Agile Estimation
+// A69 — Agile Estimation
 export function AgileEstimationDiagram() {
   const W = 320; const H = 180;
   const cards = ['1','2','3','5','8','13','21','?'];
   return (
-    <DiagramWrapper label="PLANNING POKER // A51">
+    <DiagramWrapper label="PLANNING POKER // A69">
       <svg viewBox={`0 0 ${W} ${H}`} className="w-full" style={{ display: 'block' }}>
         <GridBg w={W} h={H} />
         {cards.map((c, i) => {
@@ -4390,7 +4390,7 @@ export function AgileEstimationDiagram() {
   );
 }
 
-// A52 — Dependency Mapping
+// A70 — Dependency Mapping
 export function DependencyMapDiagram() {
   const W = 320; const H = 180;
   const nodes = [
@@ -4403,7 +4403,7 @@ export function DependencyMapDiagram() {
   ];
   const deps = [[0,1],[0,3],[1,2],[1,4],[2,5],[3,5],[4,5]];
   return (
-    <DiagramWrapper label="DEPENDENCY MAP // A52">
+    <DiagramWrapper label="DEPENDENCY MAP // A70">
       <svg viewBox={`0 0 ${W} ${H}`} className="w-full" style={{ display: 'block' }}>
         <GridBg w={W} h={H} />
         {deps.map((d, i) => (
@@ -4423,7 +4423,7 @@ export function DependencyMapDiagram() {
   );
 }
 
-// A53 — Assumption Log
+// A71 — Assumption Log
 export function AssumptionLogDiagram() {
   const W = 320; const H = 180;
   const rows = [
@@ -4434,7 +4434,7 @@ export function AssumptionLogDiagram() {
     { id: 'A5', assumption: 'Market demand stable', risk: 'LOW', c: LINE2 },
   ];
   return (
-    <DiagramWrapper label="ASSUMPTION LOG // A53">
+    <DiagramWrapper label="ASSUMPTION LOG // A71">
       <svg viewBox={`0 0 ${W} ${H}`} className="w-full" style={{ display: 'block' }}>
         <GridBg w={W} h={H} />
         {['ID','ASSUMPTION','RISK'].map((h, i) => (
@@ -4456,7 +4456,7 @@ export function AssumptionLogDiagram() {
   );
 }
 
-// A54 — Issue Log
+// A41 — Issue Log
 export function IssueLogDiagram() {
   const W = 320; const H = 180;
   const issues = [
@@ -4490,7 +4490,7 @@ export function IssueLogDiagram() {
   );
 }
 
-// A56 — Blue Ocean Strategy
+// A73 — Blue Ocean Strategy
 export function BlueOceanDiagram() {
   const W = 320; const H = 180;
   const factors = ['Price','Service','Features','Speed','Support'];
@@ -4499,7 +4499,7 @@ export function BlueOceanDiagram() {
   const toX = (i: number) => 30 + i * 62;
   const toY = (v: number) => H - 25 - (v / 100) * (H - 50);
   return (
-    <DiagramWrapper label="BLUE OCEAN STRATEGY CANVAS // A56">
+    <DiagramWrapper label="BLUE OCEAN STRATEGY CANVAS // A73">
       <svg viewBox={`0 0 ${W} ${H}`} className="w-full" style={{ display: 'block' }}>
         <GridBg w={W} h={H} />
         <polyline points={factors.map((_, i) => `${toX(i)},${toY(redOcean[i])}`).join(' ')} fill="none" stroke={LINE3} strokeWidth="1.2" strokeDasharray="3,2" opacity="0.7" />
@@ -4519,7 +4519,7 @@ export function BlueOceanDiagram() {
   );
 }
 
-// A57 — Customer Journey Mapping
+// A74 — Customer Journey Mapping
 export function CustomerJourneyDiagram() {
   const W = 320; const H = 180;
   const stages = ['AWARE','CONSIDER','PURCHASE','USE','ADVOCATE'];
@@ -4527,7 +4527,7 @@ export function CustomerJourneyDiagram() {
   const xs = [30, 95, 160, 225, 290];
   const toY = (v: number) => H - 30 - v * 100;
   return (
-    <DiagramWrapper label="CUSTOMER JOURNEY MAP // A57">
+    <DiagramWrapper label="CUSTOMER JOURNEY MAP // A74">
       <svg viewBox={`0 0 ${W} ${H}`} className="w-full" style={{ display: 'block' }}>
         <GridBg w={W} h={H} />
         <polyline points={xs.map((x, i) => `${x},${toY(sentiment[i])}`).join(' ')} fill="none" stroke={LINE2} strokeWidth="1.5" style={{ filter: GLOW2 }} />
@@ -4545,7 +4545,7 @@ export function CustomerJourneyDiagram() {
   );
 }
 
-// A59 — Ansoff Matrix
+// A42 — Ansoff Matrix
 export function AnsoffDiagram() {
   const W = 320; const H = 180;
   const quads = [
@@ -4555,7 +4555,7 @@ export function AnsoffDiagram() {
     { label: 'DIVERSIFICATION', sub: 'New prod · New mkt', x: 245, y: 135, c: LINE3 },
   ];
   return (
-    <DiagramWrapper label="ANSOFF GROWTH MATRIX // A59">
+    <DiagramWrapper label="ANSOFF GROWTH MATRIX // A42">
       <svg viewBox={`0 0 ${W} ${H}`} className="w-full" style={{ display: 'block' }}>
         <GridBg w={W} h={H} />
         <line x1={160} y1={10} x2={160} y2={H-10} stroke={DIM} strokeWidth="1" opacity="0.4" />
@@ -4577,7 +4577,7 @@ export function AnsoffDiagram() {
   );
 }
 
-// A60 — Influence Mapping
+// A43 — Influence Mapping
 export function InfluenceMapDiagram() {
   const W = 320; const H = 180;
   const cx = 160; const cy = 90;
@@ -4589,7 +4589,7 @@ export function InfluenceMapDiagram() {
     { label: 'Vendor', influence: 50, interest: 70, x: cx, y: cy - 70, c: LINE },
   ];
   return (
-    <DiagramWrapper label="INFLUENCE MAP // A60">
+    <DiagramWrapper label="INFLUENCE MAP // A43">
       <svg viewBox={`0 0 ${W} ${H}`} className="w-full" style={{ display: 'block' }}>
         <GridBg w={W} h={H} />
         {stakeholders.map((s, i) => (
@@ -4614,7 +4614,7 @@ export function InfluenceMapDiagram() {
   );
 }
 
-// A61 — Political Mapping
+// A76 — Political Mapping
 export function PoliticalMapDiagram() {
   const W = 320; const H = 180;
   const stakeholders = [
@@ -4625,7 +4625,7 @@ export function PoliticalMapDiagram() {
     { label: 'REGULATOR', pos: 'WATCHDOG', x: 80, y: 40, c: LINE3 },
   ];
   return (
-    <DiagramWrapper label="POLITICAL MAP // A61">
+    <DiagramWrapper label="POLITICAL MAP // A76">
       <svg viewBox={`0 0 ${W} ${H}`} className="w-full" style={{ display: 'block' }}>
         <GridBg w={W} h={H} />
         <line x1={10} y1={H/2} x2={W-10} y2={H/2} stroke={DIM} strokeWidth="0.8" strokeDasharray="4,2" opacity="0.3" />
@@ -4645,7 +4645,7 @@ export function PoliticalMapDiagram() {
   );
 }
 
-// A62 — Coalition Building
+// A77 — Coalition Building
 export function CoalitionDiagram() {
   const W = 320; const H = 180;
   const cx = 160; const cy = 90;
@@ -4658,7 +4658,7 @@ export function CoalitionDiagram() {
     { label: 'COMMS', x: cx - 80, y: cy - 20, c: LINE },
   ];
   return (
-    <DiagramWrapper label="COALITION BUILDING // A62">
+    <DiagramWrapper label="COALITION BUILDING // A77">
       <svg viewBox={`0 0 ${W} ${H}`} className="w-full" style={{ display: 'block' }}>
         <GridBg w={W} h={H} />
         {members.map((m, i) => {
@@ -4684,7 +4684,7 @@ export function CoalitionDiagram() {
   );
 }
 
-// A63 — Executive Communication
+// A44 — Executive Communication
 export function ExecCommsDiagram() {
   const W = 320; const H = 180;
   const formats = [
@@ -4696,7 +4696,7 @@ export function ExecCommsDiagram() {
     { label: 'DECISION LOG', sub: 'Actions & owners', x: 265, y: 130, c: LINE2 },
   ];
   return (
-    <DiagramWrapper label="EXECUTIVE COMMUNICATION FORMATS // A63">
+    <DiagramWrapper label="EXECUTIVE COMMUNICATION FORMATS // A44">
       <svg viewBox={`0 0 ${W} ${H}`} className="w-full" style={{ display: 'block' }}>
         <GridBg w={W} h={H} />
         {formats.map((f, i) => (
@@ -4713,7 +4713,7 @@ export function ExecCommsDiagram() {
   );
 }
 
-// A64 — Meeting Facilitation
+// A45 — Meeting Facilitation
 export function MeetingFacilitationDiagram() {
   const W = 320; const H = 180;
   const phases = [
@@ -4724,7 +4724,7 @@ export function MeetingFacilitationDiagram() {
     { label: 'FOLLOW-UP', sub: 'Minutes · Track', x: 300, c: LINE },
   ];
   return (
-    <DiagramWrapper label="MEETING FACILITATION FLOW // A64">
+    <DiagramWrapper label="MEETING FACILITATION FLOW // A45">
       <svg viewBox={`0 0 ${W} ${H}`} className="w-full" style={{ display: 'block' }}>
         <GridBg w={W} h={H} />
         {phases.map((p, i) => (
@@ -4744,7 +4744,7 @@ export function MeetingFacilitationDiagram() {
   );
 }
 
-// A65 — Presentation Skills
+// A46 — Presentation Skills
 export function PresentationDiagram() {
   const W = 320; const H = 180;
   const elements = [
@@ -4756,7 +4756,7 @@ export function PresentationDiagram() {
     { label: 'CLOSE', sub: 'Memorable end', x: 265, y: 130, c: LINE2 },
   ];
   return (
-    <DiagramWrapper label="PRESENTATION STRUCTURE // A65">
+    <DiagramWrapper label="PRESENTATION STRUCTURE // A46">
       <svg viewBox={`0 0 ${W} ${H}`} className="w-full" style={{ display: 'block' }}>
         <GridBg w={W} h={H} />
         {elements.map((e, i) => (
@@ -4773,7 +4773,7 @@ export function PresentationDiagram() {
   );
 }
 
-// A66 — Storytelling
+// A47 — Storytelling
 export function StorytellingDiagram() {
   const W = 320; const H = 180;
   const arc = [
@@ -4784,7 +4784,7 @@ export function StorytellingDiagram() {
     { label: 'RESOLVE', sub: 'Outcome', x: 290, y: 80, c: LINE2 },
   ];
   return (
-    <DiagramWrapper label="STORY ARC // A66">
+    <DiagramWrapper label="STORY ARC // A47">
       <svg viewBox={`0 0 ${W} ${H}`} className="w-full" style={{ display: 'block' }}>
         <GridBg w={W} h={H} />
         <polyline points={arc.map(a => `${a.x},${a.y}`).join(' ')} fill="none" stroke={LINE} strokeWidth="1" strokeDasharray="4,2" opacity="0.3" />
@@ -4801,7 +4801,7 @@ export function StorytellingDiagram() {
   );
 }
 
-// A67 — Data Visualisation
+// A78 — Data Visualisation
 export function DataVizDiagram() {
   const W = 320; const H = 180;
   const charts = [
@@ -4813,7 +4813,7 @@ export function DataVizDiagram() {
     { label: 'WATERFALL', sub: 'Cumulative change', x: 265, y: 130, c: LINE2 },
   ];
   return (
-    <DiagramWrapper label="CHART SELECTION GUIDE // A67">
+    <DiagramWrapper label="CHART SELECTION GUIDE // A78">
       <svg viewBox={`0 0 ${W} ${H}`} className="w-full" style={{ display: 'block' }}>
         <GridBg w={W} h={H} />
         {charts.map((c, i) => (
@@ -4830,11 +4830,11 @@ export function DataVizDiagram() {
   );
 }
 
-// A68 — Dashboard Design
+// A48 — Dashboard Design
 export function DashboardDesignDiagram() {
   const W = 320; const H = 180;
   return (
-    <DiagramWrapper label="DASHBOARD LAYOUT // A68">
+    <DiagramWrapper label="DASHBOARD LAYOUT // A48">
       <svg viewBox={`0 0 ${W} ${H}`} className="w-full" style={{ display: 'block' }}>
         <GridBg w={W} h={H} />
         {/* KPI row */}
@@ -4864,7 +4864,7 @@ export function DashboardDesignDiagram() {
   );
 }
 
-// A69 — Reporting Frameworks
+// A49 — Reporting Frameworks
 export function ReportingDiagram() {
   const W = 320; const H = 180;
   const sections = [
@@ -4874,7 +4874,7 @@ export function ReportingDiagram() {
     { label: 'RISKS & ISSUES', sub: 'Top 3 · Mitigations', y: 126, c: LINE3 },
   ];
   return (
-    <DiagramWrapper label="PROJECT STATUS REPORT STRUCTURE // A69">
+    <DiagramWrapper label="PROJECT STATUS REPORT STRUCTURE // A49">
       <svg viewBox={`0 0 ${W} ${H}`} className="w-full" style={{ display: 'block' }}>
         <GridBg w={W} h={H} />
         {sections.map((s, i) => (
@@ -4894,7 +4894,7 @@ export function ReportingDiagram() {
 }
 
 
-// A70 — Mind Mapping
+// A50 — Mind Mapping
 export function MindMapDiagram() {
   const W = 320; const H = 180;
   const cx = 160; const cy = 90;
@@ -4928,7 +4928,7 @@ export function MindMapDiagram() {
   );
 }
 
-// A71 — Concept Mapping
+// A51 — Concept Mapping
 export function ConceptMapDiagram() {
   const W = 320; const H = 180;
   const nodes = [
@@ -4941,7 +4941,7 @@ export function ConceptMapDiagram() {
   ];
   const edges = [[0,1],[0,2],[0,3],[1,4],[2,4],[3,5],[2,5]];
   return (
-    <DiagramWrapper label="CONCEPT MAP // A71">
+    <DiagramWrapper label="CONCEPT MAP // A51">
       <svg viewBox={`0 0 ${W} ${H}`} className="w-full" style={{ display: 'block' }}>
         <GridBg w={W} h={H} />
         {edges.map((e, i) => (
@@ -4964,7 +4964,7 @@ export function ConceptMapDiagram() {
 
 
 
-// A74 — After Action Review
+// A54 — After Action Review
 export function AARDiagram() {
   const W = 320; const H = 180;
   const questions = [
@@ -4974,7 +4974,7 @@ export function AARDiagram() {
     { q: 'WHAT DO WE DO NOW?', a: 'Dual-source all critical components', c: LINE2 },
   ];
   return (
-    <DiagramWrapper label="AFTER ACTION REVIEW // A74">
+    <DiagramWrapper label="AFTER ACTION REVIEW // A54">
       <svg viewBox={`0 0 ${W} ${H}`} className="w-full" style={{ display: 'block' }}>
         <GridBg w={W} h={H} />
         {questions.map((item, i) => (
@@ -4991,7 +4991,7 @@ export function AARDiagram() {
   );
 }
 
-// A75 — Continuous Improvement (PDCA)
+// A55 — Continuous Improvement (PDCA)
 export function ContinuousImprovementDiagram() {
   const W = 320; const H = 180;
   const cx = 160; const cy = 90;
@@ -4999,7 +4999,7 @@ export function ContinuousImprovementDiagram() {
   const angles = [-Math.PI/2, 0, Math.PI/2, Math.PI];
   const colors = [LINE2, LINE, LINE3, LINE2];
   return (
-    <DiagramWrapper label="PDCA CYCLE // A75">
+    <DiagramWrapper label="PDCA CYCLE // A55">
       <svg viewBox={`0 0 ${W} ${H}`} className="w-full" style={{ display: 'block' }}>
         <GridBg w={W} h={H} />
         <circle cx={cx} cy={cy} r={60} fill="none" stroke={DIM} strokeWidth="0.5" strokeDasharray="4,2" opacity="0.3" />
@@ -5025,14 +5025,14 @@ export function ContinuousImprovementDiagram() {
   );
 }
 
-// A77 — Six Sigma DMAIC
+// A57 — Six Sigma DMAIC
 export function SixSigmaDiagram() {
   const W = 320; const H = 180;
   const phases = ['DEFINE','MEASURE','ANALYSE','IMPROVE','CONTROL'];
   const xs = [30, 95, 160, 225, 290];
   const colors = [LINE3, LINE, LINE, LINE2, LINE2];
   return (
-    <DiagramWrapper label="DMAIC ROADMAP // A21">
+    <DiagramWrapper label="DMAIC ROADMAP // A18">
       <svg viewBox={`0 0 ${W} ${H}`} className="w-full" style={{ display: 'block' }}>
         <GridBg w={W} h={H} />
         {phases.map((p, i) => {
@@ -5055,7 +5055,7 @@ export function SixSigmaDiagram() {
   );
 }
 
-// A78 — TQM Pillars
+// A58 — TQM Pillars
 export function TQMDiagram() {
   const W = 320; const H = 180;
   const pillars = [
@@ -5067,7 +5067,7 @@ export function TQMDiagram() {
     { label: 'CONTINUAL IMPROVEMENT', x: 265, y: 130, c: LINE2 },
   ];
   return (
-    <DiagramWrapper label="TQM PILLARS // A78">
+    <DiagramWrapper label="TQM PILLARS // A58">
       <svg viewBox={`0 0 ${W} ${H}`} className="w-full" style={{ display: 'block' }}>
         <GridBg w={W} h={H} />
         {pillars.map((p, i) => (
@@ -8038,7 +8038,7 @@ export function AgileWaterfallHybridDiagram() {
 
 export function PMBOKProcessGroupsDiagram() {
   return (
-    <DiagramWrapper label="PROJECT PROCESS GROUPS // A74">
+    <DiagramWrapper label="PROJECT PROCESS GROUPS // A54">
       <svg viewBox="0 0 320 200" className="w-full h-full">
         <defs><filter id="glow-process"><feGaussianBlur stdDeviation="1.5" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs>
         {[{x:40,y:100,r:28,label:"INITIATING",sub:"2 processes"},{x:105,y:100,r:38,label:"PLANNING",sub:"24 processes"},{x:185,y:100,r:42,label:"EXECUTING",sub:"10 processes"},{x:260,y:100,r:32,label:"CLOSING",sub:"1 process"}].map((pg,i)=>(
@@ -8746,76 +8746,76 @@ export function getVisualReference(cardId: string): React.ReactElement | null {
   if (cardId === 'A8') return <ZOPABATNADiagram />;                // ZOPA & BATNA
   if (cardId === 'A9') return <CoCreationDiagram />;               // Co-Creation Workshops
   if (cardId === 'A10') return <MindMapDiagram />;                 // Mind Mapping
-  if (cardId === 'A11') return <VirtualBrainstormDiagram />;       // Virtual Brainstorming Software
-  if (cardId === 'A12') return <SocialContractingDiagram />;       // Social Contracting
-  if (cardId === 'A13') return <ReverseMentoringDiagram />;        // Reverse Mentoring
-  if (cardId === 'A14') return <EmpathyMapDiagram />;              // Empathy Mapping
-  if (cardId === 'A15') return <LeanStartupDiagram />;             // Lean Startup Pilot
-  if (cardId === 'A16') return <VisualDashboardDiagram />;         // Visual Communications Dashboard
+  if (cardId === 'A59') return <VirtualBrainstormDiagram />;       // Virtual Brainstorming Software
+  if (cardId === 'A60') return <SocialContractingDiagram />;       // Social Contracting
+  if (cardId === 'A11') return <ReverseMentoringDiagram />;        // Reverse Mentoring
+  if (cardId === 'A12') return <EmpathyMapDiagram />;              // Empathy Mapping
+  if (cardId === 'A13') return <LeanStartupDiagram />;             // Lean Startup Pilot
+  if (cardId === 'A61') return <VisualDashboardDiagram />;         // Visual Communications Dashboard
 
   // Planning & Estimation
-  if (cardId === 'A17') return <QuantRiskDiagram />;               // Quantitative Risk Analysis
-  if (cardId === 'A18') return <StakeholderEngagementDiagram />; // Stakeholder Engagement Matrix
-  if (cardId === 'A19') return <ZeroBasedBudgetDiagram />;         // Zero-Based Budgeting
-  if (cardId === 'A20') return <PERTDiagram />;                    // PERT Analysis
-  if (cardId === 'A21') return <SixSigmaDiagram />;                // Six Sigma DMAIC
-  if (cardId === 'A22') return <RTMDiagram />;                     // Requirements Traceability Matrix
-  if (cardId === 'A23') return <RollingWaveDiagram />;             // Rolling Wave Planning
-  if (cardId === 'A24') return <IntegratedChangeControlDiagram />;        // Integrated Change Control
-  if (cardId === 'A25') return <ShouldCostDiagram />;              // Should-Cost Analysis
-  if (cardId === 'A26') return <DMSAutomationDiagram />;           // Document Management System Automation
-  if (cardId === 'A27') return <AgileWaterfallHybridDiagram />;    // Agile-Waterfall Hybrid Mapping
-  if (cardId === 'A28') return <LightweightGovernanceDiagram />;   // Lightweight Governance Model
-  if (cardId === 'A29') return <FiveWhysDiagram />;                // Root Cause Analysis (5 Whys)
-  if (cardId === 'A30') return <KCSDiagram />;                     // Knowledge-Centred Service (KCS)
-  if (cardId === 'A31') return <PostImplReviewDiagram />;          // Post-Implementation Review
-  if (cardId === 'A32') return <ComplianceDiagram />;           // Compliance Gap Assessment
-  if (cardId === 'A33') return <BenefitsRealisationDiagram />;     // Benefits Realisation Management
-  if (cardId === 'A34') return <ScenarioPlanningDiagram />;        // Scenario Planning
-  if (cardId === 'A35') return <Kotter8StepDiagram />;             // Kotter's 8-Step Change Model
-  if (cardId === 'A36') return <CCPMDiagram />;                    // Critical Chain PM (CCPM)
-  if (cardId === 'A37') return <DesignThinkingDiagram />;          // Design Thinking
-  if (cardId === 'A38') return <ParetoAnalysisDiagram />;          // Pareto Analysis
-  if (cardId === 'A39') return <SWOTDiagram />;                    // SWOT Analysis
-  if (cardId === 'A40') return <WJSFDiagram />;                    // Weighted Shortest Job First (WSJF)
-  if (cardId === 'A41') return <ValueStreamDiagram />;             // Value Stream Mapping
-  if (cardId === 'A42') return <TimeboxingDiagram />;              // Timeboxing
-  if (cardId === 'A43') return <LewinChangeDiagram />;             // Lewin's Change Model
-  if (cardId === 'A44') return <McKinsey7SDiagram />;              // McKinsey 7S Framework
-  if (cardId === 'A45') return <BelbinDiagram />;                  // Belbin Team Roles
-  if (cardId === 'A46') return <FiveDysfunctionsDiagram />;        // 5 Dysfunctions of a Team
-  if (cardId === 'A47') return <PDCADiagram />;                    // PDCA Cycle
-  if (cardId === 'A48') return <NudgeTheoryDiagram />;             // Nudge Theory
-  if (cardId === 'A49') return <MaslowDiagram />;                  // Maslow's Hierarchy of Needs
-  if (cardId === 'A50') return <DiffusionOfInnovationDiagram />;   // Rogers' Diffusion of Innovation
-  if (cardId === 'A51') return <ThreeHorizonsDiagram />;           // McKinsey's 3 Horizons
-  if (cardId === 'A52') return <ForceFieldAdvancedDiagram />;      // Lewin's Force Field Analysis
-  if (cardId === 'A53') return <SituationalLeadershipDiagram />;   // Hersey-Blanchard Situational Leadership
-  if (cardId === 'A54') return <EightDDiagram />;                  // 8D Problem Solving
-  if (cardId === 'A55') return <FiveForcesPorterDiagram />;        // Porter's Five Forces
-  if (cardId === 'A56') return <ExpectancyTheoryDiagram />;        // Vroom's Expectancy Theory
-  if (cardId === 'A57') return <CulturalWebDiagram />;             // The Cultural Web
-  if (cardId === 'A58') return <CompetitiveIntelligenceDiagram />;               // BCG Matrix
-  if (cardId === 'A59') return <SCARFDiagram />;                   // SCARF Model
-  if (cardId === 'A60') return <TKIDiagram />;                     // TKI Conflict Modes
-  if (cardId === 'A61') return <BridgesTransitionDiagram />;       // Bridges' Transition Model
-  if (cardId === 'A62') return <KublerRossDiagram />;              // Kübler-Ross Change Curve
-  if (cardId === 'A63') return <TannenbaumSchmidtDiagram />;       // Tannenbaum-Schmidt Continuum
-  if (cardId === 'A64') return <JohariWindowDiagram />;            // Johari Window
-  if (cardId === 'A65') return <A3ProblemSolvingDiagram />;        // A3 Problem Solving
-  if (cardId === 'A66') return <TOCDiagram />;                     // Theory of Constraints (TOC)
-  if (cardId === 'A67') return <TRIZDiagram />;                    // TRIZ
-  if (cardId === 'A68') return <ResponsibilityMatrixDiagram />;    // Freedman's Responsibility Matrix
-  if (cardId === 'A69') return <ThreeHDiagram />;                  // Heart, Head, Hands (3H)
-  if (cardId === 'A70') return <SoftSystemsDiagram />;             // Soft Systems Methodology (SSM)
-  if (cardId === 'A71') return <OpenSpaceDiagram />;               // Open Space Technology
-  if (cardId === 'A72') return <DACIDiagram />;                    // DACI Decision Framework
-  if (cardId === 'A73') return <CynefinDiagram />;                 // Cynefin Framework
-  if (cardId === 'A74') return <PMBOKProcessGroupsDiagram />;      // PMBOK Process Groups
-  if (cardId === 'A75') return <ADKARDiagram />;                   // ADKAR® Model
-  if (cardId === 'A76') return <McClellandDiagram />;              // McClelland's Achievement Theory
-  if (cardId === 'A77') return <ProbabilityImpactDiagram />;       // Probability & Impact Matrix
-  if (cardId === 'A78') return <LessonsLearnedProcessDiagram />;   // Lessons Learned
+  if (cardId === 'A14') return <QuantRiskDiagram />;               // Quantitative Risk Analysis
+  if (cardId === 'A15') return <StakeholderEngagementDiagram />; // Stakeholder Engagement Matrix
+  if (cardId === 'A16') return <ZeroBasedBudgetDiagram />;         // Zero-Based Budgeting
+  if (cardId === 'A17') return <PERTDiagram />;                    // PERT Analysis
+  if (cardId === 'A18') return <SixSigmaDiagram />;                // Six Sigma DMAIC
+  if (cardId === 'A62') return <RTMDiagram />;                     // Requirements Traceability Matrix
+  if (cardId === 'A19') return <RollingWaveDiagram />;             // Rolling Wave Planning
+  if (cardId === 'A20') return <IntegratedChangeControlDiagram />;        // Integrated Change Control
+  if (cardId === 'A21') return <ShouldCostDiagram />;              // Should-Cost Analysis
+  if (cardId === 'A63') return <DMSAutomationDiagram />;           // Document Management System Automation
+  if (cardId === 'A22') return <AgileWaterfallHybridDiagram />;    // Agile-Waterfall Hybrid Mapping
+  if (cardId === 'A64') return <LightweightGovernanceDiagram />;   // Lightweight Governance Model
+  if (cardId === 'A23') return <FiveWhysDiagram />;                // Root Cause Analysis (5 Whys)
+  if (cardId === 'A24') return <KCSDiagram />;                     // Knowledge-Centred Service (KCS)
+  if (cardId === 'A25') return <PostImplReviewDiagram />;          // Post-Implementation Review
+  if (cardId === 'A65') return <ComplianceDiagram />;           // Compliance Gap Assessment
+  if (cardId === 'A26') return <BenefitsRealisationDiagram />;     // Benefits Realisation Management
+  if (cardId === 'A27') return <ScenarioPlanningDiagram />;        // Scenario Planning
+  if (cardId === 'A28') return <Kotter8StepDiagram />;             // Kotter's 8-Step Change Model
+  if (cardId === 'A29') return <CCPMDiagram />;                    // Critical Chain PM (CCPM)
+  if (cardId === 'A30') return <DesignThinkingDiagram />;          // Design Thinking
+  if (cardId === 'A31') return <ParetoAnalysisDiagram />;          // Pareto Analysis
+  if (cardId === 'A32') return <SWOTDiagram />;                    // SWOT Analysis
+  if (cardId === 'A33') return <WJSFDiagram />;                    // Weighted Shortest Job First (WSJF)
+  if (cardId === 'A34') return <ValueStreamDiagram />;             // Value Stream Mapping
+  if (cardId === 'A35') return <TimeboxingDiagram />;              // Timeboxing
+  if (cardId === 'A36') return <LewinChangeDiagram />;             // Lewin's Change Model
+  if (cardId === 'A37') return <McKinsey7SDiagram />;              // McKinsey 7S Framework
+  if (cardId === 'A38') return <BelbinDiagram />;                  // Belbin Team Roles
+  if (cardId === 'A39') return <FiveDysfunctionsDiagram />;        // 5 Dysfunctions of a Team
+  if (cardId === 'A40') return <PDCADiagram />;                    // PDCA Cycle
+  if (cardId === 'A66') return <NudgeTheoryDiagram />;             // Nudge Theory
+  if (cardId === 'A67') return <MaslowDiagram />;                  // Maslow's Hierarchy of Needs
+  if (cardId === 'A68') return <DiffusionOfInnovationDiagram />;   // Rogers' Diffusion of Innovation
+  if (cardId === 'A69') return <ThreeHorizonsDiagram />;           // McKinsey's 3 Horizons
+  if (cardId === 'A70') return <ForceFieldAdvancedDiagram />;      // Lewin's Force Field Analysis
+  if (cardId === 'A71') return <SituationalLeadershipDiagram />;   // Hersey-Blanchard Situational Leadership
+  if (cardId === 'A41') return <EightDDiagram />;                  // 8D Problem Solving
+  if (cardId === 'A72') return <FiveForcesPorterDiagram />;        // Porter's Five Forces
+  if (cardId === 'A73') return <ExpectancyTheoryDiagram />;        // Vroom's Expectancy Theory
+  if (cardId === 'A74') return <CulturalWebDiagram />;             // The Cultural Web
+  if (cardId === 'A75') return <CompetitiveIntelligenceDiagram />;               // BCG Matrix
+  if (cardId === 'A42') return <SCARFDiagram />;                   // SCARF Model
+  if (cardId === 'A43') return <TKIDiagram />;                     // TKI Conflict Modes
+  if (cardId === 'A76') return <BridgesTransitionDiagram />;       // Bridges' Transition Model
+  if (cardId === 'A77') return <KublerRossDiagram />;              // Kübler-Ross Change Curve
+  if (cardId === 'A44') return <TannenbaumSchmidtDiagram />;       // Tannenbaum-Schmidt Continuum
+  if (cardId === 'A45') return <JohariWindowDiagram />;            // Johari Window
+  if (cardId === 'A46') return <A3ProblemSolvingDiagram />;        // A3 Problem Solving
+  if (cardId === 'A47') return <TOCDiagram />;                     // Theory of Constraints (TOC)
+  if (cardId === 'A78') return <TRIZDiagram />;                    // TRIZ
+  if (cardId === 'A48') return <ResponsibilityMatrixDiagram />;    // Freedman's Responsibility Matrix
+  if (cardId === 'A49') return <ThreeHDiagram />;                  // Heart, Head, Hands (3H)
+  if (cardId === 'A50') return <SoftSystemsDiagram />;             // Soft Systems Methodology (SSM)
+  if (cardId === 'A51') return <OpenSpaceDiagram />;               // Open Space Technology
+  if (cardId === 'A52') return <DACIDiagram />;                    // DACI Decision Framework
+  if (cardId === 'A53') return <CynefinDiagram />;                 // Cynefin Framework
+  if (cardId === 'A54') return <PMBOKProcessGroupsDiagram />;      // PMBOK Process Groups
+  if (cardId === 'A55') return <ADKARDiagram />;                   // ADKAR® Model
+  if (cardId === 'A56') return <McClellandDiagram />;              // McClelland's Achievement Theory
+  if (cardId === 'A57') return <ProbabilityImpactDiagram />;       // Probability & Impact Matrix
+  if (cardId === 'A58') return <LessonsLearnedProcessDiagram />;   // Lessons Learned
   if (cardId === 'A79') return <ProjectClosureDiagram />;          // Project Closeout
   if (cardId === 'A80') return <StoryPointDiagram />;              // Story Point Estimation
   if (cardId === 'A81') return <NPSDiagram />;                     // Net Promoter Score (NPS)
