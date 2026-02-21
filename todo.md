@@ -82,3 +82,10 @@
 
 ### Team Mode
 - [ ] Team mode: shared workspace with user accounts, shared collections, card assignments, and comments
+
+## Glossary & Expanded Case Studies
+- [x] Write glossaryData.ts with 120+ PM terms, definitions, and card links
+- [x] Build GlossaryPage with A–Z index, search, and card link chips
+- [x] Wire Glossary into App.tsx routing and BottomNav
+- [x] Add glossary term links on CardDetail page (overview tab)
+- [x] Expand caseStudiesData.ts to cover remaining high-value cards (100 total)

@@ -21,6 +21,7 @@ import EarnHeartPage from './pages/EarnHeartPage';
 import DecisionHelper from './pages/DecisionHelper';
 import QuizPage from './pages/QuizPage';
 import CaseStudiesPage from './pages/CaseStudiesPage';
+import GlossaryPage from './pages/GlossaryPage';
 import WelcomeModal from './components/WelcomeModal';
 import { BookmarksProvider } from './contexts/BookmarksContext';
 import { JourneyProvider } from './contexts/JourneyContext';
@@ -89,6 +90,7 @@ function Router() {
         <Route path="/decision" component={DecisionHelper} />
         <Route path="/quiz/:deckId" component={QuizPage} />
         <Route path="/case-studies" component={CaseStudiesPage} />
+        <Route path="/glossary" component={GlossaryPage} />
         <Route path="/404" component={NotFound} />
         <Route component={NotFound} />
       </Switch>

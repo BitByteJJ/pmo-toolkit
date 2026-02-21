@@ -9,7 +9,7 @@ import {
   ChevronLeft, ChevronRight,
   Lightbulb, ListChecks, Info, Link2, Tag, Sparkles, ShieldCheck, ExternalLink, Cpu,
   Share2, StickyNote, X, Zap, FileText, Copy, Download, Check,
-  BookOpen, Building2, Clock, Users, Quote
+  BookOpen, Building2, Clock, Users, Quote, BookMarked
 } from 'lucide-react';
 import { useState, useEffect, useRef, useCallback } from 'react';
 import BottomNav from '@/components/BottomNav';
@@ -23,6 +23,7 @@ import { useCardProgress } from '@/hooks/useCardProgress';
 import { useCardNotes } from '@/hooks/useCardNotes';
 import { getTemplateByCardId } from '@/lib/templateData';
 import { getCaseStudyByCardId } from '@/lib/caseStudiesData';
+import { getTermsForCard } from '@/lib/glossaryData';
 import { MarkdownTemplateRenderer, templateToCSV } from '@/components/MarkdownTemplateRenderer';
 import { getCardLevel, LEVEL_LABELS, LEVEL_COLORS } from '@/lib/cardLevels';
 import { useMasteryBadges } from '@/hooks/useMasteryBadges';
@@ -961,6 +962,33 @@ export default function CardDetail() {
               {GENERAL_DISCLAIMER}
             </p>
           </div>
+
+          {/* ── Glossary Terms ── */}
+          {(() => {
+            const glossaryTerms = getTermsForCard(card.id);
+            if (glossaryTerms.length === 0) return null;
+            return (
+              <div className="bg-white rounded-2xl p-4" style={{ boxShadow: '0 1px 3px rgba(0,0,0,0.05)' }}>
+                <div className="flex items-center gap-2 mb-3">
+                  <div
+                    className="w-5 h-5 rounded-md flex items-center justify-center shrink-0"
+                    style={{ backgroundColor: (deck?.color ?? '#475569') + '20' }}
+                  >
+                    <BookMarked size={11} style={{ color: deck?.color ?? '#475569' }} />
+                  </div>
+                  <h3 className="text-[10px] font-bold text-stone-400 uppercase tracking-wider">Glossary Terms</h3>
+                </div>
+                <div className="space-y-2">
+                  {glossaryTerms.map(term => (
+                    <div key={term.id} className="rounded-xl p-3" style={{ backgroundColor: '#f5f3ee' }}>
+                      <p className="text-[12px] font-bold text-stone-800 mb-0.5" style={{ fontFamily: 'Sora, sans-serif' }}>{term.term}</p>
+                      <p className="text-[11px] text-stone-500 leading-relaxed">{term.definition}</p>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            );
+          })()}
 
             </>
           )}{/* end overview tab */}
