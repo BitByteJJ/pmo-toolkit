@@ -111,3 +111,6 @@
 
 ## PDF Illustration Fix v3
 - [x] Fix PDF illustration embedding — added server-side image proxy at /api/image-proxy
+
+## PDF Page Break Fix
+- [x] Re-engineer PDF export to keep all text within page limits with proper pagination

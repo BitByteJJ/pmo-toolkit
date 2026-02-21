@@ -1,28 +1,38 @@
 // cardPdfExport.ts
 // Generates a full-page A4 PDF for a single PMO card using jsPDF.
 // Includes: card illustration, header, tagline, What It Is, When To Use, Steps,
-//           Pro Tip, Glossary Terms, Case Study, copyright, and author credit.
+//           Pro Tip, Tags, Glossary Terms, Case Study, and educational disclaimer.
+// All text is properly paginated — no content overflows page boundaries.
 
 import jsPDF from 'jspdf';
 import type { PMOCard, Deck } from './pmoData';
 import type { CaseStudy } from './caseStudiesData';
 import type { GlossaryTerm } from './glossaryData';
 
-// ─── helpers ──────────────────────────────────────────────────────────────────
+// ─── constants ───────────────────────────────────────────────────────────────
 
-/** Convert a CSS hex colour (#rrggbb) to [r, g, b] 0-255 */
+const PAGE_W = 210;
+const PAGE_H = 297;
+const MARGIN = 14;
+const CONTENT_W = PAGE_W - MARGIN * 2;
+const FOOTER_H = 18; // space reserved for footer
+const BODY_BOTTOM = PAGE_H - FOOTER_H; // max Y before footer
+const TOP_MARGIN = 14; // Y start on continuation pages
+const LINE_H = 4.8; // line height for body text (9pt)
+const STEP_LINE_H = 4.8;
+
+// ─── helpers ─────────────────────────────────────────────────────────────────
+
 function hexToRgb(hex: string): [number, number, number] {
   const h = hex.replace('#', '');
   const n = parseInt(h, 16);
   return [(n >> 16) & 255, (n >> 8) & 255, n & 255];
 }
 
-/** Wrap text to fit within maxWidth, return array of lines */
 function wrapText(doc: jsPDF, text: string, maxWidth: number): string[] {
   return doc.splitTextToSize(text, maxWidth) as string[];
 }
 
-/** Draw a filled rounded rectangle */
 function roundRect(
   doc: jsPDF,
   x: number, y: number, w: number, h: number,
@@ -33,10 +43,8 @@ function roundRect(
   doc.roundedRect(x, y, w, h, r, r, 'F');
 }
 
-/** Load an image from URL via server-side proxy and return as base64 data URL */
 async function loadImageAsBase64(url: string): Promise<string | null> {
   try {
-    // Route through our server-side proxy to avoid CORS issues with CDN
     const proxyUrl = `/api/image-proxy?url=${encodeURIComponent(url)}`;
     const response = await fetch(proxyUrl);
     if (!response.ok) return null;
@@ -52,7 +60,40 @@ async function loadImageAsBase64(url: string): Promise<string | null> {
   }
 }
 
-// ─── main export ──────────────────────────────────────────────────────────────
+// ─── page-break aware cursor ────────────────────────────────────────────────
+
+class Cursor {
+  y: number;
+  doc: jsPDF;
+
+  constructor(doc: jsPDF, startY: number) {
+    this.doc = doc;
+    this.y = startY;
+  }
+
+  /** Check if we have enough room; if not, add a new page and reset Y */
+  ensureSpace(needed: number) {
+    if (this.y + needed > BODY_BOTTOM) {
+      this.doc.addPage();
+      this.y = TOP_MARGIN;
+    }
+  }
+
+  /** Write wrapped lines one at a time, breaking pages as needed */
+  writeLines(lines: string[], lineH: number) {
+    for (const line of lines) {
+      this.ensureSpace(lineH);
+      this.doc.text(line, MARGIN + 4, this.y);
+      this.y += lineH;
+    }
+  }
+
+  advance(amount: number) {
+    this.y += amount;
+  }
+}
+
+// ─── main export ─────────────────────────────────────────────────────────────
 
 export interface CardPDFOptions {
   card: PMOCard;
@@ -71,46 +112,38 @@ export async function generateCardPDF({
 }: CardPDFOptions): Promise<void> {
   const doc = new jsPDF({ unit: 'mm', format: 'a4', orientation: 'portrait' });
 
-  const pageW = 210;
-  const pageH = 297;
-  const margin = 14;
-  const contentW = pageW - margin * 2;
-  const footerH = 16; // space reserved for footer
-
   const deckColor = hexToRgb(deck.color);
   const deckBg = hexToRgb(deck.bgColor);
   const deckText = hexToRgb(deck.textColor);
 
-  let y = 0; // current Y cursor
-
-  // ─── HEADER BAND ──────────────────────────────────────────────────────────
+  // ─── HEADER BAND (page 1 only) ───────────────────────────────────────────
   const headerH = 38;
   doc.setFillColor(...deckColor);
-  doc.rect(0, 0, pageW, headerH, 'F');
+  doc.rect(0, 0, PAGE_W, headerH, 'F');
 
-  // Deck subtitle (small caps)
+  // Deck subtitle
   doc.setFont('helvetica', 'bold');
   doc.setFontSize(7);
   doc.setTextColor(255, 255, 255);
   doc.setCharSpace(1.5);
-  doc.text(deck.subtitle.toUpperCase(), margin, 10);
+  doc.text(deck.subtitle.toUpperCase(), MARGIN, 10);
   doc.setCharSpace(0);
 
   // Card code badge
   const codeW = doc.getTextWidth(card.code) + 6;
-  roundRect(doc, pageW - margin - codeW, 6, codeW, 6, 1.5, [255, 255, 255]);
+  roundRect(doc, PAGE_W - MARGIN - codeW, 6, codeW, 6, 1.5, [255, 255, 255]);
   doc.setFontSize(7);
   doc.setTextColor(...deckColor);
   doc.setFont('helvetica', 'bold');
-  doc.text(card.code, pageW - margin - codeW / 2, 10.2, { align: 'center' });
+  doc.text(card.code, PAGE_W - MARGIN - codeW / 2, 10.2, { align: 'center' });
 
   // Card title
   doc.setFont('helvetica', 'bold');
   doc.setFontSize(18);
   doc.setTextColor(255, 255, 255);
-  const titleLines = wrapText(doc, card.title, contentW);
-  doc.text(titleLines, margin, 20);
-  y = 20 + titleLines.length * 7;
+  const titleLines = wrapText(doc, card.title, CONTENT_W);
+  doc.text(titleLines, MARGIN, 20);
+  let headerY = 20 + titleLines.length * 7;
 
   // Tagline
   doc.setFont('helvetica', 'normal');
@@ -118,22 +151,25 @@ export async function generateCardPDF({
   doc.setTextColor(255, 255, 255);
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   doc.setGState(new (doc as any).GState({ opacity: 0.85 }));
-  const tagLines = wrapText(doc, card.tagline, contentW);
-  doc.text(tagLines, margin, y);
+  const tagLines = wrapText(doc, card.tagline, CONTENT_W);
+  doc.text(tagLines, MARGIN, headerY);
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   doc.setGState(new (doc as any).GState({ opacity: 1 }));
-  y = headerH + 4;
+
+  const cursor = new Cursor(doc, headerH + 4);
 
   // ─── ILLUSTRATION ─────────────────────────────────────────────────────────
   if (illustrationUrl) {
     const imgData = await loadImageAsBase64(illustrationUrl);
     if (imgData) {
-      const imgW = 50; // mm width
-      const imgH = 50; // mm height (square)
-      const imgX = (pageW - imgW) / 2; // centered
-      const imgY = y;
+      const imgW = 50;
+      const imgH = 50;
+      const imgX = (PAGE_W - imgW) / 2;
 
-      // Light background circle behind illustration
+      cursor.ensureSpace(imgH + 8);
+      const imgY = cursor.y;
+
+      // Background circle
       doc.setFillColor(
         Math.min(deckBg[0] + 5, 255),
         Math.min(deckBg[1] + 5, 255),
@@ -146,16 +182,45 @@ export async function generateCardPDF({
       try {
         doc.addImage(imgData, 'PNG', imgX, imgY, imgW, imgH);
       } catch {
-        // If image fails to embed, continue without it
+        // continue without illustration
       }
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       doc.setGState(new (doc as any).GState({ opacity: 1 }));
 
-      y = imgY + imgH + 6;
+      cursor.y = imgY + imgH + 6;
     }
   }
 
-  // ─── BODY ─────────────────────────────────────────────────────────────────
+  // ─── SECTION RENDERER (page-break aware) ──────────────────────────────────
+
+  function drawSectionHeader(
+    title: string,
+    accentColor: [number, number, number],
+  ) {
+    cursor.ensureSpace(12); // need room for header + at least one line
+    doc.setFillColor(...accentColor);
+    doc.rect(MARGIN, cursor.y, 2.5, 5, 'F');
+    doc.setFont('helvetica', 'bold');
+    doc.setFontSize(7.5);
+    doc.setTextColor(80, 80, 80);
+    doc.setCharSpace(1);
+    doc.text(title.toUpperCase(), MARGIN + 5, cursor.y + 4);
+    doc.setCharSpace(0);
+    cursor.advance(8);
+  }
+
+  function drawParagraph(text: string) {
+    doc.setFont('helvetica', 'normal');
+    doc.setFontSize(9);
+    doc.setTextColor(40, 40, 40);
+    const lines = wrapText(doc, text, CONTENT_W - 4);
+    for (const line of lines) {
+      cursor.ensureSpace(LINE_H);
+      doc.text(line, MARGIN + 4, cursor.y);
+      cursor.advance(LINE_H);
+    }
+    cursor.advance(4);
+  }
 
   function drawSection(
     title: string,
@@ -163,275 +228,290 @@ export async function generateCardPDF({
     isList = false,
     accentColor: [number, number, number] = deckColor,
   ) {
-    // Check if we need a new page
-    const estimatedH = isList
-      ? (Array.isArray(body) ? body.length : 1) * 7 + 14
-      : wrapText(doc, Array.isArray(body) ? body.join(' ') : body, contentW - 6).length * 5 + 14;
-
-    if (y + estimatedH > pageH - footerH) {
-      doc.addPage();
-      y = 14;
-    }
-
-    // Section header row
-    doc.setFillColor(...accentColor);
-    doc.rect(margin, y, 2.5, 5, 'F');
-    doc.setFont('helvetica', 'bold');
-    doc.setFontSize(7.5);
-    doc.setTextColor(80, 80, 80);
-    doc.setCharSpace(1);
-    doc.text(title.toUpperCase(), margin + 5, y + 4);
-    doc.setCharSpace(0);
-    y += 8;
+    drawSectionHeader(title, accentColor);
 
     if (isList && Array.isArray(body)) {
       body.forEach((item, i) => {
-        const lines = wrapText(doc, item, contentW - 10);
-        if (y + lines.length * 5 > pageH - footerH) {
-          doc.addPage();
-          y = 14;
-        }
+        const lines = wrapText(doc, item, CONTENT_W - 12);
+        // Need room for at least the step circle + first line
+        cursor.ensureSpace(STEP_LINE_H + 2);
+
         // Step number circle
         doc.setFillColor(...accentColor);
-        doc.circle(margin + 2.5, y + 2, 2.5, 'F');
+        doc.circle(MARGIN + 2.5, cursor.y + 2, 2.5, 'F');
         doc.setFont('helvetica', 'bold');
         doc.setFontSize(6.5);
         doc.setTextColor(255, 255, 255);
-        doc.text(String(i + 1), margin + 2.5, y + 2.7, { align: 'center' });
+        doc.text(String(i + 1), MARGIN + 2.5, cursor.y + 2.7, { align: 'center' });
 
+        // First line next to circle
         doc.setFont('helvetica', 'normal');
         doc.setFontSize(9);
         doc.setTextColor(40, 40, 40);
-        doc.text(lines, margin + 8, y + 3.5);
-        y += lines.length * 5 + 2;
+        if (lines.length > 0) {
+          doc.text(lines[0], MARGIN + 8, cursor.y + 3.5);
+          cursor.advance(STEP_LINE_H + 1);
+        }
+
+        // Remaining lines (page-break aware)
+        for (let li = 1; li < lines.length; li++) {
+          cursor.ensureSpace(STEP_LINE_H);
+          doc.setFont('helvetica', 'normal');
+          doc.setFontSize(9);
+          doc.setTextColor(40, 40, 40);
+          doc.text(lines[li], MARGIN + 8, cursor.y);
+          cursor.advance(STEP_LINE_H);
+        }
+        cursor.advance(2);
       });
     } else {
       const text = Array.isArray(body) ? body.join('\n') : body;
-      const lines = wrapText(doc, text, contentW - 4);
-      doc.setFont('helvetica', 'normal');
-      doc.setFontSize(9);
-      doc.setTextColor(40, 40, 40);
-      doc.text(lines, margin + 4, y);
-      y += lines.length * 5 + 2;
+      drawParagraph(text);
     }
-    y += 5; // spacing between sections
+    cursor.advance(3);
   }
 
-  // What It Is
-  drawSection('What It Is', card.whatItIs);
+  // ─── BODY SECTIONS ────────────────────────────────────────────────────────
 
-  // When To Use
+  drawSection('What It Is', card.whatItIs);
   drawSection('When To Use', card.whenToUse);
 
-  // Steps
   if (card.steps.length > 0) {
     drawSection('How To Apply It', card.steps, true);
   }
 
   // Pro Tip
   if (card.proTip) {
-    const tipLines = wrapText(doc, card.proTip, contentW - 12);
-    const tipH = tipLines.length * 5 + 10;
-    if (y + tipH > pageH - footerH) { doc.addPage(); y = 14; }
-    roundRect(doc, margin, y, contentW, tipH, 3, [
+    const tipLines = wrapText(doc, card.proTip, CONTENT_W - 14);
+    // Render tip line by line with page breaks
+    cursor.ensureSpace(12); // header + at least one line
+    const tipBgColor: [number, number, number] = [
       Math.min(deckBg[0], 240),
       Math.min(deckBg[1], 240),
       Math.min(deckBg[2], 240),
-    ]);
+    ];
+
+    // Draw tip header
+    roundRect(doc, MARGIN, cursor.y, CONTENT_W, 7, 3, tipBgColor);
     doc.setFont('helvetica', 'bold');
     doc.setFontSize(7.5);
     doc.setTextColor(...deckText);
     doc.setCharSpace(0.8);
-    doc.text('PRO TIP', margin + 5, y + 5.5);
+    doc.text('PRO TIP', MARGIN + 5, cursor.y + 5);
     doc.setCharSpace(0);
+    cursor.advance(8);
+
+    // Tip body lines
     doc.setFont('helvetica', 'normal');
     doc.setFontSize(9);
     doc.setTextColor(40, 40, 40);
-    doc.text(tipLines, margin + 5, y + 10);
-    y += tipH + 6;
+    for (const line of tipLines) {
+      cursor.ensureSpace(LINE_H);
+      doc.text(line, MARGIN + 5, cursor.y);
+      cursor.advance(LINE_H);
+    }
+    cursor.advance(6);
   }
 
   // Tags
   if (card.tags.length > 0) {
-    if (y + 12 > pageH - footerH) { doc.addPage(); y = 14; }
+    cursor.ensureSpace(12);
     doc.setFont('helvetica', 'bold');
     doc.setFontSize(7.5);
     doc.setTextColor(80, 80, 80);
     doc.setCharSpace(1);
-    doc.text('TAGS', margin, y + 4);
+    doc.text('TAGS', MARGIN, cursor.y + 4);
     doc.setCharSpace(0);
-    let tx = margin + 12;
-    card.tags.forEach(tag => {
-      const tw = doc.getTextWidth(tag) + 5;
-      if (tx + tw > pageW - margin) { tx = margin; y += 7; }
-      roundRect(doc, tx, y, tw, 5.5, 1.5, deckBg);
+    let tx = MARGIN + 12;
+    for (const tag of card.tags) {
       doc.setFont('helvetica', 'normal');
       doc.setFontSize(7.5);
+      const tw = doc.getTextWidth(tag) + 5;
+      if (tx + tw > PAGE_W - MARGIN) {
+        tx = MARGIN;
+        cursor.advance(7);
+        cursor.ensureSpace(7);
+      }
+      roundRect(doc, tx, cursor.y, tw, 5.5, 1.5, deckBg);
       doc.setTextColor(...deckText);
-      doc.text(tag, tx + tw / 2, y + 3.8, { align: 'center' });
+      doc.text(tag, tx + tw / 2, cursor.y + 3.8, { align: 'center' });
       tx += tw + 2;
-    });
-    y += 12;
+    }
+    cursor.advance(12);
   }
 
   // ─── GLOSSARY TERMS ───────────────────────────────────────────────────────
   if (glossaryTerms.length > 0) {
-    if (y + 20 > pageH - footerH) { doc.addPage(); y = 14; }
+    drawSectionHeader('Glossary Terms', deckColor);
 
-    doc.setFillColor(...deckColor);
-    doc.rect(margin, y, 2.5, 5, 'F');
-    doc.setFont('helvetica', 'bold');
-    doc.setFontSize(7.5);
-    doc.setTextColor(80, 80, 80);
-    doc.setCharSpace(1);
-    doc.text('GLOSSARY TERMS', margin + 5, y + 4);
-    doc.setCharSpace(0);
-    y += 9;
+    for (const term of glossaryTerms) {
+      const defLines = wrapText(doc, term.definition, CONTENT_W - 8);
 
-    glossaryTerms.forEach(term => {
-      const defLines = wrapText(doc, term.definition, contentW - 4);
-      const blockH = defLines.length * 4.5 + 9;
-      if (y + blockH > pageH - footerH) { doc.addPage(); y = 14; }
-
-      roundRect(doc, margin, y, contentW, blockH, 2.5, [247, 245, 240]);
+      // Term name
+      cursor.ensureSpace(8);
       doc.setFont('helvetica', 'bold');
       doc.setFontSize(9);
       doc.setTextColor(30, 30, 30);
-      doc.text(term.term, margin + 4, y + 5.5);
+      doc.text(`• ${term.term}`, MARGIN + 4, cursor.y);
+      cursor.advance(5);
+
+      // Definition lines (page-break aware)
       doc.setFont('helvetica', 'normal');
       doc.setFontSize(8);
       doc.setTextColor(90, 90, 90);
-      doc.text(defLines, margin + 4, y + 10);
-      y += blockH + 3;
-    });
-    y += 3;
+      for (const line of defLines) {
+        cursor.ensureSpace(4.5);
+        doc.text(line, MARGIN + 8, cursor.y);
+        cursor.advance(4.5);
+      }
+      cursor.advance(3);
+    }
+    cursor.advance(3);
   }
 
   // ─── CASE STUDY ───────────────────────────────────────────────────────────
   if (caseStudy) {
     doc.addPage();
-    y = 14;
+    cursor.y = TOP_MARGIN;
 
     // Case study header band
     doc.setFillColor(...deckColor);
-    doc.rect(0, 0, pageW, 22, 'F');
+    doc.rect(0, 0, PAGE_W, 22, 'F');
     doc.setFont('helvetica', 'bold');
     doc.setFontSize(7.5);
     doc.setTextColor(255, 255, 255);
     doc.setCharSpace(1.5);
-    doc.text('CASE STUDY', margin, 8);
+    doc.text('CASE STUDY', MARGIN, 8);
     doc.setCharSpace(0);
     doc.setFontSize(14);
-    doc.text(caseStudy.organisation, margin, 16);
-    const industryW = doc.getTextWidth(caseStudy.industry) + 6;
-    roundRect(doc, pageW - margin - industryW, 8, industryW, 6, 1.5, [255, 255, 255]);
+    doc.text(caseStudy.organisation, MARGIN, 16);
+
+    // Industry badge
+    doc.setFont('helvetica', 'bold');
     doc.setFontSize(7.5);
+    const industryW = doc.getTextWidth(caseStudy.industry) + 6;
+    roundRect(doc, PAGE_W - MARGIN - industryW, 8, industryW, 6, 1.5, [255, 255, 255]);
     doc.setTextColor(...deckColor);
-    doc.text(caseStudy.industry, pageW - margin - industryW / 2, 12.2, { align: 'center' });
-    y = 30;
+    doc.text(caseStudy.industry, PAGE_W - MARGIN - industryW / 2, 12.2, { align: 'center' });
+    cursor.y = 30;
 
     // Project name
     doc.setFont('helvetica', 'bold');
     doc.setFontSize(11);
     doc.setTextColor(30, 30, 30);
-    const projLines = wrapText(doc, caseStudy.projectName, contentW);
-    doc.text(projLines, margin, y);
-    y += projLines.length * 5.5 + 4;
+    const projLines = wrapText(doc, caseStudy.projectName, CONTENT_W);
+    for (const line of projLines) {
+      cursor.ensureSpace(5.5);
+      doc.text(line, MARGIN, cursor.y);
+      cursor.advance(5.5);
+    }
+    cursor.advance(4);
 
     // Meta row
     const metas: string[] = [];
     if (caseStudy.timeframe) metas.push(`Timeframe: ${caseStudy.timeframe}`);
     if (caseStudy.teamSize) metas.push(`Team: ${caseStudy.teamSize}`);
     if (metas.length > 0) {
+      cursor.ensureSpace(7);
       doc.setFont('helvetica', 'normal');
       doc.setFontSize(8);
       doc.setTextColor(120, 120, 120);
-      doc.text(metas.join('   ·   '), margin, y);
-      y += 7;
+      doc.text(metas.join('   ·   '), MARGIN, cursor.y);
+      cursor.advance(7);
     }
 
-    const csColor: [number, number, number] = [239, 68, 68];
-    drawSection('The Challenge', caseStudy.challenge, false, csColor);
+    const csRed: [number, number, number] = [239, 68, 68];
+    const csGreen: [number, number, number] = [34, 197, 94];
+    const csYellow: [number, number, number] = [234, 179, 8];
+
+    drawSection('The Challenge', caseStudy.challenge, false, csRed);
     drawSection('How They Applied It', caseStudy.approach, false, deckColor);
-    drawSection('The Outcome', caseStudy.outcome, false, [34, 197, 94]);
+    drawSection('The Outcome', caseStudy.outcome, false, csGreen);
 
     if (caseStudy.lessonsLearned.length > 0) {
-      drawSection('Lessons Learned', caseStudy.lessonsLearned, true, [234, 179, 8]);
+      drawSection('Lessons Learned', caseStudy.lessonsLearned, true, csYellow);
     }
 
     // Quote
     if (caseStudy.quote) {
-      const qLines = wrapText(doc, `"${caseStudy.quote.text}"`, contentW - 12);
-      const qH = qLines.length * 5.5 + 14;
-      if (y + qH > pageH - footerH) { doc.addPage(); y = 14; }
-      roundRect(doc, margin, y, contentW, qH, 3, [247, 245, 240]);
+      const qLines = wrapText(doc, `"${caseStudy.quote.text}"`, CONTENT_W - 14);
+
+      cursor.ensureSpace(14); // room for at least the quote start
+      // Accent bar
       doc.setFillColor(...deckColor);
-      doc.rect(margin, y, 2.5, qH, 'F');
+      doc.rect(MARGIN, cursor.y, 2.5, 4, 'F');
+
       doc.setFont('helvetica', 'bolditalic');
       doc.setFontSize(9);
       doc.setTextColor(40, 40, 40);
-      doc.text(qLines, margin + 7, y + 7);
+      for (const line of qLines) {
+        cursor.ensureSpace(5.5);
+        doc.text(line, MARGIN + 7, cursor.y);
+        cursor.advance(5.5);
+      }
+      cursor.ensureSpace(5);
       doc.setFont('helvetica', 'bold');
       doc.setFontSize(7.5);
       doc.setTextColor(120, 120, 120);
-      doc.text(`— ${caseStudy.quote.attribution}`, margin + 7, y + qH - 4);
-      y += qH + 6;
+      doc.text(`— ${caseStudy.quote.attribution}`, MARGIN + 7, cursor.y);
+      cursor.advance(8);
     }
 
     // Case study disclaimer
-    if (y + 10 > pageH - footerH) { doc.addPage(); y = 14; }
+    cursor.ensureSpace(10);
     doc.setFont('helvetica', 'italic');
     doc.setFontSize(7);
     doc.setTextColor(160, 160, 160);
-    doc.text(
+    const disclaimerLines = wrapText(
+      doc,
       'Case studies are illustrative summaries based on publicly available information. Details may be simplified for educational purposes.',
-      margin, y, { maxWidth: contentW },
+      CONTENT_W,
     );
+    for (const line of disclaimerLines) {
+      cursor.ensureSpace(4);
+      doc.text(line, MARGIN, cursor.y);
+      cursor.advance(4);
+    }
   }
 
-  // ─── FOOTER (all pages) — includes author credit + copyright ─────────────
+  // ─── FOOTER (all pages) ──────────────────────────────────────────────────
   const totalPages = doc.getNumberOfPages();
-  const currentYear = new Date().getFullYear();
 
   for (let p = 1; p <= totalPages; p++) {
     doc.setPage(p);
 
     // Footer background
     doc.setFillColor(245, 243, 238);
-    doc.rect(0, pageH - footerH, pageW, footerH, 'F');
+    doc.rect(0, PAGE_H - FOOTER_H, PAGE_W, FOOTER_H, 'F');
 
-    // Thin accent line at top of footer
+    // Accent line
     doc.setDrawColor(...deckColor);
     doc.setLineWidth(0.3);
-    doc.line(margin, pageH - footerH, pageW - margin, pageH - footerH);
+    doc.line(MARGIN, PAGE_H - FOOTER_H, PAGE_W - MARGIN, PAGE_H - FOOTER_H);
 
-    // Top row: app name + page number
+    // Row 1: app name + page number
     doc.setFont('helvetica', 'bold');
     doc.setFontSize(7);
     doc.setTextColor(100, 100, 100);
-    doc.text('StratAlign — PM Toolkit', margin, pageH - footerH + 5);
-    doc.text(`Page ${p} of ${totalPages}`, pageW - margin, pageH - footerH + 5, { align: 'right' });
+    doc.text('StratAlign — PM Toolkit', MARGIN, PAGE_H - FOOTER_H + 5);
+    doc.text(`Page ${p} of ${totalPages}`, PAGE_W - MARGIN, PAGE_H - FOOTER_H + 5, { align: 'right' });
 
-    // Bottom row: educational purpose + card reference
+    // Row 2: educational purpose + card ref
     doc.setFont('helvetica', 'normal');
     doc.setFontSize(6.5);
     doc.setTextColor(150, 150, 150);
-    doc.text(
-      'For educational and reference purposes only.',
-      margin,
-      pageH - footerH + 10,
-    );
-    doc.text(`${card.code} · ${card.title}`, pageW - margin, pageH - footerH + 10, { align: 'right' });
+    doc.text('For educational and reference purposes only.', MARGIN, PAGE_H - FOOTER_H + 10);
+    doc.text(`${card.code} · ${card.title}`, PAGE_W - MARGIN, PAGE_H - FOOTER_H + 10, { align: 'right' });
 
-    // Bottom-most row: IP disclaimer
+    // Row 3: IP disclaimer
     doc.setFont('helvetica', 'italic');
     doc.setFontSize(5.5);
     doc.setTextColor(175, 175, 175);
     doc.text(
       'All referenced frameworks, models, and methodologies are the intellectual property of their respective owners. This app is an educational reference tool only.',
-      margin,
-      pageH - footerH + 14,
-      { maxWidth: contentW },
+      MARGIN,
+      PAGE_H - FOOTER_H + 14,
+      { maxWidth: CONTENT_W },
     );
   }
 
