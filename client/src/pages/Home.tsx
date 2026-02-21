@@ -76,7 +76,7 @@ function PhysicalDeckCard({ deck, index }: { deck: typeof DECKS[0]; index: numbe
                 alt=""
                 aria-hidden="true"
                 className="w-full h-full object-cover"
-                style={{ objectPosition: 'top center', opacity: 0.95 }}
+                style={{ objectPosition: 'center center', opacity: 0.95 }}
               />
             </div>
           )}
