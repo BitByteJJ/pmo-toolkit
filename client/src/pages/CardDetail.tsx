@@ -79,6 +79,8 @@ export default function CardDetail() {
         className="relative overflow-hidden"
         style={{ backgroundColor: deck?.bgColor ?? '#F8F8F6', minHeight: getCardIllustration(card.id) ? '260px' : 'auto' }}
       >
+        {/* Desktop centering wrapper */}
+        <div className="max-w-2xl mx-auto relative" style={{ minHeight: 'inherit' }}>
         {/* Illustration as absolute background layer */}
         {getCardIllustration(card.id) && (
           <div
@@ -91,14 +93,14 @@ export default function CardDetail() {
               aria-hidden="true"
               className="absolute"
               style={{
-                right: '-10%',
+                right: '0',
                 bottom: '-5%',
-                width: '75%',
-                maxWidth: '300px',
+                width: '52%',
+                maxWidth: '260px',
                 height: 'auto',
                 objectFit: 'contain',
                 mixBlendMode: 'multiply',
-                opacity: 0.55,
+                opacity: 0.6,
               }}
               loading="eager"
             />
@@ -198,6 +200,7 @@ export default function CardDetail() {
             />
           </div>
         </div>
+        </div>{/* end desktop centering wrapper */}
       </div>
 
       {/* Card Content */}
@@ -208,7 +211,7 @@ export default function CardDetail() {
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: -14 }}
           transition={{ duration: 0.28 }}
-          className="px-4 pt-4 space-y-3"
+          className="max-w-2xl mx-auto px-4 pt-4 space-y-3"
         >
           {/* What it is */}
           <Section icon={Info} title="What it is" color={deck?.color ?? '#6B7280'}>
