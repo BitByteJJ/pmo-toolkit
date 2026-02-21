@@ -101,3 +101,6 @@
 - [x] Add card illustration to PDF export (centered with background circle, 85% opacity)
 - [x] Add copyright/IP notices to PDF export (footer on every page)
 - [x] Add author credit (Jackson Joy · February 2026) to PDF export (footer on every page)
+
+## Sprint Mode Illustrations
+- [x] Add card illustrations beneath card name in Sprint Mode flipper cards

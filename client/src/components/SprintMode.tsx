@@ -6,6 +6,7 @@ import { useState, useCallback } from 'react';
 import { motion, AnimatePresence, PanInfo } from 'framer-motion';
 import { X, ChevronLeft, ChevronRight, Bookmark, BookmarkCheck, Zap, RotateCcw } from 'lucide-react';
 import { getDeckById, getCardsByDeck } from '@/lib/pmoData';
+import { getCardIllustration } from '@/lib/toolImages';
 import { useBookmarks } from '@/contexts/BookmarksContext';
 import { useCardProgress } from '@/hooks/useCardProgress';
 import { useLocation } from 'wouter';
@@ -164,14 +165,37 @@ export default function SprintMode({ deckId, startIndex = 0, onClose }: SprintMo
                       )}
                     </div>
 
-                    <div className="flex-1 flex flex-col justify-center">
+                    <div className="flex-1 flex flex-col justify-center items-center">
                       <h2
-                        className="text-2xl font-black leading-tight mb-3"
+                        className="text-2xl font-black leading-tight mb-2 text-center"
                         style={{ fontFamily: 'Sora, sans-serif', color: '#1a1a1a', letterSpacing: '-0.02em' }}
                       >
                         {card.title}
                       </h2>
-                      <p className="text-sm text-stone-500 leading-relaxed">{card.tagline}</p>
+                      <p className="text-sm text-stone-500 leading-relaxed text-center mb-4">{card.tagline}</p>
+
+                      {/* Card illustration */}
+                      {getCardIllustration(card.id) && (
+                        <div className="relative w-36 h-36 mx-auto">
+                          <div
+                            className="absolute inset-0 rounded-full"
+                            style={{ backgroundColor: deck.bgColor }}
+                          />
+                          <img
+                            src={getCardIllustration(card.id)!}
+                            alt={card.title}
+                            className="relative w-full h-full object-contain"
+                            style={{ opacity: 0.7, mixBlendMode: 'multiply' }}
+                          />
+                          {/* Fade edges */}
+                          <div
+                            className="absolute inset-0 pointer-events-none"
+                            style={{
+                              background: 'radial-gradient(circle, transparent 55%, white 90%)',
+                            }}
+                          />
+                        </div>
+                      )}
                     </div>
 
                     {/* Tap hint */}
