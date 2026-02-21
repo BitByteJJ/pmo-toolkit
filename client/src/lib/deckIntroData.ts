@@ -354,15 +354,15 @@ export const DECK_INTROS: DeckIntro[] = [
       {
         title: 'Build a technique library',
         steps: [
-          'Work through A1–A20 to cover the core techniques.',
+          'Work through A1–A82 to explore all 82 techniques.',
           'Save any technique you have used or want to try.',
-          'Revisit your saved cards before each new project.',
+          'Revisit your saved cards before each new project.'
         ],
       },
     ],
     quickTips: [
       'Techniques are most powerful when combined — look at the related cards on each one.',
-      'A1–A20 cover the most universally applicable techniques; start there.',
+      'A1–A35 cover the most universally applicable techniques; start there.',
       'Many techniques have proprietary origins — check the copyright notice at the bottom of each card.',
     ],
     categories: [

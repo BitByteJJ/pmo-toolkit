@@ -2369,7 +2369,7 @@ export const CARDS: PMOCard[] = [
   {
     id: 'A48',
     code: 'A48',
-    title: 'Freedman\'s Freed Approach',
+    title: "Freedman's FREEED Approach",
     deckId: 'techniques',
     type: 'technique',
     tagline: 'Six phases for structured, flexible organisational transitions',
