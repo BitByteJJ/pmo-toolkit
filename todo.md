@@ -108,3 +108,6 @@
 ## PDF Export Fixes v2
 - [x] Update PDF footer: remove personal copyright, use educational disclaimer language
 - [x] Fix PDF illustration embedding (CORS issue — switched from fetch to canvas with crossOrigin)
+
+## PDF Illustration Fix v3
+- [x] Fix PDF illustration embedding — added server-side image proxy at /api/image-proxy

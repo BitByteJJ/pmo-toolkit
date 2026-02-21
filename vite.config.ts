@@ -98,6 +98,44 @@ function vitePluginManusDebugCollector(): Plugin {
     },
 
     configureServer(server: ViteDevServer) {
+      // GET /api/image-proxy?url=... — proxy CDN images to avoid CORS issues for PDF export
+      server.middlewares.use("/api/image-proxy", async (req, res, next) => {
+        if (req.method !== "GET") return next();
+        try {
+          const url = new URL(req.url!, `http://${req.headers.host}`);
+          const imageUrl = url.searchParams.get("url");
+          if (!imageUrl) {
+            res.writeHead(400, { "Content-Type": "application/json" });
+            res.end(JSON.stringify({ error: "Missing url parameter" }));
+            return;
+          }
+          // Only allow manuscdn.com URLs for security
+          const parsed = new URL(imageUrl);
+          if (!parsed.hostname.endsWith("manuscdn.com")) {
+            res.writeHead(403, { "Content-Type": "application/json" });
+            res.end(JSON.stringify({ error: "Domain not allowed" }));
+            return;
+          }
+          const response = await fetch(imageUrl);
+          if (!response.ok) {
+            res.writeHead(response.status);
+            res.end();
+            return;
+          }
+          const contentType = response.headers.get("content-type") || "image/png";
+          const buffer = Buffer.from(await response.arrayBuffer());
+          res.writeHead(200, {
+            "Content-Type": contentType,
+            "Cache-Control": "public, max-age=86400",
+            "Access-Control-Allow-Origin": "*",
+          });
+          res.end(buffer);
+        } catch (e) {
+          res.writeHead(500, { "Content-Type": "application/json" });
+          res.end(JSON.stringify({ error: String(e) }));
+        }
+      });
+
       // POST /__manus__/logs: Browser sends logs (written directly to files)
       server.middlewares.use("/__manus__/logs", (req, res, next) => {
         if (req.method !== "POST") {

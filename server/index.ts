@@ -10,6 +10,37 @@ async function startServer() {
   const app = express();
   const server = createServer(app);
 
+  // Image proxy for PDF export (avoids CORS issues with CDN images)
+  app.get("/api/image-proxy", async (req, res) => {
+    try {
+      const imageUrl = req.query.url as string;
+      if (!imageUrl) {
+        res.status(400).json({ error: "Missing url parameter" });
+        return;
+      }
+      const parsed = new URL(imageUrl);
+      if (!parsed.hostname.endsWith("manuscdn.com")) {
+        res.status(403).json({ error: "Domain not allowed" });
+        return;
+      }
+      const response = await fetch(imageUrl);
+      if (!response.ok) {
+        res.status(response.status).end();
+        return;
+      }
+      const contentType = response.headers.get("content-type") || "image/png";
+      const buffer = Buffer.from(await response.arrayBuffer());
+      res.set({
+        "Content-Type": contentType,
+        "Cache-Control": "public, max-age=86400",
+        "Access-Control-Allow-Origin": "*",
+      });
+      res.send(buffer);
+    } catch (e) {
+      res.status(500).json({ error: String(e) });
+    }
+  });
+
   // Serve static files from dist/public in production
   const staticPath =
     process.env.NODE_ENV === "production"
