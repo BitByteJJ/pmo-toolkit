@@ -26,35 +26,55 @@ function TitleCard({ deck, intro }: { deck: NonNullable<ReturnType<typeof getDec
     <div
       className="relative w-full overflow-hidden"
       style={{
-        background: '#fff',
         borderRadius: '20px',
         boxShadow: '0 12px 40px rgba(0,0,0,0.15), 0 4px 12px rgba(0,0,0,0.08)',
         border: `3px solid ${deck.color}`,
-        minHeight: '460px',
+        minHeight: '380px',
+        backgroundColor: deck.bgColor,
       }}
     >
-      {/* Illustration */}
-      <div className="w-full" style={{ maxHeight: '360px', overflow: 'hidden' }}>
+      {/* Full-bleed illustration — fills the card, anchored top-centre, no cropping */}
+      <div className="absolute inset-0 overflow-hidden">
         <img
           src={intro.coverImage}
           alt={deck.title}
-          className="w-full object-contain object-center"
-          style={{ maxHeight: '360px', minHeight: '280px', mixBlendMode: 'multiply' }}
+          className="absolute"
+          style={{
+            top: '3%',
+            left: '50%',
+            transform: 'translateX(-50%)',
+            width: '88%',
+            height: '78%',
+            objectFit: 'contain',
+            objectPosition: 'top center',
+            mixBlendMode: 'multiply',
+            opacity: 0.95,
+          }}
         />
       </div>
 
-      {/* Title block */}
-      <div className="px-6 pb-6 pt-4 text-center">
-        <h1
-          className="text-4xl font-black leading-tight tracking-tight"
-          style={{ color: '#1a1a1a', fontFamily: "'Sora', sans-serif", letterSpacing: '-0.02em' }}
-        >
-          {deck.title}
-        </h1>
-        <p className="text-sm mt-2 font-bold uppercase tracking-widest" style={{ color: deck.color }}>
-          {deck.subtitle}
-        </p>
-        <p className="text-sm text-stone-500 mt-3 leading-relaxed">{intro.tagline}</p>
+      {/* Gradient fade — bottom 45% becomes the deck colour so text is legible */}
+      <div
+        className="absolute inset-0"
+        style={{
+          background: `linear-gradient(to bottom, transparent 38%, ${deck.bgColor}90 55%, ${deck.bgColor}EE 70%, ${deck.bgColor} 82%)`,
+        }}
+      />
+
+      {/* Title block floats at the bottom */}
+      <div className="relative z-10 flex flex-col justify-end" style={{ minHeight: '380px' }}>
+        <div className="px-6 pb-6 pt-2 text-center">
+          <h1
+            className="text-4xl font-black leading-tight tracking-tight"
+            style={{ color: deck.textColor, fontFamily: "'Sora', sans-serif", letterSpacing: '-0.02em' }}
+          >
+            {deck.title}
+          </h1>
+          <p className="text-sm mt-2 font-bold uppercase tracking-widest" style={{ color: deck.color }}>
+            {deck.subtitle}
+          </p>
+          <p className="text-sm mt-2 leading-relaxed" style={{ color: deck.textColor, opacity: 0.65 }}>{intro.tagline}</p>
+        </div>
       </div>
     </div>
   );
