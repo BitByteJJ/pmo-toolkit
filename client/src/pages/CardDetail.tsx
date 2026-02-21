@@ -284,7 +284,8 @@ export default function CardDetail() {
     try {
       const caseStudyData = getCaseStudyByCardId(card.id);
       const glossaryTerms = getTermsForCard(card.id);
-      await generateCardPDF({ card, deck, caseStudy: caseStudyData ?? undefined, glossaryTerms });
+      const illustrationUrl = getCardIllustration(card.id);
+      await generateCardPDF({ card, deck, caseStudy: caseStudyData ?? undefined, glossaryTerms, illustrationUrl });
     } catch (e) {
       console.error('PDF export failed', e);
     } finally {

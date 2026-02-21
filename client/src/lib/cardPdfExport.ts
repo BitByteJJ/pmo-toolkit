@@ -1,7 +1,7 @@
 // cardPdfExport.ts
 // Generates a full-page A4 PDF for a single PMO card using jsPDF.
-// Includes: card header, tagline, What It Is, When To Use, Steps, Pro Tip,
-//           Glossary Terms, and (if present) Case Study.
+// Includes: card illustration, header, tagline, What It Is, When To Use, Steps,
+//           Pro Tip, Glossary Terms, Case Study, copyright, and author credit.
 
 import jsPDF from 'jspdf';
 import type { PMOCard, Deck } from './pmoData';
@@ -22,7 +22,7 @@ function wrapText(doc: jsPDF, text: string, maxWidth: number): string[] {
   return doc.splitTextToSize(text, maxWidth) as string[];
 }
 
-/** Draw a filled rounded rectangle (jsPDF doesn't have native roundRect) */
+/** Draw a filled rounded rectangle */
 function roundRect(
   doc: jsPDF,
   x: number, y: number, w: number, h: number,
@@ -33,6 +33,22 @@ function roundRect(
   doc.roundedRect(x, y, w, h, r, r, 'F');
 }
 
+/** Load an image from URL and return as base64 data URL */
+async function loadImageAsBase64(url: string): Promise<string | null> {
+  try {
+    const response = await fetch(url);
+    const blob = await response.blob();
+    return new Promise((resolve) => {
+      const reader = new FileReader();
+      reader.onloadend = () => resolve(reader.result as string);
+      reader.onerror = () => resolve(null);
+      reader.readAsDataURL(blob);
+    });
+  } catch {
+    return null;
+  }
+}
+
 // ─── main export ──────────────────────────────────────────────────────────────
 
 export interface CardPDFOptions {
@@ -40,6 +56,7 @@ export interface CardPDFOptions {
   deck: Deck;
   caseStudy?: CaseStudy;
   glossaryTerms?: GlossaryTerm[];
+  illustrationUrl?: string;
 }
 
 export async function generateCardPDF({
@@ -47,6 +64,7 @@ export async function generateCardPDF({
   deck,
   caseStudy,
   glossaryTerms = [],
+  illustrationUrl,
 }: CardPDFOptions): Promise<void> {
   const doc = new jsPDF({ unit: 'mm', format: 'a4', orientation: 'portrait' });
 
@@ -54,6 +72,7 @@ export async function generateCardPDF({
   const pageH = 297;
   const margin = 14;
   const contentW = pageW - margin * 2;
+  const footerH = 16; // space reserved for footer
 
   const deckColor = hexToRgb(deck.color);
   const deckBg = hexToRgb(deck.bgColor);
@@ -62,9 +81,9 @@ export async function generateCardPDF({
   let y = 0; // current Y cursor
 
   // ─── HEADER BAND ──────────────────────────────────────────────────────────
-  // Full-width coloured band at the top
+  const headerH = 38;
   doc.setFillColor(...deckColor);
-  doc.rect(0, 0, pageW, 38, 'F');
+  doc.rect(0, 0, pageW, headerH, 'F');
 
   // Deck subtitle (small caps)
   doc.setFont('helvetica', 'bold');
@@ -100,7 +119,38 @@ export async function generateCardPDF({
   doc.text(tagLines, margin, y);
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   doc.setGState(new (doc as any).GState({ opacity: 1 }));
-  y = 38 + 6; // below header band
+  y = headerH + 4;
+
+  // ─── ILLUSTRATION ─────────────────────────────────────────────────────────
+  if (illustrationUrl) {
+    const imgData = await loadImageAsBase64(illustrationUrl);
+    if (imgData) {
+      const imgW = 50; // mm width
+      const imgH = 50; // mm height (square)
+      const imgX = (pageW - imgW) / 2; // centered
+      const imgY = y;
+
+      // Light background circle behind illustration
+      doc.setFillColor(
+        Math.min(deckBg[0] + 5, 255),
+        Math.min(deckBg[1] + 5, 255),
+        Math.min(deckBg[2] + 5, 255),
+      );
+      doc.circle(imgX + imgW / 2, imgY + imgH / 2, imgW / 2 + 2, 'F');
+
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      doc.setGState(new (doc as any).GState({ opacity: 0.85 }));
+      try {
+        doc.addImage(imgData, 'PNG', imgX, imgY, imgW, imgH);
+      } catch {
+        // If image fails to embed, continue without it
+      }
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      doc.setGState(new (doc as any).GState({ opacity: 1 }));
+
+      y = imgY + imgH + 6;
+    }
+  }
 
   // ─── BODY ─────────────────────────────────────────────────────────────────
 
@@ -115,7 +165,7 @@ export async function generateCardPDF({
       ? (Array.isArray(body) ? body.length : 1) * 7 + 14
       : wrapText(doc, Array.isArray(body) ? body.join(' ') : body, contentW - 6).length * 5 + 14;
 
-    if (y + estimatedH > pageH - 18) {
+    if (y + estimatedH > pageH - footerH) {
       doc.addPage();
       y = 14;
     }
@@ -134,7 +184,7 @@ export async function generateCardPDF({
     if (isList && Array.isArray(body)) {
       body.forEach((item, i) => {
         const lines = wrapText(doc, item, contentW - 10);
-        if (y + lines.length * 5 > pageH - 18) {
+        if (y + lines.length * 5 > pageH - footerH) {
           doc.addPage();
           y = 14;
         }
@@ -177,10 +227,9 @@ export async function generateCardPDF({
 
   // Pro Tip
   if (card.proTip) {
-    // Highlighted box
     const tipLines = wrapText(doc, card.proTip, contentW - 12);
     const tipH = tipLines.length * 5 + 10;
-    if (y + tipH > pageH - 18) { doc.addPage(); y = 14; }
+    if (y + tipH > pageH - footerH) { doc.addPage(); y = 14; }
     roundRect(doc, margin, y, contentW, tipH, 3, [
       Math.min(deckBg[0], 240),
       Math.min(deckBg[1], 240),
@@ -201,7 +250,7 @@ export async function generateCardPDF({
 
   // Tags
   if (card.tags.length > 0) {
-    if (y + 12 > pageH - 18) { doc.addPage(); y = 14; }
+    if (y + 12 > pageH - footerH) { doc.addPage(); y = 14; }
     doc.setFont('helvetica', 'bold');
     doc.setFontSize(7.5);
     doc.setTextColor(80, 80, 80);
@@ -224,9 +273,8 @@ export async function generateCardPDF({
 
   // ─── GLOSSARY TERMS ───────────────────────────────────────────────────────
   if (glossaryTerms.length > 0) {
-    if (y + 20 > pageH - 18) { doc.addPage(); y = 14; }
+    if (y + 20 > pageH - footerH) { doc.addPage(); y = 14; }
 
-    // Section header
     doc.setFillColor(...deckColor);
     doc.rect(margin, y, 2.5, 5, 'F');
     doc.setFont('helvetica', 'bold');
@@ -240,7 +288,7 @@ export async function generateCardPDF({
     glossaryTerms.forEach(term => {
       const defLines = wrapText(doc, term.definition, contentW - 4);
       const blockH = defLines.length * 4.5 + 9;
-      if (y + blockH > pageH - 18) { doc.addPage(); y = 14; }
+      if (y + blockH > pageH - footerH) { doc.addPage(); y = 14; }
 
       roundRect(doc, margin, y, contentW, blockH, 2.5, [247, 245, 240]);
       doc.setFont('helvetica', 'bold');
@@ -312,7 +360,7 @@ export async function generateCardPDF({
     if (caseStudy.quote) {
       const qLines = wrapText(doc, `"${caseStudy.quote.text}"`, contentW - 12);
       const qH = qLines.length * 5.5 + 14;
-      if (y + qH > pageH - 18) { doc.addPage(); y = 14; }
+      if (y + qH > pageH - footerH) { doc.addPage(); y = 14; }
       roundRect(doc, margin, y, contentW, qH, 3, [247, 245, 240]);
       doc.setFillColor(...deckColor);
       doc.rect(margin, y, 2.5, qH, 'F');
@@ -327,8 +375,8 @@ export async function generateCardPDF({
       y += qH + 6;
     }
 
-    // Disclaimer
-    if (y + 10 > pageH - 18) { doc.addPage(); y = 14; }
+    // Case study disclaimer
+    if (y + 10 > pageH - footerH) { doc.addPage(); y = 14; }
     doc.setFont('helvetica', 'italic');
     doc.setFontSize(7);
     doc.setTextColor(160, 160, 160);
@@ -338,18 +386,49 @@ export async function generateCardPDF({
     );
   }
 
-  // ─── FOOTER (all pages) ───────────────────────────────────────────────────
+  // ─── FOOTER (all pages) — includes author credit + copyright ─────────────
   const totalPages = doc.getNumberOfPages();
+  const currentYear = new Date().getFullYear();
+
   for (let p = 1; p <= totalPages; p++) {
     doc.setPage(p);
+
+    // Footer background
     doc.setFillColor(245, 243, 238);
-    doc.rect(0, pageH - 10, pageW, 10, 'F');
-    doc.setFont('helvetica', 'normal');
+    doc.rect(0, pageH - footerH, pageW, footerH, 'F');
+
+    // Thin accent line at top of footer
+    doc.setDrawColor(...deckColor);
+    doc.setLineWidth(0.3);
+    doc.line(margin, pageH - footerH, pageW - margin, pageH - footerH);
+
+    // Top row: author credit + page number
+    doc.setFont('helvetica', 'bold');
     doc.setFontSize(7);
-    doc.setTextColor(160, 160, 160);
-    doc.text('StratAlign — PM Toolkit', margin, pageH - 4);
-    doc.text(`${card.code} · ${card.title}`, pageW / 2, pageH - 4, { align: 'center' });
-    doc.text(`Page ${p} of ${totalPages}`, pageW - margin, pageH - 4, { align: 'right' });
+    doc.setTextColor(100, 100, 100);
+    doc.text('Jackson Joy · February 2026', margin, pageH - footerH + 5);
+    doc.text(`Page ${p} of ${totalPages}`, pageW - margin, pageH - footerH + 5, { align: 'right' });
+
+    // Bottom row: copyright + card reference
+    doc.setFont('helvetica', 'normal');
+    doc.setFontSize(6.5);
+    doc.setTextColor(150, 150, 150);
+    doc.text(
+      `© ${currentYear} StratAlign — PM Toolkit. All rights reserved. For personal and educational use only.`,
+      margin,
+      pageH - footerH + 10,
+    );
+    doc.text(`${card.code} · ${card.title}`, pageW - margin, pageH - footerH + 10, { align: 'right' });
+
+    // Bottom-most row: IP notice
+    doc.setFont('helvetica', 'italic');
+    doc.setFontSize(5.5);
+    doc.setTextColor(175, 175, 175);
+    doc.text(
+      'This content is the intellectual property of Jackson Joy. Reproduction or redistribution without permission is prohibited.',
+      margin,
+      pageH - footerH + 14,
+    );
   }
 
   // ─── SAVE ─────────────────────────────────────────────────────────────────
