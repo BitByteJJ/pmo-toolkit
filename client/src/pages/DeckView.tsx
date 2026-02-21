@@ -299,9 +299,12 @@ function CardListItem({
           border: `1.5px solid ${deck.color}20`,
         }}
       >
-        <button
+        <div
           onClick={onNavigate}
-          className="w-full text-left p-4 pr-2"
+          role="button"
+          tabIndex={0}
+          onKeyDown={e => e.key === 'Enter' && onNavigate()}
+          className="w-full text-left p-4 pr-2 cursor-pointer"
         >
           <div className="flex items-start gap-3">
             {/* Card number badge */}
@@ -336,7 +339,7 @@ function CardListItem({
               {bookmarked ? <BookmarkCheck size={16} /> : <Bookmark size={16} />}
             </button>
           </div>
-        </button>
+        </div>
 
         {/* Bottom accent */}
         <div className="h-0.5 w-full" style={{ backgroundColor: `${deck.color}30` }} />
