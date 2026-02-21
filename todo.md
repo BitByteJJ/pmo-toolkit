@@ -35,3 +35,4 @@
 - [x] Template sub-tab on every card: structured working template for all 144 tools/techniques/methodologies
 - [x] templateData.ts: template content library with sections, fields, and example rows for each card
 - [x] Template UI: inline preview, copy-to-clipboard, and download as text/markdown
+- [x] Add footer credit: "Jackson Joy · February 2026" below the bottom nav on all pages

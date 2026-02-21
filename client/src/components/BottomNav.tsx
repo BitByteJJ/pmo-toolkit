@@ -36,7 +36,8 @@ export default function BottomNav() {
         borderTop: '1px solid rgba(0,0,0,0.06)',
       }}
     >
-      <div className="flex items-center justify-around max-w-md mx-auto px-2 py-1.5 pb-safe">
+      <div className="flex flex-col items-center">
+      <div className="flex items-center justify-around w-full max-w-md mx-auto px-2 py-1.5">
         {tabs.map(({ path, icon: Icon, label }) => {
           const active = isActive(path);
           const isBookmarkTab = path === '/bookmarks';
@@ -91,6 +92,11 @@ export default function BottomNav() {
             </button>
           );
         })}
+      </div>
+      {/* Footer credit */}
+      <p className="text-center text-[9px] text-stone-400 pb-1 tracking-wide">
+        Jackson Joy &middot; February 2026
+      </p>
       </div>
     </nav>
   );
