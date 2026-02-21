@@ -2,17 +2,17 @@
 // Design: "Clarity Cards" — clean floating tab bar with active state indicators
 
 import { useLocation } from 'wouter';
-import { Home, LayoutGrid, Search, Bookmark, Map } from 'lucide-react';
+import { Home, LayoutGrid, Search, BookOpen, Map } from 'lucide-react';
 import { useBookmarks } from '@/contexts/BookmarksContext';
 import { useJourney, MAX_HEARTS } from '@/contexts/JourneyContext';
-import { Heart } from 'lucide-react';
+import { Heart, Bookmark } from 'lucide-react';
 
 const tabs = [
   { path: '/', icon: Home, label: 'Home' },
   { path: '/decks', icon: LayoutGrid, label: 'Decks' },
   { path: '/journey', icon: Map, label: 'Journey' },
   { path: '/search', icon: Search, label: 'Search' },
-  { path: '/bookmarks', icon: Bookmark, label: 'Saved' },
+  { path: '/glossary', icon: BookOpen, label: 'Glossary' },
 ];
 
 export default function BottomNav() {
@@ -40,7 +40,7 @@ export default function BottomNav() {
       <div className="flex items-center justify-around w-full max-w-md mx-auto px-2 py-1.5">
         {tabs.map(({ path, icon: Icon, label }) => {
           const active = isActive(path);
-          const isBookmarkTab = path === '/bookmarks';
+          const isBookmarkTab = false; // Bookmarks accessible via Search page
           const isJourneyTab = path === '/journey';
           return (
             <button

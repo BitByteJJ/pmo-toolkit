@@ -20,6 +20,7 @@ import LessonPage from './pages/LessonPage';
 import EarnHeartPage from './pages/EarnHeartPage';
 import DecisionHelper from './pages/DecisionHelper';
 import QuizPage from './pages/QuizPage';
+import GlossaryPage from './pages/GlossaryPage';
 import WelcomeModal from './components/WelcomeModal';
 import { BookmarksProvider } from './contexts/BookmarksContext';
 import { JourneyProvider } from './contexts/JourneyContext';
@@ -42,6 +43,7 @@ function GlobalTopNav() {
   if (location.startsWith('/journey')) return null;
   if (location.startsWith('/decision')) return null;
   if (location.startsWith('/quiz')) return null;
+  if (location.startsWith('/glossary')) return null;
 
   // Derive accent colour from current route
   let accentColor = '#475569';
@@ -87,6 +89,7 @@ function Router() {
         <Route path="/journey/earn-heart" component={EarnHeartPage} />
         <Route path="/decision" component={DecisionHelper} />
         <Route path="/quiz/:deckId" component={QuizPage} />
+        <Route path="/glossary" component={GlossaryPage} />
         <Route path="/404" component={NotFound} />
         <Route component={NotFound} />
       </Switch>
