@@ -5,7 +5,7 @@
 
 import { useLocation } from 'wouter';
 import { motion } from 'framer-motion';
-import { Layers, Zap, BookOpen, Search, ArrowRight, Map, Heart, Flame, Compass } from 'lucide-react';
+import { Layers, Zap, BookOpen, Search, ArrowRight, Map, Heart, Flame, Compass, Sparkles, Activity } from 'lucide-react';
 import BottomNav from '@/components/BottomNav';
 import { DECKS, CARDS, getCardsByDeck } from '@/lib/pmoData';
 import { useBookmarks } from '@/contexts/BookmarksContext';
@@ -521,9 +521,70 @@ export default function Home() {
             <p className="text-sm font-bold text-white leading-tight">Not sure which tool to use?</p>
             <p className="text-[11px] text-white/70 mt-0.5">Answer 2–3 questions to get a personalised recommendation</p>
           </div>
+           <ArrowRight size={14} className="text-white/60 shrink-0" />
+        </motion.button>
+        {/* AI Coach CTA */}
+        <motion.button
+          initial={{ opacity: 0, y: 8 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.35, delay: 0.15 }}
+          onClick={() => navigate('/ai-coach')}
+          className="w-full flex items-center gap-3 rounded-2xl px-4 py-3 text-left"
+          style={{
+            background: 'linear-gradient(135deg, #312e81 0%, #4f46e5 100%)',
+            boxShadow: '0 4px 16px rgba(79,70,229,0.22)',
+          }}
+          whileHover={{ scale: 1.01 }}
+          whileTap={{ scale: 0.98 }}
+        >
+          <div className="w-8 h-8 rounded-xl bg-white/20 flex items-center justify-center shrink-0">
+            <Sparkles size={15} className="text-white" />
+          </div>
+          <div className="flex-1 text-left">
+            <p className="text-sm font-bold text-white leading-tight">Chat with your AI Coach</p>
+            <p className="text-[11px] text-white/70 mt-0.5">Describe any challenge — get personalised card recommendations</p>
+          </div>
           <ArrowRight size={14} className="text-white/60 shrink-0" />
         </motion.button>
-
+        {/* Two-column CTAs: Health Check + Scenario Library */}
+        <div className="grid grid-cols-2 gap-3">
+          <motion.button
+            initial={{ opacity: 0, y: 8 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.35, delay: 0.17 }}
+            onClick={() => navigate('/health-check')}
+            className="flex flex-col items-start gap-2 rounded-2xl px-4 py-4 text-left"
+            style={{ background: 'linear-gradient(135deg, #7C3AED 0%, #E11D48 100%)', boxShadow: '0 4px 16px rgba(124,58,237,0.22)' }}
+            whileHover={{ scale: 1.02 }}
+            whileTap={{ scale: 0.97 }}
+          >
+            <div className="w-8 h-8 rounded-xl bg-white/20 flex items-center justify-center">
+              <Activity size={15} className="text-white" />
+            </div>
+            <div>
+              <p className="text-sm font-bold text-white leading-tight">Health Check</p>
+              <p className="text-[10px] text-white/70 mt-0.5">Score your project in 5 areas</p>
+            </div>
+          </motion.button>
+          <motion.button
+            initial={{ opacity: 0, y: 8 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.35, delay: 0.19 }}
+            onClick={() => navigate('/scenarios')}
+            className="flex flex-col items-start gap-2 rounded-2xl px-4 py-4 text-left"
+            style={{ background: 'linear-gradient(135deg, #0369A1 0%, #059669 100%)', boxShadow: '0 4px 16px rgba(3,105,161,0.22)' }}
+            whileHover={{ scale: 1.02 }}
+            whileTap={{ scale: 0.97 }}
+          >
+            <div className="w-8 h-8 rounded-xl bg-white/20 flex items-center justify-center">
+              <Map size={15} className="text-white" />
+            </div>
+            <div>
+              <p className="text-sm font-bold text-white leading-tight">Scenarios</p>
+              <p className="text-[10px] text-white/70 mt-0.5">12 pre-built card packs</p>
+            </div>
+          </motion.button>
+        </div>
         {/* All Decks */}
         <div>
           <motion.div

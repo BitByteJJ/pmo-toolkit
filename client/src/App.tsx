@@ -21,6 +21,9 @@ import EarnHeartPage from './pages/EarnHeartPage';
 import DecisionHelper from './pages/DecisionHelper';
 import QuizPage from './pages/QuizPage';
 import GlossaryPage from './pages/GlossaryPage';
+import AICoachPage from './pages/AICoachPage';
+import HealthCheckPage from './pages/HealthCheckPage';
+import ScenarioLibraryPage from './pages/ScenarioLibraryPage';
 import WelcomeModal from './components/WelcomeModal';
 import { BookmarksProvider } from './contexts/BookmarksContext';
 import { JourneyProvider } from './contexts/JourneyContext';
@@ -44,6 +47,9 @@ function GlobalTopNav() {
   if (location.startsWith('/decision')) return null;
   if (location.startsWith('/quiz')) return null;
   if (location.startsWith('/glossary')) return null;
+  if (location.startsWith('/ai-coach')) return null;
+  if (location.startsWith('/health-check')) return null;
+  if (location.startsWith('/scenarios')) return null;
 
   // Derive accent colour from current route
   let accentColor = '#475569';
@@ -90,6 +96,9 @@ function Router() {
         <Route path="/decision" component={DecisionHelper} />
         <Route path="/quiz/:deckId" component={QuizPage} />
         <Route path="/glossary" component={GlossaryPage} />
+        <Route path="/ai-coach" component={AICoachPage} />
+        <Route path="/health-check" component={HealthCheckPage} />
+        <Route path="/scenarios" component={ScenarioLibraryPage} />
         <Route path="/404" component={NotFound} />
         <Route component={NotFound} />
       </Switch>
