@@ -26,6 +26,7 @@ import { getCaseStudyByCardId } from '@/lib/caseStudiesData';
 import { getTermsForCard } from '@/lib/glossaryData';
 import { MarkdownTemplateRenderer, templateToCSV } from '@/components/MarkdownTemplateRenderer';
 import { getCardLevel, LEVEL_LABELS, LEVEL_COLORS } from '@/lib/cardLevels';
+import { generateCardPDF } from '@/lib/cardPdfExport';
 import { useMasteryBadges } from '@/hooks/useMasteryBadges';
 
 // ─── Sub-components ───────────────────────────────────────────────────────────
@@ -194,6 +195,7 @@ export default function CardDetail() {
   const [noteText, setNoteText] = useState('');
   const [activeTab, setActiveTab] = useState<'overview' | 'template' | 'case-study'>('overview');
   const [copied, setCopied] = useState(false);
+  const [pdfGenerating, setPdfGenerating] = useState(false);
   const [showCelebration, setShowCelebration] = useState(false);
   const [swipeHint, setSwipeHint] = useState(false);
 
@@ -275,6 +277,20 @@ export default function CardDetail() {
   }
 
   const template = getTemplateByCardId(card?.id ?? '');
+
+  const handleExportPDF = useCallback(async () => {
+    if (!card || !deck || pdfGenerating) return;
+    setPdfGenerating(true);
+    try {
+      const caseStudyData = getCaseStudyByCardId(card.id);
+      const glossaryTerms = getTermsForCard(card.id);
+      await generateCardPDF({ card, deck, caseStudy: caseStudyData ?? undefined, glossaryTerms });
+    } catch (e) {
+      console.error('PDF export failed', e);
+    } finally {
+      setPdfGenerating(false);
+    }
+  }, [card, deck, pdfGenerating]);
   const caseStudy = getCaseStudyByCardId(card?.id ?? '');
 
   // Reset tab to overview when navigating to a card without a template or case study
@@ -961,6 +977,28 @@ export default function CardDetail() {
             <p className="text-[9px] text-stone-400 leading-relaxed text-center px-2">
               {GENERAL_DISCLAIMER}
             </p>
+          </div>
+
+          {/* ── PDF Export Button ── */}
+          <div className="pb-4">
+            <button
+              onClick={handleExportPDF}
+              disabled={pdfGenerating}
+              className="w-full flex items-center justify-center gap-2 rounded-2xl py-3.5 px-4 font-semibold text-[13px] transition-all active:scale-[0.97] hover:opacity-90 disabled:opacity-60"
+              style={{ backgroundColor: deck?.color ?? '#0284C7', color: '#fff' }}
+            >
+              {pdfGenerating ? (
+                <>
+                  <svg className="animate-spin" width={15} height={15} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2.5}><circle cx="12" cy="12" r="10" strokeOpacity={0.25}/><path d="M12 2a10 10 0 0 1 10 10" /></svg>
+                  Generating PDF…
+                </>
+              ) : (
+                <>
+                  <Download size={15} />
+                  Save as PDF
+                </>
+              )}
+            </button>
           </div>
 
           {/* ── Glossary Terms ── */}

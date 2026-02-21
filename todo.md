@@ -89,3 +89,7 @@
 - [x] Wire Glossary into App.tsx routing and BottomNav
 - [x] Add glossary term links on CardDetail page (overview tab)
 - [x] Expand caseStudiesData.ts to cover remaining high-value cards (100 total)
+
+## Glossary Wiring & PDF Export
+- [x] Update all 120+ glossary term relatedCards arrays to cover all 144 cards (100% coverage)
+- [x] Add PDF export button to CardDetail page (full-page formatted PDF via jsPDF)
