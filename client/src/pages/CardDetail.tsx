@@ -6,12 +6,13 @@ import { motion, AnimatePresence } from 'framer-motion';
 import {
   ArrowLeft, Bookmark, BookmarkCheck,
   ChevronLeft, ChevronRight,
-  Lightbulb, ListChecks, Info, Link2, Tag, Sparkles, ShieldCheck, ExternalLink, Image
+  Lightbulb, ListChecks, Info, Link2, Tag, Sparkles, ShieldCheck, ExternalLink, Cpu
 } from 'lucide-react';
 import BottomNav from '@/components/BottomNav';
 import { getCardById, getDeckById, getRelatedCards, getCardsByDeck } from '@/lib/pmoData';
 import { getCopyrightNotices, GENERAL_DISCLAIMER } from '@/lib/copyrightData';
 import { getCardIllustration } from '@/lib/toolImages';
+import { getVisualReference } from '@/components/VisualReference';
 import { useBookmarks } from '@/contexts/BookmarksContext';
 
 function Section({ icon: Icon, title, children, color }: {
@@ -233,6 +234,26 @@ export default function CardDetail() {
               </div>
             </div>
           )}
+
+          {/* Visual Reference Diagram */}
+          {(() => {
+            const diagram = getVisualReference(card.id, card.title);
+            if (!diagram) return null;
+            return (
+              <div>
+                <div className="flex items-center gap-2 mb-2">
+                  <div
+                    className="w-5 h-5 rounded-md flex items-center justify-center shrink-0"
+                    style={{ backgroundColor: (deck?.color ?? '#6B7280') + '20' }}
+                  >
+                    <Cpu size={11} style={{ color: deck?.color ?? '#6B7280' }} />
+                  </div>
+                  <h3 className="text-[10px] font-bold text-stone-400 uppercase tracking-wider">Visual Reference</h3>
+                </div>
+                {diagram}
+              </div>
+            );
+          })()}
 
           {/* Example */}
           {card.example && (
