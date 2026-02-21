@@ -5,7 +5,7 @@
 
 import { useLocation } from 'wouter';
 import { motion } from 'framer-motion';
-import { Layers, Zap, BookOpen, Search, ArrowRight, Map, Heart, Flame, Compass, Sparkles, Activity } from 'lucide-react';
+import { Layers, Zap, BookOpen, Search, ArrowRight, Map, Heart, Flame, Compass, Sparkles, Activity, Brain, FolderOpen, FileText } from 'lucide-react';
 import BottomNav from '@/components/BottomNav';
 import { DECKS, CARDS, getCardsByDeck } from '@/lib/pmoData';
 import { useBookmarks } from '@/contexts/BookmarksContext';
@@ -582,6 +582,66 @@ export default function Home() {
             <div>
               <p className="text-sm font-bold text-white leading-tight">Scenarios</p>
               <p className="text-[10px] text-white/70 mt-0.5">12 pre-built card packs</p>
+            </div>
+          </motion.button>
+
+          {/* Spaced Repetition */}
+          <motion.button
+            initial={{ opacity: 0, y: 8 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.35, delay: 0.21 }}
+            onClick={() => navigate('/review')}
+            className="flex flex-col items-start gap-2 rounded-2xl px-4 py-4 text-left"
+            style={{ background: 'linear-gradient(135deg, #7C3AED 0%, #4F46E5 100%)', boxShadow: '0 4px 16px rgba(124,58,237,0.22)' }}
+            whileHover={{ scale: 1.02 }}
+            whileTap={{ scale: 0.97 }}
+          >
+            <div className="w-8 h-8 rounded-xl bg-white/20 flex items-center justify-center">
+              <Brain size={15} className="text-white" />
+            </div>
+            <div>
+              <p className="text-sm font-bold text-white leading-tight">Review</p>
+              <p className="text-[10px] text-white/70 mt-0.5">Spaced repetition</p>
+            </div>
+          </motion.button>
+
+          {/* Collections */}
+          <motion.button
+            initial={{ opacity: 0, y: 8 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.35, delay: 0.23 }}
+            onClick={() => navigate('/collections')}
+            className="flex flex-col items-start gap-2 rounded-2xl px-4 py-4 text-left"
+            style={{ background: 'linear-gradient(135deg, #D97706 0%, #CA8A04 100%)', boxShadow: '0 4px 16px rgba(217,119,6,0.22)' }}
+            whileHover={{ scale: 1.02 }}
+            whileTap={{ scale: 0.97 }}
+          >
+            <div className="w-8 h-8 rounded-xl bg-white/20 flex items-center justify-center">
+              <FolderOpen size={15} className="text-white" />
+            </div>
+            <div>
+              <p className="text-sm font-bold text-white leading-tight">Collections</p>
+              <p className="text-[10px] text-white/70 mt-0.5">Custom card folders</p>
+            </div>
+          </motion.button>
+
+          {/* Template Builder */}
+          <motion.button
+            initial={{ opacity: 0, y: 8 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.35, delay: 0.25 }}
+            onClick={() => navigate('/templates')}
+            className="flex flex-col items-start gap-2 rounded-2xl px-4 py-4 text-left"
+            style={{ background: 'linear-gradient(135deg, #0891B2 0%, #0284C7 100%)', boxShadow: '0 4px 16px rgba(8,145,178,0.22)' }}
+            whileHover={{ scale: 1.02 }}
+            whileTap={{ scale: 0.97 }}
+          >
+            <div className="w-8 h-8 rounded-xl bg-white/20 flex items-center justify-center">
+              <FileText size={15} className="text-white" />
+            </div>
+            <div>
+              <p className="text-sm font-bold text-white leading-tight">Templates</p>
+              <p className="text-[10px] text-white/70 mt-0.5">Fill & export PM docs</p>
             </div>
           </motion.button>
         </div>
