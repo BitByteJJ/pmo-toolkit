@@ -6,11 +6,12 @@ import { motion, AnimatePresence } from 'framer-motion';
 import {
   ArrowLeft, Bookmark, BookmarkCheck,
   ChevronLeft, ChevronRight,
-  Lightbulb, ListChecks, Info, Link2, Tag, Sparkles, ShieldCheck, ExternalLink
+  Lightbulb, ListChecks, Info, Link2, Tag, Sparkles, ShieldCheck, ExternalLink, LayoutTemplate
 } from 'lucide-react';
 import BottomNav from '@/components/BottomNav';
 import { getCardById, getDeckById, getRelatedCards, getCardsByDeck } from '@/lib/pmoData';
 import { getCopyrightNotices, GENERAL_DISCLAIMER } from '@/lib/copyrightData';
+import { TOOL_IMAGES } from '@/lib/toolImages';
 import { useBookmarks } from '@/contexts/BookmarksContext';
 
 function Section({ icon: Icon, title, children, color }: {
@@ -225,6 +226,32 @@ export default function CardDetail() {
             <Section icon={Sparkles} title="Example" color={deck?.color ?? '#6B7280'}>
               <p className="text-sm text-stone-600 leading-relaxed italic">{card.example}</p>
             </Section>
+          )}
+
+          {/* Tool Template Image */}
+          {TOOL_IMAGES[card.id] && (
+            <div className="rounded-2xl overflow-hidden" style={{ boxShadow: '0 1px 3px rgba(0,0,0,0.05)' }}>
+              <div
+                className="flex items-center gap-2 px-4 py-2.5"
+                style={{ backgroundColor: deck?.color + '15' }}
+              >
+                <LayoutTemplate size={11} style={{ color: deck?.color }} />
+                <span className="text-[10px] font-bold uppercase tracking-wider" style={{ color: deck?.color }}>
+                  Template Diagram
+                </span>
+              </div>
+              <div className="bg-white">
+                <img
+                  src={TOOL_IMAGES[card.id].url}
+                  alt={`${card.title} template diagram`}
+                  className="w-full h-auto block"
+                  loading="lazy"
+                />
+                <p className="text-[9px] text-stone-400 px-4 py-2 leading-relaxed">
+                  {TOOL_IMAGES[card.id].caption}
+                </p>
+              </div>
+            </div>
           )}
 
           {/* Tags */}
