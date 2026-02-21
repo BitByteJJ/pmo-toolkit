@@ -67,7 +67,7 @@ function PhysicalDeckCard({ deck, index }: { deck: typeof DECKS[0]; index: numbe
       >
 
         {/* ── DESKTOP: full-bleed illustration, text overlay at bottom ── */}
-        <div className="hidden lg:flex flex-col h-full relative" style={{ minHeight: '288px' }}>
+        <div className="hidden lg:flex flex-col h-full relative" style={{ minHeight: '360px' }}>
           {/* Full-bleed background illustration — object-cover fills the card, top-anchored so heads aren't cropped */}
           {coverImg && (
             <div className="absolute inset-0">
