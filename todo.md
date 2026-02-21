@@ -104,3 +104,7 @@
 
 ## Sprint Mode Illustrations
 - [x] Add card illustrations beneath card name in Sprint Mode flipper cards
+
+## PDF Export Fixes v2
+- [x] Update PDF footer: remove personal copyright, use educational disclaimer language
+- [x] Fix PDF illustration embedding (CORS issue — switched from fetch to canvas with crossOrigin)

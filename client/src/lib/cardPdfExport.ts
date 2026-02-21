@@ -33,20 +33,27 @@ function roundRect(
   doc.roundedRect(x, y, w, h, r, r, 'F');
 }
 
-/** Load an image from URL and return as base64 data URL */
+/** Load an image from URL and return as base64 data URL via canvas (avoids CORS fetch issues) */
 async function loadImageAsBase64(url: string): Promise<string | null> {
-  try {
-    const response = await fetch(url);
-    const blob = await response.blob();
-    return new Promise((resolve) => {
-      const reader = new FileReader();
-      reader.onloadend = () => resolve(reader.result as string);
-      reader.onerror = () => resolve(null);
-      reader.readAsDataURL(blob);
-    });
-  } catch {
-    return null;
-  }
+  return new Promise((resolve) => {
+    const img = new Image();
+    img.crossOrigin = 'anonymous';
+    img.onload = () => {
+      try {
+        const canvas = document.createElement('canvas');
+        canvas.width = img.naturalWidth;
+        canvas.height = img.naturalHeight;
+        const ctx = canvas.getContext('2d');
+        if (!ctx) { resolve(null); return; }
+        ctx.drawImage(img, 0, 0);
+        resolve(canvas.toDataURL('image/png'));
+      } catch {
+        resolve(null);
+      }
+    };
+    img.onerror = () => resolve(null);
+    img.src = url;
+  });
 }
 
 // ─── main export ──────────────────────────────────────────────────────────────
@@ -402,32 +409,33 @@ export async function generateCardPDF({
     doc.setLineWidth(0.3);
     doc.line(margin, pageH - footerH, pageW - margin, pageH - footerH);
 
-    // Top row: author credit + page number
+    // Top row: app name + page number
     doc.setFont('helvetica', 'bold');
     doc.setFontSize(7);
     doc.setTextColor(100, 100, 100);
-    doc.text('Jackson Joy · February 2026', margin, pageH - footerH + 5);
+    doc.text('StratAlign — PM Toolkit', margin, pageH - footerH + 5);
     doc.text(`Page ${p} of ${totalPages}`, pageW - margin, pageH - footerH + 5, { align: 'right' });
 
-    // Bottom row: copyright + card reference
+    // Bottom row: educational purpose + card reference
     doc.setFont('helvetica', 'normal');
     doc.setFontSize(6.5);
     doc.setTextColor(150, 150, 150);
     doc.text(
-      `© ${currentYear} StratAlign — PM Toolkit. All rights reserved. For personal and educational use only.`,
+      'For educational and reference purposes only.',
       margin,
       pageH - footerH + 10,
     );
     doc.text(`${card.code} · ${card.title}`, pageW - margin, pageH - footerH + 10, { align: 'right' });
 
-    // Bottom-most row: IP notice
+    // Bottom-most row: IP disclaimer
     doc.setFont('helvetica', 'italic');
     doc.setFontSize(5.5);
     doc.setTextColor(175, 175, 175);
     doc.text(
-      'This content is the intellectual property of Jackson Joy. Reproduction or redistribution without permission is prohibited.',
+      'All referenced frameworks, models, and methodologies are the intellectual property of their respective owners. This app is an educational reference tool only.',
       margin,
       pageH - footerH + 14,
+      { maxWidth: contentW },
     );
   }
 
