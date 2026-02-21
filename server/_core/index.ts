@@ -8,6 +8,7 @@ import { appRouter } from '../routers';
 import { createContext } from './context';
 import { handleOAuthCallback, handleLogout } from './oauth';
 import { env } from './env';
+import { setupVite } from './vite';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -33,17 +34,16 @@ async function startServer() {
     })
   );
 
-  // Static files
-  const staticPath =
-    env.NODE_ENV === 'production'
-      ? path.resolve(__dirname, '..', '..', 'dist', 'public')
-      : path.resolve(__dirname, '..', '..', 'dist');
-
+  // Frontend serving
   if (env.NODE_ENV === 'production') {
+    const staticPath = path.resolve(__dirname, '..', '..', 'dist', 'public');
     app.use(express.static(staticPath));
     app.get('*', (_req, res) => {
       res.sendFile(path.join(staticPath, 'index.html'));
     });
+  } else {
+    // Development: use Vite middleware for HMR and SPA routing
+    await setupVite(app);
   }
 
   const port = parseInt(env.PORT, 10);
