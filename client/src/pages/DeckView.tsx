@@ -9,6 +9,7 @@ import { Bookmark, BookmarkCheck, ChevronDown, ChevronUp, Lightbulb, Layers, Com
 import { useState, useMemo } from 'react';
 import BottomNav from '@/components/BottomNav';
 import { getCardsByDeck, getDeckById } from '@/lib/pmoData';
+import { getCardIllustration } from '@/lib/toolImages';
 import { getDeckIntro } from '@/lib/deckIntroData';
 import { useBookmarks } from '@/contexts/BookmarksContext';
 import { useCardProgress } from '@/hooks/useCardProgress';
@@ -247,65 +248,105 @@ function CardListItem({
   const { isRead } = useCardProgress();
   const bookmarked = isBookmarked(card.id);
   const read = isRead(card.id);
+  const illustration = getCardIllustration(card.id);
 
   return (
     <motion.div variants={itemVariants}>
       <div
-        className="bg-white overflow-hidden"
+        className="relative overflow-hidden cursor-pointer"
         style={{
           borderRadius: '16px',
-          boxShadow: '0 2px 8px rgba(0,0,0,0.06)',
-          border: `1.5px solid ${read ? deck.color + '40' : deck.color + '20'}`,
+          boxShadow: `0 3px 12px ${deck.color}22, 0 1px 4px rgba(0,0,0,0.07)`,
+          border: `1.5px solid ${read ? deck.color + '50' : deck.color + '25'}`,
+          minHeight: '88px',
+          backgroundColor: deck.bgColor,
         }}
+        onClick={onNavigate}
+        role="button"
+        tabIndex={0}
+        onKeyDown={e => e.key === 'Enter' && onNavigate()}
       >
-        <div
-          onClick={onNavigate}
-          role="button"
-          tabIndex={0}
-          onKeyDown={e => e.key === 'Enter' && onNavigate()}
-          className="w-full text-left p-4 pr-2 cursor-pointer"
-        >
-          <div className="flex items-start gap-3">
-            {/* Card number badge — shows checkmark if read */}
+        {/* Full-bleed illustration */}
+        {illustration && (
+          <div className="absolute inset-0 pointer-events-none">
+            <img
+              src={illustration}
+              alt=""
+              aria-hidden="true"
+              className="absolute"
+              style={{
+                right: '-4px',
+                top: '50%',
+                transform: 'translateY(-50%)',
+                height: '140%',
+                width: 'auto',
+                maxWidth: '48%',
+                objectFit: 'contain',
+                mixBlendMode: 'multiply',
+                opacity: 0.9,
+              }}
+            />
+            {/* Gradient mask so text stays readable */}
             <div
-              className="w-8 h-8 rounded-xl flex items-center justify-center text-xs font-black flex-shrink-0 mt-0.5 transition-colors"
-              style={{ backgroundColor: read ? deck.color : `${deck.color}18`, color: read ? '#fff' : deck.color }}
-            >
-              {read ? <CheckCircle2 size={14} /> : index + 1}
-            </div>
-
-            <div className="flex-1 min-w-0">
-              <div className="flex items-center gap-2 mb-1">
-                <span
-                  className="text-[9px] font-mono font-bold px-1.5 py-0.5 rounded-md"
-                  style={{ backgroundColor: deck.bgColor, color: deck.textColor }}
-                >
-                  {card.code}
-                </span>
-                <span className="text-[9px] text-stone-400 font-medium capitalize">
-                  {card.type.replace('-', ' ')}
-                </span>
-                {read && (
-                  <span className="text-[9px] font-semibold" style={{ color: deck.color }}>Read</span>
-                )}
-              </div>
-              <h3 className={`text-sm font-bold leading-tight ${read ? 'text-stone-500' : 'text-stone-800'}`}>{card.title}</h3>
-              <p className="text-[11px] text-stone-500 mt-1 line-clamp-2 leading-relaxed">{card.tagline}</p>
-            </div>
-
-            <button
-              onClick={e => { e.stopPropagation(); toggleBookmark(card.id); }}
-              className="p-2 rounded-xl flex-shrink-0 transition-transform hover:scale-110 active:scale-90"
-              style={{ color: bookmarked ? deck.color : '#d1d5db' }}
-              title={bookmarked ? 'Remove bookmark' : 'Bookmark this card'}
-            >
-              {bookmarked ? <BookmarkCheck size={16} /> : <Bookmark size={16} />}
-            </button>
+              className="absolute inset-0"
+              style={{
+                background: `linear-gradient(to right, ${deck.bgColor} 42%, ${deck.bgColor}D0 60%, ${deck.bgColor}60 78%, transparent 100%)`,
+              }}
+            />
           </div>
+        )}
+
+        {/* Text content floats on top */}
+        <div className="relative z-10 flex items-center gap-3 px-4 py-3 pr-2">
+          {/* Index / read badge */}
+          <div
+            className="w-8 h-8 rounded-xl flex items-center justify-center text-xs font-black flex-shrink-0 transition-colors"
+            style={{ backgroundColor: read ? deck.color : `${deck.color}22`, color: read ? '#fff' : deck.color }}
+          >
+            {read ? <CheckCircle2 size={14} /> : index + 1}
+          </div>
+
+          <div className="flex-1 min-w-0">
+            <div className="flex items-center gap-1.5 mb-0.5">
+              <span
+                className="text-[9px] font-mono font-bold px-1.5 py-0.5 rounded-md"
+                style={{ backgroundColor: deck.color + '25', color: deck.textColor }}
+              >
+                {card.code}
+              </span>
+              <span className="text-[9px] font-medium capitalize" style={{ color: deck.textColor, opacity: 0.55 }}>
+                {card.type.replace('-', ' ')}
+              </span>
+              {read && (
+                <span className="text-[9px] font-bold" style={{ color: deck.color }}>✓</span>
+              )}
+            </div>
+            <h3
+              className="text-sm font-bold leading-tight"
+              style={{ color: deck.textColor, opacity: read ? 0.6 : 1 }}
+            >
+              {card.title}
+            </h3>
+            <p
+              className="text-[11px] mt-0.5 line-clamp-1 leading-relaxed"
+              style={{ color: deck.textColor, opacity: 0.55 }}
+            >
+              {card.tagline}
+            </p>
+          </div>
+
+          <button
+            onClick={e => { e.stopPropagation(); toggleBookmark(card.id); }}
+            className="p-2 rounded-xl flex-shrink-0 transition-transform hover:scale-110 active:scale-90"
+            style={{ color: bookmarked ? deck.color : deck.color + '55' }}
+            title={bookmarked ? 'Remove bookmark' : 'Bookmark this card'}
+          >
+            {bookmarked ? <BookmarkCheck size={16} /> : <Bookmark size={16} />}
+          </button>
         </div>
 
-        {/* Bottom accent */}
-        <div className="h-0.5 w-full" style={{ backgroundColor: `${deck.color}30` }} />
+        {/* Bottom accent bar */}
+        <div className="h-0.5 w-full" style={{ backgroundColor: `${deck.color}40` }} />
       </div>
     </motion.div>
   );
