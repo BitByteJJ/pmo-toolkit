@@ -43,11 +43,11 @@ function PhysicalDeckCard({ deck, index }: { deck: typeof DECKS[0]; index: numbe
       initial={{ opacity: 0, y: 24, rotate: tilt * 1.5 }}
       animate={{ opacity: 1, y: 0, rotate: 0 }}
       transition={{ duration: 0.45, delay: index * 0.07, ease: [0.22, 1, 0.36, 1] }}
-      className="relative cursor-pointer"
+      className="relative cursor-pointer h-full"
       style={{ marginBottom: '4px' }}
       onClick={() => navigate(`/deck/${deck.id}`)}
     >
-      {/* Card stack layers */}
+      {/* Card stack shadow layers */}
       <div
         className="absolute inset-0 rounded-2xl"
         style={{ backgroundColor: deck.color, opacity: 0.25, transform: `rotate(${tilt * 1.8}deg) translateY(4px)`, zIndex: 0 }}
@@ -62,49 +62,42 @@ function PhysicalDeckCard({ deck, index }: { deck: typeof DECKS[0]; index: numbe
         whileHover={{ scale: 1.02, rotate: tilt * 0.3, y: -3 }}
         whileTap={{ scale: 0.97 }}
         transition={{ type: 'spring', stiffness: 400, damping: 25 }}
-        className="relative w-full text-left rounded-2xl overflow-hidden"
+        className="relative w-full h-full text-left rounded-2xl overflow-hidden flex flex-col"
         style={{ zIndex: 2, boxShadow: `0 4px 16px ${deck.color}30, 0 2px 6px rgba(0,0,0,0.08)` }}
       >
         {/* Background */}
         <div className="absolute inset-0" style={{ backgroundColor: deck.bgColor }} />
 
-        {/* Cover illustration */}
+        {/* ── ILLUSTRATION BLOCK (top, visible on all sizes) ── */}
         {coverImg && (
-          <div className="absolute inset-0 overflow-hidden pointer-events-none" style={{ zIndex: 1 }}>
+          <div
+            className="relative w-full overflow-hidden shrink-0"
+            style={{ height: '140px', zIndex: 1 }}
+          >
             <img
               src={coverImg}
               alt=""
               aria-hidden="true"
-              className="absolute"
-              style={{
-                right: '-8px',
-                top: '50%',
-                transform: 'translateY(-50%)',
-                height: '130%',
-                width: 'auto',
-                maxWidth: '55%',
-                objectFit: 'contain',
-                mixBlendMode: 'multiply',
-                opacity: 0.88,
-              }}
+              className="absolute inset-0 w-full h-full object-contain object-center"
+              style={{ mixBlendMode: 'multiply', opacity: 0.92 }}
             />
+            {/* Subtle bottom fade into card body */}
             <div
-              className="absolute inset-0"
-              style={{ background: `linear-gradient(to right, ${deck.bgColor} 38%, ${deck.bgColor}CC 58%, transparent 85%)` }}
+              className="absolute bottom-0 left-0 right-0 h-8"
+              style={{ background: `linear-gradient(to bottom, transparent, ${deck.bgColor})` }}
             />
           </div>
         )}
 
-        {/* Card content */}
-        <div className="relative px-4 py-4" style={{ zIndex: 2 }}>
-          {/* Top row */}
-          <div className="flex items-start justify-between mb-3">
+        {/* ── CARD CONTENT (below illustration) ── */}
+        <div className="relative flex flex-col flex-1 px-4 pb-4 pt-2" style={{ zIndex: 2 }}>
+          {/* Top row: icon + card count */}
+          <div className="flex items-center justify-between mb-2">
             <div
-              className="w-10 h-10 rounded-xl flex items-center justify-center text-xl shrink-0 relative"
+              className="w-8 h-8 rounded-xl flex items-center justify-center text-lg shrink-0 relative"
               style={{ backgroundColor: deck.color + '22' }}
             >
               {deck.icon}
-              {/* Completion badge */}
               {isComplete && (
                 <span
                   className="absolute -top-1 -right-1 w-4 h-4 rounded-full flex items-center justify-center text-[8px]"
@@ -115,7 +108,7 @@ function PhysicalDeckCard({ deck, index }: { deck: typeof DECKS[0]; index: numbe
               )}
             </div>
             <div
-              className="flex items-center gap-1 px-2.5 py-1 rounded-full text-white text-[10px] font-bold"
+              className="flex items-center gap-1 px-2 py-0.5 rounded-full text-white text-[10px] font-bold"
               style={{ backgroundColor: deck.color }}
             >
               <span>{cards.length}</span>
@@ -123,7 +116,7 @@ function PhysicalDeckCard({ deck, index }: { deck: typeof DECKS[0]; index: numbe
             </div>
           </div>
 
-          {/* Code tag */}
+          {/* Subtitle tag */}
           <div className="mb-1">
             <span
               className="text-[9px] font-mono font-bold px-1.5 py-0.5 rounded-md"
@@ -135,7 +128,7 @@ function PhysicalDeckCard({ deck, index }: { deck: typeof DECKS[0]; index: numbe
 
           {/* Title */}
           <h3
-            className="text-base font-bold leading-tight mb-1"
+            className="text-sm font-bold leading-tight mb-1"
             style={{ fontFamily: 'Sora, sans-serif', color: deck.textColor }}
           >
             {deck.title}
@@ -143,8 +136,8 @@ function PhysicalDeckCard({ deck, index }: { deck: typeof DECKS[0]; index: numbe
 
           {/* Description */}
           <p
-            className="text-[11px] leading-relaxed line-clamp-2 mb-3"
-            style={{ color: deck.textColor, opacity: 0.65, maxWidth: '62%' }}
+            className="text-[11px] leading-relaxed line-clamp-2 mb-3 flex-1"
+            style={{ color: deck.textColor, opacity: 0.65 }}
           >
             {deck.description}
           </p>
@@ -172,18 +165,18 @@ function PhysicalDeckCard({ deck, index }: { deck: typeof DECKS[0]; index: numbe
             </div>
           )}
 
-          {/* Bottom */}
-          <div className="flex items-center justify-between">
+          {/* CTA row */}
+          <div className="flex items-center justify-between mt-auto">
             <div className="flex items-center gap-1">
               {cards.slice(0, 4).map((c, i) => (
                 <div
                   key={c.id}
-                  className="w-6 h-8 rounded-md"
+                  className="w-5 h-7 rounded-md"
                   style={{
                     backgroundColor: deck.color,
                     opacity: 0.15 + i * 0.15,
                     transform: `rotate(${(i - 1.5) * 3}deg)`,
-                    marginLeft: i > 0 ? '-6px' : '0',
+                    marginLeft: i > 0 ? '-5px' : '0',
                     zIndex: i,
                     position: 'relative',
                   }}
@@ -198,7 +191,7 @@ function PhysicalDeckCard({ deck, index }: { deck: typeof DECKS[0]; index: numbe
         </div>
 
         {/* Bottom accent bar */}
-        <div className="h-1 w-full" style={{ backgroundColor: deck.color }} />
+        <div className="h-1 w-full shrink-0" style={{ backgroundColor: deck.color }} />
       </motion.div>
     </motion.div>
   );
@@ -323,7 +316,8 @@ export default function Home() {
             <h2 className="text-[11px] font-black text-stone-400 uppercase tracking-[0.12em]">All Decks</h2>
             <span className="text-[10px] text-stone-400 font-medium">{DECKS.length} decks</span>
           </motion.div>
-          <div className="space-y-3">
+          {/* Mobile: single column | Tablet: 2 columns | Desktop: 3 columns */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 items-stretch">
             {DECKS.map((deck, index) => (
               <PhysicalDeckCard key={deck.id} deck={deck} index={index} />
             ))}
