@@ -1474,6 +1474,540 @@ export function TechniqueDiagram({ title, axes }: { title?: string; axes?: strin
 }
 
 // ═══════════════════════════════════════════════════════════════════════════════
+// A1 — Principled Negotiation (Interest vs Position matrix)
+// ═══════════════════════════════════════════════════════════════════════════════
+export function NegotiationDiagram() {
+  const svgW = 320; const svgH = 200;
+  return (
+    <DiagramWrapper label="PRINCIPLED NEGOTIATION // A1">
+      <svg viewBox={`0 0 ${svgW} ${svgH}`} className="w-full" style={{ display: 'block' }}>
+        <GridBg w={svgW} h={svgH} />
+        {/* Two party boxes */}
+        <rect x={10} y={20} width={110} height={50} rx="4" fill={LINE} opacity="0.1" />
+        <rect x={10} y={20} width={110} height={50} rx="4" fill="none" stroke={LINE} strokeWidth="1" style={{ filter: GLOW }} />
+        <text x={65} y={40} textAnchor="middle" fill={LINE} fontSize="8" fontFamily="monospace" fontWeight="bold">PARTY A</text>
+        <text x={65} y={55} textAnchor="middle" fill={LABEL} fontSize="6.5" fontFamily="monospace">Position: Higher price</text>
+        <text x={65} y={65} textAnchor="middle" fill={LINE2} fontSize="6" fontFamily="monospace">Interest: Cash flow</text>
+        <rect x={200} y={20} width={110} height={50} rx="4" fill={LINE3} opacity="0.1" />
+        <rect x={200} y={20} width={110} height={50} rx="4" fill="none" stroke={LINE3} strokeWidth="1" style={{ filter: GLOW3 }} />
+        <text x={255} y={40} textAnchor="middle" fill={LINE3} fontSize="8" fontFamily="monospace" fontWeight="bold">PARTY B</text>
+        <text x={255} y={55} textAnchor="middle" fill={LABEL} fontSize="6.5" fontFamily="monospace">Position: Lower cost</text>
+        <text x={255} y={65} textAnchor="middle" fill={LINE2} fontSize="6" fontFamily="monospace">Interest: Budget</text>
+        {/* Arrow to ZOPA */}
+        <line x1={120} y1={45} x2={200} y2={45} stroke={DIM} strokeWidth="1" strokeDasharray="4,3" />
+        <polygon points="196,41 204,45 196,49" fill={DIM} />
+        {/* ZOPA box */}
+        <rect x={100} y={90} width={120} height={40} rx="4" fill={LINE2} opacity="0.12" />
+        <rect x={100} y={90} width={120} height={40} rx="4" fill="none" stroke={LINE2} strokeWidth="1.2" style={{ filter: GLOW2 }} />
+        <text x={160} y={107} textAnchor="middle" fill={LINE2} fontSize="8" fontFamily="monospace" fontWeight="bold">ZOPA</text>
+        <text x={160} y={120} textAnchor="middle" fill={LABEL} fontSize="6" fontFamily="monospace">Zone of Possible Agreement</text>
+        {/* 4 principles */}
+        {['SEPARATE PEOPLE', 'FOCUS INTERESTS', 'INVENT OPTIONS', 'USE CRITERIA'].map((p, i) => (
+          <g key={i}>
+            <rect x={10 + i * 76} y={148} width={70} height={36} rx="3" fill={LINE} opacity="0.07" />
+            <rect x={10 + i * 76} y={148} width={70} height={36} rx="3" fill="none" stroke={LINE} strokeWidth="0.7" opacity="0.5" />
+            <text x={45 + i * 76} y={162} textAnchor="middle" fill={LINE} fontSize="5.5" fontFamily="monospace">{p.split(' ')[0]}</text>
+            <text x={45 + i * 76} y={174} textAnchor="middle" fill={LABEL} fontSize="5" fontFamily="monospace" opacity="0.6">{p.split(' ')[1]}</text>
+          </g>
+        ))}
+        <Brackets x={2} y={2} w={svgW - 4} h={svgH - 4} />
+      </svg>
+    </DiagramWrapper>
+  );
+}
+
+// ═══════════════════════════════════════════════════════════════════════════════
+// A2 — Tuckman's Ladder
+// ═══════════════════════════════════════════════════════════════════════════════
+export function TuckmanDiagram() {
+  const svgW = 320; const svgH = 180;
+  const stages = [
+    { label: 'FORMING', sub: 'Orientation', color: DIM, x: 40 },
+    { label: 'STORMING', sub: 'Conflict', color: LINE3, x: 110 },
+    { label: 'NORMING', sub: 'Cohesion', color: LINE, x: 180 },
+    { label: 'PERFORMING', sub: 'High output', color: LINE2, x: 250 },
+  ];
+  const perf = [20, 40, 70, 95];
+  return (
+    <DiagramWrapper label="TUCKMAN'S LADDER // A2">
+      <svg viewBox={`0 0 ${svgW} ${svgH}`} className="w-full" style={{ display: 'block' }}>
+        <GridBg w={svgW} h={svgH} />
+        {/* Performance curve */}
+        <polyline points={stages.map((s, i) => `${s.x},${140 - perf[i]}`).join(' ')}
+          fill="none" stroke={LINE} strokeWidth="1.5" strokeDasharray="4,2"
+          style={{ filter: GLOW }} />
+        {stages.map((s, i) => (
+          <g key={i}>
+            <line x1={s.x} y1={20} x2={s.x} y2={150} stroke={s.color} strokeWidth="0.6" strokeDasharray="3,3" opacity="0.4" />
+            <rect x={s.x - 30} y={152} width={60} height={22} rx="3" fill={s.color} opacity="0.12" />
+            <rect x={s.x - 30} y={152} width={60} height={22} rx="3" fill="none" stroke={s.color} strokeWidth="0.8" />
+            <text x={s.x} y={162} textAnchor="middle" fill={s.color} fontSize="6" fontFamily="monospace" fontWeight="bold">{s.label}</text>
+            <text x={s.x} y={170} textAnchor="middle" fill={LABEL} fontSize="5.5" fontFamily="monospace" opacity="0.6">{s.sub}</text>
+            <GlowDot x={s.x} y={140 - perf[i]} r={3} color={s.color} />
+          </g>
+        ))}
+        <text x={8} y={25} fill={LABEL} fontSize="6" fontFamily="monospace" opacity="0.5">PERFORMANCE</text>
+        <Brackets x={2} y={2} w={svgW - 4} h={svgH - 4} />
+      </svg>
+    </DiagramWrapper>
+  );
+}
+
+// ═══════════════════════════════════════════════════════════════════════════════
+// A17/A77 — Risk Matrix (Probability × Impact)
+// ═══════════════════════════════════════════════════════════════════════════════
+export function RiskMatrixDiagram() {
+  const svgW = 320; const svgH = 200;
+  const cells = [
+    [LINE2, LINE2, LINE3],
+    [LINE2, LINE3, LINE3],
+    [LINE3, LINE3, '#FF2244'],
+  ];
+  const risks = [
+    { label: 'Supply delay', px: 200, py: 80 },
+    { label: 'Reg. rejection', px: 240, py: 50 },
+    { label: 'Budget overrun', px: 160, py: 120 },
+  ];
+  const cellW = 70; const cellH = 50; const ox = 60; const oy = 20;
+  return (
+    <DiagramWrapper label="PROBABILITY × IMPACT MATRIX">
+      <svg viewBox={`0 0 ${svgW} ${svgH}`} className="w-full" style={{ display: 'block' }}>
+        <GridBg w={svgW} h={svgH} />
+        {cells.map((row, ri) =>
+          row.map((c, ci) => (
+            <g key={`${ri}-${ci}`}>
+              <rect x={ox + ci * cellW} y={oy + ri * cellH} width={cellW} height={cellH}
+                fill={c} opacity={0.08 + ri * 0.04 + ci * 0.04} />
+              <rect x={ox + ci * cellW} y={oy + ri * cellH} width={cellW} height={cellH}
+                fill="none" stroke={c} strokeWidth="0.6" opacity="0.4" />
+            </g>
+          ))
+        )}
+        {/* Axis labels */}
+        {['LOW', 'MED', 'HIGH'].map((l, i) => (
+          <text key={i} x={ox + i * cellW + cellW / 2} y={oy + 3 * cellH + 12}
+            textAnchor="middle" fill={LABEL} fontSize="6" fontFamily="monospace" opacity="0.6">{l}</text>
+        ))}
+        {['LOW', 'MED', 'HIGH'].map((l, i) => (
+          <text key={i} x={ox - 6} y={oy + (2 - i) * cellH + cellH / 2 + 3}
+            textAnchor="end" fill={LABEL} fontSize="6" fontFamily="monospace" opacity="0.6">{l}</text>
+        ))}
+        <text x={ox + 105} y={oy + 3 * cellH + 22} textAnchor="middle" fill={LABEL} fontSize="6" fontFamily="monospace" opacity="0.5">IMPACT →</text>
+        <text x={ox - 18} y={oy + 75} textAnchor="middle" fill={LABEL} fontSize="6" fontFamily="monospace" opacity="0.5"
+          transform={`rotate(-90, ${ox - 18}, ${oy + 75})`}>PROBABILITY →</text>
+        {/* Risk dots */}
+        {risks.map((r, i) => (
+          <g key={i}>
+            <GlowDot x={r.px} y={r.py} r={4} color={LINE3} />
+            <text x={r.px + 7} y={r.py + 3} fill={LABEL} fontSize="5.5" fontFamily="monospace" opacity="0.8">{r.label}</text>
+          </g>
+        ))}
+        <Brackets x={2} y={2} w={svgW - 4} h={svgH - 4} />
+      </svg>
+    </DiagramWrapper>
+  );
+}
+
+// ═══════════════════════════════════════════════════════════════════════════════
+// A21 — Six Sigma DMAIC
+// ═══════════════════════════════════════════════════════════════════════════════
+export function DMAICDiagram() {
+  const svgW = 320; const svgH = 160;
+  const steps = [
+    { label: 'DEFINE', sub: 'Problem', color: LINE3 },
+    { label: 'MEASURE', sub: 'Baseline', color: LINE },
+    { label: 'ANALYSE', sub: 'Root cause', color: LINE2 },
+    { label: 'IMPROVE', sub: 'Solutions', color: LINE },
+    { label: 'CONTROL', sub: 'Sustain', color: LINE2 },
+  ];
+  const w = (svgW - 20) / 5;
+  return (
+    <DiagramWrapper label="SIX SIGMA DMAIC // A21">
+      <svg viewBox={`0 0 ${svgW} ${svgH}`} className="w-full" style={{ display: 'block' }}>
+        <GridBg w={svgW} h={svgH} />
+        {steps.map((s, i) => {
+          const x = 10 + i * (w + 2);
+          return (
+            <g key={i}>
+              <rect x={x} y={30} width={w - 2} height={80} rx="4"
+                fill={s.color} opacity="0.1" />
+              <rect x={x} y={30} width={w - 2} height={80} rx="4"
+                fill="none" stroke={s.color} strokeWidth="1"
+                style={{ filter: `drop-shadow(0 0 4px ${s.color}66)` }} />
+              <text x={x + (w - 2) / 2} y={56} textAnchor="middle" fill={s.color} fontSize="8" fontFamily="monospace" fontWeight="bold">{s.label[0]}</text>
+              <text x={x + (w - 2) / 2} y={80} textAnchor="middle" fill={s.color} fontSize="6" fontFamily="monospace">{s.label}</text>
+              <text x={x + (w - 2) / 2} y={96} textAnchor="middle" fill={LABEL} fontSize="5.5" fontFamily="monospace" opacity="0.6">{s.sub}</text>
+              {i < 4 && <polygon points={`${x + w},${70} ${x + w + 4},${65} ${x + w + 4},${75}`} fill={s.color} opacity="0.6" />}
+            </g>
+          );
+        })}
+        <Brackets x={2} y={2} w={svgW - 4} h={svgH - 4} />
+      </svg>
+    </DiagramWrapper>
+  );
+}
+
+// ═══════════════════════════════════════════════════════════════════════════════
+// A35 — Kotter's 8 Steps
+// ═══════════════════════════════════════════════════════════════════════════════
+export function KotterDiagram() {
+  const svgW = 320; const svgH = 200;
+  const steps = [
+    'CREATE URGENCY', 'FORM COALITION', 'BUILD VISION', 'COMMUNICATE',
+    'EMPOWER ACTION', 'SHORT-TERM WINS', 'BUILD ON GAINS', 'ANCHOR CULTURE',
+  ];
+  const colors = [LINE3, LINE3, LINE, LINE, LINE2, LINE2, LINE, LINE2];
+  return (
+    <DiagramWrapper label="KOTTER'S 8 STEPS // A35">
+      <svg viewBox={`0 0 ${svgW} ${svgH}`} className="w-full" style={{ display: 'block' }}>
+        <GridBg w={svgW} h={svgH} />
+        {steps.map((s, i) => {
+          const col = i % 2; const row = Math.floor(i / 2);
+          const x = 10 + col * 154; const y = 14 + row * 44;
+          return (
+            <g key={i}>
+              <rect x={x} y={y} width={144} height={34} rx="3" fill={colors[i]} opacity="0.1" />
+              <rect x={x} y={y} width={144} height={34} rx="3" fill="none" stroke={colors[i]} strokeWidth="0.8" />
+              <text x={x + 8} y={y + 13} fill={colors[i]} fontSize="7.5" fontFamily="monospace" fontWeight="bold">{i + 1}</text>
+              <text x={x + 22} y={y + 13} fill={colors[i]} fontSize="6.5" fontFamily="monospace">{s.split(' ')[0]}</text>
+              <text x={x + 22} y={y + 24} fill={LABEL} fontSize="5.5" fontFamily="monospace" opacity="0.6">{s.split(' ').slice(1).join(' ')}</text>
+              {i < 7 && (
+                <polygon
+                  points={col === 0
+                    ? `${x + 148},${y + 17} ${x + 154},${y + 17} ${x + 151},${y + 21}`
+                    : `${x + 72},${y + 34} ${x + 76},${y + 40} ${x + 68},${y + 40}`}
+                  fill={colors[i]} opacity="0.5" />
+              )}
+            </g>
+          );
+        })}
+        <Brackets x={2} y={2} w={svgW - 4} h={svgH - 4} />
+      </svg>
+    </DiagramWrapper>
+  );
+}
+
+// ═══════════════════════════════════════════════════════════════════════════════
+// A39 — SWOT Analysis
+// ═══════════════════════════════════════════════════════════════════════════════
+export function SWOTDiagram() {
+  const svgW = 320; const svgH = 200;
+  const quads = [
+    { label: 'STRENGTHS', sub: 'Internal · Positive', color: LINE2, x: 10, y: 10 },
+    { label: 'WEAKNESSES', sub: 'Internal · Negative', color: LINE3, x: 164, y: 10 },
+    { label: 'OPPORTUNITIES', sub: 'External · Positive', color: LINE, x: 10, y: 104 },
+    { label: 'THREATS', sub: 'External · Negative', color: '#FF2244', x: 164, y: 104 },
+  ];
+  return (
+    <DiagramWrapper label="SWOT ANALYSIS // A39">
+      <svg viewBox={`0 0 ${svgW} ${svgH}`} className="w-full" style={{ display: 'block' }}>
+        <GridBg w={svgW} h={svgH} />
+        {quads.map((q, i) => (
+          <g key={i}>
+            <rect x={q.x} y={q.y} width={146} height={88} rx="4" fill={q.color} opacity="0.08" />
+            <rect x={q.x} y={q.y} width={146} height={88} rx="4" fill="none" stroke={q.color} strokeWidth="1"
+              style={{ filter: `drop-shadow(0 0 4px ${q.color}44)` }} />
+            <text x={q.x + 73} y={q.y + 28} textAnchor="middle" fill={q.color} fontSize="9" fontFamily="monospace" fontWeight="bold">{q.label}</text>
+            <text x={q.x + 73} y={q.y + 42} textAnchor="middle" fill={LABEL} fontSize="6" fontFamily="monospace" opacity="0.6">{q.sub}</text>
+          </g>
+        ))}
+        {/* Center cross */}
+        <line x1={160} y1={10} x2={160} y2={192} stroke={DIM} strokeWidth="1" opacity="0.5" />
+        <line x1={10} y1={100} x2={310} y2={100} stroke={DIM} strokeWidth="1" opacity="0.5" />
+        <text x={10} y={8} fill={LABEL} fontSize="6" fontFamily="monospace" opacity="0.5">INTERNAL</text>
+        <text x={164} y={8} fill={LABEL} fontSize="6" fontFamily="monospace" opacity="0.5">EXTERNAL</text>
+        <Brackets x={2} y={2} w={svgW - 4} h={svgH - 4} />
+      </svg>
+    </DiagramWrapper>
+  );
+}
+
+// ═══════════════════════════════════════════════════════════════════════════════
+// A47 — PDCA Cycle
+// ═══════════════════════════════════════════════════════════════════════════════
+export function PDCADiagram() {
+  const svgW = 320; const svgH = 200;
+  const cx = 160; const cy = 100; const R = 70;
+  const quads = [
+    { label: 'PLAN', sub: 'Identify & plan', color: LINE, angle: -135 },
+    { label: 'DO', sub: 'Implement', color: LINE2, angle: -45 },
+    { label: 'CHECK', sub: 'Measure results', color: LINE3, angle: 45 },
+    { label: 'ACT', sub: 'Standardise', color: LINE, angle: 135 },
+  ];
+  return (
+    <DiagramWrapper label="PDCA CYCLE // A47">
+      <svg viewBox={`0 0 ${svgW} ${svgH}`} className="w-full" style={{ display: 'block' }}>
+        <GridBg w={svgW} h={svgH} />
+        <circle cx={cx} cy={cy} r={R} fill="none" stroke={DIM} strokeWidth="1" opacity="0.3" />
+        {quads.map((q, i) => {
+          const a = (q.angle * Math.PI) / 180;
+          const lx = cx + (R + 20) * Math.cos(a);
+          const ly = cy + (R + 20) * Math.sin(a);
+          const nx = cx + R * Math.cos(a);
+          const ny = cy + R * Math.sin(a);
+          return (
+            <g key={i}>
+              <circle cx={nx} cy={ny} r={18} fill={q.color} opacity="0.12" />
+              <circle cx={nx} cy={ny} r={18} fill="none" stroke={q.color} strokeWidth="1.2"
+                style={{ filter: `drop-shadow(0 0 5px ${q.color})` }} />
+              <text x={nx} y={ny + 3} textAnchor="middle" fill={q.color} fontSize="8" fontFamily="monospace" fontWeight="bold">{q.label}</text>
+            </g>
+          );
+        })}
+        {/* Rotation arrow */}
+        <path d={`M ${cx + R - 10},${cy - 5} A ${R},${R} 0 0 1 ${cx + 5},${cy - R + 10}`}
+          fill="none" stroke={LINE} strokeWidth="1" strokeDasharray="4,3"
+          style={{ filter: GLOW }} />
+        <polygon points={`${cx + 5},${cy - R + 4} ${cx + 10},${cy - R + 14} ${cx - 2},${cy - R + 14}`} fill={LINE} opacity="0.6" />
+        <text x={cx} y={cy + 5} textAnchor="middle" fill={LINE} fontSize="7" fontFamily="monospace" opacity="0.5">ITERATE</text>
+        <Brackets x={2} y={2} w={svgW - 4} h={svgH - 4} />
+      </svg>
+    </DiagramWrapper>
+  );
+}
+
+// ═══════════════════════════════════════════════════════════════════════════════
+// A75 — ADKAR Model
+// ═══════════════════════════════════════════════════════════════════════════════
+export function ADKARDiagram() {
+  const svgW = 320; const svgH = 160;
+  const steps = [
+    { label: 'AWARENESS', sub: 'Why change?', color: LINE3 },
+    { label: 'DESIRE', sub: 'Want to?', color: LINE },
+    { label: 'KNOWLEDGE', sub: 'How to?', color: LINE2 },
+    { label: 'ABILITY', sub: 'Can do?', color: LINE },
+    { label: 'REINFORCEMENT', sub: 'Sustain', color: LINE2 },
+  ];
+  const w = (svgW - 20) / 5;
+  return (
+    <DiagramWrapper label="ADKAR MODEL // A75">
+      <svg viewBox={`0 0 ${svgW} ${svgH}`} className="w-full" style={{ display: 'block' }}>
+        <GridBg w={svgW} h={svgH} />
+        {steps.map((s, i) => {
+          const x = 10 + i * (w + 2);
+          return (
+            <g key={i}>
+              <rect x={x} y={30} width={w - 2} height={80} rx="4"
+                fill={s.color} opacity="0.1" />
+              <rect x={x} y={30} width={w - 2} height={80} rx="4"
+                fill="none" stroke={s.color} strokeWidth="1"
+                style={{ filter: `drop-shadow(0 0 4px ${s.color}66)` }} />
+              <text x={x + (w - 2) / 2} y={56} textAnchor="middle" fill={s.color} fontSize="8" fontFamily="monospace" fontWeight="bold">{s.label[0]}</text>
+              <text x={x + (w - 2) / 2} y={80} textAnchor="middle" fill={s.color} fontSize="5.5" fontFamily="monospace">{s.label}</text>
+              <text x={x + (w - 2) / 2} y={96} textAnchor="middle" fill={LABEL} fontSize="5" fontFamily="monospace" opacity="0.6">{s.sub}</text>
+              {i < 4 && <polygon points={`${x + w},${70} ${x + w + 4},${65} ${x + w + 4},${75}`} fill={s.color} opacity="0.6" />}
+            </g>
+          );
+        })}
+        <Brackets x={2} y={2} w={svgW - 4} h={svgH - 4} />
+      </svg>
+    </DiagramWrapper>
+  );
+}
+
+// ═══════════════════════════════════════════════════════════════════════════════
+// A29 — 5 Whys (drill-down chain)
+// ═══════════════════════════════════════════════════════════════════════════════
+export function FiveWhysDiagram() {
+  const svgW = 320; const svgH = 200;
+  const levels = [
+    { label: 'PROBLEM', sub: 'Labels smudge', color: LINE3, y: 18 },
+    { label: 'WHY 1', sub: 'Ink not dry', color: LINE3, y: 52 },
+    { label: 'WHY 2', sub: 'Speed too high', color: LINE, y: 86 },
+    { label: 'WHY 3', sub: 'No speed check', color: LINE, y: 120 },
+    { label: 'WHY 4', sub: 'No SOP defined', color: LINE2, y: 154 },
+    { label: 'ROOT CAUSE', sub: 'Process gap', color: LINE2, y: 188 },
+  ];
+  return (
+    <DiagramWrapper label="5 WHYS ROOT CAUSE // A29">
+      <svg viewBox={`0 0 ${svgW} ${svgH + 10}`} className="w-full" style={{ display: 'block' }}>
+        <GridBg w={svgW} h={svgH + 10} />
+        {levels.map((l, i) => (
+          <g key={i}>
+            {i > 0 && (
+              <line x1={160} y1={levels[i - 1].y + 14} x2={160} y2={l.y - 2}
+                stroke={l.color} strokeWidth="1" strokeDasharray="3,2" opacity="0.5" />
+            )}
+            <rect x={60} y={l.y - 10} width={200} height={22} rx="3"
+              fill={l.color} opacity={i === 0 || i === 5 ? 0.18 : 0.08} />
+            <rect x={60} y={l.y - 10} width={200} height={22} rx="3"
+              fill="none" stroke={l.color} strokeWidth={i === 5 ? 1.5 : 0.8} />
+            <text x={80} y={l.y + 4} fill={l.color} fontSize="6.5" fontFamily="monospace" fontWeight="bold">{l.label}</text>
+            <text x={200} y={l.y + 4} textAnchor="end" fill={LABEL} fontSize="6" fontFamily="monospace" opacity="0.7">{l.sub}</text>
+            {i < 5 && <text x={50} y={l.y + 4} textAnchor="end" fill={l.color} fontSize="8" fontFamily="monospace" opacity="0.5">?</text>}
+          </g>
+        ))}
+        <Brackets x={2} y={2} w={svgW - 4} h={svgH + 6} />
+      </svg>
+    </DiagramWrapper>
+  );
+}
+
+// ═══════════════════════════════════════════════════════════════════════════════
+// A38 — Pareto Chart
+// ═══════════════════════════════════════════════════════════════════════════════
+export function ParetoDiagram() {
+  const svgW = 320; const svgH = 200;
+  const bars = [
+    { label: 'Label error', pct: 38, cum: 38 },
+    { label: 'Print smudge', pct: 24, cum: 62 },
+    { label: 'Wrong font', pct: 18, cum: 80 },
+    { label: 'Colour mismatch', pct: 12, cum: 92 },
+    { label: 'Other', pct: 8, cum: 100 },
+  ];
+  const barW = 44; const maxH = 120; const ox = 40; const oy = 160;
+  return (
+    <DiagramWrapper label="PARETO CHART // A38">
+      <svg viewBox={`0 0 ${svgW} ${svgH}`} className="w-full" style={{ display: 'block' }}>
+        <GridBg w={svgW} h={svgH} />
+        {/* 80% line */}
+        <line x1={ox} y1={oy - maxH * 0.8} x2={svgW - 20} y2={oy - maxH * 0.8}
+          stroke={LINE3} strokeWidth="0.8" strokeDasharray="4,3" opacity="0.6" />
+        <text x={svgW - 18} y={oy - maxH * 0.8 + 4} fill={LINE3} fontSize="6" fontFamily="monospace" opacity="0.7">80%</text>
+        {bars.map((b, i) => {
+          const x = ox + i * (barW + 4);
+          const h = (b.pct / 100) * maxH;
+          return (
+            <g key={i}>
+              <rect x={x} y={oy - h} width={barW} height={h} rx="2"
+                fill={i < 3 ? LINE3 : DIM} opacity={0.3 - i * 0.04} />
+              <rect x={x} y={oy - h} width={barW} height={h} rx="2"
+                fill="none" stroke={i < 3 ? LINE3 : DIM} strokeWidth="0.8" />
+              <text x={x + barW / 2} y={oy - h - 4} textAnchor="middle" fill={LABEL} fontSize="6" fontFamily="monospace">{b.pct}%</text>
+              <text x={x + barW / 2} y={oy + 10} textAnchor="middle" fill={LABEL} fontSize="5" fontFamily="monospace" opacity="0.6">{b.label.split(' ')[0]}</text>
+            </g>
+          );
+        })}
+        {/* Cumulative line */}
+        <polyline
+          points={bars.map((b, i) => `${ox + i * (barW + 4) + barW / 2},${oy - (b.cum / 100) * maxH}`).join(' ')}
+          fill="none" stroke={LINE} strokeWidth="1.2" style={{ filter: GLOW }} />
+        {bars.map((b, i) => (
+          <GlowDot key={i} x={ox + i * (barW + 4) + barW / 2} y={oy - (b.cum / 100) * maxH} r={2.5} color={LINE} />
+        ))}
+        <Brackets x={2} y={2} w={svgW - 4} h={svgH - 4} />
+      </svg>
+    </DiagramWrapper>
+  );
+}
+
+// ═══════════════════════════════════════════════════════════════════════════════
+// A40 — WSJF Prioritisation
+// ═══════════════════════════════════════════════════════════════════════════════
+export function WSJFDiagram() {
+  const svgW = 320; const svgH = 200;
+  const items = [
+    { label: 'Critical fix', cod: 10, size: 1, wsjf: 10.0, color: LINE2 },
+    { label: 'New feature A', cod: 8, size: 3, wsjf: 2.7, color: LINE },
+    { label: 'Compliance update', cod: 9, size: 4, wsjf: 2.3, color: LINE },
+    { label: 'UI refresh', cod: 4, size: 5, wsjf: 0.8, color: DIM },
+    { label: 'Nice-to-have', cod: 2, size: 8, wsjf: 0.3, color: DIM },
+  ];
+  return (
+    <DiagramWrapper label="WSJF PRIORITISATION // A40">
+      <svg viewBox={`0 0 ${svgW} ${svgH}`} className="w-full" style={{ display: 'block' }}>
+        <GridBg w={svgW} h={svgH} />
+        {/* Header */}
+        {['FEATURE', 'CoD', 'SIZE', 'WSJF'].map((h, i) => (
+          <text key={i} x={[10, 140, 190, 250][i]} y={22} fill={LINE} fontSize="7" fontFamily="monospace" fontWeight="bold" opacity="0.7">{h}</text>
+        ))}
+        <line x1={8} y1={26} x2={312} y2={26} stroke={LINE} strokeWidth="0.5" opacity="0.3" />
+        {items.map((item, i) => (
+          <g key={i}>
+            <rect x={8} y={30 + i * 30} width={304} height={26} rx="2"
+              fill={item.color} opacity={i === 0 ? 0.12 : 0.04} />
+            <text x={14} y={47 + i * 30} fill={item.color} fontSize="7" fontFamily="monospace">{item.label}</text>
+            <text x={148} y={47 + i * 30} fill={LABEL} fontSize="7" fontFamily="monospace">{item.cod}</text>
+            <text x={196} y={47 + i * 30} fill={LABEL} fontSize="7" fontFamily="monospace">{item.size}</text>
+            <text x={256} y={47 + i * 30} fill={item.color} fontSize="8" fontFamily="monospace" fontWeight="bold">{item.wsjf}</text>
+            {i === 0 && <rect x={8} y={30} width={304} height={26} rx="2" fill="none" stroke={LINE2} strokeWidth="0.8" style={{ filter: GLOW2 }} />}
+          </g>
+        ))}
+        <Brackets x={2} y={2} w={svgW - 4} h={svgH - 4} />
+      </svg>
+    </DiagramWrapper>
+  );
+}
+
+// ═══════════════════════════════════════════════════════════════════════════════
+// A55 — Porter's Five Forces
+// ═══════════════════════════════════════════════════════════════════════════════
+export function FiveForcesD() {
+  const svgW = 320; const svgH = 200;
+  const cx = 160; const cy = 100;
+  const forces = [
+    { label: 'NEW ENTRANTS', sub: 'Threat', color: LINE3, x: cx, y: 20 },
+    { label: 'SUPPLIERS', sub: 'Bargaining', color: LINE, x: 30, y: cy },
+    { label: 'BUYERS', sub: 'Bargaining', color: LINE, x: 290, y: cy },
+    { label: 'SUBSTITUTES', sub: 'Threat', color: LINE3, x: cx, y: 180 },
+  ];
+  return (
+    <DiagramWrapper label="PORTER'S FIVE FORCES // A55">
+      <svg viewBox={`0 0 ${svgW} ${svgH}`} className="w-full" style={{ display: 'block' }}>
+        <GridBg w={svgW} h={svgH} />
+        {/* Center */}
+        <rect x={cx - 45} y={cy - 22} width={90} height={44} rx="4" fill={LINE2} opacity="0.12" />
+        <rect x={cx - 45} y={cy - 22} width={90} height={44} rx="4" fill="none" stroke={LINE2} strokeWidth="1.2" style={{ filter: GLOW2 }} />
+        <text x={cx} y={cy - 4} textAnchor="middle" fill={LINE2} fontSize="7.5" fontFamily="monospace" fontWeight="bold">COMPETITIVE</text>
+        <text x={cx} y={cy + 10} textAnchor="middle" fill={LINE2} fontSize="7.5" fontFamily="monospace" fontWeight="bold">RIVALRY</text>
+        {forces.map((f, i) => {
+          const dx = f.x - cx; const dy = f.y - cy;
+          const len = Math.sqrt(dx * dx + dy * dy);
+          const ex = cx + (dx / len) * 46; const ey = cy + (dy / len) * 22;
+          return (
+            <g key={i}>
+              <line x1={ex} y1={ey} x2={f.x} y2={f.y} stroke={f.color} strokeWidth="0.8" strokeDasharray="3,2" opacity="0.5" />
+              <rect x={f.x - 38} y={f.y - 14} width={76} height={28} rx="3"
+                fill={f.color} opacity="0.1" />
+              <rect x={f.x - 38} y={f.y - 14} width={76} height={28} rx="3"
+                fill="none" stroke={f.color} strokeWidth="0.8" />
+              <text x={f.x} y={f.y - 2} textAnchor="middle" fill={f.color} fontSize="6.5" fontFamily="monospace" fontWeight="bold">{f.label}</text>
+              <text x={f.x} y={f.y + 10} textAnchor="middle" fill={LABEL} fontSize="5.5" fontFamily="monospace" opacity="0.6">{f.sub}</text>
+            </g>
+          );
+        })}
+        <Brackets x={2} y={2} w={svgW - 4} h={svgH - 4} />
+      </svg>
+    </DiagramWrapper>
+  );
+}
+
+// ═══════════════════════════════════════════════════════════════════════════════
+// A58 — BCG Matrix
+// ═══════════════════════════════════════════════════════════════════════════════
+export function BCGDiagram() {
+  const svgW = 320; const svgH = 200;
+  const quads = [
+    { label: 'STAR', sub: 'High growth · High share', color: LINE2, x: 164, y: 10 },
+    { label: 'QUESTION MARK', sub: 'High growth · Low share', color: LINE, x: 10, y: 10 },
+    { label: 'CASH COW', sub: 'Low growth · High share', color: LINE3, x: 164, y: 104 },
+    { label: 'DOG', sub: 'Low growth · Low share', color: DIM, x: 10, y: 104 },
+  ];
+  return (
+    <DiagramWrapper label="BCG MATRIX // A58">
+      <svg viewBox={`0 0 ${svgW} ${svgH}`} className="w-full" style={{ display: 'block' }}>
+        <GridBg w={svgW} h={svgH} />
+        {quads.map((q, i) => (
+          <g key={i}>
+            <rect x={q.x} y={q.y} width={146} height={88} rx="4" fill={q.color} opacity="0.08" />
+            <rect x={q.x} y={q.y} width={146} height={88} rx="4" fill="none" stroke={q.color} strokeWidth="1"
+              style={{ filter: `drop-shadow(0 0 4px ${q.color}44)` }} />
+            <text x={q.x + 73} y={q.y + 28} textAnchor="middle" fill={q.color} fontSize="9" fontFamily="monospace" fontWeight="bold">{q.label}</text>
+            <text x={q.x + 73} y={q.y + 44} textAnchor="middle" fill={LABEL} fontSize="5.5" fontFamily="monospace" opacity="0.6">{q.sub.split(' · ')[0]}</text>
+            <text x={q.x + 73} y={q.y + 56} textAnchor="middle" fill={LABEL} fontSize="5.5" fontFamily="monospace" opacity="0.6">{q.sub.split(' · ')[1]}</text>
+          </g>
+        ))}
+        <line x1={160} y1={10} x2={160} y2={192} stroke={DIM} strokeWidth="1" opacity="0.5" />
+        <line x1={10} y1={100} x2={310} y2={100} stroke={DIM} strokeWidth="1" opacity="0.5" />
+        <text x={10} y={8} fill={LABEL} fontSize="6" fontFamily="monospace" opacity="0.5">HIGH GROWTH →</text>
+        <text x={164} y={8} fill={LABEL} fontSize="6" fontFamily="monospace" opacity="0.5">HIGH SHARE →</text>
+        <Brackets x={2} y={2} w={svgW - 4} h={svgH - 4} />
+      </svg>
+    </DiagramWrapper>
+  );
+}
+
+// ═══════════════════════════════════════════════════════════════════════════════
 // Master lookup — returns the right diagram for a given card ID
 // ═══════════════════════════════════════════════════════════════════════════════
 export function getVisualReference(cardId: string, cardTitle?: string): React.ReactNode | null {
@@ -1489,11 +2023,11 @@ export function getVisualReference(cardId: string, cardTitle?: string): React.Re
   if (cardId === 'T9') return <MonteCarloDiagram />;
   if (cardId === 'T10') return <DecisionTreeDiagram />;
   if (cardId === 'T11') return <BalancedScorecardDiagram />;
-  if (cardId === 'T12') return <StakeholderMatrixDiagram />;
-  if (cardId === 'T13') return <ForceFieldDiagram />;
+  if (cardId === 'T12') return <DelphiDiagram />;
+  if (cardId === 'T13') return <CostBenefitDiagram />;
   if (cardId === 'T14') return <ScopeStatementDiagram />;
-  if (cardId === 'T15') return <DelphiDiagram />;
-  if (cardId === 'T16') return <CostBenefitDiagram />;
+  if (cardId === 'T15') return <ForceFieldDiagram />;
+  if (cardId === 'T16') return <StakeholderMatrixDiagram />;
   if (cardId === 'T17') return <BurndownDiagram />;
   // Methodologies
   if (cardId === 'M1') return <WaterfallDiagram />;
@@ -1511,7 +2045,21 @@ export function getVisualReference(cardId: string, cardTitle?: string): React.Re
   if (cardId.startsWith('process-')) return <ProcessDiagram title={cardTitle} />;
   // Business environment
   if (cardId.startsWith('business-')) return <BusinessEnvDiagram />;
-  // Advanced techniques — show radar chart for all A* cards
+  // Advanced techniques — specific diagrams for key cards
+  if (cardId === 'A1') return <NegotiationDiagram />;
+  if (cardId === 'A2') return <TuckmanDiagram />;
+  if (cardId === 'A17' || cardId === 'A77') return <RiskMatrixDiagram />;
+  if (cardId === 'A21') return <DMAICDiagram />;
+  if (cardId === 'A29') return <FiveWhysDiagram />;
+  if (cardId === 'A35') return <KotterDiagram />;
+  if (cardId === 'A38') return <ParetoDiagram />;
+  if (cardId === 'A39') return <SWOTDiagram />;
+  if (cardId === 'A40') return <WSJFDiagram />;
+  if (cardId === 'A47') return <PDCADiagram />;
+  if (cardId === 'A55') return <FiveForcesD />;
+  if (cardId === 'A58') return <BCGDiagram />;
+  if (cardId === 'A75') return <ADKARDiagram />;
+  // Techniques without a specific diagram — show generic radar
   if (cardId.startsWith('A')) return <TechniqueDiagram title={cardTitle} />;
   return null;
 }
