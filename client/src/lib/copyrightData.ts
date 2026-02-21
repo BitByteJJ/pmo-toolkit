@@ -1,5 +1,6 @@
 // Copyright disclosures for proprietary tools, frameworks, and methodologies
 // referenced in the PMO Toolkit Navigator
+// A-card keys match the current sequential numbering in pmoData.ts (A1–A82)
 
 export interface CopyrightNotice {
   name: string;
@@ -10,7 +11,7 @@ export interface CopyrightNotice {
 
 // Map from card ID to list of copyright notices that apply to that card
 export const CARD_COPYRIGHTS: Record<string, CopyrightNotice[]> = {
-  // Methodologies
+  // ── Methodologies ──────────────────────────────────────────────────────────
   M2: [
     {
       name: 'Scrum',
@@ -27,7 +28,7 @@ export const CARD_COPYRIGHTS: Record<string, CopyrightNotice[]> = {
       url: 'https://leankanban.com',
     },
   ],
-  // Tools
+  // ── Tools ──────────────────────────────────────────────────────────────────
   T4: [
     {
       name: 'Earned Value Management (EVM)',
@@ -60,8 +61,9 @@ export const CARD_COPYRIGHTS: Record<string, CopyrightNotice[]> = {
       url: 'https://www.scrum.org',
     },
   ],
-  // Advanced Techniques
-  A21: [
+  // ── Advanced Techniques — keys match current A-card IDs in pmoData.ts ──────
+  // A18 = Six Sigma DMAIC
+  A18: [
     {
       name: 'Six Sigma DMAIC',
       owner: 'Motorola / ASQ',
@@ -69,7 +71,8 @@ export const CARD_COPYRIGHTS: Record<string, CopyrightNotice[]> = {
       url: 'https://www.asq.org',
     },
   ],
-  A35: [
+  // A28 = Kotter's 8-Step Change Model
+  A28: [
     {
       name: "Kotter's 8-Step Change Model",
       owner: 'Kotter Inc.',
@@ -77,7 +80,8 @@ export const CARD_COPYRIGHTS: Record<string, CopyrightNotice[]> = {
       url: 'https://www.kotterinc.com',
     },
   ],
-  A36: [
+  // A29 = Critical Chain Project Management (CCPM)
+  A29: [
     {
       name: 'Critical Chain Project Management (CCPM)',
       owner: 'Eliyahu M. Goldratt',
@@ -85,15 +89,17 @@ export const CARD_COPYRIGHTS: Record<string, CopyrightNotice[]> = {
       url: 'https://www.toc-goldratt.com',
     },
   ],
-  A44: [
+  // A37 = McKinsey 7-S Framework
+  A37: [
     {
-      name: "McKinsey 7-S Framework",
+      name: 'McKinsey 7-S Framework',
       owner: 'McKinsey & Company',
       notice: 'The 7-S Framework was developed by Tom Peters and Robert Waterman at McKinsey & Company. © McKinsey & Company. All rights reserved.',
       url: 'https://www.mckinsey.com',
     },
   ],
-  A45: [
+  // A38 = Belbin Team Roles
+  A38: [
     {
       name: 'Belbin Team Roles',
       owner: 'Belbin Associates',
@@ -101,7 +107,8 @@ export const CARD_COPYRIGHTS: Record<string, CopyrightNotice[]> = {
       url: 'https://www.belbin.com',
     },
   ],
-  A46: [
+  // A39 = The Five Dysfunctions of a Team
+  A39: [
     {
       name: 'The Five Dysfunctions of a Team',
       owner: 'Patrick Lencioni / The Table Group',
@@ -109,7 +116,8 @@ export const CARD_COPYRIGHTS: Record<string, CopyrightNotice[]> = {
       url: 'https://www.tablegroup.com',
     },
   ],
-  A47: [
+  // A40 = PDCA (Plan-Do-Check-Act)
+  A40: [
     {
       name: 'PDCA (Plan-Do-Check-Act)',
       owner: 'W. Edwards Deming / ASQ',
@@ -117,81 +125,8 @@ export const CARD_COPYRIGHTS: Record<string, CopyrightNotice[]> = {
       url: 'https://www.asq.org',
     },
   ],
-  A48: [
-    {
-      name: 'Nudge Theory',
-      owner: 'Richard H. Thaler & Cass R. Sunstein',
-      notice: 'Nudge Theory was developed by Richard H. Thaler and Cass R. Sunstein, described in their book "Nudge: Improving Decisions About Health, Wealth, and Happiness" (Yale University Press, 2008). Richard Thaler was awarded the Nobel Prize in Economics (2017).',
-    },
-  ],
-  A49: [
-    {
-      name: "Maslow's Hierarchy of Needs",
-      owner: 'Abraham H. Maslow',
-      notice: 'The Hierarchy of Needs was developed by Abraham H. Maslow and first described in "A Theory of Human Motivation" (Psychological Review, 1943). The model is in the public domain.',
-    },
-  ],
-  A50: [
-    {
-      name: "Rogers' Diffusion of Innovation",
-      owner: 'Everett M. Rogers',
-      notice: 'The Diffusion of Innovation model was developed by Everett M. Rogers and described in "Diffusion of Innovations" (Free Press, 1962, 5th ed. 2003). © Everett M. Rogers.',
-    },
-  ],
-  A51: [
-    {
-      name: "McKinsey's Three Horizons",
-      owner: 'McKinsey & Company',
-      notice: "The Three Horizons framework was developed by Mehrdad Baghai, Stephen Coley, and David White at McKinsey & Company, described in \"The Alchemy of Growth\" (Perseus Books, 1999). © McKinsey & Company.",
-      url: 'https://www.mckinsey.com',
-    },
-  ],
-  A52: [
-    {
-      name: "Lewin's Force Field Analysis",
-      owner: 'Kurt Lewin',
-      notice: 'Force Field Analysis was developed by Kurt Lewin and described in "Field Theory in Social Science" (Harper & Row, 1951). The model is in the public domain.',
-    },
-  ],
-  A53: [
-    {
-      name: 'Situational Leadership Model',
-      owner: 'Center for Leadership Studies',
-      notice: 'The Situational Leadership® Model was developed by Paul Hersey and Ken Blanchard. "Situational Leadership" is a registered trademark of the Center for Leadership Studies.',
-      url: 'https://situational.com',
-    },
-  ],
-  A55: [
-    {
-      name: "Porter's Five Forces",
-      owner: 'Michael E. Porter / Harvard Business School',
-      notice: "Porter's Five Forces framework was developed by Michael E. Porter and described in \"Competitive Strategy\" (Free Press, 1980). © Michael E. Porter / Harvard Business School Publishing.",
-      url: 'https://www.hbs.edu',
-    },
-  ],
-  A56: [
-    {
-      name: "Vroom's Expectancy Theory",
-      owner: 'Victor H. Vroom',
-      notice: "Expectancy Theory was developed by Victor H. Vroom and described in \"Work and Motivation\" (Wiley, 1964). © Victor H. Vroom.",
-    },
-  ],
-  A57: [
-    {
-      name: 'The Cultural Web',
-      owner: 'Gerry Johnson & Kevan Scholes',
-      notice: 'The Cultural Web was developed by Gerry Johnson and Kevan Scholes and described in "Exploring Corporate Strategy" (Prentice Hall, 1992). © Gerry Johnson and Kevan Scholes.',
-    },
-  ],
-  A58: [
-    {
-      name: 'BCG Growth-Share Matrix',
-      owner: 'Boston Consulting Group',
-      notice: 'The BCG Growth-Share Matrix was developed by Bruce D. Henderson at the Boston Consulting Group in 1970. © Boston Consulting Group (BCG). All rights reserved.',
-      url: 'https://www.bcg.com',
-    },
-  ],
-  A59: [
+  // A42 = SCARF Model
+  A42: [
     {
       name: 'SCARF Model',
       owner: 'David Rock / NeuroLeadership Institute',
@@ -199,7 +134,8 @@ export const CARD_COPYRIGHTS: Record<string, CopyrightNotice[]> = {
       url: 'https://neuroleadership.com',
     },
   ],
-  A60: [
+  // A43 = Thomas-Kilmann Conflict Mode Instrument (TKI)
+  A43: [
     {
       name: 'Thomas-Kilmann Conflict Mode Instrument (TKI)',
       owner: 'Kilmann Diagnostics',
@@ -207,23 +143,8 @@ export const CARD_COPYRIGHTS: Record<string, CopyrightNotice[]> = {
       url: 'https://kilmanndiagnostics.com',
     },
   ],
-  A61: [
-    {
-      name: "Bridges' Transition Model",
-      owner: 'William Bridges Associates',
-      notice: "Bridges' Transition Model was developed by William Bridges and described in \"Managing Transitions\" (Addison-Wesley, 1991). © William Bridges Associates.",
-      url: 'https://wmbridges.com',
-    },
-  ],
-  A62: [
-    {
-      name: 'Kübler-Ross Change Curve',
-      owner: 'Elisabeth Kübler-Ross Foundation',
-      notice: 'The five stages of grief were developed by Dr. Elisabeth Kübler-Ross in "On Death and Dying" (Macmillan, 1969). Their application to organisational change is a widely adopted adaptation. © Elisabeth Kübler-Ross Foundation.',
-      url: 'https://www.ekrfoundation.org',
-    },
-  ],
-  A63: [
+  // A44 = Tannenbaum-Schmidt Leadership Continuum
+  A44: [
     {
       name: 'Tannenbaum-Schmidt Leadership Continuum',
       owner: 'Robert Tannenbaum & Warren H. Schmidt',
@@ -231,14 +152,16 @@ export const CARD_COPYRIGHTS: Record<string, CopyrightNotice[]> = {
       url: 'https://hbr.org',
     },
   ],
-  A64: [
+  // A45 = Johari Window
+  A45: [
     {
       name: 'Johari Window',
       owner: 'Joseph Luft & Harrington Ingham',
       notice: 'The Johari Window was developed by Joseph Luft and Harrington Ingham in 1955. The model is in the public domain.',
     },
   ],
-  A66: [
+  // A47 = Theory of Constraints (TOC)
+  A47: [
     {
       name: 'Theory of Constraints (TOC)',
       owner: 'Eliyahu M. Goldratt / The Goldratt Group',
@@ -246,22 +169,16 @@ export const CARD_COPYRIGHTS: Record<string, CopyrightNotice[]> = {
       url: 'https://www.toc-goldratt.com',
     },
   ],
-  A67: [
-    {
-      name: 'TRIZ',
-      owner: 'Genrich Altshuller / MATRIZ',
-      notice: 'TRIZ (Teoriya Resheniya Izobretatelskikh Zadach) was developed by Genrich Altshuller beginning in 1946. The International TRIZ Association (MATRIZ) maintains the methodology.',
-      url: 'https://matriz.org',
-    },
-  ],
-  A70: [
+  // A50 = Soft Systems Methodology (SSM)
+  A50: [
     {
       name: 'Soft Systems Methodology (SSM)',
       owner: 'Peter Checkland',
       notice: "Soft Systems Methodology was developed by Peter Checkland and described in \"Systems Thinking, Systems Practice\" (Wiley, 1981). © Peter Checkland.",
     },
   ],
-  A73: [
+  // A53 = Cynefin Framework
+  A53: [
     {
       name: 'Cynefin Framework',
       owner: 'Dave Snowden / Cognitive Edge',
@@ -269,7 +186,8 @@ export const CARD_COPYRIGHTS: Record<string, CopyrightNotice[]> = {
       url: 'https://thecynefin.co',
     },
   ],
-  A74: [
+  // A54 = PMBOK Process Groups
+  A54: [
     {
       name: 'PMBOK® Process Groups',
       owner: 'Project Management Institute (PMI)',
@@ -277,7 +195,8 @@ export const CARD_COPYRIGHTS: Record<string, CopyrightNotice[]> = {
       url: 'https://www.pmi.org',
     },
   ],
-  A75: [
+  // A55 = ADKAR® Model
+  A55: [
     {
       name: 'ADKAR® Model',
       owner: 'Prosci Inc.',
@@ -285,11 +204,123 @@ export const CARD_COPYRIGHTS: Record<string, CopyrightNotice[]> = {
       url: 'https://www.prosci.com',
     },
   ],
-  A76: [
+  // A56 = McClelland's Theory of Needs
+  A56: [
     {
       name: "McClelland's Theory of Needs",
       owner: 'David C. McClelland',
       notice: "McClelland's Theory of Needs (Achievement, Affiliation, Power) was developed by David C. McClelland and described in \"The Achieving Society\" (Van Nostrand, 1961). The model is in the public domain.",
+    },
+  ],
+  // A66 = Nudge Theory
+  A66: [
+    {
+      name: 'Nudge Theory',
+      owner: 'Richard H. Thaler & Cass R. Sunstein',
+      notice: 'Nudge Theory was developed by Richard H. Thaler and Cass R. Sunstein, described in their book "Nudge: Improving Decisions About Health, Wealth, and Happiness" (Yale University Press, 2008). Richard Thaler was awarded the Nobel Prize in Economics (2017).',
+    },
+  ],
+  // A67 = Maslow's Hierarchy of Needs
+  A67: [
+    {
+      name: "Maslow's Hierarchy of Needs",
+      owner: 'Abraham H. Maslow',
+      notice: 'The Hierarchy of Needs was developed by Abraham H. Maslow and first described in "A Theory of Human Motivation" (Psychological Review, 1943). The model is in the public domain.',
+    },
+  ],
+  // A68 = Rogers' Diffusion of Innovation
+  A68: [
+    {
+      name: "Rogers' Diffusion of Innovation",
+      owner: 'Everett M. Rogers',
+      notice: 'The Diffusion of Innovation model was developed by Everett M. Rogers and described in "Diffusion of Innovations" (Free Press, 1962, 5th ed. 2003). © Everett M. Rogers.',
+    },
+  ],
+  // A69 = McKinsey's Three Horizons
+  A69: [
+    {
+      name: "McKinsey's Three Horizons",
+      owner: 'McKinsey & Company',
+      notice: "The Three Horizons framework was developed by Mehrdad Baghai, Stephen Coley, and David White at McKinsey & Company, described in \"The Alchemy of Growth\" (Perseus Books, 1999). © McKinsey & Company.",
+      url: 'https://www.mckinsey.com',
+    },
+  ],
+  // A70 = Lewin's Force Field Analysis
+  A70: [
+    {
+      name: "Lewin's Force Field Analysis",
+      owner: 'Kurt Lewin',
+      notice: 'Force Field Analysis was developed by Kurt Lewin and described in "Field Theory in Social Science" (Harper & Row, 1951). The model is in the public domain.',
+    },
+  ],
+  // A71 = Hersey-Blanchard Situational Leadership
+  A71: [
+    {
+      name: 'Situational Leadership® Model',
+      owner: 'Center for Leadership Studies',
+      notice: 'The Situational Leadership® Model was developed by Paul Hersey and Ken Blanchard. "Situational Leadership" is a registered trademark of the Center for Leadership Studies.',
+      url: 'https://situational.com',
+    },
+  ],
+  // A72 = Porter's Five Forces
+  A72: [
+    {
+      name: "Porter's Five Forces",
+      owner: 'Michael E. Porter / Harvard Business School',
+      notice: "Porter's Five Forces framework was developed by Michael E. Porter and described in \"Competitive Strategy\" (Free Press, 1980). © Michael E. Porter / Harvard Business School Publishing.",
+      url: 'https://www.hbs.edu',
+    },
+  ],
+  // A73 = Vroom's Expectancy Theory
+  A73: [
+    {
+      name: "Vroom's Expectancy Theory",
+      owner: 'Victor H. Vroom',
+      notice: "Expectancy Theory was developed by Victor H. Vroom and described in \"Work and Motivation\" (Wiley, 1964). © Victor H. Vroom.",
+    },
+  ],
+  // A74 = The Cultural Web
+  A74: [
+    {
+      name: 'The Cultural Web',
+      owner: 'Gerry Johnson & Kevan Scholes',
+      notice: 'The Cultural Web was developed by Gerry Johnson and Kevan Scholes and described in "Exploring Corporate Strategy" (Prentice Hall, 1992). © Gerry Johnson and Kevan Scholes.',
+    },
+  ],
+  // A75 = BCG Growth-Share Matrix
+  A75: [
+    {
+      name: 'BCG Growth-Share Matrix',
+      owner: 'Boston Consulting Group',
+      notice: 'The BCG Growth-Share Matrix was developed by Bruce D. Henderson at the Boston Consulting Group in 1970. © Boston Consulting Group (BCG). All rights reserved.',
+      url: 'https://www.bcg.com',
+    },
+  ],
+  // A76 = Bridges' Transition Model
+  A76: [
+    {
+      name: "Bridges' Transition Model",
+      owner: 'William Bridges Associates',
+      notice: "Bridges' Transition Model was developed by William Bridges and described in \"Managing Transitions\" (Addison-Wesley, 1991). © William Bridges Associates.",
+      url: 'https://wmbridges.com',
+    },
+  ],
+  // A77 = Kübler-Ross Change Curve
+  A77: [
+    {
+      name: 'Kübler-Ross Change Curve',
+      owner: 'Elisabeth Kübler-Ross Foundation',
+      notice: 'The five stages of grief were developed by Dr. Elisabeth Kübler-Ross in "On Death and Dying" (Macmillan, 1969). Their application to organisational change is a widely adopted adaptation. © Elisabeth Kübler-Ross Foundation.',
+      url: 'https://www.ekrfoundation.org',
+    },
+  ],
+  // A78 = TRIZ
+  A78: [
+    {
+      name: 'TRIZ',
+      owner: 'Genrich Altshuller / MATRIZ',
+      notice: 'TRIZ (Teoriya Resheniya Izobretatelskikh Zadach) was developed by Genrich Altshuller beginning in 1946. The International TRIZ Association (MATRIZ) maintains the methodology.',
+      url: 'https://matriz.org',
     },
   ],
 };
