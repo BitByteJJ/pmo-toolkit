@@ -2495,7 +2495,7 @@ export const CARDS: PMOCard[] = [
     deckId: 'techniques',
     type: 'technique',
     tagline: 'Five process groups from Initiating to Closing',
-    whatItIs: 'Five phases defined in PMBOK®: Initiating, Planning, Executing, Monitoring/Controlling, and Closing — providing a structured lifecycle for project work.',
+    whatItIs: 'Five universal project management process groups — Initiating, Planning, Executing, Monitoring/Controlling, and Closing — providing a structured lifecycle for any project regardless of methodology.',
     whenToUse: 'Ensures all core phases are addressed, from initial authorisation to final closeout. Offers a standard approach to organising tasks.',
     steps: [
       'Initiate: define high-level scope and stakeholders, produce a project charter',
@@ -2505,7 +2505,7 @@ export const CARDS: PMOCard[] = [
       'Close: finalise acceptance, release resources, document lessons learned',
     ],
     proTip: 'Though presented linearly, you often loop between planning, executing, and monitoring as new info arises.',
-    example: 'The insulin pen launch follows all 5 PMBOK process groups: Initiate (project charter signed, PMO Head as sponsor), Plan (12-week schedule, £120k budget, risk register), Execute (label design, regulatory submission, print run), Monitor & Control (weekly EVM reviews, 2 change requests processed), Close (PIR, lessons learned, team celebration).',
+    example: 'The insulin pen launch follows all 5 process groups: Initiate (project charter signed, PMO Head as sponsor), Plan (12-week schedule, £120k budget, risk register), Execute (label design, regulatory submission, print run), Monitor & Control (weekly EVM reviews, 2 change requests processed), Close (PIR, lessons learned, team celebration).',
     relatedCards: ['phase-setup', 'phase-execution', 'phase-closure', 'process-9', 'process-10'],
     tags: ['PMBOK', 'process groups', 'Initiating', 'Planning', 'Executing', 'Closing'],
   },

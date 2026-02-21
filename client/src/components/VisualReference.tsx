@@ -713,7 +713,7 @@ export function StakeholderMatrixDiagram() {
   ];
 
   return (
-    <DiagramWrapper label="STAKEHOLDER MATRIX // T12">
+    <DiagramWrapper label="STAKEHOLDER MATRIX // T16">
       <svg viewBox={`0 0 ${svgW} ${svgH}`} className="w-full" style={{ display: 'block' }}>
         <GridBg w={svgW} h={svgH} />
         {/* Quadrant labels */}
@@ -770,7 +770,7 @@ export function ForceFieldDiagram() {
   ];
 
   return (
-    <DiagramWrapper label="FORCE FIELD ANALYSIS // T13">
+    <DiagramWrapper label="FORCE FIELD ANALYSIS // T15">
       <svg viewBox={`0 0 ${svgW} ${svgH}`} className="w-full" style={{ display: 'block' }}>
         <GridBg w={svgW} h={svgH} />
         {/* Center line */}
@@ -867,7 +867,7 @@ export function DelphiDiagram() {
   const scaleX = (v: number) => 40 + (v / 100) * 240;
 
   return (
-    <DiagramWrapper label="DELPHI TECHNIQUE // T15">
+    <DiagramWrapper label="DELPHI TECHNIQUE // T12">
       <svg viewBox={`0 0 ${svgW} ${svgH}`} className="w-full" style={{ display: 'block' }}>
         <GridBg w={svgW} h={svgH} />
         <text x={svgW / 2} y={16} textAnchor="middle" fill={LABEL} fontSize="8" fontFamily="monospace" opacity="0.6">EXPERT ESTIMATE CONVERGENCE</text>
@@ -922,7 +922,7 @@ export function CostBenefitDiagram() {
   const baseY = svgH - 30;
 
   return (
-    <DiagramWrapper label="COST-BENEFIT ANALYSIS // T16">
+    <DiagramWrapper label="COST-BENEFIT ANALYSIS // T13">
       <svg viewBox={`0 0 ${svgW} ${svgH}`} className="w-full" style={{ display: 'block' }}>
         <GridBg w={svgW} h={svgH} />
         {years.map((yr, i) => {
@@ -1257,7 +1257,7 @@ export function ArchetypeDiagram() {
   const svgW = 320;
   const svgH = 200;
   const archetypes = [
-    { label: 'PREDICTIVE', sub: 'Waterfall / PMBOK', x: 80, y: 60, color: LINE },
+    { label: 'PREDICTIVE', sub: 'Waterfall / Structured', x: 80, y: 60, color: LINE },
     { label: 'ADAPTIVE', sub: 'Agile / Scrum', x: 240, y: 60, color: LINE2 },
     { label: 'HYBRID', sub: 'Mixed approach', x: 160, y: 150, color: LINE3 },
   ];
@@ -2299,7 +2299,7 @@ export function SharedUnderstandingDiagram() {
     { label: 'NORMS & CULTURE', y: 155, w: 90, c: DIM },
   ];
   return (
-    <DiagramWrapper label="SHARED UNDERSTANDING PYRAMID // P10">
+    <DiagramWrapper label="SHARED UNDERSTANDING PYRAMID // people-10">
       <svg viewBox={`0 0 ${W} ${H}`} className="w-full" style={{ display: 'block' }}>
         <GridBg w={W} h={H} />
         {layers.map((l, i) => {
@@ -2402,7 +2402,7 @@ export function VirtualTeamDiagram() {
   ];
   const overlap = [{ x: 100, y: 60, label: 'OVERLAP\nZONE' }];
   return (
-    <DiagramWrapper label="VIRTUAL TEAM COLLABORATION // P13">
+    <DiagramWrapper label="VIRTUAL TEAM COLLABORATION // people-11">
       <svg viewBox={`0 0 ${W} ${H}`} className="w-full" style={{ display: 'block' }}>
         <GridBg w={W} h={H} />
         {zones.map((z, i) => (
@@ -2433,7 +2433,7 @@ export function EmotionalIntelligenceDiagram() {
     { label: 'RELATIONSHIP MGMT', sub: 'Influence others', x: cx + 10, y: cy + 10, c: LINE3 },
   ];
   return (
-    <DiagramWrapper label="EMOTIONAL INTELLIGENCE MODEL // P14">
+    <DiagramWrapper label="EMOTIONAL INTELLIGENCE MODEL // people-14">
       <svg viewBox={`0 0 ${W} ${H}`} className="w-full" style={{ display: 'block' }}>
         <GridBg w={W} h={H} />
         <line x1={cx} y1={15} x2={cx} y2={H-15} stroke={DIM} strokeWidth="1" opacity="0.5" />
@@ -3269,7 +3269,7 @@ export function SituationalLeadershipDiagram() {
     { label: 'SUPPORTING', sub: 'Low task · High support', x: 245, y: 135, c: LINE2 },
   ];
   return (
-    <DiagramWrapper label="SITUATIONAL LEADERSHIP MODEL // A4">
+    <DiagramWrapper label="SITUATIONAL LEADERSHIP MODEL // A53">
       <svg viewBox={`0 0 ${W} ${H}`} className="w-full" style={{ display: 'block' }}>
         <GridBg w={W} h={H} />
         <line x1={160} y1={10} x2={160} y2={H-10} stroke={DIM} strokeWidth="1" opacity="0.5" />
@@ -3426,7 +3426,7 @@ export function DesignThinkingDiagram() {
   const xs = [30, 95, 160, 225, 290];
   const colors = [LINE2, LINE, LINE3, LINE, LINE2];
   return (
-    <DiagramWrapper label="DESIGN THINKING PROCESS // A14">
+    <DiagramWrapper label="DESIGN THINKING PROCESS // A37">
       <svg viewBox={`0 0 ${W} ${H}`} className="w-full" style={{ display: 'block' }}>
         <GridBg w={W} h={H} />
         {phases.map((p, i) => (
@@ -3620,7 +3620,7 @@ export function ValueStreamDiagram() {
     { label: 'SHIP', va: 1, nva: 1, x: 295 },
   ];
   return (
-    <DiagramWrapper label="VALUE STREAM MAP // A22">
+    <DiagramWrapper label="VALUE STREAM MAP // A41">
       <svg viewBox={`0 0 ${W} ${H}`} className="w-full" style={{ display: 'block' }}>
         <GridBg w={W} h={H} />
         {steps.map((s, i) => (
@@ -3679,7 +3679,7 @@ export function TOCDiagram() {
   const steps = ['IDENTIFY\\nCONSTRAINT','EXPLOIT\\nCONSTRAINT','SUBORDINATE\\nEVERYTHING','ELEVATE\\nCONSTRAINT','REPEAT'];
   const xs = [30, 95, 160, 225, 290];
   return (
-    <DiagramWrapper label="THEORY OF CONSTRAINTS // A24">
+    <DiagramWrapper label="THEORY OF CONSTRAINTS // A66">
       <svg viewBox={`0 0 ${W} ${H}`} className="w-full" style={{ display: 'block' }}>
         <GridBg w={W} h={H} />
         {steps.map((s, i) => {
@@ -3715,7 +3715,7 @@ export function CynefinDiagram() {
     { label: 'DISORDER', sub: 'Unknown domain', x: cx, y: cy, c: LABEL },
   ];
   return (
-    <DiagramWrapper label="CYNEFIN FRAMEWORK // A25">
+    <DiagramWrapper label="CYNEFIN FRAMEWORK // A73">
       <svg viewBox={`0 0 ${W} ${H}`} className="w-full" style={{ display: 'block' }}>
         <GridBg w={W} h={H} />
         <line x1={cx} y1={10} x2={cx} y2={H-10} stroke={DIM} strokeWidth="1" opacity="0.4" />
@@ -3818,7 +3818,7 @@ export function ScenarioPlanningDiagram() {
     { label: 'WILD CARD', sub: 'Regulatory block', x: cx - 90, y: cy, c: LINE3 },
   ];
   return (
-    <DiagramWrapper label="SCENARIO PLANNING // A28">
+    <DiagramWrapper label="SCENARIO PLANNING // A34">
       <svg viewBox={`0 0 ${W} ${H}`} className="w-full" style={{ display: 'block' }}>
         <GridBg w={W} h={H} />
         {scenarios.map((s, i) => (
@@ -3943,7 +3943,7 @@ export function TRIZDiagram() {
   const xs = [40, 130, 190, 280];
   const ys = [50, 50, 130, 130];
   return (
-    <DiagramWrapper label="TRIZ PROBLEM-SOLVING MODEL // A33">
+    <DiagramWrapper label="TRIZ PROBLEM-SOLVING MODEL // A67">
       <svg viewBox={`0 0 ${W} ${H}`} className="w-full" style={{ display: 'block' }}>
         <GridBg w={W} h={H} />
         <line x1={xs[0]+28} y1={ys[0]} x2={xs[1]-28} y2={ys[1]} stroke={LINE3} strokeWidth="1" strokeDasharray="3,2" opacity="0.5" />
@@ -4205,7 +4205,7 @@ export function BenefitsRealisationDiagram() {
     { label: 'Time-to-mkt -30%', actual: 40, target: 100, c: LINE3 },
   ];
   return (
-    <DiagramWrapper label="BENEFITS REALISATION TRACKER // A45">
+    <DiagramWrapper label="BENEFITS REALISATION TRACKER // A33">
       <svg viewBox={`0 0 ${W} ${H}`} className="w-full" style={{ display: 'block' }}>
         <GridBg w={W} h={H} />
         {benefits.map((b, i) => {
@@ -4467,7 +4467,7 @@ export function IssueLogDiagram() {
     { id: 'I5', title: 'Comms breakdown', priority: 'P3', status: 'RESOLVED', c: LINE2 },
   ];
   return (
-    <DiagramWrapper label="ISSUE LOG // A54">
+    <DiagramWrapper label="ISSUE LOG // process-15">
       <svg viewBox={`0 0 ${W} ${H}`} className="w-full" style={{ display: 'block' }}>
         <GridBg w={W} h={H} />
         {['ID','ISSUE','PRI','STATUS'].map((h, i) => (
@@ -4905,7 +4905,7 @@ export function MindMapDiagram() {
     { label: 'CLINICAL', x: cx - 90, y: cy, c: LINE },
   ];
   return (
-    <DiagramWrapper label="MIND MAP // A70">
+    <DiagramWrapper label="MIND MAP // A10">
       <svg viewBox={`0 0 ${W} ${H}`} className="w-full" style={{ display: 'block' }}>
         <GridBg w={W} h={H} />
         {branches.map((b, i) => (
@@ -5032,7 +5032,7 @@ export function SixSigmaDiagram() {
   const xs = [30, 95, 160, 225, 290];
   const colors = [LINE3, LINE, LINE, LINE2, LINE2];
   return (
-    <DiagramWrapper label="DMAIC ROADMAP // A77">
+    <DiagramWrapper label="DMAIC ROADMAP // A21">
       <svg viewBox={`0 0 ${W} ${H}`} className="w-full" style={{ display: 'block' }}>
         <GridBg w={W} h={H} />
         {phases.map((p, i) => {
@@ -8038,13 +8038,13 @@ export function AgileWaterfallHybridDiagram() {
 
 export function PMBOKProcessGroupsDiagram() {
   return (
-    <DiagramWrapper label="PMBOK PROCESS GROUPS">
+    <DiagramWrapper label="PROJECT PROCESS GROUPS // A74">
       <svg viewBox="0 0 320 200" className="w-full h-full">
-        <defs><filter id="glow-pmbok"><feGaussianBlur stdDeviation="1.5" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs>
+        <defs><filter id="glow-process"><feGaussianBlur stdDeviation="1.5" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs>
         {[{x:40,y:100,r:28,label:"INITIATING",sub:"2 processes"},{x:105,y:100,r:38,label:"PLANNING",sub:"24 processes"},{x:185,y:100,r:42,label:"EXECUTING",sub:"10 processes"},{x:260,y:100,r:32,label:"CLOSING",sub:"1 process"}].map((pg,i)=>(
           <g key={i}>
             {i>0&&<line x1={[40,105,185][i-1]+[28,38,42][i-1]} y1="100" x2={pg.x-pg.r} y2="100" stroke="#0ff" strokeWidth="0.5" opacity="0.3"/>}
-            <circle cx={pg.x} cy={pg.y} r={pg.r} fill={`rgba(0,255,255,${0.05+i*0.03})`} stroke="#0ff" strokeWidth="0.8" filter="url(#glow-pmbok)"/>
+            <circle cx={pg.x} cy={pg.y} r={pg.r} fill={`rgba(0,255,255,${0.05+i*0.03})`} stroke="#0ff" strokeWidth="0.8" filter="url(#glow-process)"/>
             <text x={pg.x} y={pg.y-6} textAnchor="middle" fill="#0ff" fontSize="5.5" fontFamily="monospace" fontWeight="bold">{pg.label}</text>
             <text x={pg.x} y={pg.y+6} textAnchor="middle" fill="#0ff" fontSize="5" fontFamily="monospace" opacity="0.7">{pg.sub}</text>
           </g>
