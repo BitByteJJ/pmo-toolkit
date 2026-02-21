@@ -19,31 +19,33 @@ export default function BookmarksPage() {
   return (
     <div className="min-h-screen bg-[#FAFAF8] pb-24">
       {/* Header — offset by TopNav height (44px) */}
-      <div className="bg-white border-b border-stone-100/80 px-4 pb-4" style={{ paddingTop: '56px' }}>
-        <div className="flex items-center justify-between">
-          <div>
-            <h1
-              className="text-xl font-bold text-stone-900"
-              style={{ fontFamily: 'Sora, sans-serif' }}
-            >
-              Saved Cards
-            </h1>
-            <p className="text-[11px] text-stone-400 font-medium mt-0.5">
-              {savedCards.length} card{savedCards.length !== 1 ? 's' : ''} saved
-            </p>
+      <div className="bg-white border-b border-stone-100/80 pb-4" style={{ paddingTop: '56px' }}>
+        <div className="max-w-2xl mx-auto px-4">
+          <div className="flex items-center justify-between">
+            <div>
+              <h1
+                className="text-xl font-bold text-stone-900"
+                style={{ fontFamily: 'Sora, sans-serif' }}
+              >
+                Saved Cards
+              </h1>
+              <p className="text-[11px] text-stone-400 font-medium mt-0.5">
+                {savedCards.length} card{savedCards.length !== 1 ? 's' : ''} saved
+              </p>
+            </div>
+            {savedCards.length > 0 && (
+              <button
+                onClick={clearBookmarks}
+                className="text-xs text-rose-400 font-semibold hover:text-rose-600 transition-colors px-2 py-1 rounded-lg hover:bg-rose-50"
+              >
+                Clear all
+              </button>
+            )}
           </div>
-          {savedCards.length > 0 && (
-            <button
-              onClick={clearBookmarks}
-              className="text-xs text-rose-400 font-semibold hover:text-rose-600 transition-colors px-2 py-1 rounded-lg hover:bg-rose-50"
-            >
-              Clear all
-            </button>
-          )}
         </div>
       </div>
 
-      <div className="px-4 pt-4">
+      <div className="px-4 pt-4 max-w-2xl mx-auto">
         {savedCards.length === 0 ? (
           <motion.div
             initial={{ opacity: 0, y: 12 }}

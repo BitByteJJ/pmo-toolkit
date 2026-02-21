@@ -34,7 +34,7 @@ export default function SearchPage() {
     <div className="min-h-screen bg-[#FAFAF8] pb-24">
       {/* Header — sticky below TopNav */}
       <div
-        className="px-4 pb-3 sticky z-30"
+        className="pb-3 sticky z-30"
         style={{
           top: '44px',
           paddingTop: '12px',
@@ -44,6 +44,7 @@ export default function SearchPage() {
           borderBottom: '1px solid rgba(0,0,0,0.05)',
         }}
       >
+        <div className="max-w-2xl mx-auto px-4">
         <h1
           className="text-xl font-bold text-stone-900 mb-3"
           style={{ fontFamily: 'Sora, sans-serif' }}
@@ -92,9 +93,10 @@ export default function SearchPage() {
             );
           })}
         </div>
+        </div>{/* /max-w-2xl */}
       </div>
 
-      <div className="px-4 pt-4">
+      <div className="px-4 pt-4 max-w-2xl mx-auto">
         {/* Empty state — no query */}
         {!query && (
           <motion.div

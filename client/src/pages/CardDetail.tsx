@@ -8,7 +8,7 @@ import {
   ArrowLeft, Bookmark, BookmarkCheck,
   ChevronLeft, ChevronRight,
   Lightbulb, ListChecks, Info, Link2, Tag, Sparkles, ShieldCheck, ExternalLink, Cpu,
-  Share2, Check, StickyNote, X, Zap
+  Share2, StickyNote, X, Zap
 } from 'lucide-react';
 import { useState, useEffect, useRef } from 'react';
 import BottomNav from '@/components/BottomNav';
@@ -17,6 +17,7 @@ import { getCopyrightNotices, GENERAL_DISCLAIMER } from '@/lib/copyrightData';
 import { getCardIllustration } from '@/lib/toolImages';
 import { getVisualReference } from '@/components/VisualReference';
 import { useBookmarks } from '@/contexts/BookmarksContext';
+import ShareSheet from '@/components/ShareSheet';
 import { useCardProgress } from '@/hooks/useCardProgress';
 import { useCardNotes } from '@/hooks/useCardNotes';
 
@@ -180,7 +181,7 @@ export default function CardDetail() {
   const cardId = params?.cardId ?? '';
   const card = getCardById(cardId);
 
-  const [copied, setCopied] = useState(false);
+  const [showShare, setShowShare] = useState(false);
   const [showNotes, setShowNotes] = useState(false);
   const [noteText, setNoteText] = useState('');
   const [showCelebration, setShowCelebration] = useState(false);
@@ -249,13 +250,7 @@ export default function CardDetail() {
   const deckPct = Math.round(deckProgress(deckCards.map(c => c.id)) * 100);
 
   function handleShare() {
-    const url = window.location.href;
-    if (navigator.clipboard) {
-      navigator.clipboard.writeText(url).then(() => {
-        setCopied(true);
-        setTimeout(() => setCopied(false), 2000);
-      });
-    }
+    setShowShare(true);
   }
 
   function handleSwipeEnd(_: unknown, info: PanInfo) {
@@ -433,12 +428,9 @@ export default function CardDetail() {
                   onClick={handleShare}
                   className="p-2 rounded-xl transition-all hover:scale-110 active:scale-90"
                   style={{ backgroundColor: deck?.color + '20' }}
-                  title="Copy link"
+                  title="Share"
                 >
-                  {copied
-                    ? <Check size={14} className="text-emerald-500" />
-                    : <Share2 size={14} style={{ color: deck?.textColor, opacity: 0.7 }} />
-                  }
+                  <Share2 size={14} style={{ color: deck?.textColor, opacity: 0.7 }} />
                 </button>
                 {/* Bookmark button */}
                 <button
@@ -765,6 +757,15 @@ export default function CardDetail() {
       </AnimatePresence>
 
       <BottomNav />
+
+      {/* Social share sheet */}
+      <ShareSheet
+        open={showShare}
+        onClose={() => setShowShare(false)}
+        url={window.location.href}
+        title={card.title}
+        tagline={card.tagline}
+      />
     </div>
   );
 }

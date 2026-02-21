@@ -373,7 +373,7 @@ export default function DeckView() {
 
       {/* Sticky deck sub-header — sits below the global TopNav (h-11 = 44px) */}
       <div
-        className="sticky z-30 px-4 py-2 flex items-center justify-between"
+        className="sticky z-30 py-2"
         style={{
           top: '44px',
           backgroundColor: 'rgba(247,246,243,0.95)',
@@ -381,6 +381,7 @@ export default function DeckView() {
           borderBottom: `2px solid ${deck.color}20`,
         }}
       >
+        <div className="max-w-2xl mx-auto px-4 flex items-center justify-between w-full">
         {/* Deck title */}
         <div className="flex items-center gap-2">
           <span className="text-lg leading-none">{deck.icon}</span>
@@ -416,10 +417,11 @@ export default function DeckView() {
             {deck.cardCount}
           </span>
         </div>
+        </div>{/* /max-w-2xl inner */}
       </div>
 
       {/* Content */}
-      <div className="px-4 pt-4 space-y-4">
+      <div className="px-4 pt-4 space-y-4 max-w-2xl mx-auto">
         {/* Title Card */}
         {intro && (
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.4 }}>

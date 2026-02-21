@@ -65,159 +65,221 @@ function PhysicalDeckCard({ deck, index }: { deck: typeof DECKS[0]; index: numbe
         className="relative w-full h-full text-left rounded-2xl overflow-hidden flex flex-col"
         style={{ zIndex: 2, boxShadow: `0 4px 16px ${deck.color}30, 0 2px 6px rgba(0,0,0,0.08)` }}
       >
-        {/* Background */}
-        <div className="absolute inset-0" style={{ backgroundColor: deck.bgColor }} />
 
-        {/* ── DESKTOP: illustration on top ── */}
-        {coverImg && (
-          <div
-            className="relative w-full overflow-hidden shrink-0 hidden lg:block"
-            style={{ height: '140px', zIndex: 1 }}
-          >
-            <img
-              src={coverImg}
-              alt=""
-              aria-hidden="true"
-              className="absolute inset-0 w-full h-full object-contain object-center"
-              style={{ mixBlendMode: 'multiply', opacity: 0.92 }}
-            />
-            <div
-              className="absolute bottom-0 left-0 right-0 h-8"
-              style={{ background: `linear-gradient(to bottom, transparent, ${deck.bgColor})` }}
-            />
-          </div>
-        )}
-
-        {/* ── MOBILE: illustration floats right (original layout) ── */}
-        {coverImg && (
-          <div className="absolute inset-0 overflow-hidden pointer-events-none lg:hidden" style={{ zIndex: 1 }}>
-            <img
-              src={coverImg}
-              alt=""
-              aria-hidden="true"
-              className="absolute"
-              style={{
-                right: '-8px',
-                top: '50%',
-                transform: 'translateY(-50%)',
-                height: '130%',
-                width: 'auto',
-                maxWidth: '55%',
-                objectFit: 'contain',
-                mixBlendMode: 'multiply',
-                opacity: 0.88,
-              }}
-            />
-            <div
-              className="absolute inset-0"
-              style={{ background: `linear-gradient(to right, ${deck.bgColor} 38%, ${deck.bgColor}CC 58%, transparent 85%)` }}
-            />
-          </div>
-        )}
-
-        {/* ── CARD CONTENT ── */}
-        <div className="relative flex flex-col flex-1 px-4 pb-4 pt-2" style={{ zIndex: 2 }}>
-          {/* Top row: icon + card count */}
-          <div className="flex items-center justify-between mb-2">
-            <div
-              className="w-8 h-8 rounded-xl flex items-center justify-center text-lg shrink-0 relative"
-              style={{ backgroundColor: deck.color + '22' }}
-            >
-              {deck.icon}
-              {isComplete && (
-                <span
-                  className="absolute -top-1 -right-1 w-4 h-4 rounded-full flex items-center justify-center text-[8px]"
-                  style={{ backgroundColor: deck.color, color: '#fff' }}
-                >
-                  ✓
-                </span>
-              )}
+        {/* ── DESKTOP: full-bleed illustration, text overlay at bottom ── */}
+        <div className="hidden lg:flex flex-col h-full relative" style={{ minHeight: '240px' }}>
+          {/* Full-bleed background illustration */}
+          {coverImg && (
+            <div className="absolute inset-0">
+              <img
+                src={coverImg}
+                alt=""
+                aria-hidden="true"
+                className="w-full h-full object-cover object-center"
+                style={{ opacity: 0.95 }}
+              />
             </div>
+          )}
+          {/* Solid background tint behind image */}
+          <div className="absolute inset-0" style={{ backgroundColor: deck.bgColor, opacity: 0.15 }} />
+          {/* Gradient overlay — strong at bottom for text legibility */}
+          <div
+            className="absolute inset-0"
+            style={{ background: `linear-gradient(to bottom, transparent 30%, ${deck.bgColor}CC 62%, ${deck.bgColor}F5 80%, ${deck.bgColor} 100%)` }}
+          />
+          {/* Top-right card count badge */}
+          <div className="absolute top-3 right-3 z-10">
             <div
               className="flex items-center gap-1 px-2 py-0.5 rounded-full text-white text-[10px] font-bold"
               style={{ backgroundColor: deck.color }}
             >
               <span>{cards.length}</span>
-              <span className="opacity-75">cards</span>
+              <span className="opacity-80">cards</span>
             </div>
           </div>
-
-          {/* Subtitle tag */}
-          <div className="mb-1">
+          {/* Top-left completion badge */}
+          {isComplete && (
+            <div className="absolute top-3 left-3 z-10">
+              <span
+                className="w-6 h-6 rounded-full flex items-center justify-center text-[10px] font-bold text-white"
+                style={{ backgroundColor: deck.color }}
+              >✓</span>
+            </div>
+          )}
+          {/* Bottom text overlay */}
+          <div className="relative mt-auto px-4 pb-4 pt-2 z-10">
             <span
-              className="text-[9px] font-mono font-bold px-1.5 py-0.5 rounded-md"
-              style={{ backgroundColor: deck.color + '20', color: deck.textColor, opacity: 0.7 }}
+              className="text-[9px] font-mono font-bold px-1.5 py-0.5 rounded-md inline-block mb-1.5"
+              style={{ backgroundColor: deck.color + '30', color: deck.textColor }}
             >
               {deck.subtitle}
             </span>
-          </div>
-
-          {/* Title */}
-          <h3
-            className="text-base font-bold leading-tight mb-1"
-            style={{ fontFamily: 'Sora, sans-serif', color: deck.textColor }}
-          >
-            {deck.title}
-          </h3>
-
-          {/* Description — on mobile limit width so it doesn't overlap the illustration */}
-          <p
-            className="text-[11px] leading-relaxed line-clamp-2 mb-3 flex-1 lg:max-w-full"
-            style={{ color: deck.textColor, opacity: 0.65, maxWidth: '62%' }}
-          >
-            {deck.description}
-          </p>
-
-          {/* Progress bar */}
-          {readCount > 0 && (
-            <div className="mb-3">
-              <div className="flex items-center justify-between mb-1">
-                <span className="text-[9px] font-semibold" style={{ color: deck.textColor, opacity: 0.5 }}>
-                  {readCount} / {cards.length} read
-                </span>
-                <span className="text-[9px] font-bold" style={{ color: deck.color }}>
-                  {pct}%{isComplete ? ' ✓' : ''}
-                </span>
+            <h3
+              className="text-[15px] font-bold leading-tight mb-1"
+              style={{ fontFamily: 'Sora, sans-serif', color: deck.textColor }}
+            >
+              {deck.title}
+            </h3>
+            <p
+              className="text-[10px] leading-relaxed line-clamp-2 mb-2"
+              style={{ color: deck.textColor, opacity: 0.7 }}
+            >
+              {deck.description}
+            </p>
+            {readCount > 0 && (
+              <div className="mb-2">
+                <div className="flex items-center justify-between mb-0.5">
+                  <span className="text-[9px] font-semibold" style={{ color: deck.textColor, opacity: 0.55 }}>
+                    {readCount} / {cards.length} read
+                  </span>
+                  <span className="text-[9px] font-bold" style={{ color: deck.color }}>
+                    {pct}%{isComplete ? ' ✓' : ''}
+                  </span>
+                </div>
+                <div className="h-1 rounded-full overflow-hidden" style={{ backgroundColor: deck.color + '30' }}>
+                  <motion.div
+                    className="h-full rounded-full"
+                    initial={{ width: 0 }}
+                    animate={{ width: `${pct}%` }}
+                    transition={{ duration: 0.6, ease: 'easeOut' }}
+                    style={{ backgroundColor: deck.color }}
+                  />
+                </div>
               </div>
-              <div className="h-1 rounded-full overflow-hidden" style={{ backgroundColor: deck.color + '25' }}>
-                <motion.div
-                  className="h-full rounded-full"
-                  initial={{ width: 0 }}
-                  animate={{ width: `${pct}%` }}
-                  transition={{ duration: 0.6, ease: 'easeOut' }}
-                  style={{ backgroundColor: deck.color }}
-                />
+            )}
+            <div className="flex items-center justify-end">
+              <div className="flex items-center gap-1 text-[11px] font-bold" style={{ color: deck.color }}>
+                {readCount === 0 ? 'Start deck' : isComplete ? 'Review deck' : 'Continue'}
+                <ArrowRight size={12} />
               </div>
-            </div>
-          )}
-
-          {/* CTA row */}
-          <div className="flex items-center justify-between mt-auto">
-            <div className="flex items-center gap-1">
-              {cards.slice(0, 4).map((c, i) => (
-                <div
-                  key={c.id}
-                  className="w-5 h-7 rounded-md"
-                  style={{
-                    backgroundColor: deck.color,
-                    opacity: 0.15 + i * 0.15,
-                    transform: `rotate(${(i - 1.5) * 3}deg)`,
-                    marginLeft: i > 0 ? '-5px' : '0',
-                    zIndex: i,
-                    position: 'relative',
-                  }}
-                />
-              ))}
-            </div>
-            <div className="flex items-center gap-1 text-[11px] font-bold" style={{ color: deck.color }}>
-              {readCount === 0 ? 'Start deck' : isComplete ? 'Review deck' : 'Continue'}
-              <ArrowRight size={12} />
             </div>
           </div>
+          {/* Bottom accent bar */}
+          <div className="h-1 w-full shrink-0 relative z-10" style={{ backgroundColor: deck.color }} />
         </div>
 
-        {/* Bottom accent bar */}
-        <div className="h-1 w-full shrink-0" style={{ backgroundColor: deck.color }} />
+        {/* ── MOBILE: original horizontal layout ── */}
+        <div className="lg:hidden flex flex-col h-full">
+          {/* Background */}
+          <div className="absolute inset-0" style={{ backgroundColor: deck.bgColor }} />
+          {/* Illustration floats right */}
+          {coverImg && (
+            <div className="absolute inset-0 overflow-hidden pointer-events-none" style={{ zIndex: 1 }}>
+              <img
+                src={coverImg}
+                alt=""
+                aria-hidden="true"
+                className="absolute"
+                style={{
+                  right: '-8px',
+                  top: '50%',
+                  transform: 'translateY(-50%)',
+                  height: '130%',
+                  width: 'auto',
+                  maxWidth: '55%',
+                  objectFit: 'contain',
+                  mixBlendMode: 'multiply',
+                  opacity: 0.88,
+                }}
+              />
+              <div
+                className="absolute inset-0"
+                style={{ background: `linear-gradient(to right, ${deck.bgColor} 38%, ${deck.bgColor}CC 58%, transparent 85%)` }}
+              />
+            </div>
+          )}
+          {/* Mobile content */}
+          <div className="relative flex flex-col flex-1 px-4 pb-4 pt-2" style={{ zIndex: 2 }}>
+            <div className="flex items-center justify-between mb-2">
+              <div
+                className="w-8 h-8 rounded-xl flex items-center justify-center text-lg shrink-0 relative"
+                style={{ backgroundColor: deck.color + '22' }}
+              >
+                {deck.icon}
+                {isComplete && (
+                  <span
+                    className="absolute -top-1 -right-1 w-4 h-4 rounded-full flex items-center justify-center text-[8px]"
+                    style={{ backgroundColor: deck.color, color: '#fff' }}
+                  >
+                    ✓
+                  </span>
+                )}
+              </div>
+              <div
+                className="flex items-center gap-1 px-2 py-0.5 rounded-full text-white text-[10px] font-bold"
+                style={{ backgroundColor: deck.color }}
+              >
+                <span>{cards.length}</span>
+                <span className="opacity-75">cards</span>
+              </div>
+            </div>
+            <div className="mb-1">
+              <span
+                className="text-[9px] font-mono font-bold px-1.5 py-0.5 rounded-md"
+                style={{ backgroundColor: deck.color + '20', color: deck.textColor, opacity: 0.7 }}
+              >
+                {deck.subtitle}
+              </span>
+            </div>
+            <h3
+              className="text-base font-bold leading-tight mb-1"
+              style={{ fontFamily: 'Sora, sans-serif', color: deck.textColor }}
+            >
+              {deck.title}
+            </h3>
+            <p
+              className="text-[11px] leading-relaxed line-clamp-2 mb-3 flex-1"
+              style={{ color: deck.textColor, opacity: 0.65, maxWidth: '62%' }}
+            >
+              {deck.description}
+            </p>
+            {readCount > 0 && (
+              <div className="mb-3">
+                <div className="flex items-center justify-between mb-1">
+                  <span className="text-[9px] font-semibold" style={{ color: deck.textColor, opacity: 0.5 }}>
+                    {readCount} / {cards.length} read
+                  </span>
+                  <span className="text-[9px] font-bold" style={{ color: deck.color }}>
+                    {pct}%{isComplete ? ' ✓' : ''}
+                  </span>
+                </div>
+                <div className="h-1 rounded-full overflow-hidden" style={{ backgroundColor: deck.color + '25' }}>
+                  <motion.div
+                    className="h-full rounded-full"
+                    initial={{ width: 0 }}
+                    animate={{ width: `${pct}%` }}
+                    transition={{ duration: 0.6, ease: 'easeOut' }}
+                    style={{ backgroundColor: deck.color }}
+                  />
+                </div>
+              </div>
+            )}
+            <div className="flex items-center justify-between mt-auto">
+              <div className="flex items-center gap-1">
+                {cards.slice(0, 4).map((c, i) => (
+                  <div
+                    key={c.id}
+                    className="w-5 h-7 rounded-md"
+                    style={{
+                      backgroundColor: deck.color,
+                      opacity: 0.15 + i * 0.15,
+                      transform: `rotate(${(i - 1.5) * 3}deg)`,
+                      marginLeft: i > 0 ? '-5px' : '0',
+                      zIndex: i,
+                      position: 'relative',
+                    }}
+                  />
+                ))}
+              </div>
+              <div className="flex items-center gap-1 text-[11px] font-bold" style={{ color: deck.color }}>
+                {readCount === 0 ? 'Start deck' : isComplete ? 'Review deck' : 'Continue'}
+                <ArrowRight size={12} />
+              </div>
+            </div>
+          </div>
+          <div className="h-1 w-full shrink-0 relative" style={{ backgroundColor: deck.color }} />
+        </div>
+
       </motion.div>
     </motion.div>
   );
