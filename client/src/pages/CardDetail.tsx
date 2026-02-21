@@ -6,10 +6,11 @@ import { motion, AnimatePresence } from 'framer-motion';
 import {
   ArrowLeft, Bookmark, BookmarkCheck,
   ChevronLeft, ChevronRight,
-  Lightbulb, ListChecks, Info, Link2, Tag, Sparkles
+  Lightbulb, ListChecks, Info, Link2, Tag, Sparkles, ShieldCheck, ExternalLink
 } from 'lucide-react';
 import BottomNav from '@/components/BottomNav';
 import { getCardById, getDeckById, getRelatedCards, getCardsByDeck } from '@/lib/pmoData';
+import { getCopyrightNotices, GENERAL_DISCLAIMER } from '@/lib/copyrightData';
 import { useBookmarks } from '@/contexts/BookmarksContext';
 
 function Section({ icon: Icon, title, children, color }: {
@@ -67,6 +68,7 @@ export default function CardDetail() {
   const relatedCards = getRelatedCards(card);
   const bookmarked = isBookmarked(card.id);
   const progress = ((currentIndex + 1) / deckCards.length) * 100;
+  const copyrightNotices = getCopyrightNotices(card.id);
 
   return (
     <div className="min-h-screen bg-[#FAFAF8] pb-24">
@@ -117,6 +119,15 @@ export default function CardDetail() {
           >
             {card.type}
           </span>
+          {copyrightNotices.length > 0 && (
+            <span
+              className="text-[9px] font-semibold px-2 py-0.5 rounded-full flex items-center gap-1"
+              style={{ backgroundColor: '#FEF3C7', color: '#92400E' }}
+            >
+              <ShieldCheck size={9} />
+              Proprietary
+            </span>
+          )}
         </div>
 
         {/* Title */}
@@ -301,6 +312,49 @@ export default function CardDetail() {
               <div className="flex-1" />
             )}
           </div>
+
+          {/* ─── COPYRIGHT FOOTNOTE ─────────────────────────────────── */}
+          {copyrightNotices.length > 0 && (
+            <div
+              className="rounded-2xl p-4 space-y-3"
+              style={{
+                backgroundColor: '#FFFBEB',
+                border: '1px solid #FDE68A',
+              }}
+            >
+              <div className="flex items-center gap-2 mb-1">
+                <ShieldCheck size={13} className="text-amber-600 shrink-0" />
+                <span className="text-[10px] font-bold text-amber-700 uppercase tracking-wider">
+                  Intellectual Property Notice
+                </span>
+              </div>
+              {copyrightNotices.map((notice, i) => (
+                <div key={i} className="space-y-0.5">
+                  <p className="text-[11px] font-semibold text-amber-800">{notice.name}</p>
+                  <p className="text-[10px] text-amber-700 leading-relaxed">{notice.notice}</p>
+                  {notice.url && (
+                    <a
+                      href={notice.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-1 text-[10px] text-amber-600 font-medium hover:underline"
+                    >
+                      <ExternalLink size={9} />
+                      {notice.url.replace('https://', '')}
+                    </a>
+                  )}
+                </div>
+              ))}
+            </div>
+          )}
+
+          {/* General disclaimer — shown on all cards */}
+          <div className="pb-2">
+            <p className="text-[9px] text-stone-400 leading-relaxed text-center px-2">
+              {GENERAL_DISCLAIMER}
+            </p>
+          </div>
+
         </motion.div>
       </AnimatePresence>
 
