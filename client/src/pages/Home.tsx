@@ -5,7 +5,7 @@
 
 import { useLocation } from 'wouter';
 import { motion } from 'framer-motion';
-import { Layers, Zap, BookOpen, Search, ArrowRight, Map, Heart, Flame } from 'lucide-react';
+import { Layers, Zap, BookOpen, Search, ArrowRight, Map, Heart, Flame, Compass } from 'lucide-react';
 import BottomNav from '@/components/BottomNav';
 import { DECKS, CARDS, getCardsByDeck } from '@/lib/pmoData';
 import { useBookmarks } from '@/contexts/BookmarksContext';
@@ -494,6 +494,30 @@ export default function Home() {
           </div>
           <span className="text-sm text-stone-400 font-medium flex-1">Search tools, frameworks, techniques…</span>
           <ArrowRight size={14} className="text-stone-300 shrink-0" />
+        </motion.button>
+
+        {/* Decision Helper CTA */}
+        <motion.button
+          initial={{ opacity: 0, y: 8 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.35, delay: 0.13 }}
+          onClick={() => navigate('/decision')}
+          className="w-full flex items-center gap-3 rounded-2xl px-4 py-3 text-left"
+          style={{
+            background: 'linear-gradient(135deg, #1e3a5f 0%, #2d5a8e 100%)',
+            boxShadow: '0 4px 16px rgba(30,58,95,0.22)',
+          }}
+          whileHover={{ scale: 1.01 }}
+          whileTap={{ scale: 0.98 }}
+        >
+          <div className="w-8 h-8 rounded-xl bg-white/20 flex items-center justify-center shrink-0">
+            <Compass size={15} className="text-white" />
+          </div>
+          <div className="flex-1 text-left">
+            <p className="text-sm font-bold text-white leading-tight">Not sure which tool to use?</p>
+            <p className="text-[11px] text-white/70 mt-0.5">Answer 2–3 questions to get a personalised recommendation</p>
+          </div>
+          <ArrowRight size={14} className="text-white/60 shrink-0" />
         </motion.button>
 
         {/* All Decks */}

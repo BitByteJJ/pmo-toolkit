@@ -40,3 +40,7 @@
 - [x] Build MarkdownTemplateRenderer component: styled HTML tables, section cards, colour-coded headers
 - [x] Add CSV download and copy-as-text export options
 - [x] Hide Template tab on cards that have no template entry in templateData.ts
+- [x] Decision Helper tool: guided questionnaire that recommends relevant cards
+- [x] decisionData.ts: decision tree with questions, answer paths, and card mappings
+- [x] DecisionHelper page: animated question flow, progress bar, recommendation results
+- [x] Entry points: Decision Helper accessible from Home page (navy CTA banner) and /decision route
