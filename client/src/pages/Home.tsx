@@ -68,10 +68,10 @@ function PhysicalDeckCard({ deck, index }: { deck: typeof DECKS[0]; index: numbe
         {/* Background */}
         <div className="absolute inset-0" style={{ backgroundColor: deck.bgColor }} />
 
-        {/* ── ILLUSTRATION BLOCK (top, visible on all sizes) ── */}
+        {/* ── DESKTOP: illustration on top ── */}
         {coverImg && (
           <div
-            className="relative w-full overflow-hidden shrink-0"
+            className="relative w-full overflow-hidden shrink-0 hidden lg:block"
             style={{ height: '140px', zIndex: 1 }}
           >
             <img
@@ -81,7 +81,6 @@ function PhysicalDeckCard({ deck, index }: { deck: typeof DECKS[0]; index: numbe
               className="absolute inset-0 w-full h-full object-contain object-center"
               style={{ mixBlendMode: 'multiply', opacity: 0.92 }}
             />
-            {/* Subtle bottom fade into card body */}
             <div
               className="absolute bottom-0 left-0 right-0 h-8"
               style={{ background: `linear-gradient(to bottom, transparent, ${deck.bgColor})` }}
@@ -89,7 +88,34 @@ function PhysicalDeckCard({ deck, index }: { deck: typeof DECKS[0]; index: numbe
           </div>
         )}
 
-        {/* ── CARD CONTENT (below illustration) ── */}
+        {/* ── MOBILE: illustration floats right (original layout) ── */}
+        {coverImg && (
+          <div className="absolute inset-0 overflow-hidden pointer-events-none lg:hidden" style={{ zIndex: 1 }}>
+            <img
+              src={coverImg}
+              alt=""
+              aria-hidden="true"
+              className="absolute"
+              style={{
+                right: '-8px',
+                top: '50%',
+                transform: 'translateY(-50%)',
+                height: '130%',
+                width: 'auto',
+                maxWidth: '55%',
+                objectFit: 'contain',
+                mixBlendMode: 'multiply',
+                opacity: 0.88,
+              }}
+            />
+            <div
+              className="absolute inset-0"
+              style={{ background: `linear-gradient(to right, ${deck.bgColor} 38%, ${deck.bgColor}CC 58%, transparent 85%)` }}
+            />
+          </div>
+        )}
+
+        {/* ── CARD CONTENT ── */}
         <div className="relative flex flex-col flex-1 px-4 pb-4 pt-2" style={{ zIndex: 2 }}>
           {/* Top row: icon + card count */}
           <div className="flex items-center justify-between mb-2">
@@ -128,16 +154,16 @@ function PhysicalDeckCard({ deck, index }: { deck: typeof DECKS[0]; index: numbe
 
           {/* Title */}
           <h3
-            className="text-sm font-bold leading-tight mb-1"
+            className="text-base font-bold leading-tight mb-1"
             style={{ fontFamily: 'Sora, sans-serif', color: deck.textColor }}
           >
             {deck.title}
           </h3>
 
-          {/* Description */}
+          {/* Description — on mobile limit width so it doesn't overlap the illustration */}
           <p
-            className="text-[11px] leading-relaxed line-clamp-2 mb-3 flex-1"
-            style={{ color: deck.textColor, opacity: 0.65 }}
+            className="text-[11px] leading-relaxed line-clamp-2 mb-3 flex-1 lg:max-w-full"
+            style={{ color: deck.textColor, opacity: 0.65, maxWidth: '62%' }}
           >
             {deck.description}
           </p>
