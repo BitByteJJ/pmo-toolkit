@@ -19,7 +19,7 @@ import {
 export const MAX_HEARTS = 3;
 export const HEARTS_REFILL_HOURS = 24;
 export const TOPICS_TO_EARN_HEART = 5;
-const STORAGE_KEY = 'pmo-journey-v1';
+const STORAGE_KEY = 'pmo-journey-v2'; // bumped from v1 to clear stale sessions
 
 // ─── STATE TYPES ──────────────────────────────────────────────────────────────
 

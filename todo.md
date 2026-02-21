@@ -29,3 +29,4 @@
 - [x] All journey state persisted to localStorage
 - [x] 22 vitest unit tests for journey reducer logic (all passing)
 - [x] Fix: lesson hangs on "Loading lesson..." after the 5th question
+- [x] Fix: app completely inaccessible after last deployment (stale localStorage session + storage key bump)

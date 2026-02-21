@@ -368,10 +368,30 @@ export default function LessonPage() {
       navigate('/journey');
       return;
     }
+
+    // If there's a stale session for this lesson where questionIndex is already
+    // past the end (e.g. from a previous bug), auto-complete it so the user
+    // doesn't get stuck on "Loading lesson..."
+    if (
+      state.activeSession &&
+      state.activeSession.lessonId === lesson.id &&
+      state.activeSession.questionIndex >= lesson.questions.length
+    ) {
+      setShowCompleteScreen(true);
+      completeLesson();
+      return;
+    }
+
     // If no active session for this lesson, start one
     if (!state.activeSession || state.activeSession.lessonId !== lesson.id) {
       if (state.hearts > 0) {
         startLesson(lesson.id, day);
+      } else {
+        // No hearts and no active session — abandon any stale session for a
+        // different lesson so the no-hearts screen shows correctly
+        if (state.activeSession) {
+          abandonLesson();
+        }
       }
     }
   }, [lesson, day]); // eslint-disable-line react-hooks/exhaustive-deps
