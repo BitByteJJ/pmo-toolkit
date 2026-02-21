@@ -21,6 +21,7 @@ import ShareSheet from '@/components/ShareSheet';
 import { useCardProgress } from '@/hooks/useCardProgress';
 import { useCardNotes } from '@/hooks/useCardNotes';
 import { getTemplateByCardId } from '@/lib/templateData';
+import { MarkdownTemplateRenderer, templateToCSV } from '@/components/MarkdownTemplateRenderer';
 
 // ─── Sub-components ───────────────────────────────────────────────────────────
 
@@ -278,6 +279,19 @@ export default function CardDetail() {
       setCopied(true);
       setTimeout(() => setCopied(false), 2000);
     });
+  }, [template]);
+
+  const handleDownloadCSV = useCallback(() => {
+    if (!template) return;
+    const csv = templateToCSV(template.sections);
+    if (!csv.trim()) return;
+    const blob = new Blob([csv], { type: 'text/csv' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `${template.title.replace(/\s+/g, '-').toLowerCase()}.csv`;
+    a.click();
+    URL.revokeObjectURL(url);
   }, [template]);
 
   const handleDownloadTemplate = useCallback(() => {
@@ -651,7 +665,15 @@ export default function CardDetail() {
                         style={{ backgroundColor: (deck?.color ?? '#0284C7') + '15', color: deck?.color ?? '#0284C7' }}
                       >
                         <Download size={11} />
-                        Download .md
+                        .md
+                      </button>
+                      <button
+                        onClick={handleDownloadCSV}
+                        className="flex items-center gap-1.5 px-3 py-2 rounded-xl text-[11px] font-bold transition-all hover:opacity-90 active:scale-95"
+                        style={{ backgroundColor: (deck?.color ?? '#0284C7') + '15', color: deck?.color ?? '#0284C7' }}
+                      >
+                        <Download size={11} />
+                        .csv
                       </button>
                     </div>
                   </div>
@@ -670,12 +692,10 @@ export default function CardDetail() {
                         <span className="text-[10px] font-bold text-stone-600 uppercase tracking-wider">{section.heading}</span>
                       </div>
                       <div className="p-4 overflow-x-auto">
-                        <pre
-                          className="text-[11px] text-stone-600 leading-relaxed whitespace-pre-wrap font-mono"
-                          style={{ fontFamily: 'ui-monospace, SFMono-Regular, Menlo, monospace' }}
-                        >
-                          {section.content}
-                        </pre>
+                        <MarkdownTemplateRenderer
+                          content={section.content}
+                          accentColor={deck?.color ?? '#0284C7'}
+                        />
                       </div>
                     </div>
                   ))}

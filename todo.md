@@ -36,3 +36,6 @@
 - [x] templateData.ts: template content library with sections, fields, and example rows for each card
 - [x] Template UI: inline preview, copy-to-clipboard, and download as text/markdown
 - [x] Add footer credit: "Jackson Joy · February 2026" below the bottom nav on all pages
+- [x] Redesign templateData.ts: structured JSON format (sections, tables, checklists) instead of raw Markdown
+- [x] Build MarkdownTemplateRenderer component: styled HTML tables, section cards, colour-coded headers
+- [x] Add CSV download and copy-as-text export options
