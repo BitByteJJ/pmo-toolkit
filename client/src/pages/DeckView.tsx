@@ -1,5 +1,5 @@
-// Design: "Clarity Cards" — pip-deck style deck view with illustrated title card, intro cards, and card list
-// Inspired by Pip Decks: bold cover → how to start → categories → individual cards
+// Design: "Clarity Cards" — deck view with illustrated title card, intro cards, and card list
+// Structure: bold cover → how to start → categories → individual cards
 
 import { useRoute, useLocation } from 'wouter';
 import { motion, AnimatePresence } from 'framer-motion';

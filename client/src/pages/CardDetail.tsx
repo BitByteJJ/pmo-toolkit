@@ -1,5 +1,5 @@
 // PMO Toolkit Navigator — Card Detail Page
-// Design: "Clarity Cards" — pip-deck style full card with step-by-step, pro tips, related cards
+// Design: "Clarity Cards" — full card with step-by-step, pro tips, related cards
 
 import { useRoute, useLocation } from 'wouter';
 import { motion, AnimatePresence } from 'framer-motion';
