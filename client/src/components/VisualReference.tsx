@@ -6215,173 +6215,2612 @@ export function WJSFDiagram() {
 }
 
 
+
+
+// ── Archetype Diagrams ──────────────────────────────────────────────────────
+export function ArchetypeSelfAssessmentDiagram() {
+  return (
+    <DiagramWrapper label="SELF-ASSESSMENT FRAMEWORK">
+      <svg viewBox="0 0 320 200" className="w-full h-full">
+        <defs><filter id="glow-arch"><feGaussianBlur stdDeviation="1.5" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs>
+        <rect x="10" y="10" width="300" height="180" rx="4" fill="none" stroke="#0ff" strokeWidth="0.5" strokeDasharray="4,4" opacity="0.3"/>
+        {[{y:40,label:"REFLECT: What is my default PM style?"},{y:80,label:"ASSESS: Where am I strong vs. stretched?"},{y:120,label:"IDENTIFY: Which archetype fits this project?"},{y:160,label:"ADAPT: What behaviours must I flex?"}].map((row,i)=>(
+          <g key={i}>
+            <rect x="20" y={row.y-14} width="280" height="26" rx="3" fill={`rgba(0,255,255,${0.04+i*0.02})`} stroke="#0ff" strokeWidth="0.5"/>
+            <circle cx="36" cy={row.y} r="7" fill="none" stroke="#0ff" strokeWidth="1" filter="url(#glow-arch)"/>
+            <text x="36" y={row.y+4} textAnchor="middle" fill="#0ff" fontSize="8" fontFamily="monospace">{i+1}</text>
+            <text x="52" y={row.y+4} fill="#0ff" fontSize="8" fontFamily="monospace" opacity="0.9">{row.label}</text>
+          </g>
+        ))}
+        <text x="160" y="195" textAnchor="middle" fill="#0ff" fontSize="7" fontFamily="monospace" opacity="0.5">SELF-AWARENESS → ADAPTATION → IMPACT</text>
+      </svg>
+    </DiagramWrapper>
+  );
+}
+
+export function ArchetypeKeyQuestionsDiagram() {
+  return (
+    <DiagramWrapper label="KEY ARCHETYPING QUESTIONS">
+      <svg viewBox="0 0 320 200" className="w-full h-full">
+        <defs><filter id="glow-aq"><feGaussianBlur stdDeviation="1.5" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs>
+        <circle cx="160" cy="100" r="70" fill="none" stroke="#0ff" strokeWidth="0.5" strokeDasharray="3,3" opacity="0.3"/>
+        {[{angle:-90,label:"DELIVERY",sub:"How do I manage scope?"},{angle:-18,label:"PEOPLE",sub:"How do I lead teams?"},{angle:54,label:"RISK",sub:"How do I handle uncertainty?"},{angle:126,label:"CHANGE",sub:"How do I adapt?"},{angle:198,label:"STRATEGY",sub:"How do I align to goals?"}].map((item,i)=>{
+          const rad = item.angle * Math.PI / 180;
+          const x = 160 + 80*Math.cos(rad), y = 100 + 80*Math.sin(rad);
+          const lx = 160 + 55*Math.cos(rad), ly = 100 + 55*Math.sin(rad);
+          return (
+            <g key={i}>
+              <line x1="160" y1="100" x2={lx} y2={ly} stroke="#0ff" strokeWidth="0.5" opacity="0.4"/>
+              <circle cx={x} cy={y} r="22" fill="rgba(0,255,255,0.05)" stroke="#0ff" strokeWidth="0.8" filter="url(#glow-aq)"/>
+              <text x={x} y={y-4} textAnchor="middle" fill="#0ff" fontSize="6" fontFamily="monospace" fontWeight="bold">{item.label}</text>
+              <text x={x} y={y+6} textAnchor="middle" fill="#0ff" fontSize="5" fontFamily="monospace" opacity="0.7">{item.sub}</text>
+            </g>
+          );
+        })}
+        <circle cx="160" cy="100" r="12" fill="rgba(0,255,255,0.1)" stroke="#0ff" strokeWidth="1" filter="url(#glow-aq)"/>
+        <text x="160" y="104" textAnchor="middle" fill="#0ff" fontSize="6" fontFamily="monospace">YOU</text>
+      </svg>
+    </DiagramWrapper>
+  );
+}
+
+export function ArchetypeChoosingPathDiagram() {
+  return (
+    <DiagramWrapper label="CHOOSING YOUR PATH">
+      <svg viewBox="0 0 320 200" className="w-full h-full">
+        <defs><filter id="glow-cp"><feGaussianBlur stdDeviation="1.5" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs>
+        <rect x="120" y="10" width="80" height="28" rx="3" fill="rgba(0,255,255,0.08)" stroke="#0ff" strokeWidth="1" filter="url(#glow-cp)"/>
+        <text x="160" y="29" textAnchor="middle" fill="#0ff" fontSize="8" fontFamily="monospace">YOUR CONTEXT</text>
+        <line x1="160" y1="38" x2="160" y2="58" stroke="#0ff" strokeWidth="0.8" strokeDasharray="3,2"/>
+        <rect x="110" y="58" width="100" height="24" rx="3" fill="rgba(0,255,255,0.06)" stroke="#0ff" strokeWidth="0.8"/>
+        <text x="160" y="74" textAnchor="middle" fill="#0ff" fontSize="7" fontFamily="monospace">ASSESS PROJECT TYPE</text>
+        {[{x:60,y:110,label:"STRUCTURED",sub:"Waterfall/PRINCE2"},{x:160,y:110,label:"ADAPTIVE",sub:"Agile/Hybrid"},{x:260,y:110,label:"EXPLORATORY",sub:"Design Thinking"}].map((p,i)=>(
+          <g key={i}>
+            <line x1="160" y1="82" x2={p.x} y2={p.y-14} stroke="#0ff" strokeWidth="0.5" strokeDasharray="2,2" opacity="0.5"/>
+            <rect x={p.x-40} y={p.y-14} width="80" height="28" rx="3" fill={`rgba(0,255,255,${0.04+i*0.02})`} stroke="#0ff" strokeWidth="0.7"/>
+            <text x={p.x} y={p.y+1} textAnchor="middle" fill="#0ff" fontSize="6.5" fontFamily="monospace" fontWeight="bold">{p.label}</text>
+            <text x={p.x} y={p.y+12} textAnchor="middle" fill="#0ff" fontSize="5.5" fontFamily="monospace" opacity="0.7">{p.sub}</text>
+          </g>
+        ))}
+        {[{x:60,y:160,label:"DRIVER"},{x:160,y:160,label:"FACILITATOR"},{x:260,y:160,label:"INNOVATOR"}].map((p,i)=>(
+          <g key={i}>
+            <line x1={p.x} y1={p.y-22} x2={p.x} y2={p.y-14} stroke="#0ff" strokeWidth="0.5" opacity="0.4"/>
+            <rect x={p.x-35} y={p.y-14} width="70" height="22" rx="3" fill="rgba(0,255,255,0.1)" stroke="#0ff" strokeWidth="1" filter="url(#glow-cp)"/>
+            <text x={p.x} y={p.y+1} textAnchor="middle" fill="#0ff" fontSize="7" fontFamily="monospace">{p.label}</text>
+          </g>
+        ))}
+      </svg>
+    </DiagramWrapper>
+  );
+}
+
+// ── People Domain Diagrams ──────────────────────────────────────────────────
+export function ConflictModeDiagram() {
+  return (
+    <DiagramWrapper label="CONFLICT MODE MATRIX">
+      <svg viewBox="0 0 320 200" className="w-full h-full">
+        <defs><filter id="glow-cm"><feGaussianBlur stdDeviation="1.5" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs>
+        <line x1="50" y1="170" x2="50" y2="20" stroke="#0ff" strokeWidth="0.8" opacity="0.5"/>
+        <line x1="50" y1="170" x2="290" y2="170" stroke="#0ff" strokeWidth="0.8" opacity="0.5"/>
+        <text x="25" y="100" fill="#0ff" fontSize="7" fontFamily="monospace" transform="rotate(-90,25,100)">ASSERTIVENESS</text>
+        <text x="170" y="192" textAnchor="middle" fill="#0ff" fontSize="7" fontFamily="monospace">COOPERATIVENESS</text>
+        {[{x:80,y:50,label:"COMPETING",sub:"Win-Lose"},{x:220,y:50,label:"COLLABORATING",sub:"Win-Win"},{x:160,y:110,label:"COMPROMISING",sub:"Split Diff"},{x:80,y:155,label:"AVOIDING",sub:"Lose-Lose"},{x:240,y:155,label:"ACCOMMODATING",sub:"Lose-Win"}].map((m,i)=>(
+          <g key={i}>
+            <circle cx={m.x} cy={m.y} r="28" fill={`rgba(0,255,255,${0.05+i*0.02})`} stroke="#0ff" strokeWidth="0.8" filter="url(#glow-cm)"/>
+            <text x={m.x} y={m.y-4} textAnchor="middle" fill="#0ff" fontSize="6" fontFamily="monospace" fontWeight="bold">{m.label}</text>
+            <text x={m.x} y={m.y+8} textAnchor="middle" fill="#0ff" fontSize="5.5" fontFamily="monospace" opacity="0.7">{m.sub}</text>
+          </g>
+        ))}
+      </svg>
+    </DiagramWrapper>
+  );
+}
+
+export function LeadershipGridDiagram() {
+  return (
+    <DiagramWrapper label="LEADERSHIP STYLE GRID">
+      <svg viewBox="0 0 320 200" className="w-full h-full">
+        <defs><filter id="glow-lg"><feGaussianBlur stdDeviation="1.5" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs>
+        <line x1="50" y1="170" x2="50" y2="20" stroke="#0ff" strokeWidth="0.8" opacity="0.5"/>
+        <line x1="50" y1="170" x2="290" y2="170" stroke="#0ff" strokeWidth="0.8" opacity="0.5"/>
+        <text x="25" y="100" fill="#0ff" fontSize="7" fontFamily="monospace" transform="rotate(-90,25,100)">PEOPLE FOCUS</text>
+        <text x="170" y="192" textAnchor="middle" fill="#0ff" fontSize="7" fontFamily="monospace">TASK FOCUS</text>
+        {[{x:90,y:50,label:"COUNTRY CLUB",sub:"High People/Low Task"},{x:240,y:50,label:"TEAM LEADER",sub:"High/High"},{x:165,y:110,label:"MIDDLE ROAD",sub:"Balanced"},{x:90,y:155,label:"IMPOVERISHED",sub:"Low/Low"},{x:240,y:155,label:"AUTHORITY",sub:"Low People/High Task"}].map((q,i)=>(
+          <g key={i}>
+            <rect x={q.x-38} y={q.y-18} width="76" height="36" rx="3" fill={`rgba(0,255,255,${0.04+i*0.02})`} stroke="#0ff" strokeWidth="0.7" filter="url(#glow-lg)"/>
+            <text x={q.x} y={q.y-4} textAnchor="middle" fill="#0ff" fontSize="6" fontFamily="monospace" fontWeight="bold">{q.label}</text>
+            <text x={q.x} y={q.y+8} textAnchor="middle" fill="#0ff" fontSize="5.5" fontFamily="monospace" opacity="0.7">{q.sub}</text>
+          </g>
+        ))}
+      </svg>
+    </DiagramWrapper>
+  );
+}
+
+export function TeamPerformanceDiagram() {
+  return (
+    <DiagramWrapper label="TEAM PERFORMANCE INDICATORS">
+      <svg viewBox="0 0 320 200" className="w-full h-full">
+        <defs><filter id="glow-tp"><feGaussianBlur stdDeviation="1.5" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs>
+        {[{label:"VELOCITY",val:78,y:35},{label:"QUALITY",val:85,y:65},{label:"COLLABORATION",val:62,y:95},{label:"MORALE",val:71,y:125},{label:"INNOVATION",val:55,y:155}].map((item,i)=>(
+          <g key={i}>
+            <text x="20" y={item.y+4} fill="#0ff" fontSize="7" fontFamily="monospace" opacity="0.8">{item.label}</text>
+            <rect x="130" y={item.y-8} width="160" height="14" rx="2" fill="rgba(0,255,255,0.05)" stroke="#0ff" strokeWidth="0.4" opacity="0.5"/>
+            <rect x="130" y={item.y-8} width={160*item.val/100} height="14" rx="2" fill={`rgba(0,255,255,${0.15+i*0.04})`} stroke="#0ff" strokeWidth="0.6" filter="url(#glow-tp)"/>
+            <text x={296} y={item.y+4} fill="#0ff" fontSize="7" fontFamily="monospace">{item.val}%</text>
+          </g>
+        ))}
+        <text x="160" y="190" textAnchor="middle" fill="#0ff" fontSize="7" fontFamily="monospace" opacity="0.5">TEAM HEALTH DASHBOARD</text>
+      </svg>
+    </DiagramWrapper>
+  );
+}
+
+export function EmpowermentDiagram() {
+  return (
+    <DiagramWrapper label="EMPOWERMENT SPECTRUM">
+      <svg viewBox="0 0 320 200" className="w-full h-full">
+        <defs><filter id="glow-em"><feGaussianBlur stdDeviation="1.5" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs>
+        <line x1="30" y1="100" x2="290" y2="100" stroke="#0ff" strokeWidth="1" opacity="0.4"/>
+        {[{x:50,label:"TELL",sub:"PM decides"},{x:110,label:"SELL",sub:"PM explains"},{x:170,label:"CONSULT",sub:"Team inputs"},{x:230,label:"AGREE",sub:"Joint decision"},{x:290,label:"DELEGATE",sub:"Team decides"}].map((p,i)=>(
+          <g key={i}>
+            <circle cx={p.x} cy="100" r={10+i*3} fill={`rgba(0,255,255,${0.05+i*0.04})`} stroke="#0ff" strokeWidth="0.8" filter="url(#glow-em)"/>
+            <text x={p.x} y="104" textAnchor="middle" fill="#0ff" fontSize="6" fontFamily="monospace">{p.label}</text>
+            <text x={p.x} y="125" textAnchor="middle" fill="#0ff" fontSize="5.5" fontFamily="monospace" opacity="0.7">{p.sub}</text>
+          </g>
+        ))}
+        <text x="30" y="80" fill="#0ff" fontSize="6.5" fontFamily="monospace" opacity="0.6">PM CONTROL ◄</text>
+        <text x="200" y="80" fill="#0ff" fontSize="6.5" fontFamily="monospace" opacity="0.6">► TEAM AUTONOMY</text>
+      </svg>
+    </DiagramWrapper>
+  );
+}
+
+export function TrainingNeedsMatrixDiagram() {
+  return (
+    <DiagramWrapper label="TRAINING NEEDS MATRIX">
+      <svg viewBox="0 0 320 200" className="w-full h-full">
+        <defs><filter id="glow-tn"><feGaussianBlur stdDeviation="1.5" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs>
+        {["ROLE","TECH SKILLS","SOFT SKILLS","PM TOOLS","COMPLIANCE"].map((h,i)=>(
+          <text key={i} x={i===0?20:80+i*50} y="25" fill="#0ff" fontSize={i===0?7:6} fontFamily="monospace" opacity="0.8" textAnchor={i===0?"start":"middle"}>{h}</text>
+        ))}
+        {[{role:"PM",scores:[4,3,5,4]},{role:"BA",scores:[5,3,4,5]},{role:"DEV",scores:[5,2,4,3]},{role:"QA",scores:[4,3,3,5]},{role:"PMO",scores:[3,4,5,4]}].map((row,ri)=>(
+          <g key={ri}>
+            <text x="20" y={50+ri*28} fill="#0ff" fontSize="7" fontFamily="monospace">{row.role}</text>
+            {row.scores.map((s,si)=>(
+              <g key={si}>
+                <rect x={80+si*50-18} y={38+ri*28} width="36" height="18" rx="2" fill={`rgba(0,255,255,${0.03+s*0.04})`} stroke="#0ff" strokeWidth="0.5"/>
+                <text x={80+si*50} y={50+ri*28} textAnchor="middle" fill="#0ff" fontSize="7" fontFamily="monospace">{s}/5</text>
+              </g>
+            ))}
+          </g>
+        ))}
+      </svg>
+    </DiagramWrapper>
+  );
+}
+
+export function TeamFormingDiagram() {
+  return (
+    <DiagramWrapper label="TUCKMAN TEAM STAGES">
+      <svg viewBox="0 0 320 200" className="w-full h-full">
+        <defs><filter id="glow-tf"><feGaussianBlur stdDeviation="1.5" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs>
+        {[{x:40,label:"FORMING",sub:"Polite, uncertain",perf:20},{x:100,label:"STORMING",sub:"Conflict, testing",perf:35},{x:170,label:"NORMING",sub:"Rules, cohesion",perf:65},{x:240,label:"PERFORMING",sub:"Productive, trust",perf:90},{x:295,label:"ADJOURNING",sub:"Closure",perf:70}].map((s,i)=>(
+          <g key={i}>
+            <rect x={s.x-28} y={10} width="56" height="160" rx="3" fill="none" stroke="#0ff" strokeWidth="0.4" opacity="0.2"/>
+            <rect x={s.x-28} y={10+(160*(100-s.perf)/100)} width="56" height={160*s.perf/100} rx="3" fill={`rgba(0,255,255,${0.05+i*0.04})`} stroke="#0ff" strokeWidth="0.6" filter="url(#glow-tf)"/>
+            <text x={s.x} y="182" textAnchor="middle" fill="#0ff" fontSize="5.5" fontFamily="monospace">{s.label}</text>
+            <text x={s.x} y="192" textAnchor="middle" fill="#0ff" fontSize="5" fontFamily="monospace" opacity="0.6">{s.sub}</text>
+          </g>
+        ))}
+        <text x="160" y="8" textAnchor="middle" fill="#0ff" fontSize="6" fontFamily="monospace" opacity="0.5">TEAM PERFORMANCE ▲</text>
+      </svg>
+    </DiagramWrapper>
+  );
+}
+
+export function ImpedimentLogDiagram() {
+  return (
+    <DiagramWrapper label="IMPEDIMENT LOG">
+      <svg viewBox="0 0 320 200" className="w-full h-full">
+        <defs><filter id="glow-il"><feGaussianBlur stdDeviation="1.5" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs>
+        {["ID","IMPEDIMENT","OWNER","STATUS","DAYS"].map((h,i)=>(
+          <text key={i} x={[15,45,175,230,285][i]} y="22" fill="#0ff" fontSize="6.5" fontFamily="monospace" opacity="0.8">{h}</text>
+        ))}
+        <line x1="10" y1="26" x2="310" y2="26" stroke="#0ff" strokeWidth="0.5" opacity="0.4"/>
+        {[{id:"I-01",imp:"Awaiting regulatory sign-off",own:"PM",status:"OPEN",days:5},{id:"I-02",imp:"Missing test environment",own:"DEV",status:"IN PROG",days:2},{id:"I-03",imp:"Budget approval delayed",own:"SPONSOR",status:"OPEN",days:8},{id:"I-04",imp:"Key SME unavailable",own:"PM",status:"CLOSED",days:0},{id:"I-05",imp:"Tool licence pending",own:"PMO",status:"OPEN",days:3}].map((row,i)=>(
+          <g key={i}>
+            <rect x="10" y={32+i*28} width="300" height="22" rx="2" fill={`rgba(0,255,255,${row.status==="CLOSED"?0.02:0.06})`} stroke="#0ff" strokeWidth="0.4" opacity={row.status==="CLOSED"?0.5:1}/>
+            <text x="15" y={47+i*28} fill="#0ff" fontSize="6" fontFamily="monospace">{row.id}</text>
+            <text x="45" y={47+i*28} fill="#0ff" fontSize="6" fontFamily="monospace" opacity="0.85">{row.imp}</text>
+            <text x="175" y={47+i*28} fill="#0ff" fontSize="6" fontFamily="monospace">{row.own}</text>
+            <text x="230" y={47+i*28} fill={row.status==="CLOSED"?"#0f0":row.days>5?"#f80":"#0ff"} fontSize="6" fontFamily="monospace">{row.status}</text>
+            <text x="285" y={47+i*28} fill="#0ff" fontSize="6" fontFamily="monospace">{row.days>0?row.days+"d":"—"}</text>
+          </g>
+        ))}
+      </svg>
+    </DiagramWrapper>
+  );
+}
+
+export function NegotiationZoneDiagram() {
+  return (
+    <DiagramWrapper label="NEGOTIATION ZONE (ZOPA)">
+      <svg viewBox="0 0 320 200" className="w-full h-full">
+        <defs><filter id="glow-nz"><feGaussianBlur stdDeviation="1.5" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs>
+        <line x1="30" y1="100" x2="290" y2="100" stroke="#0ff" strokeWidth="1" opacity="0.4"/>
+        <rect x="30" y="85" width="260" height="30" rx="2" fill="none" stroke="#0ff" strokeWidth="0.4" opacity="0.2"/>
+        <rect x="110" y="85" width="100" height="30" rx="2" fill="rgba(0,255,255,0.15)" stroke="#0ff" strokeWidth="1" filter="url(#glow-nz)"/>
+        <text x="160" y="104" textAnchor="middle" fill="#0ff" fontSize="7.5" fontFamily="monospace" fontWeight="bold">ZOPA</text>
+        <text x="160" y="115" textAnchor="middle" fill="#0ff" fontSize="6" fontFamily="monospace" opacity="0.7">Zone of Possible Agreement</text>
+        <rect x="30" y="55" width="80" height="22" rx="2" fill="rgba(0,255,255,0.06)" stroke="#0ff" strokeWidth="0.7"/>
+        <text x="70" y="70" textAnchor="middle" fill="#0ff" fontSize="6.5" fontFamily="monospace">PARTY A LIMIT</text>
+        <rect x="210" y="55" width="80" height="22" rx="2" fill="rgba(0,255,255,0.06)" stroke="#0ff" strokeWidth="0.7"/>
+        <text x="250" y="70" textAnchor="middle" fill="#0ff" fontSize="6.5" fontFamily="monospace">PARTY B LIMIT</text>
+        <line x1="70" y1="77" x2="110" y2="85" stroke="#0ff" strokeWidth="0.5" strokeDasharray="2,2" opacity="0.5"/>
+        <line x1="250" y1="77" x2="210" y2="85" stroke="#0ff" strokeWidth="0.5" strokeDasharray="2,2" opacity="0.5"/>
+        <rect x="80" y="135" width="70" height="20" rx="2" fill="rgba(255,80,0,0.08)" stroke="#f80" strokeWidth="0.7"/>
+        <text x="115" y="149" textAnchor="middle" fill="#f80" fontSize="6.5" fontFamily="monospace">BATNA (A)</text>
+        <rect x="170" y="135" width="70" height="20" rx="2" fill="rgba(255,80,0,0.08)" stroke="#f80" strokeWidth="0.7"/>
+        <text x="205" y="149" textAnchor="middle" fill="#f80" fontSize="6.5" fontFamily="monospace">BATNA (B)</text>
+        <text x="160" y="185" textAnchor="middle" fill="#0ff" fontSize="6.5" fontFamily="monospace" opacity="0.6">Best Alternative To Negotiated Agreement</text>
+      </svg>
+    </DiagramWrapper>
+  );
+}
+
+export function GroundRulesDiagram() {
+  return (
+    <DiagramWrapper label="TEAM GROUND RULES CHARTER">
+      <svg viewBox="0 0 320 200" className="w-full h-full">
+        <defs><filter id="glow-gr"><feGaussianBlur stdDeviation="1.5" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs>
+        <rect x="10" y="10" width="300" height="180" rx="4" fill="none" stroke="#0ff" strokeWidth="0.8" strokeDasharray="4,3" opacity="0.4"/>
+        <text x="160" y="28" textAnchor="middle" fill="#0ff" fontSize="9" fontFamily="monospace" fontWeight="bold" filter="url(#glow-gr)">TEAM CHARTER</text>
+        <line x1="20" y1="34" x2="300" y2="34" stroke="#0ff" strokeWidth="0.5" opacity="0.4"/>
+        {["COMMUNICATION: Daily stand-up 09:00 UTC","DECISIONS: Consensus first, PM decides if stuck","CONFLICT: Raise within 24h, resolve in 48h","AVAILABILITY: Core hours 10:00-16:00 local","QUALITY: No code/doc without peer review","RESPECT: One voice at a time in meetings"].map((rule,i)=>(
+          <g key={i}>
+            <circle cx="25" cy={50+i*24} r="4" fill="rgba(0,255,255,0.15)" stroke="#0ff" strokeWidth="0.8"/>
+            <text x="25" y={54+i*24} textAnchor="middle" fill="#0ff" fontSize="6" fontFamily="monospace">✓</text>
+            <text x="36" y={54+i*24} fill="#0ff" fontSize="6.5" fontFamily="monospace" opacity="0.85">{rule}</text>
+          </g>
+        ))}
+      </svg>
+    </DiagramWrapper>
+  );
+}
+
+export function MentoringDiagram() {
+  return (
+    <DiagramWrapper label="MENTORING RELATIONSHIP MODEL">
+      <svg viewBox="0 0 320 200" className="w-full h-full">
+        <defs><filter id="glow-mn"><feGaussianBlur stdDeviation="1.5" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs>
+        <circle cx="90" cy="90" r="40" fill="rgba(0,255,255,0.06)" stroke="#0ff" strokeWidth="1" filter="url(#glow-mn)"/>
+        <text x="90" y="86" textAnchor="middle" fill="#0ff" fontSize="8" fontFamily="monospace" fontWeight="bold">MENTOR</text>
+        <text x="90" y="98" textAnchor="middle" fill="#0ff" fontSize="6" fontFamily="monospace" opacity="0.7">Experience</text>
+        <text x="90" y="108" textAnchor="middle" fill="#0ff" fontSize="6" fontFamily="monospace" opacity="0.7">Knowledge</text>
+        <circle cx="230" cy="90" r="40" fill="rgba(0,255,255,0.06)" stroke="#0ff" strokeWidth="1" filter="url(#glow-mn)"/>
+        <text x="230" y="86" textAnchor="middle" fill="#0ff" fontSize="8" fontFamily="monospace" fontWeight="bold">MENTEE</text>
+        <text x="230" y="98" textAnchor="middle" fill="#0ff" fontSize="6" fontFamily="monospace" opacity="0.7">Potential</text>
+        <text x="230" y="108" textAnchor="middle" fill="#0ff" fontSize="6" fontFamily="monospace" opacity="0.7">Ambition</text>
+        <path d="M 130 80 Q 160 60 190 80" fill="none" stroke="#0ff" strokeWidth="1.2" markerEnd="url(#arr)"/>
+        <path d="M 190 100 Q 160 120 130 100" fill="none" stroke="#0ff" strokeWidth="1.2" markerEnd="url(#arr)"/>
+        <text x="160" y="68" textAnchor="middle" fill="#0ff" fontSize="6" fontFamily="monospace">Guidance</text>
+        <text x="160" y="128" textAnchor="middle" fill="#0ff" fontSize="6" fontFamily="monospace">Feedback</text>
+        {[{x:90,y:150,label:"GUIDE"},{x:160,y:150,label:"CHALLENGE"},{x:230,y:150,label:"SUPPORT"}].map((b,i)=>(
+          <g key={i}><rect x={b.x-25} y={b.y-10} width="50" height="18" rx="2" fill="rgba(0,255,255,0.08)" stroke="#0ff" strokeWidth="0.6"/><text x={b.x} y={b.y+4} textAnchor="middle" fill="#0ff" fontSize="6.5" fontFamily="monospace">{b.label}</text></g>
+        ))}
+      </svg>
+    </DiagramWrapper>
+  );
+}
+
+// ── Process Domain Diagrams ─────────────────────────────────────────────────
+export function ExecutionUrgencyDiagram() {
+  return (
+    <DiagramWrapper label="EXECUTION URGENCY FRAMEWORK">
+      <svg viewBox="0 0 320 200" className="w-full h-full">
+        <defs><filter id="glow-eu"><feGaussianBlur stdDeviation="1.5" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs>
+        <line x1="50" y1="170" x2="50" y2="20" stroke="#0ff" strokeWidth="0.8" opacity="0.5"/>
+        <line x1="50" y1="95" x2="290" y2="95" stroke="#0ff" strokeWidth="0.8" opacity="0.5"/>
+        <text x="25" y="60" fill="#0ff" fontSize="7" fontFamily="monospace" transform="rotate(-90,25,60)">IMPORTANCE</text>
+        <text x="170" y="192" textAnchor="middle" fill="#0ff" fontSize="7" fontFamily="monospace">URGENCY</text>
+        {[{x:90,y:55,label:"SCHEDULE",sub:"Important/Urgent",color:"0.18"},{x:230,y:55,label:"DELEGATE",sub:"Important/Not Urgent",color:"0.10"},{x:90,y:140,label:"DO FIRST",sub:"Not Important/Urgent",color:"0.06"},{x:230,y:140,label:"ELIMINATE",sub:"Not Important/Not Urgent",color:"0.04"}].map((q,i)=>(
+          <g key={i}>
+            <rect x={q.x-55} y={q.y-28} width="110" height="56" rx="3" fill={`rgba(0,255,255,${q.color})`} stroke="#0ff" strokeWidth="0.7" filter="url(#glow-eu)"/>
+            <text x={q.x} y={q.y-8} textAnchor="middle" fill="#0ff" fontSize="7.5" fontFamily="monospace" fontWeight="bold">{q.label}</text>
+            <text x={q.x} y={q.y+6} textAnchor="middle" fill="#0ff" fontSize="6" fontFamily="monospace" opacity="0.7">{q.sub}</text>
+          </g>
+        ))}
+      </svg>
+    </DiagramWrapper>
+  );
+}
+
+export function CommsPlanDiagram() {
+  return (
+    <DiagramWrapper label="COMMUNICATIONS PLAN">
+      <svg viewBox="0 0 320 200" className="w-full h-full">
+        <defs><filter id="glow-cp2"><feGaussianBlur stdDeviation="1.5" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs>
+        {["STAKEHOLDER","MESSAGE","CHANNEL","FREQUENCY","OWNER"].map((h,i)=>(
+          <text key={i} x={[15,75,165,225,280][i]} y="20" fill="#0ff" fontSize="6" fontFamily="monospace" opacity="0.8">{h}</text>
+        ))}
+        <line x1="10" y1="24" x2="310" y2="24" stroke="#0ff" strokeWidth="0.5" opacity="0.4"/>
+        {[{sh:"Sponsor",msg:"Status & financials",ch:"Weekly report",freq:"Weekly",own:"PM"},{sh:"Steering",msg:"Decisions needed",ch:"Steering meeting",freq:"Monthly",own:"PM"},{sh:"Team",msg:"Tasks & blockers",ch:"Stand-up",freq:"Daily",own:"PM"},{sh:"Regulators",msg:"Compliance updates",ch:"Formal submission",freq:"Milestone",own:"RA"},{sh:"End Users",msg:"Change readiness",ch:"Newsletter",freq:"Bi-weekly",own:"CM"}].map((row,i)=>(
+          <g key={i}>
+            <rect x="10" y={30+i*30} width="300" height="24" rx="2" fill={`rgba(0,255,255,${0.03+i*0.01})`} stroke="#0ff" strokeWidth="0.3" opacity="0.7"/>
+            <text x="15" y={46+i*30} fill="#0ff" fontSize="6" fontFamily="monospace">{row.sh}</text>
+            <text x="75" y={46+i*30} fill="#0ff" fontSize="6" fontFamily="monospace" opacity="0.8">{row.msg}</text>
+            <text x="165" y={46+i*30} fill="#0ff" fontSize="6" fontFamily="monospace">{row.ch}</text>
+            <text x="225" y={46+i*30} fill="#0ff" fontSize="6" fontFamily="monospace">{row.freq}</text>
+            <text x="280" y={46+i*30} fill="#0ff" fontSize="6" fontFamily="monospace">{row.own}</text>
+          </g>
+        ))}
+      </svg>
+    </DiagramWrapper>
+  );
+}
+
+export function RiskManagementDiagram() {
+  return (
+    <DiagramWrapper label="RISK MANAGEMENT CYCLE">
+      <svg viewBox="0 0 320 200" className="w-full h-full">
+        <defs><filter id="glow-rm"><feGaussianBlur stdDeviation="1.5" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs>
+        {[{x:160,y:30,label:"IDENTIFY"},{x:270,y:90,label:"ANALYSE"},{x:230,y:170,label:"RESPOND"},{x:90,y:170,label:"MONITOR"},{x:50,y:90,label:"PLAN"}].map((s,i,arr)=>{
+          const next = arr[(i+1)%arr.length];
+          return (
+            <g key={i}>
+              <line x1={s.x} y1={s.y} x2={next.x} y2={next.y} stroke="#0ff" strokeWidth="0.6" strokeDasharray="3,2" opacity="0.4"/>
+              <rect x={s.x-32} y={s.y-12} width="64" height="24" rx="3" fill={`rgba(0,255,255,${0.06+i*0.03})`} stroke="#0ff" strokeWidth="0.8" filter="url(#glow-rm)"/>
+              <text x={s.x} y={s.y+4} textAnchor="middle" fill="#0ff" fontSize="7" fontFamily="monospace">{s.label}</text>
+            </g>
+          );
+        })}
+        <circle cx="160" cy="100" r="25" fill="rgba(0,255,255,0.06)" stroke="#0ff" strokeWidth="0.8" strokeDasharray="2,2"/>
+        <text x="160" y="96" textAnchor="middle" fill="#0ff" fontSize="6.5" fontFamily="monospace">RISK</text>
+        <text x="160" y="108" textAnchor="middle" fill="#0ff" fontSize="6.5" fontFamily="monospace">REGISTER</text>
+      </svg>
+    </DiagramWrapper>
+  );
+}
+
+export function StakeholderRegisterDiagram() {
+  return (
+    <DiagramWrapper label="STAKEHOLDER REGISTER">
+      <svg viewBox="0 0 320 200" className="w-full h-full">
+        <defs><filter id="glow-sr"><feGaussianBlur stdDeviation="1.5" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs>
+        {["STAKEHOLDER","ROLE","INTEREST","INFLUENCE","STRATEGY"].map((h,i)=>(
+          <text key={i} x={[15,80,145,205,255][i]} y="20" fill="#0ff" fontSize="6" fontFamily="monospace" opacity="0.8">{h}</text>
+        ))}
+        <line x1="10" y1="24" x2="310" y2="24" stroke="#0ff" strokeWidth="0.5" opacity="0.4"/>
+        {[{sh:"CMO",role:"Sponsor",int:"HIGH",inf:"HIGH",str:"Manage closely"},{sh:"Reg. Agency",role:"Regulator",int:"MED",inf:"HIGH",str:"Keep satisfied"},{sh:"Clinical",role:"SME",int:"HIGH",inf:"MED",str:"Keep informed"},{sh:"IT Dept",role:"Support",int:"LOW",inf:"MED",str:"Monitor"},{sh:"End Users",role:"Recipient",int:"HIGH",inf:"LOW",str:"Keep informed"}].map((row,i)=>(
+          <g key={i}>
+            <rect x="10" y={30+i*30} width="300" height="24" rx="2" fill={`rgba(0,255,255,${0.03+i*0.01})`} stroke="#0ff" strokeWidth="0.3"/>
+            <text x="15" y={46+i*30} fill="#0ff" fontSize="6" fontFamily="monospace">{row.sh}</text>
+            <text x="80" y={46+i*30} fill="#0ff" fontSize="6" fontFamily="monospace">{row.role}</text>
+            <text x="145" y={46+i*30} fill={row.int==="HIGH"?"#0ff":row.int==="MED"?"#8ff":"#4ff"} fontSize="6" fontFamily="monospace">{row.int}</text>
+            <text x="205" y={46+i*30} fill={row.inf==="HIGH"?"#0ff":row.inf==="MED"?"#8ff":"#4ff"} fontSize="6" fontFamily="monospace">{row.inf}</text>
+            <text x="255" y={46+i*30} fill="#0ff" fontSize="5.5" fontFamily="monospace" opacity="0.8">{row.str}</text>
+          </g>
+        ))}
+      </svg>
+    </DiagramWrapper>
+  );
+}
+
+export function BudgetSCurveDiagram() {
+  return (
+    <DiagramWrapper label="BUDGET S-CURVE">
+      <svg viewBox="0 0 320 200" className="w-full h-full">
+        <defs><filter id="glow-bs"><feGaussianBlur stdDeviation="1.5" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs>
+        <line x1="40" y1="170" x2="40" y2="20" stroke="#0ff" strokeWidth="0.8" opacity="0.5"/>
+        <line x1="40" y1="170" x2="300" y2="170" stroke="#0ff" strokeWidth="0.8" opacity="0.5"/>
+        <text x="20" y="100" fill="#0ff" fontSize="7" fontFamily="monospace" transform="rotate(-90,20,100)">CUMULATIVE COST</text>
+        <text x="170" y="192" textAnchor="middle" fill="#0ff" fontSize="7" fontFamily="monospace">TIME</text>
+        <path d="M 40 165 C 80 160 100 140 140 110 S 200 60 280 25" fill="none" stroke="#0ff" strokeWidth="1.5" filter="url(#glow-bs)"/>
+        <path d="M 40 165 C 70 162 90 150 120 130 S 170 90 240 50" fill="none" stroke="#f80" strokeWidth="1.2" strokeDasharray="4,2" opacity="0.8"/>
+        <text x="285" y="28" fill="#0ff" fontSize="6" fontFamily="monospace">PLAN</text>
+        <text x="245" y="53" fill="#f80" fontSize="6" fontFamily="monospace">ACTUAL</text>
+        <line x1="185" y1="30" x2="185" y2="170" stroke="#0ff" strokeWidth="0.5" strokeDasharray="2,2" opacity="0.4"/>
+        <text x="185" y="25" textAnchor="middle" fill="#0ff" fontSize="6" fontFamily="monospace">TODAY</text>
+        <text x="60" y="155" fill="#0ff" fontSize="6" fontFamily="monospace" opacity="0.6">SLOW START</text>
+        <text x="160" y="100" fill="#0ff" fontSize="6" fontFamily="monospace" opacity="0.6">PEAK SPEND</text>
+        <text x="240" y="45" fill="#0ff" fontSize="6" fontFamily="monospace" opacity="0.6">TAIL-OFF</text>
+      </svg>
+    </DiagramWrapper>
+  );
+}
+
+export function ScheduleBaselineDiagram() {
+  return (
+    <DiagramWrapper label="SCHEDULE BASELINE">
+      <svg viewBox="0 0 320 200" className="w-full h-full">
+        <defs><filter id="glow-sb"><feGaussianBlur stdDeviation="1.5" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs>
+        {["WK1","WK2","WK3","WK4","WK5","WK6","WK7","WK8"].map((w,i)=>(
+          <text key={i} x={50+i*32} y="18" textAnchor="middle" fill="#0ff" fontSize="6" fontFamily="monospace" opacity="0.6">{w}</text>
+        ))}
+        {[{label:"Initiation",start:0,dur:1,y:35},{label:"Planning",start:1,dur:2,y:60},{label:"Design",start:2,dur:3,y:85},{label:"Build",start:3,dur:3,y:110},{label:"Test",start:5,dur:2,y:135},{label:"Deploy",start:7,dur:1,y:160}].map((task,i)=>(
+          <g key={i}>
+            <text x="5" y={task.y+8} fill="#0ff" fontSize="6" fontFamily="monospace" opacity="0.8">{task.label}</text>
+            <rect x={34+task.start*32} y={task.y} width={task.dur*32} height="14" rx="2" fill={`rgba(0,255,255,${0.08+i*0.03})`} stroke="#0ff" strokeWidth="0.8" filter="url(#glow-sb)"/>
+          </g>
+        ))}
+        <line x1="178" y1="25" x2="178" y2="175" stroke="#f80" strokeWidth="1" strokeDasharray="3,2" opacity="0.7"/>
+        <text x="178" y="185" textAnchor="middle" fill="#f80" fontSize="6" fontFamily="monospace">TODAY</text>
+      </svg>
+    </DiagramWrapper>
+  );
+}
+
+export function QualityGatesDiagram() {
+  return (
+    <DiagramWrapper label="QUALITY GATE FRAMEWORK">
+      <svg viewBox="0 0 320 200" className="w-full h-full">
+        <defs><filter id="glow-qg"><feGaussianBlur stdDeviation="1.5" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs>
+        <line x1="20" y1="100" x2="300" y2="100" stroke="#0ff" strokeWidth="0.5" opacity="0.3"/>
+        {[{x:50,label:"GATE 0",sub:"Charter",status:"PASS"},{x:110,label:"GATE 1",sub:"Design",status:"PASS"},{x:170,label:"GATE 2",sub:"Build",status:"IN PROG"},{x:230,label:"GATE 3",sub:"Test",status:"PENDING"},{x:290,label:"GATE 4",sub:"Launch",status:"PENDING"}].map((g,i)=>(
+          <g key={i}>
+            {i>0&&<line x1={[50,110,170,230][i-1]} y1="100" x2={g.x-18} y2="100" stroke="#0ff" strokeWidth="1" opacity="0.4"/>}
+            <polygon points={`${g.x-18},82 ${g.x+18},82 ${g.x+26},100 ${g.x+18},118 ${g.x-18},118 ${g.x-26},100`} fill={g.status==="PASS"?"rgba(0,255,0,0.12)":g.status==="IN PROG"?"rgba(255,128,0,0.12)":"rgba(0,255,255,0.05)"} stroke={g.status==="PASS"?"#0f0":g.status==="IN PROG"?"#f80":"#0ff"} strokeWidth="0.8" filter="url(#glow-qg)"/>
+            <text x={g.x} y="97" textAnchor="middle" fill={g.status==="PASS"?"#0f0":g.status==="IN PROG"?"#f80":"#0ff"} fontSize="5.5" fontFamily="monospace">{g.label}</text>
+            <text x={g.x} y="107" textAnchor="middle" fill="#0ff" fontSize="5" fontFamily="monospace" opacity="0.7">{g.sub}</text>
+            <text x={g.x} y="132" textAnchor="middle" fill={g.status==="PASS"?"#0f0":g.status==="IN PROG"?"#f80":"#0ff"} fontSize="5" fontFamily="monospace">{g.status}</text>
+          </g>
+        ))}
+      </svg>
+    </DiagramWrapper>
+  );
+}
+
+export function IntegratedPlanDiagram() {
+  return (
+    <DiagramWrapper label="INTEGRATED PROJECT PLAN">
+      <svg viewBox="0 0 320 200" className="w-full h-full">
+        <defs><filter id="glow-ip"><feGaussianBlur stdDeviation="1.5" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs>
+        <circle cx="160" cy="100" r="35" fill="rgba(0,255,255,0.1)" stroke="#0ff" strokeWidth="1.2" filter="url(#glow-ip)"/>
+        <text x="160" y="96" textAnchor="middle" fill="#0ff" fontSize="7.5" fontFamily="monospace" fontWeight="bold">PROJECT</text>
+        <text x="160" y="108" textAnchor="middle" fill="#0ff" fontSize="7.5" fontFamily="monospace" fontWeight="bold">PLAN</text>
+        {[{x:80,y:30,label:"SCOPE"},{x:240,y:30,label:"SCHEDULE"},{x:290,y:100,label:"BUDGET"},{x:240,y:170,label:"QUALITY"},{x:80,y:170,label:"RISK"},{x:30,y:100,label:"COMMS"}].map((p,i)=>{
+          const rad = (i*60-90)*Math.PI/180;
+          const lx1 = 160+35*Math.cos(rad), ly1 = 100+35*Math.sin(rad);
+          const lx2 = 160+55*Math.cos(rad), ly2 = 100+55*Math.sin(rad);
+          return (
+            <g key={i}>
+              <line x1={lx1} y1={ly1} x2={lx2} y2={ly2} stroke="#0ff" strokeWidth="0.6" opacity="0.5"/>
+              <rect x={p.x-28} y={p.y-10} width="56" height="20" rx="2" fill={`rgba(0,255,255,${0.06+i*0.02})`} stroke="#0ff" strokeWidth="0.7" filter="url(#glow-ip)"/>
+              <text x={p.x} y={p.y+4} textAnchor="middle" fill="#0ff" fontSize="6.5" fontFamily="monospace">{p.label}</text>
+            </g>
+          );
+        })}
+      </svg>
+    </DiagramWrapper>
+  );
+}
+
+export function ArtifactsDiagram() {
+  return (
+    <DiagramWrapper label="PROJECT ARTIFACT TAXONOMY">
+      <svg viewBox="0 0 320 200" className="w-full h-full">
+        <defs><filter id="glow-ar"><feGaussianBlur stdDeviation="1.5" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs>
+        <rect x="110" y="10" width="100" height="24" rx="3" fill="rgba(0,255,255,0.1)" stroke="#0ff" strokeWidth="1" filter="url(#glow-ar)"/>
+        <text x="160" y="26" textAnchor="middle" fill="#0ff" fontSize="7.5" fontFamily="monospace">PROJECT ARTIFACTS</text>
+        {[{x:60,y:70,label:"PLANS",items:["Project Plan","Risk Register","Comms Plan"]},{x:160,y:70,label:"REPORTS",items:["Status Report","EVM Report","Lessons Log"]},{x:260,y:70,label:"DECISIONS",items:["Change Log","CCB Minutes","Issue Log"]}].map((cat,i)=>(
+          <g key={i}>
+            <line x1="160" y1="34" x2={cat.x} y2={cat.y-14} stroke="#0ff" strokeWidth="0.5" opacity="0.4"/>
+            <rect x={cat.x-40} y={cat.y-14} width="80" height="22" rx="2" fill={`rgba(0,255,255,${0.06+i*0.03})`} stroke="#0ff" strokeWidth="0.8"/>
+            <text x={cat.x} y={cat.y+2} textAnchor="middle" fill="#0ff" fontSize="7" fontFamily="monospace" fontWeight="bold">{cat.label}</text>
+            {cat.items.map((item,j)=>(
+              <g key={j}>
+                <line x1={cat.x} y1={cat.y+8} x2={cat.x} y2={cat.y+22+j*22} stroke="#0ff" strokeWidth="0.4" opacity="0.3"/>
+                <rect x={cat.x-35} y={cat.y+22+j*22} width="70" height="16" rx="2" fill="rgba(0,255,255,0.04)" stroke="#0ff" strokeWidth="0.4"/>
+                <text x={cat.x} y={cat.y+33+j*22} textAnchor="middle" fill="#0ff" fontSize="5.5" fontFamily="monospace" opacity="0.8">{item}</text>
+              </g>
+            ))}
+          </g>
+        ))}
+      </svg>
+    </DiagramWrapper>
+  );
+}
+
+export function MethodologySelectionDiagram() {
+  return (
+    <DiagramWrapper label="METHODOLOGY SELECTION MATRIX">
+      <svg viewBox="0 0 320 200" className="w-full h-full">
+        <defs><filter id="glow-ms"><feGaussianBlur stdDeviation="1.5" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs>
+        <line x1="50" y1="170" x2="50" y2="20" stroke="#0ff" strokeWidth="0.8" opacity="0.5"/>
+        <line x1="50" y1="95" x2="290" y2="95" stroke="#0ff" strokeWidth="0.8" opacity="0.5"/>
+        <text x="25" y="60" fill="#0ff" fontSize="7" fontFamily="monospace" transform="rotate(-90,25,60)">UNCERTAINTY</text>
+        <text x="170" y="192" textAnchor="middle" fill="#0ff" fontSize="7" fontFamily="monospace">COMPLEXITY</text>
+        {[{x:100,y:55,label:"AGILE",sub:"High Uncertainty"},{x:240,y:55,label:"HYBRID",sub:"Complex+Uncertain"},{x:100,y:145,label:"WATERFALL",sub:"Low/Predictable"},{x:240,y:145,label:"PRINCE2",sub:"High Complexity"}].map((q,i)=>(
+          <g key={i}>
+            <rect x={q.x-48} y={q.y-26} width="96" height="52" rx="3" fill={`rgba(0,255,255,${0.05+i*0.03})`} stroke="#0ff" strokeWidth="0.8" filter="url(#glow-ms)"/>
+            <text x={q.x} y={q.y-8} textAnchor="middle" fill="#0ff" fontSize="8" fontFamily="monospace" fontWeight="bold">{q.label}</text>
+            <text x={q.x} y={q.y+8} textAnchor="middle" fill="#0ff" fontSize="6" fontFamily="monospace" opacity="0.7">{q.sub}</text>
+          </g>
+        ))}
+      </svg>
+    </DiagramWrapper>
+  );
+}
+
+export function GovernanceFrameworkDiagram() {
+  return (
+    <DiagramWrapper label="PROJECT GOVERNANCE FRAMEWORK">
+      <svg viewBox="0 0 320 200" className="w-full h-full">
+        <defs><filter id="glow-gf"><feGaussianBlur stdDeviation="1.5" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs>
+        {[{y:20,label:"BOARD / EXECUTIVE",w:280},{y:60,label:"STEERING COMMITTEE",w:240},{y:100,label:"PROJECT SPONSOR",w:200},{y:140,label:"PROJECT MANAGER",w:160},{y:170,label:"PROJECT TEAM",w:120}].map((tier,i)=>(
+          <g key={i}>
+            <rect x={(320-tier.w)/2} y={tier.y} width={tier.w} height="28" rx="3" fill={`rgba(0,255,255,${0.04+i*0.04})`} stroke="#0ff" strokeWidth="0.8" filter="url(#glow-gf)"/>
+            <text x="160" y={tier.y+18} textAnchor="middle" fill="#0ff" fontSize="7" fontFamily="monospace">{tier.label}</text>
+            {i<4&&<line x1="160" y1={tier.y+28} x2="160" y2={tier.y+32} stroke="#0ff" strokeWidth="0.6" opacity="0.5"/>}
+          </g>
+        ))}
+      </svg>
+    </DiagramWrapper>
+  );
+}
+
+export function KnowledgeTransferDiagram() {
+  return (
+    <DiagramWrapper label="KNOWLEDGE TRANSFER PLAN">
+      <svg viewBox="0 0 320 200" className="w-full h-full">
+        <defs><filter id="glow-kt"><feGaussianBlur stdDeviation="1.5" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs>
+        <circle cx="100" cy="90" r="45" fill="rgba(0,255,255,0.05)" stroke="#0ff" strokeWidth="0.8" opacity="0.7"/>
+        <text x="100" y="86" textAnchor="middle" fill="#0ff" fontSize="7" fontFamily="monospace">TACIT</text>
+        <text x="100" y="98" textAnchor="middle" fill="#0ff" fontSize="6" fontFamily="monospace" opacity="0.7">Know-how</text>
+        <text x="100" y="110" textAnchor="middle" fill="#0ff" fontSize="6" fontFamily="monospace" opacity="0.7">Experience</text>
+        <circle cx="220" cy="90" r="45" fill="rgba(0,255,255,0.05)" stroke="#0ff" strokeWidth="0.8" opacity="0.7"/>
+        <text x="220" y="86" textAnchor="middle" fill="#0ff" fontSize="7" fontFamily="monospace">EXPLICIT</text>
+        <text x="220" y="98" textAnchor="middle" fill="#0ff" fontSize="6" fontFamily="monospace" opacity="0.7">Documents</text>
+        <text x="220" y="110" textAnchor="middle" fill="#0ff" fontSize="6" fontFamily="monospace" opacity="0.7">Processes</text>
+        <path d="M 145 80 Q 160 60 175 80" fill="none" stroke="#0ff" strokeWidth="1.2" filter="url(#glow-kt)"/>
+        <text x="160" y="68" textAnchor="middle" fill="#0ff" fontSize="6" fontFamily="monospace">Externalise</text>
+        <path d="M 175 100 Q 160 120 145 100" fill="none" stroke="#0ff" strokeWidth="1.2" filter="url(#glow-kt)"/>
+        <text x="160" y="128" textAnchor="middle" fill="#0ff" fontSize="6" fontFamily="monospace">Internalise</text>
+        {["DOCUMENT","TRAIN","SHADOW","HANDOVER"].map((step,i)=>(
+          <g key={i}>
+            <rect x={20+i*72} y="155" width="64" height="22" rx="2" fill={`rgba(0,255,255,${0.04+i*0.03})`} stroke="#0ff" strokeWidth="0.6"/>
+            <text x={52+i*72} y="170" textAnchor="middle" fill="#0ff" fontSize="6.5" fontFamily="monospace">{step}</text>
+          </g>
+        ))}
+      </svg>
+    </DiagramWrapper>
+  );
+}
+
+export function ProjectClosureDiagram() {
+  return (
+    <DiagramWrapper label="PROJECT CLOSURE CHECKLIST">
+      <svg viewBox="0 0 320 200" className="w-full h-full">
+        <defs><filter id="glow-pc"><feGaussianBlur stdDeviation="1.5" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs>
+        {[{label:"Deliverables accepted by sponsor",done:true},{label:"All contracts formally closed",done:true},{label:"Lessons learned documented",done:true},{label:"Team released & recognised",done:false},{label:"Financial accounts closed",done:false},{label:"Project archive completed",done:false}].map((item,i)=>(
+          <g key={i}>
+            <rect x="15" y={18+i*28} width="290" height="22" rx="2" fill={`rgba(0,255,255,${item.done?0.08:0.03})`} stroke={item.done?"#0f0":"#0ff"} strokeWidth="0.6"/>
+            <circle cx="30" cy={29+i*28} r="7" fill={item.done?"rgba(0,255,0,0.15)":"rgba(0,255,255,0.05)"} stroke={item.done?"#0f0":"#0ff"} strokeWidth="0.8"/>
+            <text x="30" y={33+i*28} textAnchor="middle" fill={item.done?"#0f0":"#0ff"} fontSize="8" fontFamily="monospace">{item.done?"✓":"○"}</text>
+            <text x="46" y={33+i*28} fill={item.done?"#0f0":"#0ff"} fontSize="7" fontFamily="monospace" opacity={item.done?1:0.7}>{item.label}</text>
+          </g>
+        ))}
+      </svg>
+    </DiagramWrapper>
+  );
+}
+
+// ── Business Environment Diagrams ───────────────────────────────────────────
+export function ComplianceFrameworkDiagram() {
+  return (
+    <DiagramWrapper label="COMPLIANCE FRAMEWORK">
+      <svg viewBox="0 0 320 200" className="w-full h-full">
+        <defs><filter id="glow-cf"><feGaussianBlur stdDeviation="1.5" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs>
+        {[{y:15,label:"REGULATORY REQUIREMENTS",w:280,color:"0.12"},{y:50,label:"ORGANISATIONAL POLICIES",w:240,color:"0.09"},{y:85,label:"PROJECT STANDARDS",w:200,color:"0.07"},{y:120,label:"PROCESS CONTROLS",w:160,color:"0.05"},{y:155,label:"AUDIT TRAIL",w:120,color:"0.04"}].map((tier,i)=>(
+          <g key={i}>
+            <rect x={(320-tier.w)/2} y={tier.y} width={tier.w} height="28" rx="3" fill={`rgba(0,255,255,${tier.color})`} stroke="#0ff" strokeWidth="0.8" filter="url(#glow-cf)"/>
+            <text x="160" y={tier.y+18} textAnchor="middle" fill="#0ff" fontSize="7" fontFamily="monospace">{tier.label}</text>
+          </g>
+        ))}
+        <text x="160" y="195" textAnchor="middle" fill="#0ff" fontSize="6.5" fontFamily="monospace" opacity="0.5">COMPLIANCE HIERARCHY</text>
+      </svg>
+    </DiagramWrapper>
+  );
+}
+
+export function BenefitsMapDiagram() {
+  return (
+    <DiagramWrapper label="BENEFITS REALISATION MAP">
+      <svg viewBox="0 0 320 200" className="w-full h-full">
+        <defs><filter id="glow-bm"><feGaussianBlur stdDeviation="1.5" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs>
+        {[{x:40,y:100,label:"PROJECT\nOUTPUTS",color:"0.08"},{x:130,y:100,label:"CAPABILITY\nCHANGE",color:"0.07"},{x:220,y:100,label:"BUSINESS\nBENEFITS",color:"0.09"},{x:295,y:100,label:"STRATEGIC\nGOALS",color:"0.11"}].map((s,i)=>(
+          <g key={i}>
+            {i>0&&<line x1={[40,130,220][i-1]+30} y1="100" x2={s.x-30} y2="100" stroke="#0ff" strokeWidth="1" markerEnd="url(#arr)" opacity="0.5"/>}
+            <rect x={s.x-30} y={s.y-22} width="60" height="44" rx="3" fill={`rgba(0,255,255,${s.color})`} stroke="#0ff" strokeWidth="0.8" filter="url(#glow-bm)"/>
+            {s.label.split('\n').map((line,li)=>(
+              <text key={li} x={s.x} y={s.y-6+li*14} textAnchor="middle" fill="#0ff" fontSize="6" fontFamily="monospace">{line}</text>
+            ))}
+          </g>
+        ))}
+        {[{x:85,y:55,label:"Enablers"},{x:175,y:55,label:"Assumptions"},{x:85,y:145,label:"Risks"},{x:175,y:145,label:"Dependencies"}].map((n,i)=>(
+          <g key={i}>
+            <rect x={n.x-28} y={n.y-10} width="56" height="18" rx="2" fill="rgba(0,255,255,0.04)" stroke="#0ff" strokeWidth="0.4" strokeDasharray="2,2"/>
+            <text x={n.x} y={n.y+4} textAnchor="middle" fill="#0ff" fontSize="6" fontFamily="monospace" opacity="0.7">{n.label}</text>
+          </g>
+        ))}
+      </svg>
+    </DiagramWrapper>
+  );
+}
+
+export function ChangeReadinessDiagram() {
+  return (
+    <DiagramWrapper label="CHANGE READINESS ASSESSMENT">
+      <svg viewBox="0 0 320 200" className="w-full h-full">
+        <defs><filter id="glow-cr"><feGaussianBlur stdDeviation="1.5" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs>
+        {[{label:"LEADERSHIP ALIGNMENT",score:72},{label:"STAKEHOLDER AWARENESS",score:58},{label:"CAPABILITY READINESS",score:45},{label:"PROCESS READINESS",score:81},{label:"CULTURE READINESS",score:39}].map((item,i)=>(
+          <g key={i}>
+            <text x="20" y={30+i*32} fill="#0ff" fontSize="6.5" fontFamily="monospace" opacity="0.85">{item.label}</text>
+            <rect x="20" y={36+i*32} width="240" height="12" rx="2" fill="rgba(0,255,255,0.05)" stroke="#0ff" strokeWidth="0.4" opacity="0.5"/>
+            <rect x="20" y={36+i*32} width={240*item.score/100} height="12" rx="2" fill={`rgba(0,255,255,${item.score>70?0.2:item.score>50?0.12:0.08})`} stroke={item.score>70?"#0f0":item.score>50?"#0ff":"#f80"} strokeWidth="0.6" filter="url(#glow-cr)"/>
+            <text x="268" y={47+i*32} fill={item.score>70?"#0f0":item.score>50?"#0ff":"#f80"} fontSize="7" fontFamily="monospace">{item.score}%</text>
+          </g>
+        ))}
+        <text x="160" y="195" textAnchor="middle" fill="#0ff" fontSize="6.5" fontFamily="monospace" opacity="0.5">OVERALL READINESS: 59%</text>
+      </svg>
+    </DiagramWrapper>
+  );
+}
+
+// ── Advanced Technique Diagrams ─────────────────────────────────────────────
+export function NegotiationFrameworkDiagram() {
+  return (
+    <DiagramWrapper label="PRINCIPLED NEGOTIATION">
+      <svg viewBox="0 0 320 200" className="w-full h-full">
+        <defs><filter id="glow-nf"><feGaussianBlur stdDeviation="1.5" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs>
+        {[{x:80,y:50,label:"SEPARATE PEOPLE\nFROM PROBLEM"},{x:240,y:50,label:"FOCUS ON\nINTERESTS"},{x:80,y:150,label:"INVENT OPTIONS\nFOR MUTUAL GAIN"},{x:240,y:150,label:"INSIST ON\nOBJECTIVE CRITERIA"}].map((p,i)=>(
+          <g key={i}>
+            <rect x={p.x-55} y={p.y-28} width="110" height="56" rx="3" fill={`rgba(0,255,255,${0.05+i*0.03})`} stroke="#0ff" strokeWidth="0.8" filter="url(#glow-nf)"/>
+            {p.label.split('\n').map((line,li)=>(
+              <text key={li} x={p.x} y={p.y-6+li*14} textAnchor="middle" fill="#0ff" fontSize="6.5" fontFamily="monospace">{line}</text>
+            ))}
+          </g>
+        ))}
+        <circle cx="160" cy="100" r="22" fill="rgba(0,255,255,0.1)" stroke="#0ff" strokeWidth="1" filter="url(#glow-nf)"/>
+        <text x="160" y="96" textAnchor="middle" fill="#0ff" fontSize="6" fontFamily="monospace">HARVARD</text>
+        <text x="160" y="108" textAnchor="middle" fill="#0ff" fontSize="6" fontFamily="monospace">METHOD</text>
+      </svg>
+    </DiagramWrapper>
+  );
+}
+
+export function DelegationPokerDiagram() {
+  return (
+    <DiagramWrapper label="DELEGATION POKER LEVELS">
+      <svg viewBox="0 0 320 200" className="w-full h-full">
+        <defs><filter id="glow-dp"><feGaussianBlur stdDeviation="1.5" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs>
+        {[{n:"1",label:"TELL",sub:"I decide, inform you",x:25},{n:"2",label:"SELL",sub:"I decide, convince you",x:68},{n:"3",label:"CONSULT",sub:"You input, I decide",x:111},{n:"4",label:"AGREE",sub:"We decide together",x:154},{n:"5",label:"ADVISE",sub:"You decide, I advise",x:197},{n:"6",label:"INQUIRE",sub:"You decide, inform me",x:240},{n:"7",label:"DELEGATE",sub:"You decide fully",x:283}].map((card,i)=>(
+          <g key={i}>
+            <rect x={card.x-18} y="20" width="36" height="140" rx="4" fill={`rgba(0,255,255,${0.03+i*0.02})`} stroke="#0ff" strokeWidth="0.7" filter="url(#glow-dp)"/>
+            <text x={card.x} y="45" textAnchor="middle" fill="#0ff" fontSize="14" fontFamily="monospace" fontWeight="bold">{card.n}</text>
+            <text x={card.x} y="100" textAnchor="middle" fill="#0ff" fontSize="5" fontFamily="monospace" fontWeight="bold" transform={`rotate(-90,${card.x},100)`}>{card.label}</text>
+            <text x={card.x} y="148" textAnchor="middle" fill="#0ff" fontSize="4.5" fontFamily="monospace" opacity="0.6" transform={`rotate(-90,${card.x},148)`}>{card.sub}</text>
+          </g>
+        ))}
+        <text x="30" y="180" fill="#0ff" fontSize="6.5" fontFamily="monospace" opacity="0.5">PM CONTROL ◄────────────────────────► TEAM AUTONOMY</text>
+      </svg>
+    </DiagramWrapper>
+  );
+}
+
+export function KnowledgeTransferMatrixDiagram() {
+  return (
+    <DiagramWrapper label="KNOWLEDGE TRANSFER MATRIX">
+      <svg viewBox="0 0 320 200" className="w-full h-full">
+        <defs><filter id="glow-ktm"><feGaussianBlur stdDeviation="1.5" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs>
+        {["","PERSON A","PERSON B","PERSON C","PERSON D"].map((h,i)=>(
+          <text key={i} x={i===0?15:60+i*58} y="20" fill="#0ff" fontSize="6.5" fontFamily="monospace" opacity="0.8" textAnchor={i===0?"start":"middle"}>{h}</text>
+        ))}
+        {[{skill:"Regulatory",scores:[5,3,2,4]},{skill:"Clinical Data",scores:[3,5,4,2]},{skill:"PM Tools",scores:[4,4,3,5]},{skill:"Stakeholder Mgmt",scores:[5,2,4,3]},{skill:"Risk Analysis",scores:[4,3,5,4]}].map((row,ri)=>(
+          <g key={ri}>
+            <text x="15" y={40+ri*28} fill="#0ff" fontSize="6.5" fontFamily="monospace" opacity="0.8">{row.skill}</text>
+            {row.scores.map((s,si)=>(
+              <g key={si}>
+                <rect x={60+(si+1)*58-22} y={28+ri*28} width="44" height="18" rx="2" fill={`rgba(0,255,255,${0.02+s*0.04})`} stroke="#0ff" strokeWidth="0.5"/>
+                <text x={60+(si+1)*58} y={40+ri*28} textAnchor="middle" fill={s>=4?"#0f0":s>=3?"#0ff":"#f80"} fontSize="8" fontFamily="monospace">{s}</text>
+              </g>
+            ))}
+          </g>
+        ))}
+        <text x="160" y="190" textAnchor="middle" fill="#0ff" fontSize="6" fontFamily="monospace" opacity="0.5">1=Novice  3=Competent  5=Expert</text>
+      </svg>
+    </DiagramWrapper>
+  );
+}
+
+export function PersonalityProfilingDiagram() {
+  return (
+    <DiagramWrapper label="PERSONALITY PROFILE RADAR">
+      <svg viewBox="0 0 320 200" className="w-full h-full">
+        <defs><filter id="glow-pp"><feGaussianBlur stdDeviation="1.5" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs>
+        {[1,2,3,4,5].map(r=>(
+          <polygon key={r} points={[0,72,144,216,288].map(a=>{const rad=a*Math.PI/180;return `${160+r*22*Math.cos(rad-Math.PI/2)},${100+r*22*Math.sin(rad-Math.PI/2)}`;}).join(' ')} fill="none" stroke="#0ff" strokeWidth="0.3" opacity="0.3"/>
+        ))}
+        {[{a:0,label:"OPENNESS",val:4},{a:72,label:"CONSCIENT.",val:5},{a:144,label:"EXTRAVERSION",val:3},{a:216,label:"AGREEABLE",val:4},{a:288,label:"NEUROTICISM",val:2}].map((d,i)=>{
+          const rad=(d.a-90)*Math.PI/180;
+          const px=160+d.val*22*Math.cos(rad), py=100+d.val*22*Math.sin(rad);
+          const lx=160+120*Math.cos(rad), ly=100+120*Math.sin(rad);
+          return (
+            <g key={i}>
+              <line x1="160" y1="100" x2={lx} y2={ly} stroke="#0ff" strokeWidth="0.3" opacity="0.3"/>
+              <circle cx={px} cy={py} r="4" fill="rgba(0,255,255,0.3)" stroke="#0ff" strokeWidth="0.8" filter="url(#glow-pp)"/>
+              <text x={lx} y={ly+4} textAnchor="middle" fill="#0ff" fontSize="6" fontFamily="monospace">{d.label}</text>
+            </g>
+          );
+        })}
+        <polygon points={[0,72,144,216,288].map((a,i)=>{const val=[4,5,3,4,2][i];const rad=(a-90)*Math.PI/180;return `${160+val*22*Math.cos(rad)},${100+val*22*Math.sin(rad)}`;}).join(' ')} fill="rgba(0,255,255,0.08)" stroke="#0ff" strokeWidth="1" filter="url(#glow-pp)"/>
+      </svg>
+    </DiagramWrapper>
+  );
+}
+
+export function KaizenBlitzDiagram() {
+  return (
+    <DiagramWrapper label="KAIZEN BLITZ CYCLE">
+      <svg viewBox="0 0 320 200" className="w-full h-full">
+        <defs><filter id="glow-kb"><feGaussianBlur stdDeviation="1.5" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs>
+        {[{x:160,y:30,label:"PLAN (Day 1)"},{x:270,y:100,label:"DO (Day 2-3)"},{x:200,y:175,label:"CHECK (Day 4)"},{x:120,y:175,label:"ACT (Day 5)"},{x:50,y:100,label:"SUSTAIN"}].map((s,i,arr)=>{
+          const next=arr[(i+1)%arr.length];
+          return (
+            <g key={i}>
+              <line x1={s.x} y1={s.y} x2={next.x} y2={next.y} stroke="#0ff" strokeWidth="0.6" strokeDasharray="3,2" opacity="0.4"/>
+              <rect x={s.x-40} y={s.y-14} width="80" height="28" rx="3" fill={`rgba(0,255,255,${0.06+i*0.03})`} stroke="#0ff" strokeWidth="0.8" filter="url(#glow-kb)"/>
+              <text x={s.x} y={s.y+4} textAnchor="middle" fill="#0ff" fontSize="6.5" fontFamily="monospace">{s.label}</text>
+            </g>
+          );
+        })}
+        <circle cx="160" cy="100" r="22" fill="rgba(0,255,255,0.06)" stroke="#0ff" strokeWidth="0.8" strokeDasharray="2,2"/>
+        <text x="160" y="96" textAnchor="middle" fill="#0ff" fontSize="6" fontFamily="monospace">RAPID</text>
+        <text x="160" y="108" textAnchor="middle" fill="#0ff" fontSize="6" fontFamily="monospace">IMPROVE</text>
+      </svg>
+    </DiagramWrapper>
+  );
+}
+
+export function ZOPABATNADiagram() {
+  return (
+    <DiagramWrapper label="ZOPA & BATNA FRAMEWORK">
+      <svg viewBox="0 0 320 200" className="w-full h-full">
+        <defs><filter id="glow-zb"><feGaussianBlur stdDeviation="1.5" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs>
+        <line x1="30" y1="100" x2="290" y2="100" stroke="#0ff" strokeWidth="1" opacity="0.3"/>
+        <rect x="30" y="80" width="260" height="40" rx="2" fill="none" stroke="#0ff" strokeWidth="0.4" opacity="0.2"/>
+        <rect x="100" y="80" width="120" height="40" rx="2" fill="rgba(0,255,255,0.12)" stroke="#0ff" strokeWidth="1" filter="url(#glow-zb)"/>
+        <text x="160" y="104" textAnchor="middle" fill="#0ff" fontSize="9" fontFamily="monospace" fontWeight="bold">ZOPA</text>
+        <text x="55" y="70" textAnchor="middle" fill="#0ff" fontSize="6.5" fontFamily="monospace">Party A</text>
+        <text x="55" y="82" textAnchor="middle" fill="#0ff" fontSize="6" fontFamily="monospace" opacity="0.7">Walk-away</text>
+        <line x1="55" y1="84" x2="100" y2="95" stroke="#0ff" strokeWidth="0.5" strokeDasharray="2,2" opacity="0.5"/>
+        <text x="265" y="70" textAnchor="middle" fill="#0ff" fontSize="6.5" fontFamily="monospace">Party B</text>
+        <text x="265" y="82" textAnchor="middle" fill="#0ff" fontSize="6" fontFamily="monospace" opacity="0.7">Walk-away</text>
+        <line x1="265" y1="84" x2="220" y2="95" stroke="#0ff" strokeWidth="0.5" strokeDasharray="2,2" opacity="0.5"/>
+        <rect x="40" y="130" width="100" height="30" rx="3" fill="rgba(255,128,0,0.08)" stroke="#f80" strokeWidth="0.8"/>
+        <text x="90" y="144" textAnchor="middle" fill="#f80" fontSize="7" fontFamily="monospace" fontWeight="bold">BATNA (A)</text>
+        <text x="90" y="156" textAnchor="middle" fill="#f80" fontSize="5.5" fontFamily="monospace" opacity="0.8">Best Alternative</text>
+        <rect x="180" y="130" width="100" height="30" rx="3" fill="rgba(255,128,0,0.08)" stroke="#f80" strokeWidth="0.8"/>
+        <text x="230" y="144" textAnchor="middle" fill="#f80" fontSize="7" fontFamily="monospace" fontWeight="bold">BATNA (B)</text>
+        <text x="230" y="156" textAnchor="middle" fill="#f80" fontSize="5.5" fontFamily="monospace" opacity="0.8">Best Alternative</text>
+        <text x="160" y="190" textAnchor="middle" fill="#0ff" fontSize="6.5" fontFamily="monospace" opacity="0.5">Know your BATNA before entering any negotiation</text>
+      </svg>
+    </DiagramWrapper>
+  );
+}
+
+export function CoCreationDiagram() {
+  return (
+    <DiagramWrapper label="CO-CREATION WORKSHOP FLOW">
+      <svg viewBox="0 0 320 200" className="w-full h-full">
+        <defs><filter id="glow-coc"><feGaussianBlur stdDeviation="1.5" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs>
+        {[{x:50,y:50,label:"DIVERGE",sub:"Generate ideas"},{x:160,y:50,label:"EMERGE",sub:"Cluster themes"},{x:270,y:50,label:"CONVERGE",sub:"Prioritise solutions"},{x:160,y:150,label:"PROTOTYPE",sub:"Test & refine"}].map((s,i)=>(
+          <g key={i}>
+            {i<3&&i>0&&<line x1={[50,160][i-1]+40} y1="50" x2={s.x-40} y2="50" stroke="#0ff" strokeWidth="0.7" opacity="0.5"/>}
+            {i===2&&<line x1="270" y1="70" x2="200" y2="130" stroke="#0ff" strokeWidth="0.5" strokeDasharray="2,2" opacity="0.4"/>}
+            {i===0&&<line x1="50" y1="70" x2="120" y2="130" stroke="#0ff" strokeWidth="0.5" strokeDasharray="2,2" opacity="0.4"/>}
+            <circle cx={s.x} cy={s.y} r={i===3?35:30} fill={`rgba(0,255,255,${0.05+i*0.03})`} stroke="#0ff" strokeWidth="0.8" filter="url(#glow-coc)"/>
+            <text x={s.x} y={s.y-4} textAnchor="middle" fill="#0ff" fontSize="7" fontFamily="monospace" fontWeight="bold">{s.label}</text>
+            <text x={s.x} y={s.y+10} textAnchor="middle" fill="#0ff" fontSize="5.5" fontFamily="monospace" opacity="0.7">{s.sub}</text>
+          </g>
+        ))}
+        <text x="160" y="185" textAnchor="middle" fill="#0ff" fontSize="6.5" fontFamily="monospace" opacity="0.5">STAKEHOLDERS + TEAM + USERS</text>
+      </svg>
+    </DiagramWrapper>
+  );
+}
+
+export function VirtualBrainstormDiagram() {
+  return (
+    <DiagramWrapper label="VIRTUAL BRAINSTORM TOOLS">
+      <svg viewBox="0 0 320 200" className="w-full h-full">
+        <defs><filter id="glow-vb"><feGaussianBlur stdDeviation="1.5" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs>
+        <circle cx="160" cy="95" r="30" fill="rgba(0,255,255,0.1)" stroke="#0ff" strokeWidth="1.2" filter="url(#glow-vb)"/>
+        <text x="160" y="91" textAnchor="middle" fill="#0ff" fontSize="7" fontFamily="monospace">VIRTUAL</text>
+        <text x="160" y="103" textAnchor="middle" fill="#0ff" fontSize="7" fontFamily="monospace">SESSION</text>
+        {[{x:65,y:30,label:"Miro/Mural",sub:"Digital whiteboard"},{x:255,y:30,label:"Mentimeter",sub:"Live polling"},{x:290,y:110,label:"Slido",sub:"Q&A + voting"},{x:255,y:170,label:"Jamboard",sub:"Sticky notes"},{x:65,y:170,label:"Zoom Rooms",sub:"Breakouts"},{x:30,y:110,label:"Teams",sub:"Channels"}].map((tool,i)=>{
+          const rad=(i*60-90)*Math.PI/180;
+          const lx=160+30*Math.cos(rad), ly=95+30*Math.sin(rad);
+          return (
+            <g key={i}>
+              <line x1={lx} y1={ly} x2={tool.x} y2={tool.y} stroke="#0ff" strokeWidth="0.5" strokeDasharray="2,2" opacity="0.4"/>
+              <rect x={tool.x-30} y={tool.y-14} width="60" height="28" rx="2" fill={`rgba(0,255,255,${0.04+i*0.02})`} stroke="#0ff" strokeWidth="0.6" filter="url(#glow-vb)"/>
+              <text x={tool.x} y={tool.y-1} textAnchor="middle" fill="#0ff" fontSize="6" fontFamily="monospace" fontWeight="bold">{tool.label}</text>
+              <text x={tool.x} y={tool.y+11} textAnchor="middle" fill="#0ff" fontSize="5" fontFamily="monospace" opacity="0.7">{tool.sub}</text>
+            </g>
+          );
+        })}
+      </svg>
+    </DiagramWrapper>
+  );
+}
+
+export function SocialContractingDiagram() {
+  return (
+    <DiagramWrapper label="SOCIAL CONTRACT ELEMENTS">
+      <svg viewBox="0 0 320 200" className="w-full h-full">
+        <defs><filter id="glow-sc"><feGaussianBlur stdDeviation="1.5" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs>
+        <rect x="10" y="10" width="300" height="180" rx="4" fill="none" stroke="#0ff" strokeWidth="0.8" strokeDasharray="4,3" opacity="0.4"/>
+        <text x="160" y="28" textAnchor="middle" fill="#0ff" fontSize="9" fontFamily="monospace" fontWeight="bold" filter="url(#glow-sc)">SOCIAL CONTRACT</text>
+        <line x1="20" y1="34" x2="300" y2="34" stroke="#0ff" strokeWidth="0.5" opacity="0.4"/>
+        {[{icon:"◈",label:"PURPOSE: Why we exist as a team"},{icon:"◈",label:"VALUES: How we treat each other"},{icon:"◈",label:"NORMS: How we work together"},{icon:"◈",label:"ROLES: Who does what"},{icon:"◈",label:"DECISIONS: How we decide"},{icon:"◈",label:"CONFLICT: How we resolve disagreements"}].map((item,i)=>(
+          <g key={i}>
+            <text x="25" y={54+i*24} fill="#0ff" fontSize="8" fontFamily="monospace" opacity="0.8">{item.icon}</text>
+            <text x="40" y={54+i*24} fill="#0ff" fontSize="6.5" fontFamily="monospace" opacity="0.85">{item.label}</text>
+          </g>
+        ))}
+      </svg>
+    </DiagramWrapper>
+  );
+}
+
+export function EmpathyMapDiagram() {
+  return (
+    <DiagramWrapper label="EMPATHY MAP">
+      <svg viewBox="0 0 320 200" className="w-full h-full">
+        <defs><filter id="glow-em2"><feGaussianBlur stdDeviation="1.5" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs>
+        <line x1="160" y1="10" x2="160" y2="190" stroke="#0ff" strokeWidth="0.5" opacity="0.4"/>
+        <line x1="10" y1="100" x2="310" y2="100" stroke="#0ff" strokeWidth="0.5" opacity="0.4"/>
+        <circle cx="160" cy="100" r="22" fill="rgba(0,255,255,0.1)" stroke="#0ff" strokeWidth="1" filter="url(#glow-em2)"/>
+        <text x="160" y="96" textAnchor="middle" fill="#0ff" fontSize="6.5" fontFamily="monospace">USER /</text>
+        <text x="160" y="108" textAnchor="middle" fill="#0ff" fontSize="6.5" fontFamily="monospace">STAKEHOLDER</text>
+        {[{x:80,y:50,label:"THINKS & FEELS",sub:"Worries, aspirations"},{x:240,y:50,label:"SEES",sub:"Environment, media"},{x:80,y:155,label:"SAYS & DOES",sub:"Behaviour, attitude"},{x:240,y:155,label:"HEARS",sub:"Colleagues, influencers"}].map((q,i)=>(
+          <g key={i}>
+            <rect x={q.x-55} y={q.y-26} width="110" height="52" rx="3" fill={`rgba(0,255,255,${0.04+i*0.02})`} stroke="#0ff" strokeWidth="0.7" filter="url(#glow-em2)"/>
+            <text x={q.x} y={q.y-8} textAnchor="middle" fill="#0ff" fontSize="6.5" fontFamily="monospace" fontWeight="bold">{q.label}</text>
+            <text x={q.x
+} y={q.y+8} textAnchor="middle" fill="#0ff" fontSize="5.5" fontFamily="monospace" opacity="0.7">{q.sub}</text>
+          </g>
+        ))}
+        <rect x="60" y="175" width="80" height="16" rx="2" fill="rgba(255,80,0,0.08)" stroke="#f80" strokeWidth="0.6"/>
+        <text x="100" y="187" textAnchor="middle" fill="#f80" fontSize="6" fontFamily="monospace">PAIN POINTS</text>
+        <rect x="180" y="175" width="80" height="16" rx="2" fill="rgba(0,255,0,0.08)" stroke="#0f0" strokeWidth="0.6"/>
+        <text x="220" y="187" textAnchor="middle" fill="#0f0" fontSize="6" fontFamily="monospace">GAINS</text>
+      </svg>
+    </DiagramWrapper>
+  );
+}
+
+export function OpenSpaceDiagram() {
+  return (
+    <DiagramWrapper label="OPEN SPACE TECHNOLOGY">
+      <svg viewBox="0 0 320 200" className="w-full h-full">
+        <defs><filter id="glow-os"><feGaussianBlur stdDeviation="1.5" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs>
+        <circle cx="160" cy="95" r="35" fill="rgba(0,255,255,0.08)" stroke="#0ff" strokeWidth="1.2" filter="url(#glow-os)"/>
+        <text x="160" y="91" textAnchor="middle" fill="#0ff" fontSize="7" fontFamily="monospace">CENTRAL</text>
+        <text x="160" y="103" textAnchor="middle" fill="#0ff" fontSize="7" fontFamily="monospace">THEME</text>
+        {[{x:70,y:30,label:"SESSION 1"},{x:250,y:30,label:"SESSION 2"},{x:290,y:120,label:"SESSION 3"},{x:220,y:175,label:"SESSION 4"},{x:100,y:175,label:"SESSION 5"},{x:30,y:120,label:"SESSION 6"}].map((s,i)=>{
+          const rad=(i*60-90)*Math.PI/180;
+          const lx=160+35*Math.cos(rad), ly=95+35*Math.sin(rad);
+          return (
+            <g key={i}>
+              <line x1={lx} y1={ly} x2={s.x} y2={s.y} stroke="#0ff" strokeWidth="0.5" strokeDasharray="2,2" opacity="0.4"/>
+              <rect x={s.x-28} y={s.y-12} width="56" height="24" rx="2" fill={`rgba(0,255,255,${0.04+i*0.02})`} stroke="#0ff" strokeWidth="0.6" filter="url(#glow-os)"/>
+              <text x={s.x} y={s.y+4} textAnchor="middle" fill="#0ff" fontSize="6" fontFamily="monospace">{s.label}</text>
+            </g>
+          );
+        })}
+        <text x="160" y="185" textAnchor="middle" fill="#0ff" fontSize="6" fontFamily="monospace" opacity="0.5">Self-organising sessions around central theme</text>
+      </svg>
+    </DiagramWrapper>
+  );
+}
+
+export function JohariWindowDiagram() {
+  return (
+    <DiagramWrapper label="JOHARI WINDOW">
+      <svg viewBox="0 0 320 200" className="w-full h-full">
+        <defs><filter id="glow-jw"><feGaussianBlur stdDeviation="1.5" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs>
+        <text x="100" y="18" textAnchor="middle" fill="#0ff" fontSize="7" fontFamily="monospace" opacity="0.7">KNOWN TO SELF</text>
+        <text x="240" y="18" textAnchor="middle" fill="#0ff" fontSize="7" fontFamily="monospace" opacity="0.7">UNKNOWN TO SELF</text>
+        <text x="18" y="75" fill="#0ff" fontSize="7" fontFamily="monospace" opacity="0.7" transform="rotate(-90,18,75)">KNOWN TO OTHERS</text>
+        <text x="18" y="155" fill="#0ff" fontSize="7" fontFamily="monospace" opacity="0.7" transform="rotate(-90,18,155)">UNKNOWN TO OTHERS</text>
+        {[{x:100,y:90,label:"OPEN ARENA",sub:"Known to all",color:"0.12"},{x:240,y:90,label:"BLIND SPOT",sub:"Others see, you don't",color:"0.06"},{x:100,y:160,label:"HIDDEN FAÇADE",sub:"You know, others don't",color:"0.06"},{x:240,y:160,label:"UNKNOWN",sub:"Neither knows",color:"0.03"}].map((q,i)=>(
+          <g key={i}>
+            <rect x={q.x-65} y={q.y-35} width="130" height="70" rx="2" fill={`rgba(0,255,255,${q.color})`} stroke="#0ff" strokeWidth="0.7" filter="url(#glow-jw)"/>
+            <text x={q.x} y={q.y-8} textAnchor="middle" fill="#0ff" fontSize="7" fontFamily="monospace" fontWeight="bold">{q.label}</text>
+            <text x={q.x} y={q.y+8} textAnchor="middle" fill="#0ff" fontSize="6" fontFamily="monospace" opacity="0.7">{q.sub}</text>
+          </g>
+        ))}
+      </svg>
+    </DiagramWrapper>
+  );
+}
+
+export function FiveDysfunctionsDiagram() {
+  return (
+    <DiagramWrapper label="FIVE DYSFUNCTIONS OF A TEAM">
+      <svg viewBox="0 0 320 200" className="w-full h-full">
+        <defs><filter id="glow-fd"><feGaussianBlur stdDeviation="1.5" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs>
+        {[{y:168,label:"ABSENCE OF TRUST",w:280,color:"0.04"},{y:136,label:"FEAR OF CONFLICT",w:240,color:"0.06"},{y:104,label:"LACK OF COMMITMENT",w:200,color:"0.08"},{y:72,label:"AVOIDANCE OF ACCOUNTABILITY",w:160,color:"0.10"},{y:40,label:"INATTENTION TO RESULTS",w:120,color:"0.14"}].map((tier,i)=>(
+          <g key={i}>
+            <rect x={(320-tier.w)/2} y={tier.y} width={tier.w} height="26" rx="2" fill={`rgba(0,255,255,${tier.color})`} stroke="#0ff" strokeWidth="0.8" filter="url(#glow-fd)"/>
+            <text x="160" y={tier.y+17} textAnchor="middle" fill="#0ff" fontSize="6.5" fontFamily="monospace">{tier.label}</text>
+          </g>
+        ))}
+        <text x="160" y="195" textAnchor="middle" fill="#0ff" fontSize="6.5" fontFamily="monospace" opacity="0.5">Foundation → Peak (Lencioni Model)</text>
+      </svg>
+    </DiagramWrapper>
+  );
+}
+
+export function SCARFDiagram() {
+  return (
+    <DiagramWrapper label="SCARF MOTIVATION MODEL">
+      <svg viewBox="0 0 320 200" className="w-full h-full">
+        <defs><filter id="glow-sc2"><feGaussianBlur stdDeviation="1.5" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs>
+        {[{x:55,label:"STATUS",sub:"Relative importance",icon:"★"},{x:115,label:"CERTAINTY",sub:"Predictability",icon:"◉"},{x:175,label:"AUTONOMY",sub:"Sense of control",icon:"◎"},{x:235,label:"RELATEDNESS",sub:"Safety with others",icon:"◈"},{x:295,label:"FAIRNESS",sub:"Fair exchanges",icon:"◆"}].map((d,i)=>(
+          <g key={i}>
+            <rect x={d.x-28} y="20" width="56" height="140" rx="4" fill={`rgba(0,255,255,${0.04+i*0.03})`} stroke="#0ff" strokeWidth="0.8" filter="url(#glow-sc2)"/>
+            <text x={d.x} y="45" textAnchor="middle" fill="#0ff" fontSize="16" fontFamily="monospace">{d.icon}</text>
+            <text x={d.x} y="100" textAnchor="middle" fill="#0ff" fontSize="6" fontFamily="monospace" fontWeight="bold" transform={`rotate(-90,${d.x},100)`}>{d.label}</text>
+            <text x={d.x} y="145" textAnchor="middle" fill="#0ff" fontSize="5" fontFamily="monospace" opacity="0.6" transform={`rotate(-90,${d.x},145)`}>{d.sub}</text>
+          </g>
+        ))}
+        <text x="160" y="175" textAnchor="middle" fill="#0ff" fontSize="7" fontFamily="monospace" opacity="0.6">Threat vs. Reward Response</text>
+        <text x="160" y="188" textAnchor="middle" fill="#0ff" fontSize="6.5" fontFamily="monospace" opacity="0.5">David Rock Neuroleadership Model</text>
+      </svg>
+    </DiagramWrapper>
+  );
+}
+
+export function BelbinDiagram() {
+  return (
+    <DiagramWrapper label="BELBIN TEAM ROLES">
+      <svg viewBox="0 0 320 200" className="w-full h-full">
+        <defs><filter id="glow-bl"><feGaussianBlur stdDeviation="1.5" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs>
+        {[{cat:"THINKING",roles:["Plant","Monitor Evaluator","Specialist"],x:55,color:"0.08"},{cat:"ACTION",roles:["Shaper","Implementer","Completer Finisher"],x:160,color:"0.06"},{cat:"SOCIAL",roles:["Coordinator","Teamworker","Resource Investigator"],x:265,color:"0.07"}].map((cat,i)=>(
+          <g key={i}>
+            <rect x={cat.x-45} y="15" width="90" height="22" rx="2" fill={`rgba(0,255,255,${cat.color})`} stroke="#0ff" strokeWidth="0.8" filter="url(#glow-bl)"/>
+            <text x={cat.x} y="30" textAnchor="middle" fill="#0ff" fontSize="7" fontFamily="monospace" fontWeight="bold">{cat.cat}</text>
+            {cat.roles.map((role,ri)=>(
+              <g key={ri}>
+                <rect x={cat.x-42} y={48+ri*42} width="84" height="34" rx="2" fill={`rgba(0,255,255,${0.03+ri*0.02})`} stroke="#0ff" strokeWidth="0.6"/>
+                <text x={cat.x} y={65+ri*42} textAnchor="middle" fill="#0ff" fontSize="6.5" fontFamily="monospace">{role}</text>
+              </g>
+            ))}
+          </g>
+        ))}
+      </svg>
+    </DiagramWrapper>
+  );
+}
+
+export function TKIDiagram() {
+  return (
+    <DiagramWrapper label="THOMAS-KILMANN CONFLICT MODES">
+      <svg viewBox="0 0 320 200" className="w-full h-full">
+        <defs><filter id="glow-tki"><feGaussianBlur stdDeviation="1.5" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs>
+        <line x1="50" y1="170" x2="50" y2="20" stroke="#0ff" strokeWidth="0.8" opacity="0.5"/>
+        <line x1="50" y1="95" x2="290" y2="95" stroke="#0ff" strokeWidth="0.8" opacity="0.5"/>
+        <text x="25" y="60" fill="#0ff" fontSize="7" fontFamily="monospace" transform="rotate(-90,25,60)">ASSERTIVENESS</text>
+        <text x="170" y="192" textAnchor="middle" fill="#0ff" fontSize="7" fontFamily="monospace">COOPERATIVENESS</text>
+        {[{x:90,y:50,label:"COMPETING",sub:"High/Low"},{x:240,y:50,label:"COLLABORATING",sub:"High/High"},{x:165,y:95,label:"COMPROMISING",sub:"Mid/Mid"},{x:90,y:150,label:"AVOIDING",sub:"Low/Low"},{x:240,y:150,label:"ACCOMMODATING",sub:"Low/High"}].map((m,i)=>(
+          <g key={i}>
+            <circle cx={m.x} cy={m.y} r="26" fill={`rgba(0,255,255,${0.05+i*0.02})`} stroke="#0ff" strokeWidth="0.8" filter="url(#glow-tki)"/>
+            <text x={m.x} y={m.y-4} textAnchor="middle" fill="#0ff" fontSize="6" fontFamily="monospace" fontWeight="bold">{m.label}</text>
+            <text x={m.x} y={m.y+8} textAnchor="middle" fill="#0ff" fontSize="5.5" fontFamily="monospace" opacity="0.7">{m.sub}</text>
+          </g>
+        ))}
+      </svg>
+    </DiagramWrapper>
+  );
+}
+
+export function TannenbaumSchmidtDiagram() {
+  return (
+    <DiagramWrapper label="TANNENBAUM-SCHMIDT CONTINUUM">
+      <svg viewBox="0 0 320 200" className="w-full h-full">
+        <defs><filter id="glow-ts"><feGaussianBlur stdDeviation="1.5" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs>
+        <polygon points="30,160 290,160 290,60 30,160" fill="rgba(0,255,255,0.04)" stroke="#0ff" strokeWidth="0.5" opacity="0.5"/>
+        <polygon points="30,60 290,60 290,160" fill="rgba(0,255,255,0.08)" stroke="#0ff" strokeWidth="0.5" opacity="0.5"/>
+        <text x="80" y="155" fill="#0ff" fontSize="6.5" fontFamily="monospace" opacity="0.7">PM AUTHORITY</text>
+        <text x="175" y="75" fill="#0ff" fontSize="6.5" fontFamily="monospace" opacity="0.7">TEAM FREEDOM</text>
+        {[{x:55,label:"TELLS"},{x:105,label:"SELLS"},{x:155,label:"TESTS"},{x:205,label:"CONSULTS"},{x:255,label:"JOINS"}].map((s,i)=>(
+          <g key={i}>
+            <line x1={s.x} y1="60" x2={s.x} y2="165" stroke="#0ff" strokeWidth="0.4" opacity="0.3"/>
+            <text x={s.x} y="178" textAnchor="middle" fill="#0ff" fontSize="6" fontFamily="monospace">{s.label}</text>
+          </g>
+        ))}
+        <line x1="30" y1="60" x2="290" y2="60" stroke="#0ff" strokeWidth="0.5" opacity="0.3"/>
+        <line x1="30" y1="160" x2="290" y2="160" stroke="#0ff" strokeWidth="0.5" opacity="0.3"/>
+      </svg>
+    </DiagramWrapper>
+  );
+}
+
+export function CulturalWebDiagram() {
+  return (
+    <DiagramWrapper label="CULTURAL WEB MODEL">
+      <svg viewBox="0 0 320 200" className="w-full h-full">
+        <defs><filter id="glow-cw"><feGaussianBlur stdDeviation="1.5" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs>
+        <circle cx="160" cy="100" r="28" fill="rgba(0,255,255,0.1)" stroke="#0ff" strokeWidth="1.2" filter="url(#glow-cw)"/>
+        <text x="160" y="96" textAnchor="middle" fill="#0ff" fontSize="6.5" fontFamily="monospace">PARADIGM</text>
+        <text x="160" y="108" textAnchor="middle" fill="#0ff" fontSize="6" fontFamily="monospace" opacity="0.7">(Core beliefs)</text>
+        {[{x:80,y:30,label:"STORIES"},{x:240,y:30,label:"RITUALS"},{x:290,y:110,label:"SYMBOLS"},{x:220,y:175,label:"POWER"},{x:100,y:175,label:"STRUCTURE"},{x:30,y:110,label:"CONTROLS"}].map((p,i)=>{
+          const rad=(i*60-90)*Math.PI/180;
+          const lx=160+28*Math.cos(rad), ly=100+28*Math.sin(rad);
+          return (
+            <g key={i}>
+              <line x1={lx} y1={ly} x2={p.x} y2={p.y} stroke="#0ff" strokeWidth="0.5" strokeDasharray="2,2" opacity="0.4"/>
+              <rect x={p.x-28} y={p.y-12} width="56" height="24" rx="2" fill={`rgba(0,255,255,${0.04+i*0.02})`} stroke="#0ff" strokeWidth="0.7" filter="url(#glow-cw)"/>
+              <text x={p.x} y={p.y+4} textAnchor="middle" fill="#0ff" fontSize="6.5" fontFamily="monospace">{p.label}</text>
+            </g>
+          );
+        })}
+      </svg>
+    </DiagramWrapper>
+  );
+}
+
+export function McClellandDiagram() {
+  return (
+    <DiagramWrapper label="McCLELLAND'S THREE NEEDS">
+      <svg viewBox="0 0 320 200" className="w-full h-full">
+        <defs><filter id="glow-mc"><feGaussianBlur stdDeviation="1.5" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs>
+        <circle cx="160" cy="80" r="45" fill="rgba(0,255,255,0.04)" stroke="#0ff" strokeWidth="0.6" opacity="0.5"/>
+        <circle cx="100" cy="130" r="45" fill="rgba(0,255,255,0.04)" stroke="#0ff" strokeWidth="0.6" opacity="0.5"/>
+        <circle cx="220" cy="130" r="45" fill="rgba(0,255,255,0.04)" stroke="#0ff" strokeWidth="0.6" opacity="0.5"/>
+        <text x="160" y="62" textAnchor="middle" fill="#0ff" fontSize="8" fontFamily="monospace" fontWeight="bold" filter="url(#glow-mc)">ACHIEVEMENT</text>
+        <text x="160" y="74" textAnchor="middle" fill="#0ff" fontSize="6" fontFamily="monospace" opacity="0.7">nAch</text>
+        <text x="160" y="86" textAnchor="middle" fill="#0ff" fontSize="6" fontFamily="monospace" opacity="0.6">Excel, improve, master</text>
+        <text x="100" y="118" textAnchor="middle" fill="#0ff" fontSize="8" fontFamily="monospace" fontWeight="bold" filter="url(#glow-mc)">AFFILIATION</text>
+        <text x="100" y="130" textAnchor="middle" fill="#0ff" fontSize="6" fontFamily="monospace" opacity="0.7">nAff</text>
+        <text x="100" y="142" textAnchor="middle" fill="#0ff" fontSize="6" fontFamily="monospace" opacity="0.6">Belong, relate</text>
+        <text x="220" y="118" textAnchor="middle" fill="#0ff" fontSize="8" fontFamily="monospace" fontWeight="bold" filter="url(#glow-mc)">POWER</text>
+        <text x="220" y="130" textAnchor="middle" fill="#0ff" fontSize="6" fontFamily="monospace" opacity="0.7">nPow</text>
+        <text x="220" y="142" textAnchor="middle" fill="#0ff" fontSize="6" fontFamily="monospace" opacity="0.6">Influence, lead</text>
+        <text x="160" y="185" textAnchor="middle" fill="#0ff" fontSize="6.5" fontFamily="monospace" opacity="0.5">Dominant need drives motivation</text>
+      </svg>
+    </DiagramWrapper>
+  );
+}
+
+export function DACIDiagram() {
+  return (
+    <DiagramWrapper label="DACI DECISION FRAMEWORK">
+      <svg viewBox="0 0 320 200" className="w-full h-full">
+        <defs><filter id="glow-daci"><feGaussianBlur stdDeviation="1.5" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs>
+        {[{letter:"D",label:"DRIVER",sub:"Owns the decision process",x:55,color:"0.14"},{letter:"A",label:"APPROVER",sub:"Has final say",x:130,color:"0.10"},{letter:"C",label:"CONTRIBUTOR",sub:"Provides input & expertise",x:205,color:"0.07"},{letter:"I",label:"INFORMED",sub:"Notified of outcome",x:280,color:"0.05"}].map((r,i)=>(
+          <g key={i}>
+            <rect x={r.x-38} y="20" width="76" height="130" rx="4" fill={`rgba(0,255,255,${r.color})`} stroke="#0ff" strokeWidth="0.8" filter="url(#glow-daci)"/>
+            <text x={r.x} y="55" textAnchor="middle" fill="#0ff" fontSize="28" fontFamily="monospace" fontWeight="bold">{r.letter}</text>
+            <text x={r.x} y="80" textAnchor="middle" fill="#0ff" fontSize="6.5" fontFamily="monospace" fontWeight="bold">{r.label}</text>
+            <text x={r.x} y="100" textAnchor="middle" fill="#0ff" fontSize="5.5" fontFamily="monospace" opacity="0.7">{r.sub.split(' ').slice(0,2).join(' ')}</text>
+            <text x={r.x} y="112" textAnchor="middle" fill="#0ff" fontSize="5.5" fontFamily="monospace" opacity="0.7">{r.sub.split(' ').slice(2).join(' ')}</text>
+          </g>
+        ))}
+        <text x="160" y="170" textAnchor="middle" fill="#0ff" fontSize="7" fontFamily="monospace" opacity="0.6">Assign one D, one A per decision</text>
+        <text x="160" y="185" textAnchor="middle" fill="#0ff" fontSize="6.5" fontFamily="monospace" opacity="0.5">Multiple C and I roles allowed</text>
+      </svg>
+    </DiagramWrapper>
+  );
+}
+
+export function ResponsibilityMatrixDiagram() {
+  return (
+    <DiagramWrapper label="RESPONSIBILITY ASSIGNMENT MATRIX">
+      <svg viewBox="0 0 320 200" className="w-full h-full">
+        <defs><filter id="glow-ram"><feGaussianBlur stdDeviation="1.5" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs>
+        {["TASK","PM","SPONSOR","BA","DEV","QA"].map((h,i)=>(
+          <text key={i} x={i===0?15:70+i*44} y="20" fill="#0ff" fontSize="6" fontFamily="monospace" opacity="0.8" textAnchor={i===0?"start":"middle"}>{h}</text>
+        ))}
+        <line x1="10" y1="24" x2="310" y2="24" stroke="#0ff" strokeWidth="0.5" opacity="0.4"/>
+        {[{task:"Project Charter",roles:["R","A","C","I","I"]},{task:"Requirements",roles:["A","I","R","C","C"]},{task:"Design",roles:["A","I","C","R","C"]},{task:"Build",roles:["A","I","I","R","C"]},{task:"Testing",roles:["A","I","C","C","R"]},{task:"Deployment",roles:["R","A","I","C","C"]}].map((row,ri)=>(
+          <g key={ri}>
+            <text x="15" y={40+ri*26} fill="#0ff" fontSize="6" fontFamily="monospace" opacity="0.8">{row.task}</text>
+            {row.roles.map((role,si)=>(
+              <g key={si}>
+                <rect x={70+(si+1)*44-16} y={28+ri*26} width="32" height="18" rx="2" fill={`rgba(0,255,255,${role==="R"?0.15:role==="A"?0.10:0.03})`} stroke={role==="R"?"#0ff":role==="A"?"#0f0":"#0ff"} strokeWidth={role==="R"||role==="A"?"0.8":"0.3"}/>
+                <text x={70+(si+1)*44} y={40+ri*26} textAnchor="middle" fill={role==="R"?"#0ff":role==="A"?"#0f0":"#4ff"} fontSize="7" fontFamily="monospace" fontWeight={role==="R"||role==="A"?"bold":"normal"}>{role}</text>
+              </g>
+            ))}
+          </g>
+        ))}
+      </svg>
+    </DiagramWrapper>
+  );
+}
+
+export function ProbabilityImpactDiagram() {
+  return (
+    <DiagramWrapper label="PROBABILITY-IMPACT MATRIX">
+      <svg viewBox="0 0 320 200" className="w-full h-full">
+        <defs><filter id="glow-pi"><feGaussianBlur stdDeviation="1.5" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs>
+        <line x1="50" y1="170" x2="50" y2="20" stroke="#0ff" strokeWidth="0.8" opacity="0.5"/>
+        <line x1="50" y1="170" x2="290" y2="170" stroke="#0ff" strokeWidth="0.8" opacity="0.5"/>
+        <text x="25" y="100" fill="#0ff" fontSize="7" fontFamily="monospace" transform="rotate(-90,25,100)">PROBABILITY</text>
+        <text x="170" y="192" textAnchor="middle" fill="#0ff" fontSize="7" fontFamily="monospace">IMPACT</text>
+        <rect x="50" y="95" width="120" height="75" rx="2" fill="rgba(0,255,0,0.06)" stroke="#0f0" strokeWidth="0.5"/>
+        <text x="110" y="137" textAnchor="middle" fill="#0f0" fontSize="7" fontFamily="monospace">LOW RISK</text>
+        <rect x="170" y="95" width="120" height="75" rx="2" fill="rgba(255,128,0,0.06)" stroke="#f80" strokeWidth="0.5"/>
+        <text x="230" y="137" textAnchor="middle" fill="#f80" fontSize="7" fontFamily="monospace">MEDIUM RISK</text>
+        <rect x="50" y="20" width="120" height="75" rx="2" fill="rgba(255,128,0,0.06)" stroke="#f80" strokeWidth="0.5"/>
+        <text x="110" y="62" textAnchor="middle" fill="#f80" fontSize="7" fontFamily="monospace">MEDIUM RISK</text>
+        <rect x="170" y="20" width="120" height="75" rx="2" fill="rgba(255,0,0,0.08)" stroke="#f00" strokeWidth="0.5"/>
+        <text x="230" y="62" textAnchor="middle" fill="#f00" fontSize="7" fontFamily="monospace">HIGH RISK</text>
+        {[{x:100,y:50,label:"R1"},{x:200,y:40,label:"R2"},{x:250,y:120,label:"R3"},{x:80,y:140,label:"R4"},{x:220,y:60,label:"R5"}].map((r,i)=>(
+          <g key={i}>
+            <circle cx={r.x} cy={r.y} r="8" fill="rgba(0,255,255,0.15)" stroke="#0ff" strokeWidth="1" filter="url(#glow-pi)"/>
+            <text x={r.x} y={r.y+4} textAnchor="middle" fill="#0ff" fontSize="6" fontFamily="monospace">{r.label}</text>
+          </g>
+        ))}
+      </svg>
+    </DiagramWrapper>
+  );
+}
+
+export function QuantRiskDiagram() {
+  return (
+    <DiagramWrapper label="QUANTITATIVE RISK ANALYSIS">
+      <svg viewBox="0 0 320 200" className="w-full h-full">
+        <defs><filter id="glow-qr"><feGaussianBlur stdDeviation="1.5" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs>
+        <path d="M 30 160 C 60 160 80 150 100 130 S 130 80 150 50 S 170 30 190 50 S 220 100 240 130 S 270 155 290 160" fill="none" stroke="#0ff" strokeWidth="1.5" filter="url(#glow-qr)"/>
+        <path d="M 30 160 C 60 160 80 150 100 130 S 130 80 150 50 S 170 30 190 50 S 220 100 240 130 S 270 155 290 160 L 290 165 L 30 165 Z" fill="rgba(0,255,255,0.06)"/>
+        <line x1="30" y1="165" x2="290" y2="165" stroke="#0ff" strokeWidth="0.8" opacity="0.5"/>
+        <line x1="30" y1="165" x2="30" y2="20" stroke="#0ff" strokeWidth="0.8" opacity="0.5"/>
+        <text x="170" y="185" textAnchor="middle" fill="#0ff" fontSize="7" fontFamily="monospace">OUTCOME VALUE</text>
+        <text x="15" y="100" fill="#0ff" fontSize="7" fontFamily="monospace" transform="rotate(-90,15,100)">PROBABILITY</text>
+        <line x1="160" y1="20" x2="160" y2="165" stroke="#f80" strokeWidth="1" strokeDasharray="3,2" opacity="0.7"/>
+        <text x="160" y="15" textAnchor="middle" fill="#f80" fontSize="6.5" fontFamily="monospace">P80: $2.4M</text>
+        <line x1="130" y1="20" x2="130" y2="165" stroke="#0ff" strokeWidth="0.5" strokeDasharray="2,2" opacity="0.4"/>
+        <text x="130" y="15" textAnchor="middle" fill="#0ff" fontSize="6" fontFamily="monospace">P50</text>
+        <text x="160" y="100" textAnchor="middle" fill="#0ff" fontSize="7" fontFamily="monospace" opacity="0.5">Monte Carlo</text>
+        <text x="160" y="112" textAnchor="middle" fill="#0ff" fontSize="7" fontFamily="monospace" opacity="0.5">Distribution</text>
+      </svg>
+    </DiagramWrapper>
+  );
+}
+
+export function RTMDiagram() {
+  return (
+    <DiagramWrapper label="REQUIREMENTS TRACEABILITY MATRIX">
+      <svg viewBox="0 0 320 200" className="w-full h-full">
+        <defs><filter id="glow-rtm"><feGaussianBlur stdDeviation="1.5" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs>
+        {["REQ ID","REQUIREMENT","DESIGN","BUILD","TEST","STATUS"].map((h,i)=>(
+          <text key={i} x={[15,55,130,175,220,265][i]} y="20" fill="#0ff" fontSize="6" fontFamily="monospace" opacity="0.8">{h}</text>
+        ))}
+        <line x1="10" y1="24" x2="310" y2="24" stroke="#0ff" strokeWidth="0.5" opacity="0.4"/>
+        {[{id:"R001",req:"Dose accuracy ±2%",des:"D-01",bld:"B-03",tst:"T-07",sts:"PASS"},{id:"R002",req:"Needle retraction auto",des:"D-02",bld:"B-04",tst:"T-08",sts:"PASS"},{id:"R003",req:"Regulatory label",des:"D-05",bld:"B-06",tst:"T-09",sts:"IN TEST"},{id:"R004",req:"Shelf life 24 months",des:"D-03",bld:"B-05",tst:"T-10",sts:"PENDING"},{id:"R005",req:"User instructions",des:"D-07",bld:"B-08",tst:"T-11",sts:"PASS"}].map((row,i)=>(
+          <g key={i}>
+            <rect x="10" y={30+i*30} width="300" height="22" rx="2" fill={`rgba(0,255,255,${0.03+i*0.01})`} stroke="#0ff" strokeWidth="0.3"/>
+            <text x="15" y={45+i*30} fill="#0ff" fontSize="5.5" fontFamily="monospace">{row.id}</text>
+            <text x="55" y={45+i*30} fill="#0ff" fontSize="5.5" fontFamily="monospace" opacity="0.8">{row.req}</text>
+            <text x="130" y={45+i*30} fill="#0ff" fontSize="5.5" fontFamily="monospace">{row.des}</text>
+            <text x="175" y={45+i*30} fill="#0ff" fontSize="5.5" fontFamily="monospace">{row.bld}</text>
+            <text x="220" y={45+i*30} fill="#0ff" fontSize="5.5" fontFamily="monospace">{row.tst}</text>
+            <text x="265" y={45+i*30} fill={row.sts==="PASS"?"#0f0":row.sts==="IN TEST"?"#f80":"#0ff"} fontSize="5.5" fontFamily="monospace">{row.sts}</text>
+          </g>
+        ))}
+      </svg>
+    </DiagramWrapper>
+  );
+}
+
+export function PERTDiagram() {
+  return (
+    <DiagramWrapper label="PERT NETWORK DIAGRAM">
+      <svg viewBox="0 0 320 200" className="w-full h-full">
+        <defs><filter id="glow-pert"><feGaussianBlur stdDeviation="1.5" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs>
+        {[{id:"A",x:40,y:100},{id:"B",x:110,y:50},{id:"C",x:110,y:150},{id:"D",x:190,y:50},{id:"E",x:190,y:150},{id:"F",x:260,y:100}].map((n,i)=>(
+          <g key={i}>
+            <circle cx={n.x} cy={n.y} r="18" fill={`rgba(0,255,255,${0.06+i*0.02})`} stroke="#0ff" strokeWidth="0.8" filter="url(#glow-pert)"/>
+            <text x={n.x} y={n.y+4} textAnchor="middle" fill="#0ff" fontSize="9" fontFamily="monospace" fontWeight="bold">{n.id}</text>
+          </g>
+        ))}
+        {[["A","B",4],["A","C",6],["B","D",3],["C","E",5],["D","F",2],["E","F",4],["B","E",2]].map(([from,to,dur],i)=>{
+          const nodes={A:{x:40,y:100},B:{x:110,y:50},C:{x:110,y:150},D:{x:190,y:50},E:{x:190,y:150},F:{x:260,y:100}};
+          const f=nodes[from as keyof typeof nodes], t=nodes[to as keyof typeof nodes];
+          const mx=(f.x+t.x)/2, my=(f.y+t.y)/2;
+          const isCrit=["A","B","D","F"].includes(String(from))&&["B","D","F"].includes(String(to));
+          return (
+            <g key={i}>
+              <line x1={f.x+18*Math.sign(t.x-f.x)} y1={f.y+18*Math.sign(t.y-f.y)} x2={t.x-18*Math.sign(t.x-f.x)} y2={t.y-18*Math.sign(t.y-f.y)} stroke={isCrit?"#f80":"#0ff"} strokeWidth={isCrit?1.2:0.6} opacity="0.7"/>
+              <text x={mx} y={my-4} textAnchor="middle" fill={isCrit?"#f80":"#0ff"} fontSize="6" fontFamily="monospace">{dur}d</text>
+            </g>
+          );
+        })}
+        <text x="160" y="185" textAnchor="middle" fill="#f80" fontSize="6.5" fontFamily="monospace" opacity="0.7">Critical path: A→B→D→F (9 days)</text>
+      </svg>
+    </DiagramWrapper>
+  );
+}
+
+export function RollingWaveDiagram() {
+  return (
+    <DiagramWrapper label="ROLLING WAVE PLANNING">
+      <svg viewBox="0 0 320 200" className="w-full h-full">
+        <defs><filter id="glow-rw"><feGaussianBlur stdDeviation="1.5" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs>
+        {[{x:55,y:80,label:"NEAR TERM",sub:"Detailed plan",detail:"HIGH",color:"0.14"},{x:155,y:100,label:"MID TERM",sub:"Outline plan",detail:"MED",color:"0.08"},{x:255,y:120,label:"FAR TERM",sub:"High-level",detail:"LOW",color:"0.04"}].map((wave,i)=>(
+          <g key={i}>
+            <ellipse cx={wave.x} cy={wave.y} rx="55" ry={30+i*10} fill={`rgba(0,255,255,${wave.color})`} stroke="#0ff" strokeWidth="0.8" filter="url(#glow-rw)"/>
+            <text x={wave.x} y={wave.y-8} textAnchor="middle" fill="#0ff" fontSize="7" fontFamily="monospace" fontWeight="bold">{wave.label}</text>
+            <text x={wave.x} y={wave.y+4} textAnchor="middle" fill="#0ff" fontSize="6" fontFamily="monospace" opacity="0.7">{wave.sub}</text>
+            <text x={wave.x} y={wave.y+16} textAnchor="middle" fill="#0ff" fontSize="6" fontFamily="monospace" opacity="0.6">Detail: {wave.detail}</text>
+          </g>
+        ))}
+        <path d="M 30 160 Q 100 140 160 150 Q 220 160 290 155" fill="none" stroke="#0ff" strokeWidth="1" strokeDasharray="4,2" opacity="0.5"/>
+        <text x="160" y="185" textAnchor="middle" fill="#0ff" fontSize="6.5" fontFamily="monospace" opacity="0.5">Re-plan as project progresses</text>
+      </svg>
+    </DiagramWrapper>
+  );
+}
+
+export function TimeboxingDiagram() {
+  return (
+    <DiagramWrapper label="TIMEBOXING FRAMEWORK">
+      <svg viewBox="0 0 320 200" className="w-full h-full">
+        <defs><filter id="glow-tb"><feGaussianBlur stdDeviation="1.5" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs>
+        {[{x:40,label:"SPRINT 1",tasks:["Feature A","Feature B"],status:"DONE"},{x:120,label:"SPRINT 2",tasks:["Feature C","Bug Fix"],status:"DONE"},{x:200,label:"SPRINT 3",tasks:["Feature D","Feature E"],status:"ACTIVE"},{x:280,label:"SPRINT 4",tasks:["Feature F","Release"],status:"PLANNED"}].map((sprint,i)=>(
+          <g key={i}>
+            <rect x={sprint.x-32} y="20" width="64" height="150" rx="3" fill={`rgba(0,255,255,${sprint.status==="DONE"?0.08:sprint.status==="ACTIVE"?0.12:0.04})`} stroke={sprint.status==="ACTIVE"?"#0ff":sprint.status==="DONE"?"#0f0":"#0ff"} strokeWidth={sprint.status==="ACTIVE"?1.2:0.6} filter="url(#glow-tb)"/>
+            <text x={sprint.x} y="36" textAnchor="middle" fill={sprint.status==="ACTIVE"?"#0ff":sprint.status==="DONE"?"#0f0":"#4ff"} fontSize="6.5" fontFamily="monospace" fontWeight="bold">{sprint.label}</text>
+            <text x={sprint.x} y="50" textAnchor="middle" fill="#0ff" fontSize="5.5" fontFamily="monospace" opacity="0.6">2 weeks</text>
+            {sprint.tasks.map((task,ti)=>(
+              <g key={ti}>
+                <rect x={sprint.x-26} y={60+ti*35} width="52" height="28" rx="2" fill="rgba(0,255,255,0.06)" stroke="#0ff" strokeWidth="0.4"/>
+                <text x={sprint.x} y={77+ti*35} textAnchor="middle" fill="#0ff" fontSize="5.5" fontFamily="monospace">{task}</text>
+              </g>
+            ))}
+            <text x={sprint.x} y="180" textAnchor="middle" fill={sprint.status==="DONE"?"#0f0":sprint.status==="ACTIVE"?"#f80":"#0ff"} fontSize="6" fontFamily="monospace">{sprint.status}</text>
+          </g>
+        ))}
+      </svg>
+    </DiagramWrapper>
+  );
+}
+
+export function StoryPointDiagram() {
+  return (
+    <DiagramWrapper label="STORY POINT ESTIMATION">
+      <svg viewBox="0 0 320 200" className="w-full h-full">
+        <defs><filter id="glow-sp"><feGaussianBlur stdDeviation="1.5" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs>
+        {[{pts:1,label:"XS",sub:"Trivial change",x:30},{pts:2,label:"S",sub:"Simple task",x:75},{pts:3,label:"M",sub:"Moderate",x:120},{pts:5,label:"L",sub:"Complex",x:175},{pts:8,label:"XL",sub:"Very complex",x:235},{pts:13,label:"XXL",sub:"Epic",x:295}].map((card,i)=>(
+          <g key={i}>
+            <rect x={card.x-22} y={170-card.pts*10} width="44" height={card.pts*10} rx="2" fill={`rgba(0,255,255,${0.04+i*0.03})`} stroke="#0ff" strokeWidth="0.7" filter="url(#glow-sp)"/>
+            <text x={card.x} y="185" textAnchor="middle" fill="#0ff" fontSize="7" fontFamily="monospace">{card.label}</text>
+            <text x={card.x} y={165-card.pts*10} textAnchor="middle" fill="#0ff" fontSize="6" fontFamily="monospace">{card.pts}</text>
+          </g>
+        ))}
+        <line x1="10" y1="170" x2="310" y2="170" stroke="#0ff" strokeWidth="0.5" opacity="0.4"/>
+        <text x="160" y="15" textAnchor="middle" fill="#0ff" fontSize="7" fontFamily="monospace" opacity="0.6">Fibonacci Sequence: 1, 2, 3, 5, 8, 13</text>
+      </svg>
+    </DiagramWrapper>
+  );
+}
+
+export function CCPMDiagram() {
+  return (
+    <DiagramWrapper label="CRITICAL CHAIN PROJECT MANAGEMENT">
+      <svg viewBox="0 0 320 200" className="w-full h-full">
+        <defs><filter id="glow-ccpm"><feGaussianBlur stdDeviation="1.5" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs>
+        {[{x:40,y:80,w:60,label:"Task A",chain:true},{x:110,y:80,w:60,label:"Task B",chain:true},{x:180,y:80,w:60,label:"Task C",chain:true},{x:250,y:80,w:50,label:"BUFFER",chain:false}].map((t,i)=>(
+          <g key={i}>
+            <rect x={t.x} y={t.y-15} width={t.w} height="30" rx="2" fill={t.chain?`rgba(0,255,255,${0.06+i*0.03})`:"rgba(255,128,0,0.12)"} stroke={t.chain?"#0ff":"#f80"} strokeWidth={t.chain?0.8:1.2} filter="url(#glow-ccpm)"/>
+            <text x={t.x+t.w/2} y={t.y+4} textAnchor="middle" fill={t.chain?"#0ff":"#f80"} fontSize="6.5" fontFamily="monospace">{t.label}</text>
+          </g>
+        ))}
+        <rect x="40" y="120" width="60" height="20" rx="2" fill="rgba(0,255,255,0.04)" stroke="#0ff" strokeWidth="0.5" strokeDasharray="2,2"/>
+        <text x="70" y="134" textAnchor="middle" fill="#0ff" fontSize="5.5" fontFamily="monospace">Feeding</text>
+        <line x1="70" y1="120" x2="110" y2="95" stroke="#0ff" strokeWidth="0.5" strokeDasharray="2,2" opacity="0.5"/>
+        <text x="160" y="170" textAnchor="middle" fill="#0ff" fontSize="7" fontFamily="monospace" opacity="0.6">Remove individual task buffers</text>
+        <text x="160" y="183" textAnchor="middle" fill="#f80" fontSize="6.5" fontFamily="monospace" opacity="0.7">Add project buffer at chain end</text>
+      </svg>
+    </DiagramWrapper>
+  );
+}
+
+export function ShouldCostDiagram() {
+  return (
+    <DiagramWrapper label="SHOULD-COST ANALYSIS">
+      <svg viewBox="0 0 320 200" className="w-full h-full">
+        <defs><filter id="glow-shc"><feGaussianBlur stdDeviation="1.5" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs>
+        {[{label:"Materials",should:45,actual:52,y:35},{label:"Labour",should:30,actual:28,y:70},{label:"Overhead",should:15,actual:18,y:105},{label:"Profit Margin",should:10,actual:12,y:140}].map((item,i)=>(
+          <g key={i}>
+            <text x="20" y={item.y+4} fill="#0ff" fontSize="7" fontFamily="monospace" opacity="0.8">{item.label}</text>
+            <rect x="110" y={item.y-8} width={item.should*1.5} height="10" rx="1" fill="rgba(0,255,255,0.12)" stroke="#0ff" strokeWidth="0.6"/>
+            <text x={110+item.should*1.5+4} y={item.y+2} fill="#0ff" fontSize="6" fontFamily="monospace">${item.should}k</text>
+            <rect x="110" y={item.y+4} width={item.actual*1.5} height="10" rx="1" fill={item.actual>item.should?"rgba(255,80,0,0.12)":"rgba(0,255,0,0.08)"} stroke={item.actual>item.should?"#f80":"#0f0"} strokeWidth="0.6"/>
+            <text x={110+item.actual*1.5+4} y={item.y+14} fill={item.actual>item.should?"#f80":"#0f0"} fontSize="6" fontFamily="monospace">${item.actual}k</text>
+          </g>
+        ))}
+        <text x="110" y="175" fill="#0ff" fontSize="6" fontFamily="monospace" opacity="0.6">■ Should-cost</text>
+        <text x="200" y="175" fill="#f80" fontSize="6" fontFamily="monospace" opacity="0.6">■ Actual cost</text>
+        <text x="160" y="190" textAnchor="middle" fill="#0ff" fontSize="6.5" fontFamily="monospace" opacity="0.5">Variance drives negotiation</text>
+      </svg>
+    </DiagramWrapper>
+  );
+}
+
+export function ZeroBasedBudgetDiagram() {
+  return (
+    <DiagramWrapper label="ZERO-BASED BUDGETING">
+      <svg viewBox="0 0 320 200" className="w-full h-full">
+        <defs><filter id="glow-zbb"><feGaussianBlur stdDeviation="1.5" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs>
+        <rect x="110" y="10" width="100" height="28" rx="3" fill="rgba(0,255,255,0.1)" stroke="#0ff" strokeWidth="1" filter="url(#glow-zbb)"/>
+        <text x="160" y="28" textAnchor="middle" fill="#0ff" fontSize="8" fontFamily="monospace">START AT $0</text>
+        <line x1="160" y1="38" x2="160" y2="58" stroke="#0ff" strokeWidth="0.8" opacity="0.5"/>
+        {[{x:80,y:80,label:"JUSTIFY\nEACH LINE"},{x:160,y:80,label:"RANK BY\nPRIORITY"},{x:240,y:80,label:"ALLOCATE\nTO BUDGET"}].map((s,i)=>(
+          <g key={i}>
+            {i>0&&<line x1={[80,160][i-1]+35} y1="80" x2={s.x-35} y2="80" stroke="#0ff" strokeWidth="0.6" opacity="0.5"/>}
+            <rect x={s.x-38} y={s.y-22} width="76" height="44" rx="3" fill={`rgba(0,255,255,${0.05+i*0.03})`} stroke="#0ff" strokeWidth="0.8" filter="url(#glow-zbb)"/>
+            {s.label.split('\n').map((line,li)=>(
+              <text key={li} x={s.x} y={s.y-6+li*14} textAnchor="middle" fill="#0ff" fontSize="6.5" fontFamily="monospace">{line}</text>
+            ))}
+          </g>
+        ))}
+        {[{label:"MUST HAVE",pct:60,y:130},{label:"SHOULD HAVE",pct:25,y:152},{label:"NICE TO HAVE",pct:15,y:174}].map((tier,i)=>(
+          <g key={i}>
+            <text x="20" y={tier.y+4} fill="#0ff" fontSize="6.5" fontFamily="monospace" opacity="0.8">{tier.label}</text>
+            <rect x="130" y={tier.y-6} width={tier.pct*1.5} height="14" rx="2" fill={`rgba(0,255,255,${0.06+i*0.02})`} stroke="#0ff" strokeWidth="0.6" filter="url(#glow-zbb)"/>
+            <text x={135+tier.pct*1.5} y={tier.y+4} fill="#0ff" fontSize="6.5" fontFamily="monospace">{tier.pct}%</text>
+          </g>
+        ))}
+      </svg>
+    </DiagramWrapper>
+  );
+}
+
+export function NPSDiagram() {
+  return (
+    <DiagramWrapper label="NET PROMOTER SCORE">
+      <svg viewBox="0 0 320 200" className="w-full h-full">
+        <defs><filter id="glow-nps"><feGaussianBlur stdDeviation="1.5" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs>
+        {[0,1,2,3,4,5,6,7,8,9,10].map((n,i)=>(
+          <g key={i}>
+            <rect x={15+i*27} y="50" width="24" height="80" rx="2" fill={n<=6?"rgba(255,80,0,0.10)":n<=8?"rgba(255,200,0,0.10)":"rgba(0,255,0,0.10)"} stroke={n<=6?"#f80":n<=8?"#ff0":"#0f0"} strokeWidth="0.7" filter="url(#glow-nps)"/>
+            <text x={27+i*27} y="95" textAnchor="middle" fill={n<=6?"#f80":n<=8?"#ff0":"#0f0"} fontSize="9" fontFamily="monospace" fontWeight="bold">{n}</text>
+          </g>
+        ))}
+        <text x="55" y="145" textAnchor="middle" fill="#f80" fontSize="7" fontFamily="monospace">DETRACTORS</text>
+        <text x="55" y="155" textAnchor="middle" fill="#f80" fontSize="6" fontFamily="monospace">(0-6)</text>
+        <text x="175" y="145" textAnchor="middle" fill="#ff0" fontSize="7" fontFamily="monospace">PASSIVES</text>
+        <text x="175" y="155" textAnchor="middle" fill="#ff0" fontSize="6" fontFamily="monospace">(7-8)</text>
+        <text x="280" y="145" textAnchor="middle" fill="#0f0" fontSize="7" fontFamily="monospace">PROMOTERS</text>
+        <text x="280" y="155" textAnchor="middle" fill="#0f0" fontSize="6" fontFamily="monospace">(9-10)</text>
+        <text x="160" y="175" textAnchor="middle" fill="#0ff" fontSize="8" fontFamily="monospace" fontWeight="bold" filter="url(#glow-nps)">NPS = %Promoters - %Detractors</text>
+        <text x="160" y="190" textAnchor="middle" fill="#0ff" fontSize="7" fontFamily="monospace" opacity="0.6">Range: -100 to +100</text>
+      </svg>
+    </DiagramWrapper>
+  );
+}
+
+export function VisualDashboardDiagram() {
+  return (
+    <DiagramWrapper label="VISUAL PROJECT DASHBOARD">
+      <svg viewBox="0 0 320 200" className="w-full h-full">
+        <defs><filter id="glow-vd"><feGaussianBlur stdDeviation="1.5" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs>
+        {[{label:"SCHEDULE",status:"GREEN",x:55,y:50},{label:"BUDGET",status:"AMBER",x:160,y:50},{label:"SCOPE",status:"GREEN",x:265,y:50},{label:"QUALITY",status:"RED",x:55,y:130},{label:"RISK",status:"AMBER",x:160,y:130},{label:"TEAM",status:"GREEN",x:265,y:130}].map((kpi,i)=>{
+          const color=kpi.status==="GREEN"?"#0f0":kpi.status==="AMBER"?"#f80":"#f00";
+          const fill=kpi.status==="GREEN"?"rgba(0,255,0,0.12)":kpi.status==="AMBER"?"rgba(255,128,0,0.12)":"rgba(255,0,0,0.12)";
+          return (
+            <g key={i}>
+              <rect x={kpi.x-45} y={kpi.y-28} width="90" height="56" rx="4" fill={fill} stroke={color} strokeWidth="1" filter="url(#glow-vd)"/>
+              <circle cx={kpi.x} cy={kpi.y-8} r="10" fill={fill} stroke={color} strokeWidth="1.5"/>
+              <text x={kpi.x} y={kpi.y+8} textAnchor="middle" fill={color} fontSize="6.5" fontFamily="monospace" fontWeight="bold">{kpi.label}</text>
+              <text x={kpi.x} y={kpi.y+20} textAnchor="middle" fill={color} fontSize="6" fontFamily="monospace">{kpi.status}</text>
+            </g>
+          );
+        })}
+      </svg>
+    </DiagramWrapper>
+  );
+}
+
+export function DMSAutomationDiagram() {
+  return (
+    <DiagramWrapper label="DOCUMENT MANAGEMENT SYSTEM">
+      <svg viewBox="0 0 320 200" className="w-full h-full">
+        <defs><filter id="glow-dms"><feGaussianBlur stdDeviation="1.5" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs>
+        <rect x="100" y="10" width="120" height="30" rx="3" fill="rgba(0,255,255,0.1)" stroke="#0ff" strokeWidth="1" filter="url(#glow-dms)"/>
+        <text x="160" y="29" textAnchor="middle" fill="#0ff" fontSize="7.5" fontFamily="monospace">DMS PLATFORM</text>
+        {[{x:55,y:80,label:"CREATE",sub:"Author"},{x:130,y:80,label:"REVIEW",sub:"Peer check"},{x:205,y:80,label:"APPROVE",sub:"Sign-off"},{x:280,y:80,label:"PUBLISH",sub:"Distribute"}].map((s,i)=>(
+          <g key={i}>
+            {i>0&&<line x1={[55,130,205][i-1]+28} y1="80" x2={s.x-28} y2="80" stroke="#0ff" strokeWidth="0.7" opacity="0.5"/>}
+            <rect x={s.x-28} y={s.y-18} width="56" height="36" rx="2" fill={`rgba(0,255,255,${0.05+i*0.03})`} stroke="#0ff" strokeWidth="0.7" filter="url(#glow-dms)"/>
+            <text x={s.x} y={s.y-2} textAnchor="middle" fill="#0ff" fontSize="7" fontFamily="monospace">{s.label}</text>
+            <text x={s.x} y={s.y+12} textAnchor="middle" fill="#0ff" fontSize="5.5" fontFamily="monospace" opacity="0.7">{s.sub}</text>
+          </g>
+        ))}
+        {["VERSION CONTROL","ACCESS RIGHTS","AUDIT TRAIL","SEARCH & RETRIEVE"].map((feat,i)=>(
+          <g key={i}>
+            <rect x={20+i*74} y="120" width="66" height="22" rx="2" fill="rgba(0,255,255,0.04)" stroke="#0ff" strokeWidth="0.5"/>
+            <text x={53+i*74} y="135" textAnchor="middle" fill="#0ff" fontSize="5.5" fontFamily="monospace">{feat}</text>
+          </g>
+        ))}
+        <text x="160" y="165" textAnchor="middle" fill="#0ff" fontSize="6.5" fontFamily="monospace" opacity="0.5">Single source of truth</text>
+      </svg>
+    </DiagramWrapper>
+  );
+}
+
+export function KCSDiagram() {
+  return (
+    <DiagramWrapper label="KNOWLEDGE-CENTRED SERVICE">
+      <svg viewBox="0 0 320 200" className="w-full h-full">
+        <defs><filter id="glow-kcs"><feGaussianBlur stdDeviation="1.5" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs>
+        {[{x:160,y:30,label:"CAPTURE"},{x:270,y:100,label:"STRUCTURE"},{x:200,y:175,label:"REUSE"},{x:120,y:175,label:"IMPROVE"},{x:50,y:100,label:"SHARE"}].map((s,i,arr)=>{
+          const next=arr[(i+1)%arr.length];
+          return (
+            <g key={i}>
+              <line x1={s.x} y1={s.y} x2={next.x} y2={next.y} stroke="#0ff" strokeWidth="0.6" strokeDasharray="3,2" opacity="0.4"/>
+              <rect x={s.x-38} y={s.y-14} width="76" height="28" rx="3" fill={`rgba(0,255,255,${0.06+i*0.03})`} stroke="#0ff" strokeWidth="0.8" filter="url(#glow-kcs)"/>
+              <text x={s.x} y={s.y+4} textAnchor="middle" fill="#0ff" fontSize="7.5" fontFamily="monospace">{s.label}</text>
+            </g>
+          );
+        })}
+        <circle cx="160" cy="100" r="22" fill="rgba(0,255,255,0.06)" stroke="#0ff" strokeWidth="0.8" strokeDasharray="2,2"/>
+        <text x="160" y="96" textAnchor="middle" fill="#0ff" fontSize="6" fontFamily="monospace">KNOWLEDGE</text>
+        <text x="160" y="108" textAnchor="middle" fill="#0ff" fontSize="6" fontFamily="monospace">BASE</text>
+      </svg>
+    </DiagramWrapper>
+  );
+}
+
+export function EightDDiagram() {
+  return (
+    <DiagramWrapper label="8D PROBLEM SOLVING">
+      <svg viewBox="0 0 320 200" className="w-full h-full">
+        <defs><filter id="glow-8d"><feGaussianBlur stdDeviation="1.5" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs>
+        {[{n:"D1",label:"Team Formation",x:40,y:40},{n:"D2",label:"Problem Description",x:120,y:40},{n:"D3",label:"Interim Containment",x:200,y:40},{n:"D4",label:"Root Cause Analysis",x:280,y:40},{n:"D5",label:"Corrective Actions",x:280,y:130},{n:"D6",label:"Implement & Validate",x:200,y:130},{n:"D7",label:"Prevent Recurrence",x:120,y:130},{n:"D8",label:"Congratulate Team",x:40,y:130}].map((step,i)=>(
+          <g key={i}>
+            {i<3&&<line x1={[40,120,200][i]+28} y1="40" x2={[120,200,280][i]-28} y2="40" stroke="#0ff" strokeWidth="0.6" opacity="0.5"/>}
+            {i===3&&<line x1="280" y1="60" x2="280" y2="110" stroke="#0ff" strokeWidth="0.6" opacity="0.5"/>}
+            {i>3&&i<7&&<line x1={[280,200,120][i-4]-28} y1="130" x2={[200,120,40][i-4]+28} y2="130" stroke="#0ff" strokeWidth="0.6" opacity="0.5"/>}
+            <rect x={step.x-28} y={step.y-18} width="56" height="36" rx="2" fill={`rgba(0,255,255,${0.04+i*0.02})`} stroke="#0ff" strokeWidth="0.7" filter="url(#glow-8d)"/>
+            <text x={step.x} y={step.y-4} textAnchor="middle" fill="#0ff" fontSize="8" fontFamily="monospace" fontWeight="bold">{step.n}</text>
+            <text x={step.x} y={step.y+10} textAnchor="middle" fill="#0ff" fontSize="5" fontFamily="monospace" opacity="0.7">{step.label}</text>
+          </g>
+        ))}
+      </svg>
+    </DiagramWrapper>
+  );
+}
+
+export function NudgeTheoryDiagram() {
+  return (
+    <DiagramWrapper label="NUDGE THEORY FRAMEWORK">
+      <svg viewBox="0 0 320 200" className="w-full h-full">
+        <defs><filter id="glow-nt"><feGaussianBlur stdDeviation="1.5" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs>
+        <rect x="110" y="10" width="100" height="28" rx="3" fill="rgba(0,255,255,0.08)" stroke="#0ff" strokeWidth="0.8"/>
+        <text x="160" y="28" textAnchor="middle" fill="#0ff" fontSize="7.5" fontFamily="monospace">CHOICE ARCHITECT</text>
+        <line x1="160" y1="38" x2="160" y2="58" stroke="#0ff" strokeWidth="0.6" opacity="0.5"/>
+        {[{x:80,y:80,label:"DEFAULT\nOPTION",sub:"Opt-out vs opt-in"},{x:160,y:80,label:"SOCIAL\nNORMS",sub:"Others do it"},{x:240,y:80,label:"FEEDBACK\nLOOPS",sub:"Visible progress"}].map((n,i)=>(
+          <g key={i}>
+            <rect x={n.x-38} y={n.y-22} width="76" height="44" rx="3" fill={`rgba(0,255,255,${0.05+i*0.03})`} stroke="#0ff" strokeWidth="0.7" filter="url(#glow-nt)"/>
+            {n.label.split('\n').map((line,li)=>(
+              <text key={li} x={n.x} y={n.y-6+li*14} textAnchor="middle" fill="#0ff" fontSize="6.5" fontFamily="monospace">{line}</text>
+            ))}
+            <text x={n.x} y={n.y+18} textAnchor="middle" fill="#0ff" fontSize="5.5" fontFamily="monospace" opacity="0.7">{n.sub}</text>
+          </g>
+        ))}
+        <rect x="60" y="140" width="200" height="30" rx="3" fill="rgba(0,255,255,0.06)" stroke="#0ff" strokeWidth="0.8" filter="url(#glow-nt)"/>
+        <text x="160" y="155" textAnchor="middle" fill="#0ff" fontSize="7" fontFamily="monospace">DESIRED BEHAVIOUR</text>
+        <text x="160" y="167" textAnchor="middle" fill="#0ff" fontSize="6" fontFamily="monospace" opacity="0.7">Preserve freedom of choice</text>
+      </svg>
+    </DiagramWrapper>
+  );
+}
+
+export function MaslowDiagram() {
+  return (
+    <DiagramWrapper label="MASLOW'S HIERARCHY OF NEEDS">
+      <svg viewBox="0 0 320 200" className="w-full h-full">
+        <defs><filter id="glow-masl"><feGaussianBlur stdDeviation="1.5" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs>
+        {[{y:168,label:"PHYSIOLOGICAL",sub:"Basic: pay, workspace",w:280},{y:136,label:"SAFETY",sub:"Job security, stability",w:230},{y:104,label:"SOCIAL / BELONGING",sub:"Team, inclusion",w:180},{y:72,label:"ESTEEM",sub:"Recognition, achievement",w:130},{y:40,label:"SELF-ACTUALISATION",sub:"Growth, purpose",w:80}].map((tier,i)=>(
+          <g key={i}>
+            <rect x={(320-tier.w)/2} y={tier.y} width={tier.w} height="26" rx="2" fill={`rgba(0,255,255,${0.04+i*0.04})`} stroke="#0ff" strokeWidth="0.8" filter="url(#glow-masl)"/>
+            <text x="160" y={tier.y+12} textAnchor="middle" fill="#0ff" fontSize="7" fontFamily="monospace" fontWeight="bold">{tier.label}</text>
+            <text x="160" y={tier.y+22} textAnchor="middle" fill="#0ff" fontSize="5.5" fontFamily="monospace" opacity="0.7">{tier.sub}</text>
+          </g>
+        ))}
+      </svg>
+    </DiagramWrapper>
+  );
+}
+
+export function DiffusionOfInnovationDiagram() {
+  return (
+    <DiagramWrapper label="DIFFUSION OF INNOVATION">
+      <svg viewBox="0 0 320 200" className="w-full h-full">
+        <defs><filter id="glow-doi"><feGaussianBlur stdDeviation="1.5" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs>
+        <path d="M 30 160 C 60 160 70 120 90 80 S 120 30 150 25 S 190 30 210 80 S 240 150 270 160 S 295 160 300 160" fill="none" stroke="#0ff" strokeWidth="1.5" filter="url(#glow-doi)"/>
+        <path d="M 30 160 C 60 160 70 120 90 80 S 120 30 150 25 S 190 30 210 80 S 240 150 270 160 S 295 160 300 160 L 300 165 L 30 165 Z" fill="rgba(0,255,255,0.05)"/>
+        <line x1="30" y1="165" x2="300" y2="165" stroke="#0ff" strokeWidth="0.8" opacity="0.4"/>
+        {[{x:60,pct:"2.5%",label:"INNOVATORS"},{x:100,pct:"13.5%",label:"EARLY\nADOPTERS"},{x:155,pct:"34%",label:"EARLY\nMAJORITY"},{x:215,pct:"34%",label:"LATE\nMAJORITY"},{x:270,pct:"16%",label:"LAGGARDS"}].map((seg,i)=>(
+          <g key={i}>
+            <text x={seg.x} y="185" textAnchor="middle" fill="#0ff" fontSize="5.5" fontFamily="monospace">{seg.pct}</text>
+            {seg.label.split('\n').map((line,li)=>(
+              <text key={li} x={seg.x} y={145+li*10} textAnchor="middle" fill="#0ff" fontSize="5.5" fontFamily="monospace" opacity="0.7">{line}</text>
+            ))}
+          </g>
+        ))}
+        <line x1="130" y1="20" x2="130" y2="165" stroke="#f80" strokeWidth="0.8" strokeDasharray="3,2" opacity="0.6"/>
+        <text x="130" y="15" textAnchor="middle" fill="#f80" fontSize="6" fontFamily="monospace">CHASM</text>
+      </svg>
+    </DiagramWrapper>
+  );
+}
+
+export function ThreeHorizonsDiagram() {
+  return (
+    <DiagramWrapper label="McKINSEY 3 HORIZONS MODEL">
+      <svg viewBox="0 0 320 200" className="w-full h-full">
+        <defs><filter id="glow-3h"><feGaussianBlur stdDeviation="1.5" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs>
+        <line x1="30" y1="170" x2="30" y2="20" stroke="#0ff" strokeWidth="0.8" opacity="0.4"/>
+        <line x1="30" y1="170" x2="290" y2="170" stroke="#0ff" strokeWidth="0.8" opacity="0.4"/>
+        <text x="15" y="100" fill="#0ff" fontSize="7" fontFamily="monospace" transform="rotate(-90,15,100)">VALUE</text>
+        <text x="160" y="190" textAnchor="middle" fill="#0ff" fontSize="7" fontFamily="monospace">TIME</text>
+        <path d="M 30 150 C 60 140 90 100 130 80" fill="none" stroke="#0ff" strokeWidth="2" filter="url(#glow-3h)"/>
+        <path d="M 100 160 C 140 140 180 100 230 70" fill="none" stroke="#0ff" strokeWidth="1.5" opacity="0.7" strokeDasharray="4,2"/>
+        <path d="M 180 165 C 220 150 260 120 290 60" fill="none" stroke="#0ff" strokeWidth="1" opacity="0.5" strokeDasharray="2,3"/>
+        <rect x="35" y="55" width="80" height="30" rx="2" fill="rgba(0,255,255,0.1)" stroke="#0ff" strokeWidth="0.8" filter="url(#glow-3h)"/>
+        <text x="75" y="70" textAnchor="middle" fill="#0ff" fontSize="7" fontFamily="monospace" fontWeight="bold">H1: CORE</text>
+        <text x="75" y="80" textAnchor="middle" fill="#0ff" fontSize="5.5" fontFamily="monospace" opacity="0.7">Defend &amp; extend</text>
+        <rect x="140" y="55" width="80" height="30" rx="2" fill="rgba(0,255,255,0.07)" stroke="#0ff" strokeWidth="0.7"/>
+        <text x="180" y="70" textAnchor="middle" fill="#0ff" fontSize="7" fontFamily="monospace" fontWeight="bold">H2: GROWTH</text>
+        <text x="180" y="80" textAnchor="middle" fill="#0ff" fontSize="5.5" fontFamily="monospace" opacity="0.7">Emerging business</text>
+        <rect x="210" y="30" width="80" height="30" rx="2" fill="rgba(0,255,255,0.04)" stroke="#0ff" strokeWidth="0.6"/>
+        <text x="250" y="45" textAnchor="middle" fill="#0ff" fontSize="7" fontFamily="monospace" fontWeight="bold">H3: FUTURE</text>
+        <text x="250" y="55" textAnchor="middle" fill="#0ff" fontSize="5.5" fontFamily="monospace" opacity="0.7">Options &amp; ventures</text>
+      </svg>
+    </DiagramWrapper>
+  );
+}
+
+export function ThreeHDiagram() {
+  return (
+    <DiagramWrapper label="THREE HORIZONS PLANNING">
+      <svg viewBox="0 0 320 200" className="w-full h-full">
+        <defs><filter id="glow-3hd"><feGaussianBlur stdDeviation="1.5" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs>
+        {[{x:75,y:100,r:55,label:"H1",sub:"0-12 months\nCore operations",color:"0.12"},{x:160,y:100,r:55,label:"H2",sub:"1-3 years\nEmerging growth",color:"0.08"},{x:245,y:100,r:55,label:"H3",sub:"3-5+ years\nFuture options",color:"0.05"}].map((h,i)=>(
+          <g key={i}>
+            <circle cx={h.x} cy={h.y} r={h.r} fill={`rgba(0,255,255,${h.color})`} stroke="#0ff" strokeWidth="0.8" filter="url(#glow-3hd)"/>
+            <text x={h.x} y={h.y-8} textAnchor="middle" fill="#0ff" fontSize="16" fontFamily="monospace" fontWeight="bold">{h.label}</text>
+            {h.sub.split('\n').map((line,li)=>(
+              <text key={li} x={h.x} y={h.y+12+li*12} textAnchor="middle" fill="#0ff" fontSize="6" fontFamily="monospace" opacity="0.7">{line}</text>
+            ))}
+          </g>
+        ))}
+      </svg>
+    </DiagramWrapper>
+  );
+}
+
+export function FiveForcesPorterDiagram() {
+  return (
+    <DiagramWrapper label="PORTER'S FIVE FORCES">
+      <svg viewBox="0 0 320 200" className="w-full h-full">
+        <defs><filter id="glow-pff"><feGaussianBlur stdDeviation="1.5" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs>
+        <rect x="110" y="75" width="100" height="50" rx="4" fill="rgba(0,255,255,0.12)" stroke="#0ff" strokeWidth="1.2" filter="url(#glow-pff)"/>
+        <text x="160" y="97" textAnchor="middle" fill="#0ff" fontSize="7" fontFamily="monospace" fontWeight="bold">INDUSTRY</text>
+        <text x="160" y="109" textAnchor="middle" fill="#0ff" fontSize="7" fontFamily="monospace" fontWeight="bold">RIVALRY</text>
+        {[{x:160,y:25,label:"NEW ENTRANTS",sub:"Threat of entry"},{x:290,y:100,label:"BUYERS",sub:"Bargaining power"},{x:160,y:175,label:"SUBSTITUTES",sub:"Threat of substitution"},{x:30,y:100,label:"SUPPLIERS",sub:"Bargaining power"}].map((f,i)=>{
+          const arrows=[[160,75],[210,100],[160,125],[110,100]];
+          return (
+            <g key={i}>
+              <line x1={f.x} y1={f.y} x2={arrows[i][0]} y2={arrows[i][1]} stroke="#0ff" strokeWidth="0.8" opacity="0.5"/>
+              <rect x={f.x-42} y={f.y-16} width="84" height="32" rx="3" fill={`rgba(0,255,255,${0.05+i*0.02})`} stroke="#0ff" strokeWidth="0.7" filter="url(#glow-pff)"/>
+              <text x={f.x} y={f.y-2} textAnchor="middle" fill="#0ff" fontSize="6.5" fontFamily="monospace" fontWeight="bold">{f.label}</text>
+              <text x={f.x} y={f.y+10} textAnchor="middle" fill="#0ff" fontSize="5.5" fontFamily="monospace" opacity="0.7">{f.sub}</text>
+            </g>
+          );
+        })}
+      </svg>
+    </DiagramWrapper>
+  );
+}
+
+export function ExpectancyTheoryDiagram() {
+  return (
+    <DiagramWrapper label="VROOM'S EXPECTANCY THEORY">
+      <svg viewBox="0 0 320 200" className="w-full h-full">
+        <defs><filter id="glow-et"><feGaussianBlur stdDeviation="1.5" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs>
+        {[{x:55,label:"EXPECTANCY",sub:"Effort → Performance",eq:"E"},{x:160,label:"INSTRUMENTALITY",sub:"Performance → Reward",eq:"I"},{x:265,label:"VALENCE",sub:"Reward value to me",eq:"V"}].map((comp,i)=>(
+          <g key={i}>
+            {i>0&&<text x={[55,160][i-1]+50} y="104" fill="#0ff" fontSize="14" fontFamily="monospace" opacity="0.6">×</text>}
+            <circle cx={comp.x} cy="100" r="42" fill={`rgba(0,255,255,${0.06+i*0.03})`} stroke="#0ff" strokeWidth="0.8" filter="url(#glow-et)"/>
+            <text x={comp.x} y="88" textAnchor="middle" fill="#0ff" fontSize="22" fontFamily="monospace" fontWeight="bold">{comp.eq}</text>
+            <text x={comp.x} y="108" textAnchor="middle" fill="#0ff" fontSize="6.5" fontFamily="monospace" fontWeight="bold">{comp.label}</text>
+            <text x={comp.x} y="120" textAnchor="middle" fill="#0ff" fontSize="5.5" fontFamily="monospace" opacity="0.7">{comp.sub}</text>
+          </g>
+        ))}
+        <rect x="90" y="160" width="140" height="28" rx="3" fill="rgba(0,255,255,0.1)" stroke="#0ff" strokeWidth="1" filter="url(#glow-et)"/>
+        <text x="160" y="172" textAnchor="middle" fill="#0ff" fontSize="7.5" fontFamily="monospace" fontWeight="bold">MOTIVATION</text>
+        <text x="160" y="183" textAnchor="middle" fill="#0ff" fontSize="6" fontFamily="monospace" opacity="0.7">= E × I × V</text>
+      </svg>
+    </DiagramWrapper>
+  );
+}
+
+export function ForceFieldAdvancedDiagram() {
+  return (
+    <DiagramWrapper label="FORCE FIELD ANALYSIS">
+      <svg viewBox="0 0 320 200" className="w-full h-full">
+        <defs><filter id="glow-ffa"><feGaussianBlur stdDeviation="1.5" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs>
+        <line x1="160" y1="10" x2="160" y2="190" stroke="#0ff" strokeWidth="1.5" filter="url(#glow-ffa)"/>
+        <text x="80" y="18" textAnchor="middle" fill="#0f0" fontSize="7.5" fontFamily="monospace">DRIVING FORCES</text>
+        <text x="240" y="18" textAnchor="middle" fill="#f80" fontSize="7.5" fontFamily="monospace">RESTRAINING</text>
+        {[{label:"Mgmt support",strength:4,y:40},{label:"Market demand",strength:3,y:70},{label:"Tech readiness",strength:5,y:100},{label:"Team skills",strength:3,y:130},{label:"Cost savings",strength:4,y:160}].map((f,i)=>(
+          <g key={i}>
+            <rect x={160-f.strength*22} y={f.y-8} width={f.strength*22} height="16" rx="2" fill="rgba(0,255,0,0.10)" stroke="#0f0" strokeWidth="0.7"/>
+            <text x={160-f.strength*22-4} y={f.y+4} textAnchor="end" fill="#0f0" fontSize="6" fontFamily="monospace">{f.label}</text>
+          </g>
+        ))}
+        {[{label:"Budget limits",strength:3,y:40},{label:"Resistance",strength:4,y:70},{label:"Regulation",strength:2,y:100},{label:"Legacy systems",strength:3,y:130},{label:"Skills gap",strength:5,y:160}].map((f,i)=>(
+          <g key={i}>
+            <rect x="160" y={f.y-8} width={f.strength*22} height="16" rx="2" fill="rgba(255,128,0,0.10)" stroke="#f80" strokeWidth="0.7"/>
+            <text x={160+f.strength*22+4} y={f.y+4} fill="#f80" fontSize="6" fontFamily="monospace">{f.label}</text>
+          </g>
+        ))}
+      </svg>
+    </DiagramWrapper>
+  );
+}
+
+export function LewinChangeDiagram() {
+  return (
+    <DiagramWrapper label="LEWIN'S CHANGE MODEL">
+      <svg viewBox="0 0 320 200" className="w-full h-full">
+        <defs><filter id="glow-lc"><feGaussianBlur stdDeviation="1.5" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs>
+        {[{x:65,label:"UNFREEZE",sub:"Create urgency\nChallenge status quo",color:"0.12"},{x:160,label:"CHANGE",sub:"Implement new\nbehaviours & processes",color:"0.08"},{x:255,label:"REFREEZE",sub:"Embed & sustain\nnew state",color:"0.12"}].map((stage,i)=>(
+          <g key={i}>
+            {i>0&&<line x1={[65,160][i-1]+50} y1="90" x2={stage.x-50} y2="90" stroke="#0ff" strokeWidth="1.2" markerEnd="url(#arr)" opacity="0.6"/>}
+            <ellipse cx={stage.x} cy="90" rx="52" ry="65" fill={`rgba(0,255,255,${stage.color})`} stroke="#0ff" strokeWidth="1" filter="url(#glow-lc)"/>
+            <text x={stage.x} y="75" textAnchor="middle" fill="#0ff" fontSize="8" fontFamily="monospace" fontWeight="bold">{stage.label}</text>
+            {stage.sub.split('\n').map((line,li)=>(
+              <text key={li} x={stage.x} y={92+li*12} textAnchor="middle" fill="#0ff" fontSize="6" fontFamily="monospace" opacity="0.7">{line}</text>
+            ))}
+          </g>
+        ))}
+        <text x="160" y="175" textAnchor="middle" fill="#0ff" fontSize="6.5" fontFamily="monospace" opacity="0.5">Kurt Lewin Change Management Model</text>
+      </svg>
+    </DiagramWrapper>
+  );
+}
+
+export function Kotter8StepDiagram() {
+  return (
+    <DiagramWrapper label="KOTTER'S 8-STEP CHANGE MODEL">
+      <svg viewBox="0 0 320 200" className="w-full h-full">
+        <defs><filter id="glow-k8"><feGaussianBlur stdDeviation="1.5" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs>
+        {[{n:1,label:"Create Urgency",x:55,y:30},{n:2,label:"Build Coalition",x:160,y:30},{n:3,label:"Form Vision",x:265,y:30},{n:4,label:"Communicate",x:265,y:100},{n:5,label:"Remove Barriers",x:265,y:170},{n:6,label:"Short-term Wins",x:160,y:170},{n:7,label:"Build on Change",x:55,y:170},{n:8,label:"Anchor in Culture",x:55,y:100}].map((step,i)=>(
+          <g key={i}>
+            <rect x={step.x-40} y={step.y-18} width="80" height="36" rx="3" fill={`rgba(0,255,255,${0.04+i*0.02})`} stroke="#0ff" strokeWidth="0.7" filter="url(#glow-k8)"/>
+            <text x={step.x} y={step.y-4} textAnchor="middle" fill="#0ff" fontSize="9" fontFamily="monospace" fontWeight="bold">{step.n}</text>
+            <text x={step.x} y={step.y+10} textAnchor="middle" fill="#0ff" fontSize="5.5" fontFamily="monospace" opacity="0.8">{step.label}</text>
+          </g>
+        ))}
+        <path d="M 95 30 L 120 30 M 200 30 L 225 30 M 265 48 L 265 82 M 265 118 L 265 152 M 225 170 L 200 170 M 120 170 L 95 170 M 55 152 L 55 118 M 55 82 L 55 48" stroke="#0ff" strokeWidth="0.6" fill="none" opacity="0.5"/>
+      </svg>
+    </DiagramWrapper>
+  );
+}
+
+export function BridgesTransitionDiagram() {
+  return (
+    <DiagramWrapper label="BRIDGES' TRANSITION MODEL">
+      <svg viewBox="0 0 320 200" className="w-full h-full">
+        <defs><filter id="glow-bt"><feGaussianBlur stdDeviation="1.5" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs>
+        <line x1="30" y1="170" x2="290" y2="170" stroke="#0ff" strokeWidth="0.8" opacity="0.4"/>
+        <path d="M 30 130 Q 100 80 160 100 Q 220 120 290 50" fill="none" stroke="#0ff" strokeWidth="1.5" filter="url(#glow-bt)"/>
+        {[{x:55,y:125,label:"ENDING",sub:"Letting go\nLoss & denial"},{x:160,y:100,label:"NEUTRAL ZONE",sub:"Confusion\nCreativity"},{x:265,y:55,label:"NEW BEGINNING",sub:"Acceptance\nCommitment"}].map((stage,i)=>(
+          <g key={i}>
+            <circle cx={stage.x} cy={stage.y} r="8" fill="rgba(0,255,255,0.2)" stroke="#0ff" strokeWidth="1" filter="url(#glow-bt)"/>
+            <rect x={stage.x-42} y={stage.y+14} width="84" height="36" rx="2" fill={`rgba(0,255,255,${0.05+i*0.03})`} stroke="#0ff" strokeWidth="0.6"/>
+            <text x={stage.x} y={stage.y+28} textAnchor="middle" fill="#0ff" fontSize="7" fontFamily="monospace" fontWeight="bold">{stage.label}</text>
+            {stage.sub.split('\n').map((line,li)=>(
+              <text key={li} x={stage.x} y={stage.y+40+li*10} textAnchor="middle" fill="#0ff" fontSize="5.5" fontFamily="monospace" opacity="0.7">{line}</text>
+            ))}
+          </g>
+        ))}
+        <text x="160" y="190" textAnchor="middle" fill="#0ff" fontSize="6.5" fontFamily="monospace" opacity="0.5">Psychological transition, not external event</text>
+      </svg>
+    </DiagramWrapper>
+  );
+}
+
+export function KublerRossDiagram() {
+  return (
+    <DiagramWrapper label="KÜBLER-ROSS CHANGE CURVE">
+      <svg viewBox="0 0 320 200" className="w-full h-full">
+        <defs><filter id="glow-kr"><feGaussianBlur stdDeviation="1.5" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs>
+        <line x1="30" y1="170" x2="290" y2="170" stroke="#0ff" strokeWidth="0.8" opacity="0.4"/>
+        <line x1="30" y1="170" x2="30" y2="20" stroke="#0ff" strokeWidth="0.8" opacity="0.4"/>
+        <text x="15" y="100" fill="#0ff" fontSize="7" fontFamily="monospace" transform="rotate(-90,15,100)">PERFORMANCE</text>
+        <text x="160" y="190" textAnchor="middle" fill="#0ff" fontSize="7" fontFamily="monospace">TIME</text>
+        <path d="M 30 80 C 60 70 70 100 90 130 S 110 155 130 160 S 150 155 170 130 S 200 80 240 50 S 270 35 290 30" fill="none" stroke="#0ff" strokeWidth="1.5" filter="url(#glow-kr)"/>
+        {[{x:30,y:80,label:"SHOCK"},{x:70,y:100,label:"DENIAL"},{x:100,y:135,label:"ANGER"},{x:130,y:160,label:"BARGAINING"},{x:160,y:155,label:"DEPRESSION"},{x:200,y:110,label:"TESTING"},{x:240,y:50,label:"ACCEPTANCE"}].map((s,i)=>(
+          <g key={i}>
+            <circle cx={s.x} cy={s.y} r="4" fill="rgba(0,255,255,0.2)" stroke="#0ff" strokeWidth="0.8" filter="url(#glow-kr)"/>
+            <text x={s.x} y={s.y-8} textAnchor="middle" fill="#0ff" fontSize="5" fontFamily="monospace">{s.label}</text>
+          </g>
+        ))}
+      </svg>
+    </DiagramWrapper>
+  );
+}
+
+export function McKinsey7SDiagram() {
+  return (
+    <DiagramWrapper label="McKINSEY 7S FRAMEWORK">
+      <svg viewBox="0 0 320 200" className="w-full h-full">
+        <defs><filter id="glow-7s"><feGaussianBlur stdDeviation="1.5" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs>
+        <circle cx="160" cy="100" r="25" fill="rgba(0,255,255,0.12)" stroke="#0ff" strokeWidth="1.2" filter="url(#glow-7s)"/>
+        <text x="160" y="96" textAnchor="middle" fill="#0ff" fontSize="6.5" fontFamily="monospace" fontWeight="bold">SHARED</text>
+        <text x="160" y="108" textAnchor="middle" fill="#0ff" fontSize="6.5" fontFamily="monospace" fontWeight="bold">VALUES</text>
+        {[{x:160,y:25,label:"STRATEGY"},{x:265,y:62,label:"STRUCTURE"},{x:265,y:138,label:"SYSTEMS"},{x:160,y:175,label:"STAFF"},{x:55,y:138,label:"SKILLS"},{x:55,y:62,label:"STYLE"}].map((s,i)=>{
+          const rad=(i*60-90)*Math.PI/180;
+          const lx=160+25*Math.cos(rad), ly=100+25*Math.sin(rad);
+          return (
+            <g key={i}>
+              <line x1={lx} y1={ly} x2={s.x} y2={s.y} stroke="#0ff" strokeWidth="0.5" opacity="0.4"/>
+              <rect x={s.x-30} y={s.y-12} width="60" height="24" rx="2" fill={`rgba(0,255,255,${0.05+i*0.02})`} stroke="#0ff" strokeWidth="0.7" filter="url(#glow-7s)"/>
+              <text x={s.x} y={s.y+4} textAnchor="middle" fill="#0ff" fontSize="6.5" fontFamily="monospace">{s.label}</text>
+            </g>
+          );
+        })}
+      </svg>
+    </DiagramWrapper>
+  );
+}
+
+export function SoftSystemsDiagram() {
+  return (
+    <DiagramWrapper label="SOFT SYSTEMS METHODOLOGY">
+      <svg viewBox="0 0 320 200" className="w-full h-full">
+        <defs><filter id="glow-ssm"><feGaussianBlur stdDeviation="1.5" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs>
+        {[{x:160,y:25,label:"FIND OUT\nSituation"},{x:270,y:80,label:"EXPRESS\nRich Picture"},{x:240,y:165,label:"ROOT DEFS\nCATWOE"},{x:80,y:165,label:"BUILD\nModels"},{x:50,y:80,label:"COMPARE\n& Debate"},{x:160,y:130,label:"TAKE\nACTION"}].map((s,i,arr)=>{
+          const next=arr[(i+1)%arr.length];
+          return (
+            <g key={i}>
+              <line x1={s.x} y1={s.y} x2={next.x} y2={next.y} stroke="#0ff" strokeWidth="0.5" strokeDasharray="2,2" opacity="0.4"/>
+              <rect x={s.x-32} y={s.y-16} width="64" height="32" rx="3" fill={`rgba(0,255,255,${0.05+i*0.02})`} stroke="#0ff" strokeWidth="0.7" filter="url(#glow-ssm)"/>
+              {s.label.split('\n').map((line,li)=>(
+                <text key={li} x={s.x} y={s.y-2+li*12} textAnchor="middle" fill="#0ff" fontSize="6" fontFamily="monospace">{line}</text>
+              ))}
+            </g>
+          );
+        })}
+      </svg>
+    </DiagramWrapper>
+  );
+}
+
+export function AgileWaterfallHybridDiagram() {
+  return (
+    <DiagramWrapper label="AGILE-WATERFALL HYBRID">
+      <svg viewBox="0 0 320 200" className="w-full h-full">
+        <defs><filter id="glow-awh"><feGaussianBlur stdDeviation="1.5" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs>
+        <rect x="10" y="20" width="140" height="160" rx="4" fill="rgba(0,255,255,0.04)" stroke="#0ff" strokeWidth="0.8" strokeDasharray="3,2" opacity="0.6"/>
+        <text x="80" y="38" textAnchor="middle" fill="#0ff" fontSize="7.5" fontFamily="monospace" fontWeight="bold">WATERFALL</text>
+        {["Initiation","Planning","Execution","Closure"].map((phase,i)=>(
+          <g key={i}>
+            <rect x="20" y={50+i*32} width="120" height="24" rx="2" fill={`rgba(0,255,255,${0.04+i*0.02})`} stroke="#0ff" strokeWidth="0.6"/>
+            <text x="80" y={65+i*32} textAnchor="middle" fill="#0ff" fontSize="7" fontFamily="monospace">{phase}</text>
+          </g>
+        ))}
+        <rect x="170" y="20" width="140" height="160" rx="4" fill="rgba(0,255,255,0.04)" stroke="#0ff" strokeWidth="0.8" strokeDasharray="3,2" opacity="0.6"/>
+        <text x="240" y="38" textAnchor="middle" fill="#0ff" fontSize="7.5" fontFamily="monospace" fontWeight="bold">AGILE</text>
+        {["Sprint 1","Sprint 2","Sprint 3","Sprint 4"].map((sprint,i)=>(
+          <g key={i}>
+            <rect x="180" y={50+i*32} width="120" height="24" rx="2" fill={`rgba(0,255,255,${0.04+i*0.02})`} stroke="#0ff" strokeWidth="0.6"/>
+            <text x="240" y={65+i*32} textAnchor="middle" fill="#0ff" fontSize="7" fontFamily="monospace">{sprint}</text>
+          </g>
+        ))}
+        <line x1="150" y1="100" x2="170" y2="100" stroke="#0ff" strokeWidth="1.5" markerEnd="url(#arr)" filter="url(#glow-awh)"/>
+        <text x="160" y="190" textAnchor="middle" fill="#0ff" fontSize="6.5" fontFamily="monospace" opacity="0.5">Governance + Flexibility</text>
+      </svg>
+    </DiagramWrapper>
+  );
+}
+
+export function PMBOKProcessGroupsDiagram() {
+  return (
+    <DiagramWrapper label="PMBOK PROCESS GROUPS">
+      <svg viewBox="0 0 320 200" className="w-full h-full">
+        <defs><filter id="glow-pmbok"><feGaussianBlur stdDeviation="1.5" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs>
+        {[{x:40,y:100,r:28,label:"INITIATING",sub:"2 processes"},{x:105,y:100,r:38,label:"PLANNING",sub:"24 processes"},{x:185,y:100,r:42,label:"EXECUTING",sub:"10 processes"},{x:260,y:100,r:32,label:"CLOSING",sub:"1 process"}].map((pg,i)=>(
+          <g key={i}>
+            {i>0&&<line x1={[40,105,185][i-1]+[28,38,42][i-1]} y1="100" x2={pg.x-pg.r} y2="100" stroke="#0ff" strokeWidth="0.5" opacity="0.3"/>}
+            <circle cx={pg.x} cy={pg.y} r={pg.r} fill={`rgba(0,255,255,${0.05+i*0.03})`} stroke="#0ff" strokeWidth="0.8" filter="url(#glow-pmbok)"/>
+            <text x={pg.x} y={pg.y-6} textAnchor="middle" fill="#0ff" fontSize="5.5" fontFamily="monospace" fontWeight="bold">{pg.label}</text>
+            <text x={pg.x} y={pg.y+6} textAnchor="middle" fill="#0ff" fontSize="5" fontFamily="monospace" opacity="0.7">{pg.sub}</text>
+          </g>
+        ))}
+        <ellipse cx="185" cy="100" rx="55" ry="55" fill="none" stroke="#f80" strokeWidth="0.8" strokeDasharray="3,2" opacity="0.4"/>
+        <text x="185" y="165" textAnchor="middle" fill="#f80" fontSize="6" fontFamily="monospace" opacity="0.6">M&C: 12 processes (overlaps all)</text>
+      </svg>
+    </DiagramWrapper>
+  );
+}
+
+export function LightweightGovernanceDiagram() {
+  return (
+    <DiagramWrapper label="LIGHTWEIGHT GOVERNANCE MODEL">
+      <svg viewBox="0 0 320 200" className="w-full h-full">
+        <defs><filter id="glow-lwg"><feGaussianBlur stdDeviation="1.5" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs>
+        {[{y:20,label:"STRATEGIC INTENT",w:260,color:"0.10"},{y:55,label:"OUTCOME-BASED METRICS",w:220,color:"0.08"},{y:90,label:"TEAM AUTONOMY",w:180,color:"0.06"},{y:125,label:"INSPECT & ADAPT",w:140,color:"0.05"},{y:160,label:"MINIMAL REPORTING",w:100,color:"0.04"}].map((tier,i)=>(
+          <g key={i}>
+            <rect x={(320-tier.w)/2} y={tier.y} width={tier.w} height="28" rx="3" fill={`rgba(0,255,255,${tier.color})`} stroke="#0ff" strokeWidth="0.7" filter="url(#glow-lwg)"/>
+            <text x="160" y={tier.y+18} textAnchor="middle" fill="#0ff" fontSize="7" fontFamily="monospace">{tier.label}</text>
+          </g>
+        ))}
+        <text x="160" y="198" textAnchor="middle" fill="#0ff" fontSize="6.5" fontFamily="monospace" opacity="0.5">Less bureaucracy, more value delivery</text>
+      </svg>
+    </DiagramWrapper>
+  );
+}
+
+export function PostImplReviewDiagram() {
+  return (
+    <DiagramWrapper label="POST-IMPLEMENTATION REVIEW">
+      <svg viewBox="0 0 320 200" className="w-full h-full">
+        <defs><filter id="glow-pir"><feGaussianBlur stdDeviation="1.5" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs>
+        {[{label:"BENEFITS REALISED",plan:80,actual:72,y:35},{label:"SCHEDULE VARIANCE",plan:0,actual:8,y:70},{label:"BUDGET VARIANCE",plan:0,actual:5,y:105},{label:"QUALITY SCORE",plan:95,actual:91,y:140},{label:"USER SATISFACTION",plan:85,actual:78,y:175}].map((item,i)=>(
+          <g key={i}>
+            <text x="20" y={item.y+4} fill="#0ff" fontSize="6.5" fontFamily="monospace" opacity="0.8">{item.label}</text>
+            <rect x="175" y={item.y-8} width="120" height="10" rx="1" fill="rgba(0,255,255,0.05)" stroke="#0ff" strokeWidth="0.4" opacity="0.5"/>
+            <rect x="175" y={item.y-8} width={120*item.actual/100} height="10" rx="1" fill={item.actual>=item.plan?"rgba(0,255,0,0.15)":"rgba(255,128,0,0.15)"} stroke={item.actual>=item.plan?"#0f0":"#f80"} strokeWidth="0.6" filter="url(#glow-pir)"/>
+            <text x="300" y={item.y+2} fill={item.actual>=item.plan?"#0f0":"#f80"} fontSize="6.5" fontFamily="monospace">{item.actual}%</text>
+          </g>
+        ))}
+      </svg>
+    </DiagramWrapper>
+  );
+}
+
+export function PhaseSetupDiagram() {
+  return (
+    <DiagramWrapper label="PROJECT SETUP PHASE">
+      <svg viewBox="0 0 320 200" className="w-full h-full">
+        <defs><filter id="glow-phs"><feGaussianBlur stdDeviation="1.5" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs>
+        {[{label:"Sponsor identified & committed",done:true},{label:"Project Charter signed",done:true},{label:"PM assigned & mobilised",done:true},{label:"Initial stakeholder map created",done:false},{label:"Project repository set up",done:false},{label:"Kick-off meeting scheduled",done:false}].map((item,i)=>(
+          <g key={i}>
+            <rect x="15" y={18+i*28} width="290" height="22" rx="2" fill={`rgba(0,255,255,${item.done?0.08:0.03})`} stroke={item.done?"#0f0":"#0ff"} strokeWidth="0.6"/>
+            <circle cx="30" cy={29+i*28} r="7" fill={item.done?"rgba(0,255,0,0.15)":"rgba(0,255,255,0.05)"} stroke={item.done?"#0f0":"#0ff"} strokeWidth="0.8"/>
+            <text x="30" y={33+i*28} textAnchor="middle" fill={item.done?"#0f0":"#0ff"} fontSize="8" fontFamily="monospace">{item.done?"✓":"○"}</text>
+            <text x="46" y={33+i*28} fill={item.done?"#0f0":"#0ff"} fontSize="7" fontFamily="monospace" opacity={item.done?1:0.7}>{item.label}</text>
+          </g>
+        ))}
+      </svg>
+    </DiagramWrapper>
+  );
+}
+
+export function PhaseExecutionDiagram() {
+  return (
+    <DiagramWrapper label="EXECUTION PHASE RHYTHM">
+      <svg viewBox="0 0 320 200" className="w-full h-full">
+        <defs><filter id="glow-phe"><feGaussianBlur stdDeviation="1.5" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs>
+        {[{label:"DAILY",cadence:"Stand-up 15 min",items:["Blockers","Progress","Plan"],x:55},{label:"WEEKLY",cadence:"Status review 1hr",items:["Schedule","Budget","Risks"],x:160},{label:"MONTHLY",cadence:"Steering 2hr",items:["Milestones","Decisions","Escalations"],x:265}].map((cycle,i)=>(
+          <g key={i}>
+            <circle cx={cycle.x} cy="80" r={30+i*8} fill={`rgba(0,255,255,${0.08-i*0.02})`} stroke="#0ff" strokeWidth="0.8" filter="url(#glow-phe)"/>
+            <text x={cycle.x} y="68" textAnchor="middle" fill="#0ff" fontSize="7.5" fontFamily="monospace" fontWeight="bold">{cycle.label}</text>
+            <text x={cycle.x} y="80" textAnchor="middle" fill="#0ff" fontSize="5.5" fontFamily="monospace" opacity="0.7">{cycle.cadence}</text>
+            {cycle.items.map((item,j)=>(
+              <text key={j} x={cycle.x} y={130+j*16} textAnchor="middle" fill="#0ff" fontSize="6" fontFamily="monospace" opacity="0.7">• {item}</text>
+            ))}
+          </g>
+        ))}
+      </svg>
+    </DiagramWrapper>
+  );
+}
+
+export function PhaseClosureDiagram() {
+  return (
+    <DiagramWrapper label="PHASE CLOSURE GATE">
+      <svg viewBox="0 0 320 200" className="w-full h-full">
+        <defs><filter id="glow-phc"><feGaussianBlur stdDeviation="1.5" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs>
+        <rect x="10" y="10" width="140" height="180" rx="4" fill="rgba(0,255,255,0.04)" stroke="#0ff" strokeWidth="0.8" opacity="0.6"/>
+        <text x="80" y="28" textAnchor="middle" fill="#0ff" fontSize="7.5" fontFamily="monospace" fontWeight="bold">PHASE END</text>
+        {["Deliverables complete","Acceptance sign-off","Issues resolved","Docs archived"].map((item,i)=>(
+          <g key={i}><circle cx="25" cy={45+i*30} r="5" fill="rgba(0,255,0,0.15)" stroke="#0f0" strokeWidth="0.7"/><text x="25" y={49+i*30} textAnchor="middle" fill="#0f0" fontSize="7">✓</text><text x="38" y={49+i*30} fill="#0ff" fontSize="6.5" fontFamily="monospace">{item}</text></g>
+        ))}
+        <polygon points="160,100 200,80 200,120" fill="rgba(0,255,255,0.15)" stroke="#0ff" strokeWidth="1.2" filter="url(#glow-phc)"/>
+        <text x="230" y="95" textAnchor="middle" fill="#0ff" fontSize="7" fontFamily="monospace">GATE</text>
+        <text x="230" y="107" textAnchor="middle" fill="#0ff" fontSize="7" fontFamily="monospace">REVIEW</text>
+        <rect x="250" y="10" width="60" height="80" rx="3" fill="rgba(0,255,0,0.06)" stroke="#0f0" strokeWidth="0.8"/>
+        <text x="280" y="55" textAnchor="middle" fill="#0f0" fontSize="7" fontFamily="monospace">GO</text>
+        <rect x="250" y="110" width="60" height="80" rx="3" fill="rgba(255,0,0,0.06)" stroke="#f00" strokeWidth="0.8"/>
+        <text x="280" y="155" textAnchor="middle" fill="#f00" fontSize="7" fontFamily="monospace">NO GO</text>
+      </svg>
+    </DiagramWrapper>
+  );
+}
+
+export function A3ProblemSolvingDiagram() {
+  return (
+    <DiagramWrapper label="A3 PROBLEM SOLVING TEMPLATE">
+      <svg viewBox="0 0 320 200" className="w-full h-full">
+        <defs><filter id="glow-a3"><feGaussianBlur stdDeviation="1.5" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs>
+        <rect x="10" y="10" width="300" height="180" rx="3" fill="none" stroke="#0ff" strokeWidth="0.8" opacity="0.4"/>
+        <line x1="160" y1="10" x2="160" y2="190" stroke="#0ff" strokeWidth="0.5" opacity="0.4"/>
+        <line x1="10" y1="100" x2="310" y2="100" stroke="#0ff" strokeWidth="0.5" opacity="0.4"/>
+        {[{x:85,y:55,label:"BACKGROUND",sub:"Context & problem"},{x:235,y:55,label:"CURRENT STATE",sub:"Data & analysis"},{x:85,y:145,label:"TARGET STATE",sub:"Goal & measures"},{x:235,y:145,label:"COUNTERMEASURES",sub:"Actions & owner"}].map((q,i)=>(
+          <g key={i}>
+            <text x={q.x} y={q.y-12} textAnchor="middle" fill="#0ff" fontSize="7" fontFamily="monospace" fontWeight="bold" filter="url(#glow-a3)">{q.label}</text>
+            <text x={q.x} y={q.y+2} textAnchor="middle" fill="#0ff" fontSize="5.5" fontFamily="monospace" opacity="0.7">{q.sub}</text>
+          </g>
+        ))}
+        <text x="160" y="195" textAnchor="middle" fill="#0ff" fontSize="6.5" fontFamily="monospace" opacity="0.5">Toyota A3 Report Format</text>
+      </svg>
+    </DiagramWrapper>
+  );
+}
+
+export function ParetoAnalysisDiagram() {
+  return (
+    <DiagramWrapper label="PARETO ANALYSIS (80/20)">
+      <svg viewBox="0 0 320 200" className="w-full h-full">
+        <defs><filter id="glow-par"><feGaussianBlur stdDeviation="1.5" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs>
+        <line x1="40" y1="170" x2="40" y2="20" stroke="#0ff" strokeWidth="0.8" opacity="0.5"/>
+        <line x1="40" y1="170" x2="290" y2="170" stroke="#0ff" strokeWidth="0.8" opacity="0.5"/>
+        {[{h:120,label:"Defect A"},{h:80,label:"Defect B"},{h:55,label:"Defect C"},{h:30,label:"Defect D"},{h:18,label:"Defect E"}].map((bar,i)=>(
+          <g key={i}>
+            <rect x={50+i*46} y={170-bar.h} width="36" height={bar.h} rx="2" fill={`rgba(0,255,255,${0.08+i*0.02})`} stroke="#0ff" strokeWidth="0.7" filter="url(#glow-par)"/>
+            <text x={68+i*46} y="185" textAnchor="middle" fill="#0ff" fontSize="5.5" fontFamily="monospace">{bar.label}</text>
+          </g>
+        ))}
+        <path d="M 68 50 L 114 90 L 160 115 L 206 140 L 252 152" fill="none" stroke="#f80" strokeWidth="1.5" strokeDasharray="3,2" opacity="0.8"/>
+        <line x1="40" y1="50" x2="290" y2="50" stroke="#f80" strokeWidth="0.5" strokeDasharray="2,2" opacity="0.5"/>
+        <text x="295" y="54" fill="#f80" fontSize="6" fontFamily="monospace">80%</text>
+        <line x1="160" y1="20" x2="160" y2="170" stroke="#f80" strokeWidth="0.
+5" strokeDasharray="2,2" opacity="0.5"/>
+        <text x="160" y="18" textAnchor="middle" fill="#f80" fontSize="6" fontFamily="monospace">20% causes</text>
+      </svg>
+    </DiagramWrapper>
+  );
+}
+
+export function ControlChartDiagram() {
+  return (
+    <DiagramWrapper label="STATISTICAL PROCESS CONTROL CHART">
+      <svg viewBox="0 0 320 200" className="w-full h-full">
+        <defs><filter id="glow-cc"><feGaussianBlur stdDeviation="1.5" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs>
+        <line x1="30" y1="170" x2="290" y2="170" stroke="#0ff" strokeWidth="0.8" opacity="0.4"/>
+        <line x1="30" y1="170" x2="30" y2="20" stroke="#0ff" strokeWidth="0.8" opacity="0.4"/>
+        <line x1="30" y1="50" x2="290" y2="50" stroke="#f00" strokeWidth="0.8" strokeDasharray="4,2" opacity="0.7"/>
+        <text x="295" y="54" fill="#f00" fontSize="6" fontFamily="monospace">UCL</text>
+        <line x1="30" y1="100" x2="290" y2="100" stroke="#0f0" strokeWidth="0.8" opacity="0.7"/>
+        <text x="295" y="104" fill="#0f0" fontSize="6" fontFamily="monospace">CL</text>
+        <line x1="30" y1="150" x2="290" y2="150" stroke="#f00" strokeWidth="0.8" strokeDasharray="4,2" opacity="0.7"/>
+        <text x="295" y="154" fill="#f00" fontSize="6" fontFamily="monospace">LCL</text>
+        <polyline points="50,95 80,88 110,105 140,92 170,98 200,45 230,102 260,97" fill="none" stroke="#0ff" strokeWidth="1.5" filter="url(#glow-cc)"/>
+        {[[50,95],[80,88],[110,105],[140,92],[170,98],[200,45],[230,102],[260,97]].map(([x,y],i)=>(
+          <circle key={i} cx={x} cy={y} r="3" fill={y<50||y>150?"rgba(255,0,0,0.4)":"rgba(0,255,255,0.2)"} stroke={y<50||y>150?"#f00":"#0ff"} strokeWidth="0.8"/>
+        ))}
+        <text x="200" y="35" fill="#f00" fontSize="6.5" fontFamily="monospace">Out of control!</text>
+        <text x="160" y="188" textAnchor="middle" fill="#0ff" fontSize="6.5" fontFamily="monospace" opacity="0.5">Points outside UCL/LCL = investigate</text>
+      </svg>
+    </DiagramWrapper>
+  );
+}
+
+export function WidebandDelphiDiagram() {
+  return (
+    <DiagramWrapper label="WIDEBAND DELPHI ESTIMATION">
+      <svg viewBox="0 0 320 200" className="w-full h-full">
+        <defs><filter id="glow-wd"><feGaussianBlur stdDeviation="1.5" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs>
+        {[{x:160,y:25,label:"PRESENT TASK",sub:"Moderator briefs team"},{x:270,y:80,label:"PRIVATE ESTIMATE",sub:"Each expert estimates"},{x:240,y:165,label:"REVEAL & DISCUSS",sub:"Outliers explain"},{x:80,y:165,label:"RE-ESTIMATE",sub:"Informed by discussion"},{x:50,y:80,label:"CONVERGE",sub:"Repeat until consensus"}].map((s,i,arr)=>{
+          const next=arr[(i+1)%arr.length];
+          return (
+            <g key={i}>
+              <line x1={s.x} y1={s.y} x2={next.x} y2={next.y} stroke="#0ff" strokeWidth="0.5" strokeDasharray="2,2" opacity="0.4"/>
+              <rect x={s.x-42} y={s.y-16} width="84" height="32" rx="3" fill={`rgba(0,255,255,${0.05+i*0.03})`} stroke="#0ff" strokeWidth="0.7" filter="url(#glow-wd)"/>
+              <text x={s.x} y={s.y-2} textAnchor="middle" fill="#0ff" fontSize="6.5" fontFamily="monospace" fontWeight="bold">{s.label}</text>
+              <text x={s.x} y={s.y+11} textAnchor="middle" fill="#0ff" fontSize="5.5" fontFamily="monospace" opacity="0.7">{s.sub}</text>
+            </g>
+          );
+        })}
+        <text x="160" y="100" textAnchor="middle" fill="#0ff" fontSize="6" fontFamily="monospace" opacity="0.5">Iterative expert consensus</text>
+      </svg>
+    </DiagramWrapper>
+  );
+}
+
+export function PrincipledNegotiationDiagram() {
+  return (
+    <DiagramWrapper label="PRINCIPLED NEGOTIATION (Fisher & Ury)">
+      <svg viewBox="0 0 320 200" className="w-full h-full">
+        <defs><filter id="glow-pn"><feGaussianBlur stdDeviation="1.5" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs>
+        {[{label:"PEOPLE",sub:"Separate people from the problem",icon:"👤",x:80,y:55},{label:"INTERESTS",sub:"Focus on interests, not positions",icon:"◎",x:240,y:55},{label:"OPTIONS",sub:"Invent options for mutual gain",icon:"◈",x:80,y:145},{label:"CRITERIA",sub:"Insist on objective criteria",icon:"⚖",x:240,y:145}].map((p,i)=>(
+          <g key={i}>
+            <rect x={p.x-60} y={p.y-30} width="120" height="60" rx="4" fill={`rgba(0,255,255,${0.05+i*0.03})`} stroke="#0ff" strokeWidth="0.8" filter="url(#glow-pn)"/>
+            <text x={p.x} y={p.y-12} textAnchor="middle" fill="#0ff" fontSize="8" fontFamily="monospace" fontWeight="bold">{p.label}</text>
+            <text x={p.x} y={p.y+4} textAnchor="middle" fill="#0ff" fontSize="5.5" fontFamily="monospace" opacity="0.7">{p.sub.split(' ').slice(0,4).join(' ')}</text>
+            <text x={p.x} y={p.y+14} textAnchor="middle" fill="#0ff" fontSize="5.5" fontFamily="monospace" opacity="0.7">{p.sub.split(' ').slice(4).join(' ')}</text>
+          </g>
+        ))}
+        <rect x="110" y="85" width="100" height="30" rx="3" fill="rgba(0,255,255,0.1)" stroke="#0ff" strokeWidth="1" filter="url(#glow-pn)"/>
+        <text x="160" y="98" textAnchor="middle" fill="#0ff" fontSize="7" fontFamily="monospace" fontWeight="bold">BATNA</text>
+        <text x="160" y="110" textAnchor="middle" fill="#0ff" fontSize="5.5" fontFamily="monospace" opacity="0.7">Best Alternative</text>
+      </svg>
+    </DiagramWrapper>
+  );
+}
+
+export function SuccessionPlanningDiagram() {
+  return (
+    <DiagramWrapper label="SUCCESSION PLANNING MATRIX">
+      <svg viewBox="0 0 320 200" className="w-full h-full">
+        <defs><filter id="glow-succ"><feGaussianBlur stdDeviation="1.5" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs>
+        {[{role:"PMO Director",incumbent:"A. Shah",ready1:"B. Chen (1yr)",ready2:"C. Patel (3yr)"},{role:"Programme Mgr",incumbent:"D. Kim",ready1:"E. Obi (6mo)",ready2:"F. Liu (2yr)"},{role:"Project Lead",incumbent:"G. Nair",ready1:"H. Tan (Now)",ready2:"I. Rao (1yr)"}].map((row,i)=>(
+          <g key={i}>
+            <rect x="10" y={20+i*52} width="300" height="46" rx="3" fill={`rgba(0,255,255,${0.04+i*0.02})`} stroke="#0ff" strokeWidth="0.6" filter="url(#glow-succ)"/>
+            <text x="20" y={38+i*52} fill="#0ff" fontSize="7" fontFamily="monospace" fontWeight="bold">{row.role}</text>
+            <text x="20" y={52+i*52} fill="#0ff" fontSize="6" fontFamily="monospace" opacity="0.7">Current: {row.incumbent}</text>
+            <rect x="160" y={24+i*52} width="70" height="16" rx="2" fill="rgba(0,255,0,0.08)" stroke="#0f0" strokeWidth="0.5"/>
+            <text x="195" y={35+i*52} textAnchor="middle" fill="#0f0" fontSize="5.5" fontFamily="monospace">{row.ready1}</text>
+            <rect x="240" y={24+i*52} width="65" height="16" rx="2" fill="rgba(255,128,0,0.08)" stroke="#f80" strokeWidth="0.5"/>
+            <text x="272" y={35+i*52} textAnchor="middle" fill="#f80" fontSize="5.5" fontFamily="monospace">{row.ready2}</text>
+          </g>
+        ))}
+        <text x="195" y="185" textAnchor="middle" fill="#0f0" fontSize="6" fontFamily="monospace">■ Ready soon</text>
+        <text x="272" y="185" textAnchor="middle" fill="#f80" fontSize="6" fontFamily="monospace">■ Ready later</text>
+      </svg>
+    </DiagramWrapper>
+  );
+}
+
+export function CapacityPlanningDiagram() {
+  return (
+    <DiagramWrapper label="RESOURCE CAPACITY PLANNING">
+      <svg viewBox="0 0 320 200" className="w-full h-full">
+        <defs><filter id="glow-cap"><feGaussianBlur stdDeviation="1.5" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs>
+        {["RESOURCE","Q1","Q2","Q3","Q4"].map((h,i)=>(
+          <text key={i} x={[15,95,155,215,275][i]} y="18" fill="#0ff" fontSize="6.5" fontFamily="monospace" opacity="0.8">{h}</text>
+        ))}
+        <line x1="10" y1="22" x2="310" y2="22" stroke="#0ff" strokeWidth="0.5" opacity="0.4"/>
+        {[{name:"PM",caps:[80,100,90,70]},{name:"Dev Team",caps:[60,110,120,80]},{name:"QA",caps:[40,70,100,90]},{name:"Regulatory",caps:[90,80,60,100]},{name:"Design",caps:[100,60,50,40]}].map((res,i)=>(
+          <g key={i}>
+            {res.caps.map((cap,qi)=>(
+              <g key={qi}>
+                <rect x={85+qi*60} y={30+i*30} width="50" height="18" rx="2" fill={cap>100?"rgba(255,0,0,0.12)":cap>85?"rgba(255,128,0,0.10)":"rgba(0,255,0,0.08)"} stroke={cap>100?"#f00":cap>85?"#f80":"#0f0"} strokeWidth="0.6" filter="url(#glow-cap)"/>
+                <text x={110+qi*60} y={42+i*30} textAnchor="middle" fill={cap>100?"#f00":cap>85?"#f80":"#0f0"} fontSize="6.5" fontFamily="monospace">{cap}%</text>
+              </g>
+            ))}
+            <text x="15" y={42+i*30} fill="#0ff" fontSize="6.5" fontFamily="monospace">{res.name}</text>
+          </g>
+        ))}
+        <text x="160" y="190" textAnchor="middle" fill="#f00" fontSize="6" fontFamily="monospace" opacity="0.7">Red = over-allocated (&gt;100%)</text>
+      </svg>
+    </DiagramWrapper>
+  );
+}
+
+export function IntegratedChangeControlDiagram() {
+  return (
+    <DiagramWrapper label="INTEGRATED CHANGE CONTROL">
+      <svg viewBox="0 0 320 200" className="w-full h-full">
+        <defs><filter id="glow-icc"><feGaussianBlur stdDeviation="1.5" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs>
+        {[{x:55,y:40,label:"CHANGE\nREQUEST",sub:"Formal submission"},{x:160,y:40,label:"IMPACT\nASSESSMENT",sub:"Scope/cost/schedule"},{x:265,y:40,label:"CCB\nREVIEW",sub:"Change Control Board"},{x:265,y:130,label:"APPROVED?",sub:"Yes / No / Defer"},{x:160,y:130,label:"IMPLEMENT\n& UPDATE",sub:"Update baselines"},{x:55,y:130,label:"CLOSE\nCHANGE",sub:"Verify & archive"}].map((s,i)=>(
+          <g key={i}>
+            {i<3&&i>0&&<line x1={[55,160][i-1]+40} y1="40" x2={s.x-40} y2="40" stroke="#0ff" strokeWidth="0.7" opacity="0.5"/>}
+            {i===3&&<line x1="265" y1="58" x2="265" y2="112" stroke="#0ff" strokeWidth="0.7" opacity="0.5"/>}
+            {i>3&&<line x1={[265,160][i-4]-40} y1="130" x2={[160,55][i-4]+40} y2="130" stroke="#0ff" strokeWidth="0.7" opacity="0.5"/>}
+            <rect x={s.x-42} y={s.y-22} width="84" height="44" rx="3" fill={`rgba(0,255,255,${0.05+i*0.03})`} stroke="#0ff" strokeWidth="0.8" filter="url(#glow-icc)"/>
+            {s.label.split('\n').map((line,li)=>(
+              <text key={li} x={s.x} y={s.y-6+li*14} textAnchor="middle" fill="#0ff" fontSize="6.5" fontFamily="monospace" fontWeight="bold">{line}</text>
+            ))}
+            <text x={s.x} y={s.y+18} textAnchor="middle" fill="#0ff" fontSize="5.5" fontFamily="monospace" opacity="0.7">{s.sub}</text>
+          </g>
+        ))}
+        <line x1="55" y1="108" x2="55" y2="58" stroke="#f80" strokeWidth="0.5" strokeDasharray="2,2" opacity="0.4"/>
+        <text x="30" y="85" fill="#f80" fontSize="5.5" fontFamily="monospace" opacity="0.6">Rejected</text>
+      </svg>
+    </DiagramWrapper>
+  );
+}
+
+export function ScopeCreepControlDiagram() {
+  return (
+    <DiagramWrapper label="SCOPE CREEP CONTROL">
+      <svg viewBox="0 0 320 200" className="w-full h-full">
+        <defs><filter id="glow-scc"><feGaussianBlur stdDeviation="1.5" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs>
+        <circle cx="160" cy="90" r="50" fill="rgba(0,255,255,0.08)" stroke="#0ff" strokeWidth="1.2" filter="url(#glow-scc)"/>
+        <text x="160" y="85" textAnchor="middle" fill="#0ff" fontSize="7.5" fontFamily="monospace" fontWeight="bold">APPROVED</text>
+        <text x="160" y="97" textAnchor="middle" fill="#0ff" fontSize="7.5" fontFamily="monospace" fontWeight="bold">SCOPE</text>
+        <text x="160" y="109" textAnchor="middle" fill="#0ff" fontSize="6" fontFamily="monospace" opacity="0.7">Baseline</text>
+        {[{x:60,y:30,label:"NEW\nFEATURE",color:"#f80"},{x:270,y:50,label:"EXTRA\nREPORT",color:"#f80"},{x:290,y:140,label:"SCOPE\nCREEP",color:"#f00"},{x:40,y:155,label:"NICE\nTO HAVE",color:"#f80"}].map((req,i)=>(
+          <g key={i}>
+            <rect x={req.x-28} y={req.y-18} width="56" height="36" rx="2" fill={`rgba(255,128,0,0.08)`} stroke={req.color} strokeWidth="0.8"/>
+            {req.label.split('\n').map((line,li)=>(
+              <text key={li} x={req.x} y={req.y-4+li*12} textAnchor="middle" fill={req.color} fontSize="6.5" fontFamily="monospace">{line}</text>
+            ))}
+            <line x1={req.x} y1={req.y+18} x2={160+40*Math.sign(req.x-160)} y2={90+40*Math.sign(req.y-90)} stroke={req.color} strokeWidth="0.5" strokeDasharray="2,2" opacity="0.5"/>
+          </g>
+        ))}
+        <text x="160" y="175" textAnchor="middle" fill="#0ff" fontSize="6.5" fontFamily="monospace" opacity="0.5">All changes → formal change request</text>
+      </svg>
+    </DiagramWrapper>
+  );
+}
+
+export function EscalationFrameworkDiagram() {
+  return (
+    <DiagramWrapper label="ESCALATION FRAMEWORK">
+      <svg viewBox="0 0 320 200" className="w-full h-full">
+        <defs><filter id="glow-esc"><feGaussianBlur stdDeviation="1.5" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs>
+        {[{y:160,label:"LEVEL 1: PM",sub:"Resolve within team",w:280,color:"0.04"},{y:128,label:"LEVEL 2: PROGRAMME MGR",sub:"Cross-project impact",w:230,color:"0.06"},{y:96,label:"LEVEL 3: SPONSOR",sub:"Budget / scope decisions",w:180,color:"0.08"},{y:64,label:"LEVEL 4: STEERING",sub:"Strategic / political",w:130,color:"0.10"},{y:32,label:"LEVEL 5: BOARD",sub:"Existential risk",w:80,color:"0.14"}].map((tier,i)=>(
+          <g key={i}>
+            <rect x={(320-tier.w)/2} y={tier.y} width={tier.w} height="24" rx="2" fill={`rgba(0,255,255,${tier.color})`} stroke="#0ff" strokeWidth="0.7" filter="url(#glow-esc)"/>
+            <text x="160" y={tier.y+11} textAnchor="middle" fill="#0ff" fontSize="6.5" fontFamily="monospace" fontWeight="bold">{tier.label}</text>
+            <text x="160" y={tier.y+21} textAnchor="middle" fill="#0ff" fontSize="5.5" fontFamily="monospace" opacity="0.7">{tier.sub}</text>
+          </g>
+        ))}
+        <text x="160" y="195" textAnchor="middle" fill="#0ff" fontSize="6.5" fontFamily="monospace" opacity="0.5">Escalate within 24hrs if unresolved</text>
+      </svg>
+    </DiagramWrapper>
+  );
+}
+
+export function MeetingEffectivenessDiagram() {
+  return (
+    <DiagramWrapper label="MEETING EFFECTIVENESS MODEL">
+      <svg viewBox="0 0 320 200" className="w-full h-full">
+        <defs><filter id="glow-meet"><feGaussianBlur stdDeviation="1.5" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs>
+        {[{phase:"BEFORE",items:["Clear agenda sent 24hr prior","Right attendees only","Pre-reads distributed","Objectives defined"],x:55},{phase:"DURING",items:["Start & end on time","Parking lot for off-topics","Action items captured","Decisions documented"],x:160},{phase:"AFTER",items:["Minutes within 24hrs","Actions tracked in log","Follow-up scheduled","Outcomes communicated"],x:265}].map((ph,i)=>(
+          <g key={i}>
+            <rect x={ph.x-48} y="10" width="96" height="22" rx="2" fill={`rgba(0,255,255,${0.08+i*0.02})`} stroke="#0ff" strokeWidth="0.8" filter="url(#glow-meet)"/>
+            <text x={ph.x} y="25" textAnchor="middle" fill="#0ff" fontSize="7.5" fontFamily="monospace" fontWeight="bold">{ph.phase}</text>
+            {ph.items.map((item,j)=>(
+              <g key={j}>
+                <rect x={ph.x-46} y={38+j*36} width="92" height="28" rx="2" fill="rgba(0,255,255,0.03)" stroke="#0ff" strokeWidth="0.4"/>
+                <text x={ph.x} y={52+j*36} textAnchor="middle" fill="#0ff" fontSize="5.5" fontFamily="monospace" opacity="0.8">{item}</text>
+              </g>
+            ))}
+          </g>
+        ))}
+      </svg>
+    </DiagramWrapper>
+  );
+}
+
+export function ProcessMappingDiagram() {
+  return (
+    <DiagramWrapper label="PROCESS MAPPING (SWIMLANE)">
+      <svg viewBox="0 0 320 200" className="w-full h-full">
+        <defs><filter id="glow-pm2"><feGaussianBlur stdDeviation="1.5" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs>
+        {["PM","SPONSOR","VENDOR","QA"].map((lane,i)=>(
+          <g key={i}>
+            <rect x="5" y={20+i*44} width="55" height="40" rx="2" fill={`rgba(0,255,255,${0.04+i*0.02})`} stroke="#0ff" strokeWidth="0.5"/>
+            <text x="32" y={44+i*44} textAnchor="middle" fill="#0ff" fontSize="6.5" fontFamily="monospace">{lane}</text>
+            <line x1="60" y1={20+i*44} x2="310" y2={20+i*44} stroke="#0ff" strokeWidth="0.3" opacity="0.3"/>
+          </g>
+        ))}
+        {[{x:90,y:40,label:"Initiate"},{x:150,y:40,label:"Approve"},{x:210,y:84,label:"Procure"},{x:270,y:128,label:"Test"},{x:270,y:40,label:"Sign-off"}].map((step,i)=>(
+          <g key={i}>
+            <rect x={step.x-24} y={step.y-14} width="48" height="28" rx="2" fill={`rgba(0,255,255,${0.06+i*0.02})`} stroke="#0ff" strokeWidth="0.7" filter="url(#glow-pm2)"/>
+            <text x={step.x} y={step.y+4} textAnchor="middle" fill="#0ff" fontSize="6.5" fontFamily="monospace">{step.label}</text>
+          </g>
+        ))}
+        <line x1="114" y1="40" x2="126" y2="40" stroke="#0ff" strokeWidth="0.6" opacity="0.5"/>
+        <line x1="174" y1="40" x2="186" y2="40" stroke="#0ff" strokeWidth="0.6" opacity="0.5"/>
+        <line x1="210" y1="70" x2="210" y2="55" stroke="#0ff" strokeWidth="0.6" opacity="0.5"/>
+        <line x1="270" y1="114" x2="270" y2="54" stroke="#0ff" strokeWidth="0.6" opacity="0.5"/>
+      </svg>
+    </DiagramWrapper>
+  );
+}
+
+export function BusinessCaseDiagram() {
+  return (
+    <DiagramWrapper label="BUSINESS CASE STRUCTURE">
+      <svg viewBox="0 0 320 200" className="w-full h-full">
+        <defs><filter id="glow-bc2"><feGaussianBlur stdDeviation="1.5" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs>
+        {[{label:"EXECUTIVE SUMMARY",sub:"Problem, recommendation, ask",y:20},{label:"STRATEGIC ALIGNMENT",sub:"Links to corporate goals",y:55},{label:"OPTIONS APPRAISAL",sub:"Do nothing vs alternatives",y:90},{label:"FINANCIAL CASE",sub:"NPV, IRR, payback period",y:125},{label:"RISK ASSESSMENT",sub:"Key risks & mitigations",y:160}].map((section,i)=>(
+          <g key={i}>
+            <rect x="15" y={section.y} width="290" height="28" rx="2" fill={`rgba(0,255,255,${0.05+i*0.03})`} stroke="#0ff" strokeWidth="0.7" filter="url(#glow-bc2)"/>
+            <text x="25" y={section.y+12} fill="#0ff" fontSize="7.5" fontFamily="monospace" fontWeight="bold">{section.label}</text>
+            <text x="25" y={section.y+23} fill="#0ff" fontSize="5.5" fontFamily="monospace" opacity="0.7">{section.sub}</text>
+          </g>
+        ))}
+        <text x="160" y="198" textAnchor="middle" fill="#0ff" fontSize="6.5" fontFamily="monospace" opacity="0.5">OGC 5-case model: strategic, economic, commercial, financial, management</text>
+      </svg>
+    </DiagramWrapper>
+  );
+}
+
+export function CompetitiveIntelligenceDiagram() {
+  return (
+    <DiagramWrapper label="COMPETITIVE INTELLIGENCE RADAR">
+      <svg viewBox="0 0 320 200" className="w-full h-full">
+        <defs><filter id="glow-ci"><feGaussianBlur stdDeviation="1.5" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs>
+        {[1,2,3,4].map(r=>(
+          <polygon key={r} points={[0,60,120,180].map(a=>{const rad=a*Math.PI/180;return `${160+r*30*Math.cos(rad)},${100+r*30*Math.sin(rad)}`;}).join(' ')} fill="none" stroke="#0ff" strokeWidth="0.4" opacity="0.3"/>
+        ))}
+        {[{a:0,label:"PRICE",us:3,comp:4},{a:60,label:"QUALITY",us:4,comp:3},{a:120,label:"SPEED",us:2,comp:4},{a:180,label:"INNOVATION",us:5,comp:2}].map((dim,i)=>{
+          const rad=dim.a*Math.PI/180;
+          return (
+            <g key={i}>
+              <line x1="160" y1="100" x2={160+120*Math.cos(rad)} y2={100+120*Math.sin(rad)} stroke="#0ff" strokeWidth="0.4" opacity="0.3"/>
+              <text x={160+135*Math.cos(rad)} y={100+135*Math.sin(rad)} textAnchor="middle" fill="#0ff" fontSize="6.5" fontFamily="monospace">{dim.label}</text>
+            </g>
+          );
+        })}
+        <polygon points={[{a:0,v:3},{a:60,v:4},{a:120,v:2},{a:180,v:5}].map(({a,v})=>{const r=a*Math.PI/180;return `${160+v*30*Math.cos(r)},${100+v*30*Math.sin(r)}`;}).join(' ')} fill="rgba(0,255,255,0.1)" stroke="#0ff" strokeWidth="1.2" filter="url(#glow-ci)"/>
+        <polygon points={[{a:0,v:4},{a:60,v:3},{a:120,v:4},{a:180,v:2}].map(({a,v})=>{const r=a*Math.PI/180;return `${160+v*30*Math.cos(r)},${100+v*30*Math.sin(r)}`;}).join(' ')} fill="rgba(255,128,0,0.08)" stroke="#f80" strokeWidth="0.8" strokeDasharray="3,2"/>
+        <text x="160" y="185" textAnchor="middle" fill="#0ff" fontSize="6" fontFamily="monospace" opacity="0.6">■ Us  </text>
+        <text x="185" y="185" fill="#f80" fontSize="6" fontFamily="monospace" opacity="0.6">■ Competitor</text>
+      </svg>
+    </DiagramWrapper>
+  );
+}
+
+export function RegulatoryPathwayDiagram() {
+  return (
+    <DiagramWrapper label="REGULATORY PATHWAY">
+      <svg viewBox="0 0 320 200" className="w-full h-full">
+        <defs><filter id="glow-reg"><feGaussianBlur stdDeviation="1.5" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs>
+        {[{x:40,label:"PRE-SUB\nMEETING",sub:"Align with agency"},{x:105,label:"DESIGN\nFREEZE",sub:"Lock specifications"},{x:170,label:"CLINICAL\nTRIALS",sub:"Safety & efficacy"},{x:235,label:"DOSSIER\nSUBMISSION",sub:"Full technical file"},{x:295,label:"APPROVAL\n& LAUNCH",sub:"Market authorisation"}].map((s,i)=>(
+          <g key={i}>
+            {i>0&&<line x1={[40,105,170,235][i-1]+28} y1="80" x2={s.x-28} y2="80" stroke="#0ff" strokeWidth="0.7" opacity="0.5"/>}
+            <rect x={s.x-30} y="58" width="60" height="44" rx="3" fill={`rgba(0,255,255,${0.05+i*0.03})`} stroke="#0ff" strokeWidth="0.8" filter="url(#glow-reg)"/>
+            {s.label.split('\n').map((line,li)=>(
+              <text key={li} x={s.x} y={74+li*14} textAnchor="middle" fill="#0ff" fontSize="6.5" fontFamily="monospace" fontWeight="bold">{line}</text>
+            ))}
+            <text x={s.x} y="115" textAnchor="middle" fill="#0ff" fontSize="5" fontFamily="monospace" opacity="0.7">{s.sub}</text>
+          </g>
+        ))}
+        {[{x:40,label:"FDA 510(k)"},{x:105,label:"ISO 13485"},{x:170,label:"GCP/GMP"},{x:235,label:"CE Mark"},{x:295,label:"Post-market"}].map((tag,i)=>(
+          <rect key={i} x={tag.x-28} y="130" width="56" height="16" rx="2" fill="rgba(0,255,255,0.04)" stroke="#0ff" strokeWidth="0.4">
+            <title>{tag.label}</title>
+          </rect>
+        ))}
+        {[{x:40,label:"FDA 510(k)"},{x:105,label:"ISO 13485"},{x:170,label:"GCP/GMP"},{x:235,label:"CE Mark"},{x:295,label:"Post-market"}].map((tag,i)=>(
+          <text key={i} x={tag.x} y="142" textAnchor="middle" fill="#0ff" fontSize="5" fontFamily="monospace" opacity="0.7">{tag.label}</text>
+        ))}
+        <text x="160" y="165" textAnchor="middle" fill="#0ff" fontSize="6.5" fontFamily="monospace" opacity="0.5">Medical device / pharma regulatory pathway</text>
+      </svg>
+    </DiagramWrapper>
+  );
+}
+
+export function ESGFrameworkDiagram() {
+  return (
+    <DiagramWrapper label="ESG PROJECT FRAMEWORK">
+      <svg viewBox="0 0 320 200" className="w-full h-full">
+        <defs><filter id="glow-esg"><feGaussianBlur stdDeviation="1.5" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs>
+        {[{x:80,y:80,label:"ENVIRONMENTAL",sub:["Carbon footprint","Waste reduction","Energy efficiency"],color:"#0f0"},{x:240,y:80,label:"SOCIAL",sub:["Diversity & inclusion","Community impact","Labour standards"],color:"#0ff"},{x:160,y:155,label:"GOVERNANCE",sub:["Board oversight","Ethics & compliance","Transparency"],color:"#f80"}].map((pillar,i)=>(
+          <g key={i}>
+            <circle cx={pillar.x} cy={pillar.y} r="50" fill={`rgba(0,255,255,0.04)`} stroke={pillar.color} strokeWidth="0.8" filter="url(#glow-esg)"/>
+            <text x={pillar.x} y={pillar.y-20} textAnchor="middle" fill={pillar.color} fontSize="6.5" fontFamily="monospace" fontWeight="bold">{pillar.label}</text>
+            {pillar.sub.map((item,j)=>(
+              <text key={j} x={pillar.x} y={pillar.y-6+j*12} textAnchor="middle" fill={pillar.color} fontSize="5.5" fontFamily="monospace" opacity="0.7">{item}</text>
+            ))}
+          </g>
+        ))}
+        <circle cx="160" cy="105" r="20" fill="rgba(0,255,255,0.1)" stroke="#0ff" strokeWidth="1" filter="url(#glow-esg)"/>
+        <text x="160" y="101" textAnchor="middle" fill="#0ff" fontSize="6" fontFamily="monospace">SUSTAIN-</text>
+        <text x="160" y="113" textAnchor="middle" fill="#0ff" fontSize="6" fontFamily="monospace">ABILITY</text>
+      </svg>
+    </DiagramWrapper>
+  );
+}
+
+export function TAMSAMSOMDiagram() {
+  return (
+    <DiagramWrapper label="TAM / SAM / SOM MARKET SIZING">
+      <svg viewBox="0 0 320 200" className="w-full h-full">
+        <defs><filter id="glow-tsm"><feGaussianBlur stdDeviation="1.5" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs>
+        <circle cx="160" cy="100" r="80" fill="rgba(0,255,255,0.04)" stroke="#0ff" strokeWidth="0.8" filter="url(#glow-tsm)"/>
+        <circle cx="160" cy="100" r="55" fill="rgba(0,255,255,0.06)" stroke="#0ff" strokeWidth="0.8" filter="url(#glow-tsm)"/>
+        <circle cx="160" cy="100" r="30" fill="rgba(0,255,255,0.10)" stroke="#0ff" strokeWidth="1.2" filter="url(#glow-tsm)"/>
+        <text x="160" y="96" textAnchor="middle" fill="#0ff" fontSize="7.5" fontFamily="monospace" fontWeight="bold">SOM</text>
+        <text x="160" y="108" textAnchor="middle" fill="#0ff" fontSize="6" fontFamily="monospace" opacity="0.7">$50M</text>
+        <text x="230" y="70" fill="#0ff" fontSize="7" fontFamily="monospace">SAM</text>
+        <text x="230" y="82" fill="#0ff" fontSize="6" fontFamily="monospace" opacity="0.7">$200M</text>
+        <text x="255" y="120" fill="#0ff" fontSize="7" fontFamily="monospace">TAM</text>
+        <text x="255" y="132" fill="#0ff" fontSize="6" fontFamily="monospace" opacity="0.7">$2B</text>
+        <text x="160" y="190" textAnchor="middle" fill="#0ff" fontSize="6.5" fontFamily="monospace" opacity="0.5">Serviceable Obtainable Market = realistic target</text>
+      </svg>
+    </DiagramWrapper>
+  );
+}
+
+export function ArchetypeInnovatorDiagram() {
+  return (
+    <DiagramWrapper label="THE INNOVATOR ARCHETYPE">
+      <svg viewBox="0 0 320 200" className="w-full h-full">
+        <defs><filter id="glow-ai"><feGaussianBlur stdDeviation="1.5" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs>
+        <circle cx="160" cy="80" r="40" fill="rgba(0,255,255,0.08)" stroke="#0ff" strokeWidth="1.2" filter="url(#glow-ai)"/>
+        <text x="160" y="75" textAnchor="middle" fill="#0ff" fontSize="9" fontFamily="monospace" fontWeight="bold">INNOVATOR</text>
+        <text x="160" y="89" textAnchor="middle" fill="#0ff" fontSize="6.5" fontFamily="monospace" opacity="0.7">Disruptive thinker</text>
+        {[{label:"STRENGTHS",items:["Creative problem-solving","Challenges assumptions","Drives breakthrough ideas"],y:135,color:"#0f0"},{label:"WATCH-OUTS",items:["May ignore constraints","Can lose focus on delivery","Needs grounding in reality"],y:135,color:"#f80",x:200}].map((q,i)=>(
+          <g key={i}>
+            <text x={i===0?80:240} y="128" textAnchor="middle" fill={q.color} fontSize="6.5" fontFamily="monospace" fontWeight="bold">{q.label}</text>
+            {q.items.map((item,j)=>(
+              <text key={j} x={i===0?80:240} y={140+j*12} textAnchor="middle" fill={q.color} fontSize="5.5" fontFamily="monospace" opacity="0.8">{item}</text>
+            ))}
+          </g>
+        ))}
+        <line x1="160" y1="120" x2="80" y2="128" stroke="#0ff" strokeWidth="0.4" opacity="0.3"/>
+        <line x1="160" y1="120" x2="240" y2="128" stroke="#0ff" strokeWidth="0.4" opacity="0.3"/>
+      </svg>
+    </DiagramWrapper>
+  );
+}
+
+export function ArchetypeDelivererDiagram() {
+  return (
+    <DiagramWrapper label="THE DELIVERER ARCHETYPE">
+      <svg viewBox="0 0 320 200" className="w-full h-full">
+        <defs><filter id="glow-ad"><feGaussianBlur stdDeviation="1.5" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs>
+        <circle cx="160" cy="80" r="40" fill="rgba(0,255,255,0.08)" stroke="#0ff" strokeWidth="1.2" filter="url(#glow-ad)"/>
+        <text x="160" y="75" textAnchor="middle" fill="#0ff" fontSize="9" fontFamily="monospace" fontWeight="bold">DELIVERER</text>
+        <text x="160" y="89" textAnchor="middle" fill="#0ff" fontSize="6.5" fontFamily="monospace" opacity="0.7">Execution-focused</text>
+        {[["STRENGTHS",["Reliable & consistent","Strong on planning","Hits deadlines","#0f0"]],["WATCH-OUTS",["May resist change","Can be inflexible","Needs clear scope","#f80"]]].map(([title,items],i)=>(
+          <g key={i}>
+            <text x={i===0?80:240} y="128" textAnchor="middle" fill={items[3] as string} fontSize="6.5" fontFamily="monospace" fontWeight="bold">{title as string}</text>
+            {(items.slice(0,3) as string[]).map((item,j)=>(
+              <text key={j} x={i===0?80:240} y={140+j*12} textAnchor="middle" fill={items[3] as string} fontSize="5.5" fontFamily="monospace" opacity="0.8">{item}</text>
+            ))}
+          </g>
+        ))}
+        <line x1="160" y1="120" x2="80" y2="128" stroke="#0ff" strokeWidth="0.4" opacity="0.3"/>
+        <line x1="160" y1="120" x2="240" y2="128" stroke="#0ff" strokeWidth="0.4" opacity="0.3"/>
+      </svg>
+    </DiagramWrapper>
+  );
+}
+
+export function ArchetypeStrategistDiagram() {
+  return (
+    <DiagramWrapper label="THE STRATEGIST ARCHETYPE">
+      <svg viewBox="0 0 320 200" className="w-full h-full">
+        <defs><filter id="glow-as"><feGaussianBlur stdDeviation="1.5" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs>
+        <circle cx="160" cy="80" r="40" fill="rgba(0,255,255,0.08)" stroke="#0ff" strokeWidth="1.2" filter="url(#glow-as)"/>
+        <text x="160" y="75" textAnchor="middle" fill="#0ff" fontSize="9" fontFamily="monospace" fontWeight="bold">STRATEGIST</text>
+        <text x="160" y="89" textAnchor="middle" fill="#0ff" fontSize="6.5" fontFamily="monospace" opacity="0.7">Big-picture thinker</text>
+        {[["STRENGTHS",["Connects dots","Sees long-term","Aligns stakeholders","#0f0"]],["WATCH-OUTS",["May over-complicate","Slow to decide","Needs tactical support","#f80"]]].map(([title,items],i)=>(
+          <g key={i}>
+            <text x={i===0?80:240} y="128" textAnchor="middle" fill={items[3] as string} fontSize="6.5" fontFamily="monospace" fontWeight="bold">{title as string}</text>
+            {(items.slice(0,3) as string[]).map((item,j)=>(
+              <text key={j} x={i===0?80:240} y={140+j*12} textAnchor="middle" fill={items[3] as string} fontSize="5.5" fontFamily="monospace" opacity="0.8">{item}</text>
+            ))}
+          </g>
+        ))}
+        <line x1="160" y1="120" x2="80" y2="128" stroke="#0ff" strokeWidth="0.4" opacity="0.3"/>
+        <line x1="160" y1="120" x2="240" y2="128" stroke="#0ff" strokeWidth="0.4" opacity="0.3"/>
+      </svg>
+    </DiagramWrapper>
+  );
+}
+
+export function PRINCE2MethodologyDiagram() {
+  return (
+    <DiagramWrapper label="PRINCE2 METHODOLOGY">
+      <svg viewBox="0 0 320 200" className="w-full h-full">
+        <defs><filter id="glow-p2m"><feGaussianBlur stdDeviation="1.5" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs>
+        {[{x:55,y:40,label:"PRINCIPLES",items:["Continued business justification","Learn from experience","Defined roles"]},{x:160,y:40,label:"THEMES",items:["Business Case","Organisation","Quality","Plans","Risk","Change","Progress"]},{x:265,y:40,label:"PROCESSES",items:["SU","IP","DP","CS","MP","SB","CP"]}].map((col,i)=>(
+          <g key={i}>
+            <rect x={col.x-48} y={col.y-18} width="96" height="22" rx="2" fill={`rgba(0,255,255,${0.08+i*0.02})`} stroke="#0ff" strokeWidth="0.8" filter="url(#glow-p2m)"/>
+            <text x={col.x} y={col.y-3} textAnchor="middle" fill="#0ff" fontSize="7" fontFamily="monospace" fontWeight="bold">{col.label}</text>
+            {col.items.map((item,j)=>(
+              <g key={j}>
+                <rect x={col.x-44} y={28+j*22} width="88" height="18" rx="2" fill="rgba(0,255,255,0.03)" stroke="#0ff" strokeWidth="0.4"/>
+                <text x={col.x} y={40+j*22} textAnchor="middle" fill="#0ff" fontSize="6" fontFamily="monospace">{item}</text>
+              </g>
+            ))}
+          </g>
+        ))}
+        <text x="160" y="190" textAnchor="middle" fill="#0ff" fontSize="6.5" fontFamily="monospace" opacity="0.5">7 Principles · 7 Themes · 7 Processes</text>
+      </svg>
+    </DiagramWrapper>
+  );
+}
+
+export function ClosingPhaseDiagram() {
+  return (
+    <DiagramWrapper label="CLOSING PHASE">
+      <svg viewBox="0 0 320 200" className="w-full h-full">
+        <defs><filter id="glow-cp2"><feGaussianBlur stdDeviation="1.5" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs>
+        {[{x:55,y:55,label:"FINAL\nACCEPTANCE",sub:"Sponsor sign-off"},{x:160,y:55,label:"LESSONS\nLEARNED",sub:"Capture & share"},{x:265,y:55,label:"CLOSE\nCONTRACTS",sub:"Vendor settlement"},{x:55,y:150,label:"ARCHIVE\nDOCS",sub:"Repository"},{x:160,y:150,label:"RELEASE\nTEAM",sub:"Reassign resources"},{x:265,y:150,label:"CELEBRATE\n& CLOSE",sub:"Recognise success"}].map((s,i)=>(
+          <g key={i}>
+            <rect x={s.x-42} y={s.y-22} width="84" height="44" rx="3" fill={`rgba(0,255,255,${0.05+i*0.02})`} stroke={i===5?"#0f0":"#0ff"} strokeWidth={i===5?1.2:0.7} filter="url(#glow-cp2)"/>
+            {s.label.split('\n').map((line,li)=>(
+              <text key={li} x={s.x} y={s.y-6+li*14} textAnchor="middle" fill={i===5?"#0f0":"#0ff"} fontSize="6.5" fontFamily="monospace" fontWeight="bold">{line}</text>
+            ))}
+            <text x={s.x} y={s.y+18} textAnchor="middle" fill="#0ff" fontSize="5.5" fontFamily="monospace" opacity="0.7">{s.sub}</text>
+          </g>
+        ))}
+        <text x="160" y="190" textAnchor="middle" fill="#0f0" fontSize="6.5" fontFamily="monospace" opacity="0.7">Output: Final project report + archived docs</text>
+      </svg>
+    </DiagramWrapper>
+  );
+}
+
 // ============================================================
 // MASTER LOOKUP — every card gets a unique diagram
 // ============================================================
 
 export function getVisualReference(cardId: string): React.ReactElement | null {
-  // ── Tools ──────────────────────────────────────────────────
-  if (cardId === 'T1') return <GanttDiagram />;
-  if (cardId === 'T2') return <KanbanDiagram />;
-  if (cardId === 'T3') return <WBSDiagram />;
-  if (cardId === 'T4') return <EVMDiagram />;
-  if (cardId === 'T5') return <RACIDiagram />;
-  if (cardId === 'T6') return <RiskRegisterDiagram />;
-  if (cardId === 'T7') return <MoSCoWDiagram />;
-  if (cardId === 'T8') return <FishboneDiagram />;
-  if (cardId === 'T9') return <MonteCarloSimulationDiagram />;
-  if (cardId === 'T10') return <DecisionTreeDiagram />;
-  if (cardId === 'T11') return <BalancedScorecardDiagram />;
-  if (cardId === 'T12') return <DelphiDiagram />;
-  if (cardId === 'T13') return <CostBenefitDiagram />;
-  if (cardId === 'T14') return <BurndownDiagram />;
-  if (cardId === 'T15') return <ForceFieldDiagram />;
-  if (cardId === 'T16') return <StakeholderMatrixDiagram />;
-  if (cardId === 'T17') return <ScopeStatementDiagram />;
+  // ── Tools ──────────────────────────────────────────────────────────────────
+  if (cardId === 'T1') return <GanttDiagram />;                    // Gantt Chart
+  if (cardId === 'T2') return <KanbanDiagram />;                   // Kanban Board
+  if (cardId === 'T3') return <WBSDiagram />;                      // Work Breakdown Structure
+  if (cardId === 'T4') return <EVMDiagram />;                      // Earned Value Management
+  if (cardId === 'T5') return <RACIDiagram />;                     // RACI Matrix
+  if (cardId === 'T6') return <RiskRegisterDiagram />;             // Risk Register
+  if (cardId === 'T7') return <MoSCoWDiagram />;                   // MoSCoW Prioritisation
+  if (cardId === 'T8') return <FishboneDiagram />;                 // Fishbone Diagram
+  if (cardId === 'T9') return <MonteCarloDiagram />;               // Monte Carlo Simulation
+  if (cardId === 'T10') return <DecisionTreeDiagram />;            // Decision Tree Analysis
+  if (cardId === 'T11') return <BalancedScorecardDiagram />;       // Balanced Scorecard
+  if (cardId === 'T12') return <DelphiDiagram />;                  // Delphi Technique
+  if (cardId === 'T13') return <CostBenefitDiagram />;             // Cost-Benefit Analysis
+  if (cardId === 'T14') return <ScopeStatementDiagram />;          // Project Scope Statement
+  if (cardId === 'T15') return <ForceFieldDiagram />;              // Force Field Analysis
+  if (cardId === 'T16') return <StakeholderMatrixDiagram />;       // Stakeholder Matrix
+  if (cardId === 'T17') return <BurndownDiagram />;                // Burndown Chart
 
-  // ── Methodologies ──────────────────────────────────────────
-  if (cardId === 'M1') return <WaterfallMethodologyDiagram />;
-  if (cardId === 'M2') return <AgileMethodologyDiagram />;
-  if (cardId === 'M3') return <PRINCEMethodologyDiagram />;
-  if (cardId === 'M4') return <HybridMethodologyDiagram />;
+  // ── Methodologies ──────────────────────────────────────────────────────────
+  if (cardId === 'M1') return <WaterfallMethodologyDiagram />;     // Waterfall Methodology
+  if (cardId === 'M2') return <AgileMethodologyDiagram />;         // Agile Methodology
+  if (cardId === 'M3') return <KanbanMethodDiagram />;             // Kanban Framework
+  if (cardId === 'M4') return <HybridMethodologyDiagram />;        // Hybrid Methodology
 
-  // ── Phases ─────────────────────────────────────────────────
-  if (cardId === 'PH1') return <InitiationPhaseDiagram />;
-  if (cardId === 'PH2') return <PlanningPhaseDiagram />;
-  if (cardId === 'PH3') return <ExecutionPhaseDiagram />;
-  if (cardId === 'PH4') return <MonitoringPhaseDiagram />;
-  if (cardId === 'PH5') return <ClosurePhaseDiagram />;
+  // ── Project Phases ─────────────────────────────────────────────────────────
+  if (cardId === 'phase-setup') return <PhaseSetupDiagram />;
+  if (cardId === 'phase-execution') return <PhaseExecutionDiagram />;
+  if (cardId === 'phase-closure') return <PhaseClosureDiagram />;
 
-  // ── Archetypes ─────────────────────────────────────────────
-  if (cardId === 'AG1') return <StrategistArchetypeDiagram />;
-  if (cardId === 'AG2') return <ExecutorArchetypeDiagram />;
-  if (cardId === 'AG3') return <FacilitatorArchetypeDiagram />;
+  // ── Archetypes ─────────────────────────────────────────────────────────────
+  if (cardId === 'AG1') return <ArchetypeSelfAssessmentDiagram />;
+  if (cardId === 'AG2') return <ArchetypeKeyQuestionsDiagram />;
+  if (cardId === 'AG3') return <ArchetypeChoosingPathDiagram />;
 
-  // ── People domain ──────────────────────────────────────────
-  if (cardId === 'people-1') return <StakeholderMatrixDiagram />;
-  if (cardId === 'people-2') return <StakeholderEngagementDiagram />;
-  if (cardId === 'people-3') return <TeamDynamicsDiagram />;
-  if (cardId === 'people-4') return <LeadershipStylesDiagram />;
-  if (cardId === 'people-5') return <ConflictResolutionDiagram />;
-  if (cardId === 'people-6') return <MotivationDiagram />;
-  if (cardId === 'people-7') return <NegotiationDiagram />;
-  if (cardId === 'people-8') return <EmotionalIntelligenceDiagram />;
-  if (cardId === 'people-9') return <CultureDiagram />;
-  if (cardId === 'people-10') return <DiversityDiagram />;
-  if (cardId === 'people-11') return <WellbeingDiagram />;
-  if (cardId === 'people-12') return <RemoteTeamDiagram />;
-  if (cardId === 'people-13') return <RACIDiagram />;
-  if (cardId === 'people-14') return <StakeholderEngagementDiagram />;
+  // ── People Domain ──────────────────────────────────────────────────────────
+  if (cardId === 'people-1') return <ConflictModeDiagram />;       // Manage Conflict
+  if (cardId === 'people-2') return <LeadershipGridDiagram />;     // Lead a Team
+  if (cardId === 'people-3') return <TeamPerformanceDiagram />;    // Support Team Performance
+  if (cardId === 'people-4') return <EmpowermentDiagram />;        // Empower Team Members
+  if (cardId === 'people-5') return <TrainingNeedsMatrixDiagram />; // Ensure Adequate Training
+  if (cardId === 'people-6') return <TeamFormingDiagram />;        // Build a Team
+  if (cardId === 'people-7') return <ImpedimentLogDiagram />;      // Address & Remove Impediments
+  if (cardId === 'people-8') return <NegotiationZoneDiagram />;    // Negotiate Project Agreements
+  if (cardId === 'people-9') return <StakeholderEngagementDiagram />; // Collaborate with Stakeholders
+  if (cardId === 'people-10') return <SharedUnderstandingDiagram />; // Build Shared Understanding
+  if (cardId === 'people-11') return <VirtualTeamDiagram />;       // Engage Virtual Teams
+  if (cardId === 'people-12') return <GroundRulesDiagram />;       // Define Team Ground Rules
+  if (cardId === 'people-13') return <MentoringDiagram />;         // Mentor Stakeholders
+  if (cardId === 'people-14') return <EmotionalIntelligenceDiagram />; // Promote Team EI
 
-  // ── Process domain ─────────────────────────────────────────
-  if (cardId === 'process-1') return <ProjectCharterDiagram />;
-  if (cardId === 'process-2') return <ScopeManagementDiagram />;
-  if (cardId === 'process-3') return <ScheduleManagementDiagram />;
-  if (cardId === 'process-4') return <BudgetManagementDiagram />;
-  if (cardId === 'process-5') return <QualityManagementDiagram />;
-  if (cardId === 'process-6') return <RiskRegisterDiagram />;
-  if (cardId === 'process-7') return <ProcurementDiagram />;
-  if (cardId === 'process-8') return <CommunicationPlanDiagram />;
-  if (cardId === 'process-9') return <ChangeControlDiagram />;
-  if (cardId === 'process-10') return <GovernanceDiagram />;
-  if (cardId === 'process-11') return <ComplianceDiagram />;
-  if (cardId === 'process-12') return <ResourcePlanningDiagram />;
-  if (cardId === 'process-13') return <PerformanceMgmtDiagram />;
-  if (cardId === 'process-14') return <PortfolioMgmtDiagram />;
-  if (cardId === 'process-15') return <VendorMgmtDiagram />;
-  if (cardId === 'process-16') return <KnowledgeMgmtDiagram />;
-  if (cardId === 'process-17') return <LessonsLearnedProcessDiagram />;
+  // ── Process Domain ─────────────────────────────────────────────────────────
+  if (cardId === 'process-1') return <ExecutionUrgencyDiagram />;  // Execute with Urgency
+  if (cardId === 'process-2') return <CommsPlanDiagram />;         // Manage Communications
+  if (cardId === 'process-3') return <RiskManagementDiagram />;    // Assess & Manage Risks
+  if (cardId === 'process-4') return <StakeholderRegisterDiagram />; // Engage Stakeholders
+  if (cardId === 'process-5') return <BudgetSCurveDiagram />;      // Plan & Manage Budget
+  if (cardId === 'process-6') return <ScheduleBaselineDiagram />;  // Plan & Manage Schedule
+  if (cardId === 'process-7') return <QualityGatesDiagram />;      // Plan & Manage Quality
+  if (cardId === 'process-8') return <ScopeManagementDiagram />;   // Plan & Manage Scope
+  if (cardId === 'process-9') return <IntegratedPlanDiagram />;    // Integrate Project Planning
+  if (cardId === 'process-10') return <ChangeControlDiagram />;    // Manage Project Changes
+  if (cardId === 'process-11') return <ProcurementDiagram />;      // Plan & Manage Procurement
+  if (cardId === 'process-12') return <ArtifactsDiagram />;        // Manage Project Artifacts
+  if (cardId === 'process-13') return <MethodologySelectionDiagram />; // Determine Methodology
+  if (cardId === 'process-14') return <GovernanceFrameworkDiagram />; // Establish Governance
+  if (cardId === 'process-15') return <IssueLogDiagram />;         // Manage Project Issues
+  if (cardId === 'process-16') return <KnowledgeTransferDiagram />; // Ensure Knowledge Transfer
+  if (cardId === 'process-17') return <ProjectClosureDiagram />;   // Plan Project Closure
 
-  // ── Business Environment domain ────────────────────────────
-  if (cardId === 'business-1') return <PESTLEDiagram />;
-  if (cardId === 'business-2') return <MarketAnalysisDiagram />;
-  if (cardId === 'business-3') return <CompetitorAnalysisDiagram />;
-  if (cardId === 'business-4') return <RegulatoryDiagram />;
-  if (cardId === 'business-5') return <SustainabilityDiagram />;
+  // ── Business Environment Domain ────────────────────────────────────────────
+  if (cardId === 'business-1') return <ComplianceFrameworkDiagram />; // Plan & Manage Compliance
+  if (cardId === 'business-2') return <BenefitsMapDiagram />;      // Evaluate & Deliver Benefits
+  if (cardId === 'business-3') return <PESTLEDiagram />;           // Address External Changes
+  if (cardId === 'business-4') return <ChangeReadinessDiagram />;  // Support Organisational Change
 
-  // ── Advanced Techniques ────────────────────────────────────
-  if (cardId === 'A1') return <SWOTDiagram />;
-  if (cardId === 'A2') return <PESTLEDiagram />;
-  if (cardId === 'A3') return <FiveWhysDiagram />;
-  if (cardId === 'A4') return <FishboneDiagram />;
-  if (cardId === 'A5') return <PDCADiagram />;
-  if (cardId === 'A6') return <WJSFDiagram />;
-  if (cardId === 'A7') return <OKRDiagram />;
-  if (cardId === 'A8') return <EVMDiagram />;
-  if (cardId === 'A9') return <MonteCarloSimulationDiagram />;
-  if (cardId === 'A10') return <DecisionTreeDiagram />;
-  if (cardId === 'A11') return <ADKARDiagram />;
-  if (cardId === 'A12') return <KotterDiagram />;
-  if (cardId === 'A13') return <ReverseMentoringDiagram />;
-  if (cardId === 'A14') return <DesignThinkingDiagram />;
-  if (cardId === 'A15') return <LeanStartupDiagram />;
-  if (cardId === 'A16') return <AgileScalingDiagram />;
-  if (cardId === 'A17') return <KanbanDiagram />;
-  if (cardId === 'A18') return <SprintPlanningDiagram />;
-  if (cardId === 'A19') return <RetrospectiveDiagram />;
-  if (cardId === 'A20') return <VelocityDiagram />;
-  if (cardId === 'A21') return <BurndownDiagram />;
-  if (cardId === 'A22') return <ValueStreamDiagram />;
-  if (cardId === 'A23') return <LeanPrinciplesDiagram />;
-  if (cardId === 'A24') return <TOCDiagram />;
-  if (cardId === 'A25') return <CynefinDiagram />;
-  if (cardId === 'A26') return <SystemsThinkingDiagram />;
-  if (cardId === 'A27') return <ComplexityDiagram />;
-  if (cardId === 'A28') return <ScenarioPlanningDiagram />;
-  if (cardId === 'A29') return <FiveWhysDiagram />;
-  if (cardId === 'A30') return <AffinityDiagram />;
-  if (cardId === 'A31') return <NGTDiagram />;
-  if (cardId === 'A32') return <DelphiAdvancedDiagram />;
-  if (cardId === 'A33') return <TRIZDiagram />;
-  if (cardId === 'A34') return <LateralThinkingDiagram />;
-  if (cardId === 'A35') return <SWOTDiagram />;
-  if (cardId === 'A36') return <AppreciativeInquiryDiagram />;
-  if (cardId === 'A37') return <FutureStateDiagram />;
-  if (cardId === 'A38') return <ForceFieldDiagram />;
-  if (cardId === 'A39') return <BalancedScorecardDiagram />;
-  if (cardId === 'A40') return <WJSFDiagram />;
-  if (cardId === 'A41') return <PIPlanningDiagram />;
-  if (cardId === 'A42') return <OKRCascadeDiagram />;
-  if (cardId === 'A43') return <PortfolioDiagram />;
-  if (cardId === 'A44') return <ProgramMgmtDiagram />;
-  if (cardId === 'A45') return <BenefitsRealisationDiagram />;
-  if (cardId === 'A46') return <ChangeImpactDiagram />;
-  if (cardId === 'A47') return <OKRDiagram />;
-  if (cardId === 'A48') return <EarnedScheduleDiagram />;
-  if (cardId === 'A49') return <CPMDiagram />;
-  if (cardId === 'A50') return <ResourceLevellingDiagram />;
-  if (cardId === 'A51') return <AgileEstimationDiagram />;
-  if (cardId === 'A52') return <DependencyMapDiagram />;
-  if (cardId === 'A53') return <AssumptionLogDiagram />;
-  if (cardId === 'A54') return <IssueLogDiagram />;
-  if (cardId === 'A55') return <RiskRegisterDiagram />;
-  if (cardId === 'A56') return <BlueOceanDiagram />;
-  if (cardId === 'A57') return <CustomerJourneyDiagram />;
-  if (cardId === 'A58') return <StakeholderMatrixDiagram />;
-  if (cardId === 'A59') return <AnsoffDiagram />;
-  if (cardId === 'A60') return <InfluenceMapDiagram />;
-  if (cardId === 'A61') return <PoliticalMapDiagram />;
-  if (cardId === 'A62') return <CoalitionDiagram />;
-  if (cardId === 'A63') return <ExecCommsDiagram />;
-  if (cardId === 'A64') return <MeetingFacilitationDiagram />;
-  if (cardId === 'A65') return <PresentationDiagram />;
-  if (cardId === 'A66') return <StorytellingDiagram />;
-  if (cardId === 'A67') return <DataVizDiagram />;
-  if (cardId === 'A68') return <DashboardDesignDiagram />;
-  if (cardId === 'A69') return <ReportingDiagram />;
-  if (cardId === 'A70') return <MindMapDiagram />;
-  if (cardId === 'A71') return <ConceptMapDiagram />;
-  if (cardId === 'A72') return <KnowledgeMgmtDiagram />;
-  if (cardId === 'A73') return <LessonsLearnedProcessDiagram />;
-  if (cardId === 'A74') return <AARDiagram />;
-  if (cardId === 'A75') return <ContinuousImprovementDiagram />;
-  if (cardId === 'A76') return <KaizenDiagram />;
-  if (cardId === 'A77') return <SixSigmaDiagram />;
-  if (cardId === 'A78') return <TQMDiagram />;
-  if (cardId === 'A79') return <BenchmarkingDiagram />;
-  if (cardId === 'A80') return <ProcessImprovementDiagram />;
-  if (cardId === 'A81') return <InnovationDiagram />;
-  if (cardId === 'A82') return <StrategicAlignmentDiagram />;
+  // ── Advanced Techniques ────────────────────────────────────────────────────
+  // People & Negotiation
+  if (cardId === 'A1') return <NegotiationFrameworkDiagram />;     // Principled Negotiation
+  if (cardId === 'A2') return <TuckmanDiagram />;                  // Tuckman's Model
+  if (cardId === 'A3') return <PerformanceGapDiagram />;           // Performance Gap Analysis
+  if (cardId === 'A4') return <DelegationPokerDiagram />;          // Delegation Poker
+  if (cardId === 'A5') return <KnowledgeTransferMatrixDiagram />;  // Knowledge Transfer Matrix
+  if (cardId === 'A6') return <PersonalityProfilingDiagram />;     // Personality Profiling
+  if (cardId === 'A7') return <KaizenBlitzDiagram />;              // Kaizen Blitz
+  if (cardId === 'A8') return <ZOPABATNADiagram />;                // ZOPA & BATNA
+  if (cardId === 'A9') return <CoCreationDiagram />;               // Co-Creation Workshops
+  if (cardId === 'A10') return <MindMapDiagram />;                 // Mind Mapping
+  if (cardId === 'A11') return <VirtualBrainstormDiagram />;       // Virtual Brainstorming Software
+  if (cardId === 'A12') return <SocialContractingDiagram />;       // Social Contracting
+  if (cardId === 'A13') return <ReverseMentoringDiagram />;        // Reverse Mentoring
+  if (cardId === 'A14') return <EmpathyMapDiagram />;              // Empathy Mapping
+  if (cardId === 'A15') return <LeanStartupDiagram />;             // Lean Startup Pilot
+  if (cardId === 'A16') return <VisualDashboardDiagram />;         // Visual Communications Dashboard
+
+  // Planning & Estimation
+  if (cardId === 'A17') return <QuantRiskDiagram />;               // Quantitative Risk Analysis
+  if (cardId === 'A18') return <StakeholderEngagementDiagram />; // Stakeholder Engagement Matrix
+  if (cardId === 'A19') return <ZeroBasedBudgetDiagram />;         // Zero-Based Budgeting
+  if (cardId === 'A20') return <PERTDiagram />;                    // PERT Analysis
+  if (cardId === 'A21') return <SixSigmaDiagram />;                // Six Sigma DMAIC
+  if (cardId === 'A22') return <RTMDiagram />;                     // Requirements Traceability Matrix
+  if (cardId === 'A23') return <RollingWaveDiagram />;             // Rolling Wave Planning
+  if (cardId === 'A24') return <IntegratedChangeControlDiagram />;        // Integrated Change Control
+  if (cardId === 'A25') return <ShouldCostDiagram />;              // Should-Cost Analysis
+  if (cardId === 'A26') return <DMSAutomationDiagram />;           // Document Management System Automation
+  if (cardId === 'A27') return <AgileWaterfallHybridDiagram />;    // Agile-Waterfall Hybrid Mapping
+  if (cardId === 'A28') return <LightweightGovernanceDiagram />;   // Lightweight Governance Model
+  if (cardId === 'A29') return <FiveWhysDiagram />;                // Root Cause Analysis (5 Whys)
+  if (cardId === 'A30') return <KCSDiagram />;                     // Knowledge-Centred Service (KCS)
+  if (cardId === 'A31') return <PostImplReviewDiagram />;          // Post-Implementation Review
+  if (cardId === 'A32') return <ComplianceDiagram />;           // Compliance Gap Assessment
+  if (cardId === 'A33') return <BenefitsRealisationDiagram />;     // Benefits Realisation Management
+  if (cardId === 'A34') return <ScenarioPlanningDiagram />;        // Scenario Planning
+  if (cardId === 'A35') return <Kotter8StepDiagram />;             // Kotter's 8-Step Change Model
+  if (cardId === 'A36') return <CCPMDiagram />;                    // Critical Chain PM (CCPM)
+  if (cardId === 'A37') return <DesignThinkingDiagram />;          // Design Thinking
+  if (cardId === 'A38') return <ParetoAnalysisDiagram />;          // Pareto Analysis
+  if (cardId === 'A39') return <SWOTDiagram />;                    // SWOT Analysis
+  if (cardId === 'A40') return <WJSFDiagram />;                    // Weighted Shortest Job First (WSJF)
+  if (cardId === 'A41') return <ValueStreamDiagram />;             // Value Stream Mapping
+  if (cardId === 'A42') return <TimeboxingDiagram />;              // Timeboxing
+  if (cardId === 'A43') return <LewinChangeDiagram />;             // Lewin's Change Model
+  if (cardId === 'A44') return <McKinsey7SDiagram />;              // McKinsey 7S Framework
+  if (cardId === 'A45') return <BelbinDiagram />;                  // Belbin Team Roles
+  if (cardId === 'A46') return <FiveDysfunctionsDiagram />;        // 5 Dysfunctions of a Team
+  if (cardId === 'A47') return <PDCADiagram />;                    // PDCA Cycle
+  if (cardId === 'A48') return <NudgeTheoryDiagram />;             // Nudge Theory
+  if (cardId === 'A49') return <MaslowDiagram />;                  // Maslow's Hierarchy of Needs
+  if (cardId === 'A50') return <DiffusionOfInnovationDiagram />;   // Rogers' Diffusion of Innovation
+  if (cardId === 'A51') return <ThreeHorizonsDiagram />;           // McKinsey's 3 Horizons
+  if (cardId === 'A52') return <ForceFieldAdvancedDiagram />;      // Lewin's Force Field Analysis
+  if (cardId === 'A53') return <SituationalLeadershipDiagram />;   // Hersey-Blanchard Situational Leadership
+  if (cardId === 'A54') return <EightDDiagram />;                  // 8D Problem Solving
+  if (cardId === 'A55') return <FiveForcesPorterDiagram />;        // Porter's Five Forces
+  if (cardId === 'A56') return <ExpectancyTheoryDiagram />;        // Vroom's Expectancy Theory
+  if (cardId === 'A57') return <CulturalWebDiagram />;             // The Cultural Web
+  if (cardId === 'A58') return <CompetitiveIntelligenceDiagram />;               // BCG Matrix
+  if (cardId === 'A59') return <SCARFDiagram />;                   // SCARF Model
+  if (cardId === 'A60') return <TKIDiagram />;                     // TKI Conflict Modes
+  if (cardId === 'A61') return <BridgesTransitionDiagram />;       // Bridges' Transition Model
+  if (cardId === 'A62') return <KublerRossDiagram />;              // Kübler-Ross Change Curve
+  if (cardId === 'A63') return <TannenbaumSchmidtDiagram />;       // Tannenbaum-Schmidt Continuum
+  if (cardId === 'A64') return <JohariWindowDiagram />;            // Johari Window
+  if (cardId === 'A65') return <A3ProblemSolvingDiagram />;        // A3 Problem Solving
+  if (cardId === 'A66') return <TOCDiagram />;                     // Theory of Constraints (TOC)
+  if (cardId === 'A67') return <TRIZDiagram />;                    // TRIZ
+  if (cardId === 'A68') return <ResponsibilityMatrixDiagram />;    // Freedman's Responsibility Matrix
+  if (cardId === 'A69') return <ThreeHDiagram />;                  // Heart, Head, Hands (3H)
+  if (cardId === 'A70') return <SoftSystemsDiagram />;             // Soft Systems Methodology (SSM)
+  if (cardId === 'A71') return <OpenSpaceDiagram />;               // Open Space Technology
+  if (cardId === 'A72') return <DACIDiagram />;                    // DACI Decision Framework
+  if (cardId === 'A73') return <CynefinDiagram />;                 // Cynefin Framework
+  if (cardId === 'A74') return <PMBOKProcessGroupsDiagram />;      // PMBOK Process Groups
+  if (cardId === 'A75') return <ADKARDiagram />;                   // ADKAR® Model
+  if (cardId === 'A76') return <McClellandDiagram />;              // McClelland's Achievement Theory
+  if (cardId === 'A77') return <ProbabilityImpactDiagram />;       // Probability & Impact Matrix
+  if (cardId === 'A78') return <LessonsLearnedProcessDiagram />;   // Lessons Learned
+  if (cardId === 'A79') return <ProjectClosureDiagram />;          // Project Closeout
+  if (cardId === 'A80') return <StoryPointDiagram />;              // Story Point Estimation
+  if (cardId === 'A81') return <NPSDiagram />;                     // Net Promoter Score (NPS)
+  if (cardId === 'A82') return <WidebandDelphiDiagram />;          // Wideband Delphi
 
   return null;
 }
+
