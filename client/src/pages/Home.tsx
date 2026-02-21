@@ -29,8 +29,9 @@ function PhysicalDeckCard({ deck, index }: { deck: typeof DECKS[0]; index: numbe
       initial={{ opacity: 0, y: 24, rotate: tilt * 1.5 }}
       animate={{ opacity: 1, y: 0, rotate: 0 }}
       transition={{ duration: 0.45, delay: index * 0.07, ease: [0.22, 1, 0.36, 1] }}
-      className="relative"
+      className="relative cursor-pointer"
       style={{ marginBottom: '4px' }}
+      onClick={() => navigate(`/deck/${deck.id}`)}
     >
       {/* Card stack layers (back cards) */}
       <div
@@ -53,8 +54,7 @@ function PhysicalDeckCard({ deck, index }: { deck: typeof DECKS[0]; index: numbe
       />
 
       {/* Main card face */}
-      <motion.button
-        onClick={() => navigate(`/deck/${deck.id}`)}
+      <motion.div
         whileHover={{ scale: 1.02, rotate: tilt * 0.3, y: -3 }}
         whileTap={{ scale: 0.97 }}
         transition={{ type: 'spring', stiffness: 400, damping: 25 }}
@@ -165,7 +165,7 @@ function PhysicalDeckCard({ deck, index }: { deck: typeof DECKS[0]; index: numbe
 
         {/* Bottom color accent bar */}
         <div className="h-1 w-full" style={{ backgroundColor: deck.color }} />
-      </motion.button>
+      </motion.div>
     </motion.div>
   );
 }
