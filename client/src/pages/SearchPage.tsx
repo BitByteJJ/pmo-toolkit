@@ -191,9 +191,9 @@ export default function SearchPage() {
                             boxShadow: '0 1px 3px rgba(0,0,0,0.05)',
                           }}
                         >
-                          <button
+                          <div
                             onClick={() => navigate(`/card/${card.id}`)}
-                            className="w-full text-left p-4 pr-2"
+                            className="w-full text-left p-4 pr-2 cursor-pointer"
                           >
                             <div className="flex items-start gap-3">
                               <div className="flex-1 min-w-0">
@@ -220,7 +220,7 @@ export default function SearchPage() {
                                 )}
                               </button>
                             </div>
-                          </button>
+                          </div>
                         </div>
                       </motion.div>
                     );
