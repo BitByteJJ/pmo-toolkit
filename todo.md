@@ -93,3 +93,6 @@
 ## Glossary Wiring & PDF Export
 - [x] Update all 120+ glossary term relatedCards arrays to cover all 144 cards (100% coverage)
 - [x] Add PDF export button to CardDetail page (full-page formatted PDF via jsPDF)
+
+## Sprint Cover Illustration Layout
+- [x] Move deck cover illustrations below text with fade and transparency effect in DeckView
