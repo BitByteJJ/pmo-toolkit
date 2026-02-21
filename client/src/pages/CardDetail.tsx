@@ -5,7 +5,7 @@
 import { useRoute, useLocation } from 'wouter';
 import { motion, AnimatePresence, useMotionValue, useTransform, PanInfo } from 'framer-motion';
 import {
-  ArrowLeft, Bookmark, BookmarkCheck,
+  ArrowLeft, Bookmark, BookmarkCheck, BookOpen,
   ChevronLeft, ChevronRight,
   Lightbulb, ListChecks, Info, Link2, Tag, Sparkles, ShieldCheck, ExternalLink, Cpu,
   Share2, StickyNote, X, Zap, FileText, Copy, Download, Check
@@ -21,7 +21,9 @@ import ShareSheet from '@/components/ShareSheet';
 import { useCardProgress } from '@/hooks/useCardProgress';
 import { useCardNotes } from '@/hooks/useCardNotes';
 import { getTemplateByCardId } from '@/lib/templateData';
+import { getCaseStudiesByCard, type CaseStudy } from '@/lib/caseStudiesData';
 import { MarkdownTemplateRenderer, templateToCSV } from '@/components/MarkdownTemplateRenderer';
+import CardCommentsSection from '@/components/CardCommentsSection';
 import { getCardLevel, LEVEL_LABELS, LEVEL_COLORS } from '@/lib/cardLevels';
 import { useMasteryBadges } from '@/hooks/useMasteryBadges';
 
@@ -189,7 +191,7 @@ export default function CardDetail() {
   const [showShare, setShowShare] = useState(false);
   const [showNotes, setShowNotes] = useState(false);
   const [noteText, setNoteText] = useState('');
-  const [activeTab, setActiveTab] = useState<'overview' | 'template'>('overview');
+  const [activeTab, setActiveTab] = useState<'overview' | 'template' | 'cases'>('overview');
   const [copied, setCopied] = useState(false);
   const [showCelebration, setShowCelebration] = useState(false);
   const [swipeHint, setSwipeHint] = useState(false);
@@ -272,6 +274,7 @@ export default function CardDetail() {
   }
 
   const template = getTemplateByCardId(card?.id ?? '');
+  const caseStudies = getCaseStudiesByCard(card?.id ?? '');
 
   // Reset tab to overview when navigating to a card without a template
   useEffect(() => {
@@ -606,7 +609,7 @@ export default function CardDetail() {
       <div className="sticky top-0 z-30 bg-[#FAFAF8]/95 backdrop-blur-sm border-b border-stone-100">
         <div className="max-w-2xl mx-auto px-4">
           <div className="flex gap-1 pt-2 pb-0">
-            {(['overview', ...(template ? ['template'] : [])] as ('overview' | 'template')[]).map(tab => (
+            {(['overview', ...(template ? ['template'] : []), ...(caseStudies.length > 0 ? ['cases'] : [])] as ('overview' | 'template' | 'cases')[]).map(tab => (
               <button
                 key={tab}
                 onClick={() => setActiveTab(tab)}
@@ -616,7 +619,8 @@ export default function CardDetail() {
                 }}
               >
                 {tab === 'template' && <FileText size={11} />}
-                {tab.charAt(0).toUpperCase() + tab.slice(1)}
+                {tab === 'cases' && <BookOpen size={11} />}
+                {tab === 'cases' ? 'Case Studies' : tab.charAt(0).toUpperCase() + tab.slice(1)}
                 {tab === 'template' && template && (
                   <span
                     className="text-[8px] font-bold px-1 py-0.5 rounded-full"
@@ -959,9 +963,82 @@ export default function CardDetail() {
             </>
           )}{/* end overview tab */}
 
+          {/* ── Case Studies Tab ── */}
+          {activeTab === 'cases' && (
+            <>
+              {caseStudies.length === 0 ? (
+                <div className="px-4 py-12 text-center">
+                  <p className="text-stone-400 text-sm">No case studies yet for this card.</p>
+                </div>
+              ) : (
+                <div className="px-4 py-5 max-w-2xl mx-auto space-y-5">
+                  {caseStudies.map((cs: CaseStudy) => (
+                    <div
+                      key={cs.id}
+                      className="rounded-2xl overflow-hidden bg-white"
+                      style={{ boxShadow: '0 2px 8px rgba(0,0,0,0.06)' }}
+                    >
+                      <div className="px-5 pt-5 pb-3" style={{ backgroundColor: deck?.bgColor ?? '#F5F3EE' }}>
+                        <div className="flex items-start gap-2 mb-2">
+                          <span
+                            className="text-[9px] font-mono font-bold px-1.5 py-0.5 rounded-md text-white shrink-0"
+                            style={{ backgroundColor: deck?.color ?? '#0284C7' }}
+                          >
+                            {cs.industry}
+                          </span>
+                          <span className="text-[9px] text-stone-400 font-medium">{cs.company}</span>
+                        </div>
+                        <h3
+                          className="text-sm font-bold leading-tight"
+                          style={{ fontFamily: 'Sora, sans-serif', color: deck?.textColor ?? '#1c1917' }}
+                        >
+                          {cs.title}
+                        </h3>
+                      </div>
+                      <div className="px-5 py-4 space-y-4">
+                        <div>
+                          <p className="text-[9px] font-black text-stone-400 uppercase tracking-[0.1em] mb-1">The Challenge</p>
+                          <p className="text-[12px] text-stone-600 leading-relaxed">{cs.challenge}</p>
+                        </div>
+                        <div>
+                          <p className="text-[9px] font-black text-stone-400 uppercase tracking-[0.1em] mb-1">The Approach</p>
+                          <p className="text-[12px] text-stone-600 leading-relaxed">{cs.approach}</p>
+                        </div>
+                        <div>
+                          <p className="text-[9px] font-black text-stone-400 uppercase tracking-[0.1em] mb-1">The Outcome</p>
+                          <p className="text-[12px] text-stone-600 leading-relaxed">{cs.outcome}</p>
+                        </div>
+                        <div
+                          className="rounded-xl p-3"
+                          style={{ backgroundColor: (deck?.color ?? '#0284C7') + '10', border: `1.5px solid ${deck?.color ?? '#0284C7'}25` }}
+                        >
+                          <p className="text-[9px] font-black uppercase tracking-[0.1em] mb-1" style={{ color: deck?.color ?? '#0284C7' }}>Key Lesson</p>
+                          <p className="text-[11px] leading-relaxed font-medium" style={{ color: deck?.textColor ?? '#1c1917' }}>{cs.lesson}</p>
+                        </div>
+                        <div className="flex flex-wrap gap-1.5">
+                          {cs.tags.map((tag: string) => (
+                            <span
+                              key={tag}
+                              className="text-[9px] font-semibold px-2 py-0.5 rounded-full"
+                              style={{ backgroundColor: '#F5F3EE', color: '#78716C' }}
+                            >
+                              {tag}
+                            </span>
+                          ))}
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </>
+           )}{/* end case studies tab */}
         </motion.div>
       </AnimatePresence>
-
+      {/* Comments / Discussion */}
+      <div className="px-4 pb-6">
+        <CardCommentsSection cardId={card.id} />
+      </div>
       <BottomNav />
 
       {/* Social share sheet */}

@@ -27,6 +27,8 @@ import ScenarioLibraryPage from './pages/ScenarioLibraryPage';
 import SpacedRepetitionPage from './pages/SpacedRepetitionPage';
 import CollectionsPage from './pages/CollectionsPage';
 import TemplateBuilderPage from './pages/TemplateBuilderPage';
+import CertPrepPage from './pages/CertPrepPage';
+import TeamCollectionsPage from './pages/TeamCollectionsPage';
 import WelcomeModal from './components/WelcomeModal';
 import { BookmarksProvider } from './contexts/BookmarksContext';
 import { JourneyProvider } from './contexts/JourneyContext';
@@ -56,6 +58,8 @@ function GlobalTopNav() {
   if (location.startsWith('/review')) return null;
   if (location.startsWith('/collections')) return null;
   if (location.startsWith('/templates')) return null;
+  if (location.startsWith('/cert-prep')) return null;
+  if (location.startsWith('/team')) return null;
 
   // Derive accent colour from current route
   let accentColor = '#475569';
@@ -108,6 +112,8 @@ function Router() {
         <Route path="/review" component={SpacedRepetitionPage} />
         <Route path="/collections" component={CollectionsPage} />
         <Route path="/templates" component={TemplateBuilderPage} />
+        <Route path="/cert-prep" component={CertPrepPage} />
+        <Route path="/team" component={TeamCollectionsPage} />
         <Route path="/404" component={NotFound} />
         <Route component={NotFound} />
       </Switch>
