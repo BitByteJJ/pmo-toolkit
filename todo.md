@@ -72,7 +72,11 @@
 - [ ] Certification prep mode: study path aligned to PMP/PRINCE2/APM with exam-style questions
 
 ### Content Additions
-- [ ] Case studies: short real-world stories on each card showing the tool in action
+- [x] Case studies: short real-world stories on each card showing the tool in action
+- [x] Create caseStudiesData.ts with real-world PM case studies linked to cards
+- [x] Add Case Studies tab to CardDetail page (conditional — only shows when a case study exists)
+- [ ] Create standalone CaseStudiesPage browser
+- [ ] Wire CaseStudiesPage into App.tsx routing and Home CTAs
 
 ### Team Mode
 - [ ] Team mode: shared workspace with user accounts, shared collections, card assignments, and comments

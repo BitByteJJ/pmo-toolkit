@@ -8,7 +8,8 @@ import {
   ArrowLeft, Bookmark, BookmarkCheck,
   ChevronLeft, ChevronRight,
   Lightbulb, ListChecks, Info, Link2, Tag, Sparkles, ShieldCheck, ExternalLink, Cpu,
-  Share2, StickyNote, X, Zap, FileText, Copy, Download, Check
+  Share2, StickyNote, X, Zap, FileText, Copy, Download, Check,
+  BookOpen, Building2, Clock, Users, Quote
 } from 'lucide-react';
 import { useState, useEffect, useRef, useCallback } from 'react';
 import BottomNav from '@/components/BottomNav';
@@ -21,6 +22,7 @@ import ShareSheet from '@/components/ShareSheet';
 import { useCardProgress } from '@/hooks/useCardProgress';
 import { useCardNotes } from '@/hooks/useCardNotes';
 import { getTemplateByCardId } from '@/lib/templateData';
+import { getCaseStudyByCardId } from '@/lib/caseStudiesData';
 import { MarkdownTemplateRenderer, templateToCSV } from '@/components/MarkdownTemplateRenderer';
 import { getCardLevel, LEVEL_LABELS, LEVEL_COLORS } from '@/lib/cardLevels';
 import { useMasteryBadges } from '@/hooks/useMasteryBadges';
@@ -189,7 +191,7 @@ export default function CardDetail() {
   const [showShare, setShowShare] = useState(false);
   const [showNotes, setShowNotes] = useState(false);
   const [noteText, setNoteText] = useState('');
-  const [activeTab, setActiveTab] = useState<'overview' | 'template'>('overview');
+  const [activeTab, setActiveTab] = useState<'overview' | 'template' | 'case-study'>('overview');
   const [copied, setCopied] = useState(false);
   const [showCelebration, setShowCelebration] = useState(false);
   const [swipeHint, setSwipeHint] = useState(false);
@@ -272,10 +274,13 @@ export default function CardDetail() {
   }
 
   const template = getTemplateByCardId(card?.id ?? '');
+  const caseStudy = getCaseStudyByCardId(card?.id ?? '');
 
-  // Reset tab to overview when navigating to a card without a template
+  // Reset tab to overview when navigating to a card without a template or case study
   useEffect(() => {
-    if (!template) setActiveTab('overview');
+    if (!template && !caseStudy) setActiveTab('overview');
+    else if (activeTab === 'template' && !template) setActiveTab('overview');
+    else if (activeTab === 'case-study' && !caseStudy) setActiveTab('overview');
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [cardId]);
 
@@ -606,7 +611,7 @@ export default function CardDetail() {
       <div className="sticky top-0 z-30 bg-[#FAFAF8]/95 backdrop-blur-sm border-b border-stone-100">
         <div className="max-w-2xl mx-auto px-4">
           <div className="flex gap-1 pt-2 pb-0">
-            {(['overview', ...(template ? ['template'] : [])] as ('overview' | 'template')[]).map(tab => (
+            {(['overview', ...(template ? ['template'] : []), ...(caseStudy ? ['case-study'] : [])] as ('overview' | 'template' | 'case-study')[]).map(tab => (
               <button
                 key={tab}
                 onClick={() => setActiveTab(tab)}
@@ -616,7 +621,8 @@ export default function CardDetail() {
                 }}
               >
                 {tab === 'template' && <FileText size={11} />}
-                {tab.charAt(0).toUpperCase() + tab.slice(1)}
+                {tab === 'case-study' && <BookOpen size={11} />}
+                {tab === 'overview' ? 'Overview' : tab === 'template' ? 'Template' : 'Case Study'}
                 {tab === 'template' && template && (
                   <span
                     className="text-[8px] font-bold px-1 py-0.5 rounded-full"
@@ -958,6 +964,132 @@ export default function CardDetail() {
 
             </>
           )}{/* end overview tab */}
+
+          {/* ── CASE STUDY TAB ── */}
+          {activeTab === 'case-study' && caseStudy && (
+            <div className="space-y-4 pb-8">
+              {/* Header card */}
+              <div
+                className="rounded-2xl p-4"
+                style={{ backgroundColor: (deck?.color ?? '#0284C7') + '10', border: `1.5px solid ${deck?.color ?? '#0284C7'}25` }}
+              >
+                <div className="flex items-center gap-2 mb-3">
+                  <div
+                    className="w-8 h-8 rounded-xl flex items-center justify-center shrink-0"
+                    style={{ backgroundColor: deck?.color ?? '#0284C7' }}
+                  >
+                    <BookOpen size={14} className="text-white" />
+                  </div>
+                  <div>
+                    <div className="text-[9px] font-bold uppercase tracking-widest" style={{ color: deck?.color }}>Real-World Case Study</div>
+                    <h3 className="text-sm font-bold text-stone-800 leading-tight" style={{ fontFamily: 'Sora, sans-serif' }}>{caseStudy.projectName}</h3>
+                  </div>
+                </div>
+                {/* Meta row */}
+                <div className="flex flex-wrap gap-2 mt-1">
+                  <span className="flex items-center gap-1 text-[10px] font-semibold text-stone-500">
+                    <Building2 size={10} style={{ color: deck?.color }} />
+                    {caseStudy.organisation}
+                  </span>
+                  <span className="text-stone-300">·</span>
+                  <span className="text-[10px] font-semibold text-stone-500">{caseStudy.industry}</span>
+                  {caseStudy.timeframe && (
+                    <>
+                      <span className="text-stone-300">·</span>
+                      <span className="flex items-center gap-1 text-[10px] font-semibold text-stone-500">
+                        <Clock size={10} style={{ color: deck?.color }} />
+                        {caseStudy.timeframe}
+                      </span>
+                    </>
+                  )}
+                  {caseStudy.teamSize && (
+                    <>
+                      <span className="text-stone-300">·</span>
+                      <span className="flex items-center gap-1 text-[10px] font-semibold text-stone-500">
+                        <Users size={10} style={{ color: deck?.color }} />
+                        {caseStudy.teamSize}
+                      </span>
+                    </>
+                  )}
+                </div>
+              </div>
+
+              {/* Challenge */}
+              <div className="bg-white rounded-2xl p-4" style={{ boxShadow: '0 1px 3px rgba(0,0,0,0.05)' }}>
+                <div className="flex items-center gap-2 mb-2">
+                  <div className="w-5 h-5 rounded-md flex items-center justify-center shrink-0" style={{ backgroundColor: '#EF444420' }}>
+                    <Zap size={11} className="text-red-500" />
+                  </div>
+                  <h4 className="text-[10px] font-bold text-stone-400 uppercase tracking-wider">The Challenge</h4>
+                </div>
+                <p className="text-[13px] text-stone-700 leading-relaxed">{caseStudy.challenge}</p>
+              </div>
+
+              {/* Approach */}
+              <div className="bg-white rounded-2xl p-4" style={{ boxShadow: '0 1px 3px rgba(0,0,0,0.05)' }}>
+                <div className="flex items-center gap-2 mb-2">
+                  <div className="w-5 h-5 rounded-md flex items-center justify-center shrink-0" style={{ backgroundColor: (deck?.color ?? '#0284C7') + '20' }}>
+                    <ListChecks size={11} style={{ color: deck?.color }} />
+                  </div>
+                  <h4 className="text-[10px] font-bold text-stone-400 uppercase tracking-wider">How They Applied It</h4>
+                </div>
+                <p className="text-[13px] text-stone-700 leading-relaxed">{caseStudy.approach}</p>
+              </div>
+
+              {/* Outcome */}
+              <div className="bg-white rounded-2xl p-4" style={{ boxShadow: '0 1px 3px rgba(0,0,0,0.05)' }}>
+                <div className="flex items-center gap-2 mb-2">
+                  <div className="w-5 h-5 rounded-md flex items-center justify-center shrink-0" style={{ backgroundColor: '#22C55E20' }}>
+                    <Sparkles size={11} className="text-green-500" />
+                  </div>
+                  <h4 className="text-[10px] font-bold text-stone-400 uppercase tracking-wider">The Outcome</h4>
+                </div>
+                <p className="text-[13px] text-stone-700 leading-relaxed">{caseStudy.outcome}</p>
+              </div>
+
+              {/* Quote (if present) */}
+              {caseStudy.quote && (
+                <div
+                  className="rounded-2xl p-4"
+                  style={{ backgroundColor: (deck?.color ?? '#0284C7') + '08', border: `1px solid ${deck?.color ?? '#0284C7'}20` }}
+                >
+                  <Quote size={16} className="mb-2" style={{ color: deck?.color, opacity: 0.5 }} />
+                  <p className="text-[13px] text-stone-700 leading-relaxed italic mb-2">&ldquo;{caseStudy.quote.text}&rdquo;</p>
+                  <p className="text-[10px] font-bold text-stone-400">— {caseStudy.quote.attribution}</p>
+                </div>
+              )}
+
+              {/* Lessons Learned */}
+              <div className="bg-white rounded-2xl p-4" style={{ boxShadow: '0 1px 3px rgba(0,0,0,0.05)' }}>
+                <div className="flex items-center gap-2 mb-3">
+                  <div className="w-5 h-5 rounded-md flex items-center justify-center shrink-0" style={{ backgroundColor: '#F59E0B20' }}>
+                    <Lightbulb size={11} className="text-amber-500" />
+                  </div>
+                  <h4 className="text-[10px] font-bold text-stone-400 uppercase tracking-wider">Lessons Learned</h4>
+                </div>
+                <div className="space-y-2">
+                  {caseStudy.lessonsLearned.map((lesson, i) => (
+                    <div key={i} className="flex items-start gap-2.5">
+                      <div
+                        className="w-5 h-5 rounded-full flex items-center justify-center shrink-0 mt-0.5 text-[9px] font-bold text-white"
+                        style={{ backgroundColor: deck?.color ?? '#0284C7' }}
+                      >
+                        {i + 1}
+                      </div>
+                      <p className="text-[12px] text-stone-600 leading-relaxed flex-1">{lesson}</p>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              {/* Disclaimer */}
+              <div className="pb-2">
+                <p className="text-[9px] text-stone-400 leading-relaxed text-center px-2">
+                  Case studies are illustrative summaries based on publicly available information. Details may be simplified for educational purposes.
+                </p>
+              </div>
+            </div>
+          )}
 
         </motion.div>
       </AnimatePresence>
