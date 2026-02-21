@@ -267,7 +267,7 @@ export default function CardDetail() {
 
           {/* Visual Reference Diagram */}
           {(() => {
-            const diagram = getVisualReference(card.id, card.title);
+            const diagram = getVisualReference(card.id);
             if (!diagram) return null;
             return (
               <div>

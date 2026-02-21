@@ -2008,58 +2008,4380 @@ export function BCGDiagram() {
 }
 
 // ═══════════════════════════════════════════════════════════════════════════════
-// Master lookup — returns the right diagram for a given card ID
+// UNIQUE DIAGRAMS — People Domain (P01-P14)
 // ═══════════════════════════════════════════════════════════════════════════════
-export function getVisualReference(cardId: string, cardTitle?: string): React.ReactNode | null {
-  // Tools deck
-  if (cardId === 'T1') return <GanttDiagram />;
-  if (cardId === 'T2') return <KanbanDiagram />;
-  if (cardId === 'T3') return <WBSDiagram />;
-  if (cardId === 'T4') return <EVMDiagram />;
-  if (cardId === 'T5') return <RACIDiagram />;
-  if (cardId === 'T6') return <RiskRegisterDiagram />;
-  if (cardId === 'T7') return <MoSCoWDiagram />;
-  if (cardId === 'T8') return <FishboneDiagram />;
-  if (cardId === 'T9') return <MonteCarloDiagram />;
-  if (cardId === 'T10') return <DecisionTreeDiagram />;
-  if (cardId === 'T11') return <BalancedScorecardDiagram />;
-  if (cardId === 'T12') return <DelphiDiagram />;
-  if (cardId === 'T13') return <CostBenefitDiagram />;
-  if (cardId === 'T14') return <ScopeStatementDiagram />;
-  if (cardId === 'T15') return <ForceFieldDiagram />;
-  if (cardId === 'T16') return <StakeholderMatrixDiagram />;
-  if (cardId === 'T17') return <BurndownDiagram />;
-  // Methodologies
-  if (cardId === 'M1') return <WaterfallDiagram />;
-  if (cardId === 'M2') return <AgileSprintDiagram />;
-  if (cardId === 'M3') return <KanbanMethodDiagram />;
-  if (cardId === 'M4') return <HybridDiagram />;
-  // Project Phases
-  if (cardId === 'phase-setup' || cardId === 'phase-execution' || cardId === 'phase-closure')
-    return <ProjectPhasesDiagram phase={cardId} />;
-  // Archetypes
-  if (cardId === 'AG1' || cardId === 'AG2' || cardId === 'AG3') return <ArchetypeDiagram />;
-  // People domain
-  if (cardId.startsWith('people-')) return <PeopleDiagram title={cardTitle} />;
-  // Process domain
-  if (cardId.startsWith('process-')) return <ProcessDiagram title={cardTitle} />;
-  // Business environment
-  if (cardId.startsWith('business-')) return <BusinessEnvDiagram />;
-  // Advanced techniques — specific diagrams for key cards
-  if (cardId === 'A1') return <NegotiationDiagram />;
-  if (cardId === 'A2') return <TuckmanDiagram />;
-  if (cardId === 'A17' || cardId === 'A77') return <RiskMatrixDiagram />;
-  if (cardId === 'A21') return <DMAICDiagram />;
-  if (cardId === 'A29') return <FiveWhysDiagram />;
-  if (cardId === 'A35') return <KotterDiagram />;
-  if (cardId === 'A38') return <ParetoDiagram />;
-  if (cardId === 'A39') return <SWOTDiagram />;
-  if (cardId === 'A40') return <WSJFDiagram />;
-  if (cardId === 'A47') return <PDCADiagram />;
-  if (cardId === 'A55') return <FiveForcesD />;
-  if (cardId === 'A58') return <BCGDiagram />;
-  if (cardId === 'A75') return <ADKARDiagram />;
-  // Techniques without a specific diagram — show generic radar
-  if (cardId.startsWith('A')) return <TechniqueDiagram title={cardTitle} />;
+
+// P01 — Manage Conflict: Conflict resolution spectrum
+export function ConflictDiagram() {
+  const W = 320; const H = 180;
+  const modes = [
+    { label: 'AVOID', sub: 'Low concern', x: 30, y: 90, c: DIM },
+    { label: 'ACCOMMODATE', sub: 'Yield', x: 90, y: 140, c: LABEL },
+    { label: 'COMPROMISE', sub: 'Middle ground', x: 160, y: 90, c: LINE },
+    { label: 'COLLABORATE', sub: 'Win-Win', x: 230, y: 40, c: LINE2 },
+    { label: 'COMPETE', sub: 'Assert', x: 290, y: 90, c: LINE3 },
+  ];
+  return (
+    <DiagramWrapper label="CONFLICT RESOLUTION MODES // P01">
+      <svg viewBox={`0 0 ${W} ${H}`} className="w-full" style={{ display: 'block' }}>
+        <GridBg w={W} h={H} />
+        <text x={10} y={12} fill={LABEL} fontSize="6" fontFamily="monospace" opacity="0.5">CONCERN FOR SELF →</text>
+        <text x={10} y={H - 4} fill={LABEL} fontSize="6" fontFamily="monospace" opacity="0.5">CONCERN FOR OTHERS ↑</text>
+        {modes.map((m, i) => (
+          <g key={i}>
+            {i > 0 && <line x1={modes[i-1].x} y1={modes[i-1].y} x2={m.x} y2={m.y} stroke={m.c} strokeWidth="0.8" strokeDasharray="3,2" opacity="0.4" />}
+            <circle cx={m.x} cy={m.y} r={18} fill={m.c} opacity="0.1" />
+            <circle cx={m.x} cy={m.y} r={18} fill="none" stroke={m.c} strokeWidth="1" style={{ filter: `drop-shadow(0 0 4px ${m.c}66)` }} />
+            <text x={m.x} y={m.y - 2} textAnchor="middle" fill={m.c} fontSize="5.5" fontFamily="monospace" fontWeight="bold">{m.label}</text>
+            <text x={m.x} y={m.y + 9} textAnchor="middle" fill={LABEL} fontSize="4.5" fontFamily="monospace" opacity="0.6">{m.sub}</text>
+          </g>
+        ))}
+        <Brackets x={2} y={2} w={W-4} h={H-4} />
+      </svg>
+    </DiagramWrapper>
+  );
+}
+
+// P02 — Lead a Team: Tuckman stages + RACI
+export function TeamLeadDiagram() {
+  const W = 320; const H = 180;
+  const stages = ['FORMING','STORMING','NORMING','PERFORMING','ADJOURNING'];
+  const colors = [LABEL, LINE3, LINE, LINE2, DIM];
+  const xs = [30, 90, 160, 230, 295];
+  const ys = [140, 110, 80, 50, 80];
+  return (
+    <DiagramWrapper label="TEAM DEVELOPMENT STAGES // P02">
+      <svg viewBox={`0 0 ${W} ${H}`} className="w-full" style={{ display: 'block' }}>
+        <GridBg w={W} h={H} />
+        <polyline points={xs.map((x,i)=>`${x},${ys[i]}`).join(' ')} fill="none" stroke={LINE} strokeWidth="1" strokeDasharray="4,2" opacity="0.3" />
+        {stages.map((s, i) => (
+          <g key={i}>
+            <GlowDot x={xs[i]} y={ys[i]} r={5} color={colors[i]} />
+            <text x={xs[i]} y={ys[i] - 10} textAnchor="middle" fill={colors[i]} fontSize="5.5" fontFamily="monospace" fontWeight="bold">{s}</text>
+            <line x1={xs[i]} y1={ys[i]+5} x2={xs[i]} y2={H-20} stroke={colors[i]} strokeWidth="0.5" strokeDasharray="2,2" opacity="0.3" />
+          </g>
+        ))}
+        <text x={10} y={H-6} fill={LABEL} fontSize="5" fontFamily="monospace" opacity="0.5">RACI: R=Responsible · A=Accountable · C=Consulted · I=Informed</text>
+        <Brackets x={2} y={2} w={W-4} h={H-4} />
+      </svg>
+    </DiagramWrapper>
+  );
+}
+
+// P03 — Support Team Performance: Impediment removal flow
+export function TeamSupportDiagram() {
+  const W = 320; const H = 180;
+  const steps = [
+    { label: 'DETECT', sub: 'Velocity drop', x: 40, c: LINE3 },
+    { label: 'DIAGNOSE', sub: 'Root cause', x: 110, c: LINE },
+    { label: 'CLEAR', sub: 'Remove blocker', x: 180, c: LINE2 },
+    { label: 'COACH', sub: 'Skill gap', x: 250, c: LINE },
+    { label: 'RECOGNISE', sub: 'Celebrate win', x: 295, c: LINE2 },
+  ];
+  return (
+    <DiagramWrapper label="PERFORMANCE SUPPORT CYCLE // P03">
+      <svg viewBox={`0 0 ${W} ${H}`} className="w-full" style={{ display: 'block' }}>
+        <GridBg w={W} h={H} />
+        {steps.map((s, i) => (
+          <g key={i}>
+            {i < steps.length - 1 && (
+              <line x1={s.x + 28} y1={90} x2={steps[i+1].x - 28} y2={90} stroke={s.c} strokeWidth="0.8" strokeDasharray="3,2" opacity="0.5" />
+            )}
+            <rect x={s.x - 28} y={72} width={56} height={36} rx="4" fill={s.c} opacity="0.1" />
+            <rect x={s.x - 28} y={72} width={56} height={36} rx="4" fill="none" stroke={s.c} strokeWidth="1" style={{ filter: `drop-shadow(0 0 3px ${s.c}55)` }} />
+            <text x={s.x} y={87} textAnchor="middle" fill={s.c} fontSize="6" fontFamily="monospace" fontWeight="bold">{s.label}</text>
+            <text x={s.x} y={100} textAnchor="middle" fill={LABEL} fontSize="5" fontFamily="monospace" opacity="0.6">{s.sub}</text>
+          </g>
+        ))}
+        <Brackets x={2} y={2} w={W-4} h={H-4} />
+      </svg>
+    </DiagramWrapper>
+  );
+}
+
+// P04 — Empower Team: Delegation authority spectrum
+export function EmpowerDiagram() {
+  const W = 320; const H = 180;
+  const levels = [
+    { label: 'TELL', sub: 'PM decides', x: 30, pct: 10 },
+    { label: 'SELL', sub: 'PM explains', x: 90, pct: 25 },
+    { label: 'CONSULT', sub: 'Team input', x: 160, pct: 50 },
+    { label: 'AGREE', sub: 'Joint decision', x: 230, pct: 75 },
+    { label: 'DELEGATE', sub: 'Team decides', x: 290, pct: 95 },
+  ];
+  return (
+    <DiagramWrapper label="DELEGATION AUTHORITY SPECTRUM // P04">
+      <svg viewBox={`0 0 ${W} ${H}`} className="w-full" style={{ display: 'block' }}>
+        <GridBg w={W} h={H} />
+        <line x1={20} y1={150} x2={310} y2={150} stroke={DIM} strokeWidth="1" />
+        <line x1={20} y1={150} x2={20} y2={30} stroke={DIM} strokeWidth="1" />
+        <text x={10} y={28} fill={LABEL} fontSize="5.5" fontFamily="monospace" opacity="0.5">TEAM AUTHORITY</text>
+        <text x={200} y={165} fill={LABEL} fontSize="5.5" fontFamily="monospace" opacity="0.5">PM CONTROL →</text>
+        {levels.map((l, i) => {
+          const barH = (l.pct / 100) * 110;
+          const y = 150 - barH;
+          const c = i < 2 ? LINE3 : i === 2 ? LINE : LINE2;
+          return (
+            <g key={i}>
+              <rect x={l.x - 18} y={y} width={36} height={barH} rx="2" fill={c} opacity="0.15" />
+              <rect x={l.x - 18} y={y} width={36} height={barH} rx="2" fill="none" stroke={c} strokeWidth="0.8" />
+              <text x={l.x} y={y - 4} textAnchor="middle" fill={c} fontSize="5.5" fontFamily="monospace" fontWeight="bold">{l.label}</text>
+              <text x={l.x} y={H - 4} textAnchor="middle" fill={LABEL} fontSize="4.5" fontFamily="monospace" opacity="0.5">{l.sub}</text>
+            </g>
+          );
+        })}
+        <Brackets x={2} y={2} w={W-4} h={H-4} />
+      </svg>
+    </DiagramWrapper>
+  );
+}
+
+// P05 — Training: Skill gap matrix
+export function TrainingDiagram() {
+  const W = 320; const H = 180;
+  const skills = ['Regulatory','Design','Agile','Risk Mgmt','Stakeholder'];
+  const current = [40, 70, 30, 60, 50];
+  const required = [90, 80, 70, 80, 75];
+  return (
+    <DiagramWrapper label="SKILL GAP MATRIX // P05">
+      <svg viewBox={`0 0 ${W} ${H}`} className="w-full" style={{ display: 'block' }}>
+        <GridBg w={W} h={H} />
+        {skills.map((s, i) => {
+          const y = 25 + i * 28;
+          const cW = (current[i] / 100) * 180;
+          const rW = (required[i] / 100) * 180;
+          return (
+            <g key={i}>
+              <text x={8} y={y + 8} fill={LABEL} fontSize="5.5" fontFamily="monospace" opacity="0.7">{s}</text>
+              <rect x={100} y={y} width={rW} height={10} rx="2" fill={LINE3} opacity="0.15" />
+              <rect x={100} y={y} width={rW} height={10} rx="2" fill="none" stroke={LINE3} strokeWidth="0.6" opacity="0.5" />
+              <rect x={100} y={y} width={cW} height={10} rx="2" fill={LINE2} opacity="0.25" />
+              <rect x={100} y={y} width={cW} height={10} rx="2" fill="none" stroke={LINE2} strokeWidth="0.8" />
+              <text x={100 + rW + 4} y={y + 8} fill={LINE3} fontSize="5" fontFamily="monospace" opacity="0.6">{required[i]}%</text>
+            </g>
+          );
+        })}
+        <text x={100} y={H-4} fill={LINE2} fontSize="5" fontFamily="monospace">■ Current</text>
+        <text x={155} y={H-4} fill={LINE3} fontSize="5" fontFamily="monospace">■ Required</text>
+        <Brackets x={2} y={2} w={W-4} h={H-4} />
+      </svg>
+    </DiagramWrapper>
+  );
+}
+
+// P06 — Build a Team: Team charter structure
+export function TeamCharterDiagram() {
+  const W = 320; const H = 180;
+  const sections = [
+    { label: 'MISSION', x: 20, y: 20, w: 130, h: 35, c: LINE2 },
+    { label: 'ROLES & RACI', x: 165, y: 20, w: 140, h: 35, c: LINE },
+    { label: 'NORMS & AGREEMENTS', x: 20, y: 70, w: 130, h: 35, c: LINE },
+    { label: 'COMMUNICATION', x: 165, y: 70, w: 140, h: 35, c: LINE2 },
+    { label: 'DECISION RIGHTS', x: 20, y: 120, w: 130, h: 35, c: LINE3 },
+    { label: 'SUCCESS METRICS', x: 165, y: 120, w: 140, h: 35, c: LINE3 },
+  ];
+  return (
+    <DiagramWrapper label="TEAM CHARTER STRUCTURE // P06">
+      <svg viewBox={`0 0 ${W} ${H}`} className="w-full" style={{ display: 'block' }}>
+        <GridBg w={W} h={H} />
+        {sections.map((s, i) => (
+          <g key={i}>
+            <rect x={s.x} y={s.y} width={s.w} height={s.h} rx="4" fill={s.c} opacity="0.1" />
+            <rect x={s.x} y={s.y} width={s.w} height={s.h} rx="4" fill="none" stroke={s.c} strokeWidth="0.8" style={{ filter: `drop-shadow(0 0 3px ${s.c}44)` }} />
+            <text x={s.x + s.w/2} y={s.y + s.h/2 + 3} textAnchor="middle" fill={s.c} fontSize="6" fontFamily="monospace" fontWeight="bold">{s.label}</text>
+          </g>
+        ))}
+        <Brackets x={2} y={2} w={W-4} h={H-4} />
+      </svg>
+    </DiagramWrapper>
+  );
+}
+
+// P07 — Address Stakeholder Needs: Stakeholder engagement ladder
+export function StakeholderNeedsDiagram() {
+  const W = 320; const H = 180;
+  const rungs = [
+    { label: 'UNAWARE', y: 155, c: DIM },
+    { label: 'RESISTANT', y: 125, c: LINE3 },
+    { label: 'NEUTRAL', y: 95, c: LABEL },
+    { label: 'SUPPORTIVE', y: 65, c: LINE },
+    { label: 'CHAMPION', y: 35, c: LINE2 },
+  ];
+  return (
+    <DiagramWrapper label="STAKEHOLDER ENGAGEMENT LADDER // P07">
+      <svg viewBox={`0 0 ${W} ${H}`} className="w-full" style={{ display: 'block' }}>
+        <GridBg w={W} h={H} />
+        <line x1={60} y1={20} x2={60} y2={165} stroke={DIM} strokeWidth="1.5" />
+        <line x1={260} y1={20} x2={260} y2={165} stroke={DIM} strokeWidth="1.5" />
+        {rungs.map((r, i) => (
+          <g key={i}>
+            <line x1={60} y1={r.y} x2={260} y2={r.y} stroke={r.c} strokeWidth="1.5" style={{ filter: `drop-shadow(0 0 3px ${r.c}66)` }} />
+            <text x={270} y={r.y + 4} fill={r.c} fontSize="6.5" fontFamily="monospace" fontWeight="bold">{r.label}</text>
+            <GlowDot x={60} y={r.y} r={3} color={r.c} />
+            <GlowDot x={260} y={r.y} r={3} color={r.c} />
+          </g>
+        ))}
+        <text x={10} y={90} fill={LABEL} fontSize="5.5" fontFamily="monospace" opacity="0.5" transform="rotate(-90,10,90)">ENGAGEMENT</text>
+        <Brackets x={2} y={2} w={W-4} h={H-4} />
+      </svg>
+    </DiagramWrapper>
+  );
+}
+
+// P08 — Negotiate: Negotiation preparation canvas
+export function NegotiateCanvasDiagram() {
+  const W = 320; const H = 180;
+  const boxes = [
+    { label: 'INTERESTS', sub: 'What we need', x: 10, y: 15, w: 90, h: 60, c: LINE2 },
+    { label: 'POSITIONS', sub: 'What we ask', x: 115, y: 15, w: 90, h: 60, c: LINE },
+    { label: 'BATNA', sub: 'Walk-away', x: 220, y: 15, w: 90, h: 60, c: LINE3 },
+    { label: 'ZOPA', sub: 'Overlap zone', x: 10, y: 95, w: 140, h: 60, c: LINE },
+    { label: 'AGREEMENT', sub: 'Target outcome', x: 165, y: 95, w: 145, h: 60, c: LINE2 },
+  ];
+  return (
+    <DiagramWrapper label="NEGOTIATION CANVAS // P08">
+      <svg viewBox={`0 0 ${W} ${H}`} className="w-full" style={{ display: 'block' }}>
+        <GridBg w={W} h={H} />
+        {boxes.map((b, i) => (
+          <g key={i}>
+            <rect x={b.x} y={b.y} width={b.w} height={b.h} rx="3" fill={b.c} opacity="0.1" />
+            <rect x={b.x} y={b.y} width={b.w} height={b.h} rx="3" fill="none" stroke={b.c} strokeWidth="0.8" />
+            <text x={b.x + b.w/2} y={b.y + b.h/2 - 4} textAnchor="middle" fill={b.c} fontSize="6.5" fontFamily="monospace" fontWeight="bold">{b.label}</text>
+            <text x={b.x + b.w/2} y={b.y + b.h/2 + 9} textAnchor="middle" fill={LABEL} fontSize="5" fontFamily="monospace" opacity="0.6">{b.sub}</text>
+          </g>
+        ))}
+        <Brackets x={2} y={2} w={W-4} h={H-4} />
+      </svg>
+    </DiagramWrapper>
+  );
+}
+
+// P09 — Collaborate with Stakeholders: Collaboration model
+export function CollaborateDiagram() {
+  const W = 320; const H = 180;
+  const cx = 160; const cy = 90;
+  const nodes = [
+    { label: 'PM', x: cx, y: cy, r: 20, c: LINE2 },
+    { label: 'SPONSOR', x: cx, y: 30, r: 14, c: LINE },
+    { label: 'TEAM', x: cx - 70, y: cy + 40, r: 14, c: LINE },
+    { label: 'USERS', x: cx + 70, y: cy + 40, r: 14, c: LINE },
+    { label: 'VENDORS', x: cx - 80, y: cy - 30, r: 12, c: LINE3 },
+    { label: 'REGULATORS', x: cx + 80, y: cy - 30, r: 12, c: LINE3 },
+  ];
+  return (
+    <DiagramWrapper label="STAKEHOLDER COLLABORATION MODEL // P09">
+      <svg viewBox={`0 0 ${W} ${H}`} className="w-full" style={{ display: 'block' }}>
+        <GridBg w={W} h={H} />
+        {nodes.slice(1).map((n, i) => (
+          <line key={i} x1={cx} y1={cy} x2={n.x} y2={n.y} stroke={n.c} strokeWidth="0.8" strokeDasharray="3,2" opacity="0.4" />
+        ))}
+        {nodes.map((n, i) => (
+          <g key={i}>
+            <circle cx={n.x} cy={n.y} r={n.r} fill={n.c} opacity="0.12" />
+            <circle cx={n.x} cy={n.y} r={n.r} fill="none" stroke={n.c} strokeWidth="1" style={{ filter: `drop-shadow(0 0 4px ${n.c}66)` }} />
+            <text x={n.x} y={n.y + 3} textAnchor="middle" fill={n.c} fontSize="5.5" fontFamily="monospace" fontWeight="bold">{n.label}</text>
+          </g>
+        ))}
+        <Brackets x={2} y={2} w={W-4} h={H-4} />
+      </svg>
+    </DiagramWrapper>
+  );
+}
+
+// P10 — Build Shared Understanding: Communication channels
+export function SharedUnderstandingDiagram() {
+  const W = 320; const H = 180;
+  const layers = [
+    { label: 'VISION & GOALS', y: 20, w: 280, c: LINE2 },
+    { label: 'SCOPE & DELIVERABLES', y: 55, w: 230, c: LINE },
+    { label: 'ROLES & RESPONSIBILITIES', y: 90, w: 180, c: LINE },
+    { label: 'PROCESS & TOOLS', y: 125, w: 130, c: LABEL },
+    { label: 'NORMS & CULTURE', y: 155, w: 90, c: DIM },
+  ];
+  return (
+    <DiagramWrapper label="SHARED UNDERSTANDING PYRAMID // P10">
+      <svg viewBox={`0 0 ${W} ${H}`} className="w-full" style={{ display: 'block' }}>
+        <GridBg w={W} h={H} />
+        {layers.map((l, i) => {
+          const x = (W - l.w) / 2;
+          return (
+            <g key={i}>
+              <rect x={x} y={l.y} width={l.w} height={26} rx="3" fill={l.c} opacity="0.12" />
+              <rect x={x} y={l.y} width={l.w} height={26} rx="3" fill="none" stroke={l.c} strokeWidth="0.8" />
+              <text x={W/2} y={l.y + 15} textAnchor="middle" fill={l.c} fontSize="6" fontFamily="monospace" fontWeight="bold">{l.label}</text>
+            </g>
+          );
+        })}
+        <Brackets x={2} y={2} w={W-4} h={H-4} />
+      </svg>
+    </DiagramWrapper>
+  );
+}
+
+// P11 — Engage & Motivate: Motivation drivers
+export function MotivationDiagram() {
+  const W = 320; const H = 180;
+  const drivers = [
+    { label: 'PURPOSE', sub: 'Why it matters', x: 80, y: 45, c: LINE2 },
+    { label: 'MASTERY', sub: 'Grow skills', x: 240, y: 45, c: LINE },
+    { label: 'AUTONOMY', sub: 'Own decisions', x: 160, y: 140, c: LINE3 },
+  ];
+  const cx = 160; const cy = 90;
+  return (
+    <DiagramWrapper label="INTRINSIC MOTIVATION DRIVERS // P11">
+      <svg viewBox={`0 0 ${W} ${H}`} className="w-full" style={{ display: 'block' }}>
+        <GridBg w={W} h={H} />
+        {drivers.map((d, i) => (
+          <line key={i} x1={cx} y1={cy} x2={d.x} y2={d.y} stroke={d.c} strokeWidth="1" strokeDasharray="4,2" opacity="0.4" />
+        ))}
+        <circle cx={cx} cy={cy} r={22} fill={LINE} opacity="0.08" />
+        <circle cx={cx} cy={cy} r={22} fill="none" stroke={LINE} strokeWidth="1" style={{ filter: GLOW }} />
+        <text x={cx} y={cy - 3} textAnchor="middle" fill={LINE} fontSize="6" fontFamily="monospace" fontWeight="bold">HIGH</text>
+        <text x={cx} y={cy + 9} textAnchor="middle" fill={LINE} fontSize="6" fontFamily="monospace" fontWeight="bold">PERFORMANCE</text>
+        {drivers.map((d, i) => (
+          <g key={i}>
+            <circle cx={d.x} cy={d.y} r={28} fill={d.c} opacity="0.1" />
+            <circle cx={d.x} cy={d.y} r={28} fill="none" stroke={d.c} strokeWidth="1" />
+            <text x={d.x} y={d.y - 4} textAnchor="middle" fill={d.c} fontSize="7" fontFamily="monospace" fontWeight="bold">{d.label}</text>
+            <text x={d.x} y={d.y + 10} textAnchor="middle" fill={LABEL} fontSize="5.5" fontFamily="monospace" opacity="0.6">{d.sub}</text>
+          </g>
+        ))}
+        <Brackets x={2} y={2} w={W-4} h={H-4} />
+      </svg>
+    </DiagramWrapper>
+  );
+}
+
+// P12 — Manage Team Dynamics: Team health radar
+export function TeamDynamicsDiagram() {
+  const W = 320; const H = 180;
+  const cx = 160; const cy = 90; const R = 65;
+  const axes = ['Trust','Conflict','Commitment','Accountability','Results'];
+  const scores = [0.8, 0.5, 0.7, 0.6, 0.75];
+  const pts = axes.map((_, i) => {
+    const angle = (i / axes.length) * Math.PI * 2 - Math.PI / 2;
+    return { x: cx + Math.cos(angle) * R * scores[i], y: cy + Math.sin(angle) * R * scores[i] };
+  });
+  const outerPts = axes.map((_, i) => {
+    const angle = (i / axes.length) * Math.PI * 2 - Math.PI / 2;
+    return { x: cx + Math.cos(angle) * R, y: cy + Math.sin(angle) * R, label: axes[i] };
+  });
+  return (
+    <DiagramWrapper label="TEAM HEALTH RADAR // P12">
+      <svg viewBox={`0 0 ${W} ${H}`} className="w-full" style={{ display: 'block' }}>
+        <GridBg w={W} h={H} />
+        {[0.25, 0.5, 0.75, 1].map(r => (
+          <polygon key={r} points={axes.map((_, i) => {
+            const angle = (i / axes.length) * Math.PI * 2 - Math.PI / 2;
+            return `${cx + Math.cos(angle) * R * r},${cy + Math.sin(angle) * R * r}`;
+          }).join(' ')} fill="none" stroke={DIM} strokeWidth="0.5" opacity="0.5" />
+        ))}
+        {outerPts.map((p, i) => (
+          <line key={i} x1={cx} y1={cy} x2={p.x} y2={p.y} stroke={DIM} strokeWidth="0.5" opacity="0.4" />
+        ))}
+        <polygon points={pts.map(p => `${p.x},${p.y}`).join(' ')} fill={LINE2} opacity="0.15" />
+        <polygon points={pts.map(p => `${p.x},${p.y}`).join(' ')} fill="none" stroke={LINE2} strokeWidth="1.2" style={{ filter: GLOW2 }} />
+        {outerPts.map((p, i) => (
+          <text key={i} x={p.x + (p.x > cx ? 4 : p.x < cx ? -4 : 0)} y={p.y + (p.y > cy ? 10 : p.y < cy ? -4 : 4)}
+            textAnchor={p.x > cx + 5 ? 'start' : p.x < cx - 5 ? 'end' : 'middle'}
+            fill={LABEL} fontSize="5.5" fontFamily="monospace" opacity="0.8">{p.label}</text>
+        ))}
+        <Brackets x={2} y={2} w={W-4} h={H-4} />
+      </svg>
+    </DiagramWrapper>
+  );
+}
+
+// P13 — Manage Virtual Teams: Remote collaboration framework
+export function VirtualTeamDiagram() {
+  const W = 320; const H = 180;
+  const zones = [
+    { label: 'ASYNC', sub: 'Docs · Email · Loom', x: 20, y: 20, w: 85, h: 140, c: LINE },
+    { label: 'SYNC', sub: 'Video · Standups', x: 120, y: 20, w: 85, h: 140, c: LINE2 },
+    { label: 'TOOLS', sub: 'Miro · Jira · Slack', x: 220, y: 20, w: 85, h: 140, c: LINE3 },
+  ];
+  const overlap = [{ x: 100, y: 60, label: 'OVERLAP\nZONE' }];
+  return (
+    <DiagramWrapper label="VIRTUAL TEAM COLLABORATION // P13">
+      <svg viewBox={`0 0 ${W} ${H}`} className="w-full" style={{ display: 'block' }}>
+        <GridBg w={W} h={H} />
+        {zones.map((z, i) => (
+          <g key={i}>
+            <rect x={z.x} y={z.y} width={z.w} height={z.h} rx="4" fill={z.c} opacity="0.08" />
+            <rect x={z.x} y={z.y} width={z.w} height={z.h} rx="4" fill="none" stroke={z.c} strokeWidth="1" />
+            <text x={z.x + z.w/2} y={z.y + 20} textAnchor="middle" fill={z.c} fontSize="7" fontFamily="monospace" fontWeight="bold">{z.label}</text>
+            <text x={z.x + z.w/2} y={z.y + 36} textAnchor="middle" fill={LABEL} fontSize="5" fontFamily="monospace" opacity="0.6">{z.sub.split(' · ')[0]}</text>
+            <text x={z.x + z.w/2} y={z.y + 48} textAnchor="middle" fill={LABEL} fontSize="5" fontFamily="monospace" opacity="0.6">{z.sub.split(' · ')[1]}</text>
+            <text x={z.x + z.w/2} y={z.y + 60} textAnchor="middle" fill={LABEL} fontSize="5" fontFamily="monospace" opacity="0.6">{z.sub.split(' · ')[2]}</text>
+          </g>
+        ))}
+        <text x={160} y={H - 6} textAnchor="middle" fill={LABEL} fontSize="5.5" fontFamily="monospace" opacity="0.5">TIMEZONE OVERLAP WINDOW: 09:00-12:00 UTC</text>
+        <Brackets x={2} y={2} w={W-4} h={H-4} />
+      </svg>
+    </DiagramWrapper>
+  );
+}
+
+// P14 — Emotional Intelligence: EI competency model
+export function EmotionalIntelligenceDiagram() {
+  const W = 320; const H = 180;
+  const cx = 160; const cy = 90;
+  const quadrants = [
+    { label: 'SELF-AWARENESS', sub: 'Know yourself', x: cx - 75, y: cy - 65, c: LINE2 },
+    { label: 'SELF-MGMT', sub: 'Regulate self', x: cx + 10, y: cy - 65, c: LINE },
+    { label: 'SOCIAL AWARENESS', sub: 'Empathy', x: cx - 75, y: cy + 10, c: LINE },
+    { label: 'RELATIONSHIP MGMT', sub: 'Influence others', x: cx + 10, y: cy + 10, c: LINE3 },
+  ];
+  return (
+    <DiagramWrapper label="EMOTIONAL INTELLIGENCE MODEL // P14">
+      <svg viewBox={`0 0 ${W} ${H}`} className="w-full" style={{ display: 'block' }}>
+        <GridBg w={W} h={H} />
+        <line x1={cx} y1={15} x2={cx} y2={H-15} stroke={DIM} strokeWidth="1" opacity="0.5" />
+        <line x1={15} y1={cy} x2={W-15} y2={cy} stroke={DIM} strokeWidth="1" opacity="0.5" />
+        <text x={cx - 4} y={12} textAnchor="end" fill={LABEL} fontSize="5.5" fontFamily="monospace" opacity="0.5">SELF</text>
+        <text x={cx + 4} y={12} textAnchor="start" fill={LABEL} fontSize="5.5" fontFamily="monospace" opacity="0.5">SOCIAL</text>
+        <text x={18} y={cy - 4} fill={LABEL} fontSize="5.5" fontFamily="monospace" opacity="0.5">AWARENESS</text>
+        <text x={18} y={cy + 12} fill={LABEL} fontSize="5.5" fontFamily="monospace" opacity="0.5">MANAGEMENT</text>
+        {quadrants.map((q, i) => (
+          <g key={i}>
+            <rect x={q.x} y={q.y} width={80} height={50} rx="3" fill={q.c} opacity="0.1" />
+            <rect x={q.x} y={q.y} width={80} height={50} rx="3" fill="none" stroke={q.c} strokeWidth="0.8" />
+            <text x={q.x + 40} y={q.y + 18} textAnchor="middle" fill={q.c} fontSize="6" fontFamily="monospace" fontWeight="bold">{q.label}</text>
+            <text x={q.x + 40} y={q.y + 32} textAnchor="middle" fill={LABEL} fontSize="5" fontFamily="monospace" opacity="0.6">{q.sub}</text>
+          </g>
+        ))}
+        <Brackets x={2} y={2} w={W-4} h={H-4} />
+      </svg>
+    </DiagramWrapper>
+  );
+}
+
+// ═══════════════════════════════════════════════════════════════════════════════
+// UNIQUE DIAGRAMS — Process Domain (PR01-PR17)
+// ═══════════════════════════════════════════════════════════════════════════════
+
+// PR01 — Manage Schedule: Schedule control loop
+export function ScheduleDiagram() {
+  const W = 320; const H = 180;
+  const steps = ['BASELINE\nSCHEDULE','TRACK\nACTUALS','COMPARE\nSV/SPI','FORECAST\nEAC','CORRECTIVE\nACTION'];
+  const xs = [30, 95, 160, 225, 290];
+  const colors = [LINE2, LINE, LINE, LINE3, LINE2];
+  return (
+    <DiagramWrapper label="SCHEDULE CONTROL LOOP // PR01">
+      <svg viewBox={`0 0 ${W} ${H}`} className="w-full" style={{ display: 'block' }}>
+        <GridBg w={W} h={H} />
+        {steps.map((s, i) => (
+          <g key={i}>
+            {i < steps.length - 1 && (
+              <line x1={xs[i]+22} y1={90} x2={xs[i+1]-22} y2={90} stroke={colors[i]} strokeWidth="0.8" strokeDasharray="3,2" opacity="0.5" />
+            )}
+            <rect x={xs[i]-22} y={70} width={44} height={40} rx="4" fill={colors[i]} opacity="0.1" />
+            <rect x={xs[i]-22} y={70} width={44} height={40} rx="4" fill="none" stroke={colors[i]} strokeWidth="0.8" />
+            {s.split('\n').map((line, j) => (
+              <text key={j} x={xs[i]} y={85 + j*12} textAnchor="middle" fill={colors[i]} fontSize="5.5" fontFamily="monospace" fontWeight="bold">{line}</text>
+            ))}
+          </g>
+        ))}
+        <path d="M 290,110 Q 160,155 30,110" fill="none" stroke={LINE3} strokeWidth="0.6" strokeDasharray="3,2" opacity="0.3" />
+        <text x={160} y={165} textAnchor="middle" fill={LINE3} fontSize="5" fontFamily="monospace" opacity="0.5">← FEEDBACK LOOP</text>
+        <Brackets x={2} y={2} w={W-4} h={H-4} />
+      </svg>
+    </DiagramWrapper>
+  );
+}
+
+// PR02 — Manage Budget: Budget tracking dashboard
+export function BudgetDiagram() {
+  const W = 320; const H = 180;
+  const months = ['M1','M2','M3','M4','M5','M6'];
+  const planned = [20, 40, 65, 85, 100, 120];
+  const actual = [22, 45, 72, 95, 0, 0];
+  const maxV = 130;
+  const toY = (v: number) => H - 25 - (v / maxV) * (H - 50);
+  const toX = (i: number) => 30 + i * 52;
+  return (
+    <DiagramWrapper label="BUDGET TRACKING (EVM) // PR02">
+      <svg viewBox={`0 0 ${W} ${H}`} className="w-full" style={{ display: 'block' }}>
+        <GridBg w={W} h={H} />
+        <polyline points={months.map((_, i) => `${toX(i)},${toY(planned[i])}`).join(' ')} fill="none" stroke={LINE2} strokeWidth="1.5" style={{ filter: GLOW2 }} />
+        <polyline points={months.slice(0,4).map((_, i) => `${toX(i)},${toY(actual[i])}`).join(' ')} fill="none" stroke={LINE3} strokeWidth="1.5" style={{ filter: GLOW3 }} />
+        {months.map((m, i) => (
+          <g key={i}>
+            <text x={toX(i)} y={H-8} textAnchor="middle" fill={LABEL} fontSize="6" fontFamily="monospace" opacity="0.6">{m}</text>
+            <GlowDot x={toX(i)} y={toY(planned[i])} r={2.5} color={LINE2} />
+            {i < 4 && <GlowDot x={toX(i)} y={toY(actual[i])} r={2.5} color={LINE3} />}
+          </g>
+        ))}
+        <text x={10} y={20} fill={LINE2} fontSize="5.5" fontFamily="monospace">■ PLANNED</text>
+        <text x={80} y={20} fill={LINE3} fontSize="5.5" fontFamily="monospace">■ ACTUAL</text>
+        <text x={150} y={20} fill={LABEL} fontSize="5.5" fontFamily="monospace" opacity="0.5">CV = AC - PV</text>
+        <Brackets x={2} y={2} w={W-4} h={H-4} />
+      </svg>
+    </DiagramWrapper>
+  );
+}
+
+// PR03 — Manage Risk: Risk response strategies
+export function RiskResponseDiagram() {
+  const W = 320; const H = 180;
+  const strategies = [
+    { label: 'AVOID', sub: 'Eliminate threat', x: 40, y: 40, c: LINE3 },
+    { label: 'TRANSFER', sub: 'Insurance/contract', x: 160, y: 40, c: LINE },
+    { label: 'MITIGATE', sub: 'Reduce probability', x: 280, y: 40, c: LINE },
+    { label: 'ACCEPT', sub: 'Contingency reserve', x: 40, y: 130, c: DIM },
+    { label: 'EXPLOIT', sub: 'Opportunity', x: 160, y: 130, c: LINE2 },
+    { label: 'ENHANCE', sub: 'Increase probability', x: 280, y: 130, c: LINE2 },
+  ];
+  return (
+    <DiagramWrapper label="RISK RESPONSE STRATEGIES // PR03">
+      <svg viewBox={`0 0 ${W} ${H}`} className="w-full" style={{ display: 'block' }}>
+        <GridBg w={W} h={H} />
+        <line x1={10} y1={90} x2={310} y2={90} stroke={DIM} strokeWidth="0.8" strokeDasharray="4,2" opacity="0.4" />
+        <text x={14} y={86} fill={LINE3} fontSize="5.5" fontFamily="monospace" opacity="0.6">THREATS ↑</text>
+        <text x={14} y={100} fill={LINE2} fontSize="5.5" fontFamily="monospace" opacity="0.6">OPPORTUNITIES ↓</text>
+        {strategies.map((s, i) => (
+          <g key={i}>
+            <rect x={s.x - 38} y={s.y - 20} width={76} height={38} rx="3" fill={s.c} opacity="0.1" />
+            <rect x={s.x - 38} y={s.y - 20} width={76} height={38} rx="3" fill="none" stroke={s.c} strokeWidth="0.8" />
+            <text x={s.x} y={s.y - 4} textAnchor="middle" fill={s.c} fontSize="6.5" fontFamily="monospace" fontWeight="bold">{s.label}</text>
+            <text x={s.x} y={s.y + 10} textAnchor="middle" fill={LABEL} fontSize="5" fontFamily="monospace" opacity="0.6">{s.sub}</text>
+          </g>
+        ))}
+        <Brackets x={2} y={2} w={W-4} h={H-4} />
+      </svg>
+    </DiagramWrapper>
+  );
+}
+
+// PR04 — Engage Stakeholders: Communication plan
+export function StakeholderEngageDiagram() {
+  const W = 320; const H = 180;
+  const rows = [
+    { who: 'SPONSOR', what: 'Status Report', how: 'Email', when: 'Weekly', c: LINE2 },
+    { who: 'PMO HEAD', what: 'Dashboard', how: 'Meeting', when: 'Bi-weekly', c: LINE },
+    { who: 'TEAM', what: 'Stand-up', how: 'Video call', when: 'Daily', c: LINE },
+    { who: 'REGULATORS', what: 'Submission', how: 'Portal', when: 'Milestone', c: LINE3 },
+    { who: 'END USERS', what: 'Demo', how: 'Workshop', when: 'Sprint end', c: LABEL },
+  ];
+  return (
+    <DiagramWrapper label="STAKEHOLDER COMMUNICATION PLAN // PR04">
+      <svg viewBox={`0 0 ${W} ${H}`} className="w-full" style={{ display: 'block' }}>
+        <GridBg w={W} h={H} />
+        {['WHO','WHAT','HOW','WHEN'].map((h, i) => (
+          <text key={i} x={10 + i * 78} y={16} fill={LINE} fontSize="6" fontFamily="monospace" fontWeight="bold" opacity="0.8">{h}</text>
+        ))}
+        <line x1={5} y1={20} x2={315} y2={20} stroke={LINE} strokeWidth="0.5" opacity="0.4" />
+        {rows.map((r, i) => (
+          <g key={i}>
+            <text x={10} y={34 + i*28} fill={r.c} fontSize="5.5" fontFamily="monospace" fontWeight="bold">{r.who}</text>
+            <text x={88} y={34 + i*28} fill={LABEL} fontSize="5.5" fontFamily="monospace" opacity="0.7">{r.what}</text>
+            <text x={166} y={34 + i*28} fill={LABEL} fontSize="5.5" fontFamily="monospace" opacity="0.7">{r.how}</text>
+            <text x={244} y={34 + i*28} fill={LABEL} fontSize="5.5" fontFamily="monospace" opacity="0.7">{r.when}</text>
+            <line x1={5} y1={38 + i*28} x2={315} y2={38 + i*28} stroke={DIM} strokeWidth="0.3" opacity="0.3" />
+          </g>
+        ))}
+        <Brackets x={2} y={2} w={W-4} h={H-4} />
+      </svg>
+    </DiagramWrapper>
+  );
+}
+
+// PR05 — Manage Quality: Quality control loop
+export function QualityDiagram() {
+  const W = 320; const H = 180;
+  const steps = ['PLAN\nQUALITY','ASSURE\nPROCESS','CONTROL\nOUTPUT','DEFECT\nANALYSIS','IMPROVE\nPROCESS'];
+  const xs = [30, 95, 160, 225, 290];
+  const ys = [60, 100, 60, 100, 60];
+  const colors = [LINE2, LINE, LINE2, LINE3, LINE2];
+  return (
+    <DiagramWrapper label="QUALITY MANAGEMENT CYCLE // PR05">
+      <svg viewBox={`0 0 ${W} ${H}`} className="w-full" style={{ display: 'block' }}>
+        <GridBg w={W} h={H} />
+        {steps.map((s, i) => (
+          <g key={i}>
+            {i < steps.length - 1 && (
+              <line x1={xs[i]+22} y1={ys[i]} x2={xs[i+1]-22} y2={ys[i+1]} stroke={colors[i]} strokeWidth="0.8" strokeDasharray="3,2" opacity="0.5" />
+            )}
+            <rect x={xs[i]-22} y={ys[i]-18} width={44} height={36} rx="4" fill={colors[i]} opacity="0.1" />
+            <rect x={xs[i]-22} y={ys[i]-18} width={44} height={36} rx="4" fill="none" stroke={colors[i]} strokeWidth="0.8" />
+            {s.split('\n').map((line, j) => (
+              <text key={j} x={xs[i]} y={ys[i] - 4 + j*12} textAnchor="middle" fill={colors[i]} fontSize="5.5" fontFamily="monospace" fontWeight="bold">{line}</text>
+            ))}
+          </g>
+        ))}
+        <text x={160} y={H-6} textAnchor="middle" fill={LABEL} fontSize="5.5" fontFamily="monospace" opacity="0.5">DEFECT RATE TARGET: &lt;2% · SIGMA LEVEL: 4σ</text>
+        <Brackets x={2} y={2} w={W-4} h={H-4} />
+      </svg>
+    </DiagramWrapper>
+  );
+}
+
+// PR06 — Manage Resources: Resource allocation matrix
+export function ResourceDiagram() {
+  const W = 320; const H = 180;
+  const resources = ['Designer','Reg. Analyst','Dev Lead','QA Engineer','PM'];
+  const weeks = ['W1','W2','W3','W4','W5','W6'];
+  const alloc = [
+    [100, 80, 60, 40, 20, 0],
+    [20, 40, 80, 100, 80, 40],
+    [0, 20, 60, 80, 100, 80],
+    [0, 0, 40, 60, 80, 100],
+    [60, 60, 60, 60, 60, 60],
+  ];
+  return (
+    <DiagramWrapper label="RESOURCE ALLOCATION MATRIX // PR06">
+      <svg viewBox={`0 0 ${W} ${H}`} className="w-full" style={{ display: 'block' }}>
+        <GridBg w={W} h={H} />
+        {weeks.map((w, i) => (
+          <text key={i} x={90 + i * 38} y={14} textAnchor="middle" fill={LINE} fontSize="5.5" fontFamily="monospace" opacity="0.7">{w}</text>
+        ))}
+        {resources.map((r, ri) => (
+          <g key={ri}>
+            <text x={8} y={28 + ri * 28} fill={LABEL} fontSize="5" fontFamily="monospace" opacity="0.7">{r}</text>
+            {weeks.map((_, wi) => {
+              const v = alloc[ri][wi];
+              const c = v > 80 ? LINE3 : v > 50 ? LINE : LINE2;
+              return (
+                <g key={wi}>
+                  <rect x={76 + wi * 38} y={18 + ri * 28} width={32} height={18} rx="2" fill={c} opacity={v / 400} />
+                  <rect x={76 + wi * 38} y={18 + ri * 28} width={32} height={18} rx="2" fill="none" stroke={c} strokeWidth="0.5" opacity="0.4" />
+                  <text x={92 + wi * 38} y={30 + ri * 28} textAnchor="middle" fill={c} fontSize="5" fontFamily="monospace">{v}%</text>
+                </g>
+              );
+            })}
+          </g>
+        ))}
+        <Brackets x={2} y={2} w={W-4} h={H-4} />
+      </svg>
+    </DiagramWrapper>
+  );
+}
+
+// PR07 — Manage Procurement: Procurement lifecycle
+export function ProcurementDiagram() {
+  const W = 320; const H = 180;
+  const phases = [
+    { label: 'PLAN', sub: 'Make/buy', x: 30, c: LINE2 },
+    { label: 'SOLICIT', sub: 'RFP/RFQ', x: 95, c: LINE },
+    { label: 'SELECT', sub: 'Evaluate', x: 160, c: LINE },
+    { label: 'CONTRACT', sub: 'Negotiate', x: 225, c: LINE3 },
+    { label: 'CLOSE', sub: 'Handover', x: 290, c: LINE2 },
+  ];
+  return (
+    <DiagramWrapper label="PROCUREMENT LIFECYCLE // PR07">
+      <svg viewBox={`0 0 ${W} ${H}`} className="w-full" style={{ display: 'block' }}>
+        <GridBg w={W} h={H} />
+        {phases.map((p, i) => (
+          <g key={i}>
+            {i < phases.length - 1 && (
+              <line x1={p.x + 26} y1={90} x2={phases[i+1].x - 26} y2={90} stroke={p.c} strokeWidth="1" strokeDasharray="3,2" opacity="0.5" />
+            )}
+            <polygon points={`${p.x - 26},70 ${p.x + 20},70 ${p.x + 26},90 ${p.x + 20},110 ${p.x - 26},110`} fill={p.c} opacity="0.1" />
+            <polygon points={`${p.x - 26},70 ${p.x + 20},70 ${p.x + 26},90 ${p.x + 20},110 ${p.x - 26},110`} fill="none" stroke={p.c} strokeWidth="0.8" />
+            <text x={p.x - 2} y={87} textAnchor="middle" fill={p.c} fontSize="6" fontFamily="monospace" fontWeight="bold">{p.label}</text>
+            <text x={p.x - 2} y={100} textAnchor="middle" fill={LABEL} fontSize="5" fontFamily="monospace" opacity="0.6">{p.sub}</text>
+          </g>
+        ))}
+        <Brackets x={2} y={2} w={W-4} h={H-4} />
+      </svg>
+    </DiagramWrapper>
+  );
+}
+
+// PR08 — Manage Scope: Scope baseline triad
+export function ScopeManageDiagram() {
+  const W = 320; const H = 180;
+  const cx = 160; const cy = 90;
+  return (
+    <DiagramWrapper label="SCOPE MANAGEMENT TRIAD // PR08">
+      <svg viewBox={`0 0 ${W} ${H}`} className="w-full" style={{ display: 'block' }}>
+        <GridBg w={W} h={H} />
+        <polygon points={`${cx},20 ${cx+110},155 ${cx-110},155`} fill={LINE} opacity="0.05" />
+        <polygon points={`${cx},20 ${cx+110},155 ${cx-110},155`} fill="none" stroke={LINE} strokeWidth="1" style={{ filter: GLOW }} />
+        <text x={cx} y={45} textAnchor="middle" fill={LINE2} fontSize="7" fontFamily="monospace" fontWeight="bold">SCOPE STATEMENT</text>
+        <text x={cx} y={58} textAnchor="middle" fill={LABEL} fontSize="5.5" fontFamily="monospace" opacity="0.6">T14 · Inclusions & Exclusions</text>
+        <text x={cx - 60} y={135} textAnchor="middle" fill={LINE} fontSize="7" fontFamily="monospace" fontWeight="bold">WBS</text>
+        <text x={cx - 60} y={148} textAnchor="middle" fill={LABEL} fontSize="5.5" fontFamily="monospace" opacity="0.6">T3 · Decomposition</text>
+        <text x={cx + 60} y={135} textAnchor="middle" fill={LINE3} fontSize="7" fontFamily="monospace" fontWeight="bold">MoSCoW</text>
+        <text x={cx + 60} y={148} textAnchor="middle" fill={LABEL} fontSize="5.5" fontFamily="monospace" opacity="0.6">T7 · Prioritisation</text>
+        <circle cx={cx} cy={cy} r={22} fill={LINE2} opacity="0.08" />
+        <circle cx={cx} cy={cy} r={22} fill="none" stroke={LINE2} strokeWidth="0.8" strokeDasharray="3,2" />
+        <text x={cx} y={cy - 3} textAnchor="middle" fill={LINE2} fontSize="6" fontFamily="monospace" fontWeight="bold">SCOPE</text>
+        <text x={cx} y={cy + 9} textAnchor="middle" fill={LINE2} fontSize="6" fontFamily="monospace" fontWeight="bold">BASELINE</text>
+        <Brackets x={2} y={2} w={W-4} h={H-4} />
+      </svg>
+    </DiagramWrapper>
+  );
+}
+
+// PR09 — Manage Project Knowledge: Knowledge management cycle
+export function KnowledgeMgmtDiagram() {
+  const W = 320; const H = 180;
+  const cx = 160; const cy = 90;
+  const nodes = [
+    { label: 'CAPTURE', x: cx, y: 25, c: LINE2 },
+    { label: 'STORE', x: cx + 80, y: cy, c: LINE },
+    { label: 'SHARE', x: cx, y: H - 25, c: LINE },
+    { label: 'APPLY', x: cx - 80, y: cy, c: LINE3 },
+  ];
+  return (
+    <DiagramWrapper label="KNOWLEDGE MANAGEMENT CYCLE // PR09">
+      <svg viewBox={`0 0 ${W} ${H}`} className="w-full" style={{ display: 'block' }}>
+        <GridBg w={W} h={H} />
+        <circle cx={cx} cy={cy} r={30} fill={LINE} opacity="0.05" />
+        <circle cx={cx} cy={cy} r={30} fill="none" stroke={LINE} strokeWidth="0.5" strokeDasharray="3,2" opacity="0.3" />
+        <text x={cx} y={cy - 3} textAnchor="middle" fill={LINE} fontSize="6" fontFamily="monospace" opacity="0.6">LESSONS</text>
+        <text x={cx} y={cy + 9} textAnchor="middle" fill={LINE} fontSize="6" fontFamily="monospace" opacity="0.6">LEARNED</text>
+        {nodes.map((n, i) => {
+          const next = nodes[(i + 1) % nodes.length];
+          const mx = (n.x + next.x) / 2; const my = (n.y + next.y) / 2;
+          return (
+            <g key={i}>
+              <line x1={n.x} y1={n.y} x2={next.x} y2={next.y} stroke={n.c} strokeWidth="0.8" strokeDasharray="4,2" opacity="0.4" />
+              <rect x={n.x - 32} y={n.y - 14} width={64} height={28} rx="4" fill={n.c} opacity="0.1" />
+              <rect x={n.x - 32} y={n.y - 14} width={64} height={28} rx="4" fill="none" stroke={n.c} strokeWidth="0.8" />
+              <text x={n.x} y={n.y + 4} textAnchor="middle" fill={n.c} fontSize="7" fontFamily="monospace" fontWeight="bold">{n.label}</text>
+            </g>
+          );
+        })}
+        <Brackets x={2} y={2} w={W-4} h={H-4} />
+      </svg>
+    </DiagramWrapper>
+  );
+}
+
+// PR10 — Close Project: Closure checklist
+export function ClosureChecklistDiagram() {
+  const W = 320; const H = 180;
+  const items = [
+    { label: 'Deliverables accepted by sponsor', done: true },
+    { label: 'Resources released / reassigned', done: true },
+    { label: 'Documents archived in DMS', done: true },
+    { label: 'Post-Implementation Review held', done: false },
+    { label: 'Benefits realisation measured', done: false },
+    { label: 'Lessons learned published', done: false },
+  ];
+  return (
+    <DiagramWrapper label="PROJECT CLOSURE CHECKLIST // PR10">
+      <svg viewBox={`0 0 ${W} ${H}`} className="w-full" style={{ display: 'block' }}>
+        <GridBg w={W} h={H} />
+        {items.map((item, i) => (
+          <g key={i}>
+            <rect x={12} y={14 + i * 26} width={12} height={12} rx="2" fill={item.done ? LINE2 : 'none'} stroke={item.done ? LINE2 : DIM} strokeWidth="1" />
+            {item.done && <text x={18} y={24 + i * 26} textAnchor="middle" fill={BG} fontSize="8" fontFamily="monospace" fontWeight="bold">✓</text>}
+            <text x={32} y={24 + i * 26} fill={item.done ? LINE2 : LABEL} fontSize="6" fontFamily="monospace" opacity={item.done ? 1 : 0.5}>{item.label}</text>
+          </g>
+        ))}
+        <text x={W - 10} y={H - 6} textAnchor="end" fill={LINE3} fontSize="5.5" fontFamily="monospace">3/6 COMPLETE</text>
+        <Brackets x={2} y={2} w={W-4} h={H-4} />
+      </svg>
+    </DiagramWrapper>
+  );
+}
+
+// PR11 — Manage Change: Change control workflow
+export function ChangeControlDiagram() {
+  const W = 320; const H = 180;
+  const steps = [
+    { label: 'CHANGE\nREQUEST', x: 30, y: 60, c: LINE3 },
+    { label: 'IMPACT\nASSESSMENT', x: 100, y: 60, c: LINE },
+    { label: 'CCB\nREVIEW', x: 170, y: 60, c: LINE },
+    { label: 'APPROVE /\nREJECT', x: 240, y: 60, c: LINE2 },
+    { label: 'IMPLEMENT\n& BASELINE', x: 295, y: 110, c: LINE2 },
+  ];
+  return (
+    <DiagramWrapper label="CHANGE CONTROL WORKFLOW // PR11">
+      <svg viewBox={`0 0 ${W} ${H}`} className="w-full" style={{ display: 'block' }}>
+        <GridBg w={W} h={H} />
+        {steps.map((s, i) => (
+          <g key={i}>
+            {i < steps.length - 1 && (
+              <line x1={s.x + 28} y1={s.y} x2={steps[i+1].x - 28} y2={steps[i+1].y} stroke={s.c} strokeWidth="0.8" strokeDasharray="3,2" opacity="0.5" />
+            )}
+            <rect x={s.x - 28} y={s.y - 20} width={56} height={40} rx="4" fill={s.c} opacity="0.1" />
+            <rect x={s.x - 28} y={s.y - 20} width={56} height={40} rx="4" fill="none" stroke={s.c} strokeWidth="0.8" />
+            {s.label.split('\n').map((line, j) => (
+              <text key={j} x={s.x} y={s.y - 5 + j * 12} textAnchor="middle" fill={s.c} fontSize="5.5" fontFamily="monospace" fontWeight="bold">{line}</text>
+            ))}
+          </g>
+        ))}
+        <line x1={240} y1={80} x2={240} y2={130} stroke={LINE3} strokeWidth="0.6" strokeDasharray="2,2" opacity="0.4" />
+        <text x={248} y={125} fill={LINE3} fontSize="5" fontFamily="monospace" opacity="0.6">REJECT →</text>
+        <text x={248} y={135} fill={LINE3} fontSize="5" fontFamily="monospace" opacity="0.6">ARCHIVE</text>
+        <Brackets x={2} y={2} w={W-4} h={H-4} />
+      </svg>
+    </DiagramWrapper>
+  );
+}
+
+// PR12 — Manage Information: Information architecture
+export function InformationMgmtDiagram() {
+  const W = 320; const H = 180;
+  const layers = [
+    { label: 'RAW DATA', sub: 'Metrics · Logs · Reports', y: 20, c: DIM },
+    { label: 'INFORMATION', sub: 'Processed · Structured', y: 60, c: LABEL },
+    { label: 'KNOWLEDGE', sub: 'Interpreted · Contextual', y: 100, c: LINE },
+    { label: 'DECISIONS', sub: 'Actionable · Timely', y: 140, c: LINE2 },
+  ];
+  return (
+    <DiagramWrapper label="INFORMATION MANAGEMENT PYRAMID // PR12">
+      <svg viewBox={`0 0 ${W} ${H}`} className="w-full" style={{ display: 'block' }}>
+        <GridBg w={W} h={H} />
+        {layers.map((l, i) => {
+          const w = 80 + i * 50; const x = (W - w) / 2;
+          return (
+            <g key={i}>
+              {i > 0 && <line x1={W/2} y1={l.y} x2={W/2} y2={l.y} stroke={l.c} strokeWidth="0.5" opacity="0.3" />}
+              <rect x={x} y={l.y} width={w} height={28} rx="3" fill={l.c} opacity="0.12" />
+              <rect x={x} y={l.y} width={w} height={28} rx="3" fill="none" stroke={l.c} strokeWidth="0.8" />
+              <text x={W/2} y={l.y + 11} textAnchor="middle" fill={l.c} fontSize="6.5" fontFamily="monospace" fontWeight="bold">{l.label}</text>
+              <text x={W/2} y={l.y + 23} textAnchor="middle" fill={LABEL} fontSize="5" fontFamily="monospace" opacity="0.6">{l.sub}</text>
+            </g>
+          );
+        })}
+        <Brackets x={2} y={2} w={W-4} h={H-4} />
+      </svg>
+    </DiagramWrapper>
+  );
+}
+
+// PR13 — Manage Methodology: Methodology selection matrix
+export function MethodologySelectDiagram() {
+  const W = 320; const H = 180;
+  return (
+    <DiagramWrapper label="METHODOLOGY SELECTION MATRIX // PR13">
+      <svg viewBox={`0 0 ${W} ${H}`} className="w-full" style={{ display: 'block' }}>
+        <GridBg w={W} h={H} />
+        <line x1={160} y1={15} x2={160} y2={H-15} stroke={DIM} strokeWidth="1" opacity="0.5" />
+        <line x1={15} y1={95} x2={W-15} y2={95} stroke={DIM} strokeWidth="1" opacity="0.5" />
+        <text x={90} y={12} textAnchor="middle" fill={LABEL} fontSize="6" fontFamily="monospace" opacity="0.5">LOW COMPLEXITY</text>
+        <text x={240} y={12} textAnchor="middle" fill={LABEL} fontSize="6" fontFamily="monospace" opacity="0.5">HIGH COMPLEXITY</text>
+        <text x={90} y={55} textAnchor="middle" fill={LINE2} fontSize="8" fontFamily="monospace" fontWeight="bold">WATERFALL</text>
+        <text x={90} y={68} textAnchor="middle" fill={LABEL} fontSize="5.5" fontFamily="monospace" opacity="0.6">Stable · Compliance</text>
+        <text x={240} y={55} textAnchor="middle" fill={LINE} fontSize="8" fontFamily="monospace" fontWeight="bold">HYBRID</text>
+        <text x={240} y={68} textAnchor="middle" fill={LABEL} fontSize="5.5" fontFamily="monospace" opacity="0.6">Mixed requirements</text>
+        <text x={90} y={130} textAnchor="middle" fill={LINE3} fontSize="8" fontFamily="monospace" fontWeight="bold">KANBAN</text>
+        <text x={90} y={143} textAnchor="middle" fill={LABEL} fontSize="5.5" fontFamily="monospace" opacity="0.6">Continuous flow</text>
+        <text x={240} y={130} textAnchor="middle" fill={LINE2} fontSize="8" fontFamily="monospace" fontWeight="bold">AGILE</text>
+        <text x={240} y={143} textAnchor="middle" fill={LABEL} fontSize="5.5" fontFamily="monospace" opacity="0.6">Evolving · User-driven</text>
+        <text x={12} y={60} fill={LABEL} fontSize="5" fontFamily="monospace" opacity="0.5" transform="rotate(-90,12,60)">STABLE REQS</text>
+        <text x={12} y={140} fill={LABEL} fontSize="5" fontFamily="monospace" opacity="0.5" transform="rotate(-90,12,140)">CHANGING REQS</text>
+        <Brackets x={2} y={2} w={W-4} h={H-4} />
+      </svg>
+    </DiagramWrapper>
+  );
+}
+
+// PR14 — Manage Governance: Governance structure
+export function GovernanceDiagram() {
+  const W = 320; const H = 180;
+  const levels = [
+    { label: 'STEERING COMMITTEE', sub: 'Strategic decisions · Sponsor', y: 15, w: 280, c: LINE2 },
+    { label: 'PROJECT BOARD', sub: 'Tactical oversight · PMO Head', y: 60, w: 220, c: LINE },
+    { label: 'PROJECT MANAGER', sub: 'Operational decisions', y: 105, w: 160, c: LINE },
+    { label: 'TEAM LEADS', sub: 'Task-level authority', y: 145, w: 100, c: LABEL },
+  ];
+  return (
+    <DiagramWrapper label="GOVERNANCE HIERARCHY // PR14">
+      <svg viewBox={`0 0 ${W} ${H}`} className="w-full" style={{ display: 'block' }}>
+        <GridBg w={W} h={H} />
+        {levels.map((l, i) => {
+          const x = (W - l.w) / 2;
+          return (
+            <g key={i}>
+              {i > 0 && <line x1={W/2} y1={levels[i-1].y + 28} x2={W/2} y2={l.y} stroke={DIM} strokeWidth="0.8" strokeDasharray="2,2" opacity="0.4" />}
+              <rect x={x} y={l.y} width={l.w} height={28} rx="3" fill={l.c} opacity="0.1" />
+              <rect x={x} y={l.y} width={l.w} height={28} rx="3" fill="none" stroke={l.c} strokeWidth="0.8" />
+              <text x={W/2} y={l.y + 11} textAnchor="middle" fill={l.c} fontSize="6.5" fontFamily="monospace" fontWeight="bold">{l.label}</text>
+              <text x={W/2} y={l.y + 23} textAnchor="middle" fill={LABEL} fontSize="5" fontFamily="monospace" opacity="0.6">{l.sub}</text>
+            </g>
+          );
+        })}
+        <Brackets x={2} y={2} w={W-4} h={H-4} />
+      </svg>
+    </DiagramWrapper>
+  );
+}
+
+// PR15 — Manage Defects: Defect lifecycle
+export function DefectDiagram() {
+  const W = 320; const H = 180;
+  const states = [
+    { label: 'OPEN', x: 30, y: 90, c: LINE3 },
+    { label: 'IN ANALYSIS', x: 100, y: 60, c: LINE },
+    { label: 'IN FIX', x: 170, y: 90, c: LINE },
+    { label: 'IN TEST', x: 240, y: 60, c: LINE2 },
+    { label: 'CLOSED', x: 295, y: 90, c: LINE2 },
+  ];
+  return (
+    <DiagramWrapper label="DEFECT LIFECYCLE // PR15">
+      <svg viewBox={`0 0 ${W} ${H}`} className="w-full" style={{ display: 'block' }}>
+        <GridBg w={W} h={H} />
+        {states.map((s, i) => (
+          <g key={i}>
+            {i < states.length - 1 && (
+              <line x1={s.x + 24} y1={s.y} x2={states[i+1].x - 24} y2={states[i+1].y} stroke={s.c} strokeWidth="0.8" strokeDasharray="3,2" opacity="0.5" />
+            )}
+            <rect x={s.x - 24} y={s.y - 16} width={48} height={32} rx="4" fill={s.c} opacity="0.1" />
+            <rect x={s.x - 24} y={s.y - 16} width={48} height={32} rx="4" fill="none" stroke={s.c} strokeWidth="0.8" />
+            <text x={s.x} y={s.y + 4} textAnchor="middle" fill={s.c} fontSize="5.5" fontFamily="monospace" fontWeight="bold">{s.label}</text>
+          </g>
+        ))}
+        <text x={160} y={H - 6} textAnchor="middle" fill={LABEL} fontSize="5.5" fontFamily="monospace" opacity="0.5">DEFECT DENSITY TARGET: &lt;0.5 per 1000 UNITS</text>
+        <Brackets x={2} y={2} w={W-4} h={H-4} />
+      </svg>
+    </DiagramWrapper>
+  );
+}
+
+// PR16 — Manage Continuous Improvement: CI flywheel
+export function ContinuousImproveDiagram() {
+  const W = 320; const H = 180;
+  const cx = 160; const cy = 90; const R = 60;
+  const steps = ['MEASURE','ANALYSE','IMPROVE','CONTROL','STANDARDISE'];
+  return (
+    <DiagramWrapper label="CONTINUOUS IMPROVEMENT FLYWHEEL // PR16">
+      <svg viewBox={`0 0 ${W} ${H}`} className="w-full" style={{ display: 'block' }}>
+        <GridBg w={W} h={H} />
+        <circle cx={cx} cy={cy} r={R} fill="none" stroke={DIM} strokeWidth="1" strokeDasharray="4,2" opacity="0.3" />
+        {steps.map((s, i) => {
+          const angle = (i / steps.length) * Math.PI * 2 - Math.PI / 2;
+          const x = cx + Math.cos(angle) * R;
+          const y = cy + Math.sin(angle) * R;
+          const c = [LINE2, LINE, LINE2, LINE3, LINE2][i];
+          return (
+            <g key={i}>
+              <GlowDot x={x} y={y} r={5} color={c} />
+              <text x={x + (x > cx ? 8 : x < cx - 5 ? -8 : 0)} y={y + (y > cy ? 12 : y < cy ? -6 : 4)}
+                textAnchor={x > cx + 5 ? 'start' : x < cx - 5 ? 'end' : 'middle'}
+                fill={c} fontSize="6" fontFamily="monospace" fontWeight="bold">{s}</text>
+            </g>
+          );
+        })}
+        <text x={cx} y={cy - 4} textAnchor="middle" fill={LINE} fontSize="6.5" fontFamily="monospace" fontWeight="bold">KAIZEN</text>
+        <text x={cx} y={cy + 10} textAnchor="middle" fill={LINE} fontSize="6.5" fontFamily="monospace" fontWeight="bold">CULTURE</text>
+        <Brackets x={2} y={2} w={W-4} h={H-4} />
+      </svg>
+    </DiagramWrapper>
+  );
+}
+
+// PR17 — Manage Lessons Learned: Lessons learned process
+export function LessonsLearnedProcessDiagram() {
+  const W = 320; const H = 180;
+  const steps = [
+    { label: 'IDENTIFY', sub: 'During project', x: 30, c: LINE3 },
+    { label: 'DOCUMENT', sub: 'Standard format', x: 100, c: LINE },
+    { label: 'ANALYSE', sub: 'Root causes', x: 170, c: LINE },
+    { label: 'STORE', sub: 'DMS / KCS', x: 240, c: LINE2 },
+    { label: 'APPLY', sub: 'Next project', x: 295, c: LINE2 },
+  ];
+  return (
+    <DiagramWrapper label="LESSONS LEARNED PROCESS // PR17">
+      <svg viewBox={`0 0 ${W} ${H}`} className="w-full" style={{ display: 'block' }}>
+        <GridBg w={W} h={H} />
+        {steps.map((s, i) => (
+          <g key={i}>
+            {i < steps.length - 1 && (
+              <line x1={s.x + 26} y1={90} x2={steps[i+1].x - 26} y2={90} stroke={s.c} strokeWidth="0.8" strokeDasharray="3,2" opacity="0.5" />
+            )}
+            <rect x={s.x - 26} y={70} width={52} height={40} rx="4" fill={s.c} opacity="0.1" />
+            <rect x={s.x - 26} y={70} width={52} height={40} rx="4" fill="none" stroke={s.c} strokeWidth="0.8" />
+            <text x={s.x} y={87} textAnchor="middle" fill={s.c} fontSize="6" fontFamily="monospace" fontWeight="bold">{s.label}</text>
+            <text x={s.x} y={101} textAnchor="middle" fill={LABEL} fontSize="5" fontFamily="monospace" opacity="0.6">{s.sub}</text>
+          </g>
+        ))}
+        <Brackets x={2} y={2} w={W-4} h={H-4} />
+      </svg>
+    </DiagramWrapper>
+  );
+}
+
+// ═══════════════════════════════════════════════════════════════════════════════
+// UNIQUE DIAGRAMS — Business Environment (BE01-BE04)
+// ═══════════════════════════════════════════════════════════════════════════════
+
+// BE01 — Compliance: Compliance framework
+export function ComplianceDiagram() {
+  const W = 320; const H = 180;
+  const reqs = [
+    { label: 'EU MDR', status: 'COMPLIANT', c: LINE2 },
+    { label: 'ISO 15223', status: 'COMPLIANT', c: LINE2 },
+    { label: 'FDA 21 CFR', status: 'IN REVIEW', c: LINE },
+    { label: 'GDPR', status: 'COMPLIANT', c: LINE2 },
+    { label: 'GMP', status: 'GAP FOUND', c: LINE3 },
+  ];
+  return (
+    <DiagramWrapper label="COMPLIANCE STATUS TRACKER // BE01">
+      <svg viewBox={`0 0 ${W} ${H}`} className="w-full" style={{ display: 'block' }}>
+        <GridBg w={W} h={H} />
+        <text x={10} y={14} fill={LINE} fontSize="6" fontFamily="monospace" fontWeight="bold" opacity="0.8">REGULATION</text>
+        <text x={200} y={14} fill={LINE} fontSize="6" fontFamily="monospace" fontWeight="bold" opacity="0.8">STATUS</text>
+        <line x1={5} y1={18} x2={315} y2={18} stroke={LINE} strokeWidth="0.5" opacity="0.4" />
+        {reqs.map((r, i) => (
+          <g key={i}>
+            <text x={10} y={34 + i * 28} fill={LABEL} fontSize="6.5" fontFamily="monospace" opacity="0.8">{r.label}</text>
+            <rect x={180} y={22 + i * 28} width={100} height={16} rx="3" fill={r.c} opacity="0.15" />
+            <rect x={180} y={22 + i * 28} width={100} height={16} rx="3" fill="none" stroke={r.c} strokeWidth="0.7" />
+            <text x={230} y={33 + i * 28} textAnchor="middle" fill={r.c} fontSize="5.5" fontFamily="monospace" fontWeight="bold">{r.status}</text>
+            <line x1={5} y1={40 + i * 28} x2={315} y2={40 + i * 28} stroke={DIM} strokeWidth="0.3" opacity="0.3" />
+          </g>
+        ))}
+        <Brackets x={2} y={2} w={W-4} h={H-4} />
+      </svg>
+    </DiagramWrapper>
+  );
+}
+
+// BE02 — Benefits Delivery: Benefits realisation map
+export function BenefitsDeliveryDiagram() {
+  const W = 320; const H = 180;
+  const chain = [
+    { label: 'OUTPUTS', sub: 'Label · Pen · Campaign', x: 30, c: LINE3 },
+    { label: 'OUTCOMES', sub: 'Adoption · Compliance', x: 120, c: LINE },
+    { label: 'BENEFITS', sub: 'Revenue · Safety', x: 210, c: LINE2 },
+    { label: 'STRATEGIC\nGOALS', sub: 'Market share', x: 290, c: LINE2 },
+  ];
+  return (
+    <DiagramWrapper label="BENEFITS REALISATION CHAIN // BE02">
+      <svg viewBox={`0 0 ${W} ${H}`} className="w-full" style={{ display: 'block' }}>
+        <GridBg w={W} h={H} />
+        {chain.map((c, i) => (
+          <g key={i}>
+            {i < chain.length - 1 && (
+              <line x1={c.x + 34} y1={90} x2={chain[i+1].x - 34} y2={90} stroke={c.c} strokeWidth="1" strokeDasharray="4,2" opacity="0.5" />
+            )}
+            <rect x={c.x - 34} y={68} width={68} height={44} rx="4" fill={c.c} opacity="0.1" />
+            <rect x={c.x - 34} y={68} width={68} height={44} rx="4" fill="none" stroke={c.c} strokeWidth="0.8" />
+            {c.label.split('\n').map((line, j) => (
+              <text key={j} x={c.x} y={84 + j * 12} textAnchor="middle" fill={c.c} fontSize="6.5" fontFamily="monospace" fontWeight="bold">{line}</text>
+            ))}
+            <text x={c.x} y={104} textAnchor="middle" fill={LABEL} fontSize="5" fontFamily="monospace" opacity="0.6">{c.sub}</text>
+          </g>
+        ))}
+        <Brackets x={2} y={2} w={W-4} h={H-4} />
+      </svg>
+    </DiagramWrapper>
+  );
+}
+
+// BE03 — External Environment: PESTLE analysis
+export function PESTLEDiagram() {
+  const W = 320; const H = 180;
+  const factors = [
+    { label: 'POLITICAL', sub: 'NHS policy', x: 55, y: 35, c: LINE2 },
+    { label: 'ECONOMIC', sub: 'Budget cuts', x: 160, y: 35, c: LINE },
+    { label: 'SOCIAL', sub: 'Ageing pop.', x: 265, y: 35, c: LINE },
+    { label: 'TECHNOLOGICAL', sub: 'Smart devices', x: 55, y: 130, c: LINE3 },
+    { label: 'LEGAL', sub: 'EU MDR', x: 160, y: 130, c: LINE3 },
+    { label: 'ENVIRONMENTAL', sub: 'Sustainability', x: 265, y: 130, c: LINE2 },
+  ];
+  return (
+    <DiagramWrapper label="PESTLE ANALYSIS // BE03">
+      <svg viewBox={`0 0 ${W} ${H}`} className="w-full" style={{ display: 'block' }}>
+        <GridBg w={W} h={H} />
+        {factors.map((f, i) => (
+          <g key={i}>
+            <rect x={f.x - 48} y={f.y - 22} width={96} height={44} rx="4" fill={f.c} opacity="0.1" />
+            <rect x={f.x - 48} y={f.y - 22} width={96} height={44} rx="4" fill="none" stroke={f.c} strokeWidth="0.8" />
+            <text x={f.x} y={f.y - 4} textAnchor="middle" fill={f.c} fontSize="6" fontFamily="monospace" fontWeight="bold">{f.label}</text>
+            <text x={f.x} y={f.y + 10} textAnchor="middle" fill={LABEL} fontSize="5.5" fontFamily="monospace" opacity="0.6">{f.sub}</text>
+          </g>
+        ))}
+        <Brackets x={2} y={2} w={W-4} h={H-4} />
+      </svg>
+    </DiagramWrapper>
+  );
+}
+
+// BE04 — Organisational Change: Change readiness assessment
+export function OrgChangeDiagram() {
+  const W = 320; const H = 180;
+  const dimensions = ['Leadership\nAlignment','Staff\nReadiness','Process\nMaturity','Tool\nReadiness','Culture\nFit'];
+  const scores = [0.8, 0.4, 0.6, 0.7, 0.5];
+  const barW = 44; const gap = 18;
+  const startX = 20;
+  return (
+    <DiagramWrapper label="CHANGE READINESS ASSESSMENT // BE04">
+      <svg viewBox={`0 0 ${W} ${H}`} className="w-full" style={{ display: 'block' }}>
+        <GridBg w={W} h={H} />
+        <line x1={15} y1={150} x2={W-15} y2={150} stroke={DIM} strokeWidth="1" opacity="0.5" />
+        <line x1={15} y1={20} x2={15} y2={150} stroke={DIM} strokeWidth="1" opacity="0.5" />
+        {[0.25, 0.5, 0.75, 1].map(v => (
+          <line key={v} x1={15} y1={150 - v * 120} x2={W-15} y2={150 - v * 120} stroke={DIM} strokeWidth="0.3" strokeDasharray="3,2" opacity="0.3" />
+        ))}
+        {dimensions.map((d, i) => {
+          const x = startX + i * (barW + gap);
+          const barH = scores[i] * 120;
+          const c = scores[i] > 0.65 ? LINE2 : scores[i] > 0.45 ? LINE : LINE3;
+          return (
+            <g key={i}>
+              <rect x={x} y={150 - barH} width={barW} height={barH} rx="2" fill={c} opacity="0.2" />
+              <rect x={x} y={150 - barH} width={barW} height={barH} rx="2" fill="none" stroke={c} strokeWidth="0.8" />
+              <text x={x + barW/2} y={150 - barH - 4} textAnchor="middle" fill={c} fontSize="6" fontFamily="monospace">{Math.round(scores[i]*100)}%</text>
+              {d.split('\n').map((line, j) => (
+                <text key={j} x={x + barW/2} y={162 + j * 10} textAnchor="middle" fill={LABEL} fontSize="4.5" fontFamily="monospace" opacity="0.6">{line}</text>
+              ))}
+            </g>
+          );
+        })}
+        <Brackets x={2} y={2} w={W-4} h={H-4} />
+      </svg>
+    </DiagramWrapper>
+  );
+}
+
+// ═══════════════════════════════════════════════════════════════════════════════
+// UNIQUE DIAGRAMS — Archetypes (AG1-AG3)
+// ═══════════════════════════════════════════════════════════════════════════════
+
+export function AG1Diagram() {
+  const W = 320; const H = 180;
+  const questions = ['Requirements stable?','Compliance critical?','User feedback needed?','Team Agile-ready?'];
+  const answers = [['YES → Waterfall','NO → Agile/Hybrid'],['YES → Waterfall gates','NO → Flexible'],['YES → Agile sprints','NO → Waterfall'],['YES → Agile','NO → Waterfall']];
+  return (
+    <DiagramWrapper label="SELF-ASSESSMENT QUESTIONS // AG1">
+      <svg viewBox={`0 0 ${W} ${H}`} className="w-full" style={{ display: 'block' }}>
+        <GridBg w={W} h={H} />
+        {questions.map((q, i) => (
+          <g key={i}>
+            <rect x={8} y={12 + i * 38} width={140} height={28} rx="3" fill={LINE} opacity="0.1" />
+            <rect x={8} y={12 + i * 38} width={140} height={28} rx="3" fill="none" stroke={LINE} strokeWidth="0.7" />
+            <text x={78} y={29 + i * 38} textAnchor="middle" fill={LINE} fontSize="5.5" fontFamily="monospace" fontWeight="bold">{q}</text>
+            <line x1={148} y1={26 + i * 38} x2={162} y2={26 + i * 38} stroke={LINE} strokeWidth="0.7" strokeDasharray="2,2" opacity="0.5" />
+            <text x={165} y={24 + i * 38} fill={LINE2} fontSize="5" fontFamily="monospace" opacity="0.8">{answers[i][0]}</text>
+            <text x={165} y={36 + i * 38} fill={LINE3} fontSize="5" fontFamily="monospace" opacity="0.8">{answers[i][1]}</text>
+          </g>
+        ))}
+        <Brackets x={2} y={2} w={W-4} h={H-4} />
+      </svg>
+    </DiagramWrapper>
+  );
+}
+
+export function AG2Diagram() {
+  const W = 320; const H = 180;
+  const cx = 160; const cy = 90;
+  return (
+    <DiagramWrapper label="METHODOLOGY DECISION TREE // AG2">
+      <svg viewBox={`0 0 ${W} ${H}`} className="w-full" style={{ display: 'block' }}>
+        <GridBg w={W} h={H} />
+        <rect x={cx-40} y={10} width={80} height={28} rx="3" fill={LINE} opacity="0.1" />
+        <rect x={cx-40} y={10} width={80} height={28} rx="3" fill="none" stroke={LINE} strokeWidth="0.8" />
+        <text x={cx} y={27} textAnchor="middle" fill={LINE} fontSize="6.5" fontFamily="monospace" fontWeight="bold">STABLE REQS?</text>
+        <line x1={cx-20} y1={38} x2={70} y2={75} stroke={LINE2} strokeWidth="0.8" strokeDasharray="3,2" opacity="0.6" />
+        <line x1={cx+20} y1={38} x2={250} y2={75} stroke={LINE3} strokeWidth="0.8" strokeDasharray="3,2" opacity="0.6" />
+        <text x={100} y={70} fill={LINE2} fontSize="5.5" fontFamily="monospace" opacity="0.8">YES</text>
+        <text x={225} y={70} fill={LINE3} fontSize="5.5" fontFamily="monospace" opacity="0.8">NO</text>
+        <rect x={30} y={78} width={80} height={28} rx="3" fill={LINE2} opacity="0.1" />
+        <rect x={30} y={78} width={80} height={28} rx="3" fill="none" stroke={LINE2} strokeWidth="0.8" />
+        <text x={70} y={95} textAnchor="middle" fill={LINE2} fontSize="6.5" fontFamily="monospace" fontWeight="bold">WATERFALL</text>
+        <rect x={210} y={78} width={80} height={28} rx="3" fill={LINE3} opacity="0.1" />
+        <rect x={210} y={78} width={80} height={28} rx="3" fill="none" stroke={LINE3} strokeWidth="0.8" />
+        <text x={250} y={95} textAnchor="middle" fill={LINE3} fontSize="6.5" fontFamily="monospace" fontWeight="bold">AGILE</text>
+        <line x1={70} y1={106} x2={70} y2={130} stroke={LINE} strokeWidth="0.6" strokeDasharray="2,2" opacity="0.4" />
+        <line x1={250} y1={106} x2={250} y2={130} stroke={LINE} strokeWidth="0.6" strokeDasharray="2,2" opacity="0.4" />
+        <text x={70} y={145} textAnchor="middle" fill={LABEL} fontSize="5.5" fontFamily="monospace" opacity="0.6">Compliance-heavy</text>
+        <text x={250} y={145} textAnchor="middle" fill={LABEL} fontSize="5.5" fontFamily="monospace" opacity="0.6">User-feedback loop</text>
+        <rect x={110} y={130} width={100} height={28} rx="3" fill={LINE} opacity="0.1" />
+        <rect x={110} y={130} width={100} height={28} rx="3" fill="none" stroke={LINE} strokeWidth="0.8" />
+        <text x={160} y={147} textAnchor="middle" fill={LINE} fontSize="6.5" fontFamily="monospace" fontWeight="bold">HYBRID</text>
+        <line x1={70} y1={106} x2={160} y2={130} stroke={LINE} strokeWidth="0.5" strokeDasharray="2,3" opacity="0.3" />
+        <line x1={250} y1={106} x2={160} y2={130} stroke={LINE} strokeWidth="0.5" strokeDasharray="2,3" opacity="0.3" />
+        <Brackets x={2} y={2} w={W-4} h={H-4} />
+      </svg>
+    </DiagramWrapper>
+  );
+}
+
+export function AG3Diagram() {
+  const W = 320; const H = 180;
+  const options = [
+    { label: 'WATERFALL', sub: 'Stable · Compliant · Gated', x: 55, y: 55, c: LINE2, score: 0.85 },
+    { label: 'AGILE', sub: 'Evolving · Iterative · Fast', x: 160, y: 55, c: LINE3, score: 0.6 },
+    { label: 'HYBRID', sub: 'Best of both worlds', x: 265, y: 55, c: LINE, score: 0.95 },
+    { label: 'KANBAN', sub: 'Continuous flow · Ops', x: 55, y: 130, c: LABEL, score: 0.4 },
+  ];
+  return (
+    <DiagramWrapper label="METHODOLOGY COMMITMENT // AG3">
+      <svg viewBox={`0 0 ${W} ${H}`} className="w-full" style={{ display: 'block' }}>
+        <GridBg w={W} h={H} />
+        {options.map((o, i) => (
+          <g key={i}>
+            <rect x={o.x - 50} y={o.y - 28} width={100} height={56} rx="4" fill={o.c} opacity={o.score * 0.15} />
+            <rect x={o.x - 50} y={o.y - 28} width={100} height={56} rx="4" fill="none" stroke={o.c} strokeWidth={o.score > 0.8 ? 1.5 : 0.8} style={{ filter: o.score > 0.8 ? `drop-shadow(0 0 6px ${o.c}66)` : undefined }} />
+            <text x={o.x} y={o.y - 8} textAnchor="middle" fill={o.c} fontSize="7" fontFamily="monospace" fontWeight="bold">{o.label}</text>
+            <text x={o.x} y={o.y + 6} textAnchor="middle" fill={LABEL} fontSize="5" fontFamily="monospace" opacity="0.6">{o.sub}</text>
+            <text x={o.x} y={o.y + 20} textAnchor="middle" fill={o.c} fontSize="6" fontFamily="monospace">FIT: {Math.round(o.score * 100)}%</text>
+          </g>
+        ))}
+        <text x={W/2} y={H-6} textAnchor="middle" fill={LINE} fontSize="5.5" fontFamily="monospace" opacity="0.6">★ RECOMMENDED: HYBRID (95% FIT)</text>
+        <Brackets x={2} y={2} w={W-4} h={H-4} />
+      </svg>
+    </DiagramWrapper>
+  );
+}
+
+// ═══════════════════════════════════════════════════════════════════════════════
+// UNIQUE DIAGRAMS — Advanced Techniques (remaining A-cards)
+// ═══════════════════════════════════════════════════════════════════════════════
+
+// A3 — Performance Gap Analysis
+export function PerformanceGapDiagram() {
+  const W = 320; const H = 180;
+  const metrics = ['Velocity','Quality','Engagement','Delivery','Comms'];
+  const current = [55, 40, 70, 60, 45];
+  const target = [80, 80, 80, 80, 80];
+  return (
+    <DiagramWrapper label="PERFORMANCE GAP ANALYSIS // A3">
+      <svg viewBox={`0 0 ${W} ${H}`} className="w-full" style={{ display: 'block' }}>
+        <GridBg w={W} h={H} />
+        {metrics.map((m, i) => {
+          const y = 20 + i * 28;
+          const cW = (current[i] / 100) * 200;
+          const tW = (target[i] / 100) * 200;
+          return (
+            <g key={i}>
+              <text x={8} y={y + 8} fill={LABEL} fontSize="5.5" fontFamily="monospace" opacity="0.7">{m}</text>
+              <rect x={80} y={y} width={tW} height={12} rx="2" fill={LINE3} opacity="0.12" />
+              <rect x={80} y={y} width={tW} height={12} rx="2" fill="none" stroke={LINE3} strokeWidth="0.5" opacity="0.4" />
+              <rect x={80} y={y} width={cW} height={12} rx="2" fill={LINE2} opacity="0.3" />
+              <rect x={80} y={y} width={cW} height={12} rx="2" fill="none" stroke={LINE2} strokeWidth="0.8" />
+              <text x={80 + cW + 4} y={y + 9} fill={LINE3} fontSize="5" fontFamily="monospace" opacity="0.7">GAP: {target[i] - current[i]}%</text>
+            </g>
+          );
+        })}
+        <text x={80} y={H-4} fill={LINE2} fontSize="5" fontFamily="monospace">■ Current</text>
+        <text x={130} y={H-4} fill={LINE3} fontSize="5" fontFamily="monospace">■ Target</text>
+        <Brackets x={2} y={2} w={W-4} h={H-4} />
+      </svg>
+    </DiagramWrapper>
+  );
+}
+
+// A4 — Situational Leadership
+export function SituationalLeadershipDiagram() {
+  const W = 320; const H = 180;
+  const quadrants = [
+    { label: 'DIRECTING', sub: 'High task · Low support', x: 75, y: 45, c: LINE3 },
+    { label: 'COACHING', sub: 'High task · High support', x: 245, y: 45, c: LINE },
+    { label: 'DELEGATING', sub: 'Low task · Low support', x: 75, y: 135, c: LINE2 },
+    { label: 'SUPPORTING', sub: 'Low task · High support', x: 245, y: 135, c: LINE2 },
+  ];
+  return (
+    <DiagramWrapper label="SITUATIONAL LEADERSHIP MODEL // A4">
+      <svg viewBox={`0 0 ${W} ${H}`} className="w-full" style={{ display: 'block' }}>
+        <GridBg w={W} h={H} />
+        <line x1={160} y1={10} x2={160} y2={H-10} stroke={DIM} strokeWidth="1" opacity="0.5" />
+        <line x1={10} y1={90} x2={W-10} y2={90} stroke={DIM} strokeWidth="1" opacity="0.5" />
+        <text x={85} y={8} textAnchor="middle" fill={LABEL} fontSize="5.5" fontFamily="monospace" opacity="0.5">LOW SUPPORT</text>
+        <text x={245} y={8} textAnchor="middle" fill={LABEL} fontSize="5.5" fontFamily="monospace" opacity="0.5">HIGH SUPPORT</text>
+        <text x={18} y={50} fill={LABEL} fontSize="5" fontFamily="monospace" opacity="0.5" transform="rotate(-90,18,50)">HIGH TASK</text>
+        <text x={18} y={140} fill={LABEL} fontSize="5" fontFamily="monospace" opacity="0.5" transform="rotate(-90,18,140)">LOW TASK</text>
+        {quadrants.map((q, i) => (
+          <g key={i}>
+            <rect x={q.x - 65} y={q.y - 28} width={130} height={56} rx="4" fill={q.c} opacity="0.1" />
+            <rect x={q.x - 65} y={q.y - 28} width={130} height={56} rx="4" fill="none" stroke={q.c} strokeWidth="0.8" />
+            <text x={q.x} y={q.y - 6} textAnchor="middle" fill={q.c} fontSize="7" fontFamily="monospace" fontWeight="bold">{q.label}</text>
+            <text x={q.x} y={q.y + 10} textAnchor="middle" fill={LABEL} fontSize="5" fontFamily="monospace" opacity="0.6">{q.sub}</text>
+          </g>
+        ))}
+        <Brackets x={2} y={2} w={W-4} h={H-4} />
+      </svg>
+    </DiagramWrapper>
+  );
+}
+
+// A5 — Communities of Practice
+export function CoPDiagram() {
+  const W = 320; const H = 180;
+  const cx = 160; const cy = 90;
+  const communities = [
+    { label: 'PM CoP', sub: 'Methods · Tools', x: cx, y: 30, r: 28, c: LINE2 },
+    { label: 'TECH CoP', sub: 'Engineering', x: cx - 75, y: cy + 30, r: 24, c: LINE },
+    { label: 'DESIGN CoP', sub: 'UX · Visual', x: cx + 75, y: cy + 30, r: 24, c: LINE3 },
+  ];
+  return (
+    <DiagramWrapper label="COMMUNITIES OF PRACTICE // A5">
+      <svg viewBox={`0 0 ${W} ${H}`} className="w-full" style={{ display: 'block' }}>
+        <GridBg w={W} h={H} />
+        {communities.map((c, i) => (
+          <g key={i}>
+            <circle cx={c.x} cy={c.y} r={c.r} fill={c.c} opacity="0.1" />
+            <circle cx={c.x} cy={c.y} r={c.r} fill="none" stroke={c.c} strokeWidth="1" style={{ filter: `drop-shadow(0 0 4px ${c.c}55)` }} />
+            <text x={c.x} y={c.y - 4} textAnchor="middle" fill={c.c} fontSize="6.5" fontFamily="monospace" fontWeight="bold">{c.label}</text>
+            <text x={c.x} y={c.y + 9} textAnchor="middle" fill={LABEL} fontSize="5" fontFamily="monospace" opacity="0.6">{c.sub}</text>
+          </g>
+        ))}
+        <circle cx={cx} cy={cy + 5} r={18} fill={LINE} opacity="0.08" />
+        <circle cx={cx} cy={cy + 5} r={18} fill="none" stroke={LINE} strokeWidth="0.8" strokeDasharray="3,2" />
+        <text x={cx} y={cy + 2} textAnchor="middle" fill={LINE} fontSize="5.5" fontFamily="monospace" opacity="0.7">SHARED</text>
+        <text x={cx} y={cy + 14} textAnchor="middle" fill={LINE} fontSize="5.5" fontFamily="monospace" opacity="0.7">KNOWLEDGE</text>
+        <Brackets x={2} y={2} w={W-4} h={H-4} />
+      </svg>
+    </DiagramWrapper>
+  );
+}
+
+// A6 — Team Building
+export function TeamBuildingDiagram() {
+  const W = 320; const H = 180;
+  const activities = [
+    { label: 'SOCIAL\nEVENTS', x: 50, y: 50, c: LINE2 },
+    { label: 'SHARED\nGOALS', x: 160, y: 30, c: LINE },
+    { label: 'SKILL\nSHARING', x: 270, y: 50, c: LINE3 },
+    { label: 'RETROSPECTIVES', x: 50, y: 140, c: LINE },
+    { label: 'RECOGNITION', x: 160, y: 155, c: LINE2 },
+    { label: 'TEAM\nCHARTER', x: 270, y: 140, c: LINE },
+  ];
+  const cx = 160; const cy = 95;
+  return (
+    <DiagramWrapper label="TEAM BUILDING ACTIVITIES // A6">
+      <svg viewBox={`0 0 ${W} ${H}`} className="w-full" style={{ display: 'block' }}>
+        <GridBg w={W} h={H} />
+        <circle cx={cx} cy={cy} r={28} fill={LINE2} opacity="0.08" />
+        <circle cx={cx} cy={cy} r={28} fill="none" stroke={LINE2} strokeWidth="1" style={{ filter: GLOW2 }} />
+        <text x={cx} y={cy - 3} textAnchor="middle" fill={LINE2} fontSize="6.5" fontFamily="monospace" fontWeight="bold">HIGH</text>
+        <text x={cx} y={cy + 9} textAnchor="middle" fill={LINE2} fontSize="6.5" fontFamily="monospace" fontWeight="bold">COHESION</text>
+        {activities.map((a, i) => (
+          <g key={i}>
+            <line x1={cx} y1={cy} x2={a.x} y2={a.y} stroke={a.c} strokeWidth="0.6" strokeDasharray="3,2" opacity="0.3" />
+            <rect x={a.x - 30} y={a.y - 16} width={60} height={32} rx="3" fill={a.c} opacity="0.1" />
+            <rect x={a.x - 30} y={a.y - 16} width={60} height={32} rx="3" fill="none" stroke={a.c} strokeWidth="0.7" />
+            {a.label.split('\n').map((l, j) => (
+              <text key={j} x={a.x} y={a.y - 3 + j * 11} textAnchor="middle" fill={a.c} fontSize="5.5" fontFamily="monospace" fontWeight="bold">{l}</text>
+            ))}
+          </g>
+        ))}
+        <Brackets x={2} y={2} w={W-4} h={H-4} />
+      </svg>
+    </DiagramWrapper>
+  );
+}
+
+// A7 — Kaizen Blitz
+export function KaizenDiagram() {
+  const W = 320; const H = 180;
+  const days = ['DAY 1\nMAP','DAY 2\nANALYSE','DAY 3\nIMPROVE','DAY 4\nIMPLEMENT','DAY 5\nSUSTAIN'];
+  const xs = [30, 95, 160, 225, 290];
+  const colors = [LINE, LINE, LINE3, LINE2, LINE2];
+  return (
+    <DiagramWrapper label="KAIZEN BLITZ (5-DAY SPRINT) // A7">
+      <svg viewBox={`0 0 ${W} ${H}`} className="w-full" style={{ display: 'block' }}>
+        <GridBg w={W} h={H} />
+        {days.map((d, i) => (
+          <g key={i}>
+            {i < days.length - 1 && (
+              <line x1={xs[i]+22} y1={90} x2={xs[i+1]-22} y2={90} stroke={colors[i]} strokeWidth="1" strokeDasharray="3,2" opacity="0.5" />
+            )}
+            <rect x={xs[i]-22} y={68} width={44} height={44} rx="4" fill={colors[i]} opacity="0.12" />
+            <rect x={xs[i]-22} y={68} width={44} height={44} rx="4" fill="none" stroke={colors[i]} strokeWidth="0.8" />
+            {d.split('\n').map((line, j) => (
+              <text key={j} x={xs[i]} y={85 + j * 14} textAnchor="middle" fill={colors[i]} fontSize="6" fontFamily="monospace" fontWeight="bold">{line}</text>
+            ))}
+          </g>
+        ))}
+        <text x={160} y={H - 6} textAnchor="middle" fill={LINE2} fontSize="5.5" fontFamily="monospace" opacity="0.6">TARGET: 30-50% IMPROVEMENT IN 5 DAYS</text>
+        <Brackets x={2} y={2} w={W-4} h={H-4} />
+      </svg>
+    </DiagramWrapper>
+  );
+}
+
+
+// A13 — Reverse Mentoring
+export function ReverseMentoringDiagram() {
+  const W = 320; const H = 180;
+  return (
+    <DiagramWrapper label="REVERSE MENTORING EXCHANGE // A13">
+      <svg viewBox={`0 0 ${W} ${H}`} className="w-full" style={{ display: 'block' }}>
+        <GridBg w={W} h={H} />
+        <rect x={20} y={40} width={110} height={90} rx="6" fill={LINE2} opacity="0.1" />
+        <rect x={20} y={40} width={110} height={90} rx="6" fill="none" stroke={LINE2} strokeWidth="1" />
+        <text x={75} y={68} textAnchor="middle" fill={LINE2} fontSize="7" fontFamily="monospace" fontWeight="bold">SENIOR</text>
+        <text x={75} y={82} textAnchor="middle" fill={LINE2} fontSize="7" fontFamily="monospace" fontWeight="bold">LEADER</text>
+        <text x={75} y={100} textAnchor="middle" fill={LABEL} fontSize="5.5" fontFamily="monospace" opacity="0.6">Strategy · Domain</text>
+        <text x={75} y={112} textAnchor="middle" fill={LABEL} fontSize="5.5" fontFamily="monospace" opacity="0.6">expertise</text>
+        <rect x={190} y={40} width={110} height={90} rx="6" fill={LINE3} opacity="0.1" />
+        <rect x={190} y={40} width={110} height={90} rx="6" fill="none" stroke={LINE3} strokeWidth="1" />
+        <text x={245} y={68} textAnchor="middle" fill={LINE3} fontSize="7" fontFamily="monospace" fontWeight="bold">JUNIOR</text>
+        <text x={245} y={82} textAnchor="middle" fill={LINE3} fontSize="7" fontFamily="monospace" fontWeight="bold">MEMBER</text>
+        <text x={245} y={100} textAnchor="middle" fill={LABEL} fontSize="5.5" fontFamily="monospace" opacity="0.6">Digital · Agile</text>
+        <text x={245} y={112} textAnchor="middle" fill={LABEL} fontSize="5.5" fontFamily="monospace" opacity="0.6">new methods</text>
+        <line x1={130} y1={75} x2={190} y2={75} stroke={LINE2} strokeWidth="1" strokeDasharray="3,2" opacity="0.6" />
+        <line x1={190} y1={90} x2={130} y2={90} stroke={LINE3} strokeWidth="1" strokeDasharray="3,2" opacity="0.6" />
+        <text x={160} y={72} textAnchor="middle" fill={LINE2} fontSize="5" fontFamily="monospace">TEACHES →</text>
+        <text x={160} y={95} textAnchor="middle" fill={LINE3} fontSize="5" fontFamily="monospace">← TEACHES</text>
+        <text x={160} y={H-6} textAnchor="middle" fill={LABEL} fontSize="5.5" fontFamily="monospace" opacity="0.5">MUTUAL GROWTH · PSYCHOLOGICAL SAFETY</text>
+        <Brackets x={2} y={2} w={W-4} h={H-4} />
+      </svg>
+    </DiagramWrapper>
+  );
+}
+
+// A14 — Design Thinking
+export function DesignThinkingDiagram() {
+  const W = 320; const H = 180;
+  const phases = ['EMPATHISE','DEFINE','IDEATE','PROTOTYPE','TEST'];
+  const xs = [30, 95, 160, 225, 290];
+  const colors = [LINE2, LINE, LINE3, LINE, LINE2];
+  return (
+    <DiagramWrapper label="DESIGN THINKING PROCESS // A14">
+      <svg viewBox={`0 0 ${W} ${H}`} className="w-full" style={{ display: 'block' }}>
+        <GridBg w={W} h={H} />
+        {phases.map((p, i) => (
+          <g key={i}>
+            {i < phases.length - 1 && (
+              <line x1={xs[i]+22} y1={90} x2={xs[i+1]-22} y2={90} stroke={colors[i]} strokeWidth="0.8" strokeDasharray="3,2" opacity="0.5" />
+            )}
+            <circle cx={xs[i]} cy={90} r={22} fill={colors[i]} opacity="0.1" />
+            <circle cx={xs[i]} cy={90} r={22} fill="none" stroke={colors[i]} strokeWidth="1" style={{ filter: `drop-shadow(0 0 4px ${colors[i]}55)` }} />
+            <text x={xs[i]} y={87} textAnchor="middle" fill={colors[i]} fontSize="5" fontFamily="monospace" fontWeight="bold">{p.split(' ')[0]}</text>
+            <text x={xs[i]} y={99} textAnchor="middle" fill={colors[i]} fontSize="5" fontFamily="monospace" fontWeight="bold">{p.split(' ')[1] || ''}</text>
+          </g>
+        ))}
+        <path d="M 290,112 Q 160,150 30,112" fill="none" stroke={LINE3} strokeWidth="0.6" strokeDasharray="3,2" opacity="0.3" />
+        <text x={160} y={165} textAnchor="middle" fill={LINE3} fontSize="5" fontFamily="monospace" opacity="0.5">← ITERATE</text>
+        <Brackets x={2} y={2} w={W-4} h={H-4} />
+      </svg>
+    </DiagramWrapper>
+  );
+}
+
+// A15 — Lean Startup
+export function LeanStartupDiagram() {
+  const W = 320; const H = 180;
+  const cx = 160; const cy = 90;
+  const steps = ['BUILD','MEASURE','LEARN'];
+  return (
+    <DiagramWrapper label="LEAN STARTUP BUILD-MEASURE-LEARN // A15">
+      <svg viewBox={`0 0 ${W} ${H}`} className="w-full" style={{ display: 'block' }}>
+        <GridBg w={W} h={H} />
+        <circle cx={cx} cy={cy} r={60} fill="none" stroke={DIM} strokeWidth="0.5" strokeDasharray="4,2" opacity="0.3" />
+        {steps.map((s, i) => {
+          const angle = (i / 3) * Math.PI * 2 - Math.PI / 2;
+          const x = cx + Math.cos(angle) * 60;
+          const y = cy + Math.sin(angle) * 60;
+          const c = [LINE3, LINE, LINE2][i];
+          const nextAngle = ((i + 1) / 3) * Math.PI * 2 - Math.PI / 2;
+          const nx = cx + Math.cos(nextAngle) * 60;
+          const ny = cy + Math.sin(nextAngle) * 60;
+          return (
+            <g key={i}>
+              <line x1={x} y1={y} x2={nx} y2={ny} stroke={c} strokeWidth="1" strokeDasharray="4,2" opacity="0.4" />
+              <circle cx={x} cy={y} r={20} fill={c} opacity="0.1" />
+              <circle cx={x} cy={y} r={20} fill="none" stroke={c} strokeWidth="1.2" style={{ filter: `drop-shadow(0 0 5px ${c}66)` }} />
+              <text x={x} y={y + 4} textAnchor="middle" fill={c} fontSize="7" fontFamily="monospace" fontWeight="bold">{s}</text>
+            </g>
+          );
+        })}
+        <text x={cx} y={cy - 4} textAnchor="middle" fill={LINE} fontSize="6" fontFamily="monospace">MVP</text>
+        <text x={cx} y={cy + 10} textAnchor="middle" fill={LINE} fontSize="6" fontFamily="monospace">CYCLE</text>
+        <Brackets x={2} y={2} w={W-4} h={H-4} />
+      </svg>
+    </DiagramWrapper>
+  );
+}
+
+// A16 — Agile Scaling
+export function AgileScalingDiagram() {
+  const W = 320; const H = 180;
+  const frameworks = [
+    { label: 'SAFe', sub: 'Portfolio · Program · Team', x: 55, y: 50, c: LINE2 },
+    { label: 'LeSS', sub: 'Large-Scale Scrum', x: 160, y: 50, c: LINE },
+    { label: 'Nexus', sub: 'Scrum of Scrums', x: 265, y: 50, c: LINE3 },
+    { label: 'Scrum@Scale', sub: 'Distributed teams', x: 55, y: 130, c: LINE },
+    { label: 'Spotify', sub: 'Tribes · Squads', x: 160, y: 130, c: LINE2 },
+    { label: 'DA', sub: 'Disciplined Agile', x: 265, y: 130, c: LINE3 },
+  ];
+  return (
+    <DiagramWrapper label="AGILE SCALING FRAMEWORKS // A16">
+      <svg viewBox={`0 0 ${W} ${H}`} className="w-full" style={{ display: 'block' }}>
+        <GridBg w={W} h={H} />
+        {frameworks.map((f, i) => (
+          <g key={i}>
+            <rect x={f.x - 48} y={f.y - 22} width={96} height={44} rx="4" fill={f.c} opacity="0.1" />
+            <rect x={f.x - 48} y={f.y - 22} width={96} height={44} rx="4" fill="none" stroke={f.c} strokeWidth="0.8" />
+            <text x={f.x} y={f.y - 4} textAnchor="middle" fill={f.c} fontSize="7" fontFamily="monospace" fontWeight="bold">{f.label}</text>
+            <text x={f.x} y={f.y + 10} textAnchor="middle" fill={LABEL} fontSize="5" fontFamily="monospace" opacity="0.6">{f.sub}</text>
+          </g>
+        ))}
+        <Brackets x={2} y={2} w={W-4} h={H-4} />
+      </svg>
+    </DiagramWrapper>
+  );
+}
+
+// A18 — Sprint Planning
+export function SprintPlanningDiagram() {
+  const W = 320; const H = 180;
+  const items = [
+    { label: 'PRODUCT BACKLOG', items: ['Feature A','Feature B','Bug fix C'], x: 10, c: LINE3 },
+    { label: 'SPRINT BACKLOG', items: ['Story 1 (5pts)','Story 2 (3pts)','Story 3 (8pts)'], x: 120, c: LINE },
+    { label: 'SPRINT GOAL', items: ['Deliver MVP','By Friday','Demo ready'], x: 230, c: LINE2 },
+  ];
+  return (
+    <DiagramWrapper label="SPRINT PLANNING BOARD // A18">
+      <svg viewBox={`0 0 ${W} ${H}`} className="w-full" style={{ display: 'block' }}>
+        <GridBg w={W} h={H} />
+        {items.map((col, i) => (
+          <g key={i}>
+            <rect x={col.x} y={10} width={100} height={160} rx="4" fill={col.c} opacity="0.06" />
+            <rect x={col.x} y={10} width={100} height={160} rx="4" fill="none" stroke={col.c} strokeWidth="0.8" />
+            <text x={col.x + 50} y={26} textAnchor="middle" fill={col.c} fontSize="5.5" fontFamily="monospace" fontWeight="bold">{col.label}</text>
+            <line x1={col.x} y1={30} x2={col.x + 100} y2={30} stroke={col.c} strokeWidth="0.5" opacity="0.4" />
+            {col.items.map((item, j) => (
+              <g key={j}>
+                <rect x={col.x + 6} y={38 + j * 36} width={88} height={28} rx="3" fill={col.c} opacity="0.1" />
+                <text x={col.x + 50} y={55 + j * 36} textAnchor="middle" fill={LABEL} fontSize="5.5" fontFamily="monospace" opacity="0.8">{item}</text>
+              </g>
+            ))}
+          </g>
+        ))}
+        <Brackets x={2} y={2} w={W-4} h={H-4} />
+      </svg>
+    </DiagramWrapper>
+  );
+}
+
+// A19 — Retrospective
+export function RetrospectiveDiagram() {
+  const W = 320; const H = 180;
+  const columns = [
+    { label: 'WENT WELL ✓', items: ['Daily standups','Clear scope'], c: LINE2 },
+    { label: 'IMPROVE △', items: ['Estimation','Risk reviews'], c: LINE3 },
+    { label: 'ACTION ▶', items: ['Add buffer','Weekly risk'], c: LINE },
+  ];
+  return (
+    <DiagramWrapper label="RETROSPECTIVE BOARD // A19">
+      <svg viewBox={`0 0 ${W} ${H}`} className="w-full" style={{ display: 'block' }}>
+        <GridBg w={W} h={H} />
+        {columns.map((col, i) => (
+          <g key={i}>
+            <rect x={10 + i * 103} y={10} width={96} height={160} rx="4" fill={col.c} opacity="0.07" />
+            <rect x={10 + i * 103} y={10} width={96} height={160} rx="4" fill="none" stroke={col.c} strokeWidth="0.8" />
+            <text x={58 + i * 103} y={26} textAnchor="middle" fill={col.c} fontSize="5.5" fontFamily="monospace" fontWeight="bold">{col.label}</text>
+            <line x1={10 + i * 103} y1={30} x2={106 + i * 103} y2={30} stroke={col.c} strokeWidth="0.4" opacity="0.4" />
+            {col.items.map((item, j) => (
+              <g key={j}>
+                <rect x={16 + i * 103} y={38 + j * 38} width={84} height={28} rx="3" fill={col.c} opacity="0.1" />
+                <text x={58 + i * 103} y={55 + j * 38} textAnchor="middle" fill={LABEL} fontSize="5.5" fontFamily="monospace" opacity="0.8">{item}</text>
+              </g>
+            ))}
+          </g>
+        ))}
+        <Brackets x={2} y={2} w={W-4} h={H-4} />
+      </svg>
+    </DiagramWrapper>
+  );
+}
+
+// A20 — Velocity Tracking
+export function VelocityDiagram() {
+  const W = 320; const H = 180;
+  const sprints = ['S1','S2','S3','S4','S5','S6'];
+  const velocity = [18, 22, 20, 28, 25, 30];
+  const avg = Math.round(velocity.reduce((a,b)=>a+b,0)/velocity.length);
+  const maxV = 35;
+  const toY = (v: number) => H - 30 - (v / maxV) * (H - 55);
+  const toX = (i: number) => 30 + i * 50;
+  return (
+    <DiagramWrapper label="SPRINT VELOCITY CHART // A20">
+      <svg viewBox={`0 0 ${W} ${H}`} className="w-full" style={{ display: 'block' }}>
+        <GridBg w={W} h={H} />
+        <line x1={20} y1={toY(avg)} x2={W-10} y2={toY(avg)} stroke={LINE3} strokeWidth="0.8" strokeDasharray="4,2" opacity="0.5" />
+        <text x={W-8} y={toY(avg)-3} textAnchor="end" fill={LINE3} fontSize="5" fontFamily="monospace" opacity="0.7">AVG {avg}</text>
+        {sprints.map((s, i) => {
+          const x = toX(i); const y = toY(velocity[i]);
+          return (
+            <g key={i}>
+              <rect x={x - 16} y={y} width={32} height={H - 30 - y} rx="2" fill={LINE2} opacity="0.2" />
+              <rect x={x - 16} y={y} width={32} height={H - 30 - y} rx="2" fill="none" stroke={LINE2} strokeWidth="0.8" />
+              <text x={x} y={y - 4} textAnchor="middle" fill={LINE2} fontSize="6" fontFamily="monospace">{velocity[i]}</text>
+              <text x={x} y={H - 14} textAnchor="middle" fill={LABEL} fontSize="6" fontFamily="monospace" opacity="0.6">{s}</text>
+            </g>
+          );
+        })}
+        <text x={10} y={H - 4} fill={LABEL} fontSize="5.5" fontFamily="monospace" opacity="0.5">STORY POINTS PER SPRINT</text>
+        <Brackets x={2} y={2} w={W-4} h={H-4} />
+      </svg>
+    </DiagramWrapper>
+  );
+}
+
+// A22 — Value Stream Mapping
+export function ValueStreamDiagram() {
+  const W = 320; const H = 180;
+  const steps = [
+    { label: 'ORDER', va: 0, nva: 2, x: 30 },
+    { label: 'DESIGN', va: 5, nva: 3, x: 100 },
+    { label: 'BUILD', va: 8, nva: 4, x: 170 },
+    { label: 'TEST', va: 3, nva: 2, x: 240 },
+    { label: 'SHIP', va: 1, nva: 1, x: 295 },
+  ];
+  return (
+    <DiagramWrapper label="VALUE STREAM MAP // A22">
+      <svg viewBox={`0 0 ${W} ${H}`} className="w-full" style={{ display: 'block' }}>
+        <GridBg w={W} h={H} />
+        {steps.map((s, i) => (
+          <g key={i}>
+            {i < steps.length - 1 && (
+              <line x1={s.x + 22} y1={70} x2={steps[i+1].x - 22} y2={70} stroke={LINE} strokeWidth="0.8" strokeDasharray="3,2" opacity="0.4" />
+            )}
+            <rect x={s.x - 22} y={50} width={44} height={40} rx="3" fill={LINE} opacity="0.1" />
+            <rect x={s.x - 22} y={50} width={44} height={40} rx="3" fill="none" stroke={LINE} strokeWidth="0.8" />
+            <text x={s.x} y={67} textAnchor="middle" fill={LINE} fontSize="5.5" fontFamily="monospace" fontWeight="bold">{s.label}</text>
+            <text x={s.x} y={80} textAnchor="middle" fill={LINE2} fontSize="5" fontFamily="monospace">{s.va}d VA</text>
+            <rect x={s.x - 18} y={105} width={36} height={s.nva * 8} rx="2" fill={LINE3} opacity="0.3" />
+            <text x={s.x} y={118 + s.nva * 4} textAnchor="middle" fill={LINE3} fontSize="5" fontFamily="monospace">{s.nva}d NVA</text>
+          </g>
+        ))}
+        <text x={10} y={H - 4} fill={LINE2} fontSize="5" fontFamily="monospace">VA = Value-Add</text>
+        <text x={100} y={H - 4} fill={LINE3} fontSize="5" fontFamily="monospace">NVA = Non-Value-Add (waste)</text>
+        <Brackets x={2} y={2} w={W-4} h={H-4} />
+      </svg>
+    </DiagramWrapper>
+  );
+}
+
+// A23 — Lean Principles
+export function LeanPrinciplesDiagram() {
+  const W = 320; const H = 180;
+  const principles = ['DEFINE VALUE','MAP VALUE STREAM','CREATE FLOW','ESTABLISH PULL','SEEK PERFECTION'];
+  const xs = [30, 95, 160, 225, 290];
+  return (
+    <DiagramWrapper label="5 LEAN PRINCIPLES // A23">
+      <svg viewBox={`0 0 ${W} ${H}`} className="w-full" style={{ display: 'block' }}>
+        <GridBg w={W} h={H} />
+        {principles.map((p, i) => {
+          const c = [LINE2, LINE, LINE2, LINE3, LINE2][i];
+          return (
+            <g key={i}>
+              {i < principles.length - 1 && (
+                <line x1={xs[i]+22} y1={90} x2={xs[i+1]-22} y2={90} stroke={c} strokeWidth="0.8" strokeDasharray="3,2" opacity="0.4" />
+              )}
+              <circle cx={xs[i]} cy={90} r={22} fill={c} opacity="0.1" />
+              <circle cx={xs[i]} cy={90} r={22} fill="none" stroke={c} strokeWidth="1" />
+              <text x={xs[i]} y={86} textAnchor="middle" fill={c} fontSize="5" fontFamily="monospace" fontWeight="bold">{p.split(' ')[0]}</text>
+              <text x={xs[i]} y={97} textAnchor="middle" fill={c} fontSize="5" fontFamily="monospace" fontWeight="bold">{p.split(' ').slice(1).join(' ')}</text>
+            </g>
+          );
+        })}
+        <Brackets x={2} y={2} w={W-4} h={H-4} />
+      </svg>
+    </DiagramWrapper>
+  );
+}
+
+// A24 — Theory of Constraints
+export function TOCDiagram() {
+  const W = 320; const H = 180;
+  const steps = ['IDENTIFY\\nCONSTRAINT','EXPLOIT\\nCONSTRAINT','SUBORDINATE\\nEVERYTHING','ELEVATE\\nCONSTRAINT','REPEAT'];
+  const xs = [30, 95, 160, 225, 290];
+  return (
+    <DiagramWrapper label="THEORY OF CONSTRAINTS // A24">
+      <svg viewBox={`0 0 ${W} ${H}`} className="w-full" style={{ display: 'block' }}>
+        <GridBg w={W} h={H} />
+        {steps.map((s, i) => {
+          const c = [LINE3, LINE, LINE, LINE2, LINE2][i];
+          return (
+            <g key={i}>
+              {i < steps.length - 1 && (
+                <line x1={xs[i]+22} y1={90} x2={xs[i+1]-22} y2={90} stroke={c} strokeWidth="0.8" strokeDasharray="3,2" opacity="0.5" />
+              )}
+              <rect x={xs[i]-22} y={68} width={44} height={44} rx="4" fill={c} opacity="0.1" />
+              <rect x={xs[i]-22} y={68} width={44} height={44} rx="4" fill="none" stroke={c} strokeWidth="0.8" />
+              {s.split('\\n').map((line, j) => (
+                <text key={j} x={xs[i]} y={85 + j * 13} textAnchor="middle" fill={c} fontSize="5" fontFamily="monospace" fontWeight="bold">{line}</text>
+              ))}
+            </g>
+          );
+        })}
+        <Brackets x={2} y={2} w={W-4} h={H-4} />
+      </svg>
+    </DiagramWrapper>
+  );
+}
+
+// A25 — Cynefin Framework
+export function CynefinDiagram() {
+  const W = 320; const H = 180;
+  const cx = 160; const cy = 90;
+  const domains = [
+    { label: 'OBVIOUS', sub: 'Sense-Categorise-Respond', x: cx - 75, y: cy - 40, c: LINE2 },
+    { label: 'COMPLICATED', sub: 'Sense-Analyse-Respond', x: cx + 75, y: cy - 40, c: LINE },
+    { label: 'COMPLEX', sub: 'Probe-Sense-Respond', x: cx - 75, y: cy + 40, c: LINE3 },
+    { label: 'CHAOTIC', sub: 'Act-Sense-Respond', x: cx + 75, y: cy + 40, c: LINE3 },
+    { label: 'DISORDER', sub: 'Unknown domain', x: cx, y: cy, c: LABEL },
+  ];
+  return (
+    <DiagramWrapper label="CYNEFIN FRAMEWORK // A25">
+      <svg viewBox={`0 0 ${W} ${H}`} className="w-full" style={{ display: 'block' }}>
+        <GridBg w={W} h={H} />
+        <line x1={cx} y1={10} x2={cx} y2={H-10} stroke={DIM} strokeWidth="1" opacity="0.4" />
+        <line x1={10} y1={cy} x2={W-10} y2={cy} stroke={DIM} strokeWidth="1" opacity="0.4" />
+        {domains.map((d, i) => (
+          <g key={i}>
+            {i < 4 && (
+              <>
+                <rect x={d.x - 60} y={d.y - 26} width={120} height={52} rx="4" fill={d.c} opacity="0.1" />
+                <rect x={d.x - 60} y={d.y - 26} width={120} height={52} rx="4" fill="none" stroke={d.c} strokeWidth="0.8" />
+                <text x={d.x} y={d.y - 6} textAnchor="middle" fill={d.c} fontSize="7" fontFamily="monospace" fontWeight="bold">{d.label}</text>
+                <text x={d.x} y={d.y + 10} textAnchor="middle" fill={LABEL} fontSize="4.5" fontFamily="monospace" opacity="0.6">{d.sub}</text>
+              </>
+            )}
+            {i === 4 && (
+              <>
+                <circle cx={cx} cy={cy} r={18} fill={d.c} opacity="0.15" />
+                <circle cx={cx} cy={cy} r={18} fill="none" stroke={d.c} strokeWidth="0.8" />
+                <text x={cx} y={cy + 4} textAnchor="middle" fill={d.c} fontSize="6" fontFamily="monospace" fontWeight="bold">{d.label}</text>
+              </>
+            )}
+          </g>
+        ))}
+        <Brackets x={2} y={2} w={W-4} h={H-4} />
+      </svg>
+    </DiagramWrapper>
+  );
+}
+
+// A26 — Systems Thinking
+export function SystemsThinkingDiagram() {
+  const W = 320; const H = 180;
+  const cx = 160; const cy = 90;
+  const nodes = [
+    { label: 'INPUTS', x: 40, y: cy, c: LINE3 },
+    { label: 'PROCESS', x: cx, y: 40, c: LINE },
+    { label: 'OUTPUTS', x: 280, y: cy, c: LINE2 },
+    { label: 'FEEDBACK', x: cx, y: 145, c: LINE },
+  ];
+  return (
+    <DiagramWrapper label="SYSTEMS THINKING MODEL // A26">
+      <svg viewBox={`0 0 ${W} ${H}`} className="w-full" style={{ display: 'block' }}>
+        <GridBg w={W} h={H} />
+        <line x1={70} y1={cy} x2={cx-28} y2={55} stroke={LINE} strokeWidth="0.8" strokeDasharray="3,2" opacity="0.5" />
+        <line x1={cx+28} y1={55} x2={250} y2={cy} stroke={LINE} strokeWidth="0.8" strokeDasharray="3,2" opacity="0.5" />
+        <path d="M 250,100 Q 160,160 70,100" fill="none" stroke={LINE3} strokeWidth="0.8" strokeDasharray="3,2" opacity="0.4" />
+        {nodes.map((n, i) => (
+          <g key={i}>
+            <rect x={n.x - 32} y={n.y - 16} width={64} height={32} rx="4" fill={n.c} opacity="0.1" />
+            <rect x={n.x - 32} y={n.y - 16} width={64} height={32} rx="4" fill="none" stroke={n.c} strokeWidth="0.8" />
+            <text x={n.x} y={n.y + 4} textAnchor="middle" fill={n.c} fontSize="6.5" fontFamily="monospace" fontWeight="bold">{n.label}</text>
+          </g>
+        ))}
+        <text x={cx} y={H-4} textAnchor="middle" fill={LABEL} fontSize="5.5" fontFamily="monospace" opacity="0.5">CAUSAL LOOPS · EMERGENT BEHAVIOUR · LEVERAGE POINTS</text>
+        <Brackets x={2} y={2} w={W-4} h={H-4} />
+      </svg>
+    </DiagramWrapper>
+  );
+}
+
+// A27 — Complexity Theory
+export function ComplexityDiagram() {
+  const W = 320; const H = 180;
+  const zones = [
+    { label: 'SIMPLE', sub: 'Best practice', x: 75, y: 50, c: LINE2 },
+    { label: 'COMPLICATED', sub: 'Good practice', x: 245, y: 50, c: LINE },
+    { label: 'COMPLEX', sub: 'Emergent practice', x: 75, y: 135, c: LINE3 },
+    { label: 'CHAOTIC', sub: 'Novel practice', x: 245, y: 135, c: LINE3 },
+  ];
+  return (
+    <DiagramWrapper label="COMPLEXITY ZONES // A27">
+      <svg viewBox={`0 0 ${W} ${H}`} className="w-full" style={{ display: 'block' }}>
+        <GridBg w={W} h={H} />
+        <line x1={160} y1={10} x2={160} y2={H-10} stroke={DIM} strokeWidth="1" opacity="0.4" />
+        <line x1={10} y1={92} x2={W-10} y2={92} stroke={DIM} strokeWidth="1" opacity="0.4" />
+        <text x={85} y={8} textAnchor="middle" fill={LABEL} fontSize="5.5" fontFamily="monospace" opacity="0.4">LOW UNCERTAINTY</text>
+        <text x={245} y={8} textAnchor="middle" fill={LABEL} fontSize="5.5" fontFamily="monospace" opacity="0.4">HIGH UNCERTAINTY</text>
+        {zones.map((z, i) => (
+          <g key={i}>
+            <rect x={z.x - 65} y={z.y - 28} width={130} height={56} rx="4" fill={z.c} opacity="0.1" />
+            <rect x={z.x - 65} y={z.y - 28} width={130} height={56} rx="4" fill="none" stroke={z.c} strokeWidth="0.8" />
+            <text x={z.x} y={z.y - 6} textAnchor="middle" fill={z.c} fontSize="7" fontFamily="monospace" fontWeight="bold">{z.label}</text>
+            <text x={z.x} y={z.y + 10} textAnchor="middle" fill={LABEL} fontSize="5.5" fontFamily="monospace" opacity="0.6">{z.sub}</text>
+          </g>
+        ))}
+        <Brackets x={2} y={2} w={W-4} h={H-4} />
+      </svg>
+    </DiagramWrapper>
+  );
+}
+
+// A28 — Scenario Planning
+export function ScenarioPlanningDiagram() {
+  const W = 320; const H = 180;
+  const cx = 160; const cy = 90;
+  const scenarios = [
+    { label: 'BEST CASE', sub: 'Launch on time', x: cx, y: 25, c: LINE2 },
+    { label: 'BASE CASE', sub: '2-month delay', x: cx + 90, y: cy, c: LINE },
+    { label: 'WORST CASE', sub: '6-month delay', x: cx, y: H - 25, c: LINE3 },
+    { label: 'WILD CARD', sub: 'Regulatory block', x: cx - 90, y: cy, c: LINE3 },
+  ];
+  return (
+    <DiagramWrapper label="SCENARIO PLANNING // A28">
+      <svg viewBox={`0 0 ${W} ${H}`} className="w-full" style={{ display: 'block' }}>
+        <GridBg w={W} h={H} />
+        {scenarios.map((s, i) => (
+          <line key={i} x1={cx} y1={cy} x2={s.x} y2={s.y} stroke={s.c} strokeWidth="0.8" strokeDasharray="4,2" opacity="0.4" />
+        ))}
+        <circle cx={cx} cy={cy} r={18} fill={LINE} opacity="0.08" />
+        <circle cx={cx} cy={cy} r={18} fill="none" stroke={LINE} strokeWidth="1" />
+        <text x={cx} y={cy - 3} textAnchor="middle" fill={LINE} fontSize="5.5" fontFamily="monospace" fontWeight="bold">CURRENT</text>
+        <text x={cx} y={cy + 9} textAnchor="middle" fill={LINE} fontSize="5.5" fontFamily="monospace" fontWeight="bold">STATE</text>
+        {scenarios.map((s, i) => (
+          <g key={i}>
+            <rect x={s.x - 40} y={s.y - 18} width={80} height={36} rx="3" fill={s.c} opacity="0.1" />
+            <rect x={s.x - 40} y={s.y - 18} width={80} height={36} rx="3" fill="none" stroke={s.c} strokeWidth="0.8" />
+            <text x={s.x} y={s.y - 3} textAnchor="middle" fill={s.c} fontSize="6" fontFamily="monospace" fontWeight="bold">{s.label}</text>
+            <text x={s.x} y={s.y + 11} textAnchor="middle" fill={LABEL} fontSize="5" fontFamily="monospace" opacity="0.6">{s.sub}</text>
+          </g>
+        ))}
+        <Brackets x={2} y={2} w={W-4} h={H-4} />
+      </svg>
+    </DiagramWrapper>
+  );
+}
+
+// A30 — Affinity Mapping
+export function AffinityDiagram() {
+  const W = 320; const H = 180;
+  const clusters = [
+    { label: 'PROCESS', items: ['Slow approvals','Manual steps'], x: 10, c: LINE3 },
+    { label: 'PEOPLE', items: ['Skill gaps','Turnover'], x: 115, c: LINE },
+    { label: 'TECHNOLOGY', items: ['Legacy tools','No API'], x: 220, c: LINE2 },
+  ];
+  return (
+    <DiagramWrapper label="AFFINITY MAP // A30">
+      <svg viewBox={`0 0 ${W} ${H}`} className="w-full" style={{ display: 'block' }}>
+        <GridBg w={W} h={H} />
+        {clusters.map((col, i) => (
+          <g key={i}>
+            <rect x={col.x} y={10} width={95} height={160} rx="4" fill={col.c} opacity="0.07" />
+            <rect x={col.x} y={10} width={95} height={160} rx="4" fill="none" stroke={col.c} strokeWidth="0.8" />
+            <text x={col.x + 47} y={26} textAnchor="middle" fill={col.c} fontSize="6.5" fontFamily="monospace" fontWeight="bold">{col.label}</text>
+            <line x1={col.x} y1={30} x2={col.x + 95} y2={30} stroke={col.c} strokeWidth="0.4" opacity="0.4" />
+            {col.items.map((item, j) => (
+              <g key={j}>
+                <rect x={col.x + 6} y={38 + j * 40} width={83} height={28} rx="3" fill={col.c} opacity="0.12" />
+                <text x={col.x + 47} y={55 + j * 40} textAnchor="middle" fill={LABEL} fontSize="5.5" fontFamily="monospace" opacity="0.8">{item}</text>
+              </g>
+            ))}
+          </g>
+        ))}
+        <Brackets x={2} y={2} w={W-4} h={H-4} />
+      </svg>
+    </DiagramWrapper>
+  );
+}
+
+// A31 — Nominal Group Technique
+export function NGTDiagram() {
+  const W = 320; const H = 180;
+  const ideas = [
+    { label: 'Automate testing', votes: 9, c: LINE2 },
+    { label: 'Reduce approval steps', votes: 7, c: LINE },
+    { label: 'Hire Reg. specialist', votes: 6, c: LINE },
+    { label: 'Upgrade tooling', votes: 4, c: LABEL },
+    { label: 'Improve comms', votes: 2, c: DIM },
+  ];
+  return (
+    <DiagramWrapper label="NOMINAL GROUP TECHNIQUE // A31">
+      <svg viewBox={`0 0 ${W} ${H}`} className="w-full" style={{ display: 'block' }}>
+        <GridBg w={W} h={H} />
+        {ideas.map((idea, i) => {
+          const barW = (idea.votes / 10) * 180;
+          return (
+            <g key={i}>
+              <text x={8} y={22 + i * 30} fill={idea.c} fontSize="5.5" fontFamily="monospace" opacity="0.8">{idea.label}</text>
+              <rect x={8} y={26 + i * 30} width={barW} height={12} rx="2" fill={idea.c} opacity="0.2" />
+              <rect x={8} y={26 + i * 30} width={barW} height={12} rx="2" fill="none" stroke={idea.c} strokeWidth="0.7" />
+              <text x={barW + 14} y={35 + i * 30} fill={idea.c} fontSize="6" fontFamily="monospace">{idea.votes} pts</text>
+            </g>
+          );
+        })}
+        <Brackets x={2} y={2} w={W-4} h={H-4} />
+      </svg>
+    </DiagramWrapper>
+  );
+}
+
+// A32 — Delphi Technique (Advanced)
+export function DelphiAdvancedDiagram() {
+  const W = 320; const H = 180;
+  const rounds = [
+    { round: 'ROUND 1', range: '6-18 months', consensus: 30, c: LINE3 },
+    { round: 'ROUND 2', range: '9-15 months', consensus: 60, c: LINE },
+    { round: 'ROUND 3', range: '11-13 months', consensus: 85, c: LINE2 },
+  ];
+  return (
+    <DiagramWrapper label="DELPHI CONSENSUS CONVERGENCE // A32">
+      <svg viewBox={`0 0 ${W} ${H}`} className="w-full" style={{ display: 'block' }}>
+        <GridBg w={W} h={H} />
+        {rounds.map((r, i) => {
+          const y = 30 + i * 48;
+          const barW = (r.consensus / 100) * 220;
+          return (
+            <g key={i}>
+              <text x={8} y={y + 8} fill={r.c} fontSize="6" fontFamily="monospace" fontWeight="bold">{r.round}</text>
+              <text x={8} y={y + 20} fill={LABEL} fontSize="5.5" fontFamily="monospace" opacity="0.6">Range: {r.range}</text>
+              <rect x={8} y={y + 24} width={barW} height={14} rx="2" fill={r.c} opacity="0.2" />
+              <rect x={8} y={y + 24} width={barW} height={14} rx="2" fill="none" stroke={r.c} strokeWidth="0.8" />
+              <text x={barW + 14} y={y + 34} fill={r.c} fontSize="6" fontFamily="monospace">{r.consensus}% consensus</text>
+            </g>
+          );
+        })}
+        <Brackets x={2} y={2} w={W-4} h={H-4} />
+      </svg>
+    </DiagramWrapper>
+  );
+}
+
+// A33 — TRIZ
+export function TRIZDiagram() {
+  const W = 320; const H = 180;
+  const steps = ['SPECIFIC\\nPROBLEM','ABSTRACT\\nPROBLEM','ABSTRACT\\nSOLUTION','SPECIFIC\\nSOLUTION'];
+  const xs = [40, 130, 190, 280];
+  const ys = [50, 50, 130, 130];
+  return (
+    <DiagramWrapper label="TRIZ PROBLEM-SOLVING MODEL // A33">
+      <svg viewBox={`0 0 ${W} ${H}`} className="w-full" style={{ display: 'block' }}>
+        <GridBg w={W} h={H} />
+        <line x1={xs[0]+28} y1={ys[0]} x2={xs[1]-28} y2={ys[1]} stroke={LINE3} strokeWidth="1" strokeDasharray="3,2" opacity="0.5" />
+        <line x1={xs[1]} y1={ys[1]+20} x2={xs[2]} y2={ys[2]-20} stroke={LINE} strokeWidth="1" strokeDasharray="3,2" opacity="0.5" />
+        <line x1={xs[2]+28} y1={ys[2]} x2={xs[3]-28} y2={ys[3]} stroke={LINE2} strokeWidth="1" strokeDasharray="3,2" opacity="0.5" />
+        <line x1={xs[0]+28} y1={ys[0]+20} x2={xs[3]-28} y2={ys[3]-20} stroke={LINE2} strokeWidth="0.5" strokeDasharray="2,3" opacity="0.2" />
+        {steps.map((s, i) => {
+          const c = [LINE3, LINE3, LINE2, LINE2][i];
+          return (
+            <g key={i}>
+              <rect x={xs[i]-28} y={ys[i]-20} width={56} height={40} rx="4" fill={c} opacity="0.1" />
+              <rect x={xs[i]-28} y={ys[i]-20} width={56} height={40} rx="4" fill="none" stroke={c} strokeWidth="0.8" />
+              {s.split('\\n').map((line, j) => (
+                <text key={j} x={xs[i]} y={ys[i] - 4 + j * 13} textAnchor="middle" fill={c} fontSize="5.5" fontFamily="monospace" fontWeight="bold">{line}</text>
+              ))}
+            </g>
+          );
+        })}
+        <text x={160} y={92} textAnchor="middle" fill={LINE} fontSize="5.5" fontFamily="monospace" opacity="0.6">TRIZ CONTRADICTION MATRIX</text>
+        <Brackets x={2} y={2} w={W-4} h={H-4} />
+      </svg>
+    </DiagramWrapper>
+  );
+}
+
+// A34 — Lateral Thinking
+export function LateralThinkingDiagram() {
+  const W = 320; const H = 180;
+  const hats = [
+    { label: 'WHITE', sub: 'Facts & Data', x: 40, y: 45, c: LABEL },
+    { label: 'RED', sub: 'Emotions', x: 120, y: 45, c: LINE3 },
+    { label: 'BLACK', sub: 'Caution', x: 200, y: 45, c: DIM },
+    { label: 'YELLOW', sub: 'Optimism', x: 280, y: 45, c: '#FFD700' },
+    { label: 'GREEN', sub: 'Creativity', x: 80, y: 135, c: LINE2 },
+    { label: 'BLUE', sub: 'Process', x: 240, y: 135, c: LINE },
+  ];
+  return (
+    <DiagramWrapper label="SIX THINKING HATS // A34">
+      <svg viewBox={`0 0 ${W} ${H}`} className="w-full" style={{ display: 'block' }}>
+        <GridBg w={W} h={H} />
+        {hats.map((h, i) => (
+          <g key={i}>
+            <polygon points={`${h.x},${h.y - 22} ${h.x + 22},${h.y + 8} ${h.x - 22},${h.y + 8}`} fill={h.c} opacity="0.2" />
+            <polygon points={`${h.x},${h.y - 22} ${h.x + 22},${h.y + 8} ${h.x - 22},${h.y + 8}`} fill="none" stroke={h.c} strokeWidth="1" />
+            <text x={h.x} y={h.y + 22} textAnchor="middle" fill={h.c} fontSize="5.5" fontFamily="monospace" fontWeight="bold">{h.label}</text>
+            <text x={h.x} y={h.y + 34} textAnchor="middle" fill={LABEL} fontSize="5" fontFamily="monospace" opacity="0.6">{h.sub}</text>
+          </g>
+        ))}
+        <Brackets x={2} y={2} w={W-4} h={H-4} />
+      </svg>
+    </DiagramWrapper>
+  );
+}
+
+// A36 — Appreciative Inquiry
+export function AppreciativeInquiryDiagram() {
+  const W = 320; const H = 180;
+  const phases = ['DISCOVER','DREAM','DESIGN','DELIVER'];
+  const xs = [40, 120, 200, 280];
+  const colors = [LINE, LINE2, LINE2, LINE3];
+  return (
+    <DiagramWrapper label="APPRECIATIVE INQUIRY 4D MODEL // A36">
+      <svg viewBox={`0 0 ${W} ${H}`} className="w-full" style={{ display: 'block' }}>
+        <GridBg w={W} h={H} />
+        {phases.map((p, i) => {
+          const c = colors[i];
+          return (
+            <g key={i}>
+              {i < phases.length - 1 && (
+                <line x1={xs[i]+28} y1={90} x2={xs[i+1]-28} y2={90} stroke={c} strokeWidth="0.8" strokeDasharray="3,2" opacity="0.5" />
+              )}
+              <circle cx={xs[i]} cy={90} r={28} fill={c} opacity="0.1" />
+              <circle cx={xs[i]} cy={90} r={28} fill="none" stroke={c} strokeWidth="1" />
+              <text x={xs[i]} y={87} textAnchor="middle" fill={c} fontSize="7" fontFamily="monospace" fontWeight="bold">{p}</text>
+              <text x={xs[i]} y={100} textAnchor="middle" fill={LABEL} fontSize="5" fontFamily="monospace" opacity="0.6">4D</text>
+            </g>
+          );
+        })}
+        <Brackets x={2} y={2} w={W-4} h={H-4} />
+      </svg>
+    </DiagramWrapper>
+  );
+}
+
+// A37 — Future State Mapping
+export function FutureStateDiagram() {
+  const W = 320; const H = 180;
+  return (
+    <DiagramWrapper label="CURRENT → FUTURE STATE MAP // A37">
+      <svg viewBox={`0 0 ${W} ${H}`} className="w-full" style={{ display: 'block' }}>
+        <GridBg w={W} h={H} />
+        <rect x={10} y={30} width={120} height={120} rx="6" fill={LINE3} opacity="0.08" />
+        <rect x={10} y={30} width={120} height={120} rx="6" fill="none" stroke={LINE3} strokeWidth="1" />
+        <text x={70} y={52} textAnchor="middle" fill={LINE3} fontSize="7" fontFamily="monospace" fontWeight="bold">CURRENT STATE</text>
+        <text x={70} y={70} textAnchor="middle" fill={LABEL} fontSize="5.5" fontFamily="monospace" opacity="0.6">Manual processes</text>
+        <text x={70} y={84} textAnchor="middle" fill={LABEL} fontSize="5.5" fontFamily="monospace" opacity="0.6">Siloed teams</text>
+        <text x={70} y={98} textAnchor="middle" fill={LABEL} fontSize="5.5" fontFamily="monospace" opacity="0.6">12-week cycle</text>
+        <rect x={190} y={30} width={120} height={120} rx="6" fill={LINE2} opacity="0.08" />
+        <rect x={190} y={30} width={120} height={120} rx="6" fill="none" stroke={LINE2} strokeWidth="1" style={{ filter: GLOW2 }} />
+        <text x={250} y={52} textAnchor="middle" fill={LINE2} fontSize="7" fontFamily="monospace" fontWeight="bold">FUTURE STATE</text>
+        <text x={250} y={70} textAnchor="middle" fill={LABEL} fontSize="5.5" fontFamily="monospace" opacity="0.6">Automated flow</text>
+        <text x={250} y={84} textAnchor="middle" fill={LABEL} fontSize="5.5" fontFamily="monospace" opacity="0.6">Cross-functional</text>
+        <text x={250} y={98} textAnchor="middle" fill={LABEL} fontSize="5.5" fontFamily="monospace" opacity="0.6">4-week cycle</text>
+        <line x1={130} y1={90} x2={190} y2={90} stroke={LINE} strokeWidth="1.5" strokeDasharray="4,2" opacity="0.6" />
+        <text x={160} y={86} textAnchor="middle" fill={LINE} fontSize="6" fontFamily="monospace">GAP</text>
+        <Brackets x={2} y={2} w={W-4} h={H-4} />
+      </svg>
+    </DiagramWrapper>
+  );
+}
+
+// A41 — SAFe PI Planning
+export function PIPlanningDiagram() {
+  const W = 320; const H = 180;
+  const teams = ['Team A','Team B','Team C'];
+  const sprints = ['S1','S2','S3','S4','IP'];
+  return (
+    <DiagramWrapper label="SAFe PI PLANNING BOARD // A41">
+      <svg viewBox={`0 0 ${W} ${H}`} className="w-full" style={{ display: 'block' }}>
+        <GridBg w={W} h={H} />
+        {sprints.map((s, i) => (
+          <text key={i} x={90 + i * 46} y={14} textAnchor="middle" fill={LINE} fontSize="6" fontFamily="monospace" fontWeight="bold" opacity="0.8">{s}</text>
+        ))}
+        {teams.map((t, ti) => (
+          <g key={ti}>
+            <text x={8} y={38 + ti * 46} fill={LABEL} fontSize="6" fontFamily="monospace" opacity="0.7">{t}</text>
+            {sprints.map((_, si) => {
+              const c = si === 4 ? LINE3 : [LINE2, LINE, LINE2, LINE][si];
+              return (
+                <g key={si}>
+                  <rect x={68 + si * 46} y={24 + ti * 46} width={40} height={32} rx="3" fill={c} opacity="0.1" />
+                  <rect x={68 + si * 46} y={24 + ti * 46} width={40} height={32} rx="3" fill="none" stroke={c} strokeWidth="0.6" opacity="0.5" />
+                  {si < 4 && <text x={88 + si * 46} y={43 + ti * 46} textAnchor="middle" fill={c} fontSize="5" fontFamily="monospace">{[3,5,4,3][si]}pts</text>}
+                  {si === 4 && <text x={88 + si * 46} y={43 + ti * 46} textAnchor="middle" fill={c} fontSize="5" fontFamily="monospace">IP</text>}
+                </g>
+              );
+            })}
+          </g>
+        ))}
+        <Brackets x={2} y={2} w={W-4} h={H-4} />
+      </svg>
+    </DiagramWrapper>
+  );
+}
+
+// A42 — OKR Cascade
+export function OKRCascadeDiagram() {
+  const W = 320; const H = 180;
+  return (
+    <DiagramWrapper label="OKR CASCADE // A42">
+      <svg viewBox={`0 0 ${W} ${H}`} className="w-full" style={{ display: 'block' }}>
+        <GridBg w={W} h={H} />
+        <rect x={80} y={10} width={160} height={36} rx="4" fill={LINE2} opacity="0.1" />
+        <rect x={80} y={10} width={160} height={36} rx="4" fill="none" stroke={LINE2} strokeWidth="1" style={{ filter: GLOW2 }} />
+        <text x={160} y={24} textAnchor="middle" fill={LINE2} fontSize="6.5" fontFamily="monospace" fontWeight="bold">COMPANY OKR</text>
+        <text x={160} y={38} textAnchor="middle" fill={LABEL} fontSize="5" fontFamily="monospace" opacity="0.6">Launch insulin pen Q3</text>
+        <line x1={160} y1={46} x2={80} y2={72} stroke={DIM} strokeWidth="0.8" strokeDasharray="2,2" opacity="0.4" />
+        <line x1={160} y1={46} x2={240} y2={72} stroke={DIM} strokeWidth="0.8" strokeDasharray="2,2" opacity="0.4" />
+        {[{ label: 'TEAM OKR', sub: 'Regulatory cleared', x: 80, c: LINE }, { label: 'TEAM OKR', sub: 'Launch campaign live', x: 240, c: LINE }].map((t, i) => (
+          <g key={i}>
+            <rect x={t.x - 55} y={72} width={110} height={36} rx="4" fill={t.c} opacity="0.1" />
+            <rect x={t.x - 55} y={72} width={110} height={36} rx="4" fill="none" stroke={t.c} strokeWidth="0.8" />
+            <text x={t.x} y={86} textAnchor="middle" fill={t.c} fontSize="6" fontFamily="monospace" fontWeight="bold">{t.label}</text>
+            <text x={t.x} y={100} textAnchor="middle" fill={LABEL} fontSize="5" fontFamily="monospace" opacity="0.6">{t.sub}</text>
+          </g>
+        ))}
+        <line x1={80} y1={108} x2={60} y2={130} stroke={DIM} strokeWidth="0.6" strokeDasharray="2,2" opacity="0.3" />
+        <line x1={80} y1={108} x2={100} y2={130} stroke={DIM} strokeWidth="0.6" strokeDasharray="2,2" opacity="0.3" />
+        {[{ label: 'KR1', sub: 'Submit by W4', x: 60 }, { label: 'KR2', sub: 'Approved W8', x: 100 }].map((kr, i) => (
+          <g key={i}>
+            <rect x={kr.x - 30} y={130} width={60} height={36} rx="3" fill={LINE3} opacity="0.08" />
+            <rect x={kr.x - 30} y={130} width={60} height={36} rx="3" fill="none" stroke={LINE3} strokeWidth="0.6" />
+            <text x={kr.x} y={145} textAnchor="middle" fill={LINE3} fontSize="5.5" fontFamily="monospace" fontWeight="bold">{kr.label}</text>
+            <text x={kr.x} y={158} textAnchor="middle" fill={LABEL} fontSize="4.5" fontFamily="monospace" opacity="0.6">{kr.sub}</text>
+          </g>
+        ))}
+        <Brackets x={2} y={2} w={W-4} h={H-4} />
+      </svg>
+    </DiagramWrapper>
+  );
+}
+
+// A43 — Portfolio Management
+export function PortfolioDiagram() {
+  const W = 320; const H = 180;
+  const projects = [
+    { label: 'Insulin Pen', value: 85, effort: 60, r: 14, c: LINE2 },
+    { label: 'App v2', value: 70, effort: 40, r: 10, c: LINE },
+    { label: 'Compliance', value: 90, effort: 80, r: 16, c: LINE3 },
+    { label: 'Training', value: 40, effort: 20, r: 8, c: LABEL },
+    { label: 'Rebrand', value: 55, effort: 70, r: 11, c: LINE },
+  ];
+  const toX = (e: number) => 30 + (e / 100) * 260;
+  const toY = (v: number) => H - 20 - (v / 100) * (H - 40);
+  return (
+    <DiagramWrapper label="PORTFOLIO BUBBLE CHART // A43">
+      <svg viewBox={`0 0 ${W} ${H}`} className="w-full" style={{ display: 'block' }}>
+        <GridBg w={W} h={H} />
+        <line x1={25} y1={H-18} x2={W-10} y2={H-18} stroke={DIM} strokeWidth="1" opacity="0.5" />
+        <line x1={25} y1={H-18} x2={25} y2={10} stroke={DIM} strokeWidth="1" opacity="0.5" />
+        <text x={160} y={H-4} textAnchor="middle" fill={LABEL} fontSize="5.5" fontFamily="monospace" opacity="0.5">EFFORT →</text>
+        <text x={14} y={90} fill={LABEL} fontSize="5.5" fontFamily="monospace" opacity="0.5" transform="rotate(-90,14,90)">VALUE ↑</text>
+        {projects.map((p, i) => (
+          <g key={i}>
+            <circle cx={toX(p.effort)} cy={toY(p.value)} r={p.r} fill={p.c} opacity="0.2" />
+            <circle cx={toX(p.effort)} cy={toY(p.value)} r={p.r} fill="none" stroke={p.c} strokeWidth="1" />
+            <text x={toX(p.effort)} y={toY(p.value) + 3} textAnchor="middle" fill={p.c} fontSize="5" fontFamily="monospace">{p.label}</text>
+          </g>
+        ))}
+        <Brackets x={2} y={2} w={W-4} h={H-4} />
+      </svg>
+    </DiagramWrapper>
+  );
+}
+
+// A44 — Program Management
+export function ProgramMgmtDiagram() {
+  const W = 320; const H = 180;
+  const projects = [
+    { label: 'Regulatory', x: 55, y: 50, c: LINE3 },
+    { label: 'Manufacturing', x: 160, y: 50, c: LINE },
+    { label: 'Marketing', x: 265, y: 50, c: LINE2 },
+    { label: 'Clinical', x: 55, y: 130, c: LINE },
+    { label: 'IT Systems', x: 160, y: 130, c: LINE },
+    { label: 'Training', x: 265, y: 130, c: LINE2 },
+  ];
+  const cx = 160; const cy = 90;
+  return (
+    <DiagramWrapper label="PROGRAM MANAGEMENT STRUCTURE // A44">
+      <svg viewBox={`0 0 ${W} ${H}`} className="w-full" style={{ display: 'block' }}>
+        <GridBg w={W} h={H} />
+        {projects.map((p, i) => (
+          <line key={i} x1={cx} y1={cy} x2={p.x} y2={p.y} stroke={p.c} strokeWidth="0.7" strokeDasharray="3,2" opacity="0.3" />
+        ))}
+        <rect x={cx-38} y={cy-18} width={76} height={36} rx="4" fill={LINE2} opacity="0.12" />
+        <rect x={cx-38} y={cy-18} width={76} height={36} rx="4" fill="none" stroke={LINE2} strokeWidth="1.2" style={{ filter: GLOW2 }} />
+        <text x={cx} y={cy - 2} textAnchor="middle" fill={LINE2} fontSize="6.5" fontFamily="monospace" fontWeight="bold">PROGRAM</text>
+        <text x={cx} y={cy + 12} textAnchor="middle" fill={LINE2} fontSize="6.5" fontFamily="monospace" fontWeight="bold">MANAGER</text>
+        {projects.map((p, i) => (
+          <g key={i}>
+            <rect x={p.x - 32} y={p.y - 16} width={64} height={32} rx="3" fill={p.c} opacity="0.1" />
+            <rect x={p.x - 32} y={p.y - 16} width={64} height={32} rx="3" fill="none" stroke={p.c} strokeWidth="0.7" />
+            <text x={p.x} y={p.y + 4} textAnchor="middle" fill={p.c} fontSize="5.5" fontFamily="monospace" fontWeight="bold">{p.label}</text>
+          </g>
+        ))}
+        <Brackets x={2} y={2} w={W-4} h={H-4} />
+      </svg>
+    </DiagramWrapper>
+  );
+}
+
+// A45 — Benefits Realisation
+export function BenefitsRealisationDiagram() {
+  const W = 320; const H = 180;
+  const benefits = [
+    { label: 'Revenue +£2M', actual: 75, target: 100, c: LINE2 },
+    { label: 'Cost save 15%', actual: 60, target: 100, c: LINE },
+    { label: 'NPS +20pts', actual: 90, target: 100, c: LINE2 },
+    { label: 'Time-to-mkt -30%', actual: 40, target: 100, c: LINE3 },
+  ];
+  return (
+    <DiagramWrapper label="BENEFITS REALISATION TRACKER // A45">
+      <svg viewBox={`0 0 ${W} ${H}`} className="w-full" style={{ display: 'block' }}>
+        <GridBg w={W} h={H} />
+        {benefits.map((b, i) => {
+          const y = 20 + i * 36;
+          const barW = (b.actual / 100) * 200;
+          return (
+            <g key={i}>
+              <text x={8} y={y + 9} fill={b.c} fontSize="5.5" fontFamily="monospace" opacity="0.8">{b.label}</text>
+              <rect x={8} y={y + 14} width={200} height={14} rx="2" fill={DIM} opacity="0.2" />
+              <rect x={8} y={y + 14} width={barW} height={14} rx="2" fill={b.c} opacity="0.3" />
+              <rect x={8} y={y + 14} width={barW} height={14} rx="2" fill="none" stroke={b.c} strokeWidth="0.8" />
+              <text x={barW + 14} y={y + 24} fill={b.c} fontSize="6" fontFamily="monospace">{b.actual}%</text>
+            </g>
+          );
+        })}
+        <Brackets x={2} y={2} w={W-4} h={H-4} />
+      </svg>
+    </DiagramWrapper>
+  );
+}
+
+// A46 — Change Impact Assessment
+export function ChangeImpactDiagram() {
+  const W = 320; const H = 180;
+  const areas = [
+    { label: 'PEOPLE', impact: 'HIGH', readiness: 'LOW', x: 55, y: 55, c: LINE3 },
+    { label: 'PROCESS', impact: 'MED', readiness: 'MED', x: 160, y: 55, c: LINE },
+    { label: 'TECHNOLOGY', impact: 'HIGH', readiness: 'MED', x: 265, y: 55, c: LINE },
+    { label: 'STRUCTURE', impact: 'LOW', readiness: 'HIGH', x: 55, y: 130, c: LINE2 },
+    { label: 'CULTURE', impact: 'HIGH', readiness: 'LOW', x: 160, y: 130, c: LINE3 },
+    { label: 'SYSTEMS', impact: 'MED', readiness: 'HIGH', x: 265, y: 130, c: LINE2 },
+  ];
+  return (
+    <DiagramWrapper label="CHANGE IMPACT ASSESSMENT // A46">
+      <svg viewBox={`0 0 ${W} ${H}`} className="w-full" style={{ display: 'block' }}>
+        <GridBg w={W} h={H} />
+        {areas.map((a, i) => (
+          <g key={i}>
+            <rect x={a.x - 48} y={a.y - 28} width={96} height={56} rx="4" fill={a.c} opacity="0.1" />
+            <rect x={a.x - 48} y={a.y - 28} width={96} height={56} rx="4" fill="none" stroke={a.c} strokeWidth="0.8" />
+            <text x={a.x} y={a.y - 10} textAnchor="middle" fill={a.c} fontSize="6.5" fontFamily="monospace" fontWeight="bold">{a.label}</text>
+            <text x={a.x} y={a.y + 4} textAnchor="middle" fill={LABEL} fontSize="5" fontFamily="monospace" opacity="0.6">Impact: {a.impact}</text>
+            <text x={a.x} y={a.y + 16} textAnchor="middle" fill={LABEL} fontSize="5" fontFamily="monospace" opacity="0.6">Ready: {a.readiness}</text>
+          </g>
+        ))}
+        <Brackets x={2} y={2} w={W-4} h={H-4} />
+      </svg>
+    </DiagramWrapper>
+  );
+}
+
+// A48 — Earned Schedule
+export function EarnedScheduleDiagram() {
+  const W = 320; const H = 180;
+  const months = ['M1','M2','M3','M4','M5','M6'];
+  const pv = [15, 30, 50, 70, 85, 100];
+  const ev = [12, 25, 42, 65, 0, 0];
+  const toY = (v: number) => H - 25 - (v / 110) * (H - 50);
+  const toX = (i: number) => 30 + i * 50;
+  return (
+    <DiagramWrapper label="EARNED SCHEDULE (ES) // A48">
+      <svg viewBox={`0 0 ${W} ${H}`} className="w-full" style={{ display: 'block' }}>
+        <GridBg w={W} h={H} />
+        <polyline points={months.map((_, i) => `${toX(i)},${toY(pv[i])}`).join(' ')} fill="none" stroke={LINE2} strokeWidth="1.5" style={{ filter: GLOW2 }} />
+        <polyline points={months.slice(0,4).map((_, i) => `${toX(i)},${toY(ev[i])}`).join(' ')} fill="none" stroke={LINE3} strokeWidth="1.5" style={{ filter: GLOW3 }} />
+        {months.map((m, i) => (
+          <g key={i}>
+            <text x={toX(i)} y={H-8} textAnchor="middle" fill={LABEL} fontSize="6" fontFamily="monospace" opacity="0.6">{m}</text>
+            <GlowDot x={toX(i)} y={toY(pv[i])} r={2.5} color={LINE2} />
+            {i < 4 && <GlowDot x={toX(i)} y={toY(ev[i])} r={2.5} color={LINE3} />}
+          </g>
+        ))}
+        <line x1={toX(3)} y1={toY(ev[3])} x2={toX(3)} y2={toY(pv[3])} stroke={LINE3} strokeWidth="0.8" strokeDasharray="2,2" opacity="0.6" />
+        <text x={toX(3)+4} y={toY((ev[3]+pv[3])/2)} fill={LINE3} fontSize="5" fontFamily="monospace">SV(t)</text>
+        <text x={10} y={20} fill={LINE2} fontSize="5.5" fontFamily="monospace">▪ PV (Plan)</text>
+        <text x={80} y={20} fill={LINE3} fontSize="5.5" fontFamily="monospace">▪ EV (Actual)</text>
+        <Brackets x={2} y={2} w={W-4} h={H-4} />
+      </svg>
+    </DiagramWrapper>
+  );
+}
+
+// A49 — Critical Path Method
+export function CPMDiagram() {
+  const W = 320; const H = 180;
+  const nodes = [
+    { id: 'A', label: 'A\n2d', x: 30, y: 90, c: LINE2 },
+    { id: 'B', label: 'B\n3d', x: 100, y: 50, c: LINE },
+    { id: 'C', label: 'C\n4d', x: 100, y: 130, c: LINE },
+    { id: 'D', label: 'D\n2d', x: 190, y: 50, c: LINE },
+    { id: 'E', label: 'E\n5d', x: 190, y: 130, c: LINE3 },
+    { id: 'F', label: 'F\n1d', x: 270, y: 90, c: LINE2 },
+  ];
+  const edges = [
+    { from: 0, to: 1, cp: false }, { from: 0, to: 2, cp: false },
+    { from: 1, to: 3, cp: false }, { from: 2, to: 4, cp: true },
+    { from: 3, to: 5, cp: false }, { from: 4, to: 5, cp: true },
+  ];
+  return (
+    <DiagramWrapper label="CRITICAL PATH METHOD // A49">
+      <svg viewBox={`0 0 ${W} ${H}`} className="w-full" style={{ display: 'block' }}>
+        <GridBg w={W} h={H} />
+        {edges.map((e, i) => (
+          <line key={i} x1={nodes[e.from].x + 16} y1={nodes[e.from].y} x2={nodes[e.to].x - 16} y2={nodes[e.to].y}
+            stroke={e.cp ? LINE3 : DIM} strokeWidth={e.cp ? 1.5 : 0.8} strokeDasharray={e.cp ? undefined : '3,2'}
+            style={{ filter: e.cp ? GLOW3 : undefined }} opacity={e.cp ? 1 : 0.5} />
+        ))}
+        {nodes.map((n, i) => (
+          <g key={i}>
+            <circle cx={n.x} cy={n.y} r={16} fill={n.c} opacity="0.12" />
+            <circle cx={n.x} cy={n.y} r={16} fill="none" stroke={n.c} strokeWidth="1" />
+            {n.label.split('\n').map((l, j) => (
+              <text key={j} x={n.x} y={n.y - 2 + j * 11} textAnchor="middle" fill={n.c} fontSize="6" fontFamily="monospace" fontWeight="bold">{l}</text>
+            ))}
+          </g>
+        ))}
+        <text x={10} y={H-4} fill={LINE3} fontSize="5.5" fontFamily="monospace">— CRITICAL PATH: A→C→E→F = 12 days</text>
+        <Brackets x={2} y={2} w={W-4} h={H-4} />
+      </svg>
+    </DiagramWrapper>
+  );
+}
+
+// A50 — Resource Levelling
+export function ResourceLevellingDiagram() {
+  const W = 320; const H = 180;
+  const weeks = ['W1','W2','W3','W4','W5','W6'];
+  const before = [3, 5, 4, 6, 2, 3];
+  const after = [3, 4, 4, 4, 3, 3];
+  const capacity = 4;
+  const toY = (v: number) => H - 25 - (v / 7) * (H - 50);
+  const toX = (i: number) => 30 + i * 46;
+  return (
+    <DiagramWrapper label="RESOURCE LEVELLING // A50">
+      <svg viewBox={`0 0 ${W} ${H}`} className="w-full" style={{ display: 'block' }}>
+        <GridBg w={W} h={H} />
+        <line x1={20} y1={toY(capacity)} x2={W-10} y2={toY(capacity)} stroke={LINE3} strokeWidth="0.8" strokeDasharray="4,2" opacity="0.6" />
+        <text x={W-8} y={toY(capacity)-3} textAnchor="end" fill={LINE3} fontSize="5" fontFamily="monospace" opacity="0.7">CAPACITY {capacity}</text>
+        <polyline points={weeks.map((_, i) => `${toX(i)},${toY(before[i])}`).join(' ')} fill="none" stroke={LINE3} strokeWidth="1.2" strokeDasharray="3,2" opacity="0.7" />
+        <polyline points={weeks.map((_, i) => `${toX(i)},${toY(after[i])}`).join(' ')} fill="none" stroke={LINE2} strokeWidth="1.5" style={{ filter: GLOW2 }} />
+        {weeks.map((w, i) => (
+          <g key={i}>
+            <GlowDot x={toX(i)} y={toY(before[i])} r={2.5} color={LINE3} />
+            <GlowDot x={toX(i)} y={toY(after[i])} r={2.5} color={LINE2} />
+            <text x={toX(i)} y={H-8} textAnchor="middle" fill={LABEL} fontSize="6" fontFamily="monospace" opacity="0.6">{w}</text>
+          </g>
+        ))}
+        <text x={10} y={20} fill={LINE3} fontSize="5.5" fontFamily="monospace">▪ Before</text>
+        <text x={60} y={20} fill={LINE2} fontSize="5.5" fontFamily="monospace">▪ After levelling</text>
+        <Brackets x={2} y={2} w={W-4} h={H-4} />
+      </svg>
+    </DiagramWrapper>
+  );
+}
+
+// A51 — Agile Estimation
+export function AgileEstimationDiagram() {
+  const W = 320; const H = 180;
+  const cards = ['1','2','3','5','8','13','21','?'];
+  return (
+    <DiagramWrapper label="PLANNING POKER // A51">
+      <svg viewBox={`0 0 ${W} ${H}`} className="w-full" style={{ display: 'block' }}>
+        <GridBg w={W} h={H} />
+        {cards.map((c, i) => {
+          const x = 12 + i * 38;
+          const isSelected = c === '5';
+          const col = isSelected ? LINE2 : LINE;
+          return (
+            <g key={i}>
+              <rect x={x} y={50} width={28} height={40} rx="4" fill={col} opacity={isSelected ? 0.25 : 0.1} />
+              <rect x={x} y={50} width={28} height={40} rx="4" fill="none" stroke={col} strokeWidth={isSelected ? 1.5 : 0.8}
+                style={{ filter: isSelected ? GLOW2 : undefined }} />
+              <text x={x + 14} y={75} textAnchor="middle" fill={col} fontSize="10" fontFamily="monospace" fontWeight="bold">{c}</text>
+            </g>
+          );
+        })}
+        <text x={160} y={110} textAnchor="middle" fill={LABEL} fontSize="5.5" fontFamily="monospace" opacity="0.6">FIBONACCI SEQUENCE · CONSENSUS ESTIMATION</text>
+        <text x={160} y={125} textAnchor="middle" fill={LINE2} fontSize="5.5" fontFamily="monospace" opacity="0.8">TEAM CONSENSUS: 5 STORY POINTS</text>
+        <Brackets x={2} y={2} w={W-4} h={H-4} />
+      </svg>
+    </DiagramWrapper>
+  );
+}
+
+// A52 — Dependency Mapping
+export function DependencyMapDiagram() {
+  const W = 320; const H = 180;
+  const nodes = [
+    { label: 'Regulatory', x: 55, y: 50, c: LINE3 },
+    { label: 'Design', x: 160, y: 30, c: LINE },
+    { label: 'Manufacturing', x: 265, y: 50, c: LINE },
+    { label: 'Clinical', x: 55, y: 130, c: LINE },
+    { label: 'IT', x: 160, y: 150, c: LINE2 },
+    { label: 'Launch', x: 265, y: 130, c: LINE2 },
+  ];
+  const deps = [[0,1],[0,3],[1,2],[1,4],[2,5],[3,5],[4,5]];
+  return (
+    <DiagramWrapper label="DEPENDENCY MAP // A52">
+      <svg viewBox={`0 0 ${W} ${H}`} className="w-full" style={{ display: 'block' }}>
+        <GridBg w={W} h={H} />
+        {deps.map((d, i) => (
+          <line key={i} x1={nodes[d[0]].x} y1={nodes[d[0]].y} x2={nodes[d[1]].x} y2={nodes[d[1]].y}
+            stroke={nodes[d[0]].c} strokeWidth="0.8" strokeDasharray="3,2" opacity="0.4" />
+        ))}
+        {nodes.map((n, i) => (
+          <g key={i}>
+            <circle cx={n.x} cy={n.y} r={20} fill={n.c} opacity="0.1" />
+            <circle cx={n.x} cy={n.y} r={20} fill="none" stroke={n.c} strokeWidth="1" />
+            <text x={n.x} y={n.y + 4} textAnchor="middle" fill={n.c} fontSize="5.5" fontFamily="monospace" fontWeight="bold">{n.label}</text>
+          </g>
+        ))}
+        <Brackets x={2} y={2} w={W-4} h={H-4} />
+      </svg>
+    </DiagramWrapper>
+  );
+}
+
+// A53 — Assumption Log
+export function AssumptionLogDiagram() {
+  const W = 320; const H = 180;
+  const rows = [
+    { id: 'A1', assumption: 'Regulatory approval in 6 months', risk: 'HIGH', c: LINE3 },
+    { id: 'A2', assumption: 'Supplier delivers on time', risk: 'MED', c: LINE },
+    { id: 'A3', assumption: 'Budget unchanged', risk: 'LOW', c: LINE2 },
+    { id: 'A4', assumption: 'Team available full-time', risk: 'MED', c: LINE },
+    { id: 'A5', assumption: 'Market demand stable', risk: 'LOW', c: LINE2 },
+  ];
+  return (
+    <DiagramWrapper label="ASSUMPTION LOG // A53">
+      <svg viewBox={`0 0 ${W} ${H}`} className="w-full" style={{ display: 'block' }}>
+        <GridBg w={W} h={H} />
+        {['ID','ASSUMPTION','RISK'].map((h, i) => (
+          <text key={i} x={[8, 40, 260][i]} y={14} fill={LINE} fontSize="6" fontFamily="monospace" fontWeight="bold" opacity="0.8">{h}</text>
+        ))}
+        <line x1={5} y1={18} x2={315} y2={18} stroke={LINE} strokeWidth="0.5" opacity="0.4" />
+        {rows.map((r, i) => (
+          <g key={i}>
+            <text x={8} y={32 + i * 28} fill={r.c} fontSize="5.5" fontFamily="monospace" fontWeight="bold">{r.id}</text>
+            <text x={40} y={32 + i * 28} fill={LABEL} fontSize="5" fontFamily="monospace" opacity="0.7">{r.assumption}</text>
+            <rect x={252} y={22 + i * 28} width={56} height={14} rx="2" fill={r.c} opacity="0.15" />
+            <text x={280} y={32 + i * 28} textAnchor="middle" fill={r.c} fontSize="5.5" fontFamily="monospace" fontWeight="bold">{r.risk}</text>
+            <line x1={5} y1={36 + i * 28} x2={315} y2={36 + i * 28} stroke={DIM} strokeWidth="0.3" opacity="0.3" />
+          </g>
+        ))}
+        <Brackets x={2} y={2} w={W-4} h={H-4} />
+      </svg>
+    </DiagramWrapper>
+  );
+}
+
+// A54 — Issue Log
+export function IssueLogDiagram() {
+  const W = 320; const H = 180;
+  const issues = [
+    { id: 'I1', title: 'Supplier delay', priority: 'P1', status: 'OPEN', c: LINE3 },
+    { id: 'I2', title: 'Scope creep', priority: 'P2', status: 'IN PROGRESS', c: LINE },
+    { id: 'I3', title: 'Resource gap', priority: 'P1', status: 'OPEN', c: LINE3 },
+    { id: 'I4', title: 'Budget overrun', priority: 'P2', status: 'RESOLVED', c: LINE2 },
+    { id: 'I5', title: 'Comms breakdown', priority: 'P3', status: 'RESOLVED', c: LINE2 },
+  ];
+  return (
+    <DiagramWrapper label="ISSUE LOG // A54">
+      <svg viewBox={`0 0 ${W} ${H}`} className="w-full" style={{ display: 'block' }}>
+        <GridBg w={W} h={H} />
+        {['ID','ISSUE','PRI','STATUS'].map((h, i) => (
+          <text key={i} x={[8, 38, 190, 230][i]} y={14} fill={LINE} fontSize="5.5" fontFamily="monospace" fontWeight="bold" opacity="0.8">{h}</text>
+        ))}
+        <line x1={5} y1={18} x2={315} y2={18} stroke={LINE} strokeWidth="0.5" opacity="0.4" />
+        {issues.map((r, i) => (
+          <g key={i}>
+            <text x={8} y={32 + i * 28} fill={r.c} fontSize="5.5" fontFamily="monospace" fontWeight="bold">{r.id}</text>
+            <text x={38} y={32 + i * 28} fill={LABEL} fontSize="5" fontFamily="monospace" opacity="0.7">{r.title}</text>
+            <text x={190} y={32 + i * 28} fill={r.c} fontSize="5.5" fontFamily="monospace" fontWeight="bold">{r.priority}</text>
+            <rect x={222} y={22 + i * 28} width={84} height={14} rx="2" fill={r.c} opacity="0.15" />
+            <text x={264} y={32 + i * 28} textAnchor="middle" fill={r.c} fontSize="5" fontFamily="monospace" fontWeight="bold">{r.status}</text>
+            <line x1={5} y1={36 + i * 28} x2={315} y2={36 + i * 28} stroke={DIM} strokeWidth="0.3" opacity="0.3" />
+          </g>
+        ))}
+        <Brackets x={2} y={2} w={W-4} h={H-4} />
+      </svg>
+    </DiagramWrapper>
+  );
+}
+
+// A56 — Blue Ocean Strategy
+export function BlueOceanDiagram() {
+  const W = 320; const H = 180;
+  const factors = ['Price','Service','Features','Speed','Support'];
+  const redOcean = [80, 60, 70, 50, 65];
+  const blueOcean = [40, 90, 85, 90, 80];
+  const toX = (i: number) => 30 + i * 62;
+  const toY = (v: number) => H - 25 - (v / 100) * (H - 50);
+  return (
+    <DiagramWrapper label="BLUE OCEAN STRATEGY CANVAS // A56">
+      <svg viewBox={`0 0 ${W} ${H}`} className="w-full" style={{ display: 'block' }}>
+        <GridBg w={W} h={H} />
+        <polyline points={factors.map((_, i) => `${toX(i)},${toY(redOcean[i])}`).join(' ')} fill="none" stroke={LINE3} strokeWidth="1.2" strokeDasharray="3,2" opacity="0.7" />
+        <polyline points={factors.map((_, i) => `${toX(i)},${toY(blueOcean[i])}`).join(' ')} fill="none" stroke={LINE2} strokeWidth="1.5" style={{ filter: GLOW2 }} />
+        {factors.map((f, i) => (
+          <g key={i}>
+            <GlowDot x={toX(i)} y={toY(redOcean[i])} r={2.5} color={LINE3} />
+            <GlowDot x={toX(i)} y={toY(blueOcean[i])} r={2.5} color={LINE2} />
+            <text x={toX(i)} y={H-8} textAnchor="middle" fill={LABEL} fontSize="5.5" fontFamily="monospace" opacity="0.6">{f}</text>
+          </g>
+        ))}
+        <text x={10} y={20} fill={LINE3} fontSize="5.5" fontFamily="monospace">▪ Red Ocean</text>
+        <text x={90} y={20} fill={LINE2} fontSize="5.5" fontFamily="monospace">▪ Blue Ocean</text>
+        <Brackets x={2} y={2} w={W-4} h={H-4} />
+      </svg>
+    </DiagramWrapper>
+  );
+}
+
+// A57 — Customer Journey Mapping
+export function CustomerJourneyDiagram() {
+  const W = 320; const H = 180;
+  const stages = ['AWARE','CONSIDER','PURCHASE','USE','ADVOCATE'];
+  const sentiment = [0.4, 0.6, 0.7, 0.85, 0.9];
+  const xs = [30, 95, 160, 225, 290];
+  const toY = (v: number) => H - 30 - v * 100;
+  return (
+    <DiagramWrapper label="CUSTOMER JOURNEY MAP // A57">
+      <svg viewBox={`0 0 ${W} ${H}`} className="w-full" style={{ display: 'block' }}>
+        <GridBg w={W} h={H} />
+        <polyline points={xs.map((x, i) => `${x},${toY(sentiment[i])}`).join(' ')} fill="none" stroke={LINE2} strokeWidth="1.5" style={{ filter: GLOW2 }} />
+        {stages.map((s, i) => (
+          <g key={i}>
+            <GlowDot x={xs[i]} y={toY(sentiment[i])} r={4} color={LINE2} />
+            <text x={xs[i]} y={toY(sentiment[i]) - 8} textAnchor="middle" fill={LINE2} fontSize="5.5" fontFamily="monospace">{Math.round(sentiment[i]*100)}%</text>
+            <text x={xs[i]} y={H - 14} textAnchor="middle" fill={LABEL} fontSize="5" fontFamily="monospace" opacity="0.6">{s}</text>
+          </g>
+        ))}
+        <text x={10} y={20} fill={LABEL} fontSize="5.5" fontFamily="monospace" opacity="0.5">CUSTOMER SENTIMENT SCORE →</text>
+        <Brackets x={2} y={2} w={W-4} h={H-4} />
+      </svg>
+    </DiagramWrapper>
+  );
+}
+
+// A59 — Ansoff Matrix
+export function AnsoffDiagram() {
+  const W = 320; const H = 180;
+  const quads = [
+    { label: 'MARKET PENETRATION', sub: 'Existing prod · Existing mkt', x: 75, y: 50, c: LINE2 },
+    { label: 'PRODUCT DEVELOPMENT', sub: 'New prod · Existing mkt', x: 245, y: 50, c: LINE },
+    { label: 'MARKET DEVELOPMENT', sub: 'Existing prod · New mkt', x: 75, y: 135, c: LINE },
+    { label: 'DIVERSIFICATION', sub: 'New prod · New mkt', x: 245, y: 135, c: LINE3 },
+  ];
+  return (
+    <DiagramWrapper label="ANSOFF GROWTH MATRIX // A59">
+      <svg viewBox={`0 0 ${W} ${H}`} className="w-full" style={{ display: 'block' }}>
+        <GridBg w={W} h={H} />
+        <line x1={160} y1={10} x2={160} y2={H-10} stroke={DIM} strokeWidth="1" opacity="0.4" />
+        <line x1={10} y1={92} x2={W-10} y2={92} stroke={DIM} strokeWidth="1" opacity="0.4" />
+        <text x={85} y={8} textAnchor="middle" fill={LABEL} fontSize="5.5" fontFamily="monospace" opacity="0.4">EXISTING PRODUCTS</text>
+        <text x={245} y={8} textAnchor="middle" fill={LABEL} fontSize="5.5" fontFamily="monospace" opacity="0.4">NEW PRODUCTS</text>
+        {quads.map((q, i) => (
+          <g key={i}>
+            <rect x={q.x - 70} y={q.y - 30} width={140} height={60} rx="4" fill={q.c} opacity="0.1" />
+            <rect x={q.x - 70} y={q.y - 30} width={140} height={60} rx="4" fill="none" stroke={q.c} strokeWidth="0.8" />
+            <text x={q.x} y={q.y - 8} textAnchor="middle" fill={q.c} fontSize="6" fontFamily="monospace" fontWeight="bold">{q.label}</text>
+            <text x={q.x} y={q.y + 8} textAnchor="middle" fill={LABEL} fontSize="5" fontFamily="monospace" opacity="0.6">{q.sub.split(' · ')[0]}</text>
+            <text x={q.x} y={q.y + 20} textAnchor="middle" fill={LABEL} fontSize="5" fontFamily="monospace" opacity="0.6">{q.sub.split(' · ')[1]}</text>
+          </g>
+        ))}
+        <Brackets x={2} y={2} w={W-4} h={H-4} />
+      </svg>
+    </DiagramWrapper>
+  );
+}
+
+// A60 — Influence Mapping
+export function InfluenceMapDiagram() {
+  const W = 320; const H = 180;
+  const cx = 160; const cy = 90;
+  const stakeholders = [
+    { label: 'CEO', influence: 95, interest: 80, x: cx + 70, y: cy - 50, c: LINE2 },
+    { label: 'PMO Head', influence: 80, interest: 90, x: cx + 70, y: cy + 50, c: LINE2 },
+    { label: 'Regulator', influence: 90, interest: 60, x: cx - 80, y: cy - 40, c: LINE3 },
+    { label: 'End User', influence: 40, interest: 95, x: cx - 80, y: cy + 40, c: LINE },
+    { label: 'Vendor', influence: 50, interest: 70, x: cx, y: cy - 70, c: LINE },
+  ];
+  return (
+    <DiagramWrapper label="INFLUENCE MAP // A60">
+      <svg viewBox={`0 0 ${W} ${H}`} className="w-full" style={{ display: 'block' }}>
+        <GridBg w={W} h={H} />
+        {stakeholders.map((s, i) => (
+          <line key={i} x1={cx} y1={cy} x2={s.x} y2={s.y} stroke={s.c} strokeWidth="0.6" strokeDasharray="3,2" opacity="0.3" />
+        ))}
+        <circle cx={cx} cy={cy} r={18} fill={LINE} opacity="0.08" />
+        <circle cx={cx} cy={cy} r={18} fill="none" stroke={LINE} strokeWidth="1" />
+        <text x={cx} y={cy + 4} textAnchor="middle" fill={LINE} fontSize="5.5" fontFamily="monospace" fontWeight="bold">PROJECT</text>
+        {stakeholders.map((s, i) => {
+          const r = (s.influence / 100) * 16 + 4;
+          return (
+            <g key={i}>
+              <circle cx={s.x} cy={s.y} r={r} fill={s.c} opacity="0.15" />
+              <circle cx={s.x} cy={s.y} r={r} fill="none" stroke={s.c} strokeWidth="1" />
+              <text x={s.x} y={s.y + 3} textAnchor="middle" fill={s.c} fontSize="5.5" fontFamily="monospace" fontWeight="bold">{s.label}</text>
+            </g>
+          );
+        })}
+        <Brackets x={2} y={2} w={W-4} h={H-4} />
+      </svg>
+    </DiagramWrapper>
+  );
+}
+
+// A61 — Political Mapping
+export function PoliticalMapDiagram() {
+  const W = 320; const H = 180;
+  const stakeholders = [
+    { label: 'SPONSOR', pos: 'CHAMPION', x: 240, y: 40, c: LINE2 },
+    { label: 'CFO', pos: 'SUPPORTER', x: 240, y: 100, c: LINE },
+    { label: 'IT LEAD', pos: 'NEUTRAL', x: 160, y: 90, c: LABEL },
+    { label: 'UNION REP', pos: 'BLOCKER', x: 80, y: 100, c: LINE3 },
+    { label: 'REGULATOR', pos: 'WATCHDOG', x: 80, y: 40, c: LINE3 },
+  ];
+  return (
+    <DiagramWrapper label="POLITICAL MAP // A61">
+      <svg viewBox={`0 0 ${W} ${H}`} className="w-full" style={{ display: 'block' }}>
+        <GridBg w={W} h={H} />
+        <line x1={10} y1={H/2} x2={W-10} y2={H/2} stroke={DIM} strokeWidth="0.8" strokeDasharray="4,2" opacity="0.3" />
+        <text x={14} y={H/2 - 4} fill={LINE2} fontSize="5.5" fontFamily="monospace" opacity="0.5">SUPPORTIVE →</text>
+        <text x={14} y={H/2 + 12} fill={LINE3} fontSize="5.5" fontFamily="monospace" opacity="0.5">RESISTANT →</text>
+        {stakeholders.map((s, i) => (
+          <g key={i}>
+            <rect x={s.x - 38} y={s.y - 20} width={76} height={40} rx="4" fill={s.c} opacity="0.1" />
+            <rect x={s.x - 38} y={s.y - 20} width={76} height={40} rx="4" fill="none" stroke={s.c} strokeWidth="0.8" />
+            <text x={s.x} y={s.y - 4} textAnchor="middle" fill={s.c} fontSize="6" fontFamily="monospace" fontWeight="bold">{s.label}</text>
+            <text x={s.x} y={s.y + 10} textAnchor="middle" fill={LABEL} fontSize="5" fontFamily="monospace" opacity="0.6">{s.pos}</text>
+          </g>
+        ))}
+        <Brackets x={2} y={2} w={W-4} h={H-4} />
+      </svg>
+    </DiagramWrapper>
+  );
+}
+
+// A62 — Coalition Building
+export function CoalitionDiagram() {
+  const W = 320; const H = 180;
+  const cx = 160; const cy = 90;
+  const members = [
+    { label: 'SPONSOR', x: cx, y: 25, c: LINE2 },
+    { label: 'PMO HEAD', x: cx + 80, y: cy - 20, c: LINE2 },
+    { label: 'TECH LEAD', x: cx + 80, y: cy + 40, c: LINE },
+    { label: 'FINANCE', x: cx, y: H - 25, c: LINE },
+    { label: 'HR', x: cx - 80, y: cy + 40, c: LINE },
+    { label: 'COMMS', x: cx - 80, y: cy - 20, c: LINE },
+  ];
+  return (
+    <DiagramWrapper label="COALITION BUILDING // A62">
+      <svg viewBox={`0 0 ${W} ${H}`} className="w-full" style={{ display: 'block' }}>
+        <GridBg w={W} h={H} />
+        {members.map((m, i) => {
+          const next = members[(i + 1) % members.length];
+          return (
+            <line key={i} x1={m.x} y1={m.y} x2={next.x} y2={next.y} stroke={m.c} strokeWidth="0.8" strokeDasharray="3,2" opacity="0.3" />
+          );
+        })}
+        {members.map((m, i) => (
+          <g key={i}>
+            <rect x={m.x - 30} y={m.y - 14} width={60} height={28} rx="4" fill={m.c} opacity="0.12" />
+            <rect x={m.x - 30} y={m.y - 14} width={60} height={28} rx="4" fill="none" stroke={m.c} strokeWidth="0.8" />
+            <text x={m.x} y={m.y + 4} textAnchor="middle" fill={m.c} fontSize="5.5" fontFamily="monospace" fontWeight="bold">{m.label}</text>
+          </g>
+        ))}
+        <circle cx={cx} cy={cy} r={20} fill={LINE2} opacity="0.08" />
+        <circle cx={cx} cy={cy} r={20} fill="none" stroke={LINE2} strokeWidth="0.8" strokeDasharray="3,2" />
+        <text x={cx} y={cy - 3} textAnchor="middle" fill={LINE2} fontSize="5.5" fontFamily="monospace">SHARED</text>
+        <text x={cx} y={cy + 9} textAnchor="middle" fill={LINE2} fontSize="5.5" fontFamily="monospace">VISION</text>
+        <Brackets x={2} y={2} w={W-4} h={H-4} />
+      </svg>
+    </DiagramWrapper>
+  );
+}
+
+// A63 — Executive Communication
+export function ExecCommsDiagram() {
+  const W = 320; const H = 180;
+  const formats = [
+    { label: 'ONE-PAGE BRIEF', sub: 'Status · Risks · Decisions', x: 55, y: 50, c: LINE2 },
+    { label: 'DASHBOARD', sub: 'RAG · KPIs · Trends', x: 160, y: 50, c: LINE },
+    { label: 'STEERCO DECK', sub: '5 slides max', x: 265, y: 50, c: LINE3 },
+    { label: 'VERBAL UPDATE', sub: '3-min elevator pitch', x: 55, y: 130, c: LINE },
+    { label: 'EXCEPTION REPORT', sub: 'Issues only', x: 160, y: 130, c: LINE3 },
+    { label: 'DECISION LOG', sub: 'Actions & owners', x: 265, y: 130, c: LINE2 },
+  ];
+  return (
+    <DiagramWrapper label="EXECUTIVE COMMUNICATION FORMATS // A63">
+      <svg viewBox={`0 0 ${W} ${H}`} className="w-full" style={{ display: 'block' }}>
+        <GridBg w={W} h={H} />
+        {formats.map((f, i) => (
+          <g key={i}>
+            <rect x={f.x - 48} y={f.y - 24} width={96} height={48} rx="4" fill={f.c} opacity="0.1" />
+            <rect x={f.x - 48} y={f.y - 24} width={96} height={48} rx="4" fill="none" stroke={f.c} strokeWidth="0.8" />
+            <text x={f.x} y={f.y - 6} textAnchor="middle" fill={f.c} fontSize="5.5" fontFamily="monospace" fontWeight="bold">{f.label}</text>
+            <text x={f.x} y={f.y + 8} textAnchor="middle" fill={LABEL} fontSize="5" fontFamily="monospace" opacity="0.6">{f.sub}</text>
+          </g>
+        ))}
+        <Brackets x={2} y={2} w={W-4} h={H-4} />
+      </svg>
+    </DiagramWrapper>
+  );
+}
+
+// A64 — Meeting Facilitation
+export function MeetingFacilitationDiagram() {
+  const W = 320; const H = 180;
+  const phases = [
+    { label: 'OPEN', sub: 'Agenda · Context', x: 40, c: LINE2 },
+    { label: 'EXPLORE', sub: 'Discussion · Ideas', x: 110, c: LINE },
+    { label: 'DECIDE', sub: 'Vote · Consensus', x: 180, c: LINE3 },
+    { label: 'CLOSE', sub: 'Actions · Owners', x: 250, c: LINE2 },
+    { label: 'FOLLOW-UP', sub: 'Minutes · Track', x: 300, c: LINE },
+  ];
+  return (
+    <DiagramWrapper label="MEETING FACILITATION FLOW // A64">
+      <svg viewBox={`0 0 ${W} ${H}`} className="w-full" style={{ display: 'block' }}>
+        <GridBg w={W} h={H} />
+        {phases.map((p, i) => (
+          <g key={i}>
+            {i < phases.length - 1 && (
+              <line x1={p.x + 28} y1={90} x2={phases[i+1].x - 28} y2={90} stroke={p.c} strokeWidth="0.8" strokeDasharray="3,2" opacity="0.5" />
+            )}
+            <rect x={p.x - 28} y={68} width={56} height={44} rx="4" fill={p.c} opacity="0.1" />
+            <rect x={p.x - 28} y={68} width={56} height={44} rx="4" fill="none" stroke={p.c} strokeWidth="0.8" />
+            <text x={p.x} y={86} textAnchor="middle" fill={p.c} fontSize="6" fontFamily="monospace" fontWeight="bold">{p.label}</text>
+            <text x={p.x} y={100} textAnchor="middle" fill={LABEL} fontSize="5" fontFamily="monospace" opacity="0.6">{p.sub}</text>
+          </g>
+        ))}
+        <Brackets x={2} y={2} w={W-4} h={H-4} />
+      </svg>
+    </DiagramWrapper>
+  );
+}
+
+// A65 — Presentation Skills
+export function PresentationDiagram() {
+  const W = 320; const H = 180;
+  const elements = [
+    { label: 'HOOK', sub: '30-sec opener', x: 55, y: 45, c: LINE3 },
+    { label: 'CONTEXT', sub: 'Why it matters', x: 160, y: 45, c: LINE },
+    { label: 'CONTENT', sub: '3 key points', x: 265, y: 45, c: LINE },
+    { label: 'EVIDENCE', sub: 'Data · Stories', x: 55, y: 130, c: LINE },
+    { label: 'CALL TO ACTION', sub: 'Clear ask', x: 160, y: 130, c: LINE2 },
+    { label: 'CLOSE', sub: 'Memorable end', x: 265, y: 130, c: LINE2 },
+  ];
+  return (
+    <DiagramWrapper label="PRESENTATION STRUCTURE // A65">
+      <svg viewBox={`0 0 ${W} ${H}`} className="w-full" style={{ display: 'block' }}>
+        <GridBg w={W} h={H} />
+        {elements.map((e, i) => (
+          <g key={i}>
+            <rect x={e.x - 48} y={e.y - 22} width={96} height={44} rx="4" fill={e.c} opacity="0.1" />
+            <rect x={e.x - 48} y={e.y - 22} width={96} height={44} rx="4" fill="none" stroke={e.c} strokeWidth="0.8" />
+            <text x={e.x} y={e.y - 4} textAnchor="middle" fill={e.c} fontSize="6" fontFamily="monospace" fontWeight="bold">{e.label}</text>
+            <text x={e.x} y={e.y + 10} textAnchor="middle" fill={LABEL} fontSize="5" fontFamily="monospace" opacity="0.6">{e.sub}</text>
+          </g>
+        ))}
+        <Brackets x={2} y={2} w={W-4} h={H-4} />
+      </svg>
+    </DiagramWrapper>
+  );
+}
+
+// A66 — Storytelling
+export function StorytellingDiagram() {
+  const W = 320; const H = 180;
+  const arc = [
+    { label: 'SETUP', sub: 'Context', x: 30, y: 140, c: LINE },
+    { label: 'TENSION', sub: 'Problem', x: 100, y: 100, c: LINE3 },
+    { label: 'RISING', sub: 'Stakes', x: 160, y: 60, c: LINE3 },
+    { label: 'CLIMAX', sub: 'Decision', x: 210, y: 40, c: LINE2 },
+    { label: 'RESOLVE', sub: 'Outcome', x: 290, y: 80, c: LINE2 },
+  ];
+  return (
+    <DiagramWrapper label="STORY ARC // A66">
+      <svg viewBox={`0 0 ${W} ${H}`} className="w-full" style={{ display: 'block' }}>
+        <GridBg w={W} h={H} />
+        <polyline points={arc.map(a => `${a.x},${a.y}`).join(' ')} fill="none" stroke={LINE} strokeWidth="1" strokeDasharray="4,2" opacity="0.3" />
+        {arc.map((a, i) => (
+          <g key={i}>
+            <GlowDot x={a.x} y={a.y} r={5} color={a.c} />
+            <text x={a.x} y={a.y - 10} textAnchor="middle" fill={a.c} fontSize="5.5" fontFamily="monospace" fontWeight="bold">{a.label}</text>
+            <text x={a.x} y={a.y + 18} textAnchor="middle" fill={LABEL} fontSize="5" fontFamily="monospace" opacity="0.6">{a.sub}</text>
+          </g>
+        ))}
+        <Brackets x={2} y={2} w={W-4} h={H-4} />
+      </svg>
+    </DiagramWrapper>
+  );
+}
+
+// A67 — Data Visualisation
+export function DataVizDiagram() {
+  const W = 320; const H = 180;
+  const charts = [
+    { label: 'BAR', sub: 'Compare categories', x: 55, y: 50, c: LINE2 },
+    { label: 'LINE', sub: 'Trends over time', x: 160, y: 50, c: LINE },
+    { label: 'PIE', sub: 'Part-to-whole', x: 265, y: 50, c: LINE3 },
+    { label: 'SCATTER', sub: 'Correlation', x: 55, y: 130, c: LINE },
+    { label: 'HEATMAP', sub: 'Density patterns', x: 160, y: 130, c: LINE3 },
+    { label: 'WATERFALL', sub: 'Cumulative change', x: 265, y: 130, c: LINE2 },
+  ];
+  return (
+    <DiagramWrapper label="CHART SELECTION GUIDE // A67">
+      <svg viewBox={`0 0 ${W} ${H}`} className="w-full" style={{ display: 'block' }}>
+        <GridBg w={W} h={H} />
+        {charts.map((c, i) => (
+          <g key={i}>
+            <rect x={c.x - 44} y={c.y - 22} width={88} height={44} rx="4" fill={c.c} opacity="0.1" />
+            <rect x={c.x - 44} y={c.y - 22} width={88} height={44} rx="4" fill="none" stroke={c.c} strokeWidth="0.8" />
+            <text x={c.x} y={c.y - 4} textAnchor="middle" fill={c.c} fontSize="7" fontFamily="monospace" fontWeight="bold">{c.label}</text>
+            <text x={c.x} y={c.y + 10} textAnchor="middle" fill={LABEL} fontSize="5" fontFamily="monospace" opacity="0.6">{c.sub}</text>
+          </g>
+        ))}
+        <Brackets x={2} y={2} w={W-4} h={H-4} />
+      </svg>
+    </DiagramWrapper>
+  );
+}
+
+// A68 — Dashboard Design
+export function DashboardDesignDiagram() {
+  const W = 320; const H = 180;
+  return (
+    <DiagramWrapper label="DASHBOARD LAYOUT // A68">
+      <svg viewBox={`0 0 ${W} ${H}`} className="w-full" style={{ display: 'block' }}>
+        <GridBg w={W} h={H} />
+        {/* KPI row */}
+        {[0,1,2,3].map(i => (
+          <g key={i}>
+            <rect x={8 + i * 76} y={8} width={68} height={36} rx="3" fill={[LINE2,LINE,LINE3,LINE][i]} opacity="0.1" />
+            <rect x={8 + i * 76} y={8} width={68} height={36} rx="3" fill="none" stroke={[LINE2,LINE,LINE3,LINE][i]} strokeWidth="0.7" />
+            <text x={42 + i * 76} y={22} textAnchor="middle" fill={[LINE2,LINE,LINE3,LINE][i]} fontSize="5.5" fontFamily="monospace" fontWeight="bold">{['SCHEDULE','BUDGET','QUALITY','RISKS'][i]}</text>
+            <text x={42 + i * 76} y={36} textAnchor="middle" fill={[LINE2,LINE3,LINE2,LINE3][i]} fontSize="8" fontFamily="monospace" fontWeight="bold">{['GREEN','AMBER','GREEN','RED'][i]}</text>
+          </g>
+        ))}
+        {/* Chart area */}
+        <rect x={8} y={52} width={190} height={80} rx="3" fill={LINE} opacity="0.06" />
+        <rect x={8} y={52} width={190} height={80} rx="3" fill="none" stroke={LINE} strokeWidth="0.6" />
+        <text x={103} y={65} textAnchor="middle" fill={LINE} fontSize="5.5" fontFamily="monospace" opacity="0.6">BURNDOWN CHART</text>
+        {/* Side panel */}
+        <rect x={206} y={52} width={106} height={80} rx="3" fill={LINE3} opacity="0.06" />
+        <rect x={206} y={52} width={106} height={80} rx="3" fill="none" stroke={LINE3} strokeWidth="0.6" />
+        <text x={259} y={65} textAnchor="middle" fill={LINE3} fontSize="5.5" fontFamily="monospace" opacity="0.6">TOP RISKS</text>
+        {/* Footer */}
+        <rect x={8} y={140} width={304} height={32} rx="3" fill={LINE2} opacity="0.06" />
+        <rect x={8} y={140} width={304} height={32} rx="3" fill="none" stroke={LINE2} strokeWidth="0.6" />
+        <text x={160} y={158} textAnchor="middle" fill={LINE2} fontSize="5.5" fontFamily="monospace" opacity="0.6">UPCOMING MILESTONES</text>
+        <Brackets x={2} y={2} w={W-4} h={H-4} />
+      </svg>
+    </DiagramWrapper>
+  );
+}
+
+// A69 — Reporting Frameworks
+export function ReportingDiagram() {
+  const W = 320; const H = 180;
+  const sections = [
+    { label: 'EXECUTIVE SUMMARY', sub: 'RAG · Key decisions', y: 12, c: LINE2 },
+    { label: 'SCHEDULE STATUS', sub: 'SPI · Milestones', y: 50, c: LINE },
+    { label: 'BUDGET STATUS', sub: 'CPI · EAC · Forecast', y: 88, c: LINE },
+    { label: 'RISKS & ISSUES', sub: 'Top 3 · Mitigations', y: 126, c: LINE3 },
+  ];
+  return (
+    <DiagramWrapper label="PROJECT STATUS REPORT STRUCTURE // A69">
+      <svg viewBox={`0 0 ${W} ${H}`} className="w-full" style={{ display: 'block' }}>
+        <GridBg w={W} h={H} />
+        {sections.map((s, i) => (
+          <g key={i}>
+            <rect x={10} y={s.y} width={300} height={30} rx="3" fill={s.c} opacity="0.1" />
+            <rect x={10} y={s.y} width={300} height={30} rx="3" fill="none" stroke={s.c} strokeWidth="0.8" />
+            <text x={20} y={s.y + 12} fill={s.c} fontSize="6.5" fontFamily="monospace" fontWeight="bold">{s.label}</text>
+            <text x={20} y={s.y + 24} fill={LABEL} fontSize="5.5" fontFamily="monospace" opacity="0.6">{s.sub}</text>
+            <rect x={270} y={s.y + 6} width={32} height={18} rx="2" fill={[LINE2,LINE2,LINE,LINE3][i]} opacity="0.2" />
+            <text x={286} y={s.y + 18} textAnchor="middle" fill={[LINE2,LINE2,LINE,LINE3][i]} fontSize="6" fontFamily="monospace" fontWeight="bold">{['GREEN','GREEN','AMBER','RED'][i]}</text>
+          </g>
+        ))}
+        <Brackets x={2} y={2} w={W-4} h={H-4} />
+      </svg>
+    </DiagramWrapper>
+  );
+}
+
+
+// A70 — Mind Mapping
+export function MindMapDiagram() {
+  const W = 320; const H = 180;
+  const cx = 160; const cy = 90;
+  const branches = [
+    { label: 'REGULATORY', x: cx, y: 25, c: LINE3 },
+    { label: 'MARKETING', x: cx + 90, y: cy, c: LINE2 },
+    { label: 'SUPPLY CHAIN', x: cx, y: H - 25, c: LINE },
+    { label: 'CLINICAL', x: cx - 90, y: cy, c: LINE },
+  ];
+  return (
+    <DiagramWrapper label="MIND MAP // A70">
+      <svg viewBox={`0 0 ${W} ${H}`} className="w-full" style={{ display: 'block' }}>
+        <GridBg w={W} h={H} />
+        {branches.map((b, i) => (
+          <line key={i} x1={cx} y1={cy} x2={b.x} y2={b.y} stroke={b.c} strokeWidth="1" strokeDasharray="4,2" opacity="0.4" />
+        ))}
+        <circle cx={cx} cy={cy} r={22} fill={LINE2} opacity="0.1" />
+        <circle cx={cx} cy={cy} r={22} fill="none" stroke={LINE2} strokeWidth="1.2" style={{ filter: GLOW2 }} />
+        <text x={cx} y={cy - 3} textAnchor="middle" fill={LINE2} fontSize="5.5" fontFamily="monospace" fontWeight="bold">INSULIN</text>
+        <text x={cx} y={cy + 9} textAnchor="middle" fill={LINE2} fontSize="5.5" fontFamily="monospace" fontWeight="bold">PEN LAUNCH</text>
+        {branches.map((b, i) => (
+          <g key={i}>
+            <rect x={b.x - 36} y={b.y - 14} width={72} height={28} rx="3" fill={b.c} opacity="0.1" />
+            <rect x={b.x - 36} y={b.y - 14} width={72} height={28} rx="3" fill="none" stroke={b.c} strokeWidth="0.8" />
+            <text x={b.x} y={b.y + 4} textAnchor="middle" fill={b.c} fontSize="5.5" fontFamily="monospace" fontWeight="bold">{b.label}</text>
+          </g>
+        ))}
+        <Brackets x={2} y={2} w={W-4} h={H-4} />
+      </svg>
+    </DiagramWrapper>
+  );
+}
+
+// A71 — Concept Mapping
+export function ConceptMapDiagram() {
+  const W = 320; const H = 180;
+  const nodes = [
+    { label: 'PROJECT GOAL', x: 160, y: 30, c: LINE2 },
+    { label: 'SCOPE', x: 60, y: 90, c: LINE },
+    { label: 'RESOURCES', x: 160, y: 90, c: LINE },
+    { label: 'TIMELINE', x: 260, y: 90, c: LINE },
+    { label: 'DELIVERABLES', x: 60, y: 150, c: LINE3 },
+    { label: 'RISKS', x: 260, y: 150, c: LINE3 },
+  ];
+  const edges = [[0,1],[0,2],[0,3],[1,4],[2,4],[3,5],[2,5]];
+  return (
+    <DiagramWrapper label="CONCEPT MAP // A71">
+      <svg viewBox={`0 0 ${W} ${H}`} className="w-full" style={{ display: 'block' }}>
+        <GridBg w={W} h={H} />
+        {edges.map((e, i) => (
+          <line key={i} x1={nodes[e[0]].x} y1={nodes[e[0]].y} x2={nodes[e[1]].x} y2={nodes[e[1]].y}
+            stroke={DIM} strokeWidth="0.7" strokeDasharray="3,2" opacity="0.4" />
+        ))}
+        {nodes.map((n, i) => (
+          <g key={i}>
+            <rect x={n.x - 38} y={n.y - 14} width={76} height={28} rx="3" fill={n.c} opacity="0.1" />
+            <rect x={n.x - 38} y={n.y - 14} width={76} height={28} rx="3" fill="none" stroke={n.c} strokeWidth="0.8" />
+            <text x={n.x} y={n.y + 4} textAnchor="middle" fill={n.c} fontSize="5.5" fontFamily="monospace" fontWeight="bold">{n.label}</text>
+          </g>
+        ))}
+        <Brackets x={2} y={2} w={W-4} h={H-4} />
+      </svg>
+    </DiagramWrapper>
+  );
+}
+
+
+
+
+// A74 — After Action Review
+export function AARDiagram() {
+  const W = 320; const H = 180;
+  const questions = [
+    { q: 'WHAT WAS PLANNED?', a: 'Launch by Q3 with full regulatory clearance', c: LINE },
+    { q: 'WHAT HAPPENED?', a: 'Delayed 6 weeks due to supplier issue', c: LINE3 },
+    { q: 'WHY THE DIFFERENCE?', a: 'Single-source supplier risk not mitigated', c: LINE3 },
+    { q: 'WHAT DO WE DO NOW?', a: 'Dual-source all critical components', c: LINE2 },
+  ];
+  return (
+    <DiagramWrapper label="AFTER ACTION REVIEW // A74">
+      <svg viewBox={`0 0 ${W} ${H}`} className="w-full" style={{ display: 'block' }}>
+        <GridBg w={W} h={H} />
+        {questions.map((item, i) => (
+          <g key={i}>
+            <rect x={8} y={8 + i * 40} width={304} height={34} rx="3" fill={item.c} opacity="0.08" />
+            <rect x={8} y={8 + i * 40} width={304} height={34} rx="3" fill="none" stroke={item.c} strokeWidth="0.7" />
+            <text x={16} y={22 + i * 40} fill={item.c} fontSize="5.5" fontFamily="monospace" fontWeight="bold">{item.q}</text>
+            <text x={16} y={34 + i * 40} fill={LABEL} fontSize="5" fontFamily="monospace" opacity="0.7">{item.a}</text>
+          </g>
+        ))}
+        <Brackets x={2} y={2} w={W-4} h={H-4} />
+      </svg>
+    </DiagramWrapper>
+  );
+}
+
+// A75 — Continuous Improvement (PDCA)
+export function ContinuousImprovementDiagram() {
+  const W = 320; const H = 180;
+  const cx = 160; const cy = 90;
+  const steps = ['PLAN','DO','CHECK','ACT'];
+  const angles = [-Math.PI/2, 0, Math.PI/2, Math.PI];
+  const colors = [LINE2, LINE, LINE3, LINE2];
+  return (
+    <DiagramWrapper label="PDCA CYCLE // A75">
+      <svg viewBox={`0 0 ${W} ${H}`} className="w-full" style={{ display: 'block' }}>
+        <GridBg w={W} h={H} />
+        <circle cx={cx} cy={cy} r={60} fill="none" stroke={DIM} strokeWidth="0.5" strokeDasharray="4,2" opacity="0.3" />
+        {steps.map((s, i) => {
+          const angle = angles[i];
+          const x = cx + Math.cos(angle) * 60;
+          const y = cy + Math.sin(angle) * 60;
+          const nextAngle = angles[(i + 1) % 4];
+          const nx = cx + Math.cos(nextAngle) * 60;
+          const ny = cy + Math.sin(nextAngle) * 60;
+          return (
+            <g key={i}>
+              <line x1={x} y1={y} x2={nx} y2={ny} stroke={colors[i]} strokeWidth="0.8" strokeDasharray="3,2" opacity="0.4" />
+              <circle cx={x} cy={y} r={22} fill={colors[i]} opacity="0.1" />
+              <circle cx={x} cy={y} r={22} fill="none" stroke={colors[i]} strokeWidth="1.2" />
+              <text x={x} y={y + 4} textAnchor="middle" fill={colors[i]} fontSize="8" fontFamily="monospace" fontWeight="bold">{s}</text>
+            </g>
+          );
+        })}
+        <Brackets x={2} y={2} w={W-4} h={H-4} />
+      </svg>
+    </DiagramWrapper>
+  );
+}
+
+// A77 — Six Sigma DMAIC
+export function SixSigmaDiagram() {
+  const W = 320; const H = 180;
+  const phases = ['DEFINE','MEASURE','ANALYSE','IMPROVE','CONTROL'];
+  const xs = [30, 95, 160, 225, 290];
+  const colors = [LINE3, LINE, LINE, LINE2, LINE2];
+  return (
+    <DiagramWrapper label="DMAIC ROADMAP // A77">
+      <svg viewBox={`0 0 ${W} ${H}`} className="w-full" style={{ display: 'block' }}>
+        <GridBg w={W} h={H} />
+        {phases.map((p, i) => {
+          const c = colors[i];
+          return (
+            <g key={i}>
+              {i < phases.length - 1 && (
+                <line x1={xs[i]+22} y1={90} x2={xs[i+1]-22} y2={90} stroke={c} strokeWidth="0.8" strokeDasharray="3,2" opacity="0.5" />
+              )}
+              <circle cx={xs[i]} cy={90} r={22} fill={c} opacity="0.1" />
+              <circle cx={xs[i]} cy={90} r={22} fill="none" stroke={c} strokeWidth="1" />
+              <text x={xs[i]} y={94} textAnchor="middle" fill={c} fontSize="5.5" fontFamily="monospace" fontWeight="bold">{p}</text>
+            </g>
+          );
+        })}
+        <text x={160} y={H-6} textAnchor="middle" fill={LABEL} fontSize="5.5" fontFamily="monospace" opacity="0.5">DMAIC · TARGET: 6σ</text>
+        <Brackets x={2} y={2} w={W-4} h={H-4} />
+      </svg>
+    </DiagramWrapper>
+  );
+}
+
+// A78 — TQM Pillars
+export function TQMDiagram() {
+  const W = 320; const H = 180;
+  const pillars = [
+    { label: 'CUSTOMER FOCUS', x: 55, y: 55, c: LINE2 },
+    { label: 'TOTAL INVOLVEMENT', x: 160, y: 55, c: LINE },
+    { label: 'PROCESS CENTRED', x: 265, y: 55, c: LINE },
+    { label: 'INTEGRATED SYSTEM', x: 55, y: 130, c: LINE },
+    { label: 'STRATEGIC APPROACH', x: 160, y: 130, c: LINE3 },
+    { label: 'CONTINUAL IMPROVEMENT', x: 265, y: 130, c: LINE2 },
+  ];
+  return (
+    <DiagramWrapper label="TQM PILLARS // A78">
+      <svg viewBox={`0 0 ${W} ${H}`} className="w-full" style={{ display: 'block' }}>
+        <GridBg w={W} h={H} />
+        {pillars.map((p, i) => (
+          <g key={i}>
+            <rect x={p.x - 48} y={p.y - 22} width={96} height={44} rx="4" fill={p.c} opacity="0.1" />
+            <rect x={p.x - 48} y={p.y - 22} width={96} height={44} rx="4" fill="none" stroke={p.c} strokeWidth="0.8" />
+            <text x={p.x} y={p.y - 4} textAnchor="middle" fill={p.c} fontSize="5.5" fontFamily="monospace" fontWeight="bold">{p.label.split(' ')[0]}</text>
+            <text x={p.x} y={p.y + 10} textAnchor="middle" fill={p.c} fontSize="5.5" fontFamily="monospace" fontWeight="bold">{p.label.split(' ').slice(1).join(' ')}</text>
+          </g>
+        ))}
+        <Brackets x={2} y={2} w={W-4} h={H-4} />
+      </svg>
+    </DiagramWrapper>
+  );
+}
+
+// A79 — Benchmarking
+export function BenchmarkingDiagram() {
+  const W = 320; const H = 180;
+  const metrics = ['Cycle Time','Defect Rate','Cost/Unit','NPS','On-Time'];
+  const us = [65, 40, 55, 70, 80];
+  const best = [90, 15, 80, 85, 95];
+  const toX = (i: number) => 30 + i * 62;
+  const toY = (v: number) => H - 25 - (v / 100) * (H - 50);
+  return (
+    <DiagramWrapper label="BENCHMARKING COMPARISON // A79">
+      <svg viewBox={`0 0 ${W} ${H}`} className="w-full" style={{ display: 'block' }}>
+        <GridBg w={W} h={H} />
+        <polyline points={metrics.map((_, i) => `${toX(i)},${toY(us[i])}`).join(' ')} fill="none" stroke={LINE3} strokeWidth="1.2" strokeDasharray="3,2" opacity="0.7" />
+        <polyline points={metrics.map((_, i) => `${toX(i)},${toY(best[i])}`).join(' ')} fill="none" stroke={LINE2} strokeWidth="1.5" style={{ filter: GLOW2 }} />
+        {metrics.map((m, i) => (
+          <g key={i}>
+            <GlowDot x={toX(i)} y={toY(us[i])} r={2.5} color={LINE3} />
+            <GlowDot x={toX(i)} y={toY(best[i])} r={2.5} color={LINE2} />
+            <text x={toX(i)} y={H - 8} textAnchor="middle" fill={LABEL} fontSize="5" fontFamily="monospace" opacity="0.6">{m}</text>
+          </g>
+        ))}
+        <text x={10} y={20} fill={LINE3} fontSize="5.5" fontFamily="monospace">▪ Us</text>
+        <text x={40} y={20} fill={LINE2} fontSize="5.5" fontFamily="monospace">▪ Best-in-class</text>
+        <Brackets x={2} y={2} w={W-4} h={H-4} />
+      </svg>
+    </DiagramWrapper>
+  );
+}
+
+// A80 — Process Improvement
+export function ProcessImprovementDiagram() {
+  const W = 320; const H = 180;
+  const steps = ['IDENTIFY\nWASTE','MAP\nCURRENT','DESIGN\nFUTURE','PILOT\nCHANGE','SCALE\n& SUSTAIN'];
+  const xs = [30, 95, 160, 225, 290];
+  return (
+    <DiagramWrapper label="PROCESS IMPROVEMENT ROADMAP // A80">
+      <svg viewBox={`0 0 ${W} ${H}`} className="w-full" style={{ display: 'block' }}>
+        <GridBg w={W} h={H} />
+        {steps.map((s, i) => {
+          const c = [LINE3, LINE, LINE, LINE2, LINE2][i];
+          return (
+            <g key={i}>
+              {i < steps.length - 1 && (
+                <line x1={xs[i]+22} y1={90} x2={xs[i+1]-22} y2={90} stroke={c} strokeWidth="0.8" strokeDasharray="3,2" opacity="0.5" />
+              )}
+              <rect x={xs[i]-22} y={68} width={44} height={44} rx="4" fill={c} opacity="0.1" />
+              <rect x={xs[i]-22} y={68} width={44} height={44} rx="4" fill="none" stroke={c} strokeWidth="0.8" />
+              {s.split('\n').map((line, j) => (
+                <text key={j} x={xs[i]} y={85 + j * 13} textAnchor="middle" fill={c} fontSize="5" fontFamily="monospace" fontWeight="bold">{line}</text>
+              ))}
+            </g>
+          );
+        })}
+        <Brackets x={2} y={2} w={W-4} h={H-4} />
+      </svg>
+    </DiagramWrapper>
+  );
+}
+
+// A81 — Innovation Funnel
+export function InnovationDiagram() {
+  const W = 320; const H = 180;
+  const stages = ['IDEATION','SCREENING','CONCEPT','DEVELOP','LAUNCH'];
+  const counts = [20, 8, 4, 2, 1];
+  const xs = [30, 95, 160, 225, 290];
+  const toH = (v: number) => (v / 20) * 100;
+  return (
+    <DiagramWrapper label="INNOVATION FUNNEL // A81">
+      <svg viewBox={`0 0 ${W} ${H}`} className="w-full" style={{ display: 'block' }}>
+        <GridBg w={W} h={H} />
+        {stages.map((s, i) => {
+          const h = toH(counts[i]);
+          const y = (H - 30 - h) / 2 + 10;
+          const c = [LINE3, LINE, LINE, LINE2, LINE2][i];
+          return (
+            <g key={i}>
+              <rect x={xs[i]-20} y={y} width={40} height={h} rx="3" fill={c} opacity="0.2" />
+              <rect x={xs[i]-20} y={y} width={40} height={h} rx="3" fill="none" stroke={c} strokeWidth="0.8" />
+              <text x={xs[i]} y={y - 4} textAnchor="middle" fill={c} fontSize="6" fontFamily="monospace">{counts[i]}</text>
+              <text x={xs[i]} y={H - 6} textAnchor="middle" fill={LABEL} fontSize="5" fontFamily="monospace" opacity="0.6">{s}</text>
+            </g>
+          );
+        })}
+        <Brackets x={2} y={2} w={W-4} h={H-4} />
+      </svg>
+    </DiagramWrapper>
+  );
+}
+
+// A82 — Strategic Alignment
+export function StrategicAlignmentDiagram() {
+  const W = 320; const H = 180;
+  const levels = [
+    { label: 'CORPORATE STRATEGY', sub: 'Market leadership · Growth', y: 15, c: LINE2, w: 300 },
+    { label: 'BUSINESS UNIT STRATEGY', sub: 'Product portfolio · Revenue', y: 55, c: LINE, w: 240 },
+    { label: 'FUNCTIONAL STRATEGY', sub: 'PMO · Operations · Marketing', y: 95, c: LINE, w: 180 },
+    { label: 'PROJECT PORTFOLIO', sub: 'Insulin Pen · App v2 · Compliance', y: 135, c: LINE3, w: 120 },
+  ];
+  return (
+    <DiagramWrapper label="STRATEGIC ALIGNMENT CASCADE // A82">
+      <svg viewBox={`0 0 ${W} ${H}`} className="w-full" style={{ display: 'block' }}>
+        <GridBg w={W} h={H} />
+        {levels.map((l, i) => {
+          const x = (W - l.w) / 2;
+          return (
+            <g key={i}>
+              <rect x={x} y={l.y} width={l.w} height={32} rx="3" fill={l.c} opacity="0.1" />
+              <rect x={x} y={l.y} width={l.w} height={32} rx="3" fill="none" stroke={l.c} strokeWidth="0.8" />
+              <text x={W/2} y={l.y + 12} textAnchor="middle" fill={l.c} fontSize="6" fontFamily="monospace" fontWeight="bold">{l.label}</text>
+              <text x={W/2} y={l.y + 24} textAnchor="middle" fill={LABEL} fontSize="5" fontFamily="monospace" opacity="0.6">{l.sub}</text>
+              {i < levels.length - 1 && (
+                <line x1={W/2} y1={l.y + 32} x2={W/2} y2={l.y + 40} stroke={l.c} strokeWidth="0.8" strokeDasharray="2,2" opacity="0.5" />
+              )}
+            </g>
+          );
+        })}
+        <Brackets x={2} y={2} w={W-4} h={H-4} />
+      </svg>
+    </DiagramWrapper>
+  );
+}
+
+// ── Missing diagram functions (inserted before lookup) ─────────────────────
+
+export function MonteCarloSimulationDiagram() {
+  const W = 320; const H = 180;
+  const bars = [2,5,12,22,30,25,15,8,3,1];
+  const maxV = 30;
+  const bw = 24; const gap = 6;
+  const startX = (W - bars.length*(bw+gap))/2;
+  return (
+    <DiagramWrapper label="MONTE CARLO DISTRIBUTION // T9">
+      <svg viewBox={`0 0 ${W} ${H}`} className="w-full" style={{ display: 'block' }}>
+        <GridBg w={W} h={H} />
+        {bars.map((v,i) => {
+          const bh = (v/maxV)*(H-50);
+          const x = startX + i*(bw+gap);
+          const y = H-25-bh;
+          const c = i>=3&&i<=6 ? LINE2 : LINE;
+          return (
+            <g key={i}>
+              <rect x={x} y={y} width={bw} height={bh} rx="2" fill={c} opacity="0.2" />
+              <rect x={x} y={y} width={bw} height={bh} rx="2" fill="none" stroke={c} strokeWidth="0.8" />
+            </g>
+          );
+        })}
+        <line x1={startX+3*(bw+gap)} y1={15} x2={startX+3*(bw+gap)} y2={H-25} stroke={LINE3} strokeWidth="0.8" strokeDasharray="3,2" opacity="0.6" />
+        <line x1={startX+7*(bw+gap)} y1={15} x2={startX+7*(bw+gap)} y2={H-25} stroke={LINE3} strokeWidth="0.8" strokeDasharray="3,2" opacity="0.6" />
+        <text x={startX+3*(bw+gap)} y={12} fill={LINE3} fontSize="5" fontFamily="monospace">P10</text>
+        <text x={startX+7*(bw+gap)} y={12} fill={LINE3} fontSize="5" fontFamily="monospace">P90</text>
+        <text x={W/2} y={H-6} textAnchor="middle" fill={LABEL} fontSize="5" fontFamily="monospace" opacity="0.5">SIMULATED OUTCOMES · 10,000 RUNS</text>
+        <Brackets x={2} y={2} w={W-4} h={H-4} />
+      </svg>
+    </DiagramWrapper>
+  );
+}
+
+export function WaterfallMethodologyDiagram() {
+  const W = 320; const H = 180;
+  const phases = ['INITIATE','PLAN','DESIGN','BUILD','TEST','DEPLOY'];
+  const colors = [LINE2,LINE,LINE,LINE,LINE3,LINE2];
+  return (
+    <DiagramWrapper label="WATERFALL METHODOLOGY // M1">
+      <svg viewBox={`0 0 ${W} ${H}`} className="w-full" style={{ display: 'block' }}>
+        <GridBg w={W} h={H} />
+        {phases.map((p,i) => {
+          const x = 10 + i*50; const y = 20 + i*22; const w = 80; const h = 22;
+          const c = colors[i];
+          return (
+            <g key={i}>
+              <rect x={x} y={y} width={w} height={h} rx="3" fill={c} opacity="0.15" />
+              <rect x={x} y={y} width={w} height={h} rx="3" fill="none" stroke={c} strokeWidth="0.8" />
+              <text x={x+w/2} y={y+14} textAnchor="middle" fill={c} fontSize="6" fontFamily="monospace" fontWeight="bold">{p}</text>
+            </g>
+          );
+        })}
+        <Brackets x={2} y={2} w={W-4} h={H-4} />
+      </svg>
+    </DiagramWrapper>
+  );
+}
+
+export function AgileMethodologyDiagram() {
+  const W = 320; const H = 180;
+  const cx = 160; const cy = 90;
+  const sprints = ['SPRINT 1','SPRINT 2','SPRINT 3','SPRINT 4'];
+  const angles = [Math.PI*0, Math.PI*0.5, Math.PI*1, Math.PI*1.5];
+  return (
+    <DiagramWrapper label="AGILE SPRINT CYCLE // M2">
+      <svg viewBox={`0 0 ${W} ${H}`} className="w-full" style={{ display: 'block' }}>
+        <GridBg w={W} h={H} />
+        <circle cx={cx} cy={cy} r={55} fill="none" stroke={DIM} strokeWidth="0.5" strokeDasharray="4,2" opacity="0.3" />
+        {sprints.map((s,i) => {
+          const a = angles[i];
+          const x = cx + Math.cos(a)*55; const y = cy + Math.sin(a)*55;
+          return (
+            <g key={i}>
+              <circle cx={x} cy={y} r={20} fill={LINE} opacity="0.1" />
+              <circle cx={x} cy={y} r={20} fill="none" stroke={LINE} strokeWidth="1" />
+              <text x={x} y={y+4} textAnchor="middle" fill={LINE} fontSize="5.5" fontFamily="monospace" fontWeight="bold">{s}</text>
+            </g>
+          );
+        })}
+        <circle cx={cx} cy={cy} r={18} fill={LINE2} opacity="0.1" />
+        <circle cx={cx} cy={cy} r={18} fill="none" stroke={LINE2} strokeWidth="1" />
+        <text x={cx} y={cy+4} textAnchor="middle" fill={LINE2} fontSize="6" fontFamily="monospace" fontWeight="bold">BACKLOG</text>
+        <Brackets x={2} y={2} w={W-4} h={H-4} />
+      </svg>
+    </DiagramWrapper>
+  );
+}
+
+export function PRINCEMethodologyDiagram() {
+  const W = 320; const H = 180;
+  const themes = ['Business Case','Organisation','Quality','Plans','Risk','Change','Progress'];
+  return (
+    <DiagramWrapper label="PRINCE2 THEMES // M3">
+      <svg viewBox={`0 0 ${W} ${H}`} className="w-full" style={{ display: 'block' }}>
+        <GridBg w={W} h={H} />
+        <rect x={10} y={10} width={300} height={30} rx="3" fill={LINE2} opacity="0.15" />
+        <rect x={10} y={10} width={300} height={30} rx="3" fill="none" stroke={LINE2} strokeWidth="0.8" />
+        <text x={160} y={30} textAnchor="middle" fill={LINE2} fontSize="7" fontFamily="monospace" fontWeight="bold">PRINCE2 FRAMEWORK</text>
+        {themes.map((t,i) => {
+          const col = i%4; const row = Math.floor(i/4);
+          const x = 10 + col*76; const y = 55 + row*55;
+          const c = [LINE,LINE,LINE,LINE,LINE3,LINE3,LINE2][i];
+          return (
+            <g key={i}>
+              <rect x={x} y={y} width={70} height={40} rx="3" fill={c} opacity="0.1" />
+              <rect x={x} y={y} width={70} height={40} rx="3" fill="none" stroke={c} strokeWidth="0.8" />
+              <text x={x+35} y={y+24} textAnchor="middle" fill={c} fontSize="5.5" fontFamily="monospace">{t}</text>
+            </g>
+          );
+        })}
+        <Brackets x={2} y={2} w={W-4} h={H-4} />
+      </svg>
+    </DiagramWrapper>
+  );
+}
+
+export function HybridMethodologyDiagram() {
+  const W = 320; const H = 180;
+  return (
+    <DiagramWrapper label="HYBRID METHODOLOGY // M4">
+      <svg viewBox={`0 0 ${W} ${H}`} className="w-full" style={{ display: 'block' }}>
+        <GridBg w={W} h={H} />
+        <rect x={10} y={30} width={130} height={120} rx="4" fill={LINE2} opacity="0.08" />
+        <rect x={10} y={30} width={130} height={120} rx="4" fill="none" stroke={LINE2} strokeWidth="0.8" />
+        <text x={75} y={50} textAnchor="middle" fill={LINE2} fontSize="7" fontFamily="monospace" fontWeight="bold">WATERFALL</text>
+        {['Governance','Milestones','Contracts','Reporting'].map((t,i) => (
+          <text key={i} x={75} y={68+i*18} textAnchor="middle" fill={LABEL} fontSize="5.5" fontFamily="monospace" opacity="0.7">{t}</text>
+        ))}
+        <rect x={180} y={30} width={130} height={120} rx="4" fill={LINE} opacity="0.08" />
+        <rect x={180} y={30} width={130} height={120} rx="4" fill="none" stroke={LINE} strokeWidth="0.8" />
+        <text x={245} y={50} textAnchor="middle" fill={LINE} fontSize="7" fontFamily="monospace" fontWeight="bold">AGILE</text>
+        {['Sprints','Backlogs','Retrospectives','Velocity'].map((t,i) => (
+          <text key={i} x={245} y={68+i*18} textAnchor="middle" fill={LABEL} fontSize="5.5" fontFamily="monospace" opacity="0.7">{t}</text>
+        ))}
+        <text x={160} y={95} textAnchor="middle" fill={LINE3} fontSize="14" fontFamily="monospace" fontWeight="bold">+</text>
+        <Brackets x={2} y={2} w={W-4} h={H-4} />
+      </svg>
+    </DiagramWrapper>
+  );
+}
+
+export function InitiationPhaseDiagram() {
+  const W = 320; const H = 180;
+  const items = ['Business Case','Project Charter','Stakeholder Register','Feasibility Study','Sponsor Sign-off'];
+  return (
+    <DiagramWrapper label="INITIATION PHASE CHECKLIST // PH1">
+      <svg viewBox={`0 0 ${W} ${H}`} className="w-full" style={{ display: 'block' }}>
+        <GridBg w={W} h={H} />
+        <text x={160} y={22} textAnchor="middle" fill={LINE2} fontSize="8" fontFamily="monospace" fontWeight="bold">PHASE 1: INITIATION</text>
+        {items.map((item,i) => (
+          <g key={i}>
+            <rect x={20} y={32+i*28} width={280} height={22} rx="3" fill={LINE2} opacity="0.08" />
+            <rect x={20} y={32+i*28} width={280} height={22} rx="3" fill="none" stroke={LINE2} strokeWidth="0.6" />
+            <circle cx={38} cy={43+i*28} r={5} fill="none" stroke={LINE2} strokeWidth="0.8" />
+            <text x={52} y={47+i*28} fill={LABEL} fontSize="6" fontFamily="monospace" opacity="0.8">{item}</text>
+          </g>
+        ))}
+        <Brackets x={2} y={2} w={W-4} h={H-4} />
+      </svg>
+    </DiagramWrapper>
+  );
+}
+
+export function PlanningPhaseDiagram() {
+  const W = 320; const H = 180;
+  const items = ['WBS','Schedule Baseline','Budget Baseline','Risk Register','Comms Plan'];
+  return (
+    <DiagramWrapper label="PLANNING PHASE OUTPUTS // PH2">
+      <svg viewBox={`0 0 ${W} ${H}`} className="w-full" style={{ display: 'block' }}>
+        <GridBg w={W} h={H} />
+        <text x={160} y={22} textAnchor="middle" fill={LINE} fontSize="8" fontFamily="monospace" fontWeight="bold">PHASE 2: PLANNING</text>
+        {items.map((item,i) => (
+          <g key={i}>
+            <rect x={20} y={32+i*28} width={280} height={22} rx="3" fill={LINE} opacity="0.08" />
+            <rect x={20} y={32+i*28} width={280} height={22} rx="3" fill="none" stroke={LINE} strokeWidth="0.6" />
+            <circle cx={38} cy={43+i*28} r={5} fill="none" stroke={LINE} strokeWidth="0.8" />
+            <text x={52} y={47+i*28} fill={LABEL} fontSize="6" fontFamily="monospace" opacity="0.8">{item}</text>
+          </g>
+        ))}
+        <Brackets x={2} y={2} w={W-4} h={H-4} />
+      </svg>
+    </DiagramWrapper>
+  );
+}
+
+export function ExecutionPhaseDiagram() {
+  const W = 320; const H = 180;
+  const items = ['Team Mobilisation','Work Packages','Quality Assurance','Stakeholder Engagement','Issue Resolution'];
+  return (
+    <DiagramWrapper label="EXECUTION PHASE // PH3">
+      <svg viewBox={`0 0 ${W} ${H}`} className="w-full" style={{ display: 'block' }}>
+        <GridBg w={W} h={H} />
+        <text x={160} y={22} textAnchor="middle" fill={LINE} fontSize="8" fontFamily="monospace" fontWeight="bold">PHASE 3: EXECUTION</text>
+        {items.map((item,i) => (
+          <g key={i}>
+            <rect x={20} y={32+i*28} width={280} height={22} rx="3" fill={LINE} opacity="0.08" />
+            <rect x={20} y={32+i*28} width={280} height={22} rx="3" fill="none" stroke={LINE} strokeWidth="0.6" />
+            <circle cx={38} cy={43+i*28} r={5} fill="none" stroke={LINE} strokeWidth="0.8" />
+            <text x={52} y={47+i*28} fill={LABEL} fontSize="6" fontFamily="monospace" opacity="0.8">{item}</text>
+          </g>
+        ))}
+        <Brackets x={2} y={2} w={W-4} h={H-4} />
+      </svg>
+    </DiagramWrapper>
+  );
+}
+
+export function MonitoringPhaseDiagram() {
+  const W = 320; const H = 180;
+  const metrics = ['Schedule Variance','Cost Variance','Scope Creep','Risk Status','Quality KPIs'];
+  const values = [0.95, 0.88, 0.12, 0.3, 0.92];
+  return (
+    <DiagramWrapper label="MONITORING & CONTROL // PH4">
+      <svg viewBox={`0 0 ${W} ${H}`} className="w-full" style={{ display: 'block' }}>
+        <GridBg w={W} h={H} />
+        <text x={160} y={18} textAnchor="middle" fill={LINE3} fontSize="8" fontFamily="monospace" fontWeight="bold">PHASE 4: MONITORING</text>
+        {metrics.map((m,i) => {
+          const barW = values[i]*220;
+          const c = values[i] > 0.7 ? LINE2 : LINE3;
+          return (
+            <g key={i}>
+              <text x={20} y={38+i*28} fill={LABEL} fontSize="5.5" fontFamily="monospace" opacity="0.8">{m}</text>
+              <rect x={20} y={42+i*28} width={220} height={10} rx="2" fill={DIM} opacity="0.2" />
+              <rect x={20} y={42+i*28} width={barW} height={10} rx="2" fill={c} opacity="0.5" />
+              <text x={248} y={52+i*28} fill={c} fontSize="5.5" fontFamily="monospace">{Math.round(values[i]*100)}%</text>
+            </g>
+          );
+        })}
+        <Brackets x={2} y={2} w={W-4} h={H-4} />
+      </svg>
+    </DiagramWrapper>
+  );
+}
+
+export function ClosurePhaseDiagram() {
+  const W = 320; const H = 180;
+  const items = ['Deliverable Handover','Lessons Learned','Final Report','Contract Closure','Team Release'];
+  return (
+    <DiagramWrapper label="CLOSURE PHASE // PH5">
+      <svg viewBox={`0 0 ${W} ${H}`} className="w-full" style={{ display: 'block' }}>
+        <GridBg w={W} h={H} />
+        <text x={160} y={22} textAnchor="middle" fill={LINE2} fontSize="8" fontFamily="monospace" fontWeight="bold">PHASE 5: CLOSURE</text>
+        {items.map((item,i) => (
+          <g key={i}>
+            <rect x={20} y={32+i*28} width={280} height={22} rx="3" fill={LINE2} opacity="0.08" />
+            <rect x={20} y={32+i*28} width={280} height={22} rx="3" fill="none" stroke={LINE2} strokeWidth="0.6" />
+            <line x1={32} y1={43+i*28} x2={38} y2={49+i*28} stroke={LINE2} strokeWidth="1" />
+            <line x1={38} y1={43+i*28} x2={44} y2={37+i*28} stroke={LINE2} strokeWidth="1" />
+            <text x={52} y={47+i*28} fill={LABEL} fontSize="6" fontFamily="monospace" opacity="0.8">{item}</text>
+          </g>
+        ))}
+        <Brackets x={2} y={2} w={W-4} h={H-4} />
+      </svg>
+    </DiagramWrapper>
+  );
+}
+
+export function StrategistArchetypeDiagram() {
+  const W = 320; const H = 180;
+  const traits = ['Vision','Systems Thinking','Influence','Long-term Focus','Ambiguity Tolerance'];
+  const scores = [0.95, 0.88, 0.82, 0.9, 0.85];
+  return (
+    <DiagramWrapper label="STRATEGIST ARCHETYPE // AG1">
+      <svg viewBox={`0 0 ${W} ${H}`} className="w-full" style={{ display: 'block' }}>
+        <GridBg w={W} h={H} />
+        <text x={160} y={18} textAnchor="middle" fill={LINE2} fontSize="8" fontFamily="monospace" fontWeight="bold">THE STRATEGIST</text>
+        {traits.map((t,i) => {
+          const barW = scores[i]*200;
+          return (
+            <g key={i}>
+              <text x={20} y={36+i*28} fill={LABEL} fontSize="5.5" fontFamily="monospace" opacity="0.8">{t}</text>
+              <rect x={20} y={40+i*28} width={200} height={10} rx="2" fill={DIM} opacity="0.2" />
+              <rect x={20} y={40+i*28} width={barW} height={10} rx="2" fill={LINE2} opacity="0.5" />
+              <text x={228} y={50+i*28} fill={LINE2} fontSize="5.5" fontFamily="monospace">{Math.round(scores[i]*100)}%</text>
+            </g>
+          );
+        })}
+        <Brackets x={2} y={2} w={W-4} h={H-4} />
+      </svg>
+    </DiagramWrapper>
+  );
+}
+
+export function ExecutorArchetypeDiagram() {
+  const W = 320; const H = 180;
+  const traits = ['Delivery Focus','Risk Management','Detail Orientation','Process Discipline','Accountability'];
+  const scores = [0.95, 0.88, 0.9, 0.85, 0.92];
+  return (
+    <DiagramWrapper label="EXECUTOR ARCHETYPE // AG2">
+      <svg viewBox={`0 0 ${W} ${H}`} className="w-full" style={{ display: 'block' }}>
+        <GridBg w={W} h={H} />
+        <text x={160} y={18} textAnchor="middle" fill={LINE} fontSize="8" fontFamily="monospace" fontWeight="bold">THE EXECUTOR</text>
+        {traits.map((t,i) => {
+          const barW = scores[i]*200;
+          return (
+            <g key={i}>
+              <text x={20} y={36+i*28} fill={LABEL} fontSize="5.5" fontFamily="monospace" opacity="0.8">{t}</text>
+              <rect x={20} y={40+i*28} width={200} height={10} rx="2" fill={DIM} opacity="0.2" />
+              <rect x={20} y={40+i*28} width={barW} height={10} rx="2" fill={LINE} opacity="0.5" />
+              <text x={228} y={50+i*28} fill={LINE} fontSize="5.5" fontFamily="monospace">{Math.round(scores[i]*100)}%</text>
+            </g>
+          );
+        })}
+        <Brackets x={2} y={2} w={W-4} h={H-4} />
+      </svg>
+    </DiagramWrapper>
+  );
+}
+
+export function FacilitatorArchetypeDiagram() {
+  const W = 320; const H = 180;
+  const traits = ['Team Cohesion','Communication','Empathy','Conflict Resolution','Collaboration'];
+  const scores = [0.95, 0.92, 0.9, 0.88, 0.93];
+  return (
+    <DiagramWrapper label="FACILITATOR ARCHETYPE // AG3">
+      <svg viewBox={`0 0 ${W} ${H}`} className="w-full" style={{ display: 'block' }}>
+        <GridBg w={W} h={H} />
+        <text x={160} y={18} textAnchor="middle" fill={LINE3} fontSize="8" fontFamily="monospace" fontWeight="bold">THE FACILITATOR</text>
+        {traits.map((t,i) => {
+          const barW = scores[i]*200;
+          return (
+            <g key={i}>
+              <text x={20} y={36+i*28} fill={LABEL} fontSize="5.5" fontFamily="monospace" opacity="0.8">{t}</text>
+              <rect x={20} y={40+i*28} width={200} height={10} rx="2" fill={DIM} opacity="0.2" />
+              <rect x={20} y={40+i*28} width={barW} height={10} rx="2" fill={LINE3} opacity="0.5" />
+              <text x={228} y={50+i*28} fill={LINE3} fontSize="5.5" fontFamily="monospace">{Math.round(scores[i]*100)}%</text>
+            </g>
+          );
+        })}
+        <Brackets x={2} y={2} w={W-4} h={H-4} />
+      </svg>
+    </DiagramWrapper>
+  );
+}
+
+export function StakeholderEngagementDiagram() {
+  const W = 320; const H = 180;
+  const levels = [
+    { label: 'UNAWARE', x: 40, c: LINE3 },
+    { label: 'RESISTANT', x: 100, c: LINE3 },
+    { label: 'NEUTRAL', x: 160, c: LABEL },
+    { label: 'SUPPORTIVE', x: 220, c: LINE2 },
+    { label: 'CHAMPION', x: 280, c: LINE2 },
+  ];
+  return (
+    <DiagramWrapper label="STAKEHOLDER ENGAGEMENT SCALE">
+      <svg viewBox={`0 0 ${W} ${H}`} className="w-full" style={{ display: 'block' }}>
+        <GridBg w={W} h={H} />
+        <line x1={20} y1={90} x2={300} y2={90} stroke={DIM} strokeWidth="1" opacity="0.3" />
+        {levels.map((l,i) => (
+          <g key={i}>
+            <circle cx={l.x} cy={90} r={18} fill={l.c} opacity="0.1" />
+            <circle cx={l.x} cy={90} r={18} fill="none" stroke={l.c} strokeWidth="1" />
+            <text x={l.x} y={94} textAnchor="middle" fill={l.c} fontSize="5" fontFamily="monospace" fontWeight="bold">{l.label}</text>
+          </g>
+        ))}
+        <text x={160} y={H-8} textAnchor="middle" fill={LABEL} fontSize="5" fontFamily="monospace" opacity="0.5">ENGAGEMENT CONTINUUM</text>
+        <Brackets x={2} y={2} w={W-4} h={H-4} />
+      </svg>
+    </DiagramWrapper>
+  );
+}
+
+export function LeadershipStylesDiagram() {
+  const W = 320; const H = 180;
+  const styles = [
+    { s: 'DIRECTIVE', x: 80, y: 50, c: LINE3 },
+    { s: 'COACHING', x: 240, y: 50, c: LINE },
+    { s: 'SUPPORTING', x: 80, y: 130, c: LINE2 },
+    { s: 'DELEGATING', x: 240, y: 130, c: LINE2 },
+  ];
+  return (
+    <DiagramWrapper label="SITUATIONAL LEADERSHIP GRID">
+      <svg viewBox={`0 0 ${W} ${H}`} className="w-full" style={{ display: 'block' }}>
+        <GridBg w={W} h={H} />
+        <line x1={160} y1={10} x2={160} y2={H-10} stroke={DIM} strokeWidth="0.5" strokeDasharray="4,2" opacity="0.3" />
+        <line x1={10} y1={90} x2={W-10} y2={90} stroke={DIM} strokeWidth="0.5" strokeDasharray="4,2" opacity="0.3" />
+        {styles.map((s,i) => (
+          <g key={i}>
+            <rect x={s.x-50} y={s.y-22} width={100} height={44} rx="4" fill={s.c} opacity="0.1" />
+            <rect x={s.x-50} y={s.y-22} width={100} height={44} rx="4" fill="none" stroke={s.c} strokeWidth="0.8" />
+            <text x={s.x} y={s.y+4} textAnchor="middle" fill={s.c} fontSize="7" fontFamily="monospace" fontWeight="bold">{s.s}</text>
+          </g>
+        ))}
+        <Brackets x={2} y={2} w={W-4} h={H-4} />
+      </svg>
+    </DiagramWrapper>
+  );
+}
+
+export function ConflictResolutionDiagram() {
+  const W = 320; const H = 180;
+  const modes = [
+    { m: 'COMPETE', x: 240, y: 40, c: LINE3 },
+    { m: 'COLLABORATE', x: 240, y: 130, c: LINE2 },
+    { m: 'AVOID', x: 80, y: 40, c: LINE3 },
+    { m: 'ACCOMMODATE', x: 80, y: 130, c: LINE },
+    { m: 'COMPROMISE', x: 160, y: 90, c: LINE },
+  ];
+  return (
+    <DiagramWrapper label="THOMAS-KILMANN CONFLICT MODES">
+      <svg viewBox={`0 0 ${W} ${H}`} className="w-full" style={{ display: 'block' }}>
+        <GridBg w={W} h={H} />
+        <line x1={160} y1={10} x2={160} y2={H-10} stroke={DIM} strokeWidth="0.5" strokeDasharray="4,2" opacity="0.3" />
+        <line x1={10} y1={90} x2={W-10} y2={90} stroke={DIM} strokeWidth="0.5" strokeDasharray="4,2" opacity="0.3" />
+        {modes.map((m,i) => (
+          <g key={i}>
+            <circle cx={m.x} cy={m.y} r={22} fill={m.c} opacity="0.1" />
+            <circle cx={m.x} cy={m.y} r={22} fill="none" stroke={m.c} strokeWidth="0.8" />
+            <text x={m.x} y={m.y+4} textAnchor="middle" fill={m.c} fontSize="5.5" fontFamily="monospace" fontWeight="bold">{m.m}</text>
+          </g>
+        ))}
+        <Brackets x={2} y={2} w={W-4} h={H-4} />
+      </svg>
+    </DiagramWrapper>
+  );
+}
+
+export function CultureDiagram() {
+  const W = 320; const H = 180;
+  const layers = [
+    { label: 'ARTEFACTS', sub: 'Visible symbols, processes, structure', y: 20, w: 280, c: LINE },
+    { label: 'ESPOUSED VALUES', sub: 'Stated goals, strategies, philosophies', y: 65, w: 200, c: LINE2 },
+    { label: 'BASIC ASSUMPTIONS', sub: 'Unconscious beliefs, perceptions', y: 110, w: 120, c: LINE3 },
+  ];
+  return (
+    <DiagramWrapper label="SCHEIN CULTURE MODEL">
+      <svg viewBox={`0 0 ${W} ${H}`} className="w-full" style={{ display: 'block' }}>
+        <GridBg w={W} h={H} />
+        {layers.map((l,i) => {
+          const x = (W-l.w)/2;
+          return (
+            <g key={i}>
+              <rect x={x} y={l.y} width={l.w} height={38} rx="3" fill={l.c} opacity="0.1" />
+              <rect x={x} y={l.y} width={l.w} height={38} rx="3" fill="none" stroke={l.c} strokeWidth="0.8" />
+              <text x={W/2} y={l.y+14} textAnchor="middle" fill={l.c} fontSize="6.5" fontFamily="monospace" fontWeight="bold">{l.label}</text>
+              <text x={W/2} y={l.y+28} textAnchor="middle" fill={LABEL} fontSize="5" fontFamily="monospace" opacity="0.6">{l.sub}</text>
+            </g>
+          );
+        })}
+        <Brackets x={2} y={2} w={W-4} h={H-4} />
+      </svg>
+    </DiagramWrapper>
+  );
+}
+
+export function DiversityDiagram() {
+  const W = 320; const H = 180;
+  const dims = ['Gender','Ethnicity','Age','Disability','Neurodiversity','Culture','Experience','Thinking Style'];
+  const cx = 160; const cy = 90;
+  return (
+    <DiagramWrapper label="DIVERSITY DIMENSIONS">
+      <svg viewBox={`0 0 ${W} ${H}`} className="w-full" style={{ display: 'block' }}>
+        <GridBg w={W} h={H} />
+        <circle cx={cx} cy={cy} r={55} fill={LINE2} opacity="0.05" />
+        <circle cx={cx} cy={cy} r={55} fill="none" stroke={LINE2} strokeWidth="0.8" />
+        {dims.map((d,i) => {
+          const a = (i/dims.length)*Math.PI*2 - Math.PI/2;
+          const x = cx + Math.cos(a)*55; const y = cy + Math.sin(a)*55;
+          const lx = cx + Math.cos(a)*72; const ly = cy + Math.sin(a)*72;
+          return (
+            <g key={i}>
+              <line x1={cx} y1={cy} x2={x} y2={y} stroke={LINE} strokeWidth="0.5" opacity="0.3" />
+              <circle cx={x} cy={y} r={3} fill={LINE2} />
+              <text x={lx} y={ly+3} textAnchor="middle" fill={LABEL} fontSize="5" fontFamily="monospace" opacity="0.7">{d}</text>
+            </g>
+          );
+        })}
+        <Brackets x={2} y={2} w={W-4} h={H-4} />
+      </svg>
+    </DiagramWrapper>
+  );
+}
+
+export function WellbeingDiagram() {
+  const W = 320; const H = 180;
+  const pillars = ['PHYSICAL','MENTAL','SOCIAL','FINANCIAL','PURPOSE'];
+  const scores = [0.8, 0.65, 0.75, 0.7, 0.85];
+  return (
+    <DiagramWrapper label="WELLBEING PILLARS">
+      <svg viewBox={`0 0 ${W} ${H}`} className="w-full" style={{ display: 'block' }}>
+        <GridBg w={W} h={H} />
+        {pillars.map((p,i) => {
+          const bh = scores[i]*(H-60);
+          const x = 30 + i*58;
+          const y = H-25-bh;
+          const c = scores[i] > 0.75 ? LINE2 : LINE;
+          return (
+            <g key={i}>
+              <rect x={x-18} y={y} width={36} height={bh} rx="3" fill={c} opacity="0.2" />
+              <rect x={x-18} y={y} width={36} height={bh} rx="3" fill="none" stroke={c} strokeWidth="0.8" />
+              <text x={x} y={H-8} textAnchor="middle" fill={LABEL} fontSize="5" fontFamily="monospace" opacity="0.6">{p}</text>
+              <text x={x} y={y-4} textAnchor="middle" fill={c} fontSize="5.5" fontFamily="monospace">{Math.round(scores[i]*100)}%</text>
+            </g>
+          );
+        })}
+        <Brackets x={2} y={2} w={W-4} h={H-4} />
+      </svg>
+    </DiagramWrapper>
+  );
+}
+
+export function RemoteTeamDiagram() {
+  const W = 320; const H = 180;
+  const nodes = [
+    { label: 'PM HUB', x: 160, y: 90, r: 18, c: LINE2 },
+    { label: 'LONDON', x: 60, y: 45, r: 12, c: LINE },
+    { label: 'DUBAI', x: 260, y: 45, r: 12, c: LINE },
+    { label: 'SINGAPORE', x: 60, y: 135, r: 12, c: LINE },
+    { label: 'NEW YORK', x: 260, y: 135, r: 12, c: LINE },
+  ];
+  return (
+    <DiagramWrapper label="DISTRIBUTED TEAM NETWORK">
+      <svg viewBox={`0 0 ${W} ${H}`} className="w-full" style={{ display: 'block' }}>
+        <GridBg w={W} h={H} />
+        {nodes.slice(1).map((n,i) => (
+          <line key={i} x1={160} y1={90} x2={n.x} y2={n.y} stroke={LINE} strokeWidth="0.8" strokeDasharray="3,2" opacity="0.4" />
+        ))}
+        {nodes.map((n,i) => (
+          <g key={i}>
+            <circle cx={n.x} cy={n.y} r={n.r} fill={n.c} opacity="0.1" />
+            <circle cx={n.x} cy={n.y} r={n.r} fill="none" stroke={n.c} strokeWidth="1" />
+            <text x={n.x} y={n.y+4} textAnchor="middle" fill={n.c} fontSize="4.5" fontFamily="monospace" fontWeight="bold">{n.label}</text>
+          </g>
+        ))}
+        <Brackets x={2} y={2} w={W-4} h={H-4} />
+      </svg>
+    </DiagramWrapper>
+  );
+}
+
+export function ProjectCharterDiagram() {
+  const W = 320; const H = 180;
+  const sections = ['PROJECT TITLE','OBJECTIVES','SCOPE','BUDGET','TIMELINE','SPONSOR','PM'];
+  return (
+    <DiagramWrapper label="PROJECT CHARTER TEMPLATE">
+      <svg viewBox={`0 0 ${W} ${H}`} className="w-full" style={{ display: 'block' }}>
+        <GridBg w={W} h={H} />
+        <rect x={10} y={8} width={300} height={22} rx="3" fill={LINE2} opacity="0.2" />
+        <rect x={10} y={8} width={300} height={22} rx="3" fill="none" stroke={LINE2} strokeWidth="0.8" />
+        <text x={160} y={23} textAnchor="middle" fill={LINE2} fontSize="7" fontFamily="monospace" fontWeight="bold">PROJECT CHARTER</text>
+        {sections.map((s,i) => {
+          const col = i%2; const row = Math.floor(i/2);
+          const x = 10 + col*155; const y = 38 + row*40;
+          const w = i===6 ? 300 : 148;
+          const c = [LINE,LINE,LINE,LINE3,LINE3,LINE2,LINE2][i];
+          return (
+            <g key={i}>
+              <rect x={x} y={y} width={w} height={32} rx="2" fill={c} opacity="0.08" />
+              <rect x={x} y={y} width={w} height={32} rx="2" fill="none" stroke={c} strokeWidth="0.6" />
+              <text x={x+8} y={y+14} fill={c} fontSize="5.5" fontFamily="monospace" fontWeight="bold">{s}</text>
+              <line x1={x+8} y1={y+20} x2={x+w-8} y2={y+20} stroke={c} strokeWidth="0.5" opacity="0.3" />
+            </g>
+          );
+        })}
+        <Brackets x={2} y={2} w={W-4} h={H-4} />
+      </svg>
+    </DiagramWrapper>
+  );
+}
+
+export function ScopeManagementDiagram() {
+  const W = 320; const H = 180;
+  return (
+    <DiagramWrapper label="SCOPE BOUNDARY DIAGRAM">
+      <svg viewBox={`0 0 ${W} ${H}`} className="w-full" style={{ display: 'block' }}>
+        <GridBg w={W} h={H} />
+        <circle cx={160} cy={90} r={70} fill={LINE2} opacity="0.05" />
+        <circle cx={160} cy={90} r={70} fill="none" stroke={LINE2} strokeWidth="1" strokeDasharray="4,2" />
+        <text x={160} y={30} textAnchor="middle" fill={LINE2} fontSize="6" fontFamily="monospace">IN SCOPE</text>
+        {['Insulin pen device','Packaging design','Regulatory filing','Clinical data'].map((t,i) => (
+          <text key={i} x={160} y={68+i*16} textAnchor="middle" fill={LABEL} fontSize="5.5" fontFamily="monospace" opacity="0.8">{t}</text>
+        ))}
+        {['Marketing campaign','Distribution network'].map((t,i) => (
+          <text key={i} x={160} y={H-28+i*14} textAnchor="middle" fill={LINE3} fontSize="5" fontFamily="monospace" opacity="0.6">✕ {t}</text>
+        ))}
+        <text x={160} y={H-6} textAnchor="middle" fill={LINE3} fontSize="5" fontFamily="monospace" opacity="0.5">OUT OF SCOPE</text>
+        <Brackets x={2} y={2} w={W-4} h={H-4} />
+      </svg>
+    </DiagramWrapper>
+  );
+}
+
+export function ScheduleManagementDiagram() {
+  const W = 320; const H = 180;
+  const tasks = ['Regulatory Prep','Device Design','Clinical Trials','Manufacturing','Launch'];
+  const starts = [0,1,2,3,4]; const durations = [3,3,4,2,1];
+  const total = 6;
+  return (
+    <DiagramWrapper label="SCHEDULE BASELINE">
+      <svg viewBox={`0 0 ${W} ${H}`} className="w-full" style={{ display: 'block' }}>
+        <GridBg w={W} h={H} />
+        {tasks.map((t,i) => {
+          const x = 90 + (starts[i]/total)*210;
+          const w = (durations[i]/total)*210;
+          const y = 20 + i*30;
+          const c = [LINE,LINE,LINE3,LINE,LINE2][i];
+          return (
+            <g key={i}>
+              <text x={85} y={y+14} textAnchor="end" fill={LABEL} fontSize="5.5" fontFamily="monospace" opacity="0.7">{t}</text>
+              <rect x={x} y={y+2} width={w} height={20} rx="3" fill={c} opacity="0.3" />
+              <rect x={x} y={y+2} width={w} height={20} rx="3" fill="none" stroke={c} strokeWidth="0.8" />
+            </g>
+          );
+        })}
+        <Brackets x={2} y={2} w={W-4} h={H-4} />
+      </svg>
+    </DiagramWrapper>
+  );
+}
+
+export function BudgetManagementDiagram() {
+  const W = 320; const H = 180;
+  const months = ['M1','M2','M3','M4','M5','M6'];
+  const planned = [10,22,38,55,70,85];
+  const actual = [12,26,42,60,78,0];
+  const toX = (i: number) => 40 + i*(240/5);
+  const toY = (v: number) => H-25-(v/100)*(H-50);
+  return (
+    <DiagramWrapper label="BUDGET S-CURVE">
+      <svg viewBox={`0 0 ${W} ${H}`} className="w-full" style={{ display: 'block' }}>
+        <GridBg w={W} h={H} />
+        <polyline points={months.map((_,i) => `${toX(i)},${toY(planned[i])}`).join(' ')} fill="none" stroke={LINE2} strokeWidth="1.5" strokeDasharray="4,2" />
+        <polyline points={months.slice(0,5).map((_,i) => `${toX(i)},${toY(actual[i])}`).join(' ')} fill="none" stroke={LINE3} strokeWidth="1.5" />
+        {months.map((m,i) => (
+          <text key={i} x={toX(i)} y={H-8} textAnchor="middle" fill={LABEL} fontSize="5" fontFamily="monospace" opacity="0.6">{m}</text>
+        ))}
+        <text x={20} y={20} fill={LINE2} fontSize="5.5" fontFamily="monospace">▪ Planned</text>
+        <text x={80} y={20} fill={LINE3} fontSize="5.5" fontFamily="monospace">▪ Actual</text>
+        <Brackets x={2} y={2} w={W-4} h={H-4} />
+      </svg>
+    </DiagramWrapper>
+  );
+}
+
+export function QualityManagementDiagram() {
+  const W = 320; const H = 180;
+  const gates = ['PLAN','DESIGN REVIEW','PROTOTYPE TEST','CLINICAL TRIAL','REGULATORY','LAUNCH'];
+  return (
+    <DiagramWrapper label="QUALITY GATE PROCESS">
+      <svg viewBox={`0 0 ${W} ${H}`} className="w-full" style={{ display: 'block' }}>
+        <GridBg w={W} h={H} />
+        {gates.map((g,i) => {
+          const x = 15 + i*49;
+          const c = [LINE,LINE,LINE,LINE3,LINE3,LINE2][i];
+          return (
+            <g key={i}>
+              {i < gates.length-1 && (
+                <line x1={x+22} y1={90} x2={x+49-22} y2={90} stroke={c} strokeWidth="0.8" strokeDasharray="3,2" opacity="0.5" />
+              )}
+              <rect x={x} y={70} width={44} height={40} rx="3" fill={c} opacity="0.1" />
+              <rect x={x} y={70} width={44} height={40} rx="3" fill="none" stroke={c} strokeWidth="0.8" />
+              {g.split(' ').map((w,j) => (
+                <text key={j} x={x+22} y={86+j*12} textAnchor="middle" fill={c} fontSize="5" fontFamily="monospace" fontWeight="bold">{w}</text>
+              ))}
+            </g>
+          );
+        })}
+        <Brackets x={2} y={2} w={W-4} h={H-4} />
+      </svg>
+    </DiagramWrapper>
+  );
+}
+
+export function CommunicationPlanDiagram() {
+  const W = 320; const H = 180;
+  const rows = [
+    { who: 'Sponsor', what: 'Status Report', when: 'Weekly', how: 'Email' },
+    { who: 'Steering', what: 'Dashboard', when: 'Monthly', how: 'Meeting' },
+    { who: 'Team', what: 'Stand-up', when: 'Daily', how: 'Video' },
+    { who: 'Regulator', what: 'Submission', when: 'Milestone', how: 'Portal' },
+  ];
+  return (
+    <DiagramWrapper label="COMMUNICATION MATRIX">
+      <svg viewBox={`0 0 ${W} ${H}`} className="w-full" style={{ display: 'block' }}>
+        <GridBg w={W} h={H} />
+        {['WHO','WHAT','WHEN','HOW'].map((h,i) => (
+          <text key={i} x={20+i*75} y={22} fill={LINE2} fontSize="6" fontFamily="monospace" fontWeight="bold">{h}</text>
+        ))}
+        <line x1={10} y1={28} x2={W-10} y2={28} stroke={LINE2} strokeWidth="0.5" opacity="0.4" />
+        {rows.map((r,i) => {
+          const y = 42+i*32;
+          const c = [LINE,LINE,LINE3,LINE2][i];
+          return (
+            <g key={i}>
+              <text x={20} y={y} fill={c} fontSize="5.5" fontFamily="monospace">{r.who}</text>
+              <text x={95} y={y} fill={LABEL} fontSize="5.5" fontFamily="monospace" opacity="0.7">{r.what}</text>
+              <text x={170} y={y} fill={LABEL} fontSize="5.5" fontFamily="monospace" opacity="0.7">{r.when}</text>
+              <text x={245} y={y} fill={LABEL} fontSize="5.5" fontFamily="monospace" opacity="0.7">{r.how}</text>
+              <line x1={10} y1={y+8} x2={W-10} y2={y+8} stroke={DIM} strokeWidth="0.3" opacity="0.2" />
+            </g>
+          );
+        })}
+        <Brackets x={2} y={2} w={W-4} h={H-4} />
+      </svg>
+    </DiagramWrapper>
+  );
+}
+
+export function ResourcePlanningDiagram() {
+  const W = 320; const H = 180;
+  const resources = ['PM','Regulatory','Clinical','Engineering','QA'];
+  const alloc = [100, 80, 60, 90, 70];
+  return (
+    <DiagramWrapper label="RESOURCE ALLOCATION">
+      <svg viewBox={`0 0 ${W} ${H}`} className="w-full" style={{ display: 'block' }}>
+        <GridBg w={W} h={H} />
+        {resources.map((r,i) => {
+          const barW = (alloc[i]/100)*220;
+          const c = alloc[i] > 85 ? LINE3 : LINE2;
+          return (
+            <g key={i}>
+              <text x={85} y={32+i*28} textAnchor="end" fill={LABEL} fontSize="5.5" fontFamily="monospace" opacity="0.8">{r}</text>
+              <rect x={90} y={20+i*28} width={220} height={14} rx="2" fill={DIM} opacity="0.2" />
+              <rect x={90} y={20+i*28} width={barW} height={14} rx="2" fill={c} opacity="0.5" />
+              <text x={318} y={32+i*28} fill={c} fontSize="5.5" fontFamily="monospace">{alloc[i]}%</text>
+            </g>
+          );
+        })}
+        <Brackets x={2} y={2} w={W-4} h={H-4} />
+      </svg>
+    </DiagramWrapper>
+  );
+}
+
+export function PerformanceMgmtDiagram() {
+  const W = 320; const H = 180;
+  const kpis = ['Schedule Performance','Cost Performance','Quality Score','Stakeholder Sat.','Risk Exposure'];
+  const scores = [0.92, 0.85, 0.88, 0.78, 0.65];
+  return (
+    <DiagramWrapper label="PERFORMANCE KPI DASHBOARD">
+      <svg viewBox={`0 0 ${W} ${H}`} className="w-full" style={{ display: 'block' }}>
+        <GridBg w={W} h={H} />
+        {kpis.map((k,i) => {
+          const barW = scores[i]*200;
+          const c = scores[i] > 0.8 ? LINE2 : scores[i] > 0.7 ? LINE : LINE3;
+          return (
+            <g key={i}>
+              <text x={20} y={28+i*30} fill={LABEL} fontSize="5.5" fontFamily="monospace" opacity="0.8">{k}</text>
+              <rect x={20} y={32+i*30} width={200} height={12} rx="2" fill={DIM} opacity="0.2" />
+              <rect x={20} y={32+i*30} width={barW} height={12} rx="2" fill={c} opacity="0.5" />
+              <text x={228} y={43+i*30} fill={c} fontSize="5.5" fontFamily="monospace">{Math.round(scores[i]*100)}%</text>
+            </g>
+          );
+        })}
+        <Brackets x={2} y={2} w={W-4} h={H-4} />
+      </svg>
+    </DiagramWrapper>
+  );
+}
+
+export function PortfolioMgmtDiagram() {
+  const W = 320; const H = 180;
+  const projects = [
+    { name: 'Insulin Pen', value: 90, risk: 70, size: 18, c: LINE2 },
+    { name: 'App v2', value: 75, risk: 40, size: 12, c: LINE },
+    { name: 'Compliance', value: 60, risk: 20, size: 8, c: LINE },
+    { name: 'R&D Pilot', value: 50, risk: 80, size: 10, c: LINE3 },
+  ];
+  const toX = (v: number) => 40 + (v/100)*240;
+  const toY = (r: number) => H-25-(r/100)*(H-50);
+  return (
+    <DiagramWrapper label="PORTFOLIO BUBBLE CHART">
+      <svg viewBox={`0 0 ${W} ${H}`} className="w-full" style={{ display: 'block' }}>
+        <GridBg w={W} h={H} />
+        <line x1={40} y1={H-25} x2={280} y2={H-25} stroke={DIM} strokeWidth="0.5" opacity="0.3" />
+        <line x1={40} y1={H-25} x2={40} y2={15} stroke={DIM} strokeWidth="0.5" opacity="0.3" />
+        {projects.map((p,i) => (
+          <g key={i}>
+            <circle cx={toX(p.value)} cy={toY(p.risk)} r={p.size} fill={p.c} opacity="0.2" />
+            <circle cx={toX(p.value)} cy={toY(p.risk)} r={p.size} fill="none" stroke={p.c} strokeWidth="0.8" />
+            <text x={toX(p.value)} y={toY(p.risk)+4} textAnchor="middle" fill={p.c} fontSize="5" fontFamily="monospace">{p.name}</text>
+          </g>
+        ))}
+        <Brackets x={2} y={2} w={W-4} h={H-4} />
+      </svg>
+    </DiagramWrapper>
+  );
+}
+
+export function VendorMgmtDiagram() {
+  const W = 320; const H = 180;
+  const vendors = [
+    { name: 'Supplier A', perf: 0.92, risk: 0.2, c: LINE2 },
+    { name: 'Supplier B', perf: 0.78, risk: 0.5, c: LINE },
+    { name: 'Supplier C', perf: 0.65, risk: 0.7, c: LINE3 },
+    { name: 'Supplier D', perf: 0.88, risk: 0.3, c: LINE2 },
+  ];
+  return (
+    <DiagramWrapper label="VENDOR SCORECARD">
+      <svg viewBox={`0 0 ${W} ${H}`} className="w-full" style={{ display: 'block' }}>
+        <GridBg w={W} h={H} />
+        {['VENDOR','PERFORMANCE','RISK LEVEL','STATUS'].map((h,i) => (
+          <text key={i} x={15+i*78} y={22} fill={LINE2} fontSize="5.5" fontFamily="monospace" fontWeight="bold">{h}</text>
+        ))}
+        <line x1={10} y1={28} x2={W-10} y2={28} stroke={LINE2} strokeWidth="0.5" opacity="0.4" />
+        {vendors.map((v,i) => {
+          const y = 44+i*32;
+          const riskColor = v.risk < 0.35 ? LINE2 : v.risk < 0.6 ? LINE : LINE3;
+          const status = v.risk < 0.35 ? 'APPROVED' : v.risk < 0.6 ? 'MONITOR' : 'REVIEW';
+          return (
+            <g key={i}>
+              <text x={15} y={y} fill={v.c} fontSize="5.5" fontFamily="monospace">{v.name}</text>
+              <text x={93} y={y} fill={LABEL} fontSize="5.5" fontFamily="monospace" opacity="0.7">{Math.round(v.perf*100)}%</text>
+              <text x={171} y={y} fill={riskColor} fontSize="5.5" fontFamily="monospace">{Math.round(v.risk*100)}%</text>
+              <text x={249} y={y} fill={riskColor} fontSize="5.5" fontFamily="monospace">{status}</text>
+              <line x1={10} y1={y+8} x2={W-10} y2={y+8} stroke={DIM} strokeWidth="0.3" opacity="0.2" />
+            </g>
+          );
+        })}
+        <Brackets x={2} y={2} w={W-4} h={H-4} />
+      </svg>
+    </DiagramWrapper>
+  );
+}
+
+export function MarketAnalysisDiagram() {
+  const W = 320; const H = 180;
+  const segments = [
+    { label: 'TAM', value: '$12B', r: 70, c: LINE, opacity: 0.08 },
+    { label: 'SAM', value: '$3.2B', r: 48, c: LINE2, opacity: 0.12 },
+    { label: 'SOM', value: '$480M', r: 26, c: LINE2, opacity: 0.25 },
+  ];
+  return (
+    <DiagramWrapper label="MARKET SIZING">
+      <svg viewBox={`0 0 ${W} ${H}`} className="w-full" style={{ display: 'block' }}>
+        <GridBg w={W} h={H} />
+        {segments.map((s,i) => (
+          <g key={i}>
+            <circle cx={160} cy={90} r={s.r} fill={s.c} opacity={s.opacity} />
+            <circle cx={160} cy={90} r={s.r} fill="none" stroke={s.c} strokeWidth="0.8" />
+            <text x={160+s.r+8} y={90-30+i*25} fill={s.c} fontSize="6" fontFamily="monospace" fontWeight="bold">{s.label}: {s.value}</text>
+          </g>
+        ))}
+        <Brackets x={2} y={2} w={W-4} h={H-4} />
+      </svg>
+    </DiagramWrapper>
+  );
+}
+
+export function CompetitorAnalysisDiagram() {
+  const W = 320; const H = 180;
+  const metrics = ['Price','UX','Regulatory','Distribution','Innovation'];
+  const us = [80,85,90,70,88];
+  const them = [75,90,95,95,85];
+  const cx = 160; const cy = 90; const r = 60;
+  return (
+    <DiagramWrapper label="COMPETITIVE RADAR">
+      <svg viewBox={`0 0 ${W} ${H}`} className="w-full" style={{ display: 'block' }}>
+        <GridBg w={W} h={H} />
+        {[0.25,0.5,0.75,1].map((f,i) => (
+          <polygon key={i} points={metrics.map((_,j) => {
+            const a = (j/metrics.length)*Math.PI*2 - Math.PI/2;
+            return `${cx+Math.cos(a)*r*f},${cy+Math.sin(a)*r*f}`;
+          }).join(' ')} fill="none" stroke={DIM} strokeWidth="0.4" opacity="0.3" />
+        ))}
+        {metrics.map((_,j) => {
+          const a = (j/metrics.length)*Math.PI*2 - Math.PI/2;
+          const lx = cx+Math.cos(a)*(r+12); const ly = cy+Math.sin(a)*(r+12);
+          return <text key={j} x={lx} y={ly+3} textAnchor="middle" fill={LABEL} fontSize="5" fontFamily="monospace" opacity="0.6">{metrics[j]}</text>;
+        })}
+        <polygon points={us.map((v,j) => {
+          const a = (j/metrics.length)*Math.PI*2 - Math.PI/2;
+          return `${cx+Math.cos(a)*r*(v/100)},${cy+Math.sin(a)*r*(v/100)}`;
+        }).join(' ')} fill={LINE2} fillOpacity="0.1" stroke={LINE2} strokeWidth="1.2" />
+        <polygon points={them.map((v,j) => {
+          const a = (j/metrics.length)*Math.PI*2 - Math.PI/2;
+          return `${cx+Math.cos(a)*r*(v/100)},${cy+Math.sin(a)*r*(v/100)}`;
+        }).join(' ')} fill={LINE3} fillOpacity="0.08" stroke={LINE3} strokeWidth="1" strokeDasharray="3,2" />
+        <Brackets x={2} y={2} w={W-4} h={H-4} />
+      </svg>
+    </DiagramWrapper>
+  );
+}
+
+export function RegulatoryDiagram() {
+  const W = 320; const H = 180;
+  const steps = [
+    { label: 'IND\nFILING', status: 'DONE', c: LINE2 },
+    { label: 'PHASE I\nTRIAL', status: 'DONE', c: LINE2 },
+    { label: 'PHASE II\nTRIAL', status: 'ACTIVE', c: LINE },
+    { label: 'NDA\nSUBMIT', status: 'PENDING', c: DIM },
+    { label: 'FDA\nREVIEW', status: 'PENDING', c: DIM },
+    { label: 'MARKET\nAPPROVAL', status: 'PENDING', c: DIM },
+  ];
+  return (
+    <DiagramWrapper label="REGULATORY PATHWAY">
+      <svg viewBox={`0 0 ${W} ${H}`} className="w-full" style={{ display: 'block' }}>
+        <GridBg w={W} h={H} />
+        {steps.map((s,i) => {
+          const x = 20 + i*48;
+          return (
+            <g key={i}>
+              {i < steps.length-1 && (
+                <line x1={x+22} y1={90} x2={x+48-22} y2={90} stroke={s.c} strokeWidth="0.8" strokeDasharray="3,2" opacity="0.5" />
+              )}
+              <circle cx={x+12} cy={90} r={20} fill={s.c} opacity="0.1" />
+              <circle cx={x+12} cy={90} r={20} fill="none" stroke={s.c} strokeWidth="1" />
+              {s.label.split('\n').map((l,j) => (
+                <text key={j} x={x+12} y={85+j*12} textAnchor="middle" fill={s.c} fontSize="5" fontFamily="monospace" fontWeight="bold">{l}</text>
+              ))}
+              <text x={x+12} y={H-8} textAnchor="middle" fill={s.c} fontSize="4.5" fontFamily="monospace" opacity="0.7">{s.status}</text>
+            </g>
+          );
+        })}
+        <Brackets x={2} y={2} w={W-4} h={H-4} />
+      </svg>
+    </DiagramWrapper>
+  );
+}
+
+export function SustainabilityDiagram() {
+  const W = 320; const H = 180;
+  const pillars = [
+    { label: 'ENVIRONMENTAL', items: ['Carbon footprint','Waste reduction','Green packaging'], x: 55, c: LINE2 },
+    { label: 'SOCIAL', items: ['Patient access','Fair labour','Community health'], x: 160, c: LINE },
+    { label: 'GOVERNANCE', items: ['Transparency','Ethics','Compliance'], x: 265, c: LINE3 },
+  ];
+  return (
+    <DiagramWrapper label="ESG FRAMEWORK">
+      <svg viewBox={`0 0 ${W} ${H}`} className="w-full" style={{ display: 'block' }}>
+        <GridBg w={W} h={H} />
+        {pillars.map((p,i) => (
+          <g key={i}>
+            <rect x={p.x-48} y={15} width={96} height={150} rx="4" fill={p.c} opacity="0.08" />
+            <rect x={p.x-48} y={15} width={96} height={150} rx="4" fill="none" stroke={p.c} strokeWidth="0.8" />
+            <text x={p.x} y={32} textAnchor="middle" fill={p.c} fontSize="6" fontFamily="monospace" fontWeight="bold">{p.label}</text>
+            <line x1={p.x-40} y1={38} x2={p.x+40} y2={38} stroke={p.c} strokeWidth="0.5" opacity="0.3" />
+            {p.items.map((item,j) => (
+              <text key={j} x={p.x} y={56+j*22} textAnchor="middle" fill={LABEL} fontSize="5" fontFamily="monospace" opacity="0.7">{item}</text>
+            ))}
+          </g>
+        ))}
+        <Brackets x={2} y={2} w={W-4} h={H-4} />
+      </svg>
+    </DiagramWrapper>
+  );
+}
+
+export function OKRDiagram() {
+  const W = 320; const H = 180;
+  return (
+    <DiagramWrapper label="OKR FRAMEWORK">
+      <svg viewBox={`0 0 ${W} ${H}`} className="w-full" style={{ display: 'block' }}>
+        <GridBg w={W} h={H} />
+        <rect x={10} y={10} width={300} height={38} rx="3" fill={LINE2} opacity="0.12" />
+        <rect x={10} y={10} width={300} height={38} rx="3" fill="none" stroke={LINE2} strokeWidth="0.8" />
+        <text x={160} y={24} textAnchor="middle" fill={LINE2} fontSize="6" fontFamily="monospace" fontWeight="bold">OBJECTIVE</text>
+        <text x={160} y={38} textAnchor="middle" fill={LABEL} fontSize="5.5" fontFamily="monospace" opacity="0.7">Launch insulin pen in 3 markets by Q4</text>
+        {[
+          { kr: 'KR1', text: 'Regulatory approval in UAE by Aug', pct: 0.7 },
+          { kr: 'KR2', text: '500 HCP prescriptions in Month 1', pct: 0.4 },
+          { kr: 'KR3', text: 'NPS ≥ 70 from patient pilot', pct: 0.55 },
+        ].map((k,i) => (
+          <g key={i}>
+            <rect x={10} y={58+i*38} width={300} height={30} rx="3" fill={LINE} opacity="0.07" />
+            <rect x={10} y={58+i*38} width={300} height={30} rx="3" fill="none" stroke={LINE} strokeWidth="0.6" />
+            <text x={22} y={70+i*38} fill={LINE} fontSize="6" fontFamily="monospace" fontWeight="bold">{k.kr}</text>
+            <text x={50} y={70+i*38} fill={LABEL} fontSize="5.5" fontFamily="monospace" opacity="0.7">{k.text}</text>
+            <rect x={22} y={74+i*38} width={200} height={8} rx="2" fill={DIM} opacity="0.2" />
+            <rect x={22} y={74+i*38} width={200*k.pct} height={8} rx="2" fill={LINE2} opacity="0.5" />
+            <text x={228} y={82+i*38} fill={LINE2} fontSize="5" fontFamily="monospace">{Math.round(k.pct*100)}%</text>
+          </g>
+        ))}
+        <Brackets x={2} y={2} w={W-4} h={H-4} />
+      </svg>
+    </DiagramWrapper>
+  );
+}
+
+export function WJSFDiagram() {
+  const W = 320; const H = 180;
+  const items = [
+    { name: 'Regulatory Filing', bv: 9, tc: 8, rr: 9, jd: 3, wsjf: 8.7 },
+    { name: 'Device UX Design', bv: 8, tc: 6, rr: 5, jd: 5, wsjf: 3.8 },
+    { name: 'Packaging Design', bv: 6, tc: 4, rr: 3, jd: 8, wsjf: 1.6 },
+    { name: 'Training Materials', bv: 5, tc: 3, rr: 2, jd: 10, wsjf: 1.0 },
+  ];
+  return (
+    <DiagramWrapper label="WSJF PRIORITISATION">
+      <svg viewBox={`0 0 ${W} ${H}`} className="w-full" style={{ display: 'block' }}>
+        <GridBg w={W} h={H} />
+        {['FEATURE','BV','TC','RR','JD','WSJF'].map((h,i) => (
+          <text key={i} x={[10,130,160,190,220,260][i]} y={20} fill={LINE2} fontSize="5.5" fontFamily="monospace" fontWeight="bold">{h}</text>
+        ))}
+        <line x1={8} y1={25} x2={W-8} y2={25} stroke={LINE2} strokeWidth="0.5" opacity="0.4" />
+        {items.map((item,i) => {
+          const y = 38+i*32;
+          const c = i===0 ? LINE2 : LINE;
+          return (
+            <g key={i}>
+              <text x={10} y={y} fill={c} fontSize="5.5" fontFamily="monospace">{item.name}</text>
+              {[item.bv,item.tc,item.rr,item.jd].map((v,j) => (
+                <text key={j} x={[130,160,190,220][j]+4} y={y} fill={LABEL} fontSize="5.5" fontFamily="monospace" opacity="0.7">{v}</text>
+              ))}
+              <text x={260} y={y} fill={c} fontSize="6" fontFamily="monospace" fontWeight="bold">{item.wsjf}</text>
+              <line x1={8} y1={y+8} x2={W-8} y2={y+8} stroke={DIM} strokeWidth="0.3" opacity="0.2" />
+            </g>
+          );
+        })}
+        <Brackets x={2} y={2} w={W-4} h={H-4} />
+      </svg>
+    </DiagramWrapper>
+  );
+}
+
+
+// ============================================================
+// MASTER LOOKUP — every card gets a unique diagram
+// ============================================================
+
+export function getVisualReference(cardId: string): React.ReactElement | null {
+  // ── Tools ──────────────────────────────────────────────────
+  if (cardId.startsWith('T1-')) return <GanttDiagram />;
+  if (cardId.startsWith('T2-')) return <KanbanDiagram />;
+  if (cardId.startsWith('T3-')) return <WBSDiagram />;
+  if (cardId.startsWith('T4-')) return <EVMDiagram />;
+  if (cardId.startsWith('T5-')) return <RACIDiagram />;
+  if (cardId.startsWith('T6-')) return <RiskRegisterDiagram />;
+  if (cardId.startsWith('T7-')) return <MoSCoWDiagram />;
+  if (cardId.startsWith('T8-')) return <FishboneDiagram />;
+  if (cardId.startsWith('T9-')) return <MonteCarloSimulationDiagram />;
+  if (cardId.startsWith('T10-')) return <DecisionTreeDiagram />;
+  if (cardId.startsWith('T11-')) return <BalancedScorecardDiagram />;
+  if (cardId.startsWith('T12-')) return <DelphiDiagram />;
+  if (cardId.startsWith('T13-')) return <CostBenefitDiagram />;
+  if (cardId.startsWith('T14-')) return <BurndownDiagram />;
+  if (cardId.startsWith('T15-')) return <ForceFieldDiagram />;
+  if (cardId.startsWith('T16-')) return <StakeholderMatrixDiagram />;
+  if (cardId.startsWith('T17-')) return <ScopeStatementDiagram />;
+
+  // ── Methodologies ──────────────────────────────────────────
+  if (cardId.startsWith('M1-')) return <WaterfallMethodologyDiagram />;
+  if (cardId.startsWith('M2-')) return <AgileMethodologyDiagram />;
+  if (cardId.startsWith('M3-')) return <PRINCEMethodologyDiagram />;
+  if (cardId.startsWith('M4-')) return <HybridMethodologyDiagram />;
+
+  // ── Phases ─────────────────────────────────────────────────
+  if (cardId.startsWith('PH1-')) return <InitiationPhaseDiagram />;
+  if (cardId.startsWith('PH2-')) return <PlanningPhaseDiagram />;
+  if (cardId.startsWith('PH3-')) return <ExecutionPhaseDiagram />;
+  if (cardId.startsWith('PH4-')) return <MonitoringPhaseDiagram />;
+  if (cardId.startsWith('PH5-')) return <ClosurePhaseDiagram />;
+
+  // ── Archetypes ─────────────────────────────────────────────
+  if (cardId.startsWith('AG1-')) return <StrategistArchetypeDiagram />;
+  if (cardId.startsWith('AG2-')) return <ExecutorArchetypeDiagram />;
+  if (cardId.startsWith('AG3-')) return <FacilitatorArchetypeDiagram />;
+
+  // ── People domain ──────────────────────────────────────────
+  if (cardId.startsWith('people-1')) return <StakeholderMatrixDiagram />;
+  if (cardId.startsWith('people-2')) return <StakeholderEngagementDiagram />;
+  if (cardId.startsWith('people-3')) return <TeamDynamicsDiagram />;
+  if (cardId.startsWith('people-4')) return <LeadershipStylesDiagram />;
+  if (cardId.startsWith('people-5')) return <ConflictResolutionDiagram />;
+  if (cardId.startsWith('people-6')) return <MotivationDiagram />;
+  if (cardId.startsWith('people-7')) return <NegotiationDiagram />;
+  if (cardId.startsWith('people-8')) return <EmotionalIntelligenceDiagram />;
+  if (cardId.startsWith('people-9')) return <CultureDiagram />;
+  if (cardId.startsWith('people-10')) return <DiversityDiagram />;
+  if (cardId.startsWith('people-11')) return <WellbeingDiagram />;
+  if (cardId.startsWith('people-12')) return <RemoteTeamDiagram />;
+  if (cardId.startsWith('people-13')) return <RACIDiagram />;
+  if (cardId.startsWith('people-14')) return <StakeholderEngagementDiagram />;
+
+  // ── Process domain ─────────────────────────────────────────
+  if (cardId.startsWith('process-1')) return <ProjectCharterDiagram />;
+  if (cardId.startsWith('process-2')) return <ScopeManagementDiagram />;
+  if (cardId.startsWith('process-3')) return <ScheduleManagementDiagram />;
+  if (cardId.startsWith('process-4')) return <BudgetManagementDiagram />;
+  if (cardId.startsWith('process-5')) return <QualityManagementDiagram />;
+  if (cardId.startsWith('process-6')) return <RiskRegisterDiagram />;
+  if (cardId.startsWith('process-7')) return <ProcurementDiagram />;
+  if (cardId.startsWith('process-8')) return <CommunicationPlanDiagram />;
+  if (cardId.startsWith('process-9')) return <ChangeControlDiagram />;
+  if (cardId.startsWith('process-10')) return <GovernanceDiagram />;
+  if (cardId.startsWith('process-11')) return <ComplianceDiagram />;
+  if (cardId.startsWith('process-12')) return <ResourcePlanningDiagram />;
+  if (cardId.startsWith('process-13')) return <PerformanceMgmtDiagram />;
+  if (cardId.startsWith('process-14')) return <PortfolioMgmtDiagram />;
+  if (cardId.startsWith('process-15')) return <VendorMgmtDiagram />;
+  if (cardId.startsWith('process-16')) return <KnowledgeMgmtDiagram />;
+  if (cardId.startsWith('process-17')) return <LessonsLearnedProcessDiagram />;
+
+  // ── Business Environment domain ────────────────────────────
+  if (cardId.startsWith('business-1')) return <PESTLEDiagram />;
+  if (cardId.startsWith('business-2')) return <MarketAnalysisDiagram />;
+  if (cardId.startsWith('business-3')) return <CompetitorAnalysisDiagram />;
+  if (cardId.startsWith('business-4')) return <RegulatoryDiagram />;
+  if (cardId.startsWith('business-5')) return <SustainabilityDiagram />;
+
+  // ── Advanced Techniques ────────────────────────────────────
+  if (cardId.startsWith('A1-')) return <SWOTDiagram />;
+  if (cardId.startsWith('A2-')) return <PESTLEDiagram />;
+  if (cardId.startsWith('A3-')) return <FiveWhysDiagram />;
+  if (cardId.startsWith('A4-')) return <FishboneDiagram />;
+  if (cardId.startsWith('A5-')) return <PDCADiagram />;
+  if (cardId.startsWith('A6-')) return <WJSFDiagram />;
+  if (cardId.startsWith('A7-')) return <OKRDiagram />;
+  if (cardId.startsWith('A8-')) return <EVMDiagram />;
+  if (cardId.startsWith('A9-')) return <MonteCarloSimulationDiagram />;
+  if (cardId.startsWith('A10-')) return <DecisionTreeDiagram />;
+  if (cardId.startsWith('A11-')) return <ADKARDiagram />;
+  if (cardId.startsWith('A12-')) return <KotterDiagram />;
+  if (cardId.startsWith('A13-')) return <ReverseMentoringDiagram />;
+  if (cardId.startsWith('A14-')) return <DesignThinkingDiagram />;
+  if (cardId.startsWith('A15-')) return <LeanStartupDiagram />;
+  if (cardId.startsWith('A16-')) return <AgileScalingDiagram />;
+  if (cardId.startsWith('A17-')) return <KanbanDiagram />;
+  if (cardId.startsWith('A18-')) return <SprintPlanningDiagram />;
+  if (cardId.startsWith('A19-')) return <RetrospectiveDiagram />;
+  if (cardId.startsWith('A20-')) return <VelocityDiagram />;
+  if (cardId.startsWith('A21-')) return <BurndownDiagram />;
+  if (cardId.startsWith('A22-')) return <ValueStreamDiagram />;
+  if (cardId.startsWith('A23-')) return <LeanPrinciplesDiagram />;
+  if (cardId.startsWith('A24-')) return <TOCDiagram />;
+  if (cardId.startsWith('A25-')) return <CynefinDiagram />;
+  if (cardId.startsWith('A26-')) return <SystemsThinkingDiagram />;
+  if (cardId.startsWith('A27-')) return <ComplexityDiagram />;
+  if (cardId.startsWith('A28-')) return <ScenarioPlanningDiagram />;
+  if (cardId.startsWith('A29-')) return <FiveWhysDiagram />;
+  if (cardId.startsWith('A30-')) return <AffinityDiagram />;
+  if (cardId.startsWith('A31-')) return <NGTDiagram />;
+  if (cardId.startsWith('A32-')) return <DelphiAdvancedDiagram />;
+  if (cardId.startsWith('A33-')) return <TRIZDiagram />;
+  if (cardId.startsWith('A34-')) return <LateralThinkingDiagram />;
+  if (cardId.startsWith('A35-')) return <SWOTDiagram />;
+  if (cardId.startsWith('A36-')) return <AppreciativeInquiryDiagram />;
+  if (cardId.startsWith('A37-')) return <FutureStateDiagram />;
+  if (cardId.startsWith('A38-')) return <ForceFieldDiagram />;
+  if (cardId.startsWith('A39-')) return <BalancedScorecardDiagram />;
+  if (cardId.startsWith('A40-')) return <WJSFDiagram />;
+  if (cardId.startsWith('A41-')) return <PIPlanningDiagram />;
+  if (cardId.startsWith('A42-')) return <OKRCascadeDiagram />;
+  if (cardId.startsWith('A43-')) return <PortfolioDiagram />;
+  if (cardId.startsWith('A44-')) return <ProgramMgmtDiagram />;
+  if (cardId.startsWith('A45-')) return <BenefitsRealisationDiagram />;
+  if (cardId.startsWith('A46-')) return <ChangeImpactDiagram />;
+  if (cardId.startsWith('A47-')) return <OKRDiagram />;
+  if (cardId.startsWith('A48-')) return <EarnedScheduleDiagram />;
+  if (cardId.startsWith('A49-')) return <CPMDiagram />;
+  if (cardId.startsWith('A50-')) return <ResourceLevellingDiagram />;
+  if (cardId.startsWith('A51-')) return <AgileEstimationDiagram />;
+  if (cardId.startsWith('A52-')) return <DependencyMapDiagram />;
+  if (cardId.startsWith('A53-')) return <AssumptionLogDiagram />;
+  if (cardId.startsWith('A54-')) return <IssueLogDiagram />;
+  if (cardId.startsWith('A55-')) return <RiskRegisterDiagram />;
+  if (cardId.startsWith('A56-')) return <BlueOceanDiagram />;
+  if (cardId.startsWith('A57-')) return <CustomerJourneyDiagram />;
+  if (cardId.startsWith('A58-')) return <StakeholderMatrixDiagram />;
+  if (cardId.startsWith('A59-')) return <AnsoffDiagram />;
+  if (cardId.startsWith('A60-')) return <InfluenceMapDiagram />;
+  if (cardId.startsWith('A61-')) return <PoliticalMapDiagram />;
+  if (cardId.startsWith('A62-')) return <CoalitionDiagram />;
+  if (cardId.startsWith('A63-')) return <ExecCommsDiagram />;
+  if (cardId.startsWith('A64-')) return <MeetingFacilitationDiagram />;
+  if (cardId.startsWith('A65-')) return <PresentationDiagram />;
+  if (cardId.startsWith('A66-')) return <StorytellingDiagram />;
+  if (cardId.startsWith('A67-')) return <DataVizDiagram />;
+  if (cardId.startsWith('A68-')) return <DashboardDesignDiagram />;
+  if (cardId.startsWith('A69-')) return <ReportingDiagram />;
+  if (cardId.startsWith('A70-')) return <MindMapDiagram />;
+  if (cardId.startsWith('A71-')) return <ConceptMapDiagram />;
+  if (cardId.startsWith('A72-')) return <KnowledgeMgmtDiagram />;
+  if (cardId.startsWith('A73-')) return <LessonsLearnedProcessDiagram />;
+  if (cardId.startsWith('A74-')) return <AARDiagram />;
+  if (cardId.startsWith('A75-')) return <ContinuousImprovementDiagram />;
+  if (cardId.startsWith('A76-')) return <KaizenDiagram />;
+  if (cardId.startsWith('A77-')) return <SixSigmaDiagram />;
+  if (cardId.startsWith('A78-')) return <TQMDiagram />;
+  if (cardId.startsWith('A79-')) return <BenchmarkingDiagram />;
+  if (cardId.startsWith('A80-')) return <ProcessImprovementDiagram />;
+  if (cardId.startsWith('A81-')) return <InnovationDiagram />;
+  if (cardId.startsWith('A82-')) return <StrategicAlignmentDiagram />;
+
   return null;
 }
