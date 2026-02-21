@@ -345,7 +345,7 @@ export default function Home() {
             className="text-[26px] font-black text-stone-900 leading-tight"
             style={{ fontFamily: 'Sora, sans-serif', letterSpacing: '-0.02em' }}
           >
-            PMO Toolkit
+            StratAlign
           </h1>
           <p className="text-xs text-stone-500 font-semibold mt-0.5 tracking-wide">
             {CARDS.length} tools, techniques & frameworks
@@ -356,14 +356,38 @@ export default function Home() {
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.55, delay: 0.08 }}
           className="w-full rounded-2xl overflow-hidden relative"
-          style={{ backgroundColor: '#fff', boxShadow: '0 4px 20px rgba(0,0,0,0.07), 0 1px 4px rgba(0,0,0,0.05)' }}
+          style={{ backgroundColor: '#fff', boxShadow: '0 4px 20px rgba(0,0,0,0.07), 0 1px 4px rgba(0,0,0,0.05)', minHeight: '220px' }}
         >
           <img
             src={HERO_IMG}
-            alt="PMO Toolkit"
+            alt="StratAlign"
             className="w-full"
             style={{ display: 'block', mixBlendMode: 'multiply', maxHeight: '220px', objectFit: 'contain', objectPosition: 'center' }}
           />
+          {/* Floating text overlay — bottom-left, matching deck card style */}
+          <div
+            className="absolute inset-0 pointer-events-none"
+            style={{
+              background: 'linear-gradient(to top, rgba(255,255,255,0.92) 0%, rgba(255,255,255,0.6) 28%, transparent 55%)',
+            }}
+          />
+          <div className="absolute bottom-0 left-0 right-0 px-5 pb-4 pointer-events-none">
+            <p
+              className="text-[11px] font-bold tracking-widest uppercase mb-1"
+              style={{ color: '#a8956a', fontFamily: 'Sora, sans-serif' }}
+            >
+              Your strategy toolkit
+            </p>
+            <h2
+              className="text-[22px] font-black leading-tight"
+              style={{ color: '#1c1917', fontFamily: 'Sora, sans-serif', letterSpacing: '-0.02em' }}
+            >
+              StratAlign
+            </h2>
+            <p className="text-[12px] text-stone-500 font-medium mt-0.5">
+              {CARDS.length} tools, techniques &amp; frameworks across {DECKS.length} decks
+            </p>
+          </div>
         </motion.div>
       </div>
 

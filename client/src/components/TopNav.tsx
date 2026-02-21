@@ -57,7 +57,7 @@ export default function TopNav({ accentColor = '#475569', bgColor }: TopNavProps
         className="absolute left-1/2 -translate-x-1/2 text-[11px] font-black tracking-tight text-stone-500 pointer-events-none select-none"
         style={{ fontFamily: 'Sora, sans-serif' }}
       >
-        PMO Toolkit
+        StratAlign
       </span>
 
       {/* Quick-jump dropdown */}
