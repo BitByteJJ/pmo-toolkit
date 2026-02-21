@@ -8,7 +8,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import {
   Bookmark, BookmarkCheck, ChevronDown, ChevronUp,
   Lightbulb, Layers, Compass, CheckCircle2, Zap, Star,
-  SlidersHorizontal, ArrowUpDown, X, Printer,
+  SlidersHorizontal, ArrowUpDown, X,
 } from 'lucide-react';
 import { useState, useMemo, useRef, useCallback } from 'react';
 import BottomNav from '@/components/BottomNav';
@@ -595,20 +595,6 @@ export default function DeckView() {
                 {pct}%
               </span>
             )}
-            <button
-              onClick={() => {
-                const cards = getCardsByDeck(deckId);
-                const html = `<!DOCTYPE html><html><head><meta charset="utf-8"><title>${deck.title} — Flash Cards</title><style>*{box-sizing:border-box;margin:0;padding:0}body{font-family:system-ui,sans-serif;background:#f5f5f0;padding:20px}h1{font-size:22px;font-weight:900;margin-bottom:4px;color:#1c1917}p.sub{font-size:12px;color:#78716c;margin-bottom:24px}.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:16px}.card{background:#fff;border-radius:16px;overflow:hidden;page-break-inside:avoid;box-shadow:0 2px 8px rgba(0,0,0,.08)}.card-top{height:6px;background:${deck.color}}.card-body{padding:14px}.code{font-family:monospace;font-size:9px;font-weight:700;padding:2px 6px;border-radius:6px;background:${deck.color}20;color:${deck.color};display:inline-block;margin-bottom:8px}.title{font-size:13px;font-weight:800;color:#1c1917;margin-bottom:4px}.tagline{font-size:11px;color:#78716c;line-height:1.4}@media print{body{padding:10px}.card{break-inside:avoid}}</style></head><body><h1>${deck.title}</h1><p class="sub">${cards.length} cards · StratAlign</p><div class="grid">${cards.map(c=>`<div class="card"><div class="card-top"></div><div class="card-body"><span class="code">${c.code}</span><div class="title">${c.title}</div><div class="tagline">${c.tagline}</div></div></div>`).join('')}</div></body></html>`;
-                const w = window.open('', '_blank');
-                if (w) { w.document.write(html); w.document.close(); setTimeout(() => w.print(), 500); }
-              }}
-              className="flex items-center gap-1.5 text-[10px] font-bold px-2.5 py-1.5 rounded-xl transition-all hover:opacity-90 active:scale-95"
-              style={{ backgroundColor: deck.color + '15', color: deck.color }}
-              title="Print flash cards"
-            >
-              <Printer size={11} />
-              Print
-            </button>
             <button
               onClick={() => navigate(`/quiz/${deckId}`)}
               className="flex items-center gap-1.5 text-[10px] font-bold px-2.5 py-1.5 rounded-xl transition-all hover:opacity-90 active:scale-95"
