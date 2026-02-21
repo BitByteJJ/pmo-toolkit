@@ -68,34 +68,22 @@ function PhysicalDeckCard({ deck, index }: { deck: typeof DECKS[0]; index: numbe
 
         {/* ── DESKTOP: full-bleed illustration, text overlay at bottom ── */}
         <div className="hidden lg:flex flex-col h-full relative" style={{ minHeight: '240px' }}>
-          {/* Deck background colour fill */}
-          <div className="absolute inset-0" style={{ backgroundColor: deck.bgColor }} />
-          {/* Full-bleed illustration — contained, anchored to top-centre so characters aren't cropped */}
+          {/* Full-bleed background illustration — object-cover fills the card, top-anchored so heads aren't cropped */}
           {coverImg && (
-            <div className="absolute inset-0 overflow-hidden">
+            <div className="absolute inset-0">
               <img
                 src={coverImg}
                 alt=""
                 aria-hidden="true"
-                className="absolute"
-                style={{
-                  top: '4%',
-                  left: '50%',
-                  transform: 'translateX(-50%)',
-                  width: '90%',
-                  height: '72%',
-                  objectFit: 'contain',
-                  objectPosition: 'top center',
-                  opacity: 0.95,
-                  mixBlendMode: 'multiply',
-                }}
+                className="w-full h-full object-cover"
+                style={{ objectPosition: 'top center', opacity: 0.95 }}
               />
             </div>
           )}
-          {/* Gradient overlay — covers bottom 45% so text is always legible */}
+          {/* Gradient overlay — strong at bottom for text legibility */}
           <div
             className="absolute inset-0"
-            style={{ background: `linear-gradient(to bottom, transparent 40%, ${deck.bgColor}B0 58%, ${deck.bgColor}F0 72%, ${deck.bgColor} 85%)` }}
+            style={{ background: `linear-gradient(to bottom, transparent 30%, ${deck.bgColor}CC 62%, ${deck.bgColor}F5 80%, ${deck.bgColor} 100%)` }}
           />
           {/* Top-right card count badge */}
           <div className="absolute top-3 right-3 z-10">
