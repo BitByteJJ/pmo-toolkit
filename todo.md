@@ -50,3 +50,29 @@
 - [x] First-launch onboarding prompt: welcome modal on first visit routing beginners to Decision Helper
 - [x] Journey personalisation wizard: 3-question setup (role, experience, goal) before starting the 30-day journey
 - [x] Tailor journey lesson order/difficulty based on wizard answers (personalised tip banner shown after wizard)
+
+## Upcoming Features
+
+### Quick Wins
+- [ ] Daily challenge: one card-based question per day, separate from Journey
+- [ ] Quiz mode per deck: standalone 10-question quiz for any deck
+- [ ] Mastery badges: visual badge when user completes all cards in a deck or achieves 100% quiz accuracy
+- [ ] Glossary / jargon buster: searchable A–Z of PM terms linked to relevant cards
+- [ ] Notes on cards: personal text field per card stored in localStorage
+- [ ] Share a card: shareable URL + OG meta tags for card preview
+- [ ] Printable card deck: PDF export of any deck formatted as flash cards
+
+### Medium Features
+- [ ] AI coach: chat interface for project challenges, recommends relevant cards
+- [ ] Project health check: diagnostic questionnaire scoring project health, recommends tools
+- [ ] Scenario library: pre-built starter packs for common project situations
+- [ ] Spaced repetition review: resurface previously-read cards at increasing intervals (SM-2)
+- [ ] Custom collections: named folders of cards beyond single Bookmarks list
+- [ ] Template builder: interactive form version of card templates with PDF/Word export
+- [ ] Certification prep mode: study path aligned to PMP/PRINCE2/APM with exam-style questions
+
+### Content Additions
+- [ ] Case studies: short real-world stories on each card showing the tool in action
+
+### Team Mode
+- [ ] Team mode: shared workspace with user accounts, shared collections, card assignments, and comments

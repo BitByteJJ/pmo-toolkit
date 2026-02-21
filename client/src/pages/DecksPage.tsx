@@ -4,11 +4,12 @@
 
 import { useLocation } from 'wouter';
 import { motion } from 'framer-motion';
-import { ArrowRight } from 'lucide-react';
+import { ArrowRight, Trophy, Star } from 'lucide-react';
 import BottomNav from '@/components/BottomNav';
 import TopNav from '@/components/TopNav';
 import { DECKS, getCardsByDeck } from '@/lib/pmoData';
 import { useCardProgress } from '@/hooks/useCardProgress';
+import { useMasteryBadges } from '@/hooks/useMasteryBadges';
 
 // Cover illustrations for each deck (same as Home.tsx)
 const DECK_COVERS: Record<string, string> = {
@@ -252,6 +253,8 @@ function DeckCard({ deck, index }: { deck: typeof DECKS[0]; index: number }) {
 }
 
 export default function DecksPage() {
+  const { badges, totalBadges } = useMasteryBadges();
+  const maxBadges = DECKS.length * 2;
   return (
     <div className="min-h-screen pb-24" style={{ backgroundColor: '#F7F5F0' }}>
       <TopNav />
@@ -260,9 +263,31 @@ export default function DecksPage() {
           <h1 className="text-2xl font-black text-stone-900 mb-1" style={{ fontFamily: 'Sora, sans-serif' }}>
             All Decks
           </h1>
-          <p className="text-sm text-stone-500 mb-6">
+          <p className="text-sm text-stone-500 mb-4">
             {DECKS.length} decks · {DECKS.reduce((s, d) => s + getCardsByDeck(d.id).length, 0)} cards
           </p>
+          {/* Mastery Badge Summary */}
+          <div className="flex items-center gap-3 mb-6 p-3 rounded-2xl bg-white" style={{ boxShadow: '0 2px 8px rgba(0,0,0,0.06)', border: '1.5px solid #e7e5e4' }}>
+            <div className="w-9 h-9 rounded-xl flex items-center justify-center" style={{ backgroundColor: '#FEF3C7' }}>
+              <Trophy size={16} className="text-amber-500" />
+            </div>
+            <div className="flex-1 min-w-0">
+              <p className="text-sm font-bold text-stone-800">Mastery Badges</p>
+              <p className="text-[11px] text-stone-400">{totalBadges} of {maxBadges} earned — read all cards or ace a quiz to unlock</p>
+            </div>
+            <div className="flex gap-1 flex-wrap justify-end">
+              {DECKS.map(d => {
+                const deckBadges = badges.filter(b => b.deckId === d.id);
+                const hasBoth = deckBadges.length >= 2;
+                const hasOne = deckBadges.length === 1;
+                return (
+                  <div key={d.id} title={`${d.title}${hasBoth ? ' — Mastered!' : hasOne ? ' — 1 badge' : ''}`} className="w-6 h-6 rounded-full flex items-center justify-center" style={{ backgroundColor: hasBoth ? d.color : hasOne ? d.color + '50' : '#e7e5e4' }}>
+                    {(hasBoth || hasOne) && <Star size={10} className={hasBoth ? 'text-white' : ''} style={hasOne && !hasBoth ? { color: d.color } : {}} />}
+                  </div>
+                );
+              })}
+            </div>
+          </div>
 
           {/* Mobile: single column */}
           <div className="flex flex-col gap-4 lg:hidden">

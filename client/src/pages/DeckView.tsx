@@ -7,7 +7,7 @@ import { useRoute, useLocation } from 'wouter';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
   Bookmark, BookmarkCheck, ChevronDown, ChevronUp,
-  Lightbulb, Layers, Compass, CheckCircle2, Zap,
+  Lightbulb, Layers, Compass, CheckCircle2, Zap, Star,
   SlidersHorizontal, ArrowUpDown, X,
 } from 'lucide-react';
 import { useState, useMemo, useRef, useCallback } from 'react';
@@ -595,6 +595,15 @@ export default function DeckView() {
                 {pct}%
               </span>
             )}
+            <button
+              onClick={() => navigate(`/quiz/${deckId}`)}
+              className="flex items-center gap-1.5 text-[10px] font-bold px-2.5 py-1.5 rounded-xl transition-all hover:opacity-90 active:scale-95"
+              style={{ backgroundColor: deck.color + '20', color: deck.color }}
+              title="Take the deck quiz"
+            >
+              <Star size={11} />
+              Quiz
+            </button>
             <button
               onClick={() => setSprintMode(true)}
               className="flex items-center gap-1.5 text-[10px] font-bold px-2.5 py-1.5 rounded-xl transition-all hover:opacity-90 active:scale-95"

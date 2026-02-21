@@ -23,6 +23,7 @@ import { useCardNotes } from '@/hooks/useCardNotes';
 import { getTemplateByCardId } from '@/lib/templateData';
 import { MarkdownTemplateRenderer, templateToCSV } from '@/components/MarkdownTemplateRenderer';
 import { getCardLevel, LEVEL_LABELS, LEVEL_COLORS } from '@/lib/cardLevels';
+import { useMasteryBadges } from '@/hooks/useMasteryBadges';
 
 // ─── Sub-components ───────────────────────────────────────────────────────────
 
@@ -180,6 +181,7 @@ export default function CardDetail() {
   const { isBookmarked, toggleBookmark } = useBookmarks();
   const { markRead, isRead, deckProgress, deckReadCount } = useCardProgress();
   const { getNote, setNote, hasNote } = useCardNotes();
+  const { awardBadge } = useMasteryBadges();
 
   const cardId = params?.cardId ?? '';
   const card = getCardById(cardId);
@@ -213,6 +215,7 @@ export default function CardDetail() {
       const readAfter = dc.filter(c => c.id === currentCard.id || isRead(c.id)).length;
       if (readAfter === dc.length) {
         setTimeout(() => setShowCelebration(true), 800);
+        awardBadge(currentCard.deckId, 'read');
       }
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
