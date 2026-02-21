@@ -8,9 +8,9 @@ import {
   ArrowLeft, Bookmark, BookmarkCheck,
   ChevronLeft, ChevronRight,
   Lightbulb, ListChecks, Info, Link2, Tag, Sparkles, ShieldCheck, ExternalLink, Cpu,
-  Share2, StickyNote, X, Zap
+  Share2, StickyNote, X, Zap, FileText, Copy, Download, Check
 } from 'lucide-react';
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, useCallback } from 'react';
 import BottomNav from '@/components/BottomNav';
 import { getCardById, getDeckById, getRelatedCards, getCardsByDeck } from '@/lib/pmoData';
 import { getCopyrightNotices, GENERAL_DISCLAIMER } from '@/lib/copyrightData';
@@ -20,6 +20,7 @@ import { useBookmarks } from '@/contexts/BookmarksContext';
 import ShareSheet from '@/components/ShareSheet';
 import { useCardProgress } from '@/hooks/useCardProgress';
 import { useCardNotes } from '@/hooks/useCardNotes';
+import { getTemplateByCardId } from '@/lib/templateData';
 
 // ─── Sub-components ───────────────────────────────────────────────────────────
 
@@ -184,6 +185,8 @@ export default function CardDetail() {
   const [showShare, setShowShare] = useState(false);
   const [showNotes, setShowNotes] = useState(false);
   const [noteText, setNoteText] = useState('');
+  const [activeTab, setActiveTab] = useState<'overview' | 'template'>('overview');
+  const [copied, setCopied] = useState(false);
   const [showCelebration, setShowCelebration] = useState(false);
   const [swipeHint, setSwipeHint] = useState(false);
 
@@ -262,6 +265,35 @@ export default function CardDetail() {
     }
     x.set(0);
   }
+
+  const template = getTemplateByCardId(card?.id ?? '');
+
+  const handleCopyTemplate = useCallback(() => {
+    if (!template) return;
+    const text = template.sections
+      .map(s => `## ${s.heading}\n\n${s.content}`)
+      .join('\n\n---\n\n');
+    const full = `# ${template.title}\n\n${template.description}\n\n${text}`;
+    navigator.clipboard.writeText(full).then(() => {
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    });
+  }, [template]);
+
+  const handleDownloadTemplate = useCallback(() => {
+    if (!template) return;
+    const text = template.sections
+      .map(s => `## ${s.heading}\n\n${s.content}`)
+      .join('\n\n---\n\n');
+    const full = `# ${template.title}\n\n${template.description}\n\n${text}`;
+    const blob = new Blob([full], { type: 'text/markdown' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `${card?.code ?? 'template'}-${template.title.replace(/\s+/g, '-').toLowerCase()}.md`;
+    a.click();
+    URL.revokeObjectURL(url);
+  }, [template, card]);
 
   function saveNote() {
     if (card) setNote(card.id, noteText);
@@ -534,16 +566,145 @@ export default function CardDetail() {
         )}
       </AnimatePresence>
 
+      {/* ── Tab Bar ── */}
+      <div className="sticky top-0 z-30 bg-[#FAFAF8]/95 backdrop-blur-sm border-b border-stone-100">
+        <div className="max-w-2xl mx-auto px-4">
+          <div className="flex gap-1 pt-2 pb-0">
+            {(['overview', 'template'] as const).map(tab => (
+              <button
+                key={tab}
+                onClick={() => setActiveTab(tab)}
+                className="relative flex items-center gap-1.5 px-3 py-2 text-[11px] font-bold capitalize transition-all"
+                style={{
+                  color: activeTab === tab ? (deck?.color ?? '#0284C7') : '#a8a29e',
+                }}
+              >
+                {tab === 'template' && <FileText size={11} />}
+                {tab.charAt(0).toUpperCase() + tab.slice(1)}
+                {tab === 'template' && template && (
+                  <span
+                    className="text-[8px] font-bold px-1 py-0.5 rounded-full"
+                    style={{ backgroundColor: (deck?.color ?? '#0284C7') + '20', color: deck?.color ?? '#0284C7' }}
+                  >
+                    {template.sections.length}
+                  </span>
+                )}
+                {activeTab === tab && (
+                  <motion.div
+                    layoutId="tab-underline"
+                    className="absolute bottom-0 left-0 right-0 h-0.5 rounded-full"
+                    style={{ backgroundColor: deck?.color ?? '#0284C7' }}
+                    transition={{ type: 'spring', stiffness: 500, damping: 30 }}
+                  />
+                )}
+              </button>
+            ))}
+          </div>
+        </div>
+      </div>
+
       {/* Card Content */}
       <AnimatePresence mode="wait">
         <motion.div
-          key={card.id}
+          key={card.id + '-' + activeTab}
           initial={{ opacity: 0, y: 14 }}
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: -14 }}
           transition={{ duration: 0.28 }}
           className="max-w-2xl mx-auto px-4 pt-4 space-y-3"
         >
+          {/* ── TEMPLATE TAB ── */}
+          {activeTab === 'template' && (
+            <>
+              {template ? (
+                <div className="space-y-4">
+                  {/* Header */}
+                  <div
+                    className="rounded-2xl p-4"
+                    style={{ backgroundColor: (deck?.color ?? '#0284C7') + '10', border: `1.5px solid ${deck?.color ?? '#0284C7'}25` }}
+                  >
+                    <div className="flex items-start justify-between gap-3">
+                      <div className="flex-1 min-w-0">
+                        <div className="flex items-center gap-1.5 mb-1">
+                          <FileText size={12} style={{ color: deck?.color }} />
+                          <span className="text-[9px] font-bold uppercase tracking-widest" style={{ color: deck?.color }}>Working Template</span>
+                        </div>
+                        <h2 className="text-[14px] font-bold text-stone-800 leading-tight mb-1" style={{ fontFamily: 'Sora, sans-serif' }}>
+                          {template.title}
+                        </h2>
+                        <p className="text-[11px] text-stone-500 leading-relaxed">{template.description}</p>
+                      </div>
+                    </div>
+                    {/* Action buttons */}
+                    <div className="flex gap-2 mt-3">
+                      <button
+                        onClick={handleCopyTemplate}
+                        className="flex items-center gap-1.5 px-3 py-2 rounded-xl text-[11px] font-bold text-white transition-all hover:opacity-90 active:scale-95"
+                        style={{ backgroundColor: deck?.color ?? '#0284C7' }}
+                      >
+                        {copied ? <Check size={11} /> : <Copy size={11} />}
+                        {copied ? 'Copied!' : 'Copy as Markdown'}
+                      </button>
+                      <button
+                        onClick={handleDownloadTemplate}
+                        className="flex items-center gap-1.5 px-3 py-2 rounded-xl text-[11px] font-bold transition-all hover:opacity-90 active:scale-95"
+                        style={{ backgroundColor: (deck?.color ?? '#0284C7') + '15', color: deck?.color ?? '#0284C7' }}
+                      >
+                        <Download size={11} />
+                        Download .md
+                      </button>
+                    </div>
+                  </div>
+
+                  {/* Template sections */}
+                  {template.sections.map((section, i) => (
+                    <div key={i} className="bg-white rounded-2xl overflow-hidden" style={{ boxShadow: '0 1px 3px rgba(0,0,0,0.05)' }}>
+                      <div
+                        className="px-4 py-2.5 flex items-center gap-2"
+                        style={{ backgroundColor: (deck?.color ?? '#0284C7') + '08', borderBottom: `1px solid ${deck?.color ?? '#0284C7'}15` }}
+                      >
+                        <div
+                          className="w-1.5 h-1.5 rounded-full shrink-0"
+                          style={{ backgroundColor: deck?.color ?? '#0284C7' }}
+                        />
+                        <span className="text-[10px] font-bold text-stone-600 uppercase tracking-wider">{section.heading}</span>
+                      </div>
+                      <div className="p-4 overflow-x-auto">
+                        <pre
+                          className="text-[11px] text-stone-600 leading-relaxed whitespace-pre-wrap font-mono"
+                          style={{ fontFamily: 'ui-monospace, SFMono-Regular, Menlo, monospace' }}
+                        >
+                          {section.content}
+                        </pre>
+                      </div>
+                    </div>
+                  ))}
+
+                  {/* Usage tip */}
+                  <div
+                    className="rounded-2xl p-3.5 flex items-start gap-2.5"
+                    style={{ backgroundColor: '#FEF3C7', border: '1px solid #FDE68A' }}
+                  >
+                    <Lightbulb size={13} className="shrink-0 mt-0.5 text-amber-600" />
+                    <p className="text-[11px] text-amber-800 leading-relaxed">
+                      <strong>How to use:</strong> Copy this template into Excel, Notion, Confluence, or any Markdown editor. Replace the example rows with your project data. The column headers are designed to be immediately usable.
+                    </p>
+                  </div>
+                </div>
+              ) : (
+                <div className="flex flex-col items-center justify-center py-16 text-center">
+                  <FileText size={32} className="text-stone-200 mb-3" />
+                  <p className="text-sm font-semibold text-stone-400">Template coming soon</p>
+                  <p className="text-[11px] text-stone-300 mt-1">A working template for this card is being prepared.</p>
+                </div>
+              )}
+            </>
+          )}
+
+          {/* ── OVERVIEW TAB content (existing) ── */}
+          {activeTab === 'overview' && (
+            <>
+
           {/* My note (if exists) */}
           {hasNote(card.id) && (
             <button
@@ -752,6 +913,9 @@ export default function CardDetail() {
               {GENERAL_DISCLAIMER}
             </p>
           </div>
+
+            </>
+          )}{/* end overview tab */}
 
         </motion.div>
       </AnimatePresence>

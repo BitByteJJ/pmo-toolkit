@@ -32,3 +32,6 @@
 - [x] Fix: app completely inaccessible after last deployment (stale localStorage session + storage key bump)
 - [x] Fix: hearts icon misaligned in Journey bottom nav tab
 - [x] Fix: after lesson completion, journey map/lesson flow broken until page refresh
+- [x] Template sub-tab on every card: structured working template for all 144 tools/techniques/methodologies
+- [x] templateData.ts: template content library with sections, fields, and example rows for each card
+- [x] Template UI: inline preview, copy-to-clipboard, and download as text/markdown

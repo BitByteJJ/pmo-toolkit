@@ -1,0 +1,3232 @@
+// PMO Toolkit Navigator — Template Library
+// Each card has a structured, immediately usable working template.
+// Templates are rendered as Markdown tables + sections in the Template sub-tab.
+
+export interface TemplateSection {
+  heading: string;
+  content: string; // Markdown — tables, lists, or prose
+}
+
+export interface CardTemplate {
+  cardId: string;
+  title: string;
+  description: string; // one-line purpose of this template
+  sections: TemplateSection[];
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Helper to build a markdown table
+// ─────────────────────────────────────────────────────────────────────────────
+// (Used during authoring — not exported)
+
+// ─────────────────────────────────────────────────────────────────────────────
+// PHASE CARDS (PH1–PH3)
+// ─────────────────────────────────────────────────────────────────────────────
+
+const phaseTemplates: CardTemplate[] = [
+  {
+    cardId: 'phase-setup',
+    title: 'Project Setup Checklist',
+    description: 'A comprehensive checklist to ensure every Setup phase activity is completed before execution begins.',
+    sections: [
+      {
+        heading: 'Project Identity',
+        content: `| Field | Your Entry |
+|---|---|
+| Project Name | |
+| Project Sponsor | |
+| Project Manager | |
+| Start Date | |
+| Target End Date | |
+| Budget (£/$ estimate) | |
+| Priority Level | High / Medium / Low |`,
+      },
+      {
+        heading: 'Setup Checklist',
+        content: `| # | Activity | Owner | Status | Notes |
+|---|---|---|---|---|
+| 1 | Define project objectives and success criteria | PM | ☐ | |
+| 2 | Identify and document stakeholders | PM | ☐ | |
+| 3 | Complete Stakeholder Matrix (T16) | PM | ☐ | |
+| 4 | Draft Project Scope Statement (T14) | PM | ☐ | |
+| 5 | Select delivery methodology (M1–M4) | PM + Sponsor | ☐ | |
+| 6 | Build initial WBS (T3) | PM | ☐ | |
+| 7 | Create RACI Matrix (T5) | PM | ☐ | |
+| 8 | Identify top 10 risks (T6) | PM + Team | ☐ | |
+| 9 | Establish governance structure (PR14) | PM + Sponsor | ☐ | |
+| 10 | Kick-off meeting held | PM | ☐ | |`,
+      },
+      {
+        heading: 'Success Criteria',
+        content: `| Criterion | Measurement Method | Target |
+|---|---|---|
+| | | |
+| | | |`,
+      },
+    ],
+  },
+  {
+    cardId: 'phase-execution',
+    title: 'Execution Phase Status Report',
+    description: 'A weekly status report template to track progress, issues, and decisions during project execution.',
+    sections: [
+      {
+        heading: 'Report Header',
+        content: `| Field | Detail |
+|---|---|
+| Project Name | |
+| Reporting Period | Week ending: |
+| Report Author | |
+| Overall RAG Status | 🟢 Green / 🟡 Amber / 🔴 Red |`,
+      },
+      {
+        heading: 'Progress Summary',
+        content: `| Workstream | Planned % Complete | Actual % Complete | RAG | Comment |
+|---|---|---|---|---|
+| | | | | |
+| | | | | |`,
+      },
+      {
+        heading: 'Key Milestones',
+        content: `| Milestone | Planned Date | Forecast Date | Status |
+|---|---|---|---|
+| | | | ☐ On Track / ⚠ At Risk / ✗ Delayed |`,
+      },
+      {
+        heading: 'Issues & Risks',
+        content: `| ID | Type | Description | Impact | Owner | Due Date |
+|---|---|---|---|---|---|
+| | Issue | | | | |
+| | Risk | | | | |`,
+      },
+      {
+        heading: 'Decisions Required',
+        content: `| # | Decision Needed | By Whom | By When |
+|---|---|---|---|
+| | | | |`,
+      },
+    ],
+  },
+  {
+    cardId: 'phase-closure',
+    title: 'Project Closure Report',
+    description: 'A structured closure report to formally close the project, capture lessons, and release resources.',
+    sections: [
+      {
+        heading: 'Project Summary',
+        content: `| Field | Detail |
+|---|---|
+| Project Name | |
+| Original End Date | |
+| Actual End Date | |
+| Original Budget | |
+| Final Cost | |
+| Variance | |`,
+      },
+      {
+        heading: 'Objectives vs Outcomes',
+        content: `| Objective | Achieved? | Notes |
+|---|---|---|
+| | ✓ Yes / ✗ No / ⚠ Partial | |`,
+      },
+      {
+        heading: 'Lessons Learned',
+        content: `| Category | What Went Well | What to Improve | Recommendation |
+|---|---|---|---|
+| Planning | | | |
+| Execution | | | |
+| Stakeholder Mgmt | | | |
+| Risk Management | | | |
+| Team & People | | | |`,
+      },
+      {
+        heading: 'Closure Checklist',
+        content: `| Activity | Owner | Done? |
+|---|---|---|
+| All deliverables accepted by sponsor | | ☐ |
+| Final financial reconciliation complete | | ☐ |
+| Project artifacts archived | | ☐ |
+| Team members released and thanked | | ☐ |
+| Post-Implementation Review scheduled | | ☐ |
+| Lessons Learned documented | | ☐ |
+| Formal sign-off obtained | | ☐ |`,
+      },
+    ],
+  },
+];
+
+// ─────────────────────────────────────────────────────────────────────────────
+// ARCHETYPE CARDS (AG1–AG3)
+// ─────────────────────────────────────────────────────────────────────────────
+
+const archetypeTemplates: CardTemplate[] = [
+  {
+    cardId: 'archetype-1',
+    title: 'Project Complexity Assessment',
+    description: 'Score your project across key dimensions to determine the right approach and methodology.',
+    sections: [
+      {
+        heading: 'Complexity Scoring Matrix',
+        content: `Rate each dimension 1 (Low) to 5 (High).
+
+| Dimension | Score (1–5) | Notes |
+|---|---|---|
+| Scope clarity — how well defined are requirements? | | |
+| Stakeholder complexity — number and diversity of stakeholders | | |
+| Technical complexity — novelty of technology or solution | | |
+| Organisational change — degree of behaviour/culture change | | |
+| Timeline pressure — how fixed is the deadline? | | |
+| Budget constraints — how tight is the funding? | | |
+| Team experience — familiarity with this type of project | | |
+| Regulatory/compliance requirements | | |
+| **Total Score** | **/40** | |`,
+      },
+      {
+        heading: 'Interpretation Guide',
+        content: `| Total Score | Recommended Approach |
+|---|---|
+| 8–16 | Simple project — Lightweight Waterfall or Kanban |
+| 17–24 | Moderate complexity — Agile or Hybrid |
+| 25–32 | High complexity — Structured Agile with governance gates |
+| 33–40 | Very high complexity — Hybrid with PMO oversight |`,
+      },
+    ],
+  },
+  {
+    cardId: 'archetype-2',
+    title: 'Methodology Selection Worksheet',
+    description: 'A structured worksheet to select the best delivery methodology for your project context.',
+    sections: [
+      {
+        heading: 'Context Questions',
+        content: `| Question | Your Answer |
+|---|---|
+| Are requirements fully known upfront? | Yes / No / Partially |
+| Will requirements change frequently? | Yes / No / Unsure |
+| Is the customer available for regular feedback? | Yes / No |
+| Is the team co-located or distributed? | Co-located / Distributed / Hybrid |
+| Is there a fixed delivery date? | Yes / No |
+| Is there a fixed budget? | Yes / No |
+| What is the team size? | < 10 / 10–50 / 50+ |`,
+      },
+      {
+        heading: 'Methodology Fit Matrix',
+        content: `| Criterion | Waterfall | Agile | Kanban | Hybrid |
+|---|---|---|---|---|
+| Fixed requirements | ✓ Best | ✗ Poor | ✗ Poor | ✓ Good |
+| Changing requirements | ✗ Poor | ✓ Best | ✓ Good | ✓ Good |
+| Regular customer feedback | ✗ Limited | ✓ Best | ✓ Good | ✓ Good |
+| Fixed deadline | ✓ Good | ⚠ Risky | ⚠ Risky | ✓ Good |
+| Fixed budget | ✓ Best | ⚠ Risky | ✓ Good | ✓ Good |`,
+      },
+      {
+        heading: 'Decision',
+        content: `| Field | Your Entry |
+|---|---|
+| Selected Methodology | |
+| Rationale | |
+| Agreed by | |
+| Date | |`,
+      },
+    ],
+  },
+  {
+    cardId: 'archetype-3',
+    title: 'Hybrid Approach Design Canvas',
+    description: 'Design a bespoke hybrid methodology by mapping which phases use which approach.',
+    sections: [
+      {
+        heading: 'Hybrid Design Map',
+        content: `| Project Phase | Approach | Cadence | Key Artefacts | Governance Gate? |
+|---|---|---|---|---|
+| Initiation & Discovery | Waterfall | One-off | Business Case, Scope Statement | ✓ Gate 1 |
+| Planning | Waterfall | One-off | WBS, Risk Register, Schedule | ✓ Gate 2 |
+| Design / Architecture | Waterfall | One-off | Design Docs | ✓ Gate 3 |
+| Build / Development | Agile | 2-week sprints | Sprint backlog, burndown | ✗ |
+| Testing | Agile | 2-week sprints | Test results, defect log | ✗ |
+| UAT | Waterfall | One-off | UAT sign-off | ✓ Gate 4 |
+| Deployment | Waterfall | One-off | Release notes | ✓ Gate 5 |
+| Closure | Waterfall | One-off | Closure report, PIR | ✓ Gate 6 |`,
+      },
+    ],
+  },
+];
+
+// ─────────────────────────────────────────────────────────────────────────────
+// METHODOLOGY CARDS (M1–M4)
+// ─────────────────────────────────────────────────────────────────────────────
+
+const methodologyTemplates: CardTemplate[] = [
+  {
+    cardId: 'methodology-1',
+    title: 'Waterfall Project Plan Template',
+    description: 'A sequential phase-gate plan with milestones, deliverables, and sign-off requirements.',
+    sections: [
+      {
+        heading: 'Phase Gate Plan',
+        content: `| Phase | Key Activities | Deliverables | Owner | Start | End | Sign-off Required |
+|---|---|---|---|---|---|---|
+| Initiation | Define objectives, appoint PM | Project Charter | Sponsor | | | ✓ |
+| Planning | WBS, schedule, risk register | Project Plan | PM | | | ✓ |
+| Design | Architecture, specifications | Design Document | Lead | | | ✓ |
+| Build | Development, configuration | Working solution | Team | | | ✗ |
+| Test | SIT, UAT | Test Report | QA | | | ✓ |
+| Deploy | Release, training, go-live | Release Notes | PM | | | ✓ |
+| Close | Lessons learned, archive | Closure Report | PM | | | ✓ |`,
+      },
+      {
+        heading: 'Change Control Log',
+        content: `| Change ID | Description | Requested By | Impact (Cost/Time/Scope) | Decision | Date |
+|---|---|---|---|---|---|
+| CC-001 | | | | Approved / Rejected | |`,
+      },
+    ],
+  },
+  {
+    cardId: 'methodology-2',
+    title: 'Agile Sprint Planning Template',
+    description: 'A sprint planning board with backlog, sprint goal, capacity, and acceptance criteria.',
+    sections: [
+      {
+        heading: 'Sprint Header',
+        content: `| Field | Detail |
+|---|---|
+| Sprint Number | |
+| Sprint Goal | |
+| Start Date | |
+| End Date | |
+| Team Capacity (story points) | |`,
+      },
+      {
+        heading: 'Sprint Backlog',
+        content: `| Story ID | User Story | Acceptance Criteria | Story Points | Assigned To | Status |
+|---|---|---|---|---|---|
+| US-001 | As a [user], I want [goal] so that [benefit] | | | | To Do |
+| US-002 | | | | | To Do |`,
+      },
+      {
+        heading: 'Daily Standup Log',
+        content: `| Date | Team Member | Yesterday | Today | Blockers |
+|---|---|---|---|---|
+| | | | | |`,
+      },
+      {
+        heading: 'Sprint Retrospective',
+        content: `| Category | Item | Action Owner | Due |
+|---|---|---|---|
+| ✓ Keep | | | |
+| ✗ Stop | | | |
+| ▲ Try | | | |`,
+      },
+    ],
+  },
+  {
+    cardId: 'methodology-3',
+    title: 'Kanban Board Template',
+    description: 'A Kanban board with WIP limits, flow metrics, and a blocker log.',
+    sections: [
+      {
+        heading: 'Board Columns & WIP Limits',
+        content: `| Column | WIP Limit | Description |
+|---|---|---|
+| Backlog | Unlimited | All incoming work items |
+| Ready | 5 | Refined and ready to start |
+| In Progress | 3 | Actively being worked on |
+| In Review | 2 | Awaiting review or approval |
+| Done | Unlimited | Completed items |`,
+      },
+      {
+        heading: 'Work Item Log',
+        content: `| Item ID | Title | Priority | Entered Backlog | Started | Completed | Cycle Time (days) |
+|---|---|---|---|---|---|---|
+| K-001 | | High / Med / Low | | | | |`,
+      },
+      {
+        heading: 'Blocker Log',
+        content: `| Item ID | Blocker Description | Date Raised | Owner | Resolution | Date Resolved |
+|---|---|---|---|---|---|
+| | | | | | |`,
+      },
+      {
+        heading: 'Flow Metrics (Weekly)',
+        content: `| Week | Throughput (items done) | Avg Cycle Time (days) | WIP Violations | Notes |
+|---|---|---|---|---|
+| | | | | |`,
+      },
+    ],
+  },
+  {
+    cardId: 'methodology-4',
+    title: 'Hybrid Delivery Plan',
+    description: 'A hybrid plan combining Waterfall governance gates with Agile sprint delivery.',
+    sections: [
+      {
+        heading: 'Governance Gates',
+        content: `| Gate | Name | Criteria to Pass | Decision Maker | Planned Date | Outcome |
+|---|---|---|---|---|---|
+| G1 | Project Initiation | Business case approved | Sponsor | | Pass / Fail |
+| G2 | Planning Complete | Plan signed off | PMO | | Pass / Fail |
+| G3 | Design Approved | Architecture signed off | Tech Lead | | Pass / Fail |
+| G4 | UAT Complete | Zero P1 defects | QA Lead | | Pass / Fail |
+| G5 | Go-Live | Deployment successful | PM | | Pass / Fail |`,
+      },
+      {
+        heading: 'Sprint Schedule',
+        content: `| Sprint | Goal | Start | End | Velocity (SP) | Status |
+|---|---|---|---|---|---|
+| Sprint 1 | | | | | |
+| Sprint 2 | | | | | |
+| Sprint 3 | | | | | |`,
+      },
+    ],
+  },
+];
+
+// ─────────────────────────────────────────────────────────────────────────────
+// PEOPLE DOMAIN CARDS (P01–P14)
+// ─────────────────────────────────────────────────────────────────────────────
+
+const peopleTemplates: CardTemplate[] = [
+  {
+    cardId: 'people-1',
+    title: 'Leadership Style Self-Assessment',
+    description: 'Reflect on your current leadership approach and identify development areas.',
+    sections: [
+      {
+        heading: 'Leadership Style Inventory',
+        content: `Rate yourself 1 (Rarely) to 5 (Always).
+
+| Behaviour | Score | Notes |
+|---|---|---|
+| I adapt my style to each team member's experience level | | |
+| I delegate tasks with clear outcomes, not just instructions | | |
+| I give regular, specific, constructive feedback | | |
+| I create psychological safety for the team to speak up | | |
+| I actively remove blockers before they escalate | | |
+| I involve the team in decision-making where appropriate | | |
+| I recognise and celebrate team contributions | | |
+| I model the behaviours I expect from others | | |`,
+      },
+      {
+        heading: 'Development Plan',
+        content: `| Development Area | Target Behaviour | Action | Support Needed | Review Date |
+|---|---|---|---|---|
+| | | | | |`,
+      },
+    ],
+  },
+  {
+    cardId: 'people-2',
+    title: 'Team Performance Review',
+    description: 'A structured review to assess team performance and identify coaching opportunities.',
+    sections: [
+      {
+        heading: 'Team Performance Matrix',
+        content: `| Team Member | Role | Strengths | Development Area | Performance Rating | Notes |
+|---|---|---|---|---|---|
+| | | | | 1–5 | |`,
+      },
+      {
+        heading: 'Team Health Check',
+        content: `| Dimension | Score (1–5) | Action Needed |
+|---|---|---|
+| Clarity of goals and roles | | |
+| Quality of communication | | |
+| Trust and psychological safety | | |
+| Conflict resolution | | |
+| Accountability | | |
+| Delivery consistency | | |`,
+      },
+    ],
+  },
+  {
+    cardId: 'people-3',
+    title: 'Conflict Resolution Log',
+    description: 'Document and track interpersonal or team conflicts through to resolution.',
+    sections: [
+      {
+        heading: 'Conflict Register',
+        content: `| ID | Date Raised | Parties Involved | Description | Root Cause | Resolution Approach | Owner | Status | Resolved Date |
+|---|---|---|---|---|---|---|---|---|
+| C-001 | | | | | | | Open / Resolved | |`,
+      },
+      {
+        heading: 'Resolution Techniques Used',
+        content: `| Conflict ID | Technique Applied | Outcome | Follow-up Required |
+|---|---|---|---|
+| | Collaborate / Compromise / Accommodate / Avoid / Force | | |`,
+      },
+    ],
+  },
+  {
+    cardId: 'people-4',
+    title: 'Empowerment & Accountability Matrix',
+    description: 'Clarify who is empowered to make which decisions and at what level.',
+    sections: [
+      {
+        heading: 'Decision Empowerment Matrix',
+        content: `| Decision Type | Team Member Can Decide Alone | Needs PM Input | Needs Sponsor Approval | Notes |
+|---|---|---|---|---|
+| Day-to-day task prioritisation | ✓ | | | |
+| Scope changes < 5% | | ✓ | | |
+| Scope changes > 5% | | | ✓ | |
+| Budget reallocation < 10% | | ✓ | | |
+| Budget reallocation > 10% | | | ✓ | |
+| Vendor/supplier selection | | ✓ | | |
+| Team structure changes | | | ✓ | |`,
+      },
+    ],
+  },
+  {
+    cardId: 'people-5',
+    title: 'Motivation & Recognition Tracker',
+    description: 'Track individual motivators and recognition activities to sustain team morale.',
+    sections: [
+      {
+        heading: 'Individual Motivator Profile',
+        content: `| Team Member | Primary Motivator | Secondary Motivator | Preferred Recognition | Last Recognised | Notes |
+|---|---|---|---|---|---|
+| | Achievement / Affiliation / Power | | Public / Private / Written | | |`,
+      },
+      {
+        heading: 'Recognition Log',
+        content: `| Date | Team Member | Achievement | Recognition Given | Delivered By |
+|---|---|---|---|---|
+| | | | | |`,
+      },
+    ],
+  },
+  {
+    cardId: 'people-6',
+    title: 'Team Charter',
+    description: 'A team charter that defines purpose, norms, roles, and working agreements.',
+    sections: [
+      {
+        heading: 'Team Identity',
+        content: `| Field | Detail |
+|---|---|
+| Team Name | |
+| Project / Programme | |
+| Team Purpose (one sentence) | |
+| Team Lead / PM | |
+| Date Agreed | |`,
+      },
+      {
+        heading: 'Working Agreements',
+        content: `| Category | Agreement |
+|---|---|
+| Meeting norms | e.g. Start on time, cameras on for virtual meetings |
+| Communication | e.g. Slack for day-to-day, email for formal decisions |
+| Decision making | e.g. Consensus first, PM decides if no agreement in 24h |
+| Conflict resolution | e.g. Raise directly first, then escalate to PM |
+| Quality standards | e.g. All deliverables peer-reviewed before submission |
+| Availability | e.g. Core hours 09:00–15:00 local time |`,
+      },
+      {
+        heading: 'Roles & Responsibilities',
+        content: `| Name | Role | Key Responsibilities | Availability (%) |
+|---|---|---|---|
+| | | | |`,
+      },
+    ],
+  },
+  {
+    cardId: 'people-7',
+    title: 'Impediment Log',
+    description: 'Track and resolve team blockers and impediments systematically.',
+    sections: [
+      {
+        heading: 'Impediment Register',
+        content: `| ID | Date Raised | Description | Impact | Raised By | Owner | Priority | Status | Resolution | Resolved Date |
+|---|---|---|---|---|---|---|---|---|---|
+| IMP-001 | | | | | | High / Med / Low | Open | | |`,
+      },
+    ],
+  },
+  {
+    cardId: 'people-8',
+    title: 'Negotiation Preparation Sheet',
+    description: 'Prepare for a project negotiation by mapping positions, interests, and ZOPA.',
+    sections: [
+      {
+        heading: 'Negotiation Context',
+        content: `| Field | Detail |
+|---|---|
+| Negotiation Topic | |
+| Your Position | |
+| Other Party | |
+| Their Likely Position | |
+| Deadline | |`,
+      },
+      {
+        heading: 'Interests & Priorities',
+        content: `| Party | Core Interest | Secondary Interest | Red Lines (Non-negotiable) |
+|---|---|---|---|
+| Us | | | |
+| Them | | | |`,
+      },
+      {
+        heading: 'ZOPA & BATNA',
+        content: `| Element | Detail |
+|---|---|
+| Our ideal outcome | |
+| Our acceptable outcome | |
+| Our BATNA (Best Alternative to Negotiated Agreement) | |
+| Their likely BATNA | |
+| Zone of Possible Agreement (ZOPA) | |
+| Concessions we can offer | |`,
+      },
+    ],
+  },
+  {
+    cardId: 'people-9',
+    title: 'Stakeholder Collaboration Plan',
+    description: 'Plan and track collaborative activities with key stakeholders throughout the project.',
+    sections: [
+      {
+        heading: 'Collaboration Activity Plan',
+        content: `| Stakeholder | Collaboration Type | Frequency | Format | Owner | Next Date | Notes |
+|---|---|---|---|---|---|---|
+| | Workshop / Review / 1:1 / Survey | | In-person / Virtual | | | |`,
+      },
+      {
+        heading: 'Co-Creation Log',
+        content: `| Date | Activity | Stakeholders Involved | Outcomes / Decisions | Follow-up Actions |
+|---|---|---|---|---|
+| | | | | |`,
+      },
+    ],
+  },
+  {
+    cardId: 'people-10',
+    title: 'Shared Understanding Canvas',
+    description: 'Align the team and stakeholders on project vision, goals, constraints, and success criteria.',
+    sections: [
+      {
+        heading: 'Project Vision Statement',
+        content: `| Element | Detail |
+|---|---|
+| Problem we are solving | |
+| Who benefits | |
+| What success looks like | |
+| What is out of scope | |
+| Key constraints | |`,
+      },
+      {
+        heading: 'Alignment Check',
+        content: `| Stakeholder | Agrees on Vision? | Agrees on Scope? | Agrees on Success Criteria? | Notes |
+|---|---|---|---|---|
+| | ✓ / ✗ / ⚠ | ✓ / ✗ / ⚠ | ✓ / ✗ / ⚠ | |`,
+      },
+    ],
+  },
+  {
+    cardId: 'people-11',
+    title: 'Virtual Team Engagement Plan',
+    description: 'A plan to keep distributed team members connected, informed, and engaged.',
+    sections: [
+      {
+        heading: 'Virtual Team Profile',
+        content: `| Team Member | Location / Timezone | Preferred Communication | Availability (Core Hours) |
+|---|---|---|---|
+| | | Slack / Email / Video | |`,
+      },
+      {
+        heading: 'Engagement Activities',
+        content: `| Activity | Purpose | Frequency | Format | Owner |
+|---|---|---|---|---|
+| Daily standup | Sync on progress and blockers | Daily | Video call | PM |
+| Team retrospective | Improve ways of working | Bi-weekly | Video workshop | PM |
+| Virtual social | Build relationships | Monthly | Informal video | Team |
+| 1:1 check-in | Individual wellbeing | Bi-weekly | Video / call | PM |`,
+      },
+    ],
+  },
+  {
+    cardId: 'people-12',
+    title: 'Team Ground Rules Document',
+    description: 'A co-created set of ground rules to govern team behaviour and working norms.',
+    sections: [
+      {
+        heading: 'Ground Rules',
+        content: `| Category | Rule | Agreed By Team? |
+|---|---|---|
+| Meetings | We start and end on time | ✓ / ✗ |
+| Meetings | We come prepared with relevant updates | ✓ / ✗ |
+| Communication | We respond to messages within 4 business hours | ✓ / ✗ |
+| Communication | We use [tool] for urgent items, email for formal records | ✓ / ✗ |
+| Decisions | We seek consensus; PM decides if no agreement in 24h | ✓ / ✗ |
+| Conflict | We address issues directly with the person first | ✓ / ✗ |
+| Quality | We review our own work before passing it on | ✓ / ✗ |
+| Respect | We listen without interrupting | ✓ / ✗ |`,
+      },
+      {
+        heading: 'Sign-off',
+        content: `| Team Member | Signature / Initials | Date |
+|---|---|---|
+| | | |`,
+      },
+    ],
+  },
+  {
+    cardId: 'people-13',
+    title: 'Mentoring & Coaching Plan',
+    description: 'A structured plan for mentoring stakeholders or team members through a project or skill development.',
+    sections: [
+      {
+        heading: 'Mentoring Relationship',
+        content: `| Field | Detail |
+|---|---|
+| Mentor | |
+| Mentee | |
+| Focus Area | |
+| Duration | |
+| Meeting Frequency | |`,
+      },
+      {
+        heading: 'Development Goals',
+        content: `| Goal | Current State | Target State | Success Measure | Review Date |
+|---|---|---|---|---|
+| | | | | |`,
+      },
+      {
+        heading: 'Session Log',
+        content: `| Date | Topics Discussed | Actions Agreed | Mentee Progress | Next Steps |
+|---|---|---|---|---|
+| | | | | |`,
+      },
+    ],
+  },
+  {
+    cardId: 'people-14',
+    title: 'Team Emotional Intelligence Assessment',
+    description: 'Assess and develop emotional intelligence across the team to improve collaboration.',
+    sections: [
+      {
+        heading: 'EI Competency Assessment',
+        content: `Rate each competency 1 (Developing) to 5 (Exemplary).
+
+| EI Competency | Team Member 1 | Team Member 2 | Team Member 3 | Team Average |
+|---|---|---|---|---|
+| Self-awareness | | | | |
+| Self-regulation | | | | |
+| Motivation | | | | |
+| Empathy | | | | |
+| Social skills | | | | |`,
+      },
+      {
+        heading: 'Development Actions',
+        content: `| Competency | Team Action | Individual Action | Owner | Timeline |
+|---|---|---|---|---|
+| | | | | |`,
+      },
+    ],
+  },
+];
+
+// ─────────────────────────────────────────────────────────────────────────────
+// PROCESS DOMAIN CARDS (PR01–PR17)
+// ─────────────────────────────────────────────────────────────────────────────
+
+const processTemplates: CardTemplate[] = [
+  {
+    cardId: 'process-1',
+    title: 'Execution Urgency Dashboard',
+    description: 'A daily execution tracker to maintain momentum and surface blockers early.',
+    sections: [
+      {
+        heading: 'Daily Execution Tracker',
+        content: `| Date | Priority Task | Owner | Due | Status | Blocker? |
+|---|---|---|---|---|---|
+| | | | | ✓ Done / ⚠ At Risk / ✗ Blocked | |`,
+      },
+      {
+        heading: 'Velocity Check',
+        content: `| Week | Planned Tasks | Completed Tasks | Completion Rate | Key Blocker |
+|---|---|---|---|---|
+| | | | % | |`,
+      },
+    ],
+  },
+  {
+    cardId: 'process-2',
+    title: 'Communications Plan',
+    description: 'A structured plan defining what information is communicated, to whom, how, and when.',
+    sections: [
+      {
+        heading: 'Communications Matrix',
+        content: `| Audience | Information Needed | Format | Frequency | Channel | Owner | Notes |
+|---|---|---|---|---|---|---|
+| Project Sponsor | Status, risks, decisions | Status Report | Weekly | Email | PM | |
+| Steering Committee | Progress, budget, issues | Dashboard | Monthly | Meeting | PM | |
+| Project Team | Tasks, blockers, updates | Standup | Daily | Video/Chat | PM | |
+| End Users | Upcoming changes, training | Newsletter | Monthly | Email | Comms Lead | |
+| Vendors | Requirements, feedback | Meeting | Bi-weekly | Video | PM | |`,
+      },
+      {
+        heading: 'Communication Log',
+        content: `| Date | Audience | Message Summary | Channel | Sent By | Response Required? | Response Received? |
+|---|---|---|---|---|---|---|
+| | | | | | | |`,
+      },
+    ],
+  },
+  {
+    cardId: 'process-3',
+    title: 'Risk Register',
+    description: 'A comprehensive risk register to identify, assess, and manage project risks.',
+    sections: [
+      {
+        heading: 'Risk Register',
+        content: `| Risk ID | Description | Category | Probability (1–5) | Impact (1–5) | Risk Score | Response Strategy | Owner | Status | Review Date |
+|---|---|---|---|---|---|---|---|---|---|
+| R-001 | | Technical / People / External / Financial | | | P×I | Avoid / Mitigate / Transfer / Accept | | Open | |
+| R-002 | | | | | | | | Open | |`,
+      },
+      {
+        heading: 'Risk Scoring Guide',
+        content: `| Score | Probability | Impact |
+|---|---|---|
+| 1 | Very unlikely (<10%) | Negligible |
+| 2 | Unlikely (10–30%) | Minor |
+| 3 | Possible (30–50%) | Moderate |
+| 4 | Likely (50–70%) | Significant |
+| 5 | Very likely (>70%) | Critical |`,
+      },
+    ],
+  },
+  {
+    cardId: 'process-4',
+    title: 'Stakeholder Engagement Plan',
+    description: 'A plan to systematically engage stakeholders based on their influence and interest.',
+    sections: [
+      {
+        heading: 'Stakeholder Register',
+        content: `| Stakeholder | Role | Influence (H/M/L) | Interest (H/M/L) | Current Engagement | Target Engagement | Engagement Actions | Owner |
+|---|---|---|---|---|---|---|---|
+| | | | | Unaware / Resistant / Neutral / Supportive / Champion | | | |`,
+      },
+      {
+        heading: 'Engagement Activity Log',
+        content: `| Date | Stakeholder | Activity | Outcome | Next Action | Due Date |
+|---|---|---|---|---|---|
+| | | | | | |`,
+      },
+    ],
+  },
+  {
+    cardId: 'process-5',
+    title: 'Project Budget Tracker',
+    description: 'Track planned vs actual spend across budget categories with variance analysis.',
+    sections: [
+      {
+        heading: 'Budget Summary',
+        content: `| Category | Approved Budget | Committed | Actual Spend | Forecast to Complete | Variance | RAG |
+|---|---|---|---|---|---|---|
+| Labour — Internal | | | | | | 🟢/🟡/🔴 |
+| Labour — Contractors | | | | | | |
+| Software / Licences | | | | | | |
+| Hardware | | | | | | |
+| Travel & Expenses | | | | | | |
+| Training | | | | | | |
+| Contingency | | | | | | |
+| **Total** | | | | | | |`,
+      },
+      {
+        heading: 'Spend Log',
+        content: `| Date | Description | Category | Supplier | Amount | Invoice Ref | Approved By |
+|---|---|---|---|---|---|---|
+| | | | | | | |`,
+      },
+    ],
+  },
+  {
+    cardId: 'process-6',
+    title: 'Project Schedule Template',
+    description: 'A milestone-based schedule with task dependencies and critical path indicators.',
+    sections: [
+      {
+        heading: 'Master Schedule',
+        content: `| Task ID | Task Name | Predecessor | Duration (days) | Start Date | End Date | Owner | % Complete | Critical Path? |
+|---|---|---|---|---|---|---|---|---|
+| T1.1 | | — | | | | | | ✓ / ✗ |
+| T1.2 | | T1.1 | | | | | | |`,
+      },
+      {
+        heading: 'Key Milestones',
+        content: `| Milestone | Planned Date | Forecast Date | Actual Date | Status |
+|---|---|---|---|---|
+| Project Kick-off | | | | |
+| Design Complete | | | | |
+| Build Complete | | | | |
+| UAT Sign-off | | | | |
+| Go-Live | | | | |
+| Project Closure | | | | |`,
+      },
+    ],
+  },
+  {
+    cardId: 'process-7',
+    title: 'Quality Management Plan',
+    description: 'Define quality standards, review processes, and acceptance criteria for project deliverables.',
+    sections: [
+      {
+        heading: 'Quality Standards',
+        content: `| Deliverable | Quality Standard | Acceptance Criteria | Review Method | Reviewer | Frequency |
+|---|---|---|---|---|---|
+| | | | Peer Review / Testing / Audit | | |`,
+      },
+      {
+        heading: 'Quality Review Log',
+        content: `| Date | Deliverable | Reviewer | Defects Found | Severity | Status | Re-review Date |
+|---|---|---|---|---|---|---|
+| | | | | P1 Critical / P2 Major / P3 Minor | Pass / Fail / Conditional | |`,
+      },
+    ],
+  },
+  {
+    cardId: 'process-8',
+    title: 'Scope Management Plan',
+    description: 'Define, document, and control project scope with a clear change management process.',
+    sections: [
+      {
+        heading: 'Scope Statement',
+        content: `| Element | Detail |
+|---|---|
+| Project Objectives | |
+| In Scope | |
+| Out of Scope | |
+| Assumptions | |
+| Constraints | |
+| Deliverables | |`,
+      },
+      {
+        heading: 'Scope Change Log',
+        content: `| Change ID | Description | Requested By | Date | Impact (Cost/Time/Quality) | Decision | Approved By |
+|---|---|---|---|---|---|---|
+| SC-001 | | | | | Approved / Rejected / Deferred | |`,
+      },
+    ],
+  },
+  {
+    cardId: 'process-9',
+    title: 'Integrated Project Plan',
+    description: 'A one-page integrated plan linking scope, schedule, budget, risks, and resources.',
+    sections: [
+      {
+        heading: 'Plan Summary',
+        content: `| Dimension | Summary | Owner | Status |
+|---|---|---|---|
+| Scope | Key deliverables and boundaries | PM | |
+| Schedule | Key milestones and critical path | PM | |
+| Budget | Total approved budget and contingency | PM | |
+| Resources | Key team members and availability | PM | |
+| Risks | Top 5 risks and mitigations | PM | |
+| Quality | Key standards and review gates | QA | |
+| Communications | Stakeholder comms plan | PM | |
+| Procurement | Key vendors and contracts | PM | |`,
+      },
+    ],
+  },
+  {
+    cardId: 'process-10',
+    title: 'Change Control Log',
+    description: 'A formal log to capture, assess, and approve all project change requests.',
+    sections: [
+      {
+        heading: 'Change Request Log',
+        content: `| CR ID | Title | Description | Requested By | Date | Priority | Impact on Cost | Impact on Schedule | Impact on Scope | Decision | Approved By | Date Closed |
+|---|---|---|---|---|---|---|---|---|---|---|---|
+| CR-001 | | | | | High / Med / Low | | | | Approved / Rejected / Deferred | | |`,
+      },
+    ],
+  },
+  {
+    cardId: 'process-11',
+    title: 'Procurement Plan',
+    description: 'Plan and track all procurement activities, vendor selection, and contract management.',
+    sections: [
+      {
+        heading: 'Procurement Register',
+        content: `| Item | Justification | Procurement Method | Vendor Shortlist | Selected Vendor | Contract Value | Contract Type | Start Date | End Date | Status |
+|---|---|---|---|---|---|---|---|---|---|
+| | | RFQ / RFP / Direct | | | | Fixed / T&M | | | |`,
+      },
+      {
+        heading: 'Vendor Performance Log',
+        content: `| Vendor | Contract ID | Review Date | Delivery Score (1–5) | Quality Score (1–5) | Communication Score (1–5) | Issues | Actions |
+|---|---|---|---|---|---|---|---|
+| | | | | | | | |`,
+      },
+    ],
+  },
+  {
+    cardId: 'process-12',
+    title: 'Document Management Register',
+    description: 'Track all project documents, versions, owners, and storage locations.',
+    sections: [
+      {
+        heading: 'Document Register',
+        content: `| Doc ID | Document Name | Type | Version | Owner | Status | Storage Location | Last Updated | Review Date |
+|---|---|---|---|---|---|---|---|---|
+| DOC-001 | Project Charter | Governance | v1.0 | PM | Approved | SharePoint/Drive | | |
+| DOC-002 | Project Plan | Planning | | PM | Draft | | | |`,
+      },
+    ],
+  },
+  {
+    cardId: 'process-13',
+    title: 'Methodology Selection Record',
+    description: 'Document the rationale for the chosen delivery methodology.',
+    sections: [
+      {
+        heading: 'Selection Record',
+        content: `| Field | Detail |
+|---|---|
+| Project Name | |
+| Options Considered | Waterfall / Agile / Kanban / Hybrid |
+| Selected Methodology | |
+| Key Reasons | |
+| Constraints Considered | |
+| Agreed By | |
+| Date | |`,
+      },
+    ],
+  },
+  {
+    cardId: 'process-14',
+    title: 'Governance Framework',
+    description: 'Define the governance structure, decision rights, and escalation paths for the project.',
+    sections: [
+      {
+        heading: 'Governance Structure',
+        content: `| Body | Members | Frequency | Decision Authority | Quorum |
+|---|---|---|---|---|
+| Project Steering Committee | | Monthly | Strategic decisions, budget > £X | |
+| Project Board | | Bi-weekly | Tactical decisions, scope changes | |
+| Project Team | | Weekly | Day-to-day delivery | |`,
+      },
+      {
+        heading: 'Escalation Matrix',
+        content: `| Issue Type | First Escalation | Second Escalation | Final Escalation | Response Time |
+|---|---|---|---|---|
+| Budget variance < 5% | PM | | | 24h |
+| Budget variance > 5% | PM | Sponsor | Steering Committee | 48h |
+| Schedule delay < 1 week | PM | | | 24h |
+| Schedule delay > 1 week | PM | Sponsor | | 48h |
+| Scope change | PM | Project Board | Steering Committee | 48h |`,
+      },
+    ],
+  },
+  {
+    cardId: 'process-15',
+    title: 'Issues Log',
+    description: 'Track, assign, and resolve project issues systematically.',
+    sections: [
+      {
+        heading: 'Issues Register',
+        content: `| Issue ID | Date Raised | Description | Category | Impact | Priority | Owner | Status | Resolution | Closed Date |
+|---|---|---|---|---|---|---|---|---|---|
+| I-001 | | | Technical / People / Process / External | High / Med / Low | P1 / P2 / P3 | | Open | | |`,
+      },
+    ],
+  },
+  {
+    cardId: 'process-16',
+    title: 'Knowledge Transfer Plan',
+    description: 'Ensure critical project knowledge is captured and transferred to the receiving organisation.',
+    sections: [
+      {
+        heading: 'Knowledge Transfer Register',
+        content: `| Knowledge Area | Current Owner | Recipient | Transfer Method | Documentation Location | Transfer Date | Confirmed? |
+|---|---|---|---|---|---|---|
+| | | | Training / Documentation / Shadowing / Workshop | | | ✓ / ✗ |`,
+      },
+      {
+        heading: 'Knowledge Transfer Checklist',
+        content: `| Activity | Owner | Due Date | Status |
+|---|---|---|---|
+| Identify all critical knowledge areas | PM | | ☐ |
+| Assign knowledge owners | PM | | ☐ |
+| Create documentation for each area | Knowledge Owners | | ☐ |
+| Conduct handover sessions | Knowledge Owners | | ☐ |
+| Confirm recipient understanding | PM | | ☐ |
+| Archive all materials | PM | | ☐ |`,
+      },
+    ],
+  },
+  {
+    cardId: 'process-17',
+    title: 'Project Closure Checklist',
+    description: 'A comprehensive checklist to ensure all closure activities are completed.',
+    sections: [
+      {
+        heading: 'Closure Checklist',
+        content: `| Activity | Owner | Due Date | Status | Notes |
+|---|---|---|---|---|
+| All deliverables accepted by sponsor | PM | | ☐ | |
+| Final budget reconciliation complete | Finance | | ☐ | |
+| All contracts closed | Procurement | | ☐ | |
+| Team members formally released | PM | | ☐ | |
+| Lessons learned documented | PM | | ☐ | |
+| Post-Implementation Review scheduled | PM | | ☐ | |
+| Project artifacts archived | PM | | ☐ | |
+| Formal sign-off document signed | Sponsor | | ☐ | |
+| Team recognition/celebration held | PM | | ☐ | |`,
+      },
+    ],
+  },
+];
+
+// ─────────────────────────────────────────────────────────────────────────────
+// BUSINESS ENVIRONMENT CARDS (BE01–BE04)
+// ─────────────────────────────────────────────────────────────────────────────
+
+const businessTemplates: CardTemplate[] = [
+  {
+    cardId: 'business-1',
+    title: 'Compliance Register',
+    description: 'Identify, track, and manage all regulatory and compliance requirements for the project.',
+    sections: [
+      {
+        heading: 'Compliance Register',
+        content: `| Req ID | Regulation / Standard | Requirement Description | Applies To | Owner | Evidence Required | Status | Review Date |
+|---|---|---|---|---|---|---|---|
+| C-001 | GDPR | Personal data must be encrypted at rest | Data systems | Tech Lead | Encryption audit | ☐ Compliant | |
+| C-002 | ISO 27001 | Information security policy in place | All systems | CISO | Policy document | ☐ Compliant | |`,
+      },
+    ],
+  },
+  {
+    cardId: 'business-2',
+    title: 'Benefits Realisation Plan',
+    description: 'Define, track, and report on the business benefits the project is expected to deliver.',
+    sections: [
+      {
+        heading: 'Benefits Register',
+        content: `| Benefit ID | Benefit Description | Type | Baseline Value | Target Value | Measurement Method | Owner | Realisation Date | Actual Value | Status |
+|---|---|---|---|---|---|---|---|---|---|
+| B-001 | | Financial / Efficiency / Quality / Strategic | | | | | | | On Track / At Risk |`,
+      },
+      {
+        heading: 'Benefits Realisation Timeline',
+        content: `| Quarter | Expected Benefits | Measurement Activity | Owner | Achieved? |
+|---|---|---|---|---|
+| Q1 post go-live | | | | |
+| Q2 post go-live | | | | |
+| 12 months post go-live | | | | |`,
+      },
+    ],
+  },
+  {
+    cardId: 'business-3',
+    title: 'External Change Impact Assessment',
+    description: 'Assess the impact of external changes (regulatory, market, political) on the project.',
+    sections: [
+      {
+        heading: 'External Change Log',
+        content: `| Change ID | Source | Description | Date Identified | Impact on Project | Severity | Response Action | Owner | Status |
+|---|---|---|---|---|---|---|---|---|
+| EC-001 | Regulatory / Market / Political / Technology | | | | High / Med / Low | | | Open |`,
+      },
+    ],
+  },
+  {
+    cardId: 'business-4',
+    title: 'Organisational Change Management Plan',
+    description: 'Plan the people-side of change to maximise adoption and minimise resistance.',
+    sections: [
+      {
+        heading: 'Change Impact Assessment',
+        content: `| Stakeholder Group | Current State | Future State | Impact Level | Resistance Risk | Engagement Actions |
+|---|---|---|---|---|---|
+| | | | High / Med / Low | High / Med / Low | |`,
+      },
+      {
+        heading: 'Change Readiness Assessment',
+        content: `| Dimension | Score (1–5) | Notes |
+|---|---|---|
+| Leadership alignment and sponsorship | | |
+| Communication clarity | | |
+| Training and capability building | | |
+| Resistance management | | |
+| Reinforcement mechanisms | | |`,
+      },
+      {
+        heading: 'Change Activity Plan',
+        content: `| Activity | Purpose | Audience | Owner | Date | Status |
+|---|---|---|---|---|---|
+| Change impact workshop | Identify affected groups | PM + HR | | | ☐ |
+| Leadership alignment session | Secure sponsor commitment | Sponsors | | | ☐ |
+| Communication campaign | Inform all staff | All staff | Comms | | ☐ |
+| Training delivery | Build capability | Impacted users | L&D | | ☐ |
+| Go-live support | Reduce day-1 issues | All users | Support | | ☐ |`,
+      },
+    ],
+  },
+];
+
+// ─────────────────────────────────────────────────────────────────────────────
+// TOOLS CARDS (T1–T17)
+// ─────────────────────────────────────────────────────────────────────────────
+
+const toolTemplates: CardTemplate[] = [
+  {
+    cardId: 'T1',
+    title: 'Gantt Chart Template',
+    description: 'A structured Gantt chart with tasks, durations, dependencies, and milestone markers.',
+    sections: [
+      {
+        heading: 'Project Gantt Chart',
+        content: `| Task ID | Task Name | Owner | Duration | Start | End | Dependency | W1 | W2 | W3 | W4 | W5 | W6 | W7 | W8 |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| 1.0 | **Initiation** | PM | 5d | | | — | ████ | | | | | | | |
+| 1.1 | Define objectives | PM | 2d | | | — | ██ | | | | | | | |
+| 1.2 | Stakeholder mapping | PM | 3d | | | 1.1 | ██ | █ | | | | | | |
+| 2.0 | **Planning** | PM | 10d | | | 1.0 | | ████ | ████ | | | | | |
+| 3.0 | **Execution** | Team | 20d | | | 2.0 | | | | ████ | ████ | ████ | ████ | ████ |
+| 4.0 | **Closure** | PM | 5d | | | 3.0 | | | | | | | | ████ |
+
+**Legend:** ████ = Task duration | ◆ = Milestone`,
+      },
+    ],
+  },
+  {
+    cardId: 'T2',
+    title: 'Kanban Board Template',
+    description: 'A ready-to-use Kanban board with WIP limits and a work item log.',
+    sections: [
+      {
+        heading: 'Kanban Board',
+        content: `| Backlog | Ready (WIP: 5) | In Progress (WIP: 3) | In Review (WIP: 2) | Done |
+|---|---|---|---|---|
+| Item 4: Feature D | Item 3: Feature C | Item 1: Feature A | Item 2: Feature B | Item 0: Setup |
+| Item 5: Bug fix | | | | |`,
+      },
+      {
+        heading: 'Work Item Log',
+        content: `| ID | Title | Priority | Added | Started | Completed | Cycle Time |
+|---|---|---|---|---|---|---|
+| K-001 | | High | | | | days |`,
+      },
+    ],
+  },
+  {
+    cardId: 'T3',
+    title: 'Work Breakdown Structure (WBS)',
+    description: 'A hierarchical WBS decomposing the project into manageable work packages.',
+    sections: [
+      {
+        heading: 'WBS Hierarchy',
+        content: `| WBS Code | Deliverable / Work Package | Level | Owner | Estimated Effort | Notes |
+|---|---|---|---|---|---|
+| 1.0 | **Project Name** | 1 | PM | | |
+| 1.1 | Initiation | 2 | PM | | |
+| 1.1.1 | Project Charter | 3 | PM | 2 days | |
+| 1.1.2 | Stakeholder Register | 3 | PM | 1 day | |
+| 1.2 | Planning | 2 | PM | | |
+| 1.2.1 | Project Plan | 3 | PM | 3 days | |
+| 1.2.2 | Risk Register | 3 | PM | 1 day | |
+| 1.3 | Execution | 2 | Team | | |
+| 1.3.1 | [Work Package 1] | 3 | | | |
+| 1.4 | Closure | 2 | PM | | |
+| 1.4.1 | Lessons Learned | 3 | PM | 1 day | |`,
+      },
+    ],
+  },
+  {
+    cardId: 'T4',
+    title: 'Earned Value Management Tracker',
+    description: 'Track project cost and schedule performance using EVM metrics.',
+    sections: [
+      {
+        heading: 'EVM Summary',
+        content: `| Period | Planned Value (PV) | Earned Value (EV) | Actual Cost (AC) | SV (EV–PV) | CV (EV–AC) | SPI (EV/PV) | CPI (EV/AC) |
+|---|---|---|---|---|---|---|---|
+| Month 1 | | | | | | | |
+| Month 2 | | | | | | | |`,
+      },
+      {
+        heading: 'EVM Interpretation Guide',
+        content: `| Metric | Formula | > 1.0 means | < 1.0 means |
+|---|---|---|---|
+| SPI (Schedule Performance Index) | EV / PV | Ahead of schedule | Behind schedule |
+| CPI (Cost Performance Index) | EV / AC | Under budget | Over budget |
+| SV (Schedule Variance) | EV – PV | Ahead | Behind |
+| CV (Cost Variance) | EV – AC | Under budget | Over budget |`,
+      },
+      {
+        heading: 'Forecast',
+        content: `| Metric | Formula | Value |
+|---|---|---|
+| Budget at Completion (BAC) | Total approved budget | |
+| Estimate at Completion (EAC) | BAC / CPI | |
+| Estimate to Complete (ETC) | EAC – AC | |
+| Variance at Completion (VAC) | BAC – EAC | |`,
+      },
+    ],
+  },
+  {
+    cardId: 'T5',
+    title: 'RACI Matrix',
+    description: 'A RACI matrix assigning Responsible, Accountable, Consulted, and Informed roles to every task.',
+    sections: [
+      {
+        heading: 'RACI Matrix',
+        content: `| Activity / Deliverable | PM | Sponsor | Tech Lead | Business Analyst | QA Lead | End User |
+|---|---|---|---|---|---|---|
+| Define project scope | A | C | C | R | I | C |
+| Develop project plan | R | A | C | C | I | I |
+| Design solution | I | I | R | A | C | C |
+| Build / develop | I | I | A | C | I | I |
+| Test solution | I | I | C | C | A/R | C |
+| Deploy to production | R | A | R | C | C | I |
+| Sign-off deliverables | C | A/R | C | C | C | R |
+
+**Key:** R = Responsible | A = Accountable | C = Consulted | I = Informed`,
+      },
+    ],
+  },
+  {
+    cardId: 'T6',
+    title: 'Risk Register',
+    description: 'A full risk register with probability/impact scoring and response tracking.',
+    sections: [
+      {
+        heading: 'Risk Register',
+        content: `| Risk ID | Description | Category | Probability (1–5) | Impact (1–5) | Score | Response | Owner | Contingency | Status |
+|---|---|---|---|---|---|---|---|---|---|
+| R-001 | Key resource unavailable | Resource | 3 | 4 | 12 | Mitigate: cross-train backup | PM | Use contractor | Open |
+| R-002 | Scope creep | Scope | 4 | 3 | 12 | Avoid: strict change control | PM | Escalate to board | Open |
+| R-003 | Technology failure | Technical | 2 | 5 | 10 | Mitigate: DR plan | Tech Lead | Rollback plan | Open |`,
+      },
+      {
+        heading: 'Risk Heat Map',
+        content: `| | **Impact 1** | **Impact 2** | **Impact 3** | **Impact 4** | **Impact 5** |
+|---|---|---|---|---|---|
+| **Prob 5** | 5 | 10 | 15 | 20 | **25** |
+| **Prob 4** | 4 | 8 | 12 | **16** | **20** |
+| **Prob 3** | 3 | 6 | **9** | **12** | **15** |
+| **Prob 2** | 2 | 4 | 6 | 8 | 10 |
+| **Prob 1** | 1 | 2 | 3 | 4 | 5 |
+
+**🔴 High (12–25) | 🟡 Medium (6–11) | 🟢 Low (1–5)**`,
+      },
+    ],
+  },
+  {
+    cardId: 'T7',
+    title: 'MoSCoW Prioritisation Template',
+    description: 'Prioritise project requirements using the MoSCoW method.',
+    sections: [
+      {
+        heading: 'MoSCoW Backlog',
+        content: `| ID | Requirement / Feature | Must Have | Should Have | Could Have | Won't Have | Rationale | Owner |
+|---|---|---|---|---|---|---|---|
+| REQ-001 | User login | ✓ | | | | Security requirement | Dev |
+| REQ-002 | Export to PDF | | ✓ | | | Requested by 70% of users | Dev |
+| REQ-003 | Dark mode | | | ✓ | | Nice to have | Dev |
+| REQ-004 | Multi-language | | | | ✓ | Out of scope for v1 | — |`,
+      },
+      {
+        heading: 'Prioritisation Summary',
+        content: `| Category | Count | % of Total | Effort Estimate |
+|---|---|---|---|
+| Must Have | | | |
+| Should Have | | | |
+| Could Have | | | |
+| Won't Have | | | |`,
+      },
+    ],
+  },
+  {
+    cardId: 'T8',
+    title: 'Fishbone (Ishikawa) Diagram Template',
+    description: 'A structured cause-and-effect analysis to identify root causes of a problem.',
+    sections: [
+      {
+        heading: 'Problem Statement',
+        content: `| Field | Detail |
+|---|---|
+| Problem / Effect | |
+| Date Identified | |
+| Impact | |
+| Team Involved | |`,
+      },
+      {
+        heading: 'Cause Categories',
+        content: `| Category (Bone) | Potential Causes | Root Cause? (✓/✗) |
+|---|---|---|
+| **People** | Lack of training | |
+| **People** | High staff turnover | |
+| **Process** | Unclear procedures | |
+| **Process** | No quality checks | |
+| **Technology** | System downtime | |
+| **Technology** | Outdated tools | |
+| **Materials** | Poor quality inputs | |
+| **Environment** | Remote working challenges | |
+| **Measurement** | No KPIs defined | |
+| **Management** | Unclear priorities | |`,
+      },
+      {
+        heading: 'Root Cause & Actions',
+        content: `| Root Cause | Evidence | Corrective Action | Owner | Due Date |
+|---|---|---|---|---|
+| | | | | |`,
+      },
+    ],
+  },
+  {
+    cardId: 'T9',
+    title: 'Monte Carlo Simulation Input Sheet',
+    description: 'Prepare inputs for a Monte Carlo simulation to model schedule and cost uncertainty.',
+    sections: [
+      {
+        heading: 'Task Duration Estimates (Three-Point)',
+        content: `| Task | Optimistic (O) | Most Likely (M) | Pessimistic (P) | PERT Estimate [(O+4M+P)/6] |
+|---|---|---|---|---|
+| Task 1 | | | | |
+| Task 2 | | | | |
+| Task 3 | | | | |`,
+      },
+      {
+        heading: 'Cost Estimates (Three-Point)',
+        content: `| Cost Item | Optimistic (£) | Most Likely (£) | Pessimistic (£) | PERT Estimate |
+|---|---|---|---|---|
+| Labour | | | | |
+| Software | | | | |
+| Hardware | | | | |`,
+      },
+      {
+        heading: 'Simulation Results (to be filled after running simulation)',
+        content: `| Confidence Level | Schedule Completion Date | Total Cost |
+|---|---|---|
+| P50 (50% confidence) | | |
+| P80 (80% confidence) | | |
+| P90 (90% confidence) | | |`,
+      },
+    ],
+  },
+  {
+    cardId: 'T10',
+    title: 'Decision Tree Template',
+    description: 'A structured decision tree to evaluate options and their expected monetary values.',
+    sections: [
+      {
+        heading: 'Decision Context',
+        content: `| Field | Detail |
+|---|---|
+| Decision to Make | |
+| Decision Maker | |
+| Date | |
+| Deadline | |`,
+      },
+      {
+        heading: 'Decision Tree Analysis',
+        content: `| Option | Scenario | Probability | Outcome Value | Expected Value (P × V) |
+|---|---|---|---|---|
+| Option A: Build in-house | Success | 0.7 | £500,000 | £350,000 |
+| Option A: Build in-house | Failure | 0.3 | -£200,000 | -£60,000 |
+| **Option A EMV** | | | | **£290,000** |
+| Option B: Buy off-shelf | Success | 0.9 | £300,000 | £270,000 |
+| Option B: Buy off-shelf | Failure | 0.1 | -£50,000 | -£5,000 |
+| **Option B EMV** | | | | **£265,000** |`,
+      },
+      {
+        heading: 'Recommendation',
+        content: `| Field | Detail |
+|---|---|
+| Recommended Option | |
+| Rationale | |
+| Non-financial factors considered | |`,
+      },
+    ],
+  },
+  {
+    cardId: 'T11',
+    title: 'Balanced Scorecard Template',
+    description: 'A balanced scorecard linking project objectives to four strategic perspectives.',
+    sections: [
+      {
+        heading: 'Balanced Scorecard',
+        content: `| Perspective | Strategic Objective | KPI | Target | Actual | RAG |
+|---|---|---|---|---|---|
+| **Financial** | Deliver within budget | CPI ≥ 1.0 | ≥ 1.0 | | 🟢/🟡/🔴 |
+| **Financial** | Realise projected ROI | ROI % | ≥ 15% | | |
+| **Customer** | Achieve user adoption | % users active at 90 days | ≥ 80% | | |
+| **Customer** | Improve satisfaction | NPS score | ≥ +30 | | |
+| **Internal Process** | Deliver on schedule | SPI ≥ 1.0 | ≥ 1.0 | | |
+| **Internal Process** | Reduce defect rate | Defects per release | < 5 P1 | | |
+| **Learning & Growth** | Upskill team | Training hours completed | 20h/person | | |
+| **Learning & Growth** | Capture lessons | Lessons documented | 100% | | |`,
+      },
+    ],
+  },
+  {
+    cardId: 'T12',
+    title: 'Delphi Technique Estimation Sheet',
+    description: 'A structured multi-round expert estimation worksheet using the Delphi method.',
+    sections: [
+      {
+        heading: 'Expert Panel',
+        content: `| Expert | Role | Expertise Area |
+|---|---|---|
+| Expert 1 | | |
+| Expert 2 | | |
+| Expert 3 | | |`,
+      },
+      {
+        heading: 'Round 1 — Individual Estimates',
+        content: `| Item to Estimate | Expert 1 | Expert 2 | Expert 3 | Mean | Std Dev | Notes |
+|---|---|---|---|---|---|---|
+| | | | | | | |`,
+      },
+      {
+        heading: 'Round 2 — Revised Estimates (after sharing Round 1 results)',
+        content: `| Item | Expert 1 (revised) | Expert 2 (revised) | Expert 3 (revised) | Consensus Estimate | Confidence |
+|---|---|---|---|---|---|
+| | | | | | High / Med / Low |`,
+      },
+    ],
+  },
+  {
+    cardId: 'T13',
+    title: 'Cost-Benefit Analysis Template',
+    description: 'A structured CBA to quantify costs and benefits and calculate ROI and payback period.',
+    sections: [
+      {
+        heading: 'Costs',
+        content: `| Cost Category | Year 0 | Year 1 | Year 2 | Year 3 | Total |
+|---|---|---|---|---|---|
+| Development / Build | | | | | |
+| Infrastructure | | | | | |
+| Licences / Software | | | | | |
+| Training | | | | | |
+| Change management | | | | | |
+| Ongoing support | | | | | |
+| **Total Costs** | | | | | |`,
+      },
+      {
+        heading: 'Benefits',
+        content: `| Benefit Category | Year 0 | Year 1 | Year 2 | Year 3 | Total |
+|---|---|---|---|---|---|
+| Cost savings | | | | | |
+| Revenue increase | | | | | |
+| Efficiency gains | | | | | |
+| Risk reduction | | | | | |
+| **Total Benefits** | | | | | |`,
+      },
+      {
+        heading: 'Summary',
+        content: `| Metric | Value |
+|---|---|
+| Total Costs | |
+| Total Benefits | |
+| Net Benefit (Benefits – Costs) | |
+| ROI % [(Net Benefit / Costs) × 100] | |
+| Payback Period | |
+| Recommendation | Proceed / Do Not Proceed / Revisit |`,
+      },
+    ],
+  },
+  {
+    cardId: 'T14',
+    title: 'Project Scope Statement',
+    description: 'A formal scope statement defining objectives, deliverables, boundaries, and constraints.',
+    sections: [
+      {
+        heading: 'Scope Statement',
+        content: `| Element | Detail |
+|---|---|
+| Project Name | |
+| Project Sponsor | |
+| Project Manager | |
+| Version | |
+| Date | |`,
+      },
+      {
+        heading: 'Objectives',
+        content: `| # | Objective | Success Measure |
+|---|---|---|
+| 1 | | |
+| 2 | | |`,
+      },
+      {
+        heading: 'In Scope',
+        content: `| # | In-Scope Item |
+|---|---|
+| 1 | |
+| 2 | |`,
+      },
+      {
+        heading: 'Out of Scope',
+        content: `| # | Out-of-Scope Item | Reason |
+|---|---|---|
+| 1 | | |`,
+      },
+      {
+        heading: 'Assumptions & Constraints',
+        content: `| Type | Description |
+|---|---|
+| Assumption | |
+| Constraint | |`,
+      },
+    ],
+  },
+  {
+    cardId: 'T15',
+    title: 'Force Field Analysis Template',
+    description: 'Analyse the forces driving and restraining a proposed change to assess feasibility.',
+    sections: [
+      {
+        heading: 'Change Statement',
+        content: `| Field | Detail |
+|---|---|
+| Proposed Change | |
+| Current State | |
+| Desired State | |`,
+      },
+      {
+        heading: 'Force Field Analysis',
+        content: `| Driving Forces (For Change) | Strength (1–5) | Restraining Forces (Against Change) | Strength (1–5) |
+|---|---|---|---|
+| Cost savings | 4 | Fear of job losses | 4 |
+| Improved efficiency | 3 | Lack of skills | 3 |
+| Customer demand | 5 | Budget constraints | 2 |
+| **Total Driving Score** | | **Total Restraining Score** | |`,
+      },
+      {
+        heading: 'Action Plan',
+        content: `| Action | Purpose (Strengthen driving / Weaken restraining) | Owner | Due Date |
+|---|---|---|---|
+| | | | |`,
+      },
+    ],
+  },
+  {
+    cardId: 'T16',
+    title: 'Stakeholder Matrix',
+    description: 'Map stakeholders by influence and interest to prioritise engagement strategies.',
+    sections: [
+      {
+        heading: 'Stakeholder Register',
+        content: `| Stakeholder | Role | Influence (H/M/L) | Interest (H/M/L) | Quadrant | Current Attitude | Desired Attitude | Engagement Strategy |
+|---|---|---|---|---|---|---|---|
+| | | | | Manage Closely / Keep Satisfied / Keep Informed / Monitor | Supporter / Neutral / Resistor | | |`,
+      },
+      {
+        heading: 'Stakeholder Matrix Grid',
+        content: `|  | **Low Interest** | **High Interest** |
+|---|---|---|
+| **High Influence** | Keep Satisfied | Manage Closely |
+| **Low Influence** | Monitor | Keep Informed |`,
+      },
+    ],
+  },
+  {
+    cardId: 'T17',
+    title: 'Burndown Chart Data Template',
+    description: 'Track sprint or release progress with a burndown chart data table.',
+    sections: [
+      {
+        heading: 'Sprint Burndown Data',
+        content: `| Day | Ideal Remaining (SP) | Actual Remaining (SP) | Completed Today (SP) | Notes |
+|---|---|---|---|---|
+| Day 0 (Sprint Start) | 40 | 40 | — | |
+| Day 1 | 36 | 38 | 2 | |
+| Day 2 | 32 | 34 | 4 | |
+| Day 3 | 28 | 30 | 4 | |
+| Day 4 | 24 | 28 | 2 | Blocker: dependency |
+| Day 5 | 20 | 22 | 6 | |
+| Day 6 | 16 | 18 | 4 | |
+| Day 7 | 12 | 14 | 4 | |
+| Day 8 | 8 | 10 | 4 | |
+| Day 9 | 4 | 6 | 4 | |
+| Day 10 (Sprint End) | 0 | 2 | 4 | 2 SP carried over |`,
+      },
+    ],
+  },
+];
+
+// ─────────────────────────────────────────────────────────────────────────────
+// TECHNIQUES CARDS (A1–A82) — selected key templates
+// ─────────────────────────────────────────────────────────────────────────────
+
+const techniqueTemplates: CardTemplate[] = [
+  {
+    cardId: 'A1',
+    title: 'Principled Negotiation Prep Sheet',
+    description: 'Prepare for a principled negotiation using the Fisher & Ury framework.',
+    sections: [
+      {
+        heading: 'Negotiation Preparation',
+        content: `| Element | Our Position | Their Likely Position |
+|---|---|---|
+| Stated Position | | |
+| Underlying Interest | | |
+| Shared Interests | | |
+| Options for Mutual Gain | | |
+| Objective Criteria to Use | | |
+| Our BATNA | | |
+| Their Likely BATNA | | |`,
+      },
+    ],
+  },
+  {
+    cardId: 'A2',
+    title: "Tuckman's Team Stage Assessment",
+    description: "Identify which stage of Tuckman's model your team is in and plan interventions.",
+    sections: [
+      {
+        heading: 'Team Stage Indicators',
+        content: `| Stage | Key Behaviours Present? | Evidence | PM Actions |
+|---|---|---|---|
+| **Forming** | Polite, uncertain, dependent on leader | ✓ / ✗ | Set clear direction, establish norms |
+| **Storming** | Conflict, power struggles, resistance | ✓ / ✗ | Facilitate conflict, clarify roles |
+| **Norming** | Cohesion, shared norms, collaboration | ✓ / ✗ | Reinforce norms, delegate more |
+| **Performing** | High output, self-directing, innovative | ✓ / ✗ | Remove blockers, celebrate wins |
+| **Adjourning** | Closure, reflection, disengagement | ✓ / ✗ | Recognise contributions, lessons learned |`,
+      },
+      {
+        heading: 'Current Assessment',
+        content: `| Field | Detail |
+|---|---|
+| Current Stage | |
+| Evidence | |
+| PM Interventions Planned | |`,
+      },
+    ],
+  },
+  {
+    cardId: 'A3',
+    title: 'Performance Gap Analysis',
+    description: 'Identify the gap between current and required performance and plan interventions.',
+    sections: [
+      {
+        heading: 'Performance Gap Matrix',
+        content: `| Competency / Skill | Required Level (1–5) | Current Level (1–5) | Gap | Priority | Development Action |
+|---|---|---|---|---|---|
+| | | | | High / Med / Low | |`,
+      },
+    ],
+  },
+  {
+    cardId: 'A4',
+    title: 'Delegation Poker Card',
+    description: 'Use the 7 levels of delegation to clarify decision authority for each task.',
+    sections: [
+      {
+        heading: 'Delegation Level Matrix',
+        content: `| Task / Decision | Delegation Level | Level Description | Owner | Notes |
+|---|---|---|---|---|
+| | 1 | Tell — PM decides and announces | | |
+| | 2 | Sell — PM decides and persuades | | |
+| | 3 | Consult — PM asks for input then decides | | |
+| | 4 | Agree — PM and team decide together | | |
+| | 5 | Advise — Team decides, PM advises | | |
+| | 6 | Inquire — Team decides, PM asks to be informed | | |
+| | 7 | Delegate — Team decides fully | | |`,
+      },
+      {
+        heading: 'Task Delegation Register',
+        content: `| Task | Current Level | Target Level | Rationale | Review Date |
+|---|---|---|---|---|
+| | | | | |`,
+      },
+    ],
+  },
+  {
+    cardId: 'A5',
+    title: 'Knowledge Transfer Matrix',
+    description: 'Map critical knowledge to owners and plan structured transfer activities.',
+    sections: [
+      {
+        heading: 'Knowledge Map',
+        content: `| Knowledge Area | Criticality | Current Owner | Backup Owner | Transfer Method | Documentation? | Transfer Date | Confirmed? |
+|---|---|---|---|---|---|---|---|
+| | High / Med / Low | | | Training / Docs / Shadowing | ✓ / ✗ | | ✓ / ✗ |`,
+      },
+    ],
+  },
+  {
+    cardId: 'A6',
+    title: 'Personality Profiling Team Map',
+    description: 'Map team personality profiles to understand communication and collaboration styles.',
+    sections: [
+      {
+        heading: 'Team Profile Summary',
+        content: `| Team Member | Profile Type | Key Strengths | Potential Blind Spots | Best Communication Style | Preferred Work Style |
+|---|---|---|---|---|---|
+| | DISC / MBTI / Big 5 | | | | |`,
+      },
+      {
+        heading: 'Team Diversity Analysis',
+        content: `| Profile Type | Count | % of Team | Implications for Team Dynamics |
+|---|---|---|---|
+| | | | |`,
+      },
+    ],
+  },
+  {
+    cardId: 'A7',
+    title: 'Kaizen Blitz Event Plan',
+    description: 'Plan and run a focused 3–5 day rapid improvement event.',
+    sections: [
+      {
+        heading: 'Event Overview',
+        content: `| Field | Detail |
+|---|---|
+| Process to Improve | |
+| Event Dates | |
+| Team Members | |
+| Sponsor | |
+| Target Improvement | |`,
+      },
+      {
+        heading: 'Day-by-Day Plan',
+        content: `| Day | Activities | Owner | Output |
+|---|---|---|---|
+| Day 1 | Understand current state, map process, identify waste | Team | Current state map |
+| Day 2 | Analyse root causes, brainstorm improvements | Team | Root cause analysis |
+| Day 3 | Design future state, plan implementation | Team | Future state map |
+| Day 4 | Implement quick wins, test changes | Team | Implemented changes |
+| Day 5 | Measure results, document, present to sponsor | Team | Results report |`,
+      },
+    ],
+  },
+  {
+    cardId: 'A8',
+    title: 'ZOPA & BATNA Worksheet',
+    description: 'Map the Zone of Possible Agreement and Best Alternative to Negotiated Agreement.',
+    sections: [
+      {
+        heading: 'ZOPA Analysis',
+        content: `| Party | Ideal Outcome | Acceptable Outcome | Walk-away Point | BATNA |
+|---|---|---|---|---|
+| Us | | | | |
+| Them | | | | |`,
+      },
+      {
+        heading: 'ZOPA Calculation',
+        content: `| Element | Value |
+|---|---|
+| Our walk-away point | |
+| Their walk-away point | |
+| Zone of Possible Agreement | Between [our walk-away] and [their walk-away] |
+| Proposed Agreement | |`,
+      },
+    ],
+  },
+  {
+    cardId: 'A9',
+    title: 'Co-Creation Workshop Plan',
+    description: 'Plan and facilitate a co-creation workshop with stakeholders.',
+    sections: [
+      {
+        heading: 'Workshop Overview',
+        content: `| Field | Detail |
+|---|---|
+| Workshop Title | |
+| Date & Time | |
+| Location / Platform | |
+| Facilitator | |
+| Participants | |
+| Objective | |
+| Expected Outputs | |`,
+      },
+      {
+        heading: 'Agenda',
+        content: `| Time | Activity | Facilitator | Materials Needed |
+|---|---|---|---|
+| 00:00 | Welcome and context setting | | |
+| 00:15 | Current state exploration | | Sticky notes, whiteboard |
+| 00:45 | Problem definition | | |
+| 01:15 | Ideation — generate solutions | | |
+| 01:45 | Prioritise and select ideas | | Voting dots |
+| 02:15 | Action planning | | |
+| 02:45 | Wrap-up and next steps | | |`,
+      },
+    ],
+  },
+  {
+    cardId: 'A10',
+    title: 'Mind Map Template',
+    description: 'A structured mind map for project planning, brainstorming, or problem analysis.',
+    sections: [
+      {
+        heading: 'Mind Map Structure',
+        content: `| Central Topic | Main Branch | Sub-Branch 1 | Sub-Branch 2 |
+|---|---|---|---|
+| **[Your Topic]** | People | Team structure | Roles & responsibilities |
+| | People | Stakeholders | Engagement plan |
+| | Process | Methodology | Agile / Waterfall |
+| | Process | Governance | Steering committee |
+| | Technology | Tools | Jira, Confluence |
+| | Technology | Infrastructure | Cloud / On-premise |
+| | Budget | Costs | Labour, software |
+| | Budget | Benefits | ROI, savings |`,
+      },
+    ],
+  },
+  {
+    cardId: 'A11',
+    title: 'Reverse Mentoring Programme Plan',
+    description: 'Structure a reverse mentoring programme pairing junior and senior staff.',
+    sections: [
+      {
+        heading: 'Programme Overview',
+        content: `| Field | Detail |
+|---|---|
+| Programme Name | |
+| Duration | |
+| Frequency of Sessions | |
+| Focus Areas | Digital skills / New ways of working / Cultural awareness |`,
+      },
+      {
+        heading: 'Pairing Register',
+        content: `| Junior Mentor | Senior Mentee | Focus Topic | Session Frequency | Start Date | Status |
+|---|---|---|---|---|---|
+| | | | | | Active / Completed |`,
+      },
+    ],
+  },
+  {
+    cardId: 'A12',
+    title: 'Empathy Map',
+    description: 'Build empathy for a stakeholder or user group by mapping their thoughts, feelings, and behaviours.',
+    sections: [
+      {
+        heading: 'Empathy Map',
+        content: `| Quadrant | Observations |
+|---|---|
+| **THINK & FEEL** — What matters most? What worries them? | |
+| **HEAR** — What do colleagues / managers / media say? | |
+| **SEE** — What do they observe in their environment? | |
+| **SAY & DO** — What do they say publicly? What actions do they take? | |
+| **PAINS** — Frustrations, obstacles, fears | |
+| **GAINS** — Goals, desires, measures of success | |`,
+      },
+    ],
+  },
+  {
+    cardId: 'A13',
+    title: 'Lean Startup Pilot Plan',
+    description: 'Design a Build-Measure-Learn pilot to test a project assumption quickly.',
+    sections: [
+      {
+        heading: 'Hypothesis',
+        content: `| Element | Detail |
+|---|---|
+| Assumption to Test | |
+| We believe that… | |
+| We will know this is true when… | |
+| Minimum Viable Test | |`,
+      },
+      {
+        heading: 'Build-Measure-Learn Cycle',
+        content: `| Cycle | Build (What we created) | Measure (Metrics tracked) | Learn (What we discovered) | Decision |
+|---|---|---|---|---|
+| Cycle 1 | | | | Pivot / Persevere / Stop |
+| Cycle 2 | | | | |`,
+      },
+    ],
+  },
+  {
+    cardId: 'A14',
+    title: 'Quantitative Risk Analysis Sheet',
+    description: 'Perform expected monetary value analysis on key project risks.',
+    sections: [
+      {
+        heading: 'EMV Analysis',
+        content: `| Risk ID | Description | Probability | Impact (£) | EMV (P × I) | Response Cost | Net EMV |
+|---|---|---|---|---|---|---|
+| R-001 | | 0.3 | | | | |
+| R-002 | | 0.5 | | | | |`,
+      },
+      {
+        heading: 'Contingency Reserve Calculation',
+        content: `| Element | Value |
+|---|---|
+| Sum of all positive EMVs (opportunities) | |
+| Sum of all negative EMVs (threats) | |
+| Net EMV | |
+| Recommended Contingency Reserve | |`,
+      },
+    ],
+  },
+  {
+    cardId: 'A15',
+    title: 'Stakeholder Engagement Matrix',
+    description: 'Track current vs desired stakeholder engagement levels and plan actions.',
+    sections: [
+      {
+        heading: 'Engagement Matrix',
+        content: `| Stakeholder | Unaware | Resistant | Neutral | Supportive | Champion | Current (C) | Desired (D) | Actions to Close Gap |
+|---|---|---|---|---|---|---|---|---|
+| | | | | | | C | D | |`,
+      },
+    ],
+  },
+  {
+    cardId: 'A16',
+    title: 'Zero-Based Budget Template',
+    description: 'Build a project budget from zero, justifying every line item from scratch.',
+    sections: [
+      {
+        heading: 'Zero-Based Budget',
+        content: `| Budget Line | Justification | Quantity | Unit Cost | Total Cost | Priority | Approved? |
+|---|---|---|---|---|---|---|
+| PM Labour | Required to manage delivery | 100 days | £600/day | £60,000 | Must Have | ✓ |
+| Developer Labour | Core build resource | 200 days | £500/day | £100,000 | Must Have | ✓ |
+| Software Licence | Required for delivery platform | 1 year | £10,000 | £10,000 | Must Have | ✓ |
+| Training | Team upskilling | 5 people | £1,000 | £5,000 | Should Have | ✓ |
+| Contingency | 10% of total | | | | Must Have | ✓ |`,
+      },
+    ],
+  },
+  {
+    cardId: 'A17',
+    title: 'PERT Analysis Template',
+    description: 'Calculate PERT estimates for project tasks using three-point estimation.',
+    sections: [
+      {
+        heading: 'PERT Calculation Table',
+        content: `| Task | Optimistic (O) | Most Likely (M) | Pessimistic (P) | PERT Estimate [(O+4M+P)/6] | Std Dev [(P-O)/6] | Variance |
+|---|---|---|---|---|---|---|
+| Task 1 | | | | | | |
+| Task 2 | | | | | | |
+| **Project Total** | | | | | | |`,
+      },
+      {
+        heading: 'Confidence Intervals',
+        content: `| Confidence Level | Formula | Estimated Duration |
+|---|---|---|
+| 68% (1σ) | PERT ± 1 Std Dev | |
+| 95% (2σ) | PERT ± 2 Std Dev | |
+| 99.7% (3σ) | PERT ± 3 Std Dev | |`,
+      },
+    ],
+  },
+  {
+    cardId: 'A18',
+    title: 'Six Sigma DMAIC Project Charter',
+    description: 'A DMAIC project charter to structure a Six Sigma improvement initiative.',
+    sections: [
+      {
+        heading: 'Project Charter',
+        content: `| Field | Detail |
+|---|---|
+| Project Title | |
+| Problem Statement | |
+| Goal Statement | |
+| Scope | |
+| Team | |
+| Sponsor | |
+| Timeline | |`,
+      },
+      {
+        heading: 'DMAIC Phase Plan',
+        content: `| Phase | Key Activities | Tools | Deliverables | Owner | Due Date |
+|---|---|---|---|---|---|
+| Define | Define problem, scope, team | SIPOC, VOC | Project Charter | | |
+| Measure | Baseline current performance | Process map, data collection | Baseline data | | |
+| Analyse | Identify root causes | Fishbone, 5 Whys, Pareto | Root cause analysis | | |
+| Improve | Develop and test solutions | Pilot, DOE | Improved process | | |
+| Control | Sustain improvements | Control chart, SOP | Control plan | | |`,
+      },
+    ],
+  },
+  {
+    cardId: 'A19',
+    title: 'Rolling Wave Planning Template',
+    description: 'Plan near-term work in detail while keeping future phases at a high level.',
+    sections: [
+      {
+        heading: 'Rolling Wave Plan',
+        content: `| Planning Horizon | Detail Level | Tasks / Work Packages | Owner | Duration | Status |
+|---|---|---|---|---|---|
+| **Now (0–2 weeks)** | Full detail | | | | Active |
+| **Near (2–6 weeks)** | Moderate detail | | | | Planned |
+| **Medium (6–12 weeks)** | High level | | | | Outline |
+| **Far (12+ weeks)** | Summary only | | | | TBD |`,
+      },
+      {
+        heading: 'Wave Refresh Log',
+        content: `| Date | Wave Refreshed | New Information Incorporated | Changes Made | Owner |
+|---|---|---|---|---|
+| | | | | |`,
+      },
+    ],
+  },
+  {
+    cardId: 'A20',
+    title: 'Integrated Change Control Log',
+    description: 'Manage all change requests through a formal integrated change control process.',
+    sections: [
+      {
+        heading: 'Change Request Form',
+        content: `| Field | Detail |
+|---|---|
+| Change Request ID | |
+| Title | |
+| Requested By | |
+| Date Submitted | |
+| Description | |
+| Justification | |
+| Impact on Scope | |
+| Impact on Schedule | |
+| Impact on Cost | |
+| Impact on Quality | |
+| Impact on Risk | |
+| Recommended Action | Approve / Reject / Defer |
+| Decision | |
+| Decision By | |
+| Date Decided | |`,
+      },
+    ],
+  },
+  {
+    cardId: 'A21',
+    title: 'Should-Cost Analysis Template',
+    description: 'Estimate what a product or service should cost to strengthen procurement negotiations.',
+    sections: [
+      {
+        heading: 'Should-Cost Breakdown',
+        content: `| Cost Element | Our Estimate | Supplier Quote | Variance | Notes |
+|---|---|---|---|---|
+| Direct Labour | | | | |
+| Materials | | | | |
+| Overhead | | | | |
+| Profit Margin | | | | |
+| **Total** | | | | |`,
+      },
+      {
+        heading: 'Negotiation Target',
+        content: `| Element | Value |
+|---|---|
+| Our Should-Cost Total | |
+| Supplier Quote | |
+| Target Negotiated Price | |
+| Maximum Acceptable Price | |`,
+      },
+    ],
+  },
+  {
+    cardId: 'A22',
+    title: 'Agile-Waterfall Hybrid Mapping Template',
+    description: 'Map which project phases use Agile vs Waterfall delivery and define the integration points.',
+    sections: [
+      {
+        heading: 'Hybrid Phase Map',
+        content: `| Phase | Approach | Rationale | Key Artefacts | Integration Point |
+|---|---|---|---|---|
+| Initiation | Waterfall | Fixed requirements for business case | Business Case, Charter | Gate 1 |
+| Planning | Waterfall | Baseline needed for governance | Project Plan, WBS | Gate 2 |
+| Design | Waterfall | Architecture must be agreed before build | Design Document | Gate 3 |
+| Build | Agile | Requirements evolve during development | Sprint backlog, burndown | — |
+| Test | Agile | Iterative testing with each sprint | Test reports | — |
+| UAT | Waterfall | Formal sign-off required | UAT report | Gate 4 |
+| Deployment | Waterfall | Single coordinated release | Release notes | Gate 5 |`,
+      },
+    ],
+  },
+  {
+    cardId: 'A23',
+    title: '5 Whys Root Cause Analysis',
+    description: 'Drill down to the root cause of a problem by asking "Why?" five times.',
+    sections: [
+      {
+        heading: '5 Whys Analysis',
+        content: `| Level | Question | Answer |
+|---|---|---|
+| Problem Statement | What is the problem? | |
+| Why 1 | Why did this happen? | |
+| Why 2 | Why did that happen? | |
+| Why 3 | Why did that happen? | |
+| Why 4 | Why did that happen? | |
+| Why 5 | Why did that happen? | |
+| **Root Cause** | | |`,
+      },
+      {
+        heading: 'Corrective Actions',
+        content: `| Root Cause | Corrective Action | Owner | Due Date | Status |
+|---|---|---|---|---|
+| | | | | |`,
+      },
+    ],
+  },
+  {
+    cardId: 'A24',
+    title: 'Knowledge-Centred Service (KCS) Article Template',
+    description: 'A KCS article template to capture and share project knowledge in a reusable format.',
+    sections: [
+      {
+        heading: 'KCS Article',
+        content: `| Field | Detail |
+|---|---|
+| Article ID | |
+| Title | |
+| Category | Process / Technical / People / Decision |
+| Author | |
+| Date Created | |
+| Last Updated | |`,
+      },
+      {
+        heading: 'Content',
+        content: `| Section | Content |
+|---|---|
+| **Issue / Question** | What problem or question does this address? |
+| **Environment / Context** | When does this apply? What are the conditions? |
+| **Resolution / Answer** | What is the solution or answer? |
+| **Cause** | Why does this happen? |
+| **Related Articles** | Links to related knowledge |`,
+      },
+    ],
+  },
+  {
+    cardId: 'A25',
+    title: 'Post-Implementation Review Template',
+    description: 'A structured PIR to evaluate project outcomes against objectives and capture lessons.',
+    sections: [
+      {
+        heading: 'PIR Summary',
+        content: `| Field | Detail |
+|---|---|
+| Project Name | |
+| Review Date | |
+| Facilitator | |
+| Attendees | |`,
+      },
+      {
+        heading: 'Objectives vs Outcomes',
+        content: `| Objective | Target | Actual | Achieved? | Variance |
+|---|---|---|---|---|
+| | | | ✓ / ✗ / ⚠ Partial | |`,
+      },
+      {
+        heading: 'Benefits Realised',
+        content: `| Benefit | Expected | Actual | Notes |
+|---|---|---|---|
+| | | | |`,
+      },
+      {
+        heading: 'Lessons Learned',
+        content: `| Category | What Went Well | What to Improve | Recommendation for Future Projects |
+|---|---|---|---|
+| Planning | | | |
+| Execution | | | |
+| Stakeholder Management | | | |
+| Risk Management | | | |
+| Technology | | | |`,
+      },
+    ],
+  },
+  {
+    cardId: 'A26',
+    title: 'Benefits Realisation Register',
+    description: 'Track and measure the realisation of project benefits over time.',
+    sections: [
+      {
+        heading: 'Benefits Register',
+        content: `| Benefit ID | Description | Type | Baseline | Target | Measurement Method | Owner | Realisation Date | Actual | Status |
+|---|---|---|---|---|---|---|---|---|---|
+| B-001 | | Financial / Efficiency / Quality | | | | | | | On Track / At Risk / Realised |`,
+      },
+    ],
+  },
+  {
+    cardId: 'A27',
+    title: 'Scenario Planning Template',
+    description: 'Develop and analyse multiple future scenarios to stress-test project strategy.',
+    sections: [
+      {
+        heading: 'Scenario Overview',
+        content: `| Scenario | Name | Description | Probability | Key Drivers |
+|---|---|---|---|---|
+| 1 | Best Case | Everything goes to plan | | |
+| 2 | Base Case | Most likely outcome | | |
+| 3 | Worst Case | Major risks materialise | | |
+| 4 | Black Swan | Unexpected disruptive event | | |`,
+      },
+      {
+        heading: 'Scenario Impact Analysis',
+        content: `| Scenario | Impact on Schedule | Impact on Budget | Impact on Scope | Response Strategy |
+|---|---|---|---|---|
+| Best Case | | | | |
+| Base Case | | | | |
+| Worst Case | | | | |`,
+      },
+    ],
+  },
+  {
+    cardId: 'A28',
+    title: "Kotter's 8-Step Change Plan",
+    description: "Plan an organisational change initiative using Kotter's 8-step model.",
+    sections: [
+      {
+        heading: "Kotter's 8-Step Plan",
+        content: `| Step | Activity | Owner | Timeline | Status | Notes |
+|---|---|---|---|---|---|
+| 1. Create Urgency | Identify and communicate the burning platform | Sponsor | | ☐ | |
+| 2. Form Guiding Coalition | Build a cross-functional change team | PM | | ☐ | |
+| 3. Create Vision | Define the change vision and strategy | Leadership | | ☐ | |
+| 4. Communicate Vision | Share vision widely and consistently | Comms | | ☐ | |
+| 5. Remove Obstacles | Identify and remove barriers to change | PM | | ☐ | |
+| 6. Create Short-term Wins | Plan and celebrate early wins | PM | | ☐ | |
+| 7. Build on Change | Use wins to drive further change | PM | | ☐ | |
+| 8. Anchor in Culture | Embed change in processes and culture | HR / Leadership | | ☐ | |`,
+      },
+    ],
+  },
+  {
+    cardId: 'A29',
+    title: 'Critical Chain Project Plan',
+    description: 'Build a critical chain schedule with buffers to protect project completion.',
+    sections: [
+      {
+        heading: 'Critical Chain Schedule',
+        content: `| Task | Duration (50% estimate) | Dependency | Resource | Buffer Added? |
+|---|---|---|---|---|
+| | | | | ✓ / ✗ |`,
+      },
+      {
+        heading: 'Buffer Management',
+        content: `| Buffer Type | Location | Size | Current Consumption | RAG | Action |
+|---|---|---|---|---|---|
+| Project Buffer | End of critical chain | | % consumed | 🟢/🟡/🔴 | |
+| Feeding Buffer | Where non-critical joins critical | | % consumed | | |
+| Resource Buffer | Before critical resource | | % consumed | | |`,
+      },
+    ],
+  },
+  {
+    cardId: 'A30',
+    title: 'Design Thinking Workshop Plan',
+    description: 'Plan a Design Thinking workshop through the five stages: Empathise, Define, Ideate, Prototype, Test.',
+    sections: [
+      {
+        heading: 'Workshop Plan',
+        content: `| Stage | Activities | Tools | Output | Duration |
+|---|---|---|---|---|
+| **Empathise** | User interviews, observation | Empathy maps | User insights | 60 min |
+| **Define** | Synthesise insights, write HMW statements | Affinity mapping | Problem statement | 45 min |
+| **Ideate** | Brainstorm, SCAMPER, crazy 8s | Sticky notes | 50+ ideas | 60 min |
+| **Prototype** | Build low-fidelity prototype | Paper, wireframes | Prototype | 60 min |
+| **Test** | User testing, feedback | Observation | Validated insights | 45 min |`,
+      },
+    ],
+  },
+  {
+    cardId: 'A31',
+    title: 'Pareto Analysis Template',
+    description: 'Identify the 20% of causes responsible for 80% of problems.',
+    sections: [
+      {
+        heading: 'Pareto Data Table',
+        content: `| Cause | Frequency | % of Total | Cumulative % |
+|---|---|---|---|
+| Cause 1 | | | |
+| Cause 2 | | | |
+| Cause 3 | | | |
+| Cause 4 | | | |
+| Cause 5 | | | |
+| **Total** | | 100% | |`,
+      },
+      {
+        heading: 'Action Plan (Top 20% of causes)',
+        content: `| Cause | Action | Owner | Due Date | Expected Impact |
+|---|---|---|---|---|
+| | | | | |`,
+      },
+    ],
+  },
+  {
+    cardId: 'A32',
+    title: 'SWOT Analysis Template',
+    description: 'Analyse Strengths, Weaknesses, Opportunities, and Threats for your project or organisation.',
+    sections: [
+      {
+        heading: 'SWOT Matrix',
+        content: `| | **Helpful (to achieve objective)** | **Harmful (to achieve objective)** |
+|---|---|---|
+| **Internal** | **Strengths** | **Weaknesses** |
+| | 1. | 1. |
+| | 2. | 2. |
+| | 3. | 3. |
+| **External** | **Opportunities** | **Threats** |
+| | 1. | 1. |
+| | 2. | 2. |
+| | 3. | 3. |`,
+      },
+      {
+        heading: 'Strategic Actions (TOWS)',
+        content: `| Strategy | Description | Priority |
+|---|---|---|
+| SO (Strengths × Opportunities) | Use strengths to exploit opportunities | |
+| WO (Weaknesses × Opportunities) | Overcome weaknesses to exploit opportunities | |
+| ST (Strengths × Threats) | Use strengths to mitigate threats | |
+| WT (Weaknesses × Threats) | Minimise weaknesses and avoid threats | |`,
+      },
+    ],
+  },
+  {
+    cardId: 'A33',
+    title: 'WSJF Prioritisation Template',
+    description: 'Prioritise features using Weighted Shortest Job First to maximise value delivery.',
+    sections: [
+      {
+        heading: 'WSJF Calculation',
+        content: `| Feature | User-Business Value (1–10) | Time Criticality (1–10) | Risk Reduction / Opportunity (1–10) | Cost of Delay (sum) | Job Size (1–10) | WSJF (CoD / Size) | Priority Rank |
+|---|---|---|---|---|---|---|---|
+| Feature A | | | | | | | |
+| Feature B | | | | | | | |
+| Feature C | | | | | | | |`,
+      },
+    ],
+  },
+  {
+    cardId: 'A34',
+    title: 'Value Stream Map Template',
+    description: 'Map the current state value stream to identify waste and design the future state.',
+    sections: [
+      {
+        heading: 'Current State Map',
+        content: `| Process Step | Cycle Time | Wait Time | % Complete & Accurate | Inventory | Issues / Waste |
+|---|---|---|---|---|---|
+| Step 1 | | | | | |
+| Step 2 | | | | | |
+| **Total** | | | | | |`,
+      },
+      {
+        heading: 'Waste Identification',
+        content: `| Waste Type (TIMWOODS) | Present? | Description | Improvement Idea |
+|---|---|---|---|
+| Transport | ✓ / ✗ | | |
+| Inventory | ✓ / ✗ | | |
+| Motion | ✓ / ✗ | | |
+| Waiting | ✓ / ✗ | | |
+| Overproduction | ✓ / ✗ | | |
+| Over-processing | ✓ / ✗ | | |
+| Defects | ✓ / ✗ | | |
+| Skills (unused) | ✓ / ✗ | | |`,
+      },
+    ],
+  },
+  {
+    cardId: 'A35',
+    title: 'Timeboxing Schedule Template',
+    description: 'Plan work into fixed timeboxes to create focus and protect delivery commitments.',
+    sections: [
+      {
+        heading: 'Timebox Plan',
+        content: `| Timebox | Duration | Goal | Committed Work | Owner | Status | Outcome |
+|---|---|---|---|---|---|---|
+| Timebox 1 | 2 weeks | | | | Active / Complete | |
+| Timebox 2 | 2 weeks | | | | | |`,
+      },
+    ],
+  },
+  {
+    cardId: 'A36',
+    title: "Lewin's Change Management Plan",
+    description: "Plan an organisational change using Lewin's Unfreeze-Change-Refreeze model.",
+    sections: [
+      {
+        heading: 'Change Plan',
+        content: `| Phase | Activities | Owner | Timeline | Success Indicators |
+|---|---|---|---|---|
+| **Unfreeze** | Communicate urgency, challenge current state, build readiness | Sponsor / PM | | Awareness > 80% |
+| **Change** | Implement new processes, train staff, pilot changes | PM / Team | | Adoption > 60% |
+| **Refreeze** | Embed in policy, reinforce behaviours, update job descriptions | HR / Leadership | | Sustained adoption > 80% |`,
+      },
+    ],
+  },
+  {
+    cardId: 'A37',
+    title: 'McKinsey 7S Assessment',
+    description: 'Assess organisational alignment across the 7S framework to identify change impacts.',
+    sections: [
+      {
+        heading: '7S Assessment',
+        content: `| Element | Current State | Future State | Gap | Change Actions |
+|---|---|---|---|---|
+| **Strategy** | | | | |
+| **Structure** | | | | |
+| **Systems** | | | | |
+| **Shared Values** | | | | |
+| **Style** (Leadership) | | | | |
+| **Staff** | | | | |
+| **Skills** | | | | |`,
+      },
+    ],
+  },
+  {
+    cardId: 'A38',
+    title: 'Belbin Team Roles Profile',
+    description: 'Map Belbin team roles across the project team to identify strengths and gaps.',
+    sections: [
+      {
+        heading: 'Team Role Map',
+        content: `| Team Member | Primary Belbin Role | Secondary Role | Strengths | Allowable Weaknesses |
+|---|---|---|---|---|
+| | Plant / Resource Investigator / Co-ordinator / Shaper / Monitor Evaluator / Teamworker / Implementer / Completer Finisher / Specialist | | | |`,
+      },
+      {
+        heading: 'Team Balance Analysis',
+        content: `| Role Category | Roles Present | Roles Missing | Impact | Action |
+|---|---|---|---|---|
+| Action-oriented | Shaper, Implementer, Completer Finisher | | | |
+| People-oriented | Co-ordinator, Teamworker, Resource Investigator | | | |
+| Thought-oriented | Plant, Monitor Evaluator, Specialist | | | |`,
+      },
+    ],
+  },
+  {
+    cardId: 'A39',
+    title: '5 Dysfunctions Team Assessment',
+    description: "Assess your team against Lencioni's 5 Dysfunctions and plan interventions.",
+    sections: [
+      {
+        heading: 'Dysfunction Assessment',
+        content: `Rate each dysfunction 1 (Severe) to 5 (Healthy).
+
+| Dysfunction | Score | Evidence | Intervention |
+|---|---|---|---|
+| **Absence of Trust** — Team members are not vulnerable with each other | | | |
+| **Fear of Conflict** — Team avoids productive debate | | | |
+| **Lack of Commitment** — Team members don't commit to decisions | | | |
+| **Avoidance of Accountability** — Team members don't hold each other accountable | | | |
+| **Inattention to Results** — Team prioritises individual goals over collective results | | | |`,
+      },
+    ],
+  },
+  {
+    cardId: 'A40',
+    title: 'PDCA Cycle Template',
+    description: 'Apply the Plan-Do-Check-Act cycle to drive continuous improvement.',
+    sections: [
+      {
+        heading: 'PDCA Cycle',
+        content: `| Phase | Activities | Owner | Due Date | Output |
+|---|---|---|---|---|
+| **Plan** | Define the problem, set targets, identify root causes, plan solution | | | Action plan |
+| **Do** | Implement the solution on a small scale / pilot | | | Pilot results |
+| **Check** | Measure results against targets, analyse data | | | Analysis report |
+| **Act** | Standardise if successful; restart cycle if not | | | Updated standard |`,
+      },
+      {
+        heading: 'Improvement Log',
+        content: `| Cycle # | Problem | Target | Solution Tested | Result | Decision |
+|---|---|---|---|---|---|
+| 1 | | | | | Standardise / Iterate / Abandon |`,
+      },
+    ],
+  },
+  {
+    cardId: 'A41',
+    title: '8D Problem Solving Report',
+    description: 'A structured 8D report to resolve a critical quality or project problem.',
+    sections: [
+      {
+        heading: '8D Report',
+        content: `| Discipline | Activity | Owner | Date | Status |
+|---|---|---|---|---|
+| **D1 — Team** | Form a cross-functional team | | | ☐ |
+| **D2 — Problem Description** | Define the problem in measurable terms | | | ☐ |
+| **D3 — Interim Containment** | Implement immediate containment actions | | | ☐ |
+| **D4 — Root Cause** | Identify and verify root causes (5 Whys, Fishbone) | | | ☐ |
+| **D5 — Corrective Actions** | Select and verify permanent corrective actions | | | ☐ |
+| **D6 — Implement** | Implement and validate corrective actions | | | ☐ |
+| **D7 — Prevent Recurrence** | Update systems, processes, and standards | | | ☐ |
+| **D8 — Recognise Team** | Acknowledge team contributions | | | ☐ |`,
+      },
+    ],
+  },
+  {
+    cardId: 'A42',
+    title: 'SCARF Model Stakeholder Assessment',
+    description: 'Assess stakeholder SCARF needs to design effective engagement and communication.',
+    sections: [
+      {
+        heading: 'SCARF Assessment',
+        content: `| Stakeholder | Status Needs | Certainty Needs | Autonomy Needs | Relatedness Needs | Fairness Concerns | Engagement Approach |
+|---|---|---|---|---|---|---|
+| | High / Med / Low | High / Med / Low | High / Med / Low | High / Med / Low | High / Med / Low | |`,
+      },
+    ],
+  },
+  {
+    cardId: 'A43',
+    title: 'TKI Conflict Mode Assessment',
+    description: 'Assess which conflict mode is most appropriate for a given situation.',
+    sections: [
+      {
+        heading: 'Conflict Situation Assessment',
+        content: `| Conflict | Parties | Stakes | Relationship Importance | Time Available | Recommended Mode | Rationale |
+|---|---|---|---|---|---|---|
+| | | High / Med / Low | High / Med / Low | Urgent / Flexible | Compete / Collaborate / Compromise / Avoid / Accommodate | |`,
+      },
+      {
+        heading: 'TKI Mode Guide',
+        content: `| Mode | Assertiveness | Cooperativeness | Best Used When |
+|---|---|---|---|
+| **Competing** | High | Low | Quick decision needed, stakes are high |
+| **Collaborating** | High | High | Both parties' needs are important, time allows |
+| **Compromising** | Medium | Medium | Temporary solution needed, equal power |
+| **Avoiding** | Low | Low | Issue is trivial, emotions are high |
+| **Accommodating** | Low | High | Relationship matters more than the issue |`,
+      },
+    ],
+  },
+  {
+    cardId: 'A44',
+    title: 'Tannenbaum-Schmidt Leadership Continuum',
+    description: 'Select the appropriate leadership style on the continuum for a given situation.',
+    sections: [
+      {
+        heading: 'Situation Assessment',
+        content: `| Decision | Team Experience | Time Available | Stakes | Recommended Style | Rationale |
+|---|---|---|---|---|---|
+| | High / Med / Low | Urgent / Flexible | High / Med / Low | Tell / Sell / Consult / Participate / Delegate | |`,
+      },
+      {
+        heading: 'Continuum Reference',
+        content: `| Style | PM Authority | Team Freedom | Description |
+|---|---|---|---|
+| Tell | High | Low | PM decides and announces |
+| Sell | High | Low | PM decides and persuades |
+| Consult | Med | Med | PM asks for input then decides |
+| Participate | Med | Med | PM and team decide together |
+| Delegate | Low | High | Team decides within agreed limits |`,
+      },
+    ],
+  },
+  {
+    cardId: 'A45',
+    title: 'Johari Window Team Exercise',
+    description: 'Use the Johari Window to build self-awareness and trust within the team.',
+    sections: [
+      {
+        heading: 'Johari Window',
+        content: `|  | **Known to Self** | **Unknown to Self** |
+|---|---|---|
+| **Known to Others** | **Open Arena** — Shared knowledge, strengths, working style | **Blind Spot** — Behaviours others see but you don't |
+| **Unknown to Others** | **Hidden Area** — Things you know but haven't shared | **Unknown** — Undiscovered potential |`,
+      },
+      {
+        heading: 'Development Actions',
+        content: `| Quadrant | Action to Take | Owner | Timeline |
+|---|---|---|---|
+| Expand Open Arena | Share more about your working style and preferences | | |
+| Reduce Blind Spot | Seek feedback from colleagues | | |
+| Reduce Hidden Area | Share relevant personal context with the team | | |`,
+      },
+    ],
+  },
+  {
+    cardId: 'A46',
+    title: 'A3 Problem Solving Report',
+    description: 'A one-page A3 report to define, analyse, and resolve a project problem.',
+    sections: [
+      {
+        heading: 'A3 Report',
+        content: `| Section | Content |
+|---|---|
+| **Background** | Why is this problem important? What is the context? |
+| **Current Condition** | What is happening now? (Data, process map, metrics) |
+| **Target Condition** | What should be happening? (Measurable goal) |
+| **Root Cause Analysis** | Why is there a gap? (5 Whys, Fishbone) |
+| **Countermeasures** | What actions will close the gap? |
+| **Implementation Plan** | Who does what by when? |
+| **Follow-up** | How will we verify the fix worked? |`,
+      },
+    ],
+  },
+  {
+    cardId: 'A47',
+    title: 'Theory of Constraints Analysis',
+    description: 'Identify and exploit the system constraint to improve overall project throughput.',
+    sections: [
+      {
+        heading: 'Constraint Identification',
+        content: `| Process Step | Capacity | Demand | Utilisation % | Is This the Constraint? |
+|---|---|---|---|---|
+| | | | | ✓ / ✗ |`,
+      },
+      {
+        heading: '5 Focusing Steps',
+        content: `| Step | Activity | Owner | Actions Taken |
+|---|---|---|---|
+| 1. Identify | Find the system constraint | | |
+| 2. Exploit | Get maximum output from the constraint | | |
+| 3. Subordinate | Align all other processes to support the constraint | | |
+| 4. Elevate | Increase the capacity of the constraint | | |
+| 5. Repeat | Find the next constraint | | |`,
+      },
+    ],
+  },
+  {
+    cardId: 'A48',
+    title: 'Heart, Head, Hands Learning Design',
+    description: 'Design a learning or change intervention addressing emotional, cognitive, and behavioural dimensions.',
+    sections: [
+      {
+        heading: 'Learning Design Canvas',
+        content: `| Dimension | Objective | Activities | Success Measure |
+|---|---|---|---|
+| **Heart** (Emotional — Why) | Build motivation and emotional commitment | Storytelling, case studies, personal impact | Engagement score > 80% |
+| **Head** (Cognitive — What) | Build knowledge and understanding | Training, e-learning, workshops | Knowledge test > 75% |
+| **Hands** (Behavioural — How) | Build practical skills | Practice, coaching, on-the-job application | Skill demonstration |`,
+      },
+    ],
+  },
+  {
+    cardId: 'A50',
+    title: 'Soft Systems Methodology (SSM) Rich Picture',
+    description: 'Capture the messy human situation around a problem using an SSM rich picture structure.',
+    sections: [
+      {
+        heading: 'Rich Picture Elements',
+        content: `| Element | Description | Key Actors | Conflicts / Tensions |
+|---|---|---|---|
+| Roles | Who is involved and what do they do? | | |
+| Norms | What rules, processes, and expectations exist? | | |
+| Values | What do people care about? | | |
+| Processes | What activities are happening? | | |
+| Conflicts | Where are the tensions? | | |`,
+      },
+      {
+        heading: 'Root Definitions (CATWOE)',
+        content: `| Element | Description |
+|---|---|
+| **C** — Customers | Who benefits or is harmed by the system? |
+| **A** — Actors | Who carries out the activities? |
+| **T** — Transformation | What input is transformed into what output? |
+| **W** — Weltanschauung (Worldview) | What assumption makes this transformation meaningful? |
+| **O** — Owner | Who can stop the system? |
+| **E** — Environment | What constraints exist outside the system? |`,
+      },
+    ],
+  },
+  {
+    cardId: 'A51',
+    title: 'Open Space Technology Event Plan',
+    description: 'Plan a self-organising Open Space event to surface and solve complex problems.',
+    sections: [
+      {
+        heading: 'Event Overview',
+        content: `| Field | Detail |
+|---|---|
+| Theme / Central Question | |
+| Date & Duration | |
+| Location | |
+| Expected Participants | |
+| Facilitator | |`,
+      },
+      {
+        heading: 'Session Log',
+        content: `| Session Title | Convener | Time | Location | Participants | Key Outputs |
+|---|---|---|---|---|---|
+| | | | | | |`,
+      },
+      {
+        heading: 'Proceedings Summary',
+        content: `| Theme | Key Insights | Actions Agreed | Owner | Due Date |
+|---|---|---|---|---|
+| | | | | |`,
+      },
+    ],
+  },
+  {
+    cardId: 'A52',
+    title: 'DACI Decision Framework',
+    description: 'Clarify who is the Driver, Approver, Contributor, and Informed for each key decision.',
+    sections: [
+      {
+        heading: 'DACI Matrix',
+        content: `| Decision | Driver (owns the process) | Approver (final say) | Contributors (input) | Informed (notified) | Deadline |
+|---|---|---|---|---|---|
+| | | | | | |`,
+      },
+      {
+        heading: 'DACI Reference',
+        content: `| Role | Responsibility |
+|---|---|
+| **D — Driver** | Owns the decision process, gathers input, drives to conclusion |
+| **A — Approver** | Has final decision authority; there should be only one |
+| **C — Contributor** | Provides expertise and input; no vote |
+| **I — Informed** | Notified of the decision; no input required |`,
+      },
+    ],
+  },
+  {
+    cardId: 'A53',
+    title: 'Cynefin Framework Decision Map',
+    description: 'Classify project situations into Cynefin domains to select the right management approach.',
+    sections: [
+      {
+        heading: 'Situation Classification',
+        content: `| Situation / Problem | Domain | Rationale | Recommended Approach |
+|---|---|---|---|
+| | Clear / Complicated / Complex / Chaotic / Confused | | |`,
+      },
+      {
+        heading: 'Domain Reference Guide',
+        content: `| Domain | Characteristics | Approach | PM Actions |
+|---|---|---|---|
+| **Clear** | Cause-effect obvious, best practice exists | Sense → Categorise → Respond | Apply standard process |
+| **Complicated** | Cause-effect requires analysis, good practice | Sense → Analyse → Respond | Engage experts |
+| **Complex** | Cause-effect only visible in retrospect, emergent | Probe → Sense → Respond | Run safe-to-fail experiments |
+| **Chaotic** | No cause-effect, crisis | Act → Sense → Respond | Act decisively, stabilise |
+| **Confused** | Domain unclear | Decompose into sub-problems | Break down and classify |`,
+      },
+    ],
+  },
+  {
+    cardId: 'A54',
+    title: 'PMBOK Process Group Checklist',
+    description: 'A checklist of key activities across all five PMBOK process groups.',
+    sections: [
+      {
+        heading: 'Process Group Checklist',
+        content: `| Process Group | Key Activity | Owner | Status |
+|---|---|---|---|
+| **Initiating** | Develop Project Charter | PM | ☐ |
+| **Initiating** | Identify Stakeholders | PM | ☐ |
+| **Planning** | Develop Project Management Plan | PM | ☐ |
+| **Planning** | Plan Scope, Schedule, Cost, Quality, Risk | PM | ☐ |
+| **Executing** | Direct and Manage Project Work | PM | ☐ |
+| **Executing** | Manage Stakeholder Engagement | PM | ☐ |
+| **Monitoring & Controlling** | Monitor and Control Project Work | PM | ☐ |
+| **Monitoring & Controlling** | Perform Integrated Change Control | PM | ☐ |
+| **Closing** | Close Project or Phase | PM | ☐ |`,
+      },
+    ],
+  },
+  {
+    cardId: 'A55',
+    title: 'ADKAR Change Readiness Assessment',
+    description: 'Assess individual and organisational readiness for change using the ADKAR model.',
+    sections: [
+      {
+        heading: 'ADKAR Assessment',
+        content: `Rate each element 1 (Not present) to 5 (Fully present).
+
+| ADKAR Element | Individual Score | Team Score | Org Score | Gap Actions |
+|---|---|---|---|---|
+| **A — Awareness** of the need for change | | | | |
+| **D — Desire** to support the change | | | | |
+| **K — Knowledge** of how to change | | | | |
+| **A — Ability** to implement the change | | | | |
+| **R — Reinforcement** to sustain the change | | | | |`,
+      },
+    ],
+  },
+  {
+    cardId: 'A56',
+    title: "McClelland's Needs Motivation Profile",
+    description: "Profile team members' dominant motivational needs to tailor leadership approach.",
+    sections: [
+      {
+        heading: 'Motivation Profile',
+        content: `| Team Member | Achievement Need (1–5) | Affiliation Need (1–5) | Power Need (1–5) | Dominant Need | Recommended Approach |
+|---|---|---|---|---|---|
+| | | | | | |`,
+      },
+      {
+        heading: 'Motivation Strategies',
+        content: `| Need | Characteristics | Effective Motivators |
+|---|---|---|
+| **Achievement** | Goal-oriented, likes challenge, wants feedback | Stretch goals, autonomy, regular feedback |
+| **Affiliation** | Relationship-focused, collaborative, avoids conflict | Team activities, harmony, recognition |
+| **Power** | Influence-seeking, competitive, leadership-oriented | Leadership roles, responsibility, influence |`,
+      },
+    ],
+  },
+  {
+    cardId: 'A57',
+    title: 'Probability & Impact Matrix',
+    description: 'Plot risks on a probability-impact matrix to prioritise risk responses.',
+    sections: [
+      {
+        heading: 'Risk Plot',
+        content: `| Risk ID | Description | Probability (1–5) | Impact (1–5) | Score | Quadrant | Response Priority |
+|---|---|---|---|---|---|---|
+| R-001 | | | | | High-High / High-Low / Low-High / Low-Low | Immediate / Monitor / Accept |`,
+      },
+      {
+        heading: 'Matrix Grid',
+        content: `| | **Impact: Low (1–2)** | **Impact: Medium (3)** | **Impact: High (4–5)** |
+|---|---|---|---|
+| **Prob: High (4–5)** | 🟡 Medium | 🔴 High | 🔴 Critical |
+| **Prob: Medium (3)** | 🟢 Low | 🟡 Medium | 🔴 High |
+| **Prob: Low (1–2)** | 🟢 Negligible | 🟢 Low | 🟡 Medium |`,
+      },
+    ],
+  },
+  {
+    cardId: 'A58',
+    title: 'Lessons Learned Register',
+    description: 'Capture, categorise, and share lessons learned throughout the project.',
+    sections: [
+      {
+        heading: 'Lessons Learned Register',
+        content: `| ID | Date | Category | Lesson Description | Impact | Root Cause | Recommendation | Owner | Status |
+|---|---|---|---|---|---|---|---|---|
+| LL-001 | | Planning / Execution / Stakeholder / Risk / Technology | | Positive / Negative | | | | Documented / Shared |`,
+      },
+    ],
+  },
+  {
+    cardId: 'A59',
+    title: 'Virtual Brainstorming Session Plan',
+    description: 'Plan and facilitate a structured virtual brainstorming session.',
+    sections: [
+      {
+        heading: 'Session Plan',
+        content: `| Field | Detail |
+|---|---|
+| Topic / Question | |
+| Date & Time | |
+| Platform | Miro / Mural / FigJam / Whiteboard |
+| Facilitator | |
+| Participants | |
+| Duration | |`,
+      },
+      {
+        heading: 'Agenda',
+        content: `| Time | Activity | Method | Owner |
+|---|---|---|---|
+| 0:00 | Welcome and warm-up | Icebreaker | Facilitator |
+| 0:10 | Problem framing | Share context | Facilitator |
+| 0:20 | Silent idea generation | Individual sticky notes | All |
+| 0:35 | Share and cluster ideas | Affinity mapping | All |
+| 0:50 | Dot voting — prioritise top ideas | Voting | All |
+| 1:00 | Action planning | | Facilitator |`,
+      },
+    ],
+  },
+  {
+    cardId: 'A60',
+    title: 'Social Contracting Workshop',
+    description: 'Co-create a social contract that defines how the team will work together.',
+    sections: [
+      {
+        heading: 'Social Contract',
+        content: `| Category | Agreement | Agreed By |
+|---|---|---|
+| Communication | | ✓ |
+| Decision Making | | ✓ |
+| Conflict Resolution | | ✓ |
+| Quality Standards | | ✓ |
+| Availability & Hours | | ✓ |
+| Respect & Inclusion | | ✓ |`,
+      },
+    ],
+  },
+  {
+    cardId: 'A61',
+    title: 'Visual Communications Dashboard Template',
+    description: 'A one-page visual dashboard to communicate project status at a glance.',
+    sections: [
+      {
+        heading: 'Dashboard',
+        content: `| Section | Metric | Target | Actual | RAG | Trend |
+|---|---|---|---|---|---|
+| **Schedule** | SPI | ≥ 1.0 | | 🟢/🟡/🔴 | ↑ / → / ↓ |
+| **Budget** | CPI | ≥ 1.0 | | | |
+| **Scope** | Change requests open | < 3 | | | |
+| **Quality** | Defects (P1) | 0 | | | |
+| **Risks** | High risks open | < 5 | | | |
+| **Team** | Morale score | ≥ 7/10 | | | |
+| **Stakeholders** | Satisfaction score | ≥ 7/10 | | | |`,
+      },
+    ],
+  },
+  {
+    cardId: 'A62',
+    title: 'Requirements Traceability Matrix',
+    description: 'Trace each requirement from source through design, build, and test to verify coverage.',
+    sections: [
+      {
+        heading: 'Requirements Traceability Matrix',
+        content: `| Req ID | Requirement Description | Source | Priority | Design Ref | Build Ref | Test Case ID | Test Status | Sign-off |
+|---|---|---|---|---|---|---|---|---|
+| REQ-001 | | Business Case | Must Have | | | TC-001 | Pass / Fail / Not Tested | ✓ / ✗ |`,
+      },
+    ],
+  },
+  {
+    cardId: 'A63',
+    title: 'Document Management System Automation Plan',
+    description: 'Plan the automation of document management workflows to reduce manual effort.',
+    sections: [
+      {
+        heading: 'Automation Opportunities',
+        content: `| Process | Current Manual Steps | Automation Approach | Tool | Effort to Automate | Time Saved | Priority |
+|---|---|---|---|---|---|---|
+| Document versioning | Manual rename + email | Auto-versioning in SharePoint/Drive | SharePoint | Low | 2h/week | High |
+| Review reminders | Manual calendar entries | Automated workflow notifications | Power Automate | Low | 1h/week | High |
+| Approval routing | Email chain | Digital approval workflow | DocuSign / Power Automate | Med | 3h/week | High |`,
+      },
+    ],
+  },
+  {
+    cardId: 'A64',
+    title: 'Lightweight Governance Model',
+    description: 'Design a streamlined governance model appropriate for smaller or agile projects.',
+    sections: [
+      {
+        heading: 'Governance Structure',
+        content: `| Decision Type | Who Decides | How | Frequency | Escalation |
+|---|---|---|---|---|
+| Day-to-day delivery | Team | Team standup | Daily | PM |
+| Scope/budget < 5% | PM | PM judgement | As needed | Sponsor |
+| Scope/budget > 5% | PM + Sponsor | Bi-weekly check-in | Bi-weekly | Steering |
+| Strategic direction | Sponsor | Monthly review | Monthly | — |`,
+      },
+    ],
+  },
+  {
+    cardId: 'A65',
+    title: 'Compliance Gap Assessment',
+    description: 'Identify gaps between current compliance posture and required standards.',
+    sections: [
+      {
+        heading: 'Compliance Gap Register',
+        content: `| Requirement | Standard / Regulation | Current State | Required State | Gap | Risk Level | Remediation Action | Owner | Due Date |
+|---|---|---|---|---|---|---|---|---|
+| | | | | | High / Med / Low | | | |`,
+      },
+    ],
+  },
+  {
+    cardId: 'A66',
+    title: 'Nudge Theory Intervention Design',
+    description: 'Design behavioural nudges to encourage desired project behaviours without mandating them.',
+    sections: [
+      {
+        heading: 'Nudge Design Canvas',
+        content: `| Desired Behaviour | Current Behaviour | Barrier | Nudge Type | Nudge Design | Owner | Measure of Success |
+|---|---|---|---|---|---|---|
+| Submit timesheets on time | Late submissions | Forgetting | Reminder | Automated Friday 4pm reminder | PM | < 5% late submissions |
+| Use risk register | Ad-hoc risk management | Friction | Default | Pre-populated risk register template | PM | 100% risks logged |`,
+      },
+      {
+        heading: 'Nudge Types Reference',
+        content: `| Type | Description | Example |
+|---|---|---|
+| Default | Make the desired option the default | Pre-ticked checkbox for weekly updates |
+| Reminder | Timely prompts to trigger action | Automated deadline reminders |
+| Social proof | Show what peers are doing | "90% of the team has submitted" |
+| Simplification | Remove friction from desired behaviour | One-click status update |
+| Feedback | Provide real-time progress information | Live dashboard showing completion % |`,
+      },
+    ],
+  },
+  {
+    cardId: 'A67',
+    title: 'Situational Leadership Assessment',
+    description: 'Assess each team member\'s development level and select the appropriate leadership style.',
+    sections: [
+      {
+        heading: 'Team Member Assessment',
+        content: `| Team Member | Task | Competence (1–4) | Commitment (1–4) | Development Level | Leadership Style |
+|---|---|---|---|---|---|
+| | | | | D1 / D2 / D3 / D4 | Directing / Coaching / Supporting / Delegating |`,
+      },
+      {
+        heading: 'Development Level Guide',
+        content: `| Level | Competence | Commitment | Leadership Style |
+|---|---|---|---|
+| D1 | Low | High (enthusiastic beginner) | S1 — Directing (high task, low relationship) |
+| D2 | Some | Low (disillusioned learner) | S2 — Coaching (high task, high relationship) |
+| D3 | Moderate-High | Variable (capable but cautious) | S3 — Supporting (low task, high relationship) |
+| D4 | High | High (self-reliant achiever) | S4 — Delegating (low task, low relationship) |`,
+      },
+    ],
+  },
+  {
+    cardId: 'A72',
+    title: 'Cultural Web Analysis',
+    description: 'Map the cultural web of an organisation to understand the current culture and plan change.',
+    sections: [
+      {
+        heading: 'Cultural Web Map',
+        content: `| Element | Current State | Desired State | Change Actions |
+|---|---|---|---|
+| **Stories** — What stories do people tell? | | | |
+| **Rituals & Routines** — What behaviours are rewarded? | | | |
+| **Symbols** — What logos, offices, language signal status? | | | |
+| **Power Structures** — Who has real power? | | | |
+| **Organisational Structure** — How is it organised? | | | |
+| **Control Systems** — What is measured and rewarded? | | | |
+| **Paradigm** — Core assumptions about the organisation | | | |`,
+      },
+    ],
+  },
+  {
+    cardId: 'A75',
+    title: 'BCG Matrix Portfolio Analysis',
+    description: 'Classify projects or products in a BCG matrix to guide portfolio investment decisions.',
+    sections: [
+      {
+        heading: 'BCG Matrix',
+        content: `| Project / Product | Market Growth Rate | Relative Market Share | Quadrant | Investment Strategy |
+|---|---|---|---|---|
+| | High / Low | High / Low | Star / Cash Cow / Question Mark / Dog | Invest / Harvest / Divest / Hold |`,
+      },
+      {
+        heading: 'Quadrant Reference',
+        content: `| Quadrant | Growth | Share | Strategy |
+|---|---|---|---|
+| **Star** | High | High | Invest to maintain leadership |
+| **Cash Cow** | Low | High | Harvest cash, minimal investment |
+| **Question Mark** | High | Low | Invest selectively or divest |
+| **Dog** | Low | Low | Divest or discontinue |`,
+      },
+    ],
+  },
+  {
+    cardId: 'A76',
+    title: 'TRIZ Contradiction Matrix',
+    description: 'Use TRIZ to resolve technical or management contradictions in project problem-solving.',
+    sections: [
+      {
+        heading: 'Contradiction Identification',
+        content: `| Problem | Improving Parameter | Worsening Parameter | TRIZ Inventive Principles Suggested |
+|---|---|---|---|
+| | | | |`,
+      },
+      {
+        heading: 'Solution Generation',
+        content: `| Inventive Principle | Description | How to Apply to Our Problem |
+|---|---|---|
+| Segmentation | Divide an object into independent parts | |
+| Taking out | Separate an interfering part | |
+| Local quality | Transition from homogeneous to heterogeneous | |
+| Asymmetry | Change symmetrical form to asymmetrical | |`,
+      },
+    ],
+  },
+  {
+    cardId: 'A79',
+    title: 'Project Closeout Checklist',
+    description: 'A comprehensive project closeout checklist to formally close all project activities.',
+    sections: [
+      {
+        heading: 'Closeout Checklist',
+        content: `| Activity | Owner | Due Date | Status |
+|---|---|---|---|
+| Final deliverables accepted by sponsor | PM | | ☐ |
+| All contracts formally closed | Procurement | | ☐ |
+| Final budget reconciliation | Finance | | ☐ |
+| Team members formally released | PM | | ☐ |
+| Lessons learned documented | PM | | ☐ |
+| Post-Implementation Review scheduled | PM | | ☐ |
+| Project documentation archived | PM | | ☐ |
+| System access revoked for leavers | IT | | ☐ |
+| Formal sign-off obtained | Sponsor | | ☐ |
+| Team celebration held | PM | | ☐ |`,
+      },
+    ],
+  },
+  {
+    cardId: 'A80',
+    title: 'Story Point Estimation Sheet',
+    description: 'Estimate user stories using story points with Planning Poker or T-shirt sizing.',
+    sections: [
+      {
+        heading: 'Story Point Estimates',
+        content: `| Story ID | User Story | Complexity | Effort | Uncertainty | Story Points | Notes |
+|---|---|---|---|---|---|---|
+| US-001 | As a user, I want to... | Low / Med / High | Low / Med / High | Low / Med / High | 1 / 2 / 3 / 5 / 8 / 13 | |`,
+      },
+      {
+        heading: 'Fibonacci Reference',
+        content: `| Points | Meaning |
+|---|---|
+| 1 | Trivial — less than a day |
+| 2 | Simple — 1–2 days |
+| 3 | Small — 2–3 days |
+| 5 | Medium — 3–5 days |
+| 8 | Large — 1–2 weeks |
+| 13 | Very large — consider splitting |
+| 21+ | Too large — must be split |`,
+      },
+    ],
+  },
+  {
+    cardId: 'A81',
+    title: 'Net Promoter Score Survey',
+    description: 'Measure stakeholder or user satisfaction using the Net Promoter Score methodology.',
+    sections: [
+      {
+        heading: 'NPS Survey',
+        content: `| Question | Scale |
+|---|---|
+| How likely are you to recommend this project/product/service to a colleague? | 0 (Not at all) — 10 (Extremely likely) |
+| What is the primary reason for your score? | Open text |
+| What one thing would most improve your experience? | Open text |`,
+      },
+      {
+        heading: 'NPS Calculation',
+        content: `| Category | Score Range | Count | % of Total |
+|---|---|---|---|
+| Promoters | 9–10 | | |
+| Passives | 7–8 | | |
+| Detractors | 0–6 | | |
+| **NPS = % Promoters – % Detractors** | | | |`,
+      },
+      {
+        heading: 'NPS Interpretation',
+        content: `| NPS Score | Interpretation |
+|---|---|
+| > 50 | Excellent |
+| 30–50 | Good |
+| 0–29 | Needs improvement |
+| < 0 | Critical — immediate action required |`,
+      },
+    ],
+  },
+  {
+    cardId: 'A82',
+    title: 'Wideband Delphi Estimation Sheet',
+    description: 'Facilitate a Wideband Delphi estimation session to reach consensus on effort estimates.',
+    sections: [
+      {
+        heading: 'Estimation Panel',
+        content: `| Expert | Role | Domain Expertise |
+|---|---|---|
+| Expert 1 | | |
+| Expert 2 | | |
+| Expert 3 | | |`,
+      },
+      {
+        heading: 'Estimation Rounds',
+        content: `| Work Item | Round 1 Estimates | Outlier Discussion | Round 2 Estimates | Consensus Estimate | Confidence |
+|---|---|---|---|---|---|
+| | E1: E2: E3: | | E1: E2: E3: | | High / Med / Low |`,
+      },
+    ],
+  },
+];
+
+// ─────────────────────────────────────────────────────────────────────────────
+// MASTER EXPORT
+// ─────────────────────────────────────────────────────────────────────────────
+
+export const ALL_TEMPLATES: CardTemplate[] = [
+  ...phaseTemplates,
+  ...archetypeTemplates,
+  ...methodologyTemplates,
+  ...peopleTemplates,
+  ...processTemplates,
+  ...businessTemplates,
+  ...toolTemplates,
+  ...techniqueTemplates,
+];
+
+export function getTemplateByCardId(cardId: string): CardTemplate | undefined {
+  return ALL_TEMPLATES.find(t => t.cardId === cardId);
+}
