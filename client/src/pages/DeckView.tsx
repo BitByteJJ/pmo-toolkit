@@ -30,34 +30,28 @@ function TitleCard({ deck, intro }: { deck: NonNullable<ReturnType<typeof getDec
         boxShadow: '0 12px 40px rgba(0,0,0,0.15), 0 4px 12px rgba(0,0,0,0.08)',
         border: `3px solid ${deck.color}`,
         minHeight: '380px',
-        backgroundColor: deck.bgColor,
+        backgroundColor: '#ffffff',
       }}
     >
-      {/* Full-bleed illustration — fills the card, anchored top-centre, no cropping */}
-      <div className="absolute inset-0 overflow-hidden">
+      {/* Full-bleed illustration — fills the entire card edge-to-edge */}
+      <div className="absolute inset-0">
         <img
           src={intro.coverImage}
           alt={deck.title}
-          className="absolute"
+          className="w-full h-full object-cover"
           style={{
-            top: '3%',
-            left: '50%',
-            transform: 'translateX(-50%)',
-            width: '88%',
-            height: '78%',
-            objectFit: 'contain',
-            objectPosition: 'top center',
+            objectPosition: 'center center',
             mixBlendMode: 'multiply',
-            opacity: 0.95,
+            opacity: 1,
           }}
         />
       </div>
 
-      {/* Gradient fade — bottom 45% becomes the deck colour so text is legible */}
+      {/* Gradient fade at bottom only — pure white so text is legible, no tint */}
       <div
         className="absolute inset-0"
         style={{
-          background: `linear-gradient(to bottom, transparent 38%, ${deck.bgColor}90 55%, ${deck.bgColor}EE 70%, ${deck.bgColor} 82%)`,
+          background: 'linear-gradient(to bottom, transparent 40%, rgba(255,255,255,0.75) 58%, rgba(255,255,255,0.95) 72%, #ffffff 85%)',
         }}
       />
 
@@ -66,14 +60,14 @@ function TitleCard({ deck, intro }: { deck: NonNullable<ReturnType<typeof getDec
         <div className="px-6 pb-6 pt-2 text-center">
           <h1
             className="text-4xl font-black leading-tight tracking-tight"
-            style={{ color: deck.textColor, fontFamily: "'Sora', sans-serif", letterSpacing: '-0.02em' }}
+            style={{ color: '#1a1a1a', fontFamily: "'Sora', sans-serif", letterSpacing: '-0.02em' }}
           >
             {deck.title}
           </h1>
           <p className="text-sm mt-2 font-bold uppercase tracking-widest" style={{ color: deck.color }}>
             {deck.subtitle}
           </p>
-          <p className="text-sm mt-2 leading-relaxed" style={{ color: deck.textColor, opacity: 0.65 }}>{intro.tagline}</p>
+          <p className="text-sm mt-2 leading-relaxed" style={{ color: '#57534e', opacity: 0.8 }}>{intro.tagline}</p>
         </div>
       </div>
     </div>
