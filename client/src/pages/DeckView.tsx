@@ -3,7 +3,7 @@
 
 import { useRoute, useLocation } from 'wouter';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ArrowLeft, Bookmark, BookmarkCheck, ChevronDown, ChevronUp, Lightbulb, Layers, Compass } from 'lucide-react';
+import { Bookmark, BookmarkCheck, ChevronDown, ChevronUp, Lightbulb, Layers, Compass } from 'lucide-react';
 import { useState } from 'react';
 import BottomNav from '@/components/BottomNav';
 import { getCardsByDeck, getDeckById } from '@/lib/pmoData';
@@ -372,23 +372,26 @@ export default function DeckView() {
 
   return (
     <div className="min-h-screen pb-24" style={{ backgroundColor: '#F7F6F3' }}>
-      {/* Sticky header */}
+      {/* Sticky deck sub-header — sits below the global TopNav (h-11 = 44px) */}
       <div
-        className="sticky top-0 z-40 px-4 py-3 flex items-center justify-between"
+        className="sticky z-30 px-4 py-2 flex items-center justify-between"
         style={{
-          backgroundColor: 'rgba(247,246,243,0.92)',
+          top: '44px',
+          backgroundColor: 'rgba(247,246,243,0.95)',
           backdropFilter: 'blur(12px)',
           borderBottom: `2px solid ${deck.color}20`,
         }}
       >
-        <button
-          onClick={() => navigate('/')}
-          className="flex items-center gap-1.5 text-sm font-semibold"
-          style={{ color: deck.color }}
-        >
-          <ArrowLeft size={16} />
-          All Decks
-        </button>
+        {/* Deck title pill */}
+        <div className="flex items-center gap-2">
+          <span className="text-lg leading-none">{deck.icon}</span>
+          <span
+            className="text-sm font-bold"
+            style={{ color: deck.textColor }}
+          >
+            {deck.title}
+          </span>
+        </div>
 
         <div className="flex items-center gap-2">
           <span
@@ -400,8 +403,8 @@ export default function DeckView() {
         </div>
       </div>
 
-      {/* Content */}
-      <div className="px-4 pt-5 space-y-4">
+      {/* Content — pt-2 since sub-header already provides spacing */}
+      <div className="px-4 pt-4 space-y-4">
         {/* Title Card */}
         {intro && (
           <motion.div

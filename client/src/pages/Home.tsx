@@ -1,6 +1,6 @@
 // PMO Toolkit Navigator — Home Page
 // Design: "Clarity Cards" — fun physical card-deck aesthetic
-// Each deck looks like a real stack of cards with depth, tilt, and personality
+// Each deck shows its cover illustration as a visual background
 // Fonts: Sora (display) + Inter (body)
 
 import { useLocation } from 'wouter';
@@ -12,17 +12,26 @@ import { useBookmarks } from '@/contexts/BookmarksContext';
 
 const HERO_IMG = 'https://private-us-east-1.manuscdn.com/sessionFile/wGRSygz6Vjmbiu3SMWngYA/sandbox/8jjxsB34pPKxphOQiFs3Lq-img-1_1771664268000_na1fn_aG9tZS1oZXJvLWlsbHVzdHJhdGlvbg.png?x-oss-process=image/resize,w_1920,h_1920/format,webp/quality,q_80&Expires=1798761600&Policy=eyJTdGF0ZW1lbnQiOlt7IlJlc291cmNlIjoiaHR0cHM6Ly9wcml2YXRlLXVzLWVhc3QtMS5tYW51c2Nkbi5jb20vc2Vzc2lvbkZpbGUvd0dSU3lnejZWam1iaXUzU01XbmdZQS9zYW5kYm94LzhqanhzQjM0cFBLeHBoT1FpRnMzTHEtaW1nLTFfMTc3MTY2NDI2ODAwMF9uYTFmbl9hRzl0WlMxb1pYSnZMV2xzYkhWemRISmhkR2x2YmcucG5nP3gtb3NzLXByb2Nlc3M9aW1hZ2UvcmVzaXplLHdfMTkyMCxoXzE5MjAvZm9ybWF0LHdlYnAvcXVhbGl0eSxxXzgwIiwiQ29uZGl0aW9uIjp7IkRhdGVMZXNzVGhhbiI6eyJBV1M6RXBvY2hUaW1lIjoxNzk4NzYxNjAwfX19XX0_&Key-Pair-Id=K2HSFNDJXOU9YS&Signature=S4o3nchQdvzrXjUzaEmILHtCFu3pQr8MJpBH6Vvsi3RozJHomZIlRLfeUaXF5eJgP~rOqh8WXVwSJysXS95gf7QCOlA4MTjVZoGtUUBSGKOCK68-X7QS6NNnpM0OMV1Ce3T6e-XJitV2r2ErD5-LvTGahuVXBqv9fy52lSsonVrGXHbs9zcV3M7ZrkaZy2ZVyoL1MNkLv4srxJia9Sdi2R0np11He-mXIiX4vBuQfFXTXVCyS717hslV5omlIwCxEm37whyzscAz9IHG29-6bviv8gQn09Is7qp5DxrCId89EM2kCQfoMp6CSsAHTddeIM3eHbREOv3gQRyEZs8OUA__';
 
+// Cover illustrations for each deck (from deckIntroData)
+const DECK_COVERS: Record<string, string> = {
+  phases:        'https://files.manuscdn.com/user_upload_by_module/session_file/310419663029097403/epNvaChDmInzjphr.png',
+  archetypes:    'https://files.manuscdn.com/user_upload_by_module/session_file/310419663029097403/UHlTjAHHMkQgHafH.png',
+  methodologies: 'https://files.manuscdn.com/user_upload_by_module/session_file/310419663029097403/bdAxarcmvXIHqVvw.png',
+  people:        'https://files.manuscdn.com/user_upload_by_module/session_file/310419663029097403/TOYDIIqTWyLFwfCY.png',
+  process:       'https://files.manuscdn.com/user_upload_by_module/session_file/310419663029097403/GrdQOwJjSnFKcKVn.png',
+  business:      'https://files.manuscdn.com/user_upload_by_module/session_file/310419663029097403/CbjqUzAWrljDJesJ.png',
+  tools:         'https://files.manuscdn.com/user_upload_by_module/session_file/310419663029097403/wYAdBnNHDXPbyggk.png',
+  techniques:    'https://files.manuscdn.com/user_upload_by_module/session_file/310419663029097403/nazJKMRPUyxDWRas.png',
+};
+
 // Tilt angles for each deck to give a physical stacked-cards feel
 const DECK_TILTS = [1.5, -1.2, 2.0, -0.8, 1.8, -1.5, 0.9, -2.2];
-
-// Fun emoji patterns for the card back texture
-const DECK_PATTERNS = ['◈ ◈ ◈', '◆ ◆ ◆', '● ● ●', '▲ ▲ ▲', '◉ ◉ ◉', '■ ■ ■', '★ ★ ★', '◇ ◇ ◇'];
 
 function PhysicalDeckCard({ deck, index }: { deck: typeof DECKS[0]; index: number }) {
   const [, navigate] = useLocation();
   const cards = getCardsByDeck(deck.id);
   const tilt = DECK_TILTS[index % DECK_TILTS.length];
-  const pattern = DECK_PATTERNS[index % DECK_PATTERNS.length];
+  const coverImg = DECK_COVERS[deck.id];
 
   return (
     <motion.div
@@ -65,32 +74,40 @@ function PhysicalDeckCard({ deck, index }: { deck: typeof DECKS[0]; index: numbe
         }}
       >
         {/* Card background */}
-        <div
-          className="absolute inset-0"
-          style={{ backgroundColor: deck.bgColor }}
-        />
+        <div className="absolute inset-0" style={{ backgroundColor: deck.bgColor }} />
 
-        {/* Decorative pattern in top-right corner */}
-        <div
-          className="absolute top-0 right-0 w-28 h-28 flex items-start justify-end p-3 overflow-hidden"
-          style={{ opacity: 0.12 }}
-        >
-          <div
-            className="text-[8px] font-bold leading-5 tracking-widest text-right"
-            style={{ color: deck.color, letterSpacing: '0.3em' }}
-          >
-            {pattern}<br/>{pattern}<br/>{pattern}<br/>{pattern}
+        {/* Cover illustration — right-aligned, fades left */}
+        {coverImg && (
+          <div className="absolute inset-0 overflow-hidden pointer-events-none" style={{ zIndex: 1 }}>
+            <img
+              src={coverImg}
+              alt=""
+              aria-hidden="true"
+              className="absolute"
+              style={{
+                right: '-8px',
+                top: '50%',
+                transform: 'translateY(-50%)',
+                height: '130%',
+                width: 'auto',
+                maxWidth: '55%',
+                objectFit: 'contain',
+                mixBlendMode: 'multiply',
+                opacity: 0.88,
+              }}
+            />
+            {/* Left-to-right fade so text stays readable */}
+            <div
+              className="absolute inset-0"
+              style={{
+                background: `linear-gradient(to right, ${deck.bgColor} 38%, ${deck.bgColor}CC 58%, transparent 85%)`,
+              }}
+            />
           </div>
-        </div>
-
-        {/* Large decorative circle */}
-        <div
-          className="absolute -bottom-6 -right-6 w-24 h-24 rounded-full opacity-[0.08]"
-          style={{ backgroundColor: deck.color }}
-        />
+        )}
 
         {/* Card content */}
-        <div className="relative px-4 py-4">
+        <div className="relative px-4 py-4" style={{ zIndex: 2 }}>
           {/* Top row: icon + card count badge */}
           <div className="flex items-start justify-between mb-3">
             <div
@@ -129,7 +146,7 @@ function PhysicalDeckCard({ deck, index }: { deck: typeof DECKS[0]; index: numbe
           {/* Description */}
           <p
             className="text-[11px] leading-relaxed line-clamp-2 mb-3"
-            style={{ color: deck.textColor, opacity: 0.6 }}
+            style={{ color: deck.textColor, opacity: 0.65, maxWidth: '62%' }}
           >
             {deck.description}
           </p>
@@ -276,7 +293,9 @@ export default function Home() {
           transition={{ duration: 0.35, delay: 0.1 }}
           onClick={() => navigate('/search')}
           className="w-full flex items-center gap-3 rounded-2xl px-4 py-3 bg-white text-left"
-          style={{ boxShadow: '0 1px 4px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04)' }}
+          style={{ boxShadow: '0 1px 4px rgba(0,0,0,0.06)' }}
+          whileHover={{ scale: 1.01 }}
+          whileTap={{ scale: 0.98 }}
         >
           <div className="w-8 h-8 rounded-xl bg-stone-100 flex items-center justify-center shrink-0">
             <Search size={15} className="text-stone-500" />
@@ -293,9 +312,7 @@ export default function Home() {
             transition={{ delay: 0.12 }}
             className="flex items-center justify-between mb-3"
           >
-            <h2
-              className="text-[11px] font-black text-stone-400 uppercase tracking-[0.12em]"
-            >
+            <h2 className="text-[11px] font-black text-stone-400 uppercase tracking-[0.12em]">
               All Decks
             </h2>
             <span className="text-[10px] text-stone-400 font-medium">{DECKS.length} decks</span>
@@ -361,38 +378,6 @@ export default function Home() {
             })}
           </motion.div>
         </div>
-
-        {/* How to use */}
-        <motion.div
-          initial={{ opacity: 0, y: 8 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.4 }}
-          className="rounded-2xl p-4 bg-white"
-          style={{ boxShadow: '0 1px 3px rgba(0,0,0,0.05)' }}
-        >
-          <h3
-            className="text-xs font-black text-stone-700 mb-3 uppercase tracking-wide"
-            style={{ fontFamily: 'Sora, sans-serif' }}
-          >
-            How to use this app
-          </h3>
-          <div className="grid grid-cols-2 gap-2">
-            {[
-              { emoji: '🃏', label: 'Decks', desc: 'Browse by category' },
-              { emoji: '📖', label: 'Cards', desc: 'Full details & steps' },
-              { emoji: '🔍', label: 'Search', desc: 'Find any tool fast' },
-              { emoji: '🔖', label: 'Bookmark', desc: 'Save your favourites' },
-            ].map(({ emoji, label, desc }) => (
-              <div key={label} className="flex items-start gap-2 bg-stone-50 rounded-xl p-2.5">
-                <span className="text-base leading-none mt-0.5">{emoji}</span>
-                <div>
-                  <div className="text-[10px] font-bold text-stone-700">{label}</div>
-                  <div className="text-[9px] text-stone-400 leading-relaxed">{desc}</div>
-                </div>
-              </div>
-            ))}
-          </div>
-        </motion.div>
       </div>
 
       <BottomNav />

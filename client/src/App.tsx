@@ -15,6 +15,8 @@ import CardDetail from "./pages/CardDetail";
 import SearchPage from "./pages/SearchPage";
 import BookmarksPage from "./pages/BookmarksPage";
 import { BookmarksProvider } from "./contexts/BookmarksContext";
+import TopNav from "./components/TopNav";
+import { getDeckById, getCardById } from "./lib/pmoData";
 
 // Scroll to top on every route change
 function ScrollToTop() {
@@ -25,19 +27,52 @@ function ScrollToTop() {
   return null;
 }
 
+// Show TopNav on all pages except home, with deck-aware accent colour
+function GlobalTopNav() {
+  const [location] = useLocation();
+  if (location === '/') return null;
+
+  // Derive accent colour from current route
+  let accentColor = '#475569';
+  let bgColor: string | undefined;
+
+  const deckMatch = location.match(/^\/deck\/([^/]+)/);
+  const cardMatch = location.match(/^\/card\/([^/]+)/);
+
+  if (deckMatch) {
+    const deck = getDeckById(deckMatch[1]);
+    if (deck) {
+      accentColor = deck.color;
+      bgColor = deck.bgColor + 'F0'; // 94% opacity
+    }
+  } else if (cardMatch) {
+    const card = getCardById(cardMatch[1]);
+    if (card) {
+      const deck = getDeckById(card.deckId);
+      if (deck) {
+        accentColor = deck.color;
+        bgColor = deck.bgColor + 'F0';
+      }
+    }
+  }
+
+  return <TopNav accentColor={accentColor} bgColor={bgColor} />;
+}
+
 function Router() {
   return (
     <>
       <ScrollToTop />
+      <GlobalTopNav />
       <Switch>
-      <Route path="/" component={Home} />
-      <Route path="/deck/:deckId" component={DeckView} />
-      <Route path="/card/:cardId" component={CardDetail} />
-      <Route path="/search" component={SearchPage} />
-      <Route path="/bookmarks" component={BookmarksPage} />
-      <Route path="/404" component={NotFound} />
-      <Route component={NotFound} />
-    </Switch>
+        <Route path="/" component={Home} />
+        <Route path="/deck/:deckId" component={DeckView} />
+        <Route path="/card/:cardId" component={CardDetail} />
+        <Route path="/search" component={SearchPage} />
+        <Route path="/bookmarks" component={BookmarksPage} />
+        <Route path="/404" component={NotFound} />
+        <Route component={NotFound} />
+      </Switch>
     </>
   );
 }

@@ -18,8 +18,8 @@ export default function BookmarksPage() {
 
   return (
     <div className="min-h-screen bg-[#FAFAF8] pb-24">
-      {/* Header */}
-      <div className="bg-white border-b border-stone-100/80 px-4 pt-14 pb-4">
+      {/* Header — offset by TopNav height (44px) */}
+      <div className="bg-white border-b border-stone-100/80 px-4 pb-4" style={{ paddingTop: '56px' }}>
         <div className="flex items-center justify-between">
           <div>
             <h1

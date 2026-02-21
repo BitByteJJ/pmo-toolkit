@@ -32,10 +32,12 @@ export default function SearchPage() {
 
   return (
     <div className="min-h-screen bg-[#FAFAF8] pb-24">
-      {/* Header */}
+      {/* Header — sticky below TopNav */}
       <div
-        className="px-4 pt-14 pb-3 sticky top-0 z-40"
+        className="px-4 pb-3 sticky z-30"
         style={{
+          top: '44px',
+          paddingTop: '12px',
           background: 'rgba(250,250,248,0.95)',
           backdropFilter: 'blur(10px)',
           WebkitBackdropFilter: 'blur(10px)',

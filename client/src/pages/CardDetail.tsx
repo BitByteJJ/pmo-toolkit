@@ -95,12 +95,12 @@ export default function CardDetail() {
               style={{
                 right: '0',
                 bottom: '-5%',
-                width: '52%',
-                maxWidth: '260px',
+                width: '56%',
+                maxWidth: '280px',
                 height: 'auto',
                 objectFit: 'contain',
                 mixBlendMode: 'multiply',
-                opacity: 0.6,
+                opacity: 0.92,
               }}
               loading="eager"
             />
@@ -108,21 +108,21 @@ export default function CardDetail() {
             <div
               className="absolute inset-0"
               style={{
-                background: `linear-gradient(to right, ${deck?.bgColor ?? '#F8F8F6'} 35%, ${deck?.bgColor ?? '#F8F8F6'}CC 60%, transparent 100%)`,
+                background: `linear-gradient(to right, ${deck?.bgColor ?? '#F8F8F6'} 28%, ${deck?.bgColor ?? '#F8F8F6'}99 50%, transparent 80%)`,
               }}
             />
-            {/* Gradient fade at bottom */}
+            {/* Gradient fade at bottom — subtle only */}
             <div
-              className="absolute inset-x-0 bottom-0 h-16"
+              className="absolute inset-x-0 bottom-0 h-8"
               style={{
-                background: `linear-gradient(to bottom, transparent, ${deck?.bgColor ?? '#F8F8F6'})`,
+                background: `linear-gradient(to bottom, transparent, ${deck?.bgColor ?? '#F8F8F6'}CC)`,
               }}
             />
           </div>
         )}
 
-        {/* Foreground content */}
-        <div className="relative px-4 pt-14 pb-5" style={{ zIndex: 1 }}>
+        {/* Foreground content — pt-14 accounts for TopNav (44px) + some breathing room */}
+        <div className="relative px-4 pt-[3.75rem] pb-5" style={{ zIndex: 1 }}>
           {/* Top bar */}
           <div className="flex items-center justify-between mb-4">
             <button
