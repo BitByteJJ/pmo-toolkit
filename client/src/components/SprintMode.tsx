@@ -1,10 +1,10 @@
 // SprintMode — full-screen focused card flipper for workshops and self-study
 // Swipe left/right or use arrow buttons to move between cards
-// Tap card to flip and see the tagline + key info
+// Tap card to flip and see the back (What it is + Pro Tip)
 
 import { useState, useCallback } from 'react';
 import { motion, AnimatePresence, PanInfo } from 'framer-motion';
-import { X, ChevronLeft, ChevronRight, Bookmark, BookmarkCheck, Zap } from 'lucide-react';
+import { X, ChevronLeft, ChevronRight, Bookmark, BookmarkCheck, Zap, RotateCcw } from 'lucide-react';
 import { getDeckById, getCardsByDeck } from '@/lib/pmoData';
 import { useBookmarks } from '@/contexts/BookmarksContext';
 import { useCardProgress } from '@/hooks/useCardProgress';
@@ -66,7 +66,7 @@ export default function SprintMode({ deckId, startIndex = 0, onClose }: SprintMo
       style={{ background: deck.bgColor }}
     >
       {/* Top bar */}
-      <div className="flex items-center justify-between px-4 pt-safe pt-4 pb-2">
+      <div className="flex items-center justify-between px-4 pt-4 pb-2">
         <button
           onClick={onClose}
           className="p-2 rounded-xl transition-all hover:bg-black/10 active:scale-90"
@@ -127,109 +127,126 @@ export default function SprintMode({ deckId, startIndex = 0, onClose }: SprintMo
             className="w-full max-w-sm cursor-pointer select-none"
             style={{ touchAction: 'pan-y' }}
           >
-            <motion.div
+            {/* Card shell — fixed height so front/back occupy the same space */}
+            <div
               className="relative w-full rounded-3xl overflow-hidden"
               style={{
                 minHeight: '420px',
-                background: '#fff',
                 boxShadow: `0 20px 60px ${deck.color}30, 0 8px 24px rgba(0,0,0,0.12)`,
                 border: `2px solid ${deck.color}30`,
               }}
-              animate={{ rotateY: flipped ? 180 : 0 }}
-              transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
             >
-              {/* Front face */}
-              <div
-                className="absolute inset-0 flex flex-col p-6"
-                style={{ backfaceVisibility: 'hidden', opacity: flipped ? 0 : 1, transition: 'opacity 0.25s' }}
-              >
-                {/* Colour top bar */}
-                <div className="absolute top-0 left-0 right-0 h-2 rounded-t-3xl" style={{ backgroundColor: deck.color }} />
-
-                <div className="flex items-start justify-between mt-3 mb-4">
-                  <span
-                    className="text-[10px] font-mono font-bold px-2 py-1 rounded-lg"
-                    style={{ backgroundColor: deck.bgColor, color: deck.color }}
+              {/* ── FRONT FACE ── */}
+              <AnimatePresence mode="wait">
+                {!flipped && (
+                  <motion.div
+                    key="front"
+                    initial={{ opacity: 0, scale: 0.96 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    exit={{ opacity: 0, scale: 0.96 }}
+                    transition={{ duration: 0.22 }}
+                    className="absolute inset-0 flex flex-col p-6 bg-white"
                   >
-                    {card.code}
-                  </span>
-                  {isRead(card.id) && (
-                    <span className="text-[9px] font-bold text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded-full">
-                      Read ✓
-                    </span>
-                  )}
-                </div>
+                    {/* Colour top bar */}
+                    <div className="absolute top-0 left-0 right-0 h-2 rounded-t-3xl" style={{ backgroundColor: deck.color }} />
 
-                <div className="flex-1 flex flex-col justify-center">
-                  <h2
-                    className="text-2xl font-black leading-tight mb-3"
-                    style={{ fontFamily: 'Sora, sans-serif', color: '#1a1a1a', letterSpacing: '-0.02em' }}
-                  >
-                    {card.title}
-                  </h2>
-                  <p className="text-sm text-stone-500 leading-relaxed">{card.tagline}</p>
-                </div>
-
-                <div className="flex items-center justify-center gap-1.5 mt-4">
-                  <div className="w-1 h-1 rounded-full" style={{ backgroundColor: deck.color, opacity: 0.4 }} />
-                  <span className="text-[10px] text-stone-400 font-medium">tap to reveal</span>
-                  <div className="w-1 h-1 rounded-full" style={{ backgroundColor: deck.color, opacity: 0.4 }} />
-                </div>
-              </div>
-
-              {/* Back face */}
-              <div
-                className="absolute inset-0 flex flex-col p-6"
-                style={{
-                  backfaceVisibility: 'hidden',
-                  transform: 'rotateY(180deg)',
-                  opacity: flipped ? 1 : 0,
-                  transition: 'opacity 0.25s 0.25s',
-                  backgroundColor: deck.bgColor,
-                }}
-              >
-                <div className="absolute top-0 left-0 right-0 h-2 rounded-t-3xl" style={{ backgroundColor: deck.color }} />
-
-                <div className="mt-3 mb-3">
-                  <span
-                    className="text-[10px] font-mono font-bold px-2 py-1 rounded-lg"
-                    style={{ backgroundColor: deck.color + '20', color: deck.color }}
-                  >
-                    {card.code} · {card.type}
-                  </span>
-                </div>
-
-                <div className="flex-1 overflow-y-auto space-y-3">
-                  {card.whatItIs && (
-                    <div>
-                      <div className="text-[9px] font-black uppercase tracking-widest mb-1" style={{ color: deck.color }}>
-                        What it is
-                      </div>
-                      <p className="text-[12px] text-stone-700 leading-relaxed">{card.whatItIs}</p>
+                    <div className="flex items-start justify-between mt-3 mb-4">
+                      <span
+                        className="text-[10px] font-mono font-bold px-2 py-1 rounded-lg"
+                        style={{ backgroundColor: deck.bgColor, color: deck.color }}
+                      >
+                        {card.code}
+                      </span>
+                      {isRead(card.id) && (
+                        <span className="text-[9px] font-bold text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded-full">
+                          Read ✓
+                        </span>
+                      )}
                     </div>
-                  )}
-                  {card.proTip && (
-                    <div
-                      className="rounded-xl p-3"
-                      style={{ backgroundColor: deck.color + '12', borderLeft: `2px solid ${deck.color}` }}
+
+                    <div className="flex-1 flex flex-col justify-center">
+                      <h2
+                        className="text-2xl font-black leading-tight mb-3"
+                        style={{ fontFamily: 'Sora, sans-serif', color: '#1a1a1a', letterSpacing: '-0.02em' }}
+                      >
+                        {card.title}
+                      </h2>
+                      <p className="text-sm text-stone-500 leading-relaxed">{card.tagline}</p>
+                    </div>
+
+                    {/* Tap hint */}
+                    <div className="flex items-center justify-center gap-1.5 mt-4">
+                      <RotateCcw size={11} style={{ color: deck.color, opacity: 0.5 }} />
+                      <span className="text-[10px] font-medium" style={{ color: deck.color, opacity: 0.6 }}>
+                        tap to reveal
+                      </span>
+                    </div>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+
+              {/* ── BACK FACE ── */}
+              <AnimatePresence mode="wait">
+                {flipped && (
+                  <motion.div
+                    key="back"
+                    initial={{ opacity: 0, scale: 0.96 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    exit={{ opacity: 0, scale: 0.96 }}
+                    transition={{ duration: 0.22 }}
+                    className="absolute inset-0 flex flex-col p-6"
+                    style={{ backgroundColor: deck.bgColor }}
+                  >
+                    {/* Colour top bar */}
+                    <div className="absolute top-0 left-0 right-0 h-2 rounded-t-3xl" style={{ backgroundColor: deck.color }} />
+
+                    <div className="flex items-center justify-between mt-3 mb-3">
+                      <span
+                        className="text-[10px] font-mono font-bold px-2 py-1 rounded-lg"
+                        style={{ backgroundColor: deck.color + '20', color: deck.color }}
+                      >
+                        {card.code} · {card.type}
+                      </span>
+                      {/* Flip back hint */}
+                      <div className="flex items-center gap-1" style={{ color: deck.color, opacity: 0.5 }}>
+                        <RotateCcw size={10} />
+                        <span className="text-[9px] font-medium">tap to flip</span>
+                      </div>
+                    </div>
+
+                    <div className="flex-1 overflow-y-auto space-y-3">
+                      {card.whatItIs && (
+                        <div>
+                          <div className="text-[9px] font-black uppercase tracking-widest mb-1" style={{ color: deck.color }}>
+                            What it is
+                          </div>
+                          <p className="text-[12px] text-stone-700 leading-relaxed">{card.whatItIs}</p>
+                        </div>
+                      )}
+                      {card.proTip && (
+                        <div
+                          className="rounded-xl p-3"
+                          style={{ backgroundColor: deck.color + '12', borderLeft: `2px solid ${deck.color}` }}
+                        >
+                          <div className="text-[9px] font-black uppercase tracking-widest mb-1" style={{ color: deck.color }}>
+                            Pro Tip
+                          </div>
+                          <p className="text-[11px] text-stone-600 leading-relaxed">{card.proTip}</p>
+                        </div>
+                      )}
+                    </div>
+
+                    <button
+                      onClick={e => { e.stopPropagation(); navigate(`/card/${card.id}`); onClose(); }}
+                      className="mt-3 w-full py-2.5 rounded-xl text-[11px] font-bold text-white transition-all hover:opacity-90 active:scale-95"
+                      style={{ backgroundColor: deck.color }}
                     >
-                      <div className="text-[9px] font-black uppercase tracking-widest mb-1" style={{ color: deck.color }}>
-                        Pro Tip
-                      </div>
-                      <p className="text-[11px] text-stone-600 leading-relaxed">{card.proTip}</p>
-                    </div>
-                  )}
-                </div>
-
-                <button
-                  onClick={e => { e.stopPropagation(); navigate(`/card/${card.id}`); onClose(); }}
-                  className="mt-3 w-full py-2 rounded-xl text-[11px] font-bold text-white transition-all hover:opacity-90"
-                  style={{ backgroundColor: deck.color }}
-                >
-                  Open full card →
-                </button>
-              </div>
-            </motion.div>
+                      Open full card →
+                    </button>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </div>
           </motion.div>
         </AnimatePresence>
       </div>
