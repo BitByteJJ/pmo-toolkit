@@ -44,3 +44,4 @@
 - [x] decisionData.ts: decision tree with questions, answer paths, and card mappings
 - [x] DecisionHelper page: animated question flow, progress bar, recommendation results
 - [x] Entry points: Decision Helper accessible from Home page (navy CTA banner) and /decision route
+- [x] Rewrite Decision Helper questions in plain, beginner-friendly language (no PM jargon)
