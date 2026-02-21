@@ -273,7 +273,7 @@ function CardListItem({
           boxShadow: `0 3px 12px ${deck.color}22, 0 1px 4px rgba(0,0,0,0.07)`,
           border: `1.5px solid ${read ? deck.color + '50' : deck.color + '25'}`,
           minHeight: '88px',
-          backgroundColor: deck.bgColor,
+          backgroundColor: '#ffffff',
         }}
         onClick={onNavigate}
         role="button"
@@ -304,7 +304,7 @@ function CardListItem({
             <div
               className="absolute inset-0"
               style={{
-                background: `linear-gradient(to right, ${deck.bgColor} 42%, ${deck.bgColor}D0 60%, ${deck.bgColor}60 78%, transparent 100%)`,
+                background: 'linear-gradient(to right, #ffffff 42%, rgba(255,255,255,0.85) 60%, rgba(255,255,255,0.5) 78%, transparent 100%)',
               }}
             />
           </div>
