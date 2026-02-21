@@ -10,7 +10,7 @@ import BottomNav from '@/components/BottomNav';
 import { DECKS, CARDS, getCardsByDeck } from '@/lib/pmoData';
 import { useBookmarks } from '@/contexts/BookmarksContext';
 
-const HERO_IMG = 'https://private-us-east-1.manuscdn.com/sessionFile/wGRSygz6Vjmbiu3SMWngYA/sandbox/Bis0r5tEGaWriXBtGv96Rx-img-1_1771651638000_na1fn_cG1vLWhlcm8tYmFubmVy.png?x-oss-process=image/resize,w_1920,h_1920/format,webp/quality,q_80&Expires=1798761600&Policy=eyJTdGF0ZW1lbnQiOlt7IlJlc291cmNlIjoiaHR0cHM6Ly9wcml2YXRlLXVzLWVhc3QtMS5tYW51c2Nkbi5jb20vc2Vzc2lvbkZpbGUvd0dSU3lnejZWam1iaXUzU01XbmdZQS9zYW5kYm94L0JpczByNXRFR2FXcmlYQnRHdjk2UngtaW1nLTFfMTc3MTY1MTYzODAwMF9uYTFmbl9jRzF2TFdobGNpemUsd18xOTIwLGhfMTkyMC9mb3JtYXQsd2VicC9xdWFsaXR5LHFfODAiLCJDb25kaXRpb24iOnsiRGF0ZUxlc3NUaGFuIjp7IkFXUzpFcG9jaFRpbWUiOjE3OTg3NjE2MDB9fX1dfQ__&Key-Pair-Id=K2HSFNDJXOU9YS&Signature=QPHG77k95miWFomx90vCXezGYLGtrl9vBgMGmj7thOAhKD2Z~o7uz8Ob3O3Kq~pyQQwFcie9xSgd1aqB-A9ir26XperqA3KvJ-ZS-ouyWbvpHA01w8j7pI05XUrXGGhyGf6FhKPFPyfe8pbxA9QHyPvtorvfPAGIfeTfcvFCLS-6DE4GM8P77Ocfxtimz2HR~UZf5KW-s-OLeSVfcH1pPR9sLP9wVwH8EYeg~THgbylRwVa78TuulHHaMZtH48yLm9fsHQs~lA-eLF9F-~0DSZ5Bk3K37LvFk1ruVwfAlYYTfHyHWuQWq3KbvlBdvgKI64dxC-3ArjUkial9R6wq8A__';
+const HERO_IMG = 'https://private-us-east-1.manuscdn.com/sessionFile/wGRSygz6Vjmbiu3SMWngYA/sandbox/8jjxsB34pPKxphOQiFs3Lq-img-1_1771664268000_na1fn_aG9tZS1oZXJvLWlsbHVzdHJhdGlvbg.png?x-oss-process=image/resize,w_1920,h_1920/format,webp/quality,q_80&Expires=1798761600&Policy=eyJTdGF0ZW1lbnQiOlt7IlJlc291cmNlIjoiaHR0cHM6Ly9wcml2YXRlLXVzLWVhc3QtMS5tYW51c2Nkbi5jb20vc2Vzc2lvbkZpbGUvd0dSU3lnejZWam1iaXUzU01XbmdZQS9zYW5kYm94LzhqanhzQjM0cFBLeHBoT1FpRnMzTHEtaW1nLTFfMTc3MTY2NDI2ODAwMF9uYTFmbl9hRzl0WlMxb1pYSnZMV2xzYkhWemRISmhkR2x2YmcucG5nP3gtb3NzLXByb2Nlc3M9aW1hZ2UvcmVzaXplLHdfMTkyMCxoXzE5MjAvZm9ybWF0LHdlYnAvcXVhbGl0eSxxXzgwIiwiQ29uZGl0aW9uIjp7IkRhdGVMZXNzVGhhbiI6eyJBV1M6RXBvY2hUaW1lIjoxNzk4NzYxNjAwfX19XX0_&Key-Pair-Id=K2HSFNDJXOU9YS&Signature=S4o3nchQdvzrXjUzaEmILHtCFu3pQr8MJpBH6Vvsi3RozJHomZIlRLfeUaXF5eJgP~rOqh8WXVwSJysXS95gf7QCOlA4MTjVZoGtUUBSGKOCK68-X7QS6NNnpM0OMV1Ce3T6e-XJitV2r2ErD5-LvTGahuVXBqv9fy52lSsonVrGXHbs9zcV3M7ZrkaZy2ZVyoL1MNkLv4srxJia9Sdi2R0np11He-mXIiX4vBuQfFXTXVCyS717hslV5omlIwCxEm37whyzscAz9IHG29-6bviv8gQn09Is7qp5DxrCId89EM2kCQfoMp6CSsAHTddeIM3eHbREOv3gQRyEZs8OUA__';
 
 // Tilt angles for each deck to give a physical stacked-cards feel
 const DECK_TILTS = [1.5, -1.2, 2.0, -0.8, 1.8, -1.5, 0.9, -2.2];
@@ -216,33 +216,47 @@ export default function Home() {
   return (
     <div className="min-h-screen pb-24" style={{ backgroundColor: '#F5F3EE' }}>
       {/* Hero Banner */}
-      <div className="relative overflow-hidden" style={{ height: '200px' }}>
-        <img
-          src={HERO_IMG}
-          alt="PMO Toolkit"
-          className="w-full h-full object-cover object-center"
-        />
-        <div className="absolute inset-0" style={{
-          background: 'linear-gradient(to bottom, rgba(245,243,238,0) 20%, rgba(245,243,238,0.5) 65%, rgba(245,243,238,1) 100%)'
-        }} />
-        <div className="absolute top-0 left-0 right-0 h-12 bg-gradient-to-b from-black/25 to-transparent" />
-        <div className="absolute bottom-0 left-0 right-0 px-4 pb-3">
-          <motion.div
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
+      <div className="relative overflow-hidden px-4 pt-6 pb-2" style={{ backgroundColor: '#F5F3EE' }}>
+        <motion.div
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+          className="mb-3"
+        >
+          <h1
+            className="text-[26px] font-black text-stone-900 leading-tight"
+            style={{ fontFamily: 'Sora, sans-serif', letterSpacing: '-0.02em' }}
           >
-            <h1
-              className="text-[26px] font-black text-stone-900 leading-tight"
-              style={{ fontFamily: 'Sora, sans-serif', letterSpacing: '-0.02em' }}
-            >
-              PMO Toolkit
-            </h1>
-            <p className="text-xs text-stone-500 font-semibold mt-0.5 tracking-wide">
-              {CARDS.length} tools, techniques & frameworks
-            </p>
-          </motion.div>
-        </div>
+            PMO Toolkit
+          </h1>
+          <p className="text-xs text-stone-500 font-semibold mt-0.5 tracking-wide">
+            {CARDS.length} tools, techniques & frameworks
+          </p>
+        </motion.div>
+        {/* Hero illustration */}
+        <motion.div
+          initial={{ opacity: 0, scale: 0.96 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.55, delay: 0.08 }}
+          className="w-full rounded-2xl overflow-hidden relative"
+          style={{
+            backgroundColor: '#fff',
+            boxShadow: '0 4px 20px rgba(0,0,0,0.07), 0 1px 4px rgba(0,0,0,0.05)',
+          }}
+        >
+          <img
+            src={HERO_IMG}
+            alt="PMO Toolkit — your project management card deck"
+            className="w-full"
+            style={{
+              display: 'block',
+              mixBlendMode: 'multiply',
+              maxHeight: '220px',
+              objectFit: 'contain',
+              objectPosition: 'center',
+            }}
+          />
+        </motion.div>
       </div>
 
       <div className="px-4 pt-3 space-y-5">
