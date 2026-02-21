@@ -13,11 +13,15 @@ import Home from "./pages/Home";
 import DeckView from "./pages/DeckView";
 import CardDetail from "./pages/CardDetail";
 import SearchPage from "./pages/SearchPage";
-import BookmarksPage from "./pages/BookmarksPage";
-import DecksPage from "./pages/DecksPage";
-import { BookmarksProvider } from "./contexts/BookmarksContext";
-import TopNav from "./components/TopNav";
-import { getDeckById, getCardById } from "./lib/pmoData";
+import BookmarksPage from './pages/BookmarksPage';
+import DecksPage from './pages/DecksPage';
+import JourneyPage from './pages/JourneyPage';
+import LessonPage from './pages/LessonPage';
+import EarnHeartPage from './pages/EarnHeartPage';
+import { BookmarksProvider } from './contexts/BookmarksContext';
+import { JourneyProvider } from './contexts/JourneyContext';
+import TopNav from './components/TopNav';
+import { getDeckById, getCardById } from './lib/pmoData';
 
 // Scroll to top on every route change
 function ScrollToTop() {
@@ -28,10 +32,11 @@ function ScrollToTop() {
   return null;
 }
 
-// Show TopNav on all pages except home, with deck-aware accent colour
+  // Show TopNav on all pages except home and journey (journey has its own header)
 function GlobalTopNav() {
   const [location] = useLocation();
   if (location === '/') return null;
+  if (location.startsWith('/journey')) return null;
 
   // Derive accent colour from current route
   let accentColor = '#475569';
@@ -72,6 +77,9 @@ function Router() {
         <Route path="/decks" component={DecksPage} />
         <Route path="/search" component={SearchPage} />
         <Route path="/bookmarks" component={BookmarksPage} />
+        <Route path="/journey" component={JourneyPage} />
+        <Route path="/journey/lesson/:day" component={LessonPage} />
+        <Route path="/journey/earn-heart" component={EarnHeartPage} />
         <Route path="/404" component={NotFound} />
         <Route component={NotFound} />
       </Switch>
@@ -83,12 +91,14 @@ function App() {
   return (
     <ErrorBoundary>
       <ThemeProvider defaultTheme="light">
+        <JourneyProvider>
         <BookmarksProvider>
           <TooltipProvider>
             <Toaster />
             <Router />
           </TooltipProvider>
         </BookmarksProvider>
+        </JourneyProvider>
       </ThemeProvider>
     </ErrorBoundary>
   );

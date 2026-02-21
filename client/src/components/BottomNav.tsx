@@ -2,12 +2,15 @@
 // Design: "Clarity Cards" — clean floating tab bar with active state indicators
 
 import { useLocation } from 'wouter';
-import { Home, LayoutGrid, Search, Bookmark } from 'lucide-react';
+import { Home, LayoutGrid, Search, Bookmark, Map } from 'lucide-react';
 import { useBookmarks } from '@/contexts/BookmarksContext';
+import { useJourney, MAX_HEARTS } from '@/contexts/JourneyContext';
+import { Heart } from 'lucide-react';
 
 const tabs = [
   { path: '/', icon: Home, label: 'Home' },
   { path: '/decks', icon: LayoutGrid, label: 'Decks' },
+  { path: '/journey', icon: Map, label: 'Journey' },
   { path: '/search', icon: Search, label: 'Search' },
   { path: '/bookmarks', icon: Bookmark, label: 'Saved' },
 ];
@@ -15,6 +18,7 @@ const tabs = [
 export default function BottomNav() {
   const [location, navigate] = useLocation();
   const { bookmarks } = useBookmarks();
+  const { state: journeyState } = useJourney();
 
   const isActive = (path: string) => {
     if (path === '/') return location === '/';
@@ -36,6 +40,7 @@ export default function BottomNav() {
         {tabs.map(({ path, icon: Icon, label }) => {
           const active = isActive(path);
           const isBookmarkTab = path === '/bookmarks';
+          const isJourneyTab = path === '/journey';
           return (
             <button
               key={path}
@@ -53,6 +58,17 @@ export default function BottomNav() {
                 {isBookmarkTab && bookmarks.length > 0 && (
                   <span className="absolute -top-1.5 -right-1.5 min-w-[14px] h-3.5 bg-rose-500 text-white text-[8px] font-bold rounded-full flex items-center justify-center px-0.5 leading-none">
                     {bookmarks.length > 9 ? '9+' : bookmarks.length}
+                  </span>
+                )}
+                {isJourneyTab && (
+                  <span className="absolute -top-1.5 -right-1.5 flex items-center gap-px">
+                    {Array.from({ length: MAX_HEARTS }).map((_, i) => (
+                      <Heart
+                        key={i}
+                        size={7}
+                        className={i < journeyState.hearts ? 'text-rose-500 fill-rose-500' : 'text-stone-300 fill-stone-200'}
+                      />
+                    ))}
                   </span>
                 )}
               </div>

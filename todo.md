@@ -14,3 +14,17 @@
 - [x] Clear filter button and "X of Y cards" count when filtered
 - [x] Advanced tag filter panel (via Filter button)
 - [x] vitest config and category filter unit tests (6 tests passing)
+- [x] 30-day PM Learning Journey with 150 questions across 6 units (journeyData.ts)
+- [x] JourneyContext with hearts system (3 hearts, lose on wrong answer, 24h refill)
+- [x] Earn-a-heart flow: study 5 topics to regain 1 heart
+- [x] Journey map page with zigzag path, unit banners, day nodes, and stats strip
+- [x] Daily lesson flow with question screens, answer feedback, and XP scoring
+- [x] Lesson complete screen with accuracy stats and XP earned
+- [x] No-hearts screen with countdown timer and earn-heart CTA
+- [x] Earn Heart page with card study modal and progress tracker
+- [x] Journey CTA banner on Home page with live hearts and streak display
+- [x] Journey tab added to BottomNav with mini hearts indicator
+- [x] XP level system (PM Apprentice → PM Master) with progress bar
+- [x] Day streak tracking
+- [x] All journey state persisted to localStorage
+- [x] 22 vitest unit tests for journey reducer logic (all passing)

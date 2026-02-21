@@ -5,11 +5,13 @@
 
 import { useLocation } from 'wouter';
 import { motion } from 'framer-motion';
-import { Layers, Zap, BookOpen, Search, ArrowRight } from 'lucide-react';
+import { Layers, Zap, BookOpen, Search, ArrowRight, Map, Heart, Flame } from 'lucide-react';
 import BottomNav from '@/components/BottomNav';
 import { DECKS, CARDS, getCardsByDeck } from '@/lib/pmoData';
 import { useBookmarks } from '@/contexts/BookmarksContext';
 import { useCardProgress } from '@/hooks/useCardProgress';
+import { useJourney, MAX_HEARTS } from '@/contexts/JourneyContext';
+import { JOURNEY_LESSONS } from '@/lib/journeyData';
 
 const HERO_IMG = 'https://private-us-east-1.manuscdn.com/sessionFile/wGRSygz6Vjmbiu3SMWngYA/sandbox/8jjxsB34pPKxphOQiFs3Lq-img-1_1771664268000_na1fn_aG9tZS1oZXJvLWlsbHVzdHJhdGlvbg.png?x-oss-process=image/resize,w_1920,h_1920/format,webp/quality,q_80&Expires=1798761600&Policy=eyJTdGF0ZW1lbnQiOlt7IlJlc291cmNlIjoiaHR0cHM6Ly9wcml2YXRlLXVzLWVhc3QtMS5tYW51c2Nkbi5jb20vc2Vzc2lvbkZpbGUvd0dSU3lnejZWam1iaXUzU01XbmdZQS9zYW5kYm94LzhqanhzQjM0cFBLeHBoT1FpRnMzTHEtaW1nLTFfMTc3MTY2NDI2ODAwMF9uYTFmbl9hRzl0WlMxb1pYSnZMV2xzYkhWemRISmhkR2x2YmcucG5nP3gtb3NzLXByb2Nlc3M9aW1hZ2UvcmVzaXplLHdfMTkyMCxoXzE5MjAvZm9ybWF0LHdlYnAvcXVhbGl0eSxxXzgwIiwiQ29uZGl0aW9uIjp7IkRhdGVMZXNzVGhhbiI6eyJBV1M6RXBvY2hUaW1lIjoxNzk4NzYxNjAwfX19XX0_&Key-Pair-Id=K2HSFNDJXOU9YS&Signature=S4o3nchQdvzrXjUzaEmILHtCFu3pQr8MJpBH6Vvsi3RozJHomZIlRLfeUaXF5eJgP~rOqh8WXVwSJysXS95gf7QCOlA4MTjVZoGtUUBSGKOCK68-X7QS6NNnpM0OMV1Ce3T6e-XJitV2r2ErD5-LvTGahuVXBqv9fy52lSsonVrGXHbs9zcV3M7ZrkaZy2ZVyoL1MNkLv4srxJia9Sdi2R0np11He-mXIiX4vBuQfFXTXVCyS717hslV5omlIwCxEm37whyzscAz9IHG29-6bviv8gQn09Is7qp5DxrCId89EM2kCQfoMp6CSsAHTddeIM3eHbREOv3gQRyEZs8OUA__';
 
@@ -320,6 +322,82 @@ function QuickStats() {
   );
 }
 
+function JourneyCTA() {
+  const [, navigate] = useLocation();
+  const { state, isDayCompleted } = useJourney();
+  const completedCount = Object.values(state.completedSessions).filter(s => s.completed).length;
+  const totalDays = JOURNEY_LESSONS.length;
+  const nextDay = state.highestDayUnlocked;
+  const nextLesson = JOURNEY_LESSONS.find(l => l.day === nextDay);
+  const hasStarted = completedCount > 0 || state.totalXP > 0;
+
+  return (
+    <motion.button
+      initial={{ opacity: 0, y: 8 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.35, delay: 0.08 }}
+      onClick={() => navigate('/journey')}
+      whileHover={{ scale: 1.01 }}
+      whileTap={{ scale: 0.98 }}
+      className="w-full text-left rounded-2xl overflow-hidden"
+      style={{ boxShadow: '0 2px 12px rgba(59,130,246,0.15), 0 1px 4px rgba(0,0,0,0.06)', background: 'linear-gradient(135deg, #EFF6FF 0%, #F0FDF4 100%)' }}
+    >
+      <div className="px-4 py-3.5 flex items-center gap-3">
+        <div className="w-10 h-10 rounded-2xl bg-blue-500 flex items-center justify-center shrink-0">
+          <Map size={18} className="text-white" />
+        </div>
+        <div className="flex-1 min-w-0">
+          <div className="flex items-center gap-2 mb-0.5">
+            <span className="text-[10px] font-black uppercase tracking-widest text-blue-600">30-Day PM Journey</span>
+            {hasStarted && (
+              <span className="text-[9px] font-bold px-1.5 py-0.5 rounded-full bg-blue-100 text-blue-700">
+                Day {completedCount}/{totalDays}
+              </span>
+            )}
+          </div>
+          <p className="text-sm font-bold text-stone-800" style={{ fontFamily: 'Sora, sans-serif' }}>
+            {hasStarted
+              ? nextLesson
+                ? `Next: Day ${nextDay} — ${nextLesson.title}`
+                : 'Journey Complete! 🏆'
+              : 'Start your PM learning journey'}
+          </p>
+          {!hasStarted && (
+            <p className="text-[10px] text-stone-500 mt-0.5">Master all 144 tools in 30 guided days</p>
+          )}
+        </div>
+        <div className="flex flex-col items-end gap-1 shrink-0">
+          <div className="flex items-center gap-0.5">
+            {Array.from({ length: MAX_HEARTS }).map((_, i) => (
+              <Heart
+                key={i}
+                size={10}
+                className={i < state.hearts ? 'text-rose-500 fill-rose-500' : 'text-stone-300 fill-stone-200'}
+              />
+            ))}
+          </div>
+          {state.currentStreak > 0 && (
+            <div className="flex items-center gap-0.5">
+              <Flame size={10} className="text-orange-500" />
+              <span className="text-[9px] font-bold text-orange-600">{state.currentStreak}</span>
+            </div>
+          )}
+          <ArrowRight size={14} className="text-blue-400" />
+        </div>
+      </div>
+      {/* Progress bar */}
+      {hasStarted && (
+        <div className="h-1 bg-blue-100">
+          <div
+            className="h-full bg-blue-400 transition-all duration-500"
+            style={{ width: `${Math.round((completedCount / totalDays) * 100)}%` }}
+          />
+        </div>
+      )}
+    </motion.button>
+  );
+}
+
 export default function Home() {
   const [, navigate] = useLocation();
 
@@ -396,6 +474,9 @@ export default function Home() {
         <motion.div initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.4, delay: 0.05 }}>
           <QuickStats />
         </motion.div>
+
+        {/* Learning Journey CTA */}
+        <JourneyCTA />
 
         {/* Search shortcut */}
         <motion.button
