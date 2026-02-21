@@ -6,7 +6,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import {
   ArrowLeft, Bookmark, BookmarkCheck,
   ChevronLeft, ChevronRight,
-  Lightbulb, ListChecks, Info, Link2, Tag, Sparkles, ShieldCheck, ExternalLink, LayoutTemplate
+  Lightbulb, ListChecks, Info, Link2, Tag, Sparkles, ShieldCheck, ExternalLink, Image
 } from 'lucide-react';
 import BottomNav from '@/components/BottomNav';
 import { getCardById, getDeckById, getRelatedCards, getCardsByDeck } from '@/lib/pmoData';
@@ -235,9 +235,9 @@ export default function CardDetail() {
                 className="flex items-center gap-2 px-4 py-2.5"
                 style={{ backgroundColor: deck?.color + '15' }}
               >
-                <LayoutTemplate size={11} style={{ color: deck?.color }} />
+                <Image size={11} style={{ color: deck?.color }} />
                 <span className="text-[10px] font-bold uppercase tracking-wider" style={{ color: deck?.color }}>
-                  Template Diagram
+                  Visual Reference
                 </span>
               </div>
               <div className="bg-white">

@@ -1,89 +1,202 @@
 // PMO Toolkit Navigator — Home Page
-// Design: "Clarity Cards" — Scandinavian Minimalism, warm whites, category color wayfinding
+// Design: "Clarity Cards" — fun physical card-deck aesthetic
+// Each deck looks like a real stack of cards with depth, tilt, and personality
 // Fonts: Sora (display) + Inter (body)
 
 import { useLocation } from 'wouter';
 import { motion } from 'framer-motion';
-import { ArrowRight, Layers, Zap, BookOpen, ChevronRight } from 'lucide-react';
+import { Layers, Zap, BookOpen, Search, ArrowRight } from 'lucide-react';
 import BottomNav from '@/components/BottomNav';
 import { DECKS, CARDS, getCardsByDeck } from '@/lib/pmoData';
 import { useBookmarks } from '@/contexts/BookmarksContext';
 
-const HERO_IMG = 'https://private-us-east-1.manuscdn.com/sessionFile/wGRSygz6Vjmbiu3SMWngYA/sandbox/Bis0r5tEGaWriXBtGv96Rx-img-1_1771651638000_na1fn_cG1vLWhlcm8tYmFubmVy.png?x-oss-process=image/resize,w_1920,h_1920/format,webp/quality,q_80&Expires=1798761600&Policy=eyJTdGF0ZW1lbnQiOlt7IlJlc291cmNlIjoiaHR0cHM6Ly9wcml2YXRlLXVzLWVhc3QtMS5tYW51c2Nkbi5jb20vc2Vzc2lvbkZpbGUvd0dSU3lnejZWam1iaXUzU01XbmdZQS9zYW5kYm94L0JpczByNXRFR2FXcmlYQnRHdjk2UngtaW1nLTFfMTc3MTY1MTYzODAwMF9uYTFmbl9jRzF2TFdobGNtOHRZbUZ1Ym1WeS5wbmc~eC1vc3MtcHJvY2Vzcz1pbWFnZS9yZXNpemUsd18xOTIwLGhfMTkyMC9mb3JtYXQsd2VicC9xdWFsaXR5LHFfODAiLCJDb25kaXRpb24iOnsiRGF0ZUxlc3NUaGFuIjp7IkFXUzpFcG9jaFRpbWUiOjE3OTg3NjE2MDB9fX1dfQ__&Key-Pair-Id=K2HSFNDJXOU9YS&Signature=QPHG77k95miWFomx90vCXezGYLGtrl9vBgMGmj7thOAhKD2Z~o7uz8Ob3O3Kq~pyQQwFcie9xSgd1aqB-A9ir26XperqA3KvJ-ZS-ouyWbvpHA01w8j7pI05XUrXGGhyGf6FhKPFPyfe8pbxA9QHyPvtorvfPAGIfeTfcvFCLS-6DE4GM8P77Ocfxtimz2HR~UZf5KW-s-OLeSVfcH1pPR9sLP9wVwH8EYeg~THgbylRwVa78TuulHHaMZtH48yLm9fsHQs~lA-eLF9F-~0DSZ5Bk3K37LvFk1ruVwfAlYYTfHyHWuQWq3KbvlBdvgKI64dxC-3ArjUkial9R6wq8A__';
+const HERO_IMG = 'https://private-us-east-1.manuscdn.com/sessionFile/wGRSygz6Vjmbiu3SMWngYA/sandbox/Bis0r5tEGaWriXBtGv96Rx-img-1_1771651638000_na1fn_cG1vLWhlcm8tYmFubmVy.png?x-oss-process=image/resize,w_1920,h_1920/format,webp/quality,q_80&Expires=1798761600&Policy=eyJTdGF0ZW1lbnQiOlt7IlJlc291cmNlIjoiaHR0cHM6Ly9wcml2YXRlLXVzLWVhc3QtMS5tYW51c2Nkbi5jb20vc2Vzc2lvbkZpbGUvd0dSU3lnejZWam1iaXUzU01XbmdZQS9zYW5kYm94L0JpczByNXRFR2FXcmlYQnRHdjk2UngtaW1nLTFfMTc3MTY1MTYzODAwMF9uYTFmbl9jRzF2TFdobGNpemUsd18xOTIwLGhfMTkyMC9mb3JtYXQsd2VicC9xdWFsaXR5LHFfODAiLCJDb25kaXRpb24iOnsiRGF0ZUxlc3NUaGFuIjp7IkFXUzpFcG9jaFRpbWUiOjE3OTg3NjE2MDB9fX1dfQ__&Key-Pair-Id=K2HSFNDJXOU9YS&Signature=QPHG77k95miWFomx90vCXezGYLGtrl9vBgMGmj7thOAhKD2Z~o7uz8Ob3O3Kq~pyQQwFcie9xSgd1aqB-A9ir26XperqA3KvJ-ZS-ouyWbvpHA01w8j7pI05XUrXGGhyGf6FhKPFPyfe8pbxA9QHyPvtorvfPAGIfeTfcvFCLS-6DE4GM8P77Ocfxtimz2HR~UZf5KW-s-OLeSVfcH1pPR9sLP9wVwH8EYeg~THgbylRwVa78TuulHHaMZtH48yLm9fsHQs~lA-eLF9F-~0DSZ5Bk3K37LvFk1ruVwfAlYYTfHyHWuQWq3KbvlBdvgKI64dxC-3ArjUkial9R6wq8A__';
 
-const containerVariants = {
-  hidden: { opacity: 0 },
-  visible: { opacity: 1, transition: { staggerChildren: 0.06 } },
-};
+// Tilt angles for each deck to give a physical stacked-cards feel
+const DECK_TILTS = [1.5, -1.2, 2.0, -0.8, 1.8, -1.5, 0.9, -2.2];
 
-const itemVariants = {
-  hidden: { opacity: 0, y: 16 },
-  visible: { opacity: 1, y: 0, transition: { duration: 0.4 } },
-};
+// Fun emoji patterns for the card back texture
+const DECK_PATTERNS = ['◈ ◈ ◈', '◆ ◆ ◆', '● ● ●', '▲ ▲ ▲', '◉ ◉ ◉', '■ ■ ■', '★ ★ ★', '◇ ◇ ◇'];
 
-function DeckCard({ deck }: { deck: typeof DECKS[0] }) {
+function PhysicalDeckCard({ deck, index }: { deck: typeof DECKS[0]; index: number }) {
   const [, navigate] = useLocation();
   const cards = getCardsByDeck(deck.id);
+  const tilt = DECK_TILTS[index % DECK_TILTS.length];
+  const pattern = DECK_PATTERNS[index % DECK_PATTERNS.length];
 
   return (
-    <motion.button
-      variants={itemVariants}
-      onClick={() => navigate(`/deck/${deck.id}`)}
-      className="w-full text-left rounded-2xl p-4 transition-all duration-200 hover:scale-[1.01] active:scale-[0.98]"
-      style={{
-        backgroundColor: deck.bgColor,
-        boxShadow: `0 1px 3px ${deck.color}18, 0 1px 2px ${deck.color}10`,
-        borderLeft: `4px solid ${deck.color}`,
-      }}
+    <motion.div
+      initial={{ opacity: 0, y: 24, rotate: tilt * 1.5 }}
+      animate={{ opacity: 1, y: 0, rotate: 0 }}
+      transition={{ duration: 0.45, delay: index * 0.07, ease: [0.22, 1, 0.36, 1] }}
+      className="relative"
+      style={{ marginBottom: '4px' }}
     >
-      <div className="flex items-center gap-3">
-        <span className="text-2xl leading-none shrink-0">{deck.icon}</span>
-        <div className="flex-1 min-w-0">
-          <div className="flex items-center gap-1.5 mb-0.5">
+      {/* Card stack layers (back cards) */}
+      <div
+        className="absolute inset-0 rounded-2xl"
+        style={{
+          backgroundColor: deck.color,
+          opacity: 0.25,
+          transform: `rotate(${tilt * 1.8}deg) translateY(4px)`,
+          zIndex: 0,
+        }}
+      />
+      <div
+        className="absolute inset-0 rounded-2xl"
+        style={{
+          backgroundColor: deck.color,
+          opacity: 0.15,
+          transform: `rotate(${tilt * 0.9}deg) translateY(2px)`,
+          zIndex: 1,
+        }}
+      />
+
+      {/* Main card face */}
+      <motion.button
+        onClick={() => navigate(`/deck/${deck.id}`)}
+        whileHover={{ scale: 1.02, rotate: tilt * 0.3, y: -3 }}
+        whileTap={{ scale: 0.97 }}
+        transition={{ type: 'spring', stiffness: 400, damping: 25 }}
+        className="relative w-full text-left rounded-2xl overflow-hidden"
+        style={{
+          zIndex: 2,
+          boxShadow: `0 4px 16px ${deck.color}30, 0 2px 6px rgba(0,0,0,0.08)`,
+        }}
+      >
+        {/* Card background */}
+        <div
+          className="absolute inset-0"
+          style={{ backgroundColor: deck.bgColor }}
+        />
+
+        {/* Decorative pattern in top-right corner */}
+        <div
+          className="absolute top-0 right-0 w-28 h-28 flex items-start justify-end p-3 overflow-hidden"
+          style={{ opacity: 0.12 }}
+        >
+          <div
+            className="text-[8px] font-bold leading-5 tracking-widest text-right"
+            style={{ color: deck.color, letterSpacing: '0.3em' }}
+          >
+            {pattern}<br/>{pattern}<br/>{pattern}<br/>{pattern}
+          </div>
+        </div>
+
+        {/* Large decorative circle */}
+        <div
+          className="absolute -bottom-6 -right-6 w-24 h-24 rounded-full opacity-[0.08]"
+          style={{ backgroundColor: deck.color }}
+        />
+
+        {/* Card content */}
+        <div className="relative px-4 py-4">
+          {/* Top row: icon + card count badge */}
+          <div className="flex items-start justify-between mb-3">
+            <div
+              className="w-10 h-10 rounded-xl flex items-center justify-center text-xl shrink-0"
+              style={{ backgroundColor: deck.color + '22' }}
+            >
+              {deck.icon}
+            </div>
+            <div
+              className="flex items-center gap-1 px-2.5 py-1 rounded-full text-white text-[10px] font-bold"
+              style={{ backgroundColor: deck.color }}
+            >
+              <span>{cards.length}</span>
+              <span className="opacity-75">cards</span>
+            </div>
+          </div>
+
+          {/* Code tag */}
+          <div className="mb-1">
             <span
-              className="text-[9px] font-mono font-bold px-1.5 py-0.5 rounded"
-              style={{ backgroundColor: deck.color + '25', color: deck.textColor }}
+              className="text-[9px] font-mono font-bold px-1.5 py-0.5 rounded-md"
+              style={{ backgroundColor: deck.color + '20', color: deck.textColor, opacity: 0.7 }}
             >
               {deck.subtitle}
             </span>
           </div>
-          <h3 className="font-semibold text-sm leading-tight" style={{ color: deck.textColor }}>
+
+          {/* Title */}
+          <h3
+            className="text-base font-bold leading-tight mb-1"
+            style={{ fontFamily: 'Sora, sans-serif', color: deck.textColor }}
+          >
             {deck.title}
           </h3>
-          <p className="text-[11px] mt-0.5 opacity-60 line-clamp-1" style={{ color: deck.textColor }}>
+
+          {/* Description */}
+          <p
+            className="text-[11px] leading-relaxed line-clamp-2 mb-3"
+            style={{ color: deck.textColor, opacity: 0.6 }}
+          >
             {deck.description}
           </p>
+
+          {/* Bottom: open deck CTA */}
+          <div className="flex items-center justify-between">
+            {/* Mini card previews */}
+            <div className="flex items-center gap-1">
+              {cards.slice(0, 4).map((c, i) => (
+                <div
+                  key={c.id}
+                  className="w-6 h-8 rounded-md flex items-center justify-center"
+                  style={{
+                    backgroundColor: deck.color,
+                    opacity: 0.15 + i * 0.15,
+                    transform: `rotate(${(i - 1.5) * 3}deg)`,
+                    marginLeft: i > 0 ? '-6px' : '0',
+                    zIndex: i,
+                    position: 'relative',
+                  }}
+                />
+              ))}
+            </div>
+            <div
+              className="flex items-center gap-1 text-[11px] font-bold"
+              style={{ color: deck.color }}
+            >
+              Open deck
+              <ArrowRight size={12} />
+            </div>
+          </div>
         </div>
-        <div className="flex flex-col items-end gap-0.5 shrink-0">
-          <span className="text-xl font-bold leading-none" style={{ color: deck.color }}>
-            {cards.length}
-          </span>
-          <span className="text-[9px] font-medium opacity-50" style={{ color: deck.textColor }}>
-            cards
-          </span>
-          <ChevronRight size={12} style={{ color: deck.color }} className="mt-0.5" />
-        </div>
-      </div>
-    </motion.button>
+
+        {/* Bottom color accent bar */}
+        <div className="h-1 w-full" style={{ backgroundColor: deck.color }} />
+      </motion.button>
+    </motion.div>
   );
 }
 
 function QuickStats() {
   const { bookmarks } = useBookmarks();
   const stats = [
-    { icon: Layers, label: 'Cards', value: CARDS.length, color: '#0284C7', bg: '#EFF6FF' },
-    { icon: BookOpen, label: 'Decks', value: DECKS.length, color: '#059669', bg: '#ECFDF5' },
-    { icon: Zap, label: 'Saved', value: bookmarks.length, color: '#E11D48', bg: '#FFF1F2' },
+    { icon: Layers, label: 'Cards', value: CARDS.length, color: '#0284C7', bg: '#EFF6FF', textColor: '#1E40AF' },
+    { icon: BookOpen, label: 'Decks', value: DECKS.length, color: '#059669', bg: '#ECFDF5', textColor: '#065F46' },
+    { icon: Zap, label: 'Saved', value: bookmarks.length, color: '#E11D48', bg: '#FFF1F2', textColor: '#9F1239' },
   ];
 
   return (
     <div className="grid grid-cols-3 gap-2.5">
-      {stats.map(({ icon: Icon, label, value, color, bg }) => (
-        <div key={label} className="rounded-2xl p-3 text-center" style={{ backgroundColor: bg }}>
+      {stats.map(({ icon: Icon, label, value, color, bg, textColor }) => (
+        <motion.div
+          key={label}
+          initial={{ opacity: 0, scale: 0.9 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.3 }}
+          className="rounded-2xl p-3 text-center relative overflow-hidden"
+          style={{ backgroundColor: bg }}
+        >
+          <div
+            className="absolute -bottom-3 -right-3 w-12 h-12 rounded-full opacity-10"
+            style={{ backgroundColor: color }}
+          />
           <Icon size={16} className="mx-auto mb-1" style={{ color }} />
-          <div className="text-xl font-bold" style={{ color }}>{value}</div>
-          <div className="text-[10px] font-medium text-stone-500">{label}</div>
-        </div>
+          <div className="text-xl font-bold" style={{ fontFamily: 'Sora, sans-serif', color: textColor }}>{value}</div>
+          <div className="text-[10px] font-semibold" style={{ color: textColor, opacity: 0.6 }}>{label}</div>
+        </motion.div>
       ))}
     </div>
   );
@@ -95,38 +208,37 @@ export default function Home() {
   const featuredCards = [
     CARDS.find(c => c.id === 'T7'),
     CARDS.find(c => c.id === 'A29'),
-    CARDS.find(c => c.id === 'A73'),
     CARDS.find(c => c.id === 'A35'),
     CARDS.find(c => c.id === 'T5'),
+    CARDS.find(c => c.id === 'M2'),
   ].filter(Boolean);
 
   return (
-    <div className="min-h-screen bg-[#FAFAF8] pb-24">
+    <div className="min-h-screen pb-24" style={{ backgroundColor: '#F5F3EE' }}>
       {/* Hero Banner */}
-      <div className="relative overflow-hidden" style={{ height: '210px' }}>
+      <div className="relative overflow-hidden" style={{ height: '200px' }}>
         <img
           src={HERO_IMG}
           alt="PMO Toolkit"
           className="w-full h-full object-cover object-center"
         />
         <div className="absolute inset-0" style={{
-          background: 'linear-gradient(to bottom, rgba(250,250,248,0) 30%, rgba(250,250,248,0.6) 70%, rgba(250,250,248,1) 100%)'
+          background: 'linear-gradient(to bottom, rgba(245,243,238,0) 20%, rgba(245,243,238,0.5) 65%, rgba(245,243,238,1) 100%)'
         }} />
-        {/* Top status bar area */}
-        <div className="absolute top-0 left-0 right-0 h-12 bg-gradient-to-b from-black/20 to-transparent" />
+        <div className="absolute top-0 left-0 right-0 h-12 bg-gradient-to-b from-black/25 to-transparent" />
         <div className="absolute bottom-0 left-0 right-0 px-4 pb-3">
           <motion.div
-            initial={{ opacity: 0, y: 8 }}
+            initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
           >
             <h1
-              className="text-2xl font-bold text-stone-900 leading-tight"
-              style={{ fontFamily: 'Sora, sans-serif' }}
+              className="text-[26px] font-black text-stone-900 leading-tight"
+              style={{ fontFamily: 'Sora, sans-serif', letterSpacing: '-0.02em' }}
             >
               PMO Toolkit
             </h1>
-            <p className="text-xs text-stone-500 font-medium mt-0.5">
+            <p className="text-xs text-stone-500 font-semibold mt-0.5 tracking-wide">
               {CARDS.length} tools, techniques & frameworks
             </p>
           </motion.div>
@@ -136,35 +248,50 @@ export default function Home() {
       <div className="px-4 pt-3 space-y-5">
         {/* Quick Stats */}
         <motion.div
-          initial={{ opacity: 0, y: 10 }}
+          initial={{ opacity: 0, y: 8 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.4, delay: 0.1 }}
+          transition={{ duration: 0.4, delay: 0.05 }}
         >
           <QuickStats />
         </motion.div>
 
-        {/* All Decks */}
+        {/* Search shortcut */}
+        <motion.button
+          initial={{ opacity: 0, y: 8 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.35, delay: 0.1 }}
+          onClick={() => navigate('/search')}
+          className="w-full flex items-center gap-3 rounded-2xl px-4 py-3 bg-white text-left"
+          style={{ boxShadow: '0 1px 4px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04)' }}
+        >
+          <div className="w-8 h-8 rounded-xl bg-stone-100 flex items-center justify-center shrink-0">
+            <Search size={15} className="text-stone-500" />
+          </div>
+          <span className="text-sm text-stone-400 font-medium flex-1">Search tools, frameworks, techniques…</span>
+          <ArrowRight size={14} className="text-stone-300 shrink-0" />
+        </motion.button>
+
+        {/* All Decks — physical card stack layout */}
         <div>
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            transition={{ delay: 0.15 }}
-            className="flex items-center justify-between mb-2.5"
+            transition={{ delay: 0.12 }}
+            className="flex items-center justify-between mb-3"
           >
-            <h2 className="text-[11px] font-bold text-stone-400 uppercase tracking-widest">
+            <h2
+              className="text-[11px] font-black text-stone-400 uppercase tracking-[0.12em]"
+            >
               All Decks
             </h2>
+            <span className="text-[10px] text-stone-400 font-medium">{DECKS.length} decks</span>
           </motion.div>
-          <motion.div
-            variants={containerVariants}
-            initial="hidden"
-            animate="visible"
-            className="space-y-2"
-          >
-            {DECKS.map(deck => (
-              <DeckCard key={deck.id} deck={deck} />
+
+          <div className="space-y-3">
+            {DECKS.map((deck, index) => (
+              <PhysicalDeckCard key={deck.id} deck={deck} index={index} />
             ))}
-          </motion.div>
+          </div>
         </div>
 
         {/* Quick Reference — horizontal scroll */}
@@ -173,7 +300,7 @@ export default function Home() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.25 }}
-            className="text-[11px] font-bold text-stone-400 uppercase tracking-widest mb-2.5"
+            className="text-[11px] font-black text-stone-400 uppercase tracking-[0.12em] mb-3"
           >
             Quick Reference
           </motion.h2>
@@ -181,34 +308,41 @@ export default function Home() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.3 }}
-            className="flex gap-2.5 overflow-x-auto pb-2 -mx-4 px-4 scrollbar-hide"
+            className="flex gap-2.5 overflow-x-auto pb-2 -mx-4 px-4"
+            style={{ scrollbarWidth: 'none' }}
           >
-            {featuredCards.map(card => {
+            {featuredCards.map((card, i) => {
               if (!card) return null;
               const deck = DECKS.find(d => d.id === card.deckId);
               return (
-                <button
+                <motion.button
                   key={card.id}
+                  initial={{ opacity: 0, x: 20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: 0.3 + i * 0.06 }}
                   onClick={() => navigate(`/card/${card.id}`)}
-                  className="flex-shrink-0 w-44 text-left rounded-2xl p-3.5 bg-white transition-all duration-200 hover:scale-[1.02] active:scale-[0.97]"
+                  className="flex-shrink-0 w-44 text-left rounded-2xl p-3.5 bg-white relative overflow-hidden"
                   style={{
-                    borderLeft: `3px solid ${deck?.color ?? '#ccc'}`,
-                    boxShadow: '0 1px 3px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04)',
+                    boxShadow: `0 2px 8px ${deck?.color ?? '#ccc'}20, 0 1px 3px rgba(0,0,0,0.06)`,
                   }}
+                  whileHover={{ scale: 1.03, y: -2 }}
+                  whileTap={{ scale: 0.97 }}
                 >
+                  {/* Top color strip */}
+                  <div className="absolute top-0 left-0 right-0 h-1 rounded-t-2xl" style={{ backgroundColor: deck?.color }} />
                   <div
-                    className="text-[9px] font-mono font-bold mb-1.5 px-1.5 py-0.5 rounded inline-block"
+                    className="text-[9px] font-mono font-bold mb-2 px-1.5 py-0.5 rounded-md inline-block mt-1"
                     style={{ backgroundColor: deck?.bgColor, color: deck?.textColor }}
                   >
                     {card.code}
                   </div>
-                  <h3 className="text-xs font-semibold text-stone-800 leading-tight mb-1">
+                  <h3 className="text-xs font-bold text-stone-800 leading-tight mb-1.5" style={{ fontFamily: 'Sora, sans-serif' }}>
                     {card.title}
                   </h3>
                   <p className="text-[10px] text-stone-400 line-clamp-2 leading-relaxed">
                     {card.tagline}
                   </p>
-                </button>
+                </motion.button>
               );
             })}
           </motion.div>
@@ -218,28 +352,32 @@ export default function Home() {
         <motion.div
           initial={{ opacity: 0, y: 8 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.35 }}
-          className="rounded-2xl p-4 bg-stone-100 border border-stone-200/60"
+          transition={{ delay: 0.4 }}
+          className="rounded-2xl p-4 bg-white"
+          style={{ boxShadow: '0 1px 3px rgba(0,0,0,0.05)' }}
         >
-          <h3 className="text-xs font-semibold text-stone-600 mb-2.5 flex items-center gap-1.5">
-            <span className="w-4 h-4 rounded bg-stone-300 flex items-center justify-center text-[9px] text-stone-600 font-bold">?</span>
+          <h3
+            className="text-xs font-black text-stone-700 mb-3 uppercase tracking-wide"
+            style={{ fontFamily: 'Sora, sans-serif' }}
+          >
             How to use this app
           </h3>
-          <ul className="space-y-1.5">
+          <div className="grid grid-cols-2 gap-2">
             {[
-              ['Decks', 'Browse by category — each deck has its own colour'],
-              ['Cards', 'Tap any card to read full details, steps, and tips'],
-              ['Search', 'Find tools by name, keyword, or framework'],
-              ['Bookmark', 'Save cards to build your personal reference set'],
-            ].map(([label, desc]) => (
-              <li key={label} className="flex items-start gap-2 text-xs text-stone-500">
-                <span className="text-stone-300 mt-0.5 shrink-0">→</span>
-                <span>
-                  <strong className="text-stone-600">{label}</strong> — {desc}
-                </span>
-              </li>
+              { emoji: '🃏', label: 'Decks', desc: 'Browse by category' },
+              { emoji: '📖', label: 'Cards', desc: 'Full details & steps' },
+              { emoji: '🔍', label: 'Search', desc: 'Find any tool fast' },
+              { emoji: '🔖', label: 'Bookmark', desc: 'Save your favourites' },
+            ].map(({ emoji, label, desc }) => (
+              <div key={label} className="flex items-start gap-2 bg-stone-50 rounded-xl p-2.5">
+                <span className="text-base leading-none mt-0.5">{emoji}</span>
+                <div>
+                  <div className="text-[10px] font-bold text-stone-700">{label}</div>
+                  <div className="text-[9px] text-stone-400 leading-relaxed">{desc}</div>
+                </div>
+              </div>
             ))}
-          </ul>
+          </div>
         </motion.div>
       </div>
 
