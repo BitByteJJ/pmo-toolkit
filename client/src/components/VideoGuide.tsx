@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Play, Pause, SkipForward, SkipBack, Volume2, VolumeX, RotateCcw, ChevronRight } from 'lucide-react';
+import { Play, Pause, SkipForward, SkipBack, Volume2, VolumeX, RotateCcw, ChevronRight, Loader2 } from 'lucide-react';
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
@@ -20,10 +20,10 @@ export interface VideoScene {
   bullets?: string[];
   quote?: string;
   leftText?: string;
-  rightIcon?: string; // emoji or short label
+  rightIcon?: string;
   diagram?: DiagramData;
   summaryPoints?: string[];
-  durationMs?: number; // auto-calculated from narration length if omitted
+  durationMs?: number;
 }
 
 export interface VideoGuideData {
@@ -281,7 +281,6 @@ function DiagramScene({ scene, color, bgColor }: { scene: VideoScene; color: str
     );
   }
 
-  // Fallback to bullet reveal
   return <BulletRevealScene scene={scene} color={color} bgColor={bgColor} />;
 }
 
@@ -337,7 +336,6 @@ function SceneRenderer({ scene, color, bgColor }: { scene: VideoScene; color: st
 // ─── TTS cache & pre-fetch helpers ───────────────────────────────────────────
 
 // Persistent in-memory cache: narration text → decoded AudioBuffer
-// Using AudioBuffer (already decoded) means zero decode cost at playback time.
 const audioBufferCache = new Map<string, AudioBuffer>();
 
 // Tracks in-flight fetch+decode promises so we never double-fetch the same text
@@ -349,7 +347,6 @@ function getSharedAudioCtx(): AudioContext {
   if (!sharedAudioCtx || sharedAudioCtx.state === 'closed') {
     sharedAudioCtx = new AudioContext();
   }
-  // Resume if suspended (browser autoplay policy)
   if (sharedAudioCtx.state === 'suspended') {
     sharedAudioCtx.resume().catch(() => {});
   }
@@ -367,20 +364,21 @@ function softenPunctuation(text: string): string {
     .trim();
 }
 
+// Detect a fast connection (4G / Wi-Fi) for aggressive pre-fetching
+function isFastConnection(): boolean {
+  const nav = navigator as Navigator & { connection?: { effectiveType?: string; saveData?: boolean } };
+  const conn = nav.connection;
+  if (!conn) return true; // assume fast if API not available
+  if (conn.saveData) return false;
+  return conn.effectiveType === '4g' || conn.effectiveType === undefined;
+}
+
 // Fetch audio from Google TTS, decode it, and cache the AudioBuffer.
-// Returns null on failure (caller falls back to Web Speech API).
 async function fetchAndDecodeAudio(text: string): Promise<AudioBuffer | null> {
   const processed = softenPunctuation(text);
 
-  // Already decoded — return immediately
-  if (audioBufferCache.has(processed)) {
-    return audioBufferCache.get(processed)!;
-  }
-
-  // Already in-flight — wait for the same promise
-  if (fetchingPromises.has(processed)) {
-    return fetchingPromises.get(processed)!;
-  }
+  if (audioBufferCache.has(processed)) return audioBufferCache.get(processed)!;
+  if (fetchingPromises.has(processed)) return fetchingPromises.get(processed)!;
 
   const promise = (async (): Promise<AudioBuffer | null> => {
     try {
@@ -392,7 +390,6 @@ async function fetchAndDecodeAudio(text: string): Promise<AudioBuffer | null> {
       if (!res.ok) throw new Error(`TTS ${res.status}`);
       const data = await res.json() as { audioContent: string };
 
-      // Decode base64 → ArrayBuffer → AudioBuffer
       const binary = atob(data.audioContent);
       const bytes = new Uint8Array(binary.length);
       for (let i = 0; i < binary.length; i++) bytes[i] = binary.charCodeAt(i);
@@ -415,13 +412,15 @@ async function fetchAndDecodeAudio(text: string): Promise<AudioBuffer | null> {
 
 // ─── Narration hook ───────────────────────────────────────────────────────────
 
-function useNarration() {
+function useNarration(playbackRate: number) {
   const sourceRef = useRef<AudioBufferSourceNode | null>(null);
   const startTimeRef = useRef<number>(0);
   const pausedAtRef = useRef<number>(0);
   const bufferRef = useRef<AudioBuffer | null>(null);
   const onEndRef = useRef<(() => void) | null>(null);
   const cancelledRef = useRef(false);
+  const playbackRateRef = useRef(playbackRate);
+  playbackRateRef.current = playbackRate;
 
   const stopSource = useCallback(() => {
     if (sourceRef.current) {
@@ -443,6 +442,7 @@ function useNarration() {
     stopSource();
     const source = ctx.createBufferSource();
     source.buffer = buffer;
+    source.playbackRate.value = playbackRateRef.current;
     source.connect(ctx.destination);
     onEndRef.current = onEnd || null;
     source.onended = () => {
@@ -452,7 +452,8 @@ function useNarration() {
       }
     };
     sourceRef.current = source;
-    startTimeRef.current = ctx.currentTime - offsetSecs;
+    // Adjust start time to account for playback rate when resuming
+    startTimeRef.current = ctx.currentTime - offsetSecs / playbackRateRef.current;
     source.start(0, offsetSecs);
   }, [stopSource]);
 
@@ -462,7 +463,6 @@ function useNarration() {
     bufferRef.current = null;
     stopSource();
 
-    // Try to get pre-fetched (or fetch now) AudioBuffer
     const audioBuffer = await fetchAndDecodeAudio(text);
 
     if (cancelledRef.current) return;
@@ -474,7 +474,8 @@ function useNarration() {
       // Graceful fallback to Web Speech API
       if (typeof window !== 'undefined' && 'speechSynthesis' in window) {
         const u = new SpeechSynthesisUtterance(softenPunctuation(text));
-        u.rate = 0.88; u.pitch = 0.95;
+        u.rate = 0.88 * playbackRateRef.current;
+        u.pitch = 0.95;
         u.onend = () => { if (!cancelledRef.current) onEnd?.(); };
         window.speechSynthesis.speak(u);
       } else {
@@ -486,7 +487,9 @@ function useNarration() {
   const pause = useCallback(() => {
     const ctx = getSharedAudioCtx();
     if (sourceRef.current) {
-      pausedAtRef.current = ctx.currentTime - startTimeRef.current;
+      // Elapsed real time × playback rate = position in buffer
+      const elapsed = ctx.currentTime - startTimeRef.current;
+      pausedAtRef.current = elapsed * playbackRateRef.current;
       stopSource();
     }
   }, [stopSource]);
@@ -497,7 +500,6 @@ function useNarration() {
     }
   }, [playBuffer]);
 
-  // Clean up on unmount
   useEffect(() => {
     return () => {
       cancelledRef.current = true;
@@ -514,19 +516,24 @@ interface VideoGuideProps {
   data: VideoGuideData;
 }
 
-// Ava's name and daily greeting — shown once per calendar day
 const AVA_NAME = 'Ava';
 const AVA_GREETING_KEY = 'ava-greeting-date';
 
 function getAvaGreeting(): string | null {
   const today = new Date().toDateString();
   const lastSeen = localStorage.getItem(AVA_GREETING_KEY);
-  if (lastSeen === today) return null; // already greeted today
+  if (lastSeen === today) return null;
   localStorage.setItem(AVA_GREETING_KEY, today);
   const hour = new Date().getHours();
   const timeOfDay = hour < 12 ? 'morning' : hour < 17 ? 'afternoon' : 'evening';
   return `Hi, good ${timeOfDay}. I'm ${AVA_NAME}, your learning guide. Let's dive in.`;
 }
+
+const SPEED_OPTIONS: { label: string; value: number }[] = [
+  { label: '0.75×', value: 0.75 },
+  { label: '1×',    value: 1.0  },
+  { label: '1.25×', value: 1.25 },
+];
 
 export function VideoGuide({ data }: VideoGuideProps) {
   const { scenes, deckColor, deckBgColor, cardTitle } = data;
@@ -535,32 +542,43 @@ export function VideoGuide({ data }: VideoGuideProps) {
   const [isMuted, setIsMuted] = useState(false);
   const [hasStarted, setHasStarted] = useState(false);
   const [sceneKey, setSceneKey] = useState(0);
-  const { speak, stop, pause, resume, supported } = useNarration();
+  const [playbackRate, setPlaybackRate] = useState(1.0);
+  // true while scene 0 audio is still being fetched (shows spinner on Play button)
+  const [isWarmingUp, setIsWarmingUp] = useState(true);
+
+  const { speak, stop, pause, resume, supported } = useNarration(playbackRate);
   const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
-  const isMutedRef = useRef(isMuted);
-  isMutedRef.current = isMuted;
 
   const currentScene = scenes[currentIndex];
   const totalScenes = scenes.length;
   const progress = ((currentIndex + 1) / totalScenes) * 100;
 
-  // ── Pre-fetch: warm up audio for scene 0 as soon as the component mounts ──
-  // This means by the time the user presses Play, scene 0 audio is already decoded.
+  // ── Pre-fetch scene 0 on mount; show spinner until it's ready ──
   useEffect(() => {
-    if (scenes.length > 0) {
-      fetchAndDecodeAudio(scenes[0].narration).catch(() => {});
-    }
+    if (scenes.length === 0) return;
+    setIsWarmingUp(true);
+    fetchAndDecodeAudio(scenes[0].narration).then(() => {
+      setIsWarmingUp(false);
+    });
   }, [scenes]);
 
-  // ── Pre-fetch: while scene N is playing, silently fetch scene N+1 ──
+  // ── Smart pre-fetch: on fast connections fetch ALL scenes; otherwise just next ──
   useEffect(() => {
-    const nextIndex = currentIndex + 1;
-    if (nextIndex < scenes.length) {
-      fetchAndDecodeAudio(scenes[nextIndex].narration).catch(() => {});
+    if (scenes.length === 0) return;
+    if (isFastConnection()) {
+      // Stagger requests slightly to avoid hammering the TTS endpoint
+      scenes.forEach((scene, i) => {
+        setTimeout(() => fetchAndDecodeAudio(scene.narration).catch(() => {}), i * 300);
+      });
+    } else {
+      // Slow connection — only pre-fetch the next scene
+      const nextIndex = currentIndex + 1;
+      if (nextIndex < scenes.length) {
+        fetchAndDecodeAudio(scenes[nextIndex].narration).catch(() => {});
+      }
     }
-  }, [currentIndex, scenes]);
+  }, [scenes, currentIndex]);
 
-  // Calculate scene duration from narration length (~140 words/min for speech)
   const getSceneDuration = (scene: VideoScene) => {
     if (scene.durationMs) return scene.durationMs;
     const words = scene.narration.split(' ').length;
@@ -606,14 +624,10 @@ export function VideoGuide({ data }: VideoGuideProps) {
     setHasStarted(true);
     setIsPlaying(true);
 
-    // Ava greets the user once per day before the first scene
     if (!isMuted && supported && currentIndex === 0) {
       const greeting = getAvaGreeting();
       if (greeting) {
-        speak(greeting, () => {
-          // After greeting, play the first scene normally
-          playScene(0, isMuted);
-        });
+        speak(greeting, () => playScene(0, isMuted));
         return;
       }
     }
@@ -638,9 +652,7 @@ export function VideoGuide({ data }: VideoGuideProps) {
     if (currentIndex < totalScenes - 1) {
       setCurrentIndex(i => i + 1);
       setSceneKey(k => k + 1);
-      if (isPlaying) {
-        setTimeout(() => playScene(currentIndex + 1, isMuted), 50);
-      }
+      if (isPlaying) setTimeout(() => playScene(currentIndex + 1, isMuted), 50);
     }
   };
 
@@ -650,9 +662,7 @@ export function VideoGuide({ data }: VideoGuideProps) {
     if (currentIndex > 0) {
       setCurrentIndex(i => i - 1);
       setSceneKey(k => k + 1);
-      if (isPlaying) {
-        setTimeout(() => playScene(currentIndex - 1, isMuted), 50);
-      }
+      if (isPlaying) setTimeout(() => playScene(currentIndex - 1, isMuted), 50);
     }
   };
 
@@ -672,6 +682,16 @@ export function VideoGuide({ data }: VideoGuideProps) {
       if (timerRef.current) clearTimeout(timerRef.current);
       stop();
       setTimeout(() => playScene(currentIndex, newMuted), 50);
+    }
+  };
+
+  const handleSpeedChange = (rate: number) => {
+    setPlaybackRate(rate);
+    // If currently playing, restart the current scene at the new speed
+    if (isPlaying) {
+      if (timerRef.current) clearTimeout(timerRef.current);
+      stop();
+      setTimeout(() => playScene(currentIndex, isMuted), 50);
     }
   };
 
@@ -720,16 +740,25 @@ export function VideoGuide({ data }: VideoGuideProps) {
               style={{ background: `${deckBgColor}e8` }}
             >
               <motion.button
-                whileHover={{ scale: 1.08 }}
-                whileTap={{ scale: 0.95 }}
-                onClick={handlePlay}
-                className="w-16 h-16 rounded-full flex items-center justify-center text-white shadow-lg mb-3"
-                style={{ backgroundColor: deckColor }}
+                whileHover={{ scale: isWarmingUp ? 1 : 1.08 }}
+                whileTap={{ scale: isWarmingUp ? 1 : 0.95 }}
+                onClick={isWarmingUp ? undefined : handlePlay}
+                disabled={isWarmingUp}
+                className="w-16 h-16 rounded-full flex items-center justify-center text-white shadow-lg mb-3 relative"
+                style={{ backgroundColor: deckColor, opacity: isWarmingUp ? 0.85 : 1 }}
               >
-                <Play size={24} fill="white" />
+                {isWarmingUp ? (
+                  <Loader2 size={24} className="animate-spin" />
+                ) : (
+                  <Play size={24} fill="white" />
+                )}
               </motion.button>
-              <p className="text-sm font-semibold text-gray-700">Play Video Guide</p>
-              <p className="text-xs text-gray-500 mt-1">{totalScenes} scenes · ~{Math.round(scenes.reduce((s, sc) => s + getSceneDuration(sc), 0) / 1000 / 60)} min</p>
+              <p className="text-sm font-semibold text-gray-700">
+                {isWarmingUp ? 'Preparing audio…' : 'Play Video Guide'}
+              </p>
+              <p className="text-xs text-gray-500 mt-1">
+                {totalScenes} scenes · ~{Math.round(scenes.reduce((s, sc) => s + getSceneDuration(sc), 0) / 1000 / 60)} min
+              </p>
             </motion.div>
           )}
 
@@ -772,10 +801,14 @@ export function VideoGuide({ data }: VideoGuideProps) {
             ) : (
               <button
                 onClick={hasStarted ? handleResume : handlePlay}
-                className="w-10 h-10 rounded-full flex items-center justify-center text-white"
+                disabled={!hasStarted && isWarmingUp}
+                className="w-10 h-10 rounded-full flex items-center justify-center text-white disabled:opacity-60"
                 style={{ backgroundColor: deckColor }}
               >
-                <Play size={16} fill="white" />
+                {!hasStarted && isWarmingUp
+                  ? <Loader2 size={16} className="animate-spin" />
+                  : <Play size={16} fill="white" />
+                }
               </button>
             )}
 
@@ -812,6 +845,30 @@ export function VideoGuide({ data }: VideoGuideProps) {
             )}
           </div>
         </div>
+
+        {/* Speed control bar */}
+        {supported && (
+          <div
+            className="flex items-center justify-center gap-1.5 px-4 py-2 border-t"
+            style={{ backgroundColor: deckBgColor, borderColor: deckColor + '18' }}
+          >
+            <span className="text-[10px] font-semibold text-gray-400 mr-1">Speed</span>
+            {SPEED_OPTIONS.map(opt => (
+              <button
+                key={opt.value}
+                onClick={() => handleSpeedChange(opt.value)}
+                className="px-2.5 py-1 rounded-full text-[11px] font-bold transition-all"
+                style={{
+                  backgroundColor: playbackRate === opt.value ? deckColor : deckColor + '15',
+                  color: playbackRate === opt.value ? 'white' : deckColor,
+                  border: `1.5px solid ${playbackRate === opt.value ? deckColor : deckColor + '30'}`,
+                }}
+              >
+                {opt.label}
+              </button>
+            ))}
+          </div>
+        )}
       </div>
 
       {/* Scene strip */}
