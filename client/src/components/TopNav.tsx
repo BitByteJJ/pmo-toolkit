@@ -33,7 +33,7 @@ export default function TopNav({ accentColor = '#475569', bgColor }: TopNavProps
 
   return (
     <div
-      className="fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-4 h-11"
+      className="fixed top-0 left-0 right-0 z-50 h-11"
       style={{
         background: bg,
         backdropFilter: 'blur(14px)',
@@ -41,6 +41,7 @@ export default function TopNav({ accentColor = '#475569', bgColor }: TopNavProps
         borderBottom: `1.5px solid ${accentColor}22`,
       }}
     >
+      <div className="max-w-2xl mx-auto px-4 h-full flex items-center justify-between relative">
       {/* Home button */}
       <button
         onClick={() => navigate('/')}
@@ -52,7 +53,7 @@ export default function TopNav({ accentColor = '#475569', bgColor }: TopNavProps
         <span>Home</span>
       </button>
 
-      {/* App title — centred */}
+      {/* App title — centred within the content column */}
       <span
         className="absolute left-1/2 -translate-x-1/2 text-[11px] font-black tracking-tight text-stone-500 pointer-events-none select-none"
         style={{ fontFamily: 'Sora, sans-serif' }}
@@ -129,6 +130,7 @@ export default function TopNav({ accentColor = '#475569', bgColor }: TopNavProps
             </div>
           </div>
         )}
+      </div>
       </div>
     </div>
   );

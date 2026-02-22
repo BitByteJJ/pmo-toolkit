@@ -411,9 +411,9 @@ export default function Home() {
   ].filter(Boolean);
 
   return (
-    <div className="min-h-screen pb-24" style={{ backgroundColor: '#F5F3EE' }}>
+    <div className="min-h-screen pt-11 pb-24" style={{ backgroundColor: '#F5F3EE' }}>
       {/* Hero Banner */}
-      <div className="relative overflow-hidden px-4 pt-6 pb-2" style={{ backgroundColor: '#F5F3EE' }}>
+      <div className="relative overflow-hidden px-4 pt-6 pb-2 max-w-2xl mx-auto" style={{ backgroundColor: '#F5F3EE' }}>
         <motion.div
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
@@ -470,7 +470,7 @@ export default function Home() {
         </motion.div>
       </div>
 
-      <div className="px-4 pt-3 space-y-5">
+      <div className="px-4 pt-3 space-y-5 max-w-2xl mx-auto">
         {/* Quick Stats */}
         <motion.div initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.4, delay: 0.05 }}>
           <QuickStats />
