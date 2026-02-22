@@ -156,6 +156,20 @@ function vitePluginManusDebugCollector(): Plugin {
         }
       });
 
+      // POST /api/tts — Google Cloud TTS neural voice narration
+      server.middlewares.use("/api/tts", async (req: any, res: any, next: any) => {
+        if (req.method !== 'POST') return next();
+        try {
+          const mjsPath = path.resolve(PROJECT_ROOT, 'server', 'googleTts.mjs');
+          const { handleGoogleTts } = await import(/* @vite-ignore */ `${mjsPath}?t=${Date.now()}`);
+          await handleGoogleTts(req, res);
+        } catch (e) {
+          console.error('[Vite TTS]', e);
+          res.writeHead(500, { 'Content-Type': 'application/json' });
+          res.end(JSON.stringify({ error: String(e) }));
+        }
+      });
+
       // GET /api/image-proxy?url=... — proxy CDN images to avoid CORS issues for PDF export
       server.middlewares.use("/api/image-proxy", async (req, res, next) => {
         if (req.method !== "GET") return next();

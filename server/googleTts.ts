@@ -20,15 +20,52 @@ export async function handleGoogleTts(req: Request, res: Response): Promise<void
   try {
     const apiKey = process.env.GOOGLE_TTS_API_KEY;
     if (!apiKey) {
-      res.status(500).json({ error: 'Google TTS API key not configured' });
+      (res as any).writeHead
+        ? ((res as any).writeHead(500, { 'Content-Type': 'application/json' }), (res as any).end(JSON.stringify({ error: 'Google TTS API key not configured' })))
+        : res.status(500).json({ error: 'Google TTS API key not configured' });
       return;
     }
 
-    const { text } = (req as any)._parsedBody || req.body || {};
+    // Parse body — support both pre-parsed (Express) and raw stream (Vite dev)
+    let parsedBody: { text?: string } = {};
+    if ((req as any)._parsedBody) {
+      parsedBody = (req as any)._parsedBody;
+    } else if ((req as any).body) {
+      parsedBody = (req as any).body;
+    } else {
+      // Raw stream — read and parse manually
+      await new Promise<void>((resolve) => {
+        let raw = '';
+        (req as any).on('data', (chunk: Buffer) => { raw += chunk.toString(); });
+        (req as any).on('end', () => {
+          try { parsedBody = JSON.parse(raw); } catch { /* invalid JSON */ }
+          resolve();
+        });
+      });
+    }
+
+    const { text } = parsedBody;
     if (!text || typeof text !== 'string') {
-      res.status(400).json({ error: 'Missing or invalid text parameter' });
+      const sendErr = (code: number, msg: object) => {
+        if ((res as any).writeHead) {
+          (res as any).writeHead(code, { 'Content-Type': 'application/json' });
+          (res as any).end(JSON.stringify(msg));
+        } else {
+          (res as any).status(code).json(msg);
+        }
+      };
+      sendErr(400, { error: 'Missing or invalid text parameter' });
       return;
     }
+
+    const sendJson = (code: number, data: object) => {
+      if ((res as any).writeHead) {
+        (res as any).writeHead(code, { 'Content-Type': 'application/json' });
+        (res as any).end(JSON.stringify(data));
+      } else {
+        (res as any).status(code).json(data);
+      }
+    };
 
     // Limit text length to avoid excessive API costs
     const truncated = text.slice(0, 4000);
@@ -67,20 +104,28 @@ export async function handleGoogleTts(req: Request, res: Response): Promise<void
     if (!response.ok) {
       const errText = await response.text();
       console.error('[TTS] Google TTS error:', errText.slice(0, 300));
-      res.status(response.status).json({ error: 'Google TTS API error', details: errText.slice(0, 200) });
+      sendJson(response.status, { error: 'Google TTS API error', details: errText.slice(0, 200) });
       return;
     }
 
     const data = await response.json() as { audioContent?: string };
     if (!data.audioContent) {
-      res.status(500).json({ error: 'No audio content returned from Google TTS' });
+      sendJson(500, { error: 'No audio content returned from Google TTS' });
       return;
     }
 
     // Return the base64 audio content as JSON — client will decode and play
-    res.json({ audioContent: data.audioContent, format: 'mp3' });
+    sendJson(200, { audioContent: data.audioContent, format: 'mp3' });
   } catch (err) {
     console.error('[TTS] Unexpected error:', err);
-    res.status(500).json({ error: 'Internal TTS error', details: String(err) });
+    const sendErrFallback = (code: number, data: object) => {
+      if ((res as any).writeHead) {
+        (res as any).writeHead(code, { 'Content-Type': 'application/json' });
+        (res as any).end(JSON.stringify(data));
+      } else {
+        (res as any).status(code).json(data);
+      }
+    };
+    sendErrFallback(500, { error: 'Internal TTS error', details: String(err) });
   }
 }
