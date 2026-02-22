@@ -39,7 +39,7 @@ export default function TopNav({ accentColor = '#475569' }: TopNavProps) {
         boxShadow: '0 1px 0 rgba(255,255,255,0.8) inset, 0 1px 3px rgba(0,0,0,0.05)',
       }}
     >
-      <div className="max-w-2xl mx-auto px-4 h-full flex items-center justify-between relative">
+      <div className="px-4 h-full flex items-center justify-between relative" style={{ maxWidth: '480px', margin: '0 auto', width: '100%' }}>
 
         {/* Home button */}
         <button

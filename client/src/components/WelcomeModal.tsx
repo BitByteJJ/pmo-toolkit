@@ -90,7 +90,7 @@ export default function WelcomeModal() {
                 Welcome to StratAlign
               </h2>
               <p className="text-sm text-stone-500 leading-relaxed mb-5">
-                154 project management tools, techniques, and frameworks — all in one place.
+                166 project management tools, techniques, and frameworks — all in one place.
                 Not sure where to start? Let us point you in the right direction.
               </p>
 

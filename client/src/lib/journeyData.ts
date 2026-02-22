@@ -2524,7 +2524,7 @@ export const JOURNEY_LESSONS: JourneyLesson[] = [
         type: 'mcq',
         prompt: 'A PM who has completed this 30-day journey should be able to do which of the following?',
         options: [
-          'Memorise all 174 cards and recite them on demand',
+          'Memorise all 166 cards and recite them on demand',
           'Apply the right tool or technique to the right situation — selecting from the full toolkit based on context',
           'Manage any project without stakeholder input',
           'Guarantee project success regardless of external factors',

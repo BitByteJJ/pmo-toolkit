@@ -75,7 +75,7 @@ export const DECKS: Deck[] = [
     bgColor: '#FFE4E6',
     textColor: '#881337',
     icon: '👥',
-    cardCount: 17,
+    cardCount: 18,
     description: 'Lead teams, manage conflict, build shared understanding, and empower stakeholders.',
   },
   {
