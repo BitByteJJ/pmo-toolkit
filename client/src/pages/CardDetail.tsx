@@ -26,6 +26,7 @@ import { getCaseStudyByCardId } from '@/lib/caseStudiesData';
 import { getTermsForCard } from '@/lib/glossaryData';
 import { MarkdownTemplateRenderer, templateToCSV } from '@/components/MarkdownTemplateRenderer';
 import { getCardLevel, LEVEL_LABELS, LEVEL_COLORS } from '@/lib/cardLevels';
+import { VideoGuide } from '@/components/VideoGuide';
 import { generateCardPDF } from '@/lib/cardPdfExport';
 import { useMasteryBadges } from '@/hooks/useMasteryBadges';
 
@@ -193,7 +194,7 @@ export default function CardDetail() {
   const [showShare, setShowShare] = useState(false);
   const [showNotes, setShowNotes] = useState(false);
   const [noteText, setNoteText] = useState('');
-  const [activeTab, setActiveTab] = useState<'overview' | 'template' | 'case-study' | 'deep-dive' | 'script'>('overview');
+  const [activeTab, setActiveTab] = useState<'overview' | 'template' | 'case-study' | 'deep-dive' | 'video-guide'>('overview');
 
   // Deep Dive state
   const [deepDive, setDeepDive] = useState<{
@@ -207,19 +208,10 @@ export default function CardDetail() {
   const [deepDiveError, setDeepDiveError] = useState<string | null>(null);
   const [deepDiveOpenSection, setDeepDiveOpenSection] = useState<string | null>('coreConcept');
 
-  // Video Script state
-  const [videoScript, setVideoScript] = useState<{
-    hook: string;
-    coreConcept: string;
-    whyItWorks: string;
-    whatItDoes: string;
-    whenToUse: string;
-    whenNotToUse: string;
-    callToAction: string;
-  } | null>(null);
-  const [scriptLoading, setScriptLoading] = useState(false);
-  const [scriptError, setScriptError] = useState<string | null>(null);
-  const [scriptCopied, setScriptCopied] = useState(false);
+  // Video Guide state
+  const [videoGuideScenes, setVideoGuideScenes] = useState<import('@/components/VideoGuide').VideoScene[] | null>(null);
+  const [videoGuideLoading, setVideoGuideLoading] = useState(false);
+  const [videoGuideError, setVideoGuideError] = useState<string | null>(null);
   const [copied, setCopied] = useState(false);
   const [pdfGenerating, setPdfGenerating] = useState(false);
   const [showCelebration, setShowCelebration] = useState(false);
@@ -322,14 +314,14 @@ export default function CardDetail() {
 
   // Reset tab to overview when navigating to a card without a template or case study
   useEffect(() => {
-    if (!template && !caseStudy && activeTab !== 'deep-dive' && activeTab !== 'script') setActiveTab('overview');
+    if (!template && !caseStudy && activeTab !== 'deep-dive' && activeTab !== 'video-guide') setActiveTab('overview');
     else if (activeTab === 'template' && !template) setActiveTab('overview');
     else if (activeTab === 'case-study' && !caseStudy) setActiveTab('overview');
-    // Reset deep dive / script when card changes
+    // Reset deep dive / video guide when card changes
     setDeepDive(null);
     setDeepDiveError(null);
-    setVideoScript(null);
-    setScriptError(null);
+    setVideoGuideScenes(null);
+    setVideoGuideError(null);
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [cardId]);
 
@@ -359,29 +351,44 @@ export default function CardDetail() {
     }
   }
 
-  async function fetchVideoScript() {
-    if (!card || scriptLoading) return;
-    setScriptLoading(true);
-    setScriptError(null);
+  async function fetchVideoGuide() {
+    if (!card || videoGuideLoading) return;
+    // Check localStorage cache first
+    const cacheKey = `video-guide-${card.id}`;
+    const cached = localStorage.getItem(cacheKey);
+    if (cached) {
+      try {
+        const parsed = JSON.parse(cached);
+        if (parsed?.scenes) { setVideoGuideScenes(parsed.scenes); return; }
+      } catch { /* ignore */ }
+    }
+    setVideoGuideLoading(true);
+    setVideoGuideError(null);
     try {
-      const res = await fetch('/api/ai-video-script', {
+      const res = await fetch('/api/ai-video-guide', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          title: card.title,
+          cardId: card.id,
+          cardTitle: card.title,
           tagline: card.tagline,
           whatItIs: card.whatItIs,
-          code: card.code ?? card.id,
           whenToUse: card.whenToUse ?? '',
+          steps: card.steps ?? [],
         }),
       });
-      if (!res.ok) throw new Error('Failed to generate script');
+      if (!res.ok) throw new Error('Failed to generate video guide');
       const data = await res.json();
-      setVideoScript(data);
+      if (data.scenes) {
+        setVideoGuideScenes(data.scenes);
+        localStorage.setItem(cacheKey, JSON.stringify(data));
+      } else {
+        throw new Error('Invalid response');
+      }
     } catch (e: any) {
-      setScriptError(e?.message ?? 'Something went wrong');
+      setVideoGuideError(e?.message ?? 'Something went wrong');
     } finally {
-      setScriptLoading(false);
+      setVideoGuideLoading(false);
     }
   }
 
@@ -712,7 +719,7 @@ export default function CardDetail() {
       <div className="sticky top-0 z-30 bg-[#FAFAF8]/95 backdrop-blur-sm border-b border-stone-100">
         <div className="max-w-2xl mx-auto px-4">
           <div className="flex gap-1 pt-2 pb-0 overflow-x-auto scrollbar-none">
-            {(['overview', ...(template ? ['template'] : []), ...(caseStudy ? ['case-study'] : []), 'deep-dive', 'script'] as ('overview' | 'template' | 'case-study' | 'deep-dive' | 'script')[]).map(tab => (
+            {(['overview', ...(template ? ['template'] : []), ...(caseStudy ? ['case-study'] : []), 'deep-dive', 'video-guide'] as ('overview' | 'template' | 'case-study' | 'deep-dive' | 'video-guide')[]).map(tab => (
               <button
                 key={tab}
                 onClick={() => setActiveTab(tab)}
@@ -724,8 +731,8 @@ export default function CardDetail() {
                 {tab === 'template' && <FileText size={11} />}
                 {tab === 'case-study' && <BookOpen size={11} />}
                 {tab === 'deep-dive' && <Cpu size={11} />}
-                {tab === 'script' && <Zap size={11} />}
-                {tab === 'overview' ? 'Overview' : tab === 'template' ? 'Template' : tab === 'case-study' ? 'Case Study' : tab === 'deep-dive' ? 'Deep Dive' : 'Script'}
+                {tab === 'video-guide' && <Zap size={11} />}
+                {tab === 'overview' ? 'Overview' : tab === 'template' ? 'Template' : tab === 'case-study' ? 'Case Study' : tab === 'deep-dive' ? 'Deep Dive' : 'Video Guide'}
                 {tab === 'template' && template && (
                   <span
                     className="text-[8px] font-bold px-1 py-0.5 rounded-full"
@@ -1211,118 +1218,70 @@ export default function CardDetail() {
             </div>
           )}
 
-          {/* ── SCRIPT TAB ── */}
-          {activeTab === 'script' && (
-            <div className="space-y-4 pb-8">
-              {/* Header */}
-              <div
-                className="rounded-2xl p-4"
-                style={{ backgroundColor: (deck?.color ?? '#0284C7') + '10', border: `1.5px solid ${deck?.color ?? '#0284C7'}25` }}
-              >
-                <div className="flex items-center gap-2 mb-2">
-                  <div className="w-8 h-8 rounded-xl flex items-center justify-center shrink-0" style={{ backgroundColor: deck?.color ?? '#0284C7' }}>
-                    <Zap size={14} className="text-white" />
+          {/* ── VIDEO GUIDE TAB ── */}
+          {activeTab === 'video-guide' && (
+            <div className="pb-8">
+              {!videoGuideScenes && !videoGuideLoading && !videoGuideError && (
+                <div className="space-y-4">
+                  <div
+                    className="rounded-2xl p-4"
+                    style={{ backgroundColor: (deck?.color ?? '#0284C7') + '10', border: `1.5px solid ${deck?.color ?? '#0284C7'}25` }}
+                  >
+                    <div className="flex items-center gap-2 mb-2">
+                      <div className="w-8 h-8 rounded-xl flex items-center justify-center shrink-0" style={{ backgroundColor: deck?.color ?? '#0284C7' }}>
+                        <Zap size={14} className="text-white" />
+                      </div>
+                      <div>
+                        <div className="text-[9px] font-bold uppercase tracking-widest" style={{ color: deck?.color }}>Video Guide</div>
+                        <h3 className="text-sm font-bold text-stone-800 leading-tight" style={{ fontFamily: 'Sora, sans-serif' }}>{card.title}</h3>
+                      </div>
+                    </div>
+                    <p className="text-[12px] text-stone-500 leading-relaxed">
+                      An animated motion graphics guide with narration — covering the core concept, how it works, a real-world example, and when to use it.
+                    </p>
                   </div>
-                  <div>
-                    <div className="text-[9px] font-bold uppercase tracking-widest" style={{ color: deck?.color }}>Video Script</div>
-                    <h3 className="text-sm font-bold text-stone-800 leading-tight" style={{ fontFamily: 'Sora, sans-serif' }}>{card.title}</h3>
-                  </div>
+                  <button
+                    onClick={fetchVideoGuide}
+                    className="w-full flex items-center justify-center gap-2 rounded-2xl py-4 px-4 font-semibold text-[13px] transition-all active:scale-[0.97] hover:opacity-90"
+                    style={{ backgroundColor: deck?.color ?? '#0284C7', color: '#fff' }}
+                  >
+                    <Zap size={15} />
+                    Generate Video Guide
+                  </button>
                 </div>
-                <p className="text-[12px] text-stone-500 leading-relaxed">
-                  A ~2-minute conversational script covering the hook, core concept, why it works, how to use it, and when to avoid it.
-                </p>
-              </div>
-
-              {!videoScript && !scriptLoading && !scriptError && (
-                <button
-                  onClick={() => { fetchVideoScript(); }}
-                  className="w-full flex items-center justify-center gap-2 rounded-2xl py-4 px-4 font-semibold text-[13px] transition-all active:scale-[0.97] hover:opacity-90"
-                  style={{ backgroundColor: deck?.color ?? '#0284C7', color: '#fff' }}
-                >
-                  <Zap size={15} />
-                  Generate Video Script
-                </button>
               )}
 
-              {scriptLoading && (
+              {videoGuideLoading && (
                 <div className="flex flex-col items-center justify-center py-12 gap-3">
                   <svg className="animate-spin" width={24} height={24} viewBox="0 0 24 24" fill="none" stroke={deck?.color ?? '#0284C7'} strokeWidth={2.5}><circle cx="12" cy="12" r="10" strokeOpacity={0.25}/><path d="M12 2a10 10 0 0 1 10 10" /></svg>
-                  <p className="text-[12px] text-stone-400 font-medium">Writing your script…</p>
+                  <p className="text-[12px] text-stone-400 font-medium">Generating your video guide…</p>
                 </div>
               )}
 
-              {scriptError && (
+              {videoGuideError && (
                 <div className="rounded-2xl p-4 bg-red-50 border border-red-100">
-                  <p className="text-[12px] text-red-600 mb-2">{scriptError}</p>
-                  <button onClick={fetchVideoScript} className="text-[11px] font-bold" style={{ color: deck?.color }}>Try again</button>
+                  <p className="text-[12px] text-red-600 mb-2">{videoGuideError}</p>
+                  <button onClick={fetchVideoGuide} className="text-[11px] font-bold" style={{ color: deck?.color }}>Try again</button>
                 </div>
               )}
 
-              {videoScript && (
-                <div className="space-y-3">
-                  {/* Copy full script button */}
-                  <button
-                    onClick={() => {
-                      const full = [
-                        `🎬 VIDEO SCRIPT: ${card.title}`,
-                        '',
-                        '🪝 HOOK',
-                        videoScript.hook,
-                        '',
-                        '💡 CORE CONCEPT',
-                        videoScript.coreConcept,
-                        '',
-                        '⚙️ WHY IT WORKS',
-                        videoScript.whyItWorks,
-                        '',
-                        '📋 WHAT IT DOES',
-                        videoScript.whatItDoes,
-                        '',
-                        '✅ WHEN TO USE',
-                        videoScript.whenToUse,
-                        '',
-                        '🚫 WHEN NOT TO USE',
-                        videoScript.whenNotToUse,
-                        '',
-                        '🚀 CALL TO ACTION',
-                        videoScript.callToAction,
-                      ].join('\n');
-                      navigator.clipboard.writeText(full);
-                      setScriptCopied(true);
-                      setTimeout(() => setScriptCopied(false), 2000);
+              {videoGuideScenes && (
+                <div>
+                  <VideoGuide
+                    data={{
+                      cardId: card.id,
+                      cardTitle: card.title,
+                      deckColor: deck?.color ?? '#0284C7',
+                      deckBgColor: deck?.bgColor ?? '#EFF6FF',
+                      scenes: videoGuideScenes,
                     }}
-                    className="w-full flex items-center justify-center gap-2 rounded-2xl py-3 px-4 font-semibold text-[12px] transition-all active:scale-[0.97] border"
-                    style={{ borderColor: (deck?.color ?? '#0284C7') + '40', color: deck?.color ?? '#0284C7', backgroundColor: (deck?.color ?? '#0284C7') + '08' }}
-                  >
-                    {scriptCopied ? <Check size={13} /> : <Copy size={13} />}
-                    {scriptCopied ? 'Copied!' : 'Copy Full Script'}
-                  </button>
-
-                  {/* Script sections */}
-                  {([
-                    { key: 'hook', emoji: '🪝', label: 'Hook', bg: '#FEF3C7', border: '#FDE68A', text: '#92400E' },
-                    { key: 'coreConcept', emoji: '💡', label: 'Core Concept', bg: '#EFF6FF', border: '#BFDBFE', text: '#1E40AF' },
-                    { key: 'whyItWorks', emoji: '⚙️', label: 'Why It Works', bg: '#ECFDF5', border: '#A7F3D0', text: '#065F46' },
-                    { key: 'whatItDoes', emoji: '📋', label: 'What It Does', bg: '#F5F3FF', border: '#DDD6FE', text: '#5B21B6' },
-                    { key: 'whenToUse', emoji: '✅', label: 'When to Use', bg: '#F0FDF4', border: '#BBF7D0', text: '#14532D' },
-                    { key: 'whenNotToUse', emoji: '🚫', label: 'When NOT to Use', bg: '#FFF1F2', border: '#FECDD3', text: '#9F1239' },
-                    { key: 'callToAction', emoji: '🚀', label: 'Call to Action', bg: '#FFF7ED', border: '#FED7AA', text: '#7C2D12' },
-                  ] as const).map(({ key, emoji, label, bg, border, text }) => (
-                    <div key={key} className="rounded-2xl p-4" style={{ backgroundColor: bg, border: `1.5px solid ${border}` }}>
-                      <div className="flex items-center gap-2 mb-2">
-                        <span className="text-base">{emoji}</span>
-                        <span className="text-[10px] font-bold uppercase tracking-wider" style={{ color: text }}>{label}</span>
-                      </div>
-                      <p className="text-[13px] leading-relaxed" style={{ color: text, opacity: 0.85 }}>{videoScript[key]}</p>
-                    </div>
-                  ))}
-
+                  />
                   <button
-                    onClick={() => { setVideoScript(null); fetchVideoScript(); }}
-                    className="w-full text-center text-[11px] font-semibold py-2 rounded-xl transition-all hover:opacity-70"
+                    onClick={() => { setVideoGuideScenes(null); localStorage.removeItem(`video-guide-${card.id}`); fetchVideoGuide(); }}
+                    className="w-full text-center text-[11px] font-semibold py-2 rounded-xl transition-all hover:opacity-70 mt-3"
                     style={{ color: deck?.color }}
                   >
-                    Regenerate Script
+                    Regenerate Guide
                   </button>
                 </div>
               )}

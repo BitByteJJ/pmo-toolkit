@@ -151,3 +151,16 @@
 - [x] Design journey data for Beginner / Intermediate / Advanced paths (~10 cards each)
 - [x] Build visual roadmap page with experience level selector
 - [x] Wire roadmap into navigation
+
+## Deep Dive Static Content (Replace AI)
+- [ ] Write static deepDiveData.ts with 5 sections per card for all 144 cards (Core Concept, How It Works, Real-World Example, Common Mistakes, When NOT to Use)
+- [ ] Remove AI deep dive endpoint and replace Deep Dive tab with static content rendering
+- [ ] Ensure all content is accurate, consistent, and referenced to established PM sources
+
+## Video Guide Tab (In-Browser Animated Player)
+- [ ] Build VideoGuide React component — animated scene player with CSS/SVG motion graphics
+- [ ] Build AI scene script endpoint — generates structured scenes (title, narration, animation type, key points) per card
+- [ ] Implement Web Speech API narration synced to scene transitions
+- [ ] Add scene types: title card, bullet reveal, diagram animation, quote highlight, summary
+- [ ] Replace Script tab with Video Guide tab in CardDetail
+- [ ] Cache generated scene data in localStorage per card

@@ -5,6 +5,7 @@ import { fileURLToPath } from "url";
 import { handleAiSuggest } from "./aiSuggest.js";
 import { handleAiDeepDive } from "./aiDeepDive.js";
 import { handleAiVideoScript } from "./aiVideoScript.js";
+import { handleAiVideoGuide } from "./aiVideoGuide.js";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -39,6 +40,16 @@ async function startServer() {
     try {
       (req as any)._parsedBody = req.body;
       await handleAiVideoScript(req as any, res as any);
+    } catch (e) {
+      next(e);
+    }
+  });
+
+  // AI Video Guide endpoint
+  app.post('/api/ai-video-guide', express.json(), async (req, res, next) => {
+    try {
+      (req as any).body = req.body;
+      await handleAiVideoGuide(req as any, res as any);
     } catch (e) {
       next(e);
     }

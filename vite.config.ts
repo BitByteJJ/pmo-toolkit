@@ -142,6 +142,20 @@ function vitePluginManusDebugCollector(): Plugin {
         }
       });
 
+      // POST /api/ai-video-guide — AI video guide scene generator
+      server.middlewares.use("/api/ai-video-guide", async (req: any, res: any, next: any) => {
+        if (req.method !== 'POST') return next();
+        try {
+          const mjsPath = path.resolve(PROJECT_ROOT, 'server', 'aiVideoGuide.mjs');
+          const { handleAiVideoGuide } = await import(/* @vite-ignore */ `${mjsPath}?t=${Date.now()}`);
+          await handleAiVideoGuide(req, res);
+        } catch (e) {
+          console.error('[Vite AI Video Guide]', e);
+          res.writeHead(500, { 'Content-Type': 'application/json' });
+          res.end(JSON.stringify({ error: String(e) }));
+        }
+      });
+
       // GET /api/image-proxy?url=... — proxy CDN images to avoid CORS issues for PDF export
       server.middlewares.use("/api/image-proxy", async (req, res, next) => {
         if (req.method !== "GET") return next();
