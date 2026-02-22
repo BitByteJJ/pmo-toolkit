@@ -2,17 +2,16 @@ import type { Request, Response } from 'express';
 
 const GOOGLE_TTS_URL = 'https://texttospeech.googleapis.com/v1/text:synthesize';
 
-// High-quality Neural2 voice — British English female (natural, authoritative)
+/// Journey-F — Google's most natural, conversational voice (designed for long-form content)
 const VOICE_CONFIG = {
-  languageCode: 'en-GB',
-  name: 'en-GB-Neural2-C', // Female, clear, professional
+  languageCode: 'en-US',
+  name: 'en-US-Journey-F', // Warm, natural, encouraging — ideal for explainer narration
   ssmlGender: 'FEMALE',
 };
-
-// Fallback voice if Neural2 quota is exceeded
+// Fallback: Neural2-F if Journey quota is exceeded
 const FALLBACK_VOICE = {
-  languageCode: 'en-GB',
-  name: 'en-GB-Wavenet-C',
+  languageCode: 'en-US',
+  name: 'en-US-Neural2-F',
   ssmlGender: 'FEMALE',
 };
 
@@ -75,9 +74,9 @@ export async function handleGoogleTts(req: Request, res: Response): Promise<void
       voice: VOICE_CONFIG,
       audioConfig: {
         audioEncoding: 'MP3',
-        speakingRate: 0.92,   // Slightly slower for clarity
-        pitch: -1.0,           // Slightly lower pitch — more authoritative
-        volumeGainDb: 1.0,
+        speakingRate: 1.0,    // Natural pace — Journey voice handles rhythm itself
+        pitch: 0.0,           // No pitch adjustment — Journey voice is naturally warm
+        volumeGainDb: 1.5,    // Slightly louder for clarity
         effectsProfileId: ['headphone-class-device'],
       },
     };

@@ -1,14 +1,14 @@
 // server/googleTts.ts
 var GOOGLE_TTS_URL = "https://texttospeech.googleapis.com/v1/text:synthesize";
 var VOICE_CONFIG = {
-  languageCode: "en-GB",
-  name: "en-GB-Neural2-C",
-  // Female, clear, professional
+  languageCode: "en-US",
+  name: "en-US-Journey-F",
+  // Warm, natural, encouraging — ideal for explainer narration
   ssmlGender: "FEMALE"
 };
 var FALLBACK_VOICE = {
-  languageCode: "en-GB",
-  name: "en-GB-Wavenet-C",
+  languageCode: "en-US",
+  name: "en-US-Neural2-F",
   ssmlGender: "FEMALE"
 };
 async function handleGoogleTts(req, res) {
@@ -65,11 +65,12 @@ async function handleGoogleTts(req, res) {
       voice: VOICE_CONFIG,
       audioConfig: {
         audioEncoding: "MP3",
-        speakingRate: 0.92,
-        // Slightly slower for clarity
-        pitch: -1,
-        // Slightly lower pitch — more authoritative
-        volumeGainDb: 1,
+        speakingRate: 1,
+        // Natural pace — Journey voice handles rhythm itself
+        pitch: 0,
+        // No pitch adjustment — Journey voice is naturally warm
+        volumeGainDb: 1.5,
+        // Slightly louder for clarity
         effectsProfileId: ["headphone-class-device"]
       }
     };
