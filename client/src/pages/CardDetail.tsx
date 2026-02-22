@@ -26,6 +26,7 @@ import { getCaseStudyByCardId } from '@/lib/caseStudiesData';
 import { getTermsForCard } from '@/lib/glossaryData';
 import { MarkdownTemplateRenderer, templateToCSV } from '@/components/MarkdownTemplateRenderer';
 import { getCardLevel, LEVEL_LABELS, LEVEL_COLORS } from '@/lib/cardLevels';
+import { deepDiveData } from '@/lib/deepDiveData';
 import { VideoGuide } from '@/components/VideoGuide';
 import { generateCardPDF } from '@/lib/cardPdfExport';
 import { useMasteryBadges } from '@/hooks/useMasteryBadges';
@@ -196,16 +197,7 @@ export default function CardDetail() {
   const [noteText, setNoteText] = useState('');
   const [activeTab, setActiveTab] = useState<'overview' | 'template' | 'case-study' | 'deep-dive' | 'video-guide'>('overview');
 
-  // Deep Dive state
-  const [deepDive, setDeepDive] = useState<{
-    coreConcept: string;
-    howItWorks: string;
-    realWorldExample: string;
-    commonMistakes: string;
-    whenNotToUse: string;
-  } | null>(null);
-  const [deepDiveLoading, setDeepDiveLoading] = useState(false);
-  const [deepDiveError, setDeepDiveError] = useState<string | null>(null);
+  // Deep Dive — static data
   const [deepDiveOpenSection, setDeepDiveOpenSection] = useState<string | null>('coreConcept');
 
   // Video Guide state
@@ -317,39 +309,11 @@ export default function CardDetail() {
     if (!template && !caseStudy && activeTab !== 'deep-dive' && activeTab !== 'video-guide') setActiveTab('overview');
     else if (activeTab === 'template' && !template) setActiveTab('overview');
     else if (activeTab === 'case-study' && !caseStudy) setActiveTab('overview');
-    // Reset deep dive / video guide when card changes
-    setDeepDive(null);
-    setDeepDiveError(null);
+    // Reset video guide when card changes
     setVideoGuideScenes(null);
     setVideoGuideError(null);
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [cardId]);
-
-  async function fetchDeepDive() {
-    if (!card || deepDiveLoading) return;
-    setDeepDiveLoading(true);
-    setDeepDiveError(null);
-    try {
-      const res = await fetch('/api/ai-deep-dive', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          title: card.title,
-          tagline: card.tagline,
-          whatItIs: card.whatItIs,
-          code: card.code ?? card.id,
-          whenToUse: card.whenToUse ?? '',
-        }),
-      });
-      if (!res.ok) throw new Error('Failed to generate deep dive');
-      const data = await res.json();
-      setDeepDive(data);
-    } catch (e: any) {
-      setDeepDiveError(e?.message ?? 'Something went wrong');
-    } finally {
-      setDeepDiveLoading(false);
-    }
-  }
 
   async function fetchVideoGuide() {
     if (!card || videoGuideLoading) return;
@@ -1126,95 +1090,72 @@ export default function CardDetail() {
 
           {/* ── DEEP DIVE TAB ── */}
           {activeTab === 'deep-dive' && (
-            <div className="space-y-4 pb-8">
-              {/* Header */}
-              <div
-                className="rounded-2xl p-4"
-                style={{ backgroundColor: (deck?.color ?? '#0284C7') + '10', border: `1.5px solid ${deck?.color ?? '#0284C7'}25` }}
-              >
-                <div className="flex items-center gap-2 mb-2">
-                  <div className="w-8 h-8 rounded-xl flex items-center justify-center shrink-0" style={{ backgroundColor: deck?.color ?? '#0284C7' }}>
-                    <Cpu size={14} className="text-white" />
-                  </div>
-                  <div>
-                    <div className="text-[9px] font-bold uppercase tracking-widest" style={{ color: deck?.color }}>AI Deep Dive</div>
-                    <h3 className="text-sm font-bold text-stone-800 leading-tight" style={{ fontFamily: 'Sora, sans-serif' }}>{card.title}</h3>
-                  </div>
-                </div>
-                <p className="text-[12px] text-stone-500 leading-relaxed">
-                  A detailed breakdown of the core concept, mechanics, real-world application, common mistakes, and when NOT to use this tool.
-                </p>
-              </div>
-
-              {/* Generate / Loading / Error */}
-              {!deepDive && !deepDiveLoading && !deepDiveError && (
-                <button
-                  onClick={() => { fetchDeepDive(); }}
-                  className="w-full flex items-center justify-center gap-2 rounded-2xl py-4 px-4 font-semibold text-[13px] transition-all active:scale-[0.97] hover:opacity-90"
-                  style={{ backgroundColor: deck?.color ?? '#0284C7', color: '#fff' }}
-                >
-                  <Cpu size={15} />
-                  Generate Deep Dive
-                </button>
-              )}
-
-              {deepDiveLoading && (
-                <div className="flex flex-col items-center justify-center py-12 gap-3">
-                  <svg className="animate-spin" width={24} height={24} viewBox="0 0 24 24" fill="none" stroke={deck?.color ?? '#0284C7'} strokeWidth={2.5}><circle cx="12" cy="12" r="10" strokeOpacity={0.25}/><path d="M12 2a10 10 0 0 1 10 10" /></svg>
-                  <p className="text-[12px] text-stone-400 font-medium">Generating deep dive…</p>
-                </div>
-              )}
-
-              {deepDiveError && (
-                <div className="rounded-2xl p-4 bg-red-50 border border-red-100">
-                  <p className="text-[12px] text-red-600 mb-2">{deepDiveError}</p>
-                  <button onClick={fetchDeepDive} className="text-[11px] font-bold" style={{ color: deck?.color }}>Try again</button>
-                </div>
-              )}
-
-              {deepDive && (
-                <div className="space-y-2">
-                  {([
-                    { key: 'coreConcept', label: 'Core Concept', icon: Lightbulb, color: '#0284C7' },
-                    { key: 'howItWorks', label: 'How It Works', icon: ListChecks, color: '#059669' },
-                    { key: 'realWorldExample', label: 'Real-World Example', icon: Sparkles, color: '#D97706' },
-                    { key: 'commonMistakes', label: 'Common Mistakes', icon: Zap, color: '#DC2626' },
-                    { key: 'whenNotToUse', label: 'When NOT to Use', icon: ShieldCheck, color: '#7C3AED' },
-                  ] as const).map(({ key, label, icon: Icon, color }) => (
-                    <div key={key} className="bg-white rounded-2xl overflow-hidden" style={{ boxShadow: '0 1px 3px rgba(0,0,0,0.05)' }}>
-                      <button
-                        onClick={() => setDeepDiveOpenSection(deepDiveOpenSection === key ? null : key)}
-                        className="w-full flex items-center justify-between px-4 py-3.5 text-left"
-                      >
-                        <div className="flex items-center gap-2.5">
-                          <div className="w-6 h-6 rounded-lg flex items-center justify-center shrink-0" style={{ backgroundColor: color + '18' }}>
-                            <Icon size={12} style={{ color }} />
-                          </div>
-                          <span className="text-[12px] font-bold text-stone-700">{label}</span>
-                        </div>
-                        <ChevronRight
-                          size={14}
-                          className="text-stone-300 transition-transform shrink-0"
-                          style={{ transform: deepDiveOpenSection === key ? 'rotate(90deg)' : 'rotate(0deg)' }}
-                        />
-                      </button>
-                      {deepDiveOpenSection === key && (
-                        <div className="px-4 pb-4">
-                          <div className="h-px bg-stone-100 mb-3" />
-                          <p className="text-[13px] text-stone-600 leading-relaxed">{deepDive[key]}</p>
-                        </div>
-                      )}
+            <div className="space-y-3 pb-8">
+              {(() => {
+                const dd = deepDiveData[card.id];
+                if (!dd) {
+                  return (
+                    <div className="rounded-2xl p-6 text-center" style={{ backgroundColor: (deck?.color ?? '#0284C7') + '08', border: `1px solid ${deck?.color ?? '#0284C7'}20` }}>
+                      <p className="text-[12px] text-stone-400">Deep Dive content coming soon for this card.</p>
                     </div>
-                  ))}
-                  <button
-                    onClick={() => { setDeepDive(null); fetchDeepDive(); }}
-                    className="w-full text-center text-[11px] font-semibold py-2 rounded-xl transition-all hover:opacity-70"
-                    style={{ color: deck?.color }}
-                  >
-                    Regenerate
-                  </button>
-                </div>
-              )}
+                  );
+                }
+                return (
+                  <>
+                    {/* Header strip */}
+                    <div className="flex items-center gap-3 px-1 pb-1">
+                      <div className="w-7 h-7 rounded-xl flex items-center justify-center shrink-0" style={{ backgroundColor: deck?.color ?? '#0284C7' }}>
+                        <BookOpen size={13} className="text-white" />
+                      </div>
+                      <div>
+                        <div className="text-[9px] font-bold uppercase tracking-widest mb-0.5" style={{ color: deck?.color }}>Deep Dive</div>
+                        <h3 className="text-sm font-bold text-stone-800 leading-none" style={{ fontFamily: 'Sora, sans-serif' }}>{card.title}</h3>
+                      </div>
+                    </div>
+
+                    {/* Accordion sections */}
+                    {([
+                      { key: 'coreConcept' as const, label: 'Core Concept', icon: Lightbulb, accent: '#0284C7', bg: '#EFF6FF' },
+                      { key: 'howItWorks' as const, label: 'How It Works', icon: ListChecks, accent: '#059669', bg: '#ECFDF5' },
+                      { key: 'realWorldExample' as const, label: 'Real-World Example', icon: Sparkles, accent: '#D97706', bg: '#FFFBEB' },
+                      { key: 'commonMistakes' as const, label: 'Common Mistakes', icon: Zap, accent: '#DC2626', bg: '#FEF2F2' },
+                      { key: 'whenNotToUse' as const, label: 'When NOT to Use', icon: ShieldCheck, accent: '#7C3AED', bg: '#F5F3FF' },
+                    ]).map(({ key, label, icon: Icon, accent, bg }) => {
+                      const isOpen = deepDiveOpenSection === key;
+                      return (
+                        <div
+                          key={key}
+                          className="rounded-2xl overflow-hidden transition-all"
+                          style={{ backgroundColor: isOpen ? bg : '#FFFFFF', boxShadow: isOpen ? `0 2px 12px ${accent}15` : '0 1px 3px rgba(0,0,0,0.04)', border: isOpen ? `1.5px solid ${accent}25` : '1.5px solid transparent' }}
+                        >
+                          <button
+                            onClick={() => setDeepDiveOpenSection(isOpen ? null : key)}
+                            className="w-full flex items-center justify-between px-4 py-3.5 text-left"
+                          >
+                            <div className="flex items-center gap-2.5">
+                              <div className="w-7 h-7 rounded-xl flex items-center justify-center shrink-0" style={{ backgroundColor: accent + (isOpen ? '22' : '14') }}>
+                                <Icon size={13} style={{ color: accent }} />
+                              </div>
+                              <span className="text-[12px] font-bold" style={{ color: isOpen ? accent : '#44403C' }}>{label}</span>
+                            </div>
+                            <ChevronRight
+                              size={14}
+                              className="transition-transform shrink-0"
+                              style={{ color: isOpen ? accent : '#D6D3D1', transform: isOpen ? 'rotate(90deg)' : 'rotate(0deg)' }}
+                            />
+                          </button>
+                          {isOpen && (
+                            <div className="px-4 pb-4">
+                              <div className="h-px mb-3" style={{ backgroundColor: accent + '20' }} />
+                              <p className="text-[13px] leading-[1.75] text-stone-600">{dd[key]}</p>
+                            </div>
+                          )}
+                        </div>
+                      );
+                    })}
+                  </>
+                );
+              })()}
             </div>
           )}
 
