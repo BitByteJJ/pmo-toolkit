@@ -165,7 +165,7 @@ export const CARDS: PMOCard[] = [
     ],
     proTip: 'Real-time monitoring and proactive risk handling (A14) avoid unpleasant surprises.',
     example: 'Daily stand-ups + Gantt Chart (T1) for milestones + Kanban Board (T2) for routine tasks + Visual Comms Dashboard (A61) for stakeholders.',
-    relatedCards: ['T1', 'T2', 'T6', 'A61', 'A15', 'A20', 'A23', 'A47'],
+    relatedCards: ['T1', 'T2', 'T6', 'A14', 'A61', 'A15', 'A20', 'A23', 'A47'],
     tags: ['execution', 'tracking', 'communication', 'change management'],
   },
   {

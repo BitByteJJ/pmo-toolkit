@@ -117,3 +117,6 @@
 
 ## Bug Fixes
 - [x] Fix process-3 / PR03 (Assess & Manage Risks): added A47 (TOC) to relatedCards so the link chip now appears
+
+## Cross-Reference Audit
+- [x] Audit all 144 cards: found and fixed 2 missing relatedCards entries (PR03→A47, phase-execution→A14). All 144 cards pass audit.
