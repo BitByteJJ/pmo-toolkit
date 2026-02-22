@@ -156,6 +156,20 @@ export const CARD_ILLUSTRATIONS: Record<string, string> = {
   "process-7": "https://files.manuscdn.com/user_upload_by_module/session_file/310419663029097403/DNkimkFoBxkicaDN.png",
   "process-8": "https://files.manuscdn.com/user_upload_by_module/session_file/310419663029097403/WAqHnxFUiQgbehvP.png",
   "process-9": "https://files.manuscdn.com/user_upload_by_module/session_file/310419663029097403/PMMPXuTYeXUlebKs.png",
+
+  // PMBOK 7 / Agile gap-fill cards (A86–A97) — using thematically matched deck covers
+  "A86": "https://files.manuscdn.com/user_upload_by_module/session_file/310419663029097403/bdAxarcmvXIHqVvw.png",
+  "A87": "https://files.manuscdn.com/user_upload_by_module/session_file/310419663029097403/TOYDIIqTWyLFwfCY.png",
+  "A88": "https://files.manuscdn.com/user_upload_by_module/session_file/310419663029097403/TOYDIIqTWyLFwfCY.png",
+  "A89": "https://files.manuscdn.com/user_upload_by_module/session_file/310419663029097403/bdAxarcmvXIHqVvw.png",
+  "A90": "https://files.manuscdn.com/user_upload_by_module/session_file/310419663029097403/GrdQOwJjSnFKcKVn.png",
+  "A91": "https://files.manuscdn.com/user_upload_by_module/session_file/310419663029097403/GrdQOwJjSnFKcKVn.png",
+  "A92": "https://files.manuscdn.com/user_upload_by_module/session_file/310419663029097403/GrdQOwJjSnFKcKVn.png",
+  "A93": "https://files.manuscdn.com/user_upload_by_module/session_file/310419663029097403/GrdQOwJjSnFKcKVn.png",
+  "A94": "https://files.manuscdn.com/user_upload_by_module/session_file/310419663029097403/nazJKMRPUyxDWRas.png",
+  "A95": "https://files.manuscdn.com/user_upload_by_module/session_file/310419663029097403/nazJKMRPUyxDWRas.png",
+  "A96": "https://files.manuscdn.com/user_upload_by_module/session_file/310419663029097403/TOYDIIqTWyLFwfCY.png",
+  "A97": "https://files.manuscdn.com/user_upload_by_module/session_file/310419663029097403/wYAdBnNHDXPbyggk.png",
 };
 
 export const DECK_COVERS: Record<string, string> = {

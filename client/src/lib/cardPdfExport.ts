@@ -15,7 +15,7 @@ const PAGE_W = 210;
 const PAGE_H = 297;
 const MARGIN = 16;
 const CONTENT_W = PAGE_W - MARGIN * 2;
-const FOOTER_H = 16;
+const FOOTER_H = 20;
 const BODY_BOTTOM = PAGE_H - FOOTER_H - 4;
 const TOP_MARGIN = 16;
 const LINE_H = 5.2;
@@ -547,12 +547,23 @@ export async function generateCardPDF({
     doc.text('StratAlign — PM Toolkit', MARGIN, PAGE_H - FOOTER_H + 5.5);
     doc.text(`${p} / ${totalPages}`, PAGE_W - MARGIN, PAGE_H - FOOTER_H + 5.5, { align: 'right' });
 
-    // Card reference + disclaimer
+    // Row 2: educational purpose + card ref
     doc.setFont('helvetica', 'normal');
     doc.setFontSize(6.5);
     doc.setTextColor(155, 155, 155);
     doc.text('For educational and reference purposes only.', MARGIN, PAGE_H - FOOTER_H + 10.5);
     doc.text(`${card.code} · ${card.title}`, PAGE_W - MARGIN, PAGE_H - FOOTER_H + 10.5, { align: 'right' });
+
+    // Row 3: IP disclaimer
+    doc.setFont('helvetica', 'italic');
+    doc.setFontSize(5.5);
+    doc.setTextColor(185, 185, 185);
+    doc.text(
+      'All referenced frameworks, models, and methodologies are the intellectual property of their respective owners. This app is an educational reference tool only.',
+      MARGIN,
+      PAGE_H - FOOTER_H + 15.5,
+      { maxWidth: CONTENT_W },
+    );
   }
 
   // ─── SAVE ─────────────────────────────────────────────────────────────────

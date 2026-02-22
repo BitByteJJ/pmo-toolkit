@@ -1,22 +1,30 @@
 // PMO Toolkit Navigator — Bottom Navigation
-// Premium floating tab bar — 5 primary tabs with animated pill indicator
+// Premium floating tab bar — all 9 tabs restored, scrollable row
 
 import { useLocation } from 'wouter';
-import { Home, LayoutGrid, Sparkles, Search, Bookmark } from 'lucide-react';
+import { Home, LayoutGrid, Sparkles, Search, Bookmark, Route, Map, BookOpen, BookMarked } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { useBookmarks } from '@/contexts/BookmarksContext';
+import { useJourney, MAX_HEARTS } from '@/contexts/JourneyContext';
+import { Heart } from 'lucide-react';
 
 const tabs = [
-  { path: '/',          icon: Home,       label: 'Home'  },
-  { path: '/decks',     icon: LayoutGrid, label: 'Decks' },
-  { path: '/ai-suggest',icon: Sparkles,   label: 'AI'    },
-  { path: '/search',    icon: Search,     label: 'Search'},
-  { path: '/bookmarks', icon: Bookmark,   label: 'Saved' },
+  { path: '/',             icon: Home,        label: 'Home'     },
+  { path: '/decks',        icon: LayoutGrid,  label: 'Decks'    },
+  { path: '/ai-suggest',   icon: Sparkles,    label: 'AI'       },
+  { path: '/roadmap',      icon: Route,       label: 'Roadmap'  },
+  { path: '/journey',      icon: Map,         label: 'Journey'  },
+  { path: '/case-studies', icon: BookOpen,    label: 'Cases'    },
+  { path: '/glossary',     icon: BookMarked,  label: 'Glossary' },
+  { path: '/search',       icon: Search,      label: 'Search'   },
+  { path: '/bookmarks',    icon: Bookmark,    label: 'Saved'    },
 ];
 
 export default function BottomNav() {
   const [location, navigate] = useLocation();
   const { bookmarks } = useBookmarks();
+  const { state: journeyState } = useJourney();
+  const hearts = journeyState.hearts;
 
   const isActive = (path: string) => {
     if (path === '/') return location === '/';
@@ -35,18 +43,24 @@ export default function BottomNav() {
         boxShadow: '0 -1px 0 rgba(255,255,255,0.9) inset, 0 -4px 16px rgba(0,0,0,0.04)',
       }}
     >
-      <div className="flex items-center justify-around w-full max-w-md mx-auto px-3 pt-1.5 pb-2"
-        style={{ paddingBottom: 'max(0.5rem, env(safe-area-inset-bottom, 0.5rem))' }}
+      <div
+        className="flex items-center w-full overflow-x-auto px-2 pt-1.5"
+        style={{
+          paddingBottom: 'max(0.5rem, env(safe-area-inset-bottom, 0.5rem))',
+          scrollbarWidth: 'none',
+          msOverflowStyle: 'none',
+        }}
       >
         {tabs.map(({ path, icon: Icon, label }) => {
           const active = isActive(path);
           const isBookmarkTab = path === '/bookmarks';
+          const isJourneyTab = path === '/journey';
 
           return (
             <button
               key={path}
               onClick={() => navigate(path)}
-              className="relative flex flex-col items-center gap-0.5 px-4 py-1.5 rounded-2xl transition-colors duration-150"
+              className="relative flex flex-col items-center gap-0.5 px-3 py-1.5 rounded-2xl transition-colors duration-150 shrink-0"
               style={{ minWidth: '52px' }}
               aria-label={label}
             >
@@ -75,9 +89,24 @@ export default function BottomNav() {
                 )}
               </div>
 
+              {/* Hearts row — only on Journey tab */}
+              {isJourneyTab && (
+                <div className="flex gap-0.5 z-10 relative" style={{ marginTop: '-1px' }}>
+                  {Array.from({ length: MAX_HEARTS }).map((_, i) => (
+                    <Heart
+                      key={i}
+                      size={7}
+                      fill={i < hearts ? '#ef4444' : 'none'}
+                      stroke={i < hearts ? '#ef4444' : '#ccc'}
+                      strokeWidth={1.5}
+                    />
+                  ))}
+                </div>
+              )}
+
               {/* Label */}
               <span
-                className="relative z-10 text-[9.5px] font-semibold leading-none transition-colors duration-150"
+                className="relative z-10 text-[9px] font-semibold leading-none transition-colors duration-150"
                 style={{ color: active ? '#1a1a2e' : '#a8a29e' }}
               >
                 {label}
