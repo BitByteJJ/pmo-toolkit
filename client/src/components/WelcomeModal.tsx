@@ -10,7 +10,7 @@
 import { useState, useEffect } from 'react';
 import { useLocation } from 'wouter';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Compass, Layers, ArrowRight, X } from 'lucide-react';
+import { Sparkles, Layers, ArrowRight, X } from 'lucide-react';
 
 const STORAGE_KEY = 'pmo-welcome-seen';
 
@@ -32,10 +32,10 @@ export default function WelcomeModal() {
     setVisible(false);
   }
 
-  function goToDecisionHelper() {
+  function goToAIFinder() {
     localStorage.setItem(STORAGE_KEY, '1');
     setVisible(false);
-    navigate('/decision');
+    navigate('/ai-suggest');
   }
 
   return (
@@ -62,7 +62,7 @@ export default function WelcomeModal() {
             onClick={e => e.stopPropagation()}
           >
             {/* Top accent bar */}
-            <div className="h-1.5 w-full" style={{ background: 'linear-gradient(to right, #1e3a5f, #2563eb, #0ea5e9)' }} />
+            <div className="h-1.5 w-full" style={{ background: 'linear-gradient(to right, #4F46E5, #7C3AED, #a855f7)' }} />
 
             {/* Close button */}
             <button
@@ -77,9 +77,9 @@ export default function WelcomeModal() {
               {/* Icon */}
               <div
                 className="w-14 h-14 rounded-2xl flex items-center justify-center mb-4"
-                style={{ background: 'linear-gradient(135deg, #1e3a5f 0%, #2563eb 100%)' }}
+                style={{ background: 'linear-gradient(135deg, #4F46E5 0%, #7C3AED 100%)' }}
               >
-                <Compass size={26} className="text-white" />
+                <Sparkles size={26} className="text-white" />
               </div>
 
               {/* Headline */}
@@ -98,16 +98,16 @@ export default function WelcomeModal() {
               <div className="space-y-3">
                 {/* Primary CTA */}
                 <button
-                  onClick={goToDecisionHelper}
+                  onClick={goToAIFinder}
                   className="w-full flex items-center gap-3 rounded-2xl px-4 py-3.5 text-left transition-all hover:opacity-90 active:scale-[0.98]"
-                  style={{ background: 'linear-gradient(135deg, #1e3a5f 0%, #2563eb 100%)' }}
+                  style={{ background: 'linear-gradient(135deg, #4F46E5 0%, #7C3AED 100%)' }}
                 >
                   <div className="w-8 h-8 rounded-xl bg-white/20 flex items-center justify-center shrink-0">
-                    <Compass size={16} className="text-white" />
+                    <Sparkles size={16} className="text-white" />
                   </div>
                   <div className="flex-1">
                     <p className="text-sm font-bold text-white leading-tight">Help me find the right tool</p>
-                    <p className="text-[11px] text-white/70 mt-0.5">Answer 2–3 questions, get a shortlist</p>
+                    <p className="text-[11px] text-white/70 mt-0.5">Describe your challenge — AI picks the best tools</p>
                   </div>
                   <ArrowRight size={16} className="text-white/70 shrink-0" />
                 </button>

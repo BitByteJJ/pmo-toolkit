@@ -402,14 +402,6 @@ function JourneyCTA() {
 export default function Home() {
   const [, navigate] = useLocation();
 
-  const featuredCards = [
-    CARDS.find(c => c.id === 'T7'),
-    CARDS.find(c => c.id === 'A29'),
-    CARDS.find(c => c.id === 'A35'),
-    CARDS.find(c => c.id === 'T5'),
-    CARDS.find(c => c.id === 'M2'),
-  ].filter(Boolean);
-
   return (
     <div className="min-h-screen pt-11 pb-24" style={{ backgroundColor: '#F5F3EE' }}>
       {/* Hero Banner */}
@@ -591,54 +583,7 @@ export default function Home() {
           </div>
         </div>
 
-        {/* Quick Reference */}
-        <div>
-          <motion.h2
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.25 }}
-            className="text-[11px] font-black text-stone-400 uppercase tracking-[0.12em] mb-3"
-          >
-            Quick Reference
-          </motion.h2>
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.3 }}
-            className="flex gap-2.5 overflow-x-auto pb-2 -mx-4 px-4"
-            style={{ scrollbarWidth: 'none' }}
-          >
-            {featuredCards.map((card, i) => {
-              if (!card) return null;
-              const deck = DECKS.find(d => d.id === card.deckId);
-              return (
-                <motion.button
-                  key={card.id}
-                  initial={{ opacity: 0, x: 20 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: 0.3 + i * 0.06 }}
-                  onClick={() => navigate(`/card/${card.id}`)}
-                  className="flex-shrink-0 w-44 text-left rounded-2xl p-3.5 bg-white relative overflow-hidden"
-                  style={{ boxShadow: `0 2px 8px ${deck?.color ?? '#ccc'}20, 0 1px 3px rgba(0,0,0,0.06)` }}
-                  whileHover={{ scale: 1.03, y: -2 }}
-                  whileTap={{ scale: 0.97 }}
-                >
-                  <div className="absolute top-0 left-0 right-0 h-1 rounded-t-2xl" style={{ backgroundColor: deck?.color }} />
-                  <div
-                    className="text-[9px] font-mono font-bold mb-2 px-1.5 py-0.5 rounded-md inline-block mt-1"
-                    style={{ backgroundColor: deck?.bgColor, color: deck?.textColor }}
-                  >
-                    {card.code}
-                  </div>
-                  <h3 className="text-xs font-bold text-stone-800 leading-tight mb-1.5" style={{ fontFamily: 'Sora, sans-serif' }}>
-                    {card.title}
-                  </h3>
-                  <p className="text-[10px] text-stone-400 line-clamp-2 leading-relaxed">{card.tagline}</p>
-                </motion.button>
-              );
-            })}
-          </motion.div>
-        </div>
+
       </div>
 
       <BottomNav />
