@@ -255,7 +255,7 @@ function JourneyCTA() {
           <p className="text-sm font-bold text-stone-800 leading-tight" style={{ fontFamily: 'Sora, sans-serif' }}>
             {hasStarted ? (nextLesson ? `Next: Day ${nextDay} — ${nextLesson.title}` : 'Journey Complete! 🏆') : 'Start your PM learning journey'}
           </p>
-          {!hasStarted && <p className="text-[10px] text-stone-500 mt-0.5">Master all 144 tools in 30 guided days</p>}
+          {!hasStarted && <p className="text-[10px] text-stone-500 mt-0.5">Master 154 PM tools in 30 guided days</p>}
         </div>
         <div className="flex flex-col items-end gap-1 shrink-0">
           <div className="flex items-center gap-0.5">
@@ -460,7 +460,6 @@ export default function Home() {
             className="flex items-center justify-between mb-3.5"
           >
             <h2 className="section-label">All Decks</h2>
-            <span className="text-[10px] text-stone-400 font-semibold">{DECKS.length} decks · {CARDS.length} cards</span>
           </motion.div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 items-stretch">
             {DECKS.map((deck, index) => (

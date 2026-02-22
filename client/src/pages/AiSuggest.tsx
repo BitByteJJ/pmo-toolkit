@@ -119,7 +119,7 @@ function RecommendationCard({ rec, index }: { rec: Recommendation; index: number
 
 const THINKING_MESSAGES = [
   'Reading your challenge…',
-  'Scanning 144 PMO cards…',
+  'Scanning 154 PMO cards…',
   'Matching tools to your problem…',
   'Ranking recommendations…',
   'Almost there…',
@@ -304,7 +304,7 @@ export default function AiSuggest() {
             </h1>
           </div>
           <p className="text-xs text-stone-500 leading-relaxed">
-            Describe your project challenge and get personalised recommendations from 144 PMO tools, techniques, and frameworks.
+            Describe your project challenge and get personalised recommendations from 154 PMO tools, techniques, and frameworks.
           </p>
         </div>
       </div>

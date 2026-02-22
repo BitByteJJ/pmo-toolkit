@@ -3,7 +3,7 @@
  *
  * A branching questionnaire that guides anyone — from complete beginners to
  * experienced PMs — to the most relevant tools, techniques, and frameworks
- * from the 144-card library.
+ * from the 154-card library.
  *
  * Language principle: describe SITUATIONS and FEELINGS, not PM terminology.
  * A beginner should be able to answer every question without prior knowledge.

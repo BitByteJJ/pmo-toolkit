@@ -1,5 +1,5 @@
-// PMO Toolkit Navigator — Learning Journey Map
-// Design: Duolingo-inspired path map with unit banners, day nodes, and progress
+// JourneyPage — Duolingo-inspired path map, visually lifted with card framing
+// Design: rich warm background, card-contained path, elevated unit banners
 
 import { useLocation } from 'wouter';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -10,16 +10,15 @@ import {
   Lock,
   CheckCircle2,
   PlayCircle,
-  ChevronRight,
   Trophy,
   Zap,
   BookOpen,
   ArrowLeft,
+  X,
 } from 'lucide-react';
 import { useJourney, MAX_HEARTS, TOPICS_TO_EARN_HEART } from '@/contexts/JourneyContext';
 import { JOURNEY_LESSONS, JOURNEY_UNITS, getLevelForXP, getNextLevel } from '@/lib/journeyData';
 import { useState, useEffect } from 'react';
-import { X } from 'lucide-react';
 import JourneySetupWizard, { JOURNEY_PROFILE_KEY, getPersonalisedTip, type JourneyProfile } from '@/components/JourneySetupWizard';
 
 // ─── HEARTS DISPLAY ───────────────────────────────────────────────────────────
@@ -30,7 +29,7 @@ function HeartsBar() {
       {Array.from({ length: MAX_HEARTS }).map((_, i) => (
         <Heart
           key={i}
-          size={18}
+          size={16}
           className={i < state.hearts ? 'text-rose-500 fill-rose-500' : 'text-stone-300 fill-stone-100'}
         />
       ))}
@@ -47,7 +46,7 @@ function XPBar() {
   return (
     <div className="flex items-center gap-2 min-w-0">
       <div className="flex items-center gap-1">
-        <Star size={14} className="text-amber-500 fill-amber-400 shrink-0" />
+        <Star size={13} className="text-amber-500 fill-amber-400 shrink-0" />
         <span className="text-[11px] font-bold text-stone-700">{level.title}</span>
       </div>
       {nextLevel && (
@@ -71,36 +70,53 @@ function XPBar() {
 }
 
 // ─── UNIT BANNER ─────────────────────────────────────────────────────────────
-const UNIT_COLORS: Record<string, { bg: string; text: string; border: string }> = {
-  foundations:  { bg: '#EFF6FF', text: '#1D4ED8', border: '#BFDBFE' },
-  planning:     { bg: '#F0FDF4', text: '#15803D', border: '#BBF7D0' },
-  people:       { bg: '#FFF7ED', text: '#C2410C', border: '#FED7AA' },
-  execution:    { bg: '#FDF4FF', text: '#7E22CE', border: '#E9D5FF' },
-  techniques:   { bg: '#FFFBEB', text: '#B45309', border: '#FDE68A' },
-  mastery:      { bg: '#FFF1F2', text: '#BE123C', border: '#FECDD3' },
+const UNIT_COLORS: Record<string, { bg: string; text: string; border: string; glow: string }> = {
+  foundations:  { bg: '#1D4ED8', text: '#ffffff', border: '#1e40af', glow: '#3b82f640' },
+  planning:     { bg: '#15803D', text: '#ffffff', border: '#166534', glow: '#22c55e40' },
+  people:       { bg: '#C2410C', text: '#ffffff', border: '#9a3412', glow: '#f9731640' },
+  execution:    { bg: '#7E22CE', text: '#ffffff', border: '#6b21a8', glow: '#a855f740' },
+  techniques:   { bg: '#B45309', text: '#ffffff', border: '#92400e', glow: '#f59e0b40' },
+  mastery:      { bg: '#BE123C', text: '#ffffff', border: '#9f1239', glow: '#f4436640' },
 };
 
-function UnitBanner({ unitId, title, description, icon }: {
+function UnitBanner({ unitId, title, description, icon, unitNumber }: {
   unitId: string;
   title: string;
   description: string;
   icon: string;
+  unitNumber: number;
 }) {
   const colors = UNIT_COLORS[unitId] ?? UNIT_COLORS.foundations;
   return (
     <div
-      className="rounded-2xl px-4 py-3 flex items-center gap-3 mx-4 my-2"
-      style={{ backgroundColor: colors.bg, border: `1.5px solid ${colors.border}` }}
+      className="rounded-2xl px-5 py-4 flex items-center gap-4 mx-4 my-3 relative overflow-hidden"
+      style={{
+        backgroundColor: colors.bg,
+        border: `1.5px solid ${colors.border}`,
+        boxShadow: `0 4px 20px ${colors.glow}, 0 1px 4px rgba(0,0,0,0.15)`,
+      }}
     >
-      <span className="text-2xl">{icon}</span>
-      <div>
-        <div className="text-[10px] font-black uppercase tracking-widest" style={{ color: colors.text }}>
-          Unit
+      {/* Background pattern */}
+      <div
+        className="absolute inset-0 opacity-10"
+        style={{
+          backgroundImage: 'radial-gradient(circle at 80% 50%, white 0%, transparent 60%)',
+        }}
+      />
+      <div
+        className="w-12 h-12 rounded-2xl flex items-center justify-center text-2xl shrink-0 relative"
+        style={{ backgroundColor: 'rgba(255,255,255,0.2)' }}
+      >
+        {icon}
+      </div>
+      <div className="relative">
+        <div className="text-[9px] font-black uppercase tracking-widest opacity-70" style={{ color: colors.text }}>
+          Unit {unitNumber}
         </div>
-        <div className="text-sm font-bold text-stone-800" style={{ fontFamily: 'Sora, sans-serif' }}>
+        <div className="text-[15px] font-black leading-tight" style={{ fontFamily: 'Sora, sans-serif', color: colors.text }}>
           {title}
         </div>
-        <div className="text-[10px] text-stone-500 mt-0.5">{description}</div>
+        <div className="text-[11px] mt-0.5 opacity-80" style={{ color: colors.text }}>{description}</div>
       </div>
     </div>
   );
@@ -119,10 +135,9 @@ function DayNode({
   const completed = isDayCompleted(lesson.day);
   const locked = isDayLocked(lesson.day);
   const active = lesson.day === state.highestDayUnlocked && !completed;
-  const canStart = canStartLesson(lesson.day);
 
   const positionClass =
-    position === 'left' ? 'ml-8' : position === 'right' ? 'mr-8 ml-auto' : 'mx-auto';
+    position === 'left' ? 'ml-10' : position === 'right' ? 'mr-10 ml-auto' : 'mx-auto';
 
   const handleTap = () => {
     if (locked) return;
@@ -140,38 +155,48 @@ function DayNode({
       {active && (
         <motion.div
           className="absolute inset-0 rounded-full"
-          animate={{ scale: [1, 1.15, 1] }}
+          animate={{ scale: [1, 1.2, 1] }}
           transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut' }}
-          style={{ backgroundColor: '#3B82F6', opacity: 0.2 }}
+          style={{ backgroundColor: '#3B82F6', opacity: 0.25 }}
         />
       )}
 
       <button
         onClick={handleTap}
         disabled={locked}
-        className={`relative w-16 h-16 rounded-full flex flex-col items-center justify-center shadow-md transition-all duration-200 ${
+        className={`relative w-[68px] h-[68px] rounded-full flex flex-col items-center justify-center transition-all duration-200 ${
           locked
-            ? 'bg-stone-200 cursor-not-allowed'
-            : completed
-            ? 'bg-emerald-500 hover:bg-emerald-600 active:scale-95'
-            : active
-            ? 'bg-blue-500 hover:bg-blue-600 active:scale-95 ring-4 ring-blue-200'
-            : 'bg-stone-300 hover:bg-stone-400 active:scale-95'
+            ? 'cursor-not-allowed'
+            : 'active:scale-95'
         }`}
+        style={{
+          backgroundColor: locked
+            ? '#e7e5e0'
+            : completed
+            ? '#10b981'
+            : active
+            ? '#3b82f6'
+            : '#94a3b8',
+          boxShadow: locked
+            ? 'none'
+            : completed
+            ? '0 4px 14px rgba(16,185,129,0.45), 0 2px 4px rgba(0,0,0,0.1)'
+            : active
+            ? '0 4px 16px rgba(59,130,246,0.5), 0 2px 4px rgba(0,0,0,0.1), 0 0 0 4px rgba(59,130,246,0.2)'
+            : '0 2px 8px rgba(0,0,0,0.12)',
+        }}
       >
         {locked ? (
           <Lock size={20} className="text-stone-400" />
         ) : completed ? (
-          <CheckCircle2 size={22} className="text-white fill-white" />
+          <CheckCircle2 size={24} className="text-white fill-white" />
         ) : active ? (
-          <PlayCircle size={22} className="text-white" />
+          <PlayCircle size={24} className="text-white" />
         ) : (
-          <span className="text-lg">{lesson.icon}</span>
+          <span className="text-xl">{lesson.icon}</span>
         )}
         <span
-          className={`text-[9px] font-bold mt-0.5 ${
-            locked ? 'text-stone-400' : 'text-white'
-          }`}
+          className={`text-[9px] font-bold mt-0.5 ${locked ? 'text-stone-400' : 'text-white'}`}
         >
           Day {lesson.day}
         </span>
@@ -243,11 +268,15 @@ function StatsStrip() {
   return (
     <div className="grid grid-cols-3 gap-2 mx-4 mb-4">
       {[
-        { icon: Flame, value: state.currentStreak, label: 'Day streak', color: '#F97316', bg: '#FFF7ED' },
-        { icon: Zap, value: state.totalXP, label: 'Total XP', color: '#EAB308', bg: '#FEFCE8' },
-        { icon: BookOpen, value: `${completedCount}/${totalDays}`, label: 'Days done', color: '#3B82F6', bg: '#EFF6FF' },
-      ].map(({ icon: Icon, value, label, color, bg }) => (
-        <div key={label} className="rounded-2xl p-3 text-center" style={{ backgroundColor: bg }}>
+        { icon: Flame, value: state.currentStreak, label: 'Day streak', color: '#F97316', bg: 'white', shadow: '0 2px 8px rgba(249,115,22,0.15)' },
+        { icon: Zap, value: state.totalXP, label: 'Total XP', color: '#EAB308', bg: 'white', shadow: '0 2px 8px rgba(234,179,8,0.15)' },
+        { icon: BookOpen, value: `${completedCount}/${totalDays}`, label: 'Days done', color: '#3B82F6', bg: 'white', shadow: '0 2px 8px rgba(59,130,246,0.15)' },
+      ].map(({ icon: Icon, value, label, color, bg, shadow }) => (
+        <div
+          key={label}
+          className="rounded-2xl p-3 text-center"
+          style={{ backgroundColor: bg, boxShadow: shadow + ', 0 0 0 1px rgba(0,0,0,0.04)' }}
+        >
           <Icon size={16} className="mx-auto mb-1" style={{ color }} />
           <div className="text-base font-black" style={{ color, fontFamily: 'Sora, sans-serif' }}>{value}</div>
           <div className="text-[9px] font-semibold text-stone-500">{label}</div>
@@ -257,8 +286,28 @@ function StatsStrip() {
   );
 }
 
+// ─── UNIT PATH CARD ───────────────────────────────────────────────────────────
+// Wraps each unit's day nodes in a card-like container for visual lift
+function UnitPathCard({ children, unitId }: { children: React.ReactNode; unitId: string }) {
+  const colors = UNIT_COLORS[unitId] ?? UNIT_COLORS.foundations;
+  return (
+    <div
+      className="mx-4 rounded-2xl overflow-hidden"
+      style={{
+        backgroundColor: 'white',
+        boxShadow: '0 2px 12px rgba(0,0,0,0.07), 0 1px 3px rgba(0,0,0,0.04), 0 0 0 1px rgba(0,0,0,0.04)',
+      }}
+    >
+      {/* Top accent line */}
+      <div className="h-1 w-full" style={{ backgroundColor: colors.bg }} />
+      <div className="py-4">
+        {children}
+      </div>
+    </div>
+  );
+}
+
 // ─── MAIN PAGE ────────────────────────────────────────────────────────────────
-// Node layout pattern: zigzag path
 const NODE_POSITIONS: Array<'left' | 'center' | 'right'> = [
   'center', 'left', 'right', 'center', 'left',
   'right', 'center', 'left', 'right', 'center',
@@ -297,15 +346,15 @@ export default function JourneyPage() {
   return (
     <>
     {showWizard && <JourneySetupWizard onComplete={handleWizardComplete} />}
-    <div className="min-h-screen pt-11 pb-28" style={{ backgroundColor: '#F5F3EE' }}>
+    <div className="min-h-screen pt-12 pb-28">
       {/* Header */}
       <div
-        className="sticky top-11 z-40 px-4"
+        className="sticky top-12 z-40 px-4"
         style={{
-          background: 'rgba(245,243,238,0.92)',
-          backdropFilter: 'blur(12px)',
-          WebkitBackdropFilter: 'blur(12px)',
-          borderBottom: '1px solid rgba(0,0,0,0.06)',
+          background: 'rgba(252,251,249,0.96)',
+          backdropFilter: 'blur(20px) saturate(1.4)',
+          WebkitBackdropFilter: 'blur(20px) saturate(1.4)',
+          borderBottom: '1.5px solid rgba(0,0,0,0.06)',
         }}
       >
         <div className="flex items-center justify-between py-3">
@@ -333,14 +382,14 @@ export default function JourneyPage() {
         <StatsStrip />
       </div>
 
-      {/* Personalised tip banner (shown after wizard completes) */}
+      {/* Personalised tip banner */}
       <AnimatePresence>
         {profile && showTip && (
           <motion.div
             initial={{ opacity: 0, y: -8 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0 }}
-            className="mx-4 mt-3 mb-1 rounded-2xl p-4 relative"
+            className="mx-4 mt-1 mb-3 rounded-2xl p-4 relative"
             style={{ background: 'linear-gradient(135deg, #7c3aed12, #2563eb08)', border: '1.5px solid #7c3aed30' }}
           >
             <button
@@ -360,11 +409,12 @@ export default function JourneyPage() {
           </motion.div>
         )}
       </AnimatePresence>
+
       {/* No hearts banner */}
       <NoHeartsBanner />
 
-      {/* Journey Map */}
-      <div className="space-y-2 pb-4">
+      {/* Journey Map — each unit is a card */}
+      <div className="space-y-4 pb-4">
         {unitGroups.map(({ unit, lessons }, unitIndex) => (
           <div key={unit.id}>
             {/* Unit Banner */}
@@ -373,38 +423,53 @@ export default function JourneyPage() {
               title={unit.title}
               description={unit.description}
               icon={unit.icon}
+              unitNumber={unitIndex + 1}
             />
 
-            {/* Day nodes in zigzag */}
-            <div className="relative py-4 space-y-8">
-              {/* Connector line */}
-              <div
-                className="absolute left-1/2 top-0 bottom-0 w-0.5 -translate-x-1/2"
-                style={{ backgroundColor: '#E7E5E0', zIndex: 0 }}
-              />
+            {/* Day nodes in card container */}
+            <UnitPathCard unitId={unit.id}>
+              <div className="relative space-y-8 py-2">
+                {/* Connector line */}
+                <div
+                  className="absolute left-1/2 top-0 bottom-0 w-0.5 -translate-x-1/2"
+                  style={{ backgroundColor: '#E7E5E0', zIndex: 0 }}
+                />
 
-              {lessons.map((lesson, i) => {
-                const posIndex = (unitIndex * 5 + i) % NODE_POSITIONS.length;
-                return (
-                  <div key={lesson.id} className="relative z-10">
-                    <DayNode
-                      lesson={lesson}
-                      position={NODE_POSITIONS[posIndex]}
-                    />
-                  </div>
-                );
-              })}
-            </div>
+                {lessons.map((lesson, i) => {
+                  const posIndex = (unitIndex * 5 + i) % NODE_POSITIONS.length;
+                  return (
+                    <div key={lesson.id} className="relative z-10">
+                      <DayNode
+                        lesson={lesson}
+                        position={NODE_POSITIONS[posIndex]}
+                      />
+                    </div>
+                  );
+                })}
+              </div>
+            </UnitPathCard>
           </div>
         ))}
 
         {/* Journey complete trophy */}
-        <div className="mx-4 mt-4 rounded-2xl p-4 text-center" style={{ backgroundColor: '#FFFBEB', border: '1.5px solid #FDE68A' }}>
-          <Trophy size={28} className="mx-auto text-amber-500 mb-2" />
-          <p className="text-sm font-bold text-amber-800" style={{ fontFamily: 'Sora, sans-serif' }}>
+        <div
+          className="mx-4 mt-2 rounded-2xl p-5 text-center"
+          style={{
+            background: 'linear-gradient(135deg, #FFFBEB, #FEF3C7)',
+            border: '1.5px solid #FDE68A',
+            boxShadow: '0 4px 16px rgba(234,179,8,0.2), 0 1px 4px rgba(0,0,0,0.06)',
+          }}
+        >
+          <motion.div
+            animate={{ y: [0, -4, 0] }}
+            transition={{ duration: 2.5, repeat: Infinity, ease: 'easeInOut' }}
+          >
+            <Trophy size={32} className="mx-auto text-amber-500 mb-2" />
+          </motion.div>
+          <p className="text-sm font-black text-amber-800" style={{ fontFamily: 'Sora, sans-serif' }}>
             PM Master Awaits
           </p>
-          <p className="text-[10px] text-amber-600 mt-1">
+          <p className="text-[11px] text-amber-600 mt-1">
             Complete all 30 days to earn the PM Master title
           </p>
         </div>

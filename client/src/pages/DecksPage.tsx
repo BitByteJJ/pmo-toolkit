@@ -263,9 +263,7 @@ export default function DecksPage() {
           <h1 className="text-2xl font-black text-stone-900 mb-1" style={{ fontFamily: 'Sora, sans-serif' }}>
             All Decks
           </h1>
-          <p className="text-sm text-stone-500 mb-4">
-            {DECKS.length} decks · {DECKS.reduce((s, d) => s + getCardsByDeck(d.id).length, 0)} cards
-          </p>
+
           {/* Mastery Badge Summary */}
           <div className="flex items-center gap-3 mb-6 p-3 rounded-2xl bg-white" style={{ boxShadow: '0 2px 10px rgba(0,0,0,0.055), 0 1px 3px rgba(0,0,0,0.04), 0 0 0 1px rgba(0,0,0,0.04)' }}>
             <div className="w-9 h-9 rounded-xl flex items-center justify-center" style={{ backgroundColor: '#FEF3C7' }}>
