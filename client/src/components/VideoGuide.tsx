@@ -334,26 +334,94 @@ function SceneRenderer({ scene, color, bgColor }: { scene: VideoScene; color: st
   }
 }
 
-// ─── Narration hook (Google Cloud TTS) ───────────────────────────────────────
+// ─── TTS cache & pre-fetch helpers ───────────────────────────────────────────
 
-// In-memory cache: text → base64 MP3 (avoids re-fetching the same narration)
-const ttsCache = new Map<string, string>();
+// Persistent in-memory cache: narration text → decoded AudioBuffer
+// Using AudioBuffer (already decoded) means zero decode cost at playback time.
+const audioBufferCache = new Map<string, AudioBuffer>();
+
+// Tracks in-flight fetch+decode promises so we never double-fetch the same text
+const fetchingPromises = new Map<string, Promise<AudioBuffer | null>>();
+
+// Shared AudioContext — created once, reused forever
+let sharedAudioCtx: AudioContext | null = null;
+function getSharedAudioCtx(): AudioContext {
+  if (!sharedAudioCtx || sharedAudioCtx.state === 'closed') {
+    sharedAudioCtx = new AudioContext();
+  }
+  // Resume if suspended (browser autoplay policy)
+  if (sharedAudioCtx.state === 'suspended') {
+    sharedAudioCtx.resume().catch(() => {});
+  }
+  return sharedAudioCtx;
+}
+
+// Soften punctuation so Journey-O flows more naturally
+function softenPunctuation(text: string): string {
+  return text
+    .replace(/\s*—\s*/g, ', ')
+    .replace(/:\s+/g, ', ')
+    .replace(/;\s+/g, ', ')
+    .replace(/\.\.\./g, ',')
+    .replace(/\s{2,}/g, ' ')
+    .trim();
+}
+
+// Fetch audio from Google TTS, decode it, and cache the AudioBuffer.
+// Returns null on failure (caller falls back to Web Speech API).
+async function fetchAndDecodeAudio(text: string): Promise<AudioBuffer | null> {
+  const processed = softenPunctuation(text);
+
+  // Already decoded — return immediately
+  if (audioBufferCache.has(processed)) {
+    return audioBufferCache.get(processed)!;
+  }
+
+  // Already in-flight — wait for the same promise
+  if (fetchingPromises.has(processed)) {
+    return fetchingPromises.get(processed)!;
+  }
+
+  const promise = (async (): Promise<AudioBuffer | null> => {
+    try {
+      const res = await fetch('/api/tts', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ text: processed }),
+      });
+      if (!res.ok) throw new Error(`TTS ${res.status}`);
+      const data = await res.json() as { audioContent: string };
+
+      // Decode base64 → ArrayBuffer → AudioBuffer
+      const binary = atob(data.audioContent);
+      const bytes = new Uint8Array(binary.length);
+      for (let i = 0; i < binary.length; i++) bytes[i] = binary.charCodeAt(i);
+
+      const ctx = getSharedAudioCtx();
+      const audioBuffer = await ctx.decodeAudioData(bytes.buffer);
+      audioBufferCache.set(processed, audioBuffer);
+      return audioBuffer;
+    } catch (err) {
+      console.warn('[TTS] Pre-fetch failed:', err);
+      return null;
+    } finally {
+      fetchingPromises.delete(processed);
+    }
+  })();
+
+  fetchingPromises.set(processed, promise);
+  return promise;
+}
+
+// ─── Narration hook ───────────────────────────────────────────────────────────
 
 function useNarration() {
-  const audioCtxRef = useRef<AudioContext | null>(null);
   const sourceRef = useRef<AudioBufferSourceNode | null>(null);
-  const startTimeRef = useRef<number>(0);     // AudioContext time when source started
-  const pausedAtRef = useRef<number>(0);      // seconds into the buffer when paused
-  const bufferRef = useRef<AudioBuffer | null>(null); // decoded buffer for current narration
+  const startTimeRef = useRef<number>(0);
+  const pausedAtRef = useRef<number>(0);
+  const bufferRef = useRef<AudioBuffer | null>(null);
   const onEndRef = useRef<(() => void) | null>(null);
   const cancelledRef = useRef(false);
-
-  const getAudioCtx = () => {
-    if (!audioCtxRef.current || audioCtxRef.current.state === 'closed') {
-      audioCtxRef.current = new AudioContext();
-    }
-    return audioCtxRef.current;
-  };
 
   const stopSource = useCallback(() => {
     if (sourceRef.current) {
@@ -371,7 +439,7 @@ function useNarration() {
   }, [stopSource]);
 
   const playBuffer = useCallback((buffer: AudioBuffer, offsetSecs: number, onEnd?: () => void) => {
-    const ctx = getAudioCtx();
+    const ctx = getSharedAudioCtx();
     stopSource();
     const source = ctx.createBufferSource();
     source.buffer = buffer;
@@ -394,41 +462,18 @@ function useNarration() {
     bufferRef.current = null;
     stopSource();
 
-    try {
-      // Check cache first
-      let base64: string | undefined = ttsCache.get(text);
+    // Try to get pre-fetched (or fetch now) AudioBuffer
+    const audioBuffer = await fetchAndDecodeAudio(text);
 
-      if (!base64) {
-        const res = await fetch('/api/tts', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ text }),
-        });
-        if (!res.ok) throw new Error(`TTS API error: ${res.status}`);
-        const data = await res.json() as { audioContent: string };
-        base64 = data.audioContent;
-        ttsCache.set(text, base64);
-      }
+    if (cancelledRef.current) return;
 
-      if (cancelledRef.current) return;
-
-      // Decode base64 MP3 → ArrayBuffer → AudioBuffer
-      const binary = atob(base64);
-      const bytes = new Uint8Array(binary.length);
-      for (let i = 0; i < binary.length; i++) bytes[i] = binary.charCodeAt(i);
-
-      const ctx = getAudioCtx();
-      const audioBuffer = await ctx.decodeAudioData(bytes.buffer);
-
-      if (cancelledRef.current) return;
-
+    if (audioBuffer) {
       bufferRef.current = audioBuffer;
       playBuffer(audioBuffer, 0, onEnd);
-    } catch (err) {
-      console.warn('[TTS] Google TTS failed, falling back to Web Speech API:', err);
-      // Graceful fallback to browser TTS
+    } else {
+      // Graceful fallback to Web Speech API
       if (typeof window !== 'undefined' && 'speechSynthesis' in window) {
-        const u = new SpeechSynthesisUtterance(text);
+        const u = new SpeechSynthesisUtterance(softenPunctuation(text));
         u.rate = 0.88; u.pitch = 0.95;
         u.onend = () => { if (!cancelledRef.current) onEnd?.(); };
         window.speechSynthesis.speak(u);
@@ -439,16 +484,15 @@ function useNarration() {
   }, [stopSource, playBuffer]);
 
   const pause = useCallback(() => {
-    if (sourceRef.current && audioCtxRef.current) {
-      // Record how far into the buffer we are (elapsed = currentTime - startTime)
-      pausedAtRef.current = audioCtxRef.current.currentTime - startTimeRef.current;
+    const ctx = getSharedAudioCtx();
+    if (sourceRef.current) {
+      pausedAtRef.current = ctx.currentTime - startTimeRef.current;
       stopSource();
     }
   }, [stopSource]);
 
   const resume = useCallback(() => {
     if (bufferRef.current) {
-      // Resume from where we paused
       playBuffer(bufferRef.current, pausedAtRef.current, onEndRef.current ?? undefined);
     }
   }, [playBuffer]);
@@ -499,6 +543,22 @@ export function VideoGuide({ data }: VideoGuideProps) {
   const currentScene = scenes[currentIndex];
   const totalScenes = scenes.length;
   const progress = ((currentIndex + 1) / totalScenes) * 100;
+
+  // ── Pre-fetch: warm up audio for scene 0 as soon as the component mounts ──
+  // This means by the time the user presses Play, scene 0 audio is already decoded.
+  useEffect(() => {
+    if (scenes.length > 0) {
+      fetchAndDecodeAudio(scenes[0].narration).catch(() => {});
+    }
+  }, [scenes]);
+
+  // ── Pre-fetch: while scene N is playing, silently fetch scene N+1 ──
+  useEffect(() => {
+    const nextIndex = currentIndex + 1;
+    if (nextIndex < scenes.length) {
+      fetchAndDecodeAudio(scenes[nextIndex].narration).catch(() => {});
+    }
+  }, [currentIndex, scenes]);
 
   // Calculate scene duration from narration length (~140 words/min for speech)
   const getSceneDuration = (scene: VideoScene) => {
@@ -579,7 +639,7 @@ export function VideoGuide({ data }: VideoGuideProps) {
       setCurrentIndex(i => i + 1);
       setSceneKey(k => k + 1);
       if (isPlaying) {
-        setTimeout(() => playScene(currentIndex + 1, isMuted), 100);
+        setTimeout(() => playScene(currentIndex + 1, isMuted), 50);
       }
     }
   };
@@ -591,7 +651,7 @@ export function VideoGuide({ data }: VideoGuideProps) {
       setCurrentIndex(i => i - 1);
       setSceneKey(k => k + 1);
       if (isPlaying) {
-        setTimeout(() => playScene(currentIndex - 1, isMuted), 100);
+        setTimeout(() => playScene(currentIndex - 1, isMuted), 50);
       }
     }
   };
@@ -611,7 +671,7 @@ export function VideoGuide({ data }: VideoGuideProps) {
     if (isPlaying) {
       if (timerRef.current) clearTimeout(timerRef.current);
       stop();
-      setTimeout(() => playScene(currentIndex, newMuted), 100);
+      setTimeout(() => playScene(currentIndex, newMuted), 50);
     }
   };
 
@@ -622,7 +682,7 @@ export function VideoGuide({ data }: VideoGuideProps) {
     setSceneKey(k => k + 1);
     setHasStarted(true);
     setIsPlaying(true);
-    setTimeout(() => playScene(index, isMuted), 100);
+    setTimeout(() => playScene(index, isMuted), 50);
   };
 
   useEffect(() => {
