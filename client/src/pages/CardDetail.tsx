@@ -226,6 +226,9 @@ export default function CardDetail() {
     const wasRead = isRead(currentCard.id);
     markRead(currentCard.id);
 
+    // Track last-viewed card for Home page "Continue" card
+    try { localStorage.setItem('pmo_last_card', currentCard.id); } catch { /* ignore */ }
+
     // Load note
     setNoteText(getNote(currentCard.id));
 
