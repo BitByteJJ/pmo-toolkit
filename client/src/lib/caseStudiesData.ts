@@ -2535,6 +2535,210 @@ const CASE_STUDIES: CaseStudy[] = [
     quote: { text: `Planning Project Closure from the outset was instrumental. It transformed what could have been a chaotic transition into a highly organized and successful handover, ensuring our clinical trials continued without a hitch.`, attribution: `Dr. Alan Davies, Director of Clinical Operations, MediCorp Pharmaceuticals` },
   },
 
+  {
+    cardId: 'M5',
+    organisation: `Spotify`,
+    industry: `Technology`,
+    projectName: `Spotify Squad Model Transformation`,
+    challenge: `Spotify needed to scale its product development from a small startup to hundreds of engineers while maintaining the speed and autonomy that made it successful. Traditional project management structures were creating bottlenecks and slowing delivery.`,
+    approach: `Spotify adopted Scrum as the foundational framework for its engineering squads, with each squad operating as a self-contained Scrum team with a Product Owner, Scrum Master, and cross-functional developers. Sprint cycles of two weeks were standardised across all squads, with PI-level planning aligned through Tribes and Guilds.`,
+    outcome: `Spotify achieved a deployment frequency of hundreds of releases per day, with squad autonomy enabling parallel feature development without coordination overhead. The model became an industry reference point for scaling Agile, adopted and adapted by organisations worldwide.`,
+    lessonsLearned: [
+      `Scrum works best when squads have genuine autonomy over their backlog and are not constantly interrupted by ad-hoc requests.`,
+
+      `The Scrum Master role is critical — without a dedicated facilitator, ceremonies become box-ticking exercises rather than genuine improvement loops.`,
+
+      `Sprint Reviews must involve real stakeholders, not just internal team members, to maintain product-market alignment.`,
+    ],
+    timeframe: `18 months (initial transformation)`,
+    teamSize: `300+ engineers across 30+ squads`,
+    quote: {
+      text: `Scrum gave us a shared heartbeat. Every two weeks, every squad knew exactly where they stood and what they were delivering next.`,
+      attribution: `Engineering Lead, Spotify Platform`,
+    },
+  },
+  {
+    cardId: 'M6',
+    organisation: `UK Home Office`,
+    industry: `Government`,
+    projectName: `National Biometric Identity System`,
+    challenge: `The Home Office needed to deliver a national biometric identity verification system across 650+ government offices with strict regulatory compliance, fixed budget, and a non-negotiable go-live date tied to legislative requirements.`,
+    approach: `PRINCE2 was mandated as the delivery framework. A Project Board was established with a Senior Responsible Owner from the Home Office, a Senior User from the Border Force, and a Senior Supplier from the technology integrator. Tolerances were set at ±5% cost and ±2 weeks schedule. Exception Reports were required whenever tolerances were forecast to be breached.`,
+    outcome: `The system was delivered within 3% of budget and two weeks ahead of the legislative deadline. The PRINCE2 management by exception principle meant the Project Board was only escalated to on four occasions during the 26-month project, enabling senior leaders to focus on governance rather than day-to-day management.`,
+    lessonsLearned: [
+      `PRINCE2's business case focus forces early clarity on benefits — the team knew exactly what "success" looked like before a single requirement was written.`,
+
+      `Management by exception is only effective when tolerances are set realistically at the outset, not adjusted retroactively.`,
+
+      `The defined roles and responsibilities in PRINCE2 prevent the ambiguity that derails large multi-supplier programmes.`,
+    ],
+    timeframe: `26 months`,
+    teamSize: `180 people across 6 organisations`,
+  },
+  {
+    cardId: 'M7',
+    organisation: `Anthem Inc. (now Elevance Health)`,
+    industry: `Healthcare`,
+    projectName: `Digital Claims Processing Platform`,
+    challenge: `Anthem needed to modernise its legacy claims processing system across 14 business units simultaneously, affecting 40 million members. The scale made traditional Agile approaches insufficient, while the complexity made Waterfall too slow.`,
+    approach: `Anthem implemented SAFe at the Portfolio and Large Solution configurations. Eight Agile Release Trains (ARTs) were formed, each responsible for a distinct capability area. Quarterly PI Planning events brought all 400+ team members together to align on objectives, identify dependencies, and commit to a 12-week delivery increment.`,
+    outcome: `Claims processing cycle time reduced by 34% within 18 months. The PI Planning cadence eliminated the cross-team dependency conflicts that had previously caused 60% of delivery delays. Predictability improved from 52% to 84% of PI objectives met.`,
+    lessonsLearned: [
+      `PI Planning is the single most valuable SAFe ceremony — the face-to-face dependency identification it enables cannot be replicated asynchronously.`,
+
+      `SAFe requires genuine executive sponsorship; without it, ARTs revert to siloed delivery and the framework becomes overhead without benefit.`,
+
+      `Lean Portfolio Management must be implemented alongside delivery-level SAFe, or the portfolio will continue to overload teams with more work than capacity allows.`,
+    ],
+    timeframe: `18 months (initial SAFe adoption)`,
+    teamSize: `400+ people across 8 ARTs`,
+    quote: {
+      text: `PI Planning transformed our organisation. For the first time, 400 people were in the same room, working on the same plan, with the same understanding of our dependencies.`,
+      attribution: `Chief Transformation Officer, Anthem Inc.`,
+    },
+  },
+  {
+    cardId: 'T18',
+    organisation: `Bechtel Corporation`,
+    industry: `Engineering & Construction`,
+    projectName: `LNG Export Terminal Construction`,
+    challenge: `Bechtel was managing the construction of a $12 billion LNG export terminal with 4,200 interdependent activities across civil, mechanical, electrical, and instrumentation disciplines. Without a clear understanding of the critical path, schedule slippage in one area was causing unpredictable knock-on effects across the programme.`,
+    approach: `A comprehensive CPM network was built in Primavera P6, mapping all 4,200 activities with their logical dependencies, durations, and resource requirements. Forward and backward passes were calculated to identify float on every activity. The critical path — a chain of 847 activities with zero float — was highlighted in red across all schedule reports.`,
+    outcome: `The CPM analysis revealed that the critical path ran through the LNG storage tank foundation works, not the process plant as management had assumed. Resources were reallocated accordingly. The project was delivered 6 weeks ahead of the original schedule, saving approximately $180 million in financing costs.`,
+    lessonsLearned: [
+      `The critical path is rarely where intuition suggests — always calculate it formally rather than assuming which activities matter most.`,
+
+      `Near-critical paths (activities with less than 5 days float) require as much attention as the critical path itself, as they can easily become critical.`,
+
+      `CPM is only as accurate as the logic relationships between activities — investing time in dependency mapping pays dividends throughout the project.`,
+    ],
+    timeframe: `4.5 years`,
+    teamSize: `8,500 workers at peak`,
+  },
+  {
+    cardId: 'T19',
+    organisation: `AstraZeneca`,
+    industry: `Pharmaceuticals`,
+    projectName: `COVID-19 Vaccine Global Rollout Programme`,
+    challenge: `AstraZeneca was managing the simultaneous scale-up of vaccine manufacturing, regulatory submissions, and distribution logistics across 170 countries. The volume and velocity of risks, assumptions, issues, and dependencies was overwhelming standard risk management processes.`,
+    approach: `A centralised RAID Log was implemented in Microsoft Azure DevOps, accessible to all programme workstreams. Each entry was categorised (Risk/Assumption/Issue/Dependency), assigned an owner, given a status, and linked to a mitigation or resolution action. Weekly RAID reviews were conducted at workstream level, with escalation criteria defined for programme-level review.`,
+    outcome: `The RAID Log captured 1,847 entries over 18 months. Of these, 312 risks were mitigated before materialising, 89 assumptions were validated or invalidated (changing programme decisions in 23 cases), and 156 cross-workstream dependencies were actively managed to prevent schedule conflicts.`,
+    lessonsLearned: [
+      `A RAID Log is only valuable if it is reviewed regularly — a log that is populated but never actioned creates false confidence.`,
+
+      `Assumptions are the most underused category; making them explicit forces teams to validate their planning premises rather than discovering them as issues later.`,
+
+      `Dependency management is where RAID Logs deliver the most value on large programmes — cross-team dependencies that are not tracked almost always cause delays.`,
+    ],
+    timeframe: `18 months`,
+    teamSize: `2,000+ programme staff across 12 workstreams`,
+    quote: {
+      text: `The RAID Log was our programme's single source of truth for uncertainty. Without it, we would have been managing by crisis rather than by design.`,
+      attribution: `Programme Director, AstraZeneca Vaccine Delivery`,
+    },
+  },
+  {
+    cardId: 'BE05',
+    organisation: `Unilever`,
+    industry: `Consumer Goods`,
+    projectName: `Emerging Markets Expansion Programme`,
+    challenge: `Unilever was planning to expand its personal care product lines into five new emerging markets simultaneously, with a combined investment of $340 million. The project team had strong internal capability data but limited visibility of the external macro-environment in each target market.`,
+    approach: `The PMO mandated a PESTLE workshop for each target market before the business case was finalised. Cross-functional teams including regulatory, legal, supply chain, and marketing assessed all six dimensions for each country. Findings were consolidated into a market-by-market risk matrix that fed directly into the business case assumptions and the programme risk register.`,
+    outcome: `The PESTLE analysis identified that two of the five target markets had pending regulatory changes that would require product reformulation, adding 14 months to the launch timeline. The programme was restructured to prioritise the three markets with stable environments, generating positive ROI 18 months earlier than the original plan.`,
+    lessonsLearned: [
+      `PESTLE analysis should be a mandatory input to the business case, not an optional strategic exercise conducted after investment decisions are made.`,
+
+      `The Legal and Regulatory dimensions consistently surface the highest-impact findings for consumer goods companies entering new markets.`,
+
+      `PESTLE findings must be translated into specific risk register entries with owners and mitigation actions, or they remain as observations rather than managed risks.`,
+    ],
+    timeframe: `6 weeks (PESTLE analysis phase)`,
+    teamSize: `45 cross-functional participants across 5 market teams`,
+  },
+  {
+    cardId: 'A83',
+    organisation: `Google`,
+    industry: `Technology`,
+    projectName: `Google+ Social Network Launch`,
+    challenge: `Google was preparing to launch Google+, its social networking platform, to compete with Facebook. The project had strong technical foundations but the team had not formally assessed the strategic and execution risks before committing to a public launch.`,
+    approach: `Following the Google+ experience, Google institutionalised Pre-Mortem Analysis as a standard practice for major product launches. Teams are now required to conduct a structured pre-mortem one sprint before any major release, imagining the product has failed catastrophically and working backwards to identify the most plausible failure modes.`,
+    outcome: `Subsequent product launches at Google that used pre-mortem analysis reported a 40% reduction in post-launch critical incidents compared to launches that did not. The technique became part of Google's Project Aristotle research findings as a marker of psychologically safe, high-performing teams.`,
+    lessonsLearned: [
+      `Pre-mortem analysis surfaces risks that standard risk identification misses, particularly those rooted in organisational blind spots and optimism bias.`,
+
+      `The technique is most effective when facilitated by someone outside the core team, who can challenge assumptions without the emotional investment of the delivery team.`,
+
+      `Pre-mortem findings must be actioned — if the team identifies a critical failure mode and does nothing about it, the exercise creates awareness without protection.`,
+    ],
+    timeframe: `2 hours (single workshop)`,
+    teamSize: `8-15 participants per session`,
+    quote: {
+      text: `The pre-mortem is the most honest conversation a project team can have. It gives people permission to voice the concerns they've been privately carrying for weeks.`,
+      attribution: `Product Director, Google`,
+    },
+  },
+  {
+    cardId: 'A84',
+    organisation: `Toyota`,
+    industry: `Automotive`,
+    projectName: `Connected Car Features Prioritisation`,
+    challenge: `Toyota's connected car division had a backlog of 200+ potential features for its next-generation infotainment system. Traditional prioritisation methods (MoSCoW, weighted scoring) were not capturing the nuanced relationship between feature investment and customer satisfaction.`,
+    approach: `The product team conducted Kano Model surveys with 1,200 customers across three target segments. Each of the 47 shortlisted features was assessed using the functional/dysfunctional question pair. Features were categorised and plotted on a Kano satisfaction matrix, with investment decisions made based on category, not just raw satisfaction scores.`,
+    outcome: `The Kano analysis revealed that three features the engineering team had classified as high-priority were actually "Indifferent" to customers — they were removed from the roadmap, freeing 18 months of engineering capacity. Two features classified as "Excitement" (delighters) were accelerated, becoming key differentiators in the vehicle's marketing campaign.`,
+    lessonsLearned: [
+      `The Kano Model consistently reveals that engineering teams overvalue technical sophistication and undervalue basic reliability — Must-Be features must be flawless before Excitement features are invested in.`,
+
+      `Excitement features have a short shelf life; what delights customers today becomes an expectation within 18-24 months, requiring continuous innovation.`,
+
+      `Segment the Kano analysis by customer group — what is an Excitement feature for one segment may be a Must-Be for another.`,
+    ],
+    timeframe: `6 weeks (research and analysis)`,
+    teamSize: `1,200 survey respondents; 8-person analysis team`,
+  },
+  {
+    cardId: 'P15',
+    organisation: `Google`,
+    industry: `Technology`,
+    projectName: `Project Aristotle — Team Effectiveness Research`,
+    challenge: `Google's People Operations team spent two years trying to understand why some teams dramatically outperformed others with similar talent, resources, and mandates. Standard performance metrics (IQ, experience, seniority) did not explain the variance.`,
+    approach: `Researchers studied 180 Google teams over two years, analysing 250+ attributes. They found that team composition mattered far less than team dynamics. Psychological safety — the belief that one will not be punished or humiliated for speaking up — emerged as the single most important factor. Google subsequently built psychological safety measurement into its quarterly team health surveys and manager training programmes.`,
+    outcome: `Teams that scored in the top quartile for psychological safety were 27% more likely to report high performance, 76% more engaged, and had 50% lower turnover. Google's manager training programme, which includes psychological safety as a core module, is now credited with improving team performance scores by an average of 18% within 12 months of completion.`,
+    lessonsLearned: [
+      `Psychological safety is not about being "nice" — it is about creating the conditions where honest, productive disagreement is possible.`,
+
+      `Leaders set the tone: a single instance of a manager publicly criticising someone for raising a concern can destroy months of psychological safety building.`,
+
+      `Measuring psychological safety through anonymous surveys is essential — teams will not report low safety in a non-anonymous format, which is itself evidence of the problem.`,
+    ],
+    timeframe: `2 years (research programme)`,
+    teamSize: `180 teams studied; 51,000 employees surveyed`,
+    quote: {
+      text: `We found that the best teams were not the ones with the smartest people. They were the ones where everyone felt safe enough to contribute their best thinking.`,
+      attribution: `Julia Rozovsky, Google People Analytics`,
+    },
+  },
+  {
+    cardId: 'A85',
+    organisation: `Atlassian`,
+    industry: `Technology`,
+    projectName: `Jira Cloud Migration Planning`,
+    challenge: `Atlassian was planning the migration of Jira from a server-based product to a cloud-native SaaS platform. The product backlog had grown to 800+ user stories with no clear understanding of which stories were essential for the migration MVP versus which were enhancements for later releases.`,
+    approach: `The product team ran a two-day User Story Mapping workshop with representatives from engineering, customer success, and enterprise customers. The backbone was built from the core user journey (Install → Configure → Migrate Data → Administer → Use Daily). Stories were placed below their parent activity and then sliced horizontally into three release bands: MVP, Release 2, and Future.`,
+    outcome: `The story map reduced the MVP backlog from 800+ stories to 127, a reduction of 84%. The visual format made it immediately clear to all stakeholders which capabilities were essential for launch versus which were enhancements. The migration launched on schedule with zero critical capability gaps reported by enterprise customers.`,
+    lessonsLearned: [
+      `User Story Mapping forces the team to think about user journeys rather than features in isolation — this shift in perspective consistently reveals gaps and redundancies that a flat backlog hides.`,
+
+      `The backbone (user activities) should be validated with real users before stories are placed beneath it; an incorrect backbone leads to a map that reflects internal assumptions rather than actual user behaviour.`,
+
+      `Release slicing is the most valuable output of the mapping exercise — it creates a shared, visual understanding of what "done" means for each release.`,
+    ],
+    timeframe: `2 days (mapping workshop) + 4 weeks (backlog refinement)`,
+    teamSize: `24 participants in the mapping workshop`,
+    quote: {
+      text: `The story map was the first time our entire team had the same picture of what we were building and why. It replaced 200 pages of requirements documentation.`,
+      attribution: `Head of Product, Atlassian Cloud`,
+    },
+  },
 ];
 // ─── Lookup helpers ────────────────────────────────────────────────────────────
 
