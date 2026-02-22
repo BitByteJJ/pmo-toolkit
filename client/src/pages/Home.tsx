@@ -5,7 +5,7 @@
 
 import { useLocation } from 'wouter';
 import { motion } from 'framer-motion';
-import { Layers, Zap, BookOpen, Search, ArrowRight, Map, Heart, Flame, Compass } from 'lucide-react';
+import { Layers, Zap, BookOpen, Search, ArrowRight, Map, Heart, Flame, Compass, Sparkles } from 'lucide-react';
 import BottomNav from '@/components/BottomNav';
 import { DECKS, CARDS, getCardsByDeck } from '@/lib/pmoData';
 import { useBookmarks } from '@/contexts/BookmarksContext';
@@ -520,6 +520,30 @@ export default function Home() {
           <div className="flex-1 text-left">
             <p className="text-sm font-bold text-white leading-tight">Not sure which tool to use?</p>
             <p className="text-[11px] text-white/70 mt-0.5">Answer 2–3 questions to get a personalised recommendation</p>
+          </div>
+          <ArrowRight size={14} className="text-white/60 shrink-0" />
+        </motion.button>
+
+        {/* AI Tool Finder CTA */}
+        <motion.button
+          initial={{ opacity: 0, y: 8 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.35, delay: 0.16 }}
+          onClick={() => navigate('/ai-suggest')}
+          className="w-full flex items-center gap-3 rounded-2xl px-4 py-3 text-left"
+          style={{
+            background: 'linear-gradient(135deg, #4F46E5 0%, #7C3AED 100%)',
+            boxShadow: '0 4px 16px rgba(79,70,229,0.28)',
+          }}
+          whileHover={{ scale: 1.01 }}
+          whileTap={{ scale: 0.98 }}
+        >
+          <div className="w-8 h-8 rounded-xl bg-white/20 flex items-center justify-center shrink-0">
+            <Sparkles size={15} className="text-white" />
+          </div>
+          <div className="flex-1 text-left">
+            <p className="text-sm font-bold text-white leading-tight">AI Tool Finder</p>
+            <p className="text-[11px] text-white/70 mt-0.5">Describe your challenge — get personalised tool recommendations</p>
           </div>
           <ArrowRight size={14} className="text-white/60 shrink-0" />
         </motion.button>

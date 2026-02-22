@@ -124,3 +124,15 @@
 ## Notes on Cards & ProTip Audit
 - [x] Build Notes on Cards — already implemented (sticky-note button, drawer, localStorage persistence all wired in CardDetail)
 - [x] Audit and rewrite all 144 proTips to be specific and actionable (41 rewritten, all now 90+ chars)
+
+## AI Tool Finder
+- [x] Build AI suggest endpoint (server/aiSuggest.ts + compiled aiSuggest.mjs) calling Manus LLM API
+- [x] CARD_CATALOGUE: compact 100+ card index with id, code, title, tagline, whenToUse, tags
+- [x] System prompt: instructs LLM to return 4-6 ranked recommendations with specific reasons
+- [x] Vite dev server middleware wires /api/ai-suggest to the compiled .mjs handler
+- [x] AiSuggest.tsx page: problem input, example prompts, loading skeleton, AI analysis summary, recommendation cards
+- [x] Recommendation cards: ranked badges, deck colour coding, "Why this helps" explanations, tap-to-open card
+- [x] Route /ai-suggest added to App.tsx
+- [x] AI tab added to BottomNav (Sparkles icon)
+- [x] AI Tool Finder CTA banner added to Home page (indigo gradient)
+- [x] 6 vitest unit tests for enrichRecommendations logic and CARD_CATALOGUE structure (all passing)

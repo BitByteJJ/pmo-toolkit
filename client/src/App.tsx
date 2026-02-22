@@ -19,6 +19,7 @@ import JourneyPage from './pages/JourneyPage';
 import LessonPage from './pages/LessonPage';
 import EarnHeartPage from './pages/EarnHeartPage';
 import DecisionHelper from './pages/DecisionHelper';
+import AiSuggest from './pages/AiSuggest';
 import QuizPage from './pages/QuizPage';
 import CaseStudiesPage from './pages/CaseStudiesPage';
 import GlossaryPage from './pages/GlossaryPage';
@@ -88,6 +89,7 @@ function Router() {
         <Route path="/journey/lesson/:day" component={LessonPage} />
         <Route path="/journey/earn-heart" component={EarnHeartPage} />
         <Route path="/decision" component={DecisionHelper} />
+        <Route path="/ai-suggest" component={AiSuggest} />
         <Route path="/quiz/:deckId" component={QuizPage} />
         <Route path="/case-studies" component={CaseStudiesPage} />
         <Route path="/glossary" component={GlossaryPage} />

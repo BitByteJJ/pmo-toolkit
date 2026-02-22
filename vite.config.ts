@@ -98,6 +98,22 @@ function vitePluginManusDebugCollector(): Plugin {
     },
 
     configureServer(server: ViteDevServer) {
+      // POST /api/ai-suggest — AI card recommendation endpoint
+      server.middlewares.use("/api/ai-suggest", async (req: any, res: any, next: any) => {
+        if (req.method !== 'POST') return next();
+        try {
+          // Import the pre-compiled .mjs version (esbuild output of aiSuggest.ts)
+          const mjsPath = path.resolve(PROJECT_ROOT, 'server', 'aiSuggest.mjs');
+          // Bust module cache by appending a timestamp query param
+          const { handleAiSuggest } = await import(/* @vite-ignore */ `${mjsPath}?t=${Date.now()}`);
+          await handleAiSuggest(req, res);
+        } catch (e) {
+          console.error('[Vite AI Suggest]', e);
+          res.writeHead(500, { 'Content-Type': 'application/json' });
+          res.end(JSON.stringify({ error: String(e) }));
+        }
+      });
+
       // GET /api/image-proxy?url=... — proxy CDN images to avoid CORS issues for PDF export
       server.middlewares.use("/api/image-proxy", async (req, res, next) => {
         if (req.method !== "GET") return next();
