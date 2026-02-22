@@ -120,3 +120,7 @@
 
 ## Cross-Reference Audit
 - [x] Audit all 144 cards: found and fixed 2 missing relatedCards entries (PR03→A47, phase-execution→A14). All 144 cards pass audit.
+
+## Notes on Cards & ProTip Audit
+- [x] Build Notes on Cards — already implemented (sticky-note button, drawer, localStorage persistence all wired in CardDetail)
+- [x] Audit and rewrite all 144 proTips to be specific and actionable (41 rewritten, all now 90+ chars)
