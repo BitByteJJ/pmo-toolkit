@@ -2,7 +2,7 @@
 // Design: "Clarity Cards" — full card with step-by-step, pro tips, related cards
 // Features: swipe navigation, share/copy link, related card popover, notes panel, read tracking
 
-import { useRoute, useLocation } from 'wouter';
+import { useRoute, useLocation, useSearch } from 'wouter';
 import { motion, AnimatePresence, useMotionValue, useTransform, PanInfo } from 'framer-motion';
 import {
   ArrowLeft, Bookmark, BookmarkCheck,
@@ -184,6 +184,8 @@ function CompletionCelebration({ deck, onDismiss }: {
 export default function CardDetail() {
   const [, params] = useRoute('/card/:cardId');
   const [, navigate] = useLocation();
+  const searchStr = useSearch();
+  const fromRoadmap = searchStr.includes('from=roadmap');
   const { isBookmarked, toggleBookmark } = useBookmarks();
   const { markRead, isRead, deckProgress, deckReadCount } = useCardProgress();
   const { getNote, setNote, hasNote } = useCardNotes();
@@ -530,12 +532,12 @@ export default function CardDetail() {
             {/* Top bar */}
             <div className="flex items-center justify-between mb-4">
               <button
-                onClick={() => navigate(`/deck/${card.deckId}`)}
+                onClick={() => fromRoadmap ? navigate('/roadmap') : navigate(`/deck/${card.deckId}`)}
                 className="flex items-center gap-1.5 text-[11px] font-semibold opacity-60 hover:opacity-100 transition-opacity"
                 style={{ color: deck?.textColor }}
               >
                 <ArrowLeft size={13} />
-                {deck?.title ?? 'Back'}
+                {fromRoadmap ? 'Back to Roadmap' : (deck?.title ?? 'Back')}
               </button>
               <div className="flex items-center gap-1.5">
                 <span className="text-[10px] font-medium opacity-50" style={{ color: deck?.textColor }}>

@@ -336,30 +336,116 @@ function SceneRenderer({ scene, color, bgColor }: { scene: VideoScene; color: st
 
 // ─── Narration hook ───────────────────────────────────────────────────────────
 
+// Voice priority list — higher index = lower priority
+// Chrome on desktop: "Google UK English Female", "Google US English"
+// macOS/iOS: "Samantha", "Daniel", "Karen", "Moira"
+// Edge: "Microsoft Aria Online", "Microsoft Jenny Online"
+const PREFERRED_VOICE_NAMES = [
+  'Google UK English Female',
+  'Microsoft Aria Online (Natural)',
+  'Microsoft Jenny Online (Natural)',
+  'Microsoft Sonia Online (Natural)',
+  'Google US English',
+  'Samantha',
+  'Karen',
+  'Daniel',
+  'Moira',
+  'Fiona',
+];
+
+function pickBestVoice(): SpeechSynthesisVoice | null {
+  const voices = window.speechSynthesis.getVoices();
+  if (!voices.length) return null;
+  // Try exact name match in priority order
+  for (const name of PREFERRED_VOICE_NAMES) {
+    const v = voices.find(v => v.name === name);
+    if (v) return v;
+  }
+  // Partial match: prefer "Natural" or "Online" voices
+  const natural = voices.find(v =>
+    v.lang.startsWith('en') && (v.name.includes('Natural') || v.name.includes('Online'))
+  );
+  if (natural) return natural;
+  // Fallback: any English voice
+  return voices.find(v => v.lang.startsWith('en-')) || voices.find(v => v.lang.startsWith('en')) || null;
+}
+
+// Add natural-sounding pauses by inserting commas/periods at sentence boundaries
+function naturaliseText(text: string): string {
+  return text
+    // Ensure space after punctuation for cleaner pauses
+    .replace(/([.!?])([A-Z])/g, '$1 $2')
+    // Replace em-dashes with comma pauses
+    .replace(/—/g, ', ')
+    // Replace colons with comma pauses
+    .replace(/:/g, ',')
+    // Remove parentheses but keep content
+    .replace(/[()]/g, ', ');
+}
+
 function useNarration() {
   const utteranceRef = useRef<SpeechSynthesisUtterance | null>(null);
+  const voiceRef = useRef<SpeechSynthesisVoice | null>(null);
   const [supported] = useState(() => typeof window !== 'undefined' && 'speechSynthesis' in window);
+
+  // Load voices eagerly — browsers fire voiceschanged when async voices arrive
+  useEffect(() => {
+    if (!supported) return;
+    const tryLoad = () => {
+      const v = pickBestVoice();
+      if (v) voiceRef.current = v;
+    };
+    tryLoad();
+    window.speechSynthesis.addEventListener('voiceschanged', tryLoad);
+    return () => window.speechSynthesis.removeEventListener('voiceschanged', tryLoad);
+  }, [supported]);
 
   const speak = useCallback((text: string, onEnd?: () => void) => {
     if (!supported) { onEnd?.(); return; }
     window.speechSynthesis.cancel();
-    const u = new SpeechSynthesisUtterance(text);
-    u.rate = 0.92;
-    u.pitch = 1.0;
-    u.volume = 1.0;
-    // Prefer a natural English voice
-    const voices = window.speechSynthesis.getVoices();
-    const preferred = voices.find(v =>
-      v.lang.startsWith('en') && (v.name.includes('Google') || v.name.includes('Natural') || v.name.includes('Samantha') || v.name.includes('Daniel'))
-    ) || voices.find(v => v.lang.startsWith('en'));
-    if (preferred) u.voice = preferred;
-    u.onend = () => onEnd?.();
-    utteranceRef.current = u;
-    window.speechSynthesis.speak(u);
+    const processedText = naturaliseText(text);
+    const voice = voiceRef.current ?? pickBestVoice();
+
+    // Chrome bug: utterances > ~15s get silently cut off.
+    // Fix: split into sentences and chain them sequentially.
+    const sentences = processedText
+      .split(/(?<=[.!?])\s+/)
+      .map(s => s.trim())
+      .filter(Boolean);
+
+    if (sentences.length === 0) { onEnd?.(); return; }
+
+    let cancelled = false;
+    const speakNext = (index: number) => {
+      if (cancelled || index >= sentences.length) {
+        if (!cancelled) onEnd?.();
+        return;
+      }
+      const u = new SpeechSynthesisUtterance(sentences[index]);
+      u.rate = 0.88;
+      u.pitch = 0.95;
+      u.volume = 1.0;
+      if (voice) u.voice = voice;
+      u.onend = () => speakNext(index + 1);
+      u.onerror = (e) => {
+        // Ignore 'interrupted' errors (from cancel()) — they are expected
+        if (e.error !== 'interrupted' && !cancelled) speakNext(index + 1);
+      };
+      utteranceRef.current = u;
+      window.speechSynthesis.speak(u);
+    };
+
+    // Store a cancel flag so stop() can interrupt the chain
+    (utteranceRef as React.MutableRefObject<unknown>).current = { cancel: () => { cancelled = true; } };
+    speakNext(0);
   }, [supported]);
 
   const stop = useCallback(() => {
-    if (supported) window.speechSynthesis.cancel();
+    if (!supported) return;
+    // Cancel the sentence chain if active
+    const ref = utteranceRef.current as { cancel?: () => void } | null;
+    if (ref?.cancel) ref.cancel();
+    window.speechSynthesis.cancel();
   }, [supported]);
 
   const pause = useCallback(() => {

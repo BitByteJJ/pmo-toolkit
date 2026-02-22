@@ -164,3 +164,7 @@
 - [ ] Add scene types: title card, bullet reveal, diagram animation, quote highlight, summary
 - [ ] Replace Script tab with Video Guide tab in CardDetail
 - [ ] Cache generated scene data in localStorage per card
+
+## Navigation & UX Fixes
+- [ ] Fix roadmap back-navigation — show "Back to Roadmap" button in CardDetail when navigating from roadmap
+- [ ] Improve Video Guide voiceover quality — less robotic, more natural-sounding TTS

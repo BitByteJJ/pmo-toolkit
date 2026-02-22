@@ -306,7 +306,7 @@ function JourneyRoadmap({ journey }: { journey: LearningJourney }) {
                 journey={{ ...journey, color: section.color }}
                 isRead={isRead(step.cardId)}
                 isLocked={lockedSet.has(step.cardId)}
-                onNavigate={(id) => navigate(`/card/${id}`)}
+                onNavigate={(id) => navigate(`/card/${id}?from=roadmap`)}
               />
             ))}
           </div>
