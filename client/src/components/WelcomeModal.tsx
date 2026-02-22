@@ -123,7 +123,7 @@ export default function WelcomeModal() {
                   </div>
                   <div className="flex-1">
                     <p className="text-sm font-bold text-stone-700 leading-tight">I'll explore on my own</p>
-                    <p className="text-[11px] text-stone-400 mt-0.5">Browse all 8 decks and 174 cards</p>
+                    <p className="text-[11px] text-stone-400 mt-0.5">Browse all 8 decks and 166 cards</p>
                   </div>
                 </button>
               </div>
