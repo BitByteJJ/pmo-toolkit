@@ -314,10 +314,10 @@ export default function QuizPage() {
   }
 
   return (
-    <div className="min-h-screen pb-8" style={{ backgroundColor: '#F5F3EE' }}>
+    <div className="min-h-screen pt-11 pb-8" style={{ backgroundColor: '#F5F3EE' }}>
       {/* Header */}
       <div
-        className="sticky top-0 z-40 px-4 pt-safe"
+        className="sticky top-11 z-40 px-4"
         style={{
           background: 'rgba(245,243,238,0.95)',
           backdropFilter: 'blur(12px)',

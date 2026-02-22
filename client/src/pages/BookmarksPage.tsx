@@ -17,9 +17,9 @@ export default function BookmarksPage() {
     .filter(Boolean) as NonNullable<ReturnType<typeof getCardById>>[];
 
   return (
-    <div className="min-h-screen bg-[#FAFAF8] pb-24">
-      {/* Header — offset by TopNav height (44px) */}
-      <div className="bg-white border-b border-stone-100/80 pb-4" style={{ paddingTop: '56px' }}>
+    <div className="min-h-screen pt-11 bg-[#FAFAF8] pb-24">
+      {/* Header */}
+      <div className="bg-white border-b border-stone-100/80 pt-4 pb-4">
         <div className="max-w-2xl mx-auto px-4">
           <div className="flex items-center justify-between">
             <div>

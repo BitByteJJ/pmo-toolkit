@@ -297,10 +297,10 @@ export default function JourneyPage() {
   return (
     <>
     {showWizard && <JourneySetupWizard onComplete={handleWizardComplete} />}
-    <div className="min-h-screen pb-28" style={{ backgroundColor: '#F5F3EE' }}>
+    <div className="min-h-screen pt-11 pb-28" style={{ backgroundColor: '#F5F3EE' }}>
       {/* Header */}
       <div
-        className="sticky top-0 z-40 px-4 pt-safe"
+        className="sticky top-11 z-40 px-4"
         style={{
           background: 'rgba(245,243,238,0.92)',
           backdropFilter: 'blur(12px)',

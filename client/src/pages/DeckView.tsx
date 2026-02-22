@@ -573,7 +573,7 @@ export default function DeckView() {
   }
 
   return (
-    <div className="min-h-screen pb-24" style={{ backgroundColor: '#F7F6F3' }}>
+    <div className="min-h-screen pt-11 pb-24" style={{ backgroundColor: '#F7F6F3' }}>
       {/* Sprint Mode overlay */}
       <AnimatePresence>
         {sprintMode && (
@@ -583,9 +583,8 @@ export default function DeckView() {
 
       {/* Sticky deck sub-header */}
       <div
-        className="sticky z-30 py-2"
+        className="sticky top-11 z-30 py-2"
         style={{
-          top: '44px',
           backgroundColor: 'rgba(247,246,243,0.95)',
           backdropFilter: 'blur(12px)',
           borderBottom: `2px solid ${deck.color}20`,

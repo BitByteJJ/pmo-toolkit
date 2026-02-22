@@ -404,7 +404,7 @@ export default function CardDetail() {
   }
 
   return (
-    <div className="min-h-screen bg-[#FAFAF8] pb-24 overflow-x-hidden">
+    <div className="min-h-screen pt-11 bg-[#FAFAF8] pb-24 overflow-x-hidden">
 
       {/* Completion celebration overlay */}
       <AnimatePresence>
@@ -682,7 +682,7 @@ export default function CardDetail() {
       </AnimatePresence>
 
       {/* ── Tab Bar ── */}
-      <div className="sticky top-0 z-30 bg-[#FAFAF8]/95 backdrop-blur-sm border-b border-stone-100">
+      <div className="sticky top-11 z-30 bg-[#FAFAF8]/95 backdrop-blur-sm border-b border-stone-100">
         <div className="max-w-2xl mx-auto px-4">
           <div className="flex gap-1 pt-2 pb-0 overflow-x-auto scrollbar-none">
             {(['overview', ...(template ? ['template'] : []), ...(caseStudy ? ['case-study'] : []), 'deep-dive', 'video-guide'] as ('overview' | 'template' | 'case-study' | 'deep-dive' | 'video-guide')[]).map(tab => (

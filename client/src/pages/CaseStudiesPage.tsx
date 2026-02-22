@@ -139,9 +139,9 @@ export default function CaseStudiesPage() {
   const activeFilterCount = (selectedDeck ? 1 : 0) + (selectedIndustry ? 1 : 0);
 
   return (
-    <div className="min-h-screen pb-24" style={{ backgroundColor: '#F5F3EE' }}>
+    <div className="min-h-screen pt-11 pb-24" style={{ backgroundColor: '#F5F3EE' }}>
       {/* Header */}
-      <div className="sticky top-0 z-30 bg-[#F5F3EE]/95 backdrop-blur-sm border-b border-stone-100">
+      <div className="sticky top-11 z-30 bg-[#F5F3EE]/95 backdrop-blur-sm border-b border-stone-100">
         <div className="max-w-2xl mx-auto px-4 pt-4 pb-3">
           <div className="flex items-center justify-between mb-3">
             <div>

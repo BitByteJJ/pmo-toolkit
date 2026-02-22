@@ -36,12 +36,11 @@ export default function SearchPage() {
   const popularSearches = ['RACI', 'risk', 'stakeholder', 'Agile', 'SWOT', 'communication', 'change', 'Kanban'];
 
   return (
-    <div className="min-h-screen bg-[#FAFAF8] pb-24">
+    <div className="min-h-screen pt-11 bg-[#FAFAF8] pb-24">
       {/* Header — sticky below TopNav */}
       <div
-        className="pb-3 sticky z-30"
+        className="pb-3 sticky top-11 z-30"
         style={{
-          top: '44px',
           paddingTop: '12px',
           background: 'rgba(250,250,248,0.95)',
           backdropFilter: 'blur(10px)',

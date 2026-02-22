@@ -492,10 +492,10 @@ export default function LessonPage() {
   const displayQuestion = lesson.questions[displayIndex];
 
   return (
-    <div className="min-h-screen flex flex-col" style={{ backgroundColor: '#F5F3EE' }}>
+    <div className="min-h-screen pt-11 flex flex-col" style={{ backgroundColor: '#F5F3EE' }}>
       {/* Header */}
       <div
-        className="sticky top-0 z-40 px-4 py-3"
+        className="sticky top-11 z-40 px-4 py-3"
         style={{
           background: 'rgba(245,243,238,0.95)',
           backdropFilter: 'blur(12px)',

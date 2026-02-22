@@ -277,10 +277,10 @@ export default function AiSuggest() {
   };
 
   return (
-    <div className="min-h-screen pb-32" style={{ backgroundColor: '#FAFAF8' }}>
+    <div className="min-h-screen pt-11 pb-32" style={{ backgroundColor: '#FAFAF8' }}>
       {/* ── Header ── */}
       <div
-        className="sticky top-0 z-40 px-4 pt-12 pb-4"
+        className="sticky top-11 z-40 px-4 pt-4 pb-4"
         style={{
           background: 'rgba(250,250,248,0.92)',
           backdropFilter: 'blur(12px)',
