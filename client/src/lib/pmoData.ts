@@ -3300,7 +3300,7 @@ export const CARDS: PMOCard[] = [
     tags: ['Agile', 'Requirements', 'Planning', 'Visualization'],
   },
 
-  // ─── PMBOK 7 / Agile Guide Gap-Fill Cards ────────────────────────────────
+  // ─── Performance Domains & Advanced Cards ────────────────────────────────
 
   {
     id: 'M8',
@@ -3309,7 +3309,7 @@ export const CARDS: PMOCard[] = [
     deckId: 'methodologies',
     type: 'technique',
     tagline: 'Align every project activity to measurable value for stakeholders and the organisation',
-    whatItIs: 'The Value Delivery System is a PMBOK 7 concept that frames project management not as a process of producing outputs, but as a system for delivering outcomes and benefits that matter to stakeholders. It encompasses the portfolio, programme, and project layers, ensuring that every deliverable traces back to a strategic objective. Value is defined broadly: financial return, customer satisfaction, regulatory compliance, or social impact.',
+    whatItIs: 'The Value Delivery System is a modern project management concept that frames project management not as a process of producing outputs, but as a system for delivering outcomes and benefits that matter to stakeholders. It encompasses the portfolio, programme, and project layers, ensuring that every deliverable traces back to a strategic objective. Value is defined broadly: financial return, customer satisfaction, regulatory compliance, or social impact.',
     whenToUse: 'Apply this lens at project initiation to establish a clear benefits map, and revisit it at every stage gate or sprint review. It is especially important when a project is at risk of delivering on-time and on-budget outputs that nobody actually needs. Use it to challenge scope creep by asking: does this feature add value to the end beneficiary?',
     steps: [
       'Define the intended outcomes and benefits in measurable terms before agreeing on scope or deliverables.',
@@ -3321,7 +3321,7 @@ export const CARDS: PMOCard[] = [
     proTip: 'Print the benefits map on A3 and put it on the wall of every project meeting. When debates about scope arise, point to the map and ask: which benefit does this serve? It cuts through politics faster than any governance process.',
     example: 'A hospital IT team replacing its patient records system defines value as a 20% reduction in nurse documentation time and zero critical data-entry errors within 90 days of launch. Every feature decision is evaluated against these two metrics, cutting three originally planned modules that added complexity without contributing to either measure.',
     relatedCards: ['process-1', 'business-2', 'A14', 'A22'],
-    tags: ['PMBOK 7', 'Strategy', 'Benefits', 'Value'],
+    tags: ['Strategy', 'Benefits', 'Value', 'Performance Domain'],
   },
 
   {
@@ -3331,7 +3331,7 @@ export const CARDS: PMOCard[] = [
     deckId: 'people',
     type: 'technique',
     tagline: 'Engage the right people in the right way throughout the entire project lifecycle',
-    whatItIs: 'The Stakeholder Performance Domain is one of eight performance domains in PMBOK 7. It replaces the traditional stakeholder management knowledge area with a more dynamic, relationship-centred approach. Rather than a one-time analysis at project start, it treats stakeholder engagement as a continuous, adaptive process, recognising that stakeholder needs, influence, and attitudes shift as the project evolves.',
+    whatItIs: 'The Stakeholder Performance Domain is one of eight performance domains in the PMI standard. It replaces the traditional stakeholder management knowledge area with a more dynamic, relationship-centred approach. Rather than a one-time analysis at project start, it treats stakeholder engagement as a continuous, adaptive process, recognising that stakeholder needs, influence, and attitudes shift as the project evolves.',
     whenToUse: 'Use this domain from project initiation through closure. It is particularly critical during change-heavy phases, when new stakeholders emerge, or when engagement surveys reveal declining satisfaction. It complements the Stakeholder Matrix (T14) by adding the behavioural and relational dimension that a grid alone cannot capture.',
     steps: [
       'Identify all stakeholders continuously — not just at kickoff — using interviews, org charts, and network analysis.',
@@ -3343,7 +3343,7 @@ export const CARDS: PMOCard[] = [
     proTip: 'Track stakeholder sentiment informally — a quick 1-5 rating after each key meeting. A trend from 4 to 2 over three weeks is a warning signal worth acting on before it becomes a formal escalation.',
     example: 'A government digital transformation programme initially maps 12 stakeholders. By month three, the team has identified 34 stakeholders across six departments. The PM uses a dynamic engagement register updated fortnightly, catching a newly appointed director who was unaware of the project and had the authority to block procurement approvals.',
     relatedCards: ['process-4', 'T14', 'people-9', 'people-13'],
-    tags: ['PMBOK 7', 'Stakeholders', 'Engagement', 'People'],
+    tags: ['Stakeholders', 'Engagement', 'People', 'Performance Domain'],
   },
 
   {
@@ -3353,7 +3353,7 @@ export const CARDS: PMOCard[] = [
     deckId: 'people',
     type: 'technique',
     tagline: 'Build a high-performing team culture grounded in trust, shared ownership, and continuous growth',
-    whatItIs: 'The Team Performance Domain in PMBOK 7 covers the activities and functions associated with the people responsible for producing project outcomes. It emphasises servant leadership, psychological safety, and team development over command-and-control supervision. The domain recognises that project teams are increasingly distributed, cross-functional, and self-organising, requiring a fundamentally different leadership approach.',
+    whatItIs: 'The Team Performance Domain covers the activities and functions associated with the people responsible for producing project outcomes. It emphasises servant leadership, psychological safety, and team development over command-and-control supervision. The domain recognises that project teams are increasingly distributed, cross-functional, and self-organising, requiring a fundamentally different leadership approach.',
     whenToUse: 'Apply this domain throughout the project lifecycle, with particular intensity during team formation (Tuckman Forming-Storming) and during periods of high pressure or conflict. It is essential when leading hybrid or remote teams, or when inheriting a team with pre-existing dynamics that need to be reset.',
     steps: [
       'Establish team values and working agreements collaboratively in the first week — not imposed top-down.',
@@ -3365,7 +3365,7 @@ export const CARDS: PMOCard[] = [
     proTip: 'Run a team health check every four weeks using a simple red/amber/green survey across five dimensions: clarity, autonomy, support, growth, and fun. The results will surface issues before they become crises.',
     example: 'A newly formed product team of eight engineers, two designers, and a PM from three different companies runs a two-day team charter workshop. They define their communication norms, decision rights, and conflict resolution approach. Six months later, their retrospective scores are consistently higher than the organisation average, and voluntary attrition is zero.',
     relatedCards: ['people-1', 'people-2', 'people-6', 'A37', 'A38'],
-    tags: ['PMBOK 7', 'Team', 'Leadership', 'Culture'],
+    tags: ['Team', 'Leadership', 'Culture', 'Performance Domain'],
   },
 
   {
@@ -3375,7 +3375,7 @@ export const CARDS: PMOCard[] = [
     deckId: 'methodologies',
     type: 'technique',
     tagline: 'Choose the right delivery approach — predictive, iterative, incremental, agile, or hybrid',
-    whatItIs: 'The Development Approach and Lifecycle Performance Domain in PMBOK 7 guides teams in selecting the most appropriate delivery model for their context. It recognises that no single approach fits all projects: a nuclear plant requires a predictive waterfall, a mobile app benefits from agile sprints, and a complex enterprise transformation often needs a hybrid. The domain provides a structured decision framework for this choice.',
+    whatItIs: 'The Development Approach and Lifecycle Performance Domain guides teams in selecting the most appropriate delivery model for their context. It recognises that no single approach fits all projects: a nuclear plant requires a predictive waterfall, a mobile app benefits from agile sprints, and a complex enterprise transformation often needs a hybrid. The domain provides a structured decision framework for this choice.',
     whenToUse: 'Use this domain at project initiation when defining the project management plan, and revisit it at major phase transitions. It is especially important when working in organisations that default to one approach regardless of context, or when a project\'s uncertainty profile changes significantly mid-delivery.',
     steps: [
       'Assess project uncertainty: high uncertainty favours iterative or agile; low uncertainty favours predictive.',
@@ -3387,7 +3387,7 @@ export const CARDS: PMOCard[] = [
     proTip: 'Use the Stacey Matrix to plot your project on two axes: requirements clarity and technical certainty. Projects in the complex or chaotic zones almost always benefit from agile or adaptive approaches, regardless of organisational preference.',
     example: 'A financial services firm is running two simultaneous projects: a regulatory reporting system (clear requirements, fixed deadline, audit trail required) and a new customer onboarding experience (unclear user needs, competitive pressure to iterate). The PMO assigns waterfall to the first and Scrum to the second, rather than forcing both into the same methodology.',
     relatedCards: ['M1', 'M2', 'M4', 'process-13', 'A86'],
-    tags: ['PMBOK 7', 'Methodology', 'Lifecycle', 'Planning'],
+    tags: ['Methodology', 'Lifecycle', 'Planning', 'Performance Domain'],
   },
 
   {
@@ -3397,7 +3397,7 @@ export const CARDS: PMOCard[] = [
     deckId: 'process',
     type: 'technique',
     tagline: 'Plan just enough, just in time — adaptive planning over exhaustive upfront blueprints',
-    whatItIs: 'The Planning Performance Domain in PMBOK 7 shifts the emphasis from creating a comprehensive upfront plan to establishing a planning mindset that evolves throughout delivery. It covers the full spectrum from high-level roadmaps to sprint-level task breakdowns, and recognises that the appropriate level of planning detail depends on the delivery approach, project complexity, and available information.',
+    whatItIs: 'The Planning Performance Domain shifts the emphasis from creating a comprehensive upfront plan to establishing a planning mindset that evolves throughout delivery. It covers the full spectrum from high-level roadmaps to sprint-level task breakdowns, and recognises that the appropriate level of planning detail depends on the delivery approach, project complexity, and available information.',
     whenToUse: 'Apply this domain at every level of planning: strategic roadmaps, release plans, iteration plans, and daily standups. It is especially valuable when teams over-plan (spending weeks on Gantt charts that are obsolete before work begins) or under-plan (starting sprints without clear acceptance criteria).',
     steps: [
       'Start with a high-level roadmap aligned to business outcomes, not a detailed task list.',
@@ -3409,7 +3409,7 @@ export const CARDS: PMOCard[] = [
     proTip: 'The planning horizon rule: plan the next two weeks in hours, the next two months in days, and the next six months in weeks. Any more granularity beyond two weeks is usually wasted effort on a dynamic project.',
     example: 'A software team abandons their 200-line Gantt chart after two sprints when 60% of tasks have shifted. They switch to a three-level planning model: a quarterly OKR roadmap, a two-week sprint plan, and a daily standup. Planning time drops from four hours per week to 45 minutes, and delivery predictability improves.',
     relatedCards: ['process-5', 'process-6', 'A14', 'A22', 'T1'],
-    tags: ['PMBOK 7', 'Planning', 'Agile', 'Adaptive'],
+    tags: ['Planning', 'Agile', 'Adaptive', 'Performance Domain'],
   },
 
   {
@@ -3419,7 +3419,7 @@ export const CARDS: PMOCard[] = [
     deckId: 'process',
     type: 'technique',
     tagline: 'Focus on delivering value continuously, not just completing tasks on a schedule',
-    whatItIs: 'The Delivery Performance Domain in PMBOK 7 encompasses the activities and functions associated with delivering project scope and quality. It moves beyond the traditional triple constraint (scope, time, cost) to emphasise value delivery, quality integration, and continuous improvement. It covers requirements management, quality assurance, and the management of physical and digital deliverables.',
+    whatItIs: 'The Delivery Performance Domain encompasses the activities and functions associated with delivering project scope and quality. It moves beyond the traditional triple constraint (scope, time, cost) to emphasise value delivery, quality integration, and continuous improvement. It covers requirements management, quality assurance, and the management of physical and digital deliverables.',
     whenToUse: 'Apply this domain throughout execution, with particular focus during sprint reviews, quality gates, and customer acceptance testing. It is essential when teams are producing outputs efficiently but customers are not satisfied with the outcomes — a common sign that delivery is disconnected from value.',
     steps: [
       'Define done clearly: establish acceptance criteria for every deliverable before work begins.',
@@ -3431,7 +3431,7 @@ export const CARDS: PMOCard[] = [
     proTip: 'Replace your weekly status report with a value delivery dashboard showing three metrics: features delivered vs planned, customer satisfaction score, and defect escape rate. These three numbers tell the real story of project health.',
     example: 'An e-commerce platform team shifts from measuring sprint velocity (story points completed) to measuring business value delivered (revenue-generating features live, conversion rate improvement). In three months, they reduce their backlog by 40% by eliminating low-value features that were consuming velocity without delivering business outcomes.',
     relatedCards: ['process-7', 'process-8', 'A14', 'A47'],
-    tags: ['PMBOK 7', 'Delivery', 'Quality', 'Value'],
+    tags: ['Delivery', 'Quality', 'Value', 'Performance Domain'],
   },
 
   {
@@ -3441,7 +3441,7 @@ export const CARDS: PMOCard[] = [
     deckId: 'process',
     type: 'technique',
     tagline: 'Measure what matters — use data to assess project health and drive informed decisions',
-    whatItIs: 'The Measurement Performance Domain in PMBOK 7 covers the activities and functions associated with assessing project performance and taking appropriate action to maintain acceptable performance. It emphasises measuring outcomes over outputs, using leading indicators alongside lagging ones, and avoiding vanity metrics that look good but do not reflect real project health.',
+    whatItIs: 'The Measurement Performance Domain covers the activities and functions associated with assessing project performance and taking appropriate action to maintain acceptable performance. It emphasises measuring outcomes over outputs, using leading indicators alongside lagging ones, and avoiding vanity metrics that look good but do not reflect real project health.',
     whenToUse: 'Apply this domain from project initiation (defining what to measure) through closure (evaluating actual versus planned benefits). It is especially important when projects are reporting green on traditional metrics (schedule, budget) while stakeholder satisfaction is declining — a sign that the wrong things are being measured.',
     steps: [
       'Define key performance indicators at project start, linked directly to the benefits map and success criteria.',
@@ -3453,7 +3453,7 @@ export const CARDS: PMOCard[] = [
     proTip: 'Limit your core project dashboard to five metrics. More than five and people stop reading it. Choose one metric each for: schedule health, budget health, quality, stakeholder satisfaction, and team wellbeing.',
     example: 'A construction project reports green on schedule and budget for six months, then suddenly requests a three-month extension. A post-mortem reveals that the weekly status report tracked 47 metrics but none measured subcontractor delivery risk. The PMO redesigns the dashboard to include a subcontractor performance index as a leading indicator.',
     relatedCards: ['T3', 'process-5', 'A14', 'A23'],
-    tags: ['PMBOK 7', 'Metrics', 'Performance', 'Data'],
+    tags: ['Metrics', 'Performance', 'Data', 'Performance Domain'],
   },
 
   {
@@ -3463,7 +3463,7 @@ export const CARDS: PMOCard[] = [
     deckId: 'process',
     type: 'technique',
     tagline: 'Navigate ambiguity and volatility by building resilience and adaptive capacity into your project',
-    whatItIs: 'The Uncertainty Performance Domain in PMBOK 7 addresses the activities and functions associated with risk, ambiguity, and complexity. It goes beyond traditional risk management to address the full spectrum of uncertainty: known risks (identifiable and manageable), unknown risks (emergent and unpredictable), ambiguity (unclear requirements or context), and complexity (interconnected systems with non-linear behaviour).',
+    whatItIs: 'The Uncertainty Performance Domain addresses the activities and functions associated with risk, ambiguity, and complexity. It goes beyond traditional risk management to address the full spectrum of uncertainty: known risks (identifiable and manageable), unknown risks (emergent and unpredictable), ambiguity (unclear requirements or context), and complexity (interconnected systems with non-linear behaviour).',
     whenToUse: 'Apply this domain throughout the project, with heightened focus during initiation (when uncertainty is highest) and at major decision points. It is essential for projects operating in VUCA environments (Volatile, Uncertain, Complex, Ambiguous) where traditional risk registers are insufficient.',
     steps: [
       'Distinguish between risk (known unknowns) and uncertainty (unknown unknowns) — they require different responses.',
@@ -3475,7 +3475,7 @@ export const CARDS: PMOCard[] = [
     proTip: 'Run a pre-mortem at the start of every major phase: ask the team to imagine it is six months from now and the project has failed spectacularly. What happened? This exercise surfaces risks that people are too polite to raise in normal planning sessions.',
     example: 'A pharmaceutical company launching a new drug in three markets uses scenario planning to model four futures: regulatory approval in all markets, approval in two, approval in one, and no approval. Each scenario has a pre-defined response plan. When approval is delayed in one market, the team activates their pre-planned pivot within 48 hours rather than spending three weeks in crisis mode.',
     relatedCards: ['process-3', 'T6', 'A33', 'A34'],
-    tags: ['PMBOK 7', 'Risk', 'Uncertainty', 'Resilience'],
+    tags: ['Risk', 'Uncertainty', 'Resilience', 'Performance Domain'],
   },
 
   {
@@ -3529,7 +3529,7 @@ export const CARDS: PMOCard[] = [
     deckId: 'people',
     type: 'technique',
     tagline: 'Lead by removing obstacles, empowering your team, and putting their needs before your own',
-    whatItIs: 'Servant Leadership is a leadership philosophy central to the PMI Agile Practice Guide and PMBOK 7\'s Team Performance Domain. A servant leader prioritises the growth, wellbeing, and effectiveness of their team over their own authority or recognition. In project management, this means the PM\'s primary role shifts from directing work to removing impediments, facilitating decisions, and creating the conditions for the team to do their best work.',
+    whatItIs: 'Servant Leadership is a leadership philosophy central to the PMI Agile Practice Guide and modern project management\'s Team Performance Domain. A servant leader prioritises the growth, wellbeing, and effectiveness of their team over their own authority or recognition. In project management, this means the PM\'s primary role shifts from directing work to removing impediments, facilitating decisions, and creating the conditions for the team to do their best work.',
     whenToUse: 'Apply servant leadership principles in all team interactions, but especially when working with self-organising agile teams, cross-functional groups, or highly skilled specialists who do not respond well to command-and-control management. It is also essential during periods of high pressure when the instinct to micromanage is strongest.',
     steps: [
       'Listen first: before offering solutions, ensure you fully understand the team\'s perspective and needs.',
@@ -3541,7 +3541,7 @@ export const CARDS: PMOCard[] = [
     proTip: 'Track your impediment resolution time. If blockers are sitting unresolved for more than three days, you are not serving your team effectively. Make impediment removal your first task each morning before any other work.',
     example: 'A senior PM joins a struggling agile team that has missed three consecutive sprint goals. Rather than imposing a recovery plan, she spends the first week in listening mode: one-on-ones with each team member, attending standups without speaking, and reviewing the impediment log. She identifies that two engineers are blocked by an unresponsive external vendor. She escalates to the vendor\'s account manager and resolves the blocker in 48 hours. The next sprint is the team\'s first successful one in two months.',
     relatedCards: ['people-2', 'people-4', 'A12', 'A42'],
-    tags: ['PMBOK 7', 'Agile', 'Leadership', 'Servant Leadership'],
+    tags: ['Agile', 'Leadership', 'Servant Leadership', 'Performance Domain'],
   },
 
   {

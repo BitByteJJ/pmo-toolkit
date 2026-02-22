@@ -2739,14 +2739,14 @@ const CASE_STUDIES: CaseStudy[] = [
       attribution: `Head of Product, Atlassian Cloud`,
     },
   },
-  // ─── PMBOK 7 & Agile Gap-Fill Cards ────────────────────────────────────────────
+  // ─── Performance Domains & Advanced Cards ──────────────────────────────────────
   {
     cardId: 'M8',
     organisation: 'Unilever',
     industry: 'Consumer Goods',
     projectName: 'Connected Commerce Value Delivery Transformation',
     challenge: "Unilever's digital commerce initiatives were delivering outputs but failing to translate these into measurable business value. Projects were evaluated on time and cost performance, not on the benefits they generated.",
-    approach: "Unilever adopted the PMBOK 7 Value Delivery System framework to restructure its portfolio governance. A new Benefits Realisation Office was established to track value delivery from project output through to operational benefit. Each project was required to define a 'value hypothesis' at initiation and report against it at every steering committee.",
+    approach: "Unilever adopted the Value Delivery System framework to restructure its portfolio governance. A new Benefits Realisation Office was established to track value delivery from project output through to operational benefit. Each project was required to define a 'value hypothesis' at initiation and report against it at every steering committee.",
     outcome: 'Within 18 months, the percentage of projects that could demonstrate measurable business value increased from 34% to 71%. Three projects delivering outputs on time and within budget were re-scoped or cancelled, freeing up £12 million in investment for higher-value initiatives.',
     lessonsLearned: [
       'Measuring project success by output delivery rather than value realisation is a systemic governance failure.',
@@ -2834,7 +2834,7 @@ const CASE_STUDIES: CaseStudy[] = [
     industry: 'Government / Public Sector',
     projectName: 'Emergency Services Mobile Communications Programme (ESMCP)',
     challenge: "The UK Home Office's programme to replace the Airwave radio network used by police, fire, and ambulance services with a 4G-based Emergency Services Network was one of the most complex government IT programmes ever undertaken, requiring planning across a 10-year horizon with highly uncertain technology requirements.",
-    approach: 'The programme adopted PMBOK 7 Planning Performance Domain principles, establishing a multi-level planning framework: a strategic roadmap for the 10-year programme, annual delivery plans for each major workstream, and quarterly sprint plans for technology development teams. Planning was treated as a continuous activity with formal re-planning events triggered by significant changes.',
+    approach: 'The programme adopted Planning Performance Domain principles, establishing a multi-level planning framework: a strategic roadmap for the 10-year programme, annual delivery plans for each major workstream, and quarterly sprint plans for technology development teams. Planning was treated as a continuous activity with formal re-planning events triggered by significant changes.',
     outcome: 'The programme successfully delivered the core network infrastructure on schedule, with the Emergency Services Network going live for initial users in 2020. The multi-level planning framework enabled the programme to absorb several significant disruptions without losing overall programme coherence.',
     lessonsLearned: [
       'Multi-level planning frameworks are essential for large, complex programmes — strategic, annual, and sprint-level plans serve different purposes and audiences.',
@@ -2866,7 +2866,7 @@ const CASE_STUDIES: CaseStudy[] = [
     industry: 'Healthcare / Public Sector',
     projectName: 'COVID-19 Vaccination Programme Measurement Framework',
     challenge: 'The NHS COVID-19 vaccination programme was the largest and most complex vaccination programme in NHS history, requiring the delivery of millions of doses across thousands of sites within a compressed timeframe. Programme leadership needed a measurement framework that could provide real-time visibility and support rapid decision-making.',
-    approach: 'NHS England established a multi-level measurement framework aligned with the PMBOK 7 Measurement Performance Domain. National, regional, and local dashboards tracked doses administered, site capacity utilisation, supply chain status, and equity metrics. All metrics were linked to explicit decision rules — a site with attendance below 85% triggered an automatic outreach call from the regional team.',
+    approach: 'NHS England established a multi-level measurement framework aligned with the Measurement Performance Domain. National, regional, and local dashboards tracked doses administered, site capacity utilisation, supply chain status, and equity metrics. All metrics were linked to explicit decision rules — a site with attendance below 85% triggered an automatic outreach call from the regional team.',
     outcome: "The NHS administered over 100 million doses in the first year with a wastage rate of less than 1% — significantly below the 5% target. The measurement framework was credited by the National Audit Office as a key factor in the programme's success.",
     lessonsLearned: [
       'Measurement frameworks must be linked to explicit decision rules — data that does not drive decisions is waste.',
@@ -2885,7 +2885,7 @@ const CASE_STUDIES: CaseStudy[] = [
     organisation: 'Shell',
     industry: 'Energy / Oil & Gas',
     projectName: 'Prelude FLNG Uncertainty Management',
-    challenge: "Shell's Prelude Floating Liquefied Natural Gas facility — the world's largest floating structure — was a project of unprecedented complexity and uncertainty, facing all four types of PMBOK 7 uncertainty: risk, ambiguity, complexity, and volatility.",
+    challenge: "Shell's Prelude Floating Liquefied Natural Gas facility — the world's largest floating structure — was a project of unprecedented complexity and uncertainty, facing all four types of project uncertainty: risk, ambiguity, complexity, and volatility.",
     approach: "Shell established a dedicated Uncertainty Management function using a 'four-lens' framework: the risk lens for known unknowns (risk register and Monte Carlo simulation), the ambiguity lens for unclear requirements (stakeholder consultation), the complexity lens for system interdependencies (system dynamics modelling), and the volatility lens for market changes (scenario planning and flexible contract structures).",
     outcome: 'Prelude FLNG was successfully installed off the coast of Western Australia in 2017 and produced its first LNG in 2019. The uncertainty management framework enabled Shell to make several critical design decisions that proved correct in hindsight despite high levels of uncertainty.',
     lessonsLearned: [

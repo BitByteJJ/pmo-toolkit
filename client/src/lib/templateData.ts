@@ -383,7 +383,7 @@ const methodologyTemplates: CardTemplate[] = [
   {
     cardId: 'M8',
     title: 'Value Delivery System Canvas',
-    description: "Map your organisation's end-to-end value delivery system across all three PMBOK 7 domains.",
+    description: "Map your organisation's end-to-end value delivery system across portfolio, programme, and project layers.",
     sections: [
       {
         heading: 'System Overview',
@@ -417,7 +417,7 @@ const methodologyTemplates: CardTemplate[] = [
   {
     cardId: 'M9',
     title: 'Development Approach & Lifecycle Selector',
-    description: 'Determine the most appropriate delivery approach for your project using PMBOK 7 guidance.',
+    description: 'Determine the most appropriate delivery approach for your project using PMI guidance.',
     sections: [
       {
         heading: 'Project Characteristics Assessment',
@@ -994,7 +994,7 @@ const peopleTemplates: CardTemplate[] = [
   {
     cardId: 'people-16',
     title: 'Stakeholder Performance Domain Tracker',
-    description: 'Track stakeholder engagement across the PMBOK 7 Stakeholder Performance Domain.',
+    description: 'Track stakeholder engagement across the Stakeholder Performance Domain.',
     sections: [
       {
         heading: 'Stakeholder Engagement Register',
@@ -1013,7 +1013,7 @@ const peopleTemplates: CardTemplate[] = [
   {
     cardId: 'people-17',
     title: 'Team Performance Domain Health Check',
-    description: 'Assess team health across the five PMBOK 7 Team Performance Domain dimensions.',
+    description: 'Assess team health across the five Team Performance Domain dimensions.',
     sections: [
       {
         heading: 'Team Health Assessment',
@@ -1423,7 +1423,7 @@ const processTemplates: CardTemplate[] = [
   {
     cardId: 'process-18',
     title: 'Planning Performance Domain Checklist',
-    description: 'Ensure all PMBOK 7 Planning Performance Domain activities are addressed.',
+    description: 'Ensure all Planning Performance Domain activities are addressed.',
     sections: [
       {
         heading: 'Planning Domain Checklist',
@@ -1451,7 +1451,7 @@ const processTemplates: CardTemplate[] = [
   {
     cardId: 'process-19',
     title: 'Delivery Performance Domain Tracker',
-    description: 'Track delivery progress against the PMBOK 7 Delivery Performance Domain outcomes.',
+    description: 'Track delivery progress against the Delivery Performance Domain outcomes.',
     sections: [
       {
         heading: 'Delivery Outcomes Tracker',
@@ -1473,7 +1473,7 @@ const processTemplates: CardTemplate[] = [
   {
     cardId: 'process-20',
     title: 'Measurement Performance Domain Dashboard',
-    description: 'Define and track the key metrics for the PMBOK 7 Measurement Performance Domain.',
+    description: 'Define and track the key metrics for the Measurement Performance Domain.',
     sections: [
       {
         heading: 'Project Metrics Dashboard',
@@ -1497,7 +1497,7 @@ const processTemplates: CardTemplate[] = [
   {
     cardId: 'process-21',
     title: 'Uncertainty Performance Domain Risk Log',
-    description: 'Manage uncertainty and ambiguity using the PMBOK 7 Uncertainty Performance Domain framework.',
+    description: 'Manage uncertainty and ambiguity using the Uncertainty Performance Domain framework.',
     sections: [
       {
         heading: 'Uncertainty Register',
@@ -3641,6 +3641,111 @@ const techniqueTemplates: CardTemplate[] = [
     ],
   },
   {
+    cardId: 'A68',
+    title: "Rogers' Diffusion of Innovation — Adoption Planner",
+    description: "Map your stakeholders across the adoption curve and tailor your communication strategy for each segment.",
+    sections: [
+      {
+        heading: 'Stakeholder Adoption Mapping',
+        content: `| Adopter Segment | % of Population | Characteristics | Your Stakeholders | Engagement Strategy |
+|---|---|---|---|---|
+| Innovators | 2.5% | Risk-tolerant, tech-savvy, visionary | | Early access, co-creation |
+| Early Adopters | 13.5% | Opinion leaders, open to change | | Champions programme, case studies |
+| Early Majority | 34% | Pragmatic, need proof of value | | Peer testimonials, clear ROI |
+| Late Majority | 34% | Sceptical, change-resistant | | Mandates, peer pressure, simplicity |
+| Laggards | 16% | Tradition-bound, last to adopt | | Minimum viable change, compliance |`,
+      },
+      {
+        heading: 'Adoption Acceleration Actions',
+        content: `**Critical Mass Target:** Reach ____% adoption by ________ (date)
+
+**Chasm Crossing Strategy** (Early Adopters → Early Majority):
+- Identify 2–3 reference customers / champion teams
+- Document and publicise their success stories
+- Simplify the adoption process to reduce friction
+
+**Key Barriers to Adoption:**
+1. _______________________________________________
+2. _______________________________________________
+3. _______________________________________________
+
+**Mitigation Actions:**
+1. _______________________________________________
+2. _______________________________________________
+3. _______________________________________________`,
+      },
+    ],
+  },
+  {
+    cardId: 'A69',
+    title: "McKinsey's 3 Horizons — Portfolio Planner",
+    description: "Balance your project portfolio across short-term delivery, mid-term growth, and long-term innovation.",
+    sections: [
+      {
+        heading: '3 Horizons Portfolio Map',
+        content: `| Horizon | Time Frame | Focus | Current Initiatives | Investment % | Owner |
+|---|---|---|---|---|---|
+| H1 — Defend & Extend | 0–12 months | Optimise core business | | | |
+| H2 — Nurture & Build | 1–3 years | Emerging opportunities | | | |
+| H3 — Create & Imagine | 3–5+ years | Transformational bets | | | |`,
+      },
+      {
+        heading: 'Portfolio Balance Assessment',
+        content: `**Current H1 : H2 : H3 investment split:** ___% : ___% : ___%
+
+**Recommended split for your context:**
+- Stable, mature industry: 70% : 20% : 10%
+- High-growth sector: 50% : 30% : 20%
+- Disrupted market: 40% : 30% : 30%
+
+**Gaps identified:**
+- Under-invested horizon: H___ — Action: _______________
+- Over-invested horizon: H___ — Action: _______________
+
+**H2 → H1 graduation criteria** (when does an H2 initiative become core?):
+_______________________________________________`,
+      },
+    ],
+  },
+  {
+    cardId: 'A70',
+    title: "Lewin's Force Field Analysis",
+    description: "Weigh driving and restraining forces to decide whether a proposed change is viable and how to tip the balance.",
+    sections: [
+      {
+        heading: 'Force Field Diagram',
+        content: `**Proposed Change:** _______________________________________________
+
+| Driving Forces (FOR change) | Strength (1–5) | Restraining Forces (AGAINST change) | Strength (1–5) |
+|---|---|---|---|
+| | | | |
+| | | | |
+| | | | |
+| | | | |
+| **Total Driving Score** | | **Total Restraining Score** | |`,
+      },
+      {
+        heading: 'Decision & Action Plan',
+        content: `**Net Score** (Driving − Restraining): _______
+
+**Viability Assessment:**
+- +3 or above: Change is viable — proceed
+- 0 to +2: Borderline — strengthen drivers or reduce restraints first
+- Negative: Change is not viable in current conditions
+
+**Top 3 Actions to Strengthen Driving Forces:**
+1. _______________________________________________
+2. _______________________________________________
+3. _______________________________________________
+
+**Top 3 Actions to Reduce Restraining Forces:**
+1. _______________________________________________
+2. _______________________________________________
+3. _______________________________________________`,
+      },
+    ],
+  },
+  {
     cardId: 'A72',
     title: 'Cultural Web Analysis',
     description: 'Map the cultural web of an organisation to understand the current culture and plan change.',
@@ -3656,6 +3761,38 @@ const techniqueTemplates: CardTemplate[] = [
 | **Organisational Structure** — How is it organised? | | | |
 | **Control Systems** — What is measured and rewarded? | | | |
 | **Paradigm** — Core assumptions about the organisation | | | |`,
+      },
+    ],
+  },
+  {
+    cardId: 'A73',
+    title: "Vroom's Expectancy Theory — Motivation Audit",
+    description: "Diagnose motivation gaps in your team by assessing the three expectancy levers: effort, performance, and reward.",
+    sections: [
+      {
+        heading: 'Team Motivation Assessment',
+        content: `| Team Member | Expectancy: "My effort will lead to performance" (1–5) | Instrumentality: "Performance will lead to reward" (1–5) | Valence: "I value the reward" (1–5) | Motivation Score (E×I×V) | Action Needed |
+|---|---|---|---|---|---|
+| | | | | | |
+| | | | | | |
+| | | | | | |`,
+      },
+      {
+        heading: 'Motivation Lever Interventions',
+        content: `**Low Expectancy (effort ≠ performance):**
+- Provide clearer goals and success criteria
+- Offer training, coaching, or remove blockers
+- Ensure workload is realistic
+
+**Low Instrumentality (performance ≠ reward):**
+- Make the reward system transparent and consistent
+- Follow through on promises — close the feedback loop
+- Recognise effort publicly and promptly
+
+**Low Valence (reward not valued):**
+- Have a 1:1 conversation to understand individual motivators
+- Offer choice in rewards where possible (flexibility, development, recognition)
+- Align project goals to personal career objectives`,
       },
     ],
   },
@@ -3700,6 +3837,42 @@ const techniqueTemplates: CardTemplate[] = [
 | Taking out | Separate an interfering part | |
 | Local quality | Transition from homogeneous to heterogeneous | |
 | Asymmetry | Change symmetrical form to asymmetrical | |`,
+      },
+    ],
+  },
+  {
+    cardId: 'A77',
+    title: "Kübler-Ross Change Curve — Team Transition Tracker",
+    description: "Track where each team member sits on the emotional change curve and apply targeted support to accelerate acceptance.",
+    sections: [
+      {
+        heading: 'Team Transition Map',
+        content: `| Stage | Emotional State | Signs to Watch For | Your Team Members | Support Action |
+|---|---|---|---|---|
+| 1. Shock | Disbelief, numbness | Silence, confusion, "this can't be right" | | Communicate clearly and early |
+| 2. Denial | Resistance, minimising | "It won't affect us", business as usual | | Provide facts, repeat the message |
+| 3. Frustration | Anger, blame | Complaints, low energy, absenteeism | | Listen actively, acknowledge feelings |
+| 4. Depression | Low morale, withdrawal | Disengagement, reduced output | | 1:1 support, celebrate small wins |
+| 5. Experiment | Tentative exploration | Testing new ways, cautious optimism | | Encourage, provide safe space to try |
+| 6. Decision | Acceptance, commitment | Engagement returns, problem-solving | | Reinforce positive behaviour |
+| 7. Integration | New normal | Full adoption, helping others | | Recognise champions, share stories |`,
+      },
+      {
+        heading: 'Transition Support Plan',
+        content: `**Change being managed:** _______________________________________________
+
+**Current team distribution across stages:**
+- Stages 1–3 (pre-acceptance): ___% of team
+- Stage 4 (trough): ___% of team
+- Stages 5–7 (moving forward): ___% of team
+
+**Priority support actions this week:**
+1. _______________________________________________
+2. _______________________________________________
+3. _______________________________________________
+
+**Success indicator** (how will you know the team has reached Stage 7?):
+_______________________________________________`,
       },
     ],
   },
