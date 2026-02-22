@@ -174,23 +174,59 @@ export default function Home() {
       {/* ── Hero ── */}
       <div
         className="relative overflow-hidden"
-        style={{ minHeight: '200px' }}
+        style={{ minHeight: '240px' }}
       >
-        {/* Background illustration */}
-        <div className="absolute inset-0">
+        {/* Dark base layer */}
+        <div
+          className="absolute inset-0"
+          style={{ background: 'linear-gradient(135deg, #0f172a 0%, #1e1b4b 55%, #0c2340 100%)' }}
+        />
+
+        {/* Background illustration — prominently visible, anchored right */}
+        <div className="absolute inset-0 overflow-hidden">
+          {/* Illustration rendered on a white card so line-art colours show on dark bg */}
+          <div
+            className="absolute"
+            style={{
+              right: '-5%',
+              top: '50%',
+              transform: 'translateY(-50%)',
+              height: '160%',
+              width: 'auto',
+              maxWidth: '72%',
+              aspectRatio: '1 / 1',
+              borderRadius: '50%',
+              background: 'radial-gradient(circle, rgba(255,255,255,0.12) 0%, rgba(255,255,255,0.06) 55%, transparent 80%)',
+            }}
+          />
           <img
             src={HERO_IMG}
             alt=""
             aria-hidden="true"
-            className="w-full h-full object-cover"
-            style={{ objectPosition: 'center 20%', opacity: 0.18 }}
+            className="absolute"
+            style={{
+              right: '-5%',
+              top: '50%',
+              transform: 'translateY(-50%)',
+              height: '155%',
+              width: 'auto',
+              maxWidth: '72%',
+              objectFit: 'contain',
+              opacity: 0.52,
+              filter: 'invert(1) brightness(2.4) saturate(0.45) drop-shadow(0 0 32px rgba(147,197,253,0.4))',
+            }}
           />
+          {/* Left-side gradient so text stays readable */}
           <div
             className="absolute inset-0"
             style={{
-              background: 'linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%)',
-              opacity: 0.92,
+              background: 'linear-gradient(to right, #0f172a 28%, #0f172acc 50%, #0f172a44 72%, transparent 100%)',
             }}
+          />
+          {/* Bottom fade for smooth transition */}
+          <div
+            className="absolute bottom-0 left-0 right-0 h-20"
+            style={{ background: 'linear-gradient(to bottom, transparent, #0f172a)' }}
           />
         </div>
 
