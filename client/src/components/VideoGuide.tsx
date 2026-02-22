@@ -334,129 +334,134 @@ function SceneRenderer({ scene, color, bgColor }: { scene: VideoScene; color: st
   }
 }
 
-// ─── Narration hook ───────────────────────────────────────────────────────────
+// ─── Narration hook (Google Cloud TTS) ───────────────────────────────────────
 
-// Voice priority list — higher index = lower priority
-// Chrome on desktop: "Google UK English Female", "Google US English"
-// macOS/iOS: "Samantha", "Daniel", "Karen", "Moira"
-// Edge: "Microsoft Aria Online", "Microsoft Jenny Online"
-const PREFERRED_VOICE_NAMES = [
-  'Google UK English Female',
-  'Microsoft Aria Online (Natural)',
-  'Microsoft Jenny Online (Natural)',
-  'Microsoft Sonia Online (Natural)',
-  'Google US English',
-  'Samantha',
-  'Karen',
-  'Daniel',
-  'Moira',
-  'Fiona',
-];
-
-function pickBestVoice(): SpeechSynthesisVoice | null {
-  const voices = window.speechSynthesis.getVoices();
-  if (!voices.length) return null;
-  // Try exact name match in priority order
-  for (const name of PREFERRED_VOICE_NAMES) {
-    const v = voices.find(v => v.name === name);
-    if (v) return v;
-  }
-  // Partial match: prefer "Natural" or "Online" voices
-  const natural = voices.find(v =>
-    v.lang.startsWith('en') && (v.name.includes('Natural') || v.name.includes('Online'))
-  );
-  if (natural) return natural;
-  // Fallback: any English voice
-  return voices.find(v => v.lang.startsWith('en-')) || voices.find(v => v.lang.startsWith('en')) || null;
-}
-
-// Add natural-sounding pauses by inserting commas/periods at sentence boundaries
-function naturaliseText(text: string): string {
-  return text
-    // Ensure space after punctuation for cleaner pauses
-    .replace(/([.!?])([A-Z])/g, '$1 $2')
-    // Replace em-dashes with comma pauses
-    .replace(/—/g, ', ')
-    // Replace colons with comma pauses
-    .replace(/:/g, ',')
-    // Remove parentheses but keep content
-    .replace(/[()]/g, ', ');
-}
+// In-memory cache: text → base64 MP3 (avoids re-fetching the same narration)
+const ttsCache = new Map<string, string>();
 
 function useNarration() {
-  const utteranceRef = useRef<SpeechSynthesisUtterance | null>(null);
-  const voiceRef = useRef<SpeechSynthesisVoice | null>(null);
-  const [supported] = useState(() => typeof window !== 'undefined' && 'speechSynthesis' in window);
+  const audioCtxRef = useRef<AudioContext | null>(null);
+  const sourceRef = useRef<AudioBufferSourceNode | null>(null);
+  const startTimeRef = useRef<number>(0);     // AudioContext time when source started
+  const pausedAtRef = useRef<number>(0);      // seconds into the buffer when paused
+  const bufferRef = useRef<AudioBuffer | null>(null); // decoded buffer for current narration
+  const onEndRef = useRef<(() => void) | null>(null);
+  const cancelledRef = useRef(false);
 
-  // Load voices eagerly — browsers fire voiceschanged when async voices arrive
-  useEffect(() => {
-    if (!supported) return;
-    const tryLoad = () => {
-      const v = pickBestVoice();
-      if (v) voiceRef.current = v;
-    };
-    tryLoad();
-    window.speechSynthesis.addEventListener('voiceschanged', tryLoad);
-    return () => window.speechSynthesis.removeEventListener('voiceschanged', tryLoad);
-  }, [supported]);
+  const getAudioCtx = () => {
+    if (!audioCtxRef.current || audioCtxRef.current.state === 'closed') {
+      audioCtxRef.current = new AudioContext();
+    }
+    return audioCtxRef.current;
+  };
 
-  const speak = useCallback((text: string, onEnd?: () => void) => {
-    if (!supported) { onEnd?.(); return; }
-    window.speechSynthesis.cancel();
-    const processedText = naturaliseText(text);
-    const voice = voiceRef.current ?? pickBestVoice();
-
-    // Chrome bug: utterances > ~15s get silently cut off.
-    // Fix: split into sentences and chain them sequentially.
-    const sentences = processedText
-      .split(/(?<=[.!?])\s+/)
-      .map(s => s.trim())
-      .filter(Boolean);
-
-    if (sentences.length === 0) { onEnd?.(); return; }
-
-    let cancelled = false;
-    const speakNext = (index: number) => {
-      if (cancelled || index >= sentences.length) {
-        if (!cancelled) onEnd?.();
-        return;
-      }
-      const u = new SpeechSynthesisUtterance(sentences[index]);
-      u.rate = 0.88;
-      u.pitch = 0.95;
-      u.volume = 1.0;
-      if (voice) u.voice = voice;
-      u.onend = () => speakNext(index + 1);
-      u.onerror = (e) => {
-        // Ignore 'interrupted' errors (from cancel()) — they are expected
-        if (e.error !== 'interrupted' && !cancelled) speakNext(index + 1);
-      };
-      utteranceRef.current = u;
-      window.speechSynthesis.speak(u);
-    };
-
-    // Store a cancel flag so stop() can interrupt the chain
-    (utteranceRef as React.MutableRefObject<unknown>).current = { cancel: () => { cancelled = true; } };
-    speakNext(0);
-  }, [supported]);
+  const stopSource = useCallback(() => {
+    if (sourceRef.current) {
+      try { sourceRef.current.onended = null; sourceRef.current.stop(); } catch { /* already stopped */ }
+      sourceRef.current = null;
+    }
+  }, []);
 
   const stop = useCallback(() => {
-    if (!supported) return;
-    // Cancel the sentence chain if active
-    const ref = utteranceRef.current as { cancel?: () => void } | null;
-    if (ref?.cancel) ref.cancel();
-    window.speechSynthesis.cancel();
-  }, [supported]);
+    cancelledRef.current = true;
+    stopSource();
+    pausedAtRef.current = 0;
+    bufferRef.current = null;
+    onEndRef.current = null;
+  }, [stopSource]);
+
+  const playBuffer = useCallback((buffer: AudioBuffer, offsetSecs: number, onEnd?: () => void) => {
+    const ctx = getAudioCtx();
+    stopSource();
+    const source = ctx.createBufferSource();
+    source.buffer = buffer;
+    source.connect(ctx.destination);
+    onEndRef.current = onEnd || null;
+    source.onended = () => {
+      if (!cancelledRef.current) {
+        pausedAtRef.current = 0;
+        onEndRef.current?.();
+      }
+    };
+    sourceRef.current = source;
+    startTimeRef.current = ctx.currentTime - offsetSecs;
+    source.start(0, offsetSecs);
+  }, [stopSource]);
+
+  const speak = useCallback(async (text: string, onEnd?: () => void) => {
+    cancelledRef.current = false;
+    pausedAtRef.current = 0;
+    bufferRef.current = null;
+    stopSource();
+
+    try {
+      // Check cache first
+      let base64: string | undefined = ttsCache.get(text);
+
+      if (!base64) {
+        const res = await fetch('/api/tts', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ text }),
+        });
+        if (!res.ok) throw new Error(`TTS API error: ${res.status}`);
+        const data = await res.json() as { audioContent: string };
+        base64 = data.audioContent;
+        ttsCache.set(text, base64);
+      }
+
+      if (cancelledRef.current) return;
+
+      // Decode base64 MP3 → ArrayBuffer → AudioBuffer
+      const binary = atob(base64);
+      const bytes = new Uint8Array(binary.length);
+      for (let i = 0; i < binary.length; i++) bytes[i] = binary.charCodeAt(i);
+
+      const ctx = getAudioCtx();
+      const audioBuffer = await ctx.decodeAudioData(bytes.buffer);
+
+      if (cancelledRef.current) return;
+
+      bufferRef.current = audioBuffer;
+      playBuffer(audioBuffer, 0, onEnd);
+    } catch (err) {
+      console.warn('[TTS] Google TTS failed, falling back to Web Speech API:', err);
+      // Graceful fallback to browser TTS
+      if (typeof window !== 'undefined' && 'speechSynthesis' in window) {
+        const u = new SpeechSynthesisUtterance(text);
+        u.rate = 0.88; u.pitch = 0.95;
+        u.onend = () => { if (!cancelledRef.current) onEnd?.(); };
+        window.speechSynthesis.speak(u);
+      } else {
+        onEnd?.();
+      }
+    }
+  }, [stopSource, playBuffer]);
 
   const pause = useCallback(() => {
-    if (supported) window.speechSynthesis.pause();
-  }, [supported]);
+    if (sourceRef.current && audioCtxRef.current) {
+      // Record how far into the buffer we are (elapsed = currentTime - startTime)
+      pausedAtRef.current = audioCtxRef.current.currentTime - startTimeRef.current;
+      stopSource();
+    }
+  }, [stopSource]);
 
   const resume = useCallback(() => {
-    if (supported) window.speechSynthesis.resume();
-  }, [supported]);
+    if (bufferRef.current) {
+      // Resume from where we paused
+      playBuffer(bufferRef.current, pausedAtRef.current, onEndRef.current ?? undefined);
+    }
+  }, [playBuffer]);
 
-  return { speak, stop, pause, resume, supported };
+  // Clean up on unmount
+  useEffect(() => {
+    return () => {
+      cancelledRef.current = true;
+      stopSource();
+    };
+  }, [stopSource]);
+
+  return { speak, stop, pause, resume, supported: true };
 }
 
 // ─── Main VideoGuide component ────────────────────────────────────────────────

@@ -6,6 +6,7 @@ import { handleAiSuggest } from "./aiSuggest.js";
 import { handleAiDeepDive } from "./aiDeepDive.js";
 import { handleAiVideoScript } from "./aiVideoScript.js";
 import { handleAiVideoGuide } from "./aiVideoGuide.js";
+import { handleGoogleTts } from "./googleTts.js";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -40,6 +41,16 @@ async function startServer() {
     try {
       (req as any)._parsedBody = req.body;
       await handleAiVideoScript(req as any, res as any);
+    } catch (e) {
+      next(e);
+    }
+  });
+
+  // Google TTS endpoint
+  app.post('/api/tts', express.json(), async (req, res, next) => {
+    try {
+      (req as any)._parsedBody = req.body;
+      await handleGoogleTts(req as any, res as any);
     } catch (e) {
       next(e);
     }
