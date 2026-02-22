@@ -21,17 +21,17 @@ const HERO_IMG = 'https://private-us-east-1.manuscdn.com/sessionFile/wGRSygz6Vjm
 // localStorage key for last-viewed card
 const LAST_CARD_KEY = 'pmo_last_card';
 
-// ─── Feature tiles ─────────────────────────────────────────────────────────────
+// ─── Feature tiles — dark glass style ────────────────────────────────────────
 const FEATURE_TILES = [
-  { path: '/decks',        icon: LayoutGrid,  label: 'Card Decks',       sub: '8 decks · 166 cards',       color: '#0284C7', bg: '#EFF6FF', textColor: '#1E3A5F' },
-  { path: '/journey',      icon: Map,         label: 'Learning Journey',  sub: '30-day guided path',         color: '#7C3AED', bg: '#F5F3FF', textColor: '#3B1A6B' },
-  { path: '/roadmap',      icon: Route,       label: 'Roadmap',           sub: 'Structured learning paths',  color: '#059669', bg: '#ECFDF5', textColor: '#064E3B' },
-  { path: '/ai-suggest',   icon: Sparkles,    label: 'AI Tool Finder',    sub: 'Get personalised picks',     color: '#D97706', bg: '#FFFBEB', textColor: '#78350F' },
-  { path: '/glossary',     icon: BookMarked,  label: 'Glossary',          sub: '125 PM terms + quiz',        color: '#DB2777', bg: '#FDF2F8', textColor: '#831843' },
-  { path: '/case-studies', icon: BookOpen,    label: 'Case Studies',      sub: 'Real-world examples',        color: '#0891B2', bg: '#ECFEFF', textColor: '#164E63' },
-  { path: '/search',       icon: Search,      label: 'Search',            sub: 'Find any tool fast',         color: '#475569', bg: '#F8FAFC', textColor: '#1E293B' },
-  { path: '/bookmarks',    icon: Bookmark,    label: 'Saved Cards',       sub: 'Your reading list',          color: '#E11D48', bg: '#FFF1F2', textColor: '#881337' },
-  { path: '/decision',     icon: Compass,     label: 'Decision Helper',   sub: 'Find the right tool',        color: '#65A30D', bg: '#F7FEE7', textColor: '#365314' },
+  { path: '/decks',        icon: LayoutGrid,  label: 'Card Decks',       sub: '8 decks · 166 cards',       color: '#60A5FA', bg: 'rgba(96,165,250,0.10)',  textColor: '#BAE6FD' },
+  { path: '/journey',      icon: Map,         label: 'Learning Journey',  sub: '30-day guided path',         color: '#A78BFA', bg: 'rgba(167,139,250,0.10)', textColor: '#DDD6FE' },
+  { path: '/roadmap',      icon: Route,       label: 'Roadmap',           sub: 'Structured learning paths',  color: '#34D399', bg: 'rgba(52,211,153,0.10)',  textColor: '#A7F3D0' },
+  { path: '/ai-suggest',   icon: Sparkles,    label: 'AI Tool Finder',    sub: 'Get personalised picks',     color: '#FBBF24', bg: 'rgba(251,191,36,0.10)',  textColor: '#FDE68A' },
+  { path: '/glossary',     icon: BookMarked,  label: 'Glossary',          sub: '125 PM terms + quiz',        color: '#F472B6', bg: 'rgba(244,114,182,0.10)', textColor: '#FBCFE8' },
+  { path: '/case-studies', icon: BookOpen,    label: 'Case Studies',      sub: 'Real-world examples',        color: '#22D3EE', bg: 'rgba(34,211,238,0.10)',  textColor: '#A5F3FC' },
+  { path: '/search',       icon: Search,      label: 'Search',            sub: 'Find any tool fast',         color: '#94A3B8', bg: 'rgba(148,163,184,0.10)', textColor: '#CBD5E1' },
+  { path: '/bookmarks',    icon: Bookmark,    label: 'Saved Cards',       sub: 'Your reading list',          color: '#F87171', bg: 'rgba(248,113,113,0.10)', textColor: '#FECACA' },
+  { path: '/decision',     icon: Compass,     label: 'Decision Helper',   sub: 'Find the right tool',        color: '#86EFAC', bg: 'rgba(134,239,172,0.10)', textColor: '#BBF7D0' },
 ];
 
 // ─── Stat pill ─────────────────────────────────────────────────────────────────
@@ -40,7 +40,7 @@ function StatPill({ icon: Icon, value, label, color }: { icon: React.ElementType
     <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-full" style={{ background: color + '18' }}>
       <Icon size={13} style={{ color }} />
       <span className="text-[11px] font-bold" style={{ color }}>{value}</span>
-      <span className="text-[10px] text-stone-400 font-medium">{label}</span>
+      <span className="text-[10px] font-medium" style={{ color: 'rgba(148,163,184,0.7)' }}>{label}</span>
     </div>
   );
 }
@@ -61,7 +61,8 @@ function FeatureTile({ tile, index }: { tile: typeof FEATURE_TILES[0]; index: nu
       className="relative flex flex-col items-start gap-2 p-3.5 rounded-2xl text-left w-full overflow-hidden"
       style={{
         background: bg,
-        boxShadow: `0 4px 16px ${color}28, 0 2px 6px rgba(0,0,0,0.06), 0 0 0 1px ${color}18`,
+        boxShadow: `0 4px 20px ${color}30, 0 2px 8px rgba(0,0,0,0.25), 0 0 0 1px ${color}25`,
+        backdropFilter: 'blur(12px)',
         transition: 'box-shadow 0.2s ease',
       }}
     >
@@ -206,7 +207,7 @@ export default function Home() {
   const parallaxOffset = scrollY * 0.4;
 
   return (
-    <div className="app-shell min-h-screen" style={{ background: 'transparent' }}>
+    <div className="app-shell min-h-screen" style={{ background: 'linear-gradient(180deg, #0f172a 0%, #0c1a2e 40%, #0a1628 100%)' }}>
       {/* ── Hero ── */}
       <div
         ref={heroRef}
@@ -310,16 +311,15 @@ export default function Home() {
       {/* ── Continue where you left off ── */}
       <ContinueCard />
 
-      {/* ── Daily Challenge ── */}
+       {/* ── Daily Challenge ── */}
       <div className="px-4 pt-4">
-        <DailyChallenge />
+        <DailyChallenge darkMode />
       </div>
-
       {/* ── Feature grid ── */}
       <div className="px-4 pt-5 pb-28">
         <p
           className="text-[10px] font-extrabold tracking-widest uppercase mb-3"
-          style={{ color: '#a8a29e', fontFamily: 'Inter, sans-serif' }}
+          style={{ color: 'rgba(148,163,184,0.6)', fontFamily: 'Inter, sans-serif' }}
         >
           Explore
         </p>

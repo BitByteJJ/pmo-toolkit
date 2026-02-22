@@ -46,7 +46,7 @@ function markCompletedToday() {
 
 type AnswerState = 'unanswered' | 'correct' | 'wrong';
 
-export default function DailyChallenge() {
+export default function DailyChallenge({ darkMode = false }: { darkMode?: boolean }) {
   const [, navigate] = useLocation();
   const question = getDailyChallenge();
   const deckId = getDeckIdForQuestion(question.id) ?? 'tools';
@@ -68,7 +68,6 @@ export default function DailyChallenge() {
     })();
     const s = loadStreak();
     if (s.lastDate && s.lastDate !== today && s.lastDate !== yesterday) {
-      // Missed a day — reset streak
       const reset = { count: 0, lastDate: s.lastDate };
       saveStreak(reset);
       setStreak(reset);
@@ -101,15 +100,31 @@ export default function DailyChallenge() {
   };
 
   const color = deck?.color ?? '#475569';
-  const bgColor = deck?.bgColor ?? '#f8fafc';
+
+  // Dark mode colour helpers
+  const cardBg = darkMode ? 'rgba(255,255,255,0.06)' : '#ffffff';
+  const cardBorder = darkMode ? `1.5px solid ${color}30` : `1.5px solid ${color}30`;
+  const cardShadow = darkMode
+    ? `0 4px 20px ${color}30, 0 2px 8px rgba(0,0,0,0.3), 0 0 0 1px ${color}25`
+    : `0 3px 12px ${color}20, 0 1px 4px rgba(0,0,0,0.06)`;
+  const titleColor = darkMode ? '#f1f5f9' : '#1c1917';
+  const subtitleColor = darkMode ? 'rgba(148,163,184,0.7)' : '#a8a29e';
+  const chevronColor = darkMode ? 'rgba(148,163,184,0.7)' : '#a8a29e';
+  const questionColor = darkMode ? '#f1f5f9' : '#1c1917';
+  const typeColor = darkMode ? 'rgba(148,163,184,0.6)' : '#a8a29e';
 
   return (
     <motion.div
       initial={{ opacity: 0, y: 8 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.4 }}
-      className="rounded-2xl overflow-hidden bg-white"
-      style={{ boxShadow: `0 3px 12px ${color}20, 0 1px 4px rgba(0,0,0,0.06)`, border: `1.5px solid ${color}30` }}
+      className="rounded-2xl overflow-hidden"
+      style={{
+        background: cardBg,
+        backdropFilter: darkMode ? 'blur(12px)' : undefined,
+        boxShadow: cardShadow,
+        border: cardBorder,
+      }}
     >
       {/* Header */}
       <button
@@ -121,23 +136,22 @@ export default function DailyChallenge() {
             <Star size={13} style={{ color }} />
           </div>
           <div className="text-left">
-            <p className="text-sm font-bold text-stone-800">Daily Challenge</p>
-            <p className="text-[10px] text-stone-400">
+            <p className="text-sm font-bold" style={{ color: titleColor }}>Daily Challenge</p>
+            <p className="text-[10px]" style={{ color: subtitleColor }}>
               {alreadyDone ? "Completed today ✓" : "One question a day keeps the PM away"}
             </p>
           </div>
         </div>
         <div className="flex items-center gap-2">
           {streak.count > 0 && (
-            <div className="flex items-center gap-1 px-2 py-0.5 rounded-full" style={{ backgroundColor: '#FEF3C7' }}>
+            <div className="flex items-center gap-1 px-2 py-0.5 rounded-full" style={{ backgroundColor: darkMode ? 'rgba(251,191,36,0.15)' : '#FEF3C7' }}>
               <Flame size={11} className="text-amber-500" />
-              <span className="text-[10px] font-bold text-amber-700">{streak.count}</span>
+              <span className="text-[10px] font-bold" style={{ color: darkMode ? '#FCD34D' : '#92400E' }}>{streak.count}</span>
             </div>
           )}
           <ChevronRight
             size={14}
-            className="text-stone-400 transition-transform"
-            style={{ transform: collapsed ? 'rotate(90deg)' : 'rotate(270deg)' }}
+            style={{ color: chevronColor, transform: collapsed ? 'rotate(90deg)' : 'rotate(270deg)', transition: 'transform 0.2s' }}
           />
         </div>
       </button>
@@ -161,35 +175,51 @@ export default function DailyChallenge() {
                 >
                   {deck?.title ?? 'Quiz'}
                 </span>
-                <span className="text-[9px] text-stone-400">
+                <span className="text-[9px]" style={{ color: typeColor }}>
                   {question.type === 'truefalse' ? 'TRUE / FALSE' : question.type === 'scenario' ? 'SCENARIO' : 'MULTIPLE CHOICE'}
                 </span>
               </div>
 
               {/* Question */}
-              <p className="text-[13px] font-semibold text-stone-800 leading-relaxed" style={{ fontFamily: 'Sora, sans-serif' }}>
+              <p className="text-[13px] font-semibold leading-relaxed" style={{ fontFamily: 'Sora, sans-serif', color: questionColor }}>
                 {question.prompt}
               </p>
 
               {/* Options */}
               <div className="flex flex-col gap-2">
                 {question.options.map((opt, i) => {
-                  let style = 'border border-stone-200 text-stone-700';
-                  if (answerState !== 'unanswered') {
-                    if (i === question.correctIndex) style = 'border-2 border-emerald-500 bg-emerald-50 text-stone-700';
-                    else if (i === selected && answerState === 'wrong') style = 'border-2 border-red-400 bg-red-50 text-stone-500';
-                    else style = 'border border-stone-200 text-stone-400 opacity-50';
+                  let style: string;
+                  if (darkMode) {
+                    style = 'border border-white/10 text-slate-200 bg-white/5';
+                    if (answerState !== 'unanswered') {
+                      if (i === question.correctIndex) style = 'border-2 border-emerald-400 bg-emerald-500/20 text-emerald-200';
+                      else if (i === selected && answerState === 'wrong') style = 'border-2 border-red-400 bg-red-500/20 text-red-200';
+                      else style = 'border border-white/5 text-slate-500 opacity-40';
+                    }
+                  } else {
+                    style = 'border border-stone-200 text-stone-700';
+                    if (answerState !== 'unanswered') {
+                      if (i === question.correctIndex) style = 'border-2 border-emerald-500 bg-emerald-50 text-stone-700';
+                      else if (i === selected && answerState === 'wrong') style = 'border-2 border-red-400 bg-red-50 text-stone-500';
+                      else style = 'border border-stone-200 text-stone-400 opacity-50';
+                    }
                   }
+                  const hoverClass = answerState === 'unanswered' && !alreadyDone
+                    ? (darkMode ? 'hover:bg-white/10 cursor-pointer' : 'hover:bg-stone-50 cursor-pointer')
+                    : '';
                   return (
                     <button
                       key={i}
                       onClick={() => handleSelect(i)}
                       disabled={answerState !== 'unanswered' || alreadyDone}
-                      className={`w-full text-left px-3 py-2.5 rounded-xl transition-all text-[12px] font-medium flex items-center gap-2 ${style} ${answerState === 'unanswered' && !alreadyDone ? 'hover:bg-stone-50 cursor-pointer' : ''}`}
+                      className={`w-full text-left px-3 py-2.5 rounded-xl transition-all text-[12px] font-medium flex items-center gap-2 ${style} ${hoverClass}`}
                     >
                       <span
                         className="w-5 h-5 rounded-full border flex items-center justify-center text-[10px] font-bold shrink-0"
-                        style={{ borderColor: '#d6d3d1', color: '#78716c' }}
+                        style={{
+                          borderColor: darkMode ? 'rgba(148,163,184,0.3)' : '#d6d3d1',
+                          color: darkMode ? 'rgba(148,163,184,0.7)' : '#78716c',
+                        }}
                       >
                         {String.fromCharCode(65 + i)}
                       </span>
@@ -211,9 +241,19 @@ export default function DailyChallenge() {
                   <motion.div
                     initial={{ opacity: 0, y: 6 }}
                     animate={{ opacity: 1, y: 0 }}
-                    className={`rounded-xl p-3 ${answerState === 'correct' ? 'bg-emerald-50 border border-emerald-200' : 'bg-amber-50 border border-amber-200'}`}
+                    className="rounded-xl p-3"
+                    style={{
+                      background: answerState === 'correct'
+                        ? (darkMode ? 'rgba(52,211,153,0.12)' : '#ecfdf5')
+                        : (darkMode ? 'rgba(251,191,36,0.12)' : '#fffbeb'),
+                      border: answerState === 'correct'
+                        ? (darkMode ? '1px solid rgba(52,211,153,0.3)' : '1px solid #a7f3d0')
+                        : (darkMode ? '1px solid rgba(251,191,36,0.3)' : '1px solid #fde68a'),
+                    }}
                   >
-                    <p className="text-[11px] text-stone-600 leading-relaxed">{question.explanation}</p>
+                    <p className="text-[11px] leading-relaxed" style={{ color: darkMode ? 'rgba(203,213,225,0.85)' : '#57534e' }}>
+                      {question.explanation}
+                    </p>
                     <button
                       onClick={() => navigate(`/deck/${deckId}`)}
                       className="mt-2 text-[10px] font-bold flex items-center gap-1"
@@ -227,10 +267,18 @@ export default function DailyChallenge() {
 
               {/* Already done state */}
               {alreadyDone && answerState === 'unanswered' && (
-                <div className="rounded-xl p-3 bg-stone-50 border border-stone-200 text-center">
-                  <p className="text-[11px] text-stone-500">You've completed today's challenge. Come back tomorrow!</p>
+                <div
+                  className="rounded-xl p-3 text-center"
+                  style={{
+                    background: darkMode ? 'rgba(255,255,255,0.05)' : '#f8fafc',
+                    border: darkMode ? '1px solid rgba(255,255,255,0.08)' : '1px solid #e7e5e4',
+                  }}
+                >
+                  <p className="text-[11px]" style={{ color: darkMode ? 'rgba(148,163,184,0.7)' : '#78716c' }}>
+                    You've completed today's challenge. Come back tomorrow!
+                  </p>
                   {streak.count > 0 && (
-                    <p className="text-[11px] font-bold text-amber-600 mt-1">
+                    <p className="text-[11px] font-bold mt-1" style={{ color: darkMode ? '#FCD34D' : '#D97706' }}>
                       🔥 {streak.count}-day streak — keep it up!
                     </p>
                   )}
