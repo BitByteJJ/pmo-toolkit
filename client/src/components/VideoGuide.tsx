@@ -335,13 +335,9 @@ function SceneRenderer({ scene, color, bgColor }: { scene: VideoScene; color: st
 
 // ─── TTS cache & pre-fetch helpers ───────────────────────────────────────────
 
-// Persistent in-memory cache: narration text → decoded AudioBuffer
 const audioBufferCache = new Map<string, AudioBuffer>();
-
-// Tracks in-flight fetch+decode promises so we never double-fetch the same text
 const fetchingPromises = new Map<string, Promise<AudioBuffer | null>>();
 
-// Shared AudioContext — created once, reused forever
 let sharedAudioCtx: AudioContext | null = null;
 function getSharedAudioCtx(): AudioContext {
   if (!sharedAudioCtx || sharedAudioCtx.state === 'closed') {
@@ -353,7 +349,6 @@ function getSharedAudioCtx(): AudioContext {
   return sharedAudioCtx;
 }
 
-// Soften punctuation so Journey-O flows more naturally
 function softenPunctuation(text: string): string {
   return text
     .replace(/\s*—\s*/g, ', ')
@@ -364,19 +359,16 @@ function softenPunctuation(text: string): string {
     .trim();
 }
 
-// Detect a fast connection (4G / Wi-Fi) for aggressive pre-fetching
 function isFastConnection(): boolean {
   const nav = navigator as Navigator & { connection?: { effectiveType?: string; saveData?: boolean } };
   const conn = nav.connection;
-  if (!conn) return true; // assume fast if API not available
+  if (!conn) return true;
   if (conn.saveData) return false;
   return conn.effectiveType === '4g' || conn.effectiveType === undefined;
 }
 
-// Fetch audio from Google TTS, decode it, and cache the AudioBuffer.
 async function fetchAndDecodeAudio(text: string): Promise<AudioBuffer | null> {
   const processed = softenPunctuation(text);
-
   if (audioBufferCache.has(processed)) return audioBufferCache.get(processed)!;
   if (fetchingPromises.has(processed)) return fetchingPromises.get(processed)!;
 
@@ -410,17 +402,103 @@ async function fetchAndDecodeAudio(text: string): Promise<AudioBuffer | null> {
   return promise;
 }
 
+// ─── Podcast ambient sounds (synthesised via Web Audio API) ──────────────────
+//
+// Sound 1 — Intro chime: a warm three-note rising chord (C4-E4-G4) played with
+//   a soft piano-like envelope. Fades in over 80 ms, sustains 0.6 s, fades out
+//   over 1.2 s. Total duration ~2 s. Played once when the user presses Play.
+//
+// Sound 2 — Ambient pad: a very quiet (gain 0.045) drone on C2 built from two
+//   slightly detuned sawtooth oscillators run through a lowpass filter at 320 Hz.
+//   This creates the warm, low "room hum" you hear on podcast recordings. Loops
+//   continuously while narration is playing; fades out when paused/stopped.
+
+function playIntroChime(ctx: AudioContext): void {
+  // Three-note rising chord: C4 (261.6 Hz), E4 (329.6 Hz), G4 (392 Hz)
+  const notes = [261.63, 329.63, 392.0];
+  const now = ctx.currentTime;
+
+  notes.forEach((freq, i) => {
+    const osc = ctx.createOscillator();
+    const gain = ctx.createGain();
+    const filter = ctx.createBiquadFilter();
+
+    osc.type = 'sine';
+    osc.frequency.value = freq;
+
+    // Soft piano-like envelope: attack 80 ms, hold, release 1.2 s
+    const startAt = now + i * 0.08; // stagger each note slightly
+    gain.gain.setValueAtTime(0, startAt);
+    gain.gain.linearRampToValueAtTime(0.18, startAt + 0.08);
+    gain.gain.setValueAtTime(0.18, startAt + 0.55);
+    gain.gain.exponentialRampToValueAtTime(0.0001, startAt + 1.8);
+
+    // Gentle lowpass to remove harshness
+    filter.type = 'lowpass';
+    filter.frequency.value = 3200;
+    filter.Q.value = 0.5;
+
+    osc.connect(filter);
+    filter.connect(gain);
+    gain.connect(ctx.destination);
+
+    osc.start(startAt);
+    osc.stop(startAt + 1.9);
+  });
+}
+
+interface AmbientPad {
+  stop: (fadeMs?: number) => void;
+}
+
+function startAmbientPad(ctx: AudioContext): AmbientPad {
+  // Two slightly detuned sawtooth oscillators → lowpass → gain
+  const osc1 = ctx.createOscillator();
+  const osc2 = ctx.createOscillator();
+  const filter = ctx.createBiquadFilter();
+  const masterGain = ctx.createGain();
+
+  osc1.type = 'sawtooth';
+  osc1.frequency.value = 65.41; // C2
+  osc2.type = 'sawtooth';
+  osc2.frequency.value = 65.41 * 1.004; // slight detune for warmth
+
+  filter.type = 'lowpass';
+  filter.frequency.value = 320;
+  filter.Q.value = 0.8;
+
+  // Very quiet — sits under the voice without competing
+  masterGain.gain.setValueAtTime(0, ctx.currentTime);
+  masterGain.gain.linearRampToValueAtTime(0.045, ctx.currentTime + 1.2);
+
+  osc1.connect(filter);
+  osc2.connect(filter);
+  filter.connect(masterGain);
+  masterGain.connect(ctx.destination);
+
+  osc1.start();
+  osc2.start();
+
+  return {
+    stop: (fadeMs = 800) => {
+      const now = ctx.currentTime;
+      masterGain.gain.setValueAtTime(masterGain.gain.value, now);
+      masterGain.gain.linearRampToValueAtTime(0, now + fadeMs / 1000);
+      osc1.stop(now + fadeMs / 1000 + 0.05);
+      osc2.stop(now + fadeMs / 1000 + 0.05);
+    },
+  };
+}
+
 // ─── Narration hook ───────────────────────────────────────────────────────────
 
-function useNarration(playbackRate: number) {
+function useNarration() {
   const sourceRef = useRef<AudioBufferSourceNode | null>(null);
   const startTimeRef = useRef<number>(0);
   const pausedAtRef = useRef<number>(0);
   const bufferRef = useRef<AudioBuffer | null>(null);
   const onEndRef = useRef<(() => void) | null>(null);
   const cancelledRef = useRef(false);
-  const playbackRateRef = useRef(playbackRate);
-  playbackRateRef.current = playbackRate;
 
   const stopSource = useCallback(() => {
     if (sourceRef.current) {
@@ -442,7 +520,6 @@ function useNarration(playbackRate: number) {
     stopSource();
     const source = ctx.createBufferSource();
     source.buffer = buffer;
-    source.playbackRate.value = playbackRateRef.current;
     source.connect(ctx.destination);
     onEndRef.current = onEnd || null;
     source.onended = () => {
@@ -452,8 +529,7 @@ function useNarration(playbackRate: number) {
       }
     };
     sourceRef.current = source;
-    // Adjust start time to account for playback rate when resuming
-    startTimeRef.current = ctx.currentTime - offsetSecs / playbackRateRef.current;
+    startTimeRef.current = ctx.currentTime - offsetSecs;
     source.start(0, offsetSecs);
   }, [stopSource]);
 
@@ -464,18 +540,15 @@ function useNarration(playbackRate: number) {
     stopSource();
 
     const audioBuffer = await fetchAndDecodeAudio(text);
-
     if (cancelledRef.current) return;
 
     if (audioBuffer) {
       bufferRef.current = audioBuffer;
       playBuffer(audioBuffer, 0, onEnd);
     } else {
-      // Graceful fallback to Web Speech API
       if (typeof window !== 'undefined' && 'speechSynthesis' in window) {
         const u = new SpeechSynthesisUtterance(softenPunctuation(text));
-        u.rate = 0.88 * playbackRateRef.current;
-        u.pitch = 0.95;
+        u.rate = 0.88; u.pitch = 0.95;
         u.onend = () => { if (!cancelledRef.current) onEnd?.(); };
         window.speechSynthesis.speak(u);
       } else {
@@ -487,9 +560,7 @@ function useNarration(playbackRate: number) {
   const pause = useCallback(() => {
     const ctx = getSharedAudioCtx();
     if (sourceRef.current) {
-      // Elapsed real time × playback rate = position in buffer
-      const elapsed = ctx.currentTime - startTimeRef.current;
-      pausedAtRef.current = elapsed * playbackRateRef.current;
+      pausedAtRef.current = ctx.currentTime - startTimeRef.current;
       stopSource();
     }
   }, [stopSource]);
@@ -529,12 +600,6 @@ function getAvaGreeting(): string | null {
   return `Hi, good ${timeOfDay}. I'm ${AVA_NAME}, your learning guide. Let's dive in.`;
 }
 
-const SPEED_OPTIONS: { label: string; value: number }[] = [
-  { label: '0.75×', value: 0.75 },
-  { label: '1×',    value: 1.0  },
-  { label: '1.25×', value: 1.25 },
-];
-
 export function VideoGuide({ data }: VideoGuideProps) {
   const { scenes, deckColor, deckBgColor, cardTitle } = data;
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -542,42 +607,48 @@ export function VideoGuide({ data }: VideoGuideProps) {
   const [isMuted, setIsMuted] = useState(false);
   const [hasStarted, setHasStarted] = useState(false);
   const [sceneKey, setSceneKey] = useState(0);
-  const [playbackRate, setPlaybackRate] = useState(1.0);
-  // true while scene 0 audio is still being fetched (shows spinner on Play button)
   const [isWarmingUp, setIsWarmingUp] = useState(true);
 
-  const { speak, stop, pause, resume, supported } = useNarration(playbackRate);
+  const { speak, stop, pause, resume, supported } = useNarration();
   const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  // Holds the currently running ambient pad so we can stop it on pause/unmount
+  const ambientPadRef = useRef<AmbientPad | null>(null);
 
   const currentScene = scenes[currentIndex];
   const totalScenes = scenes.length;
   const progress = ((currentIndex + 1) / totalScenes) * 100;
 
-  // ── Pre-fetch scene 0 on mount; show spinner until it's ready ──
+  // ── Pre-fetch scene 0 on mount ──
   useEffect(() => {
     if (scenes.length === 0) return;
     setIsWarmingUp(true);
-    fetchAndDecodeAudio(scenes[0].narration).then(() => {
-      setIsWarmingUp(false);
-    });
+    fetchAndDecodeAudio(scenes[0].narration).then(() => setIsWarmingUp(false));
   }, [scenes]);
 
-  // ── Smart pre-fetch: on fast connections fetch ALL scenes; otherwise just next ──
+  // ── Smart pre-fetch: all scenes on fast connections, just next on slow ──
   useEffect(() => {
     if (scenes.length === 0) return;
     if (isFastConnection()) {
-      // Stagger requests slightly to avoid hammering the TTS endpoint
       scenes.forEach((scene, i) => {
         setTimeout(() => fetchAndDecodeAudio(scene.narration).catch(() => {}), i * 300);
       });
     } else {
-      // Slow connection — only pre-fetch the next scene
       const nextIndex = currentIndex + 1;
       if (nextIndex < scenes.length) {
         fetchAndDecodeAudio(scenes[nextIndex].narration).catch(() => {});
       }
     }
   }, [scenes, currentIndex]);
+
+  // ── Stop ambient pad on unmount ──
+  useEffect(() => {
+    return () => {
+      ambientPadRef.current?.stop(400);
+      ambientPadRef.current = null;
+      stop();
+      if (timerRef.current) clearTimeout(timerRef.current);
+    };
+  }, []);
 
   const getSceneDuration = (scene: VideoScene) => {
     if (scene.durationMs) return scene.durationMs;
@@ -590,6 +661,9 @@ export function VideoGuide({ data }: VideoGuideProps) {
       if (prev >= totalScenes - 1) {
         setIsPlaying(false);
         stop();
+        // Fade out ambient pad when guide ends
+        ambientPadRef.current?.stop(1200);
+        ambientPadRef.current = null;
         return prev;
       }
       return prev + 1;
@@ -620,7 +694,22 @@ export function VideoGuide({ data }: VideoGuideProps) {
     };
   }, [currentIndex, isPlaying, sceneKey]);
 
+  // Start ambient pad + intro chime when playback begins
+  const startAmbience = useCallback((muted: boolean) => {
+    if (muted) return;
+    const ctx = getSharedAudioCtx();
+    // Play intro chime on very first play
+    if (!hasStarted) {
+      playIntroChime(ctx);
+    }
+    // Start ambient pad if not already running
+    if (!ambientPadRef.current) {
+      ambientPadRef.current = startAmbientPad(ctx);
+    }
+  }, [hasStarted]);
+
   const handlePlay = () => {
+    startAmbience(isMuted);
     setHasStarted(true);
     setIsPlaying(true);
 
@@ -639,9 +728,17 @@ export function VideoGuide({ data }: VideoGuideProps) {
     setIsPlaying(false);
     if (timerRef.current) clearTimeout(timerRef.current);
     pause();
+    // Fade out ambient pad while paused
+    ambientPadRef.current?.stop(600);
+    ambientPadRef.current = null;
   };
 
   const handleResume = () => {
+    // Restart ambient pad on resume (no chime)
+    if (!isMuted) {
+      const ctx = getSharedAudioCtx();
+      ambientPadRef.current = startAmbientPad(ctx);
+    }
     setIsPlaying(true);
     playScene(currentIndex, isMuted);
   };
@@ -669,6 +766,8 @@ export function VideoGuide({ data }: VideoGuideProps) {
   const handleRestart = () => {
     if (timerRef.current) clearTimeout(timerRef.current);
     stop();
+    ambientPadRef.current?.stop(400);
+    ambientPadRef.current = null;
     setCurrentIndex(0);
     setSceneKey(k => k + 1);
     setIsPlaying(false);
@@ -678,20 +777,19 @@ export function VideoGuide({ data }: VideoGuideProps) {
   const handleMuteToggle = () => {
     const newMuted = !isMuted;
     setIsMuted(newMuted);
+    if (newMuted) {
+      // Muting — stop ambient pad
+      ambientPadRef.current?.stop(400);
+      ambientPadRef.current = null;
+    } else if (isPlaying) {
+      // Unmuting while playing — restart ambient pad
+      const ctx = getSharedAudioCtx();
+      ambientPadRef.current = startAmbientPad(ctx);
+    }
     if (isPlaying) {
       if (timerRef.current) clearTimeout(timerRef.current);
       stop();
       setTimeout(() => playScene(currentIndex, newMuted), 50);
-    }
-  };
-
-  const handleSpeedChange = (rate: number) => {
-    setPlaybackRate(rate);
-    // If currently playing, restart the current scene at the new speed
-    if (isPlaying) {
-      if (timerRef.current) clearTimeout(timerRef.current);
-      stop();
-      setTimeout(() => playScene(currentIndex, isMuted), 50);
     }
   };
 
@@ -702,15 +800,13 @@ export function VideoGuide({ data }: VideoGuideProps) {
     setSceneKey(k => k + 1);
     setHasStarted(true);
     setIsPlaying(true);
+    // Ensure ambient pad is running
+    if (!isMuted && !ambientPadRef.current) {
+      const ctx = getSharedAudioCtx();
+      ambientPadRef.current = startAmbientPad(ctx);
+    }
     setTimeout(() => playScene(index, isMuted), 50);
   };
-
-  useEffect(() => {
-    return () => {
-      stop();
-      if (timerRef.current) clearTimeout(timerRef.current);
-    };
-  }, []);
 
   return (
     <div className="flex flex-col gap-3">
@@ -744,7 +840,7 @@ export function VideoGuide({ data }: VideoGuideProps) {
                 whileTap={{ scale: isWarmingUp ? 1 : 0.95 }}
                 onClick={isWarmingUp ? undefined : handlePlay}
                 disabled={isWarmingUp}
-                className="w-16 h-16 rounded-full flex items-center justify-center text-white shadow-lg mb-3 relative"
+                className="w-16 h-16 rounded-full flex items-center justify-center text-white shadow-lg mb-3"
                 style={{ backgroundColor: deckColor, opacity: isWarmingUp ? 0.85 : 1 }}
               >
                 {isWarmingUp ? (
@@ -845,30 +941,6 @@ export function VideoGuide({ data }: VideoGuideProps) {
             )}
           </div>
         </div>
-
-        {/* Speed control bar */}
-        {supported && (
-          <div
-            className="flex items-center justify-center gap-1.5 px-4 py-2 border-t"
-            style={{ backgroundColor: deckBgColor, borderColor: deckColor + '18' }}
-          >
-            <span className="text-[10px] font-semibold text-gray-400 mr-1">Speed</span>
-            {SPEED_OPTIONS.map(opt => (
-              <button
-                key={opt.value}
-                onClick={() => handleSpeedChange(opt.value)}
-                className="px-2.5 py-1 rounded-full text-[11px] font-bold transition-all"
-                style={{
-                  backgroundColor: playbackRate === opt.value ? deckColor : deckColor + '15',
-                  color: playbackRate === opt.value ? 'white' : deckColor,
-                  border: `1.5px solid ${playbackRate === opt.value ? deckColor : deckColor + '30'}`,
-                }}
-              >
-                {opt.label}
-              </button>
-            ))}
-          </div>
-        )}
       </div>
 
       {/* Scene strip */}
