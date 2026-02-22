@@ -70,7 +70,7 @@ export const DECKS: Deck[] = [
   {
     id: 'people',
     title: 'People Domain',
-    subtitle: '17 Tasks',
+    subtitle: '18 Tasks',
     color: '#E11D48',
     bgColor: '#FFE4E6',
     textColor: '#881337',

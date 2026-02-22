@@ -803,6 +803,7 @@ const peopleTemplates: CardTemplate[] = [
       {
         heading: 'Psychological Safety Survey (Team Self-Assessment)',
         content: `Rate each statement 1 (Strongly Disagree) to 5 (Strongly Agree). Complete anonymously for honest results.
+
 | Statement | Score (1–5) |
 |---|---|
 | If I make a mistake, it is not held against me | |
