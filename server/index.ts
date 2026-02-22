@@ -11,10 +11,12 @@ async function startServer() {
   const app = express();
   const server = createServer(app);
 
-  // AI Suggest endpoint
-  app.use('/api/ai-suggest', express.raw({ type: '*/*' }), async (req, res, next) => {
+  // AI Suggest endpoint — use express.json() to parse body before passing to handler
+  app.post('/api/ai-suggest', express.json(), async (req, res, next) => {
     try {
-      await handleAiSuggest(req, res);
+      // Inject the already-parsed body so handleAiSuggest doesn't need to re-read the stream
+      (req as any)._parsedBody = req.body;
+      await handleAiSuggest(req as any, res as any);
     } catch (e) {
       next(e);
     }

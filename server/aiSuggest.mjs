@@ -111,53 +111,40 @@ const CARD_CATALOGUE = [
 ];
 function buildCatalogueText() {
   return CARD_CATALOGUE.map(
-    (c) => `${c.code} | ${c.title} | ${c.tagline} | When to use: ${c.whenToUse} | Tags: ${c.tags.join(", ")}`
+    (c) => `${c.code}|${c.title}|${c.tagline}|${c.tags.join(",")}`
   ).join("\n");
 }
-const SYSTEM_PROMPT = `You are a PMO (Project Management Office) expert advisor. Your job is to help project managers find the right tools, techniques, and frameworks from a curated library of ${CARD_CATALOGUE.length} cards.
+const SYSTEM_PROMPT = `PMO expert. Given a project problem, pick 4-6 most relevant cards from this catalogue and explain why each helps.
 
-Given a problem statement from the user, you will:
-1. Analyse the core challenge they are facing
-2. Select the 4-6 most relevant cards from the catalogue below
-3. For each card, explain in 1-2 sentences WHY it specifically addresses their problem
-4. Order them from most to least relevant
-
-CARD CATALOGUE:
+CATALOGUE (code|title|tagline|tags):
 ${buildCatalogueText()}
 
-Respond ONLY with valid JSON in this exact format:
-{
-  "summary": "A 1-2 sentence summary of the problem and your overall recommendation approach",
-  "recommendations": [
-    {
-      "cardId": "the card id (e.g. T6, A23, PD4)",
-      "reason": "1-2 sentences explaining exactly why this card addresses their specific problem"
-    }
-  ]
-}
+Reply ONLY with JSON:
+{"summary":"1-2 sentences on the problem","recommendations":[{"cardId":"exact code","reason":"1-2 sentences why this card helps"}]}
 
-Rules:
-- Only recommend cards from the catalogue above (use the exact cardId)
-- Recommend 4-6 cards, ordered by relevance
-- Keep reasons specific to the user's problem, not generic descriptions
-- Do not mention 'pip deck' anywhere`;
+Rules: use exact cardIds from catalogue, 4-6 cards ordered by relevance, reasons must be specific to the problem.`;
 async function handleAiSuggest(req, res) {
   if (req.method !== "POST") {
     res.writeHead(405, { "Content-Type": "application/json" });
     res.end(JSON.stringify({ error: "Method not allowed" }));
     return;
   }
-  let body = "";
-  await new Promise((resolve, reject) => {
-    req.on("data", (chunk) => {
-      body += chunk.toString();
-    });
-    req.on("end", resolve);
-    req.on("error", reject);
-  });
   let problem;
   try {
-    const parsed = JSON.parse(body);
+    let parsed;
+    if (req._parsedBody) {
+      parsed = req._parsedBody;
+    } else {
+      let body = "";
+      await new Promise((resolve, reject) => {
+        req.on("data", (chunk) => {
+          body += chunk.toString();
+        });
+        req.on("end", resolve);
+        req.on("error", reject);
+      });
+      parsed = JSON.parse(body);
+    }
     problem = parsed.problem?.trim();
     if (!problem) throw new Error("Missing problem");
   } catch {
@@ -172,23 +159,27 @@ async function handleAiSuggest(req, res) {
     res.end(JSON.stringify({ error: "LLM API not configured" }));
     return;
   }
+  const controller = new AbortController();
+  const timeoutId = setTimeout(() => controller.abort(), 2e4);
   try {
     const llmRes = await fetch(`${apiUrl}/v1/chat/completions`, {
       method: "POST",
+      signal: controller.signal,
       headers: {
         "Content-Type": "application/json",
         "Authorization": `Bearer ${apiKey}`
       },
       body: JSON.stringify({
-        model: "claude-3-7-sonnet",
+        model: "gemini-2.0-flash",
         messages: [
           { role: "system", content: SYSTEM_PROMPT },
           { role: "user", content: `My problem: ${problem}` }
         ],
         temperature: 0.3,
-        max_tokens: 1024
+        max_tokens: 600
       })
     });
+    clearTimeout(timeoutId);
     if (!llmRes.ok) {
       const errText = await llmRes.text();
       console.error("[AI Suggest] LLM error:", llmRes.status, errText);
@@ -221,9 +212,16 @@ async function handleAiSuggest(req, res) {
     res.writeHead(200, { "Content-Type": "application/json" });
     res.end(JSON.stringify({ summary: parsed.summary, recommendations: enriched }));
   } catch (err) {
-    console.error("[AI Suggest] Unexpected error:", err);
-    res.writeHead(500, { "Content-Type": "application/json" });
-    res.end(JSON.stringify({ error: "Internal server error" }));
+    clearTimeout(timeoutId);
+    if (err?.name === "AbortError") {
+      console.error("[AI Suggest] Request timed out");
+      res.writeHead(504, { "Content-Type": "application/json" });
+      res.end(JSON.stringify({ error: "Request timed out. Please try again." }));
+    } else {
+      console.error("[AI Suggest] Unexpected error:", err);
+      res.writeHead(500, { "Content-Type": "application/json" });
+      res.end(JSON.stringify({ error: "Internal server error" }));
+    }
   }
 }
 export {

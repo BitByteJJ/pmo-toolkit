@@ -2,7 +2,7 @@
 // Design: "Clarity Cards" — warm white, category colour wayfinding
 // Feature: Enter a problem statement → AI returns ranked PMO card recommendations
 
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { useLocation } from 'wouter';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Sparkles, ArrowRight, RotateCcw, Lightbulb, Send, ChevronRight } from 'lucide-react';
@@ -115,30 +115,113 @@ function RecommendationCard({ rec, index }: { rec: Recommendation; index: number
   );
 }
 
-// ─── Loading Skeleton ─────────────────────────────────────────────────────────
+// ─── Loading State ────────────────────────────────────────────────────────────
 
-function LoadingSkeleton() {
+const THINKING_MESSAGES = [
+  'Reading your challenge…',
+  'Scanning 144 PMO cards…',
+  'Matching tools to your problem…',
+  'Ranking recommendations…',
+  'Almost there…',
+];
+
+function LoadingState({ problem }: { problem: string }) {
+  const [msgIndex, setMsgIndex] = useState(0);
+  const [progress, setProgress] = useState(0);
+
+  useEffect(() => {
+    // Cycle through messages every 1.2s
+    const msgTimer = setInterval(() => {
+      setMsgIndex(i => Math.min(i + 1, THINKING_MESSAGES.length - 1));
+    }, 1200);
+    // Animate progress bar over ~6s (typical response time)
+    const start = Date.now();
+    const progressTimer = setInterval(() => {
+      const elapsed = Date.now() - start;
+      // Ease toward 90% over 6s, never reach 100% until done
+      const pct = Math.min(90, Math.round(100 * (1 - Math.exp(-elapsed / 5000))));
+      setProgress(pct);
+    }, 100);
+    return () => { clearInterval(msgTimer); clearInterval(progressTimer); };
+  }, []);
+
   return (
-    <div className="space-y-3">
-      {[0, 1, 2, 3].map(i => (
-        <div key={i} className="rounded-2xl overflow-hidden bg-white" style={{ boxShadow: '0 1px 4px rgba(0,0,0,0.06)' }}>
-          <div className="h-1 w-full bg-stone-200 animate-pulse" />
-          <div className="p-4">
-            <div className="flex items-start gap-3">
-              <div className="w-8 h-8 rounded-xl bg-stone-200 animate-pulse shrink-0" style={{ animationDelay: `${i * 0.1}s` }} />
-              <div className="flex-1 space-y-2">
-                <div className="flex gap-2">
-                  <div className="h-4 w-10 rounded bg-stone-200 animate-pulse" />
-                  <div className="h-4 w-20 rounded bg-stone-100 animate-pulse" />
+    <div>
+      {/* Problem echo */}
+      <div
+        className="rounded-2xl p-4 mb-5 bg-white"
+        style={{ boxShadow: '0 1px 4px rgba(0,0,0,0.06)', border: '1px solid rgba(99,102,241,0.15)' }}
+      >
+        <p className="text-[10px] font-semibold text-indigo-500 uppercase tracking-wider mb-1">Your challenge</p>
+        <p className="text-sm text-stone-700 leading-relaxed">{problem}</p>
+      </div>
+
+      {/* Animated thinking card */}
+      <div
+        className="rounded-2xl p-5 mb-5 bg-white"
+        style={{ boxShadow: '0 2px 16px rgba(99,102,241,0.1)', border: '1px solid rgba(99,102,241,0.12)' }}
+      >
+        {/* Pulsing icon */}
+        <div className="flex items-center gap-3 mb-4">
+          <motion.div
+            className="w-10 h-10 rounded-xl flex items-center justify-center shrink-0"
+            style={{ background: 'linear-gradient(135deg, #6366F1 0%, #8B5CF6 100%)' }}
+            animate={{ scale: [1, 1.08, 1] }}
+            transition={{ duration: 1.5, repeat: Infinity, ease: 'easeInOut' }}
+          >
+            <Sparkles size={18} className="text-white" />
+          </motion.div>
+          <div>
+            <p className="text-sm font-bold text-stone-800">AI is thinking…</p>
+            <AnimatePresence mode="wait">
+              <motion.p
+                key={msgIndex}
+                initial={{ opacity: 0, y: 4 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -4 }}
+                transition={{ duration: 0.3 }}
+                className="text-xs text-stone-400"
+              >
+                {THINKING_MESSAGES[msgIndex]}
+              </motion.p>
+            </AnimatePresence>
+          </div>
+        </div>
+
+        {/* Progress bar */}
+        <div className="h-1.5 rounded-full bg-stone-100 overflow-hidden">
+          <motion.div
+            className="h-full rounded-full"
+            style={{ background: 'linear-gradient(90deg, #6366F1, #8B5CF6)' }}
+            animate={{ width: `${progress}%` }}
+            transition={{ duration: 0.3, ease: 'easeOut' }}
+          />
+        </div>
+        <p className="text-[10px] text-stone-400 mt-1.5 text-right">{progress}%</p>
+      </div>
+
+      {/* Skeleton cards */}
+      <div className="space-y-3">
+        {[0, 1, 2, 3].map(i => (
+          <div key={i} className="rounded-2xl overflow-hidden bg-white" style={{ boxShadow: '0 1px 4px rgba(0,0,0,0.06)' }}>
+            <div className="h-1 w-full bg-stone-200 animate-pulse" />
+            <div className="p-4">
+              <div className="flex items-start gap-3">
+                <div className="w-8 h-8 rounded-xl bg-stone-200 animate-pulse shrink-0" style={{ animationDelay: `${i * 0.15}s` }} />
+                <div className="flex-1 space-y-2">
+                  <div className="flex gap-2">
+                    <div className="h-4 w-10 rounded bg-stone-200 animate-pulse" />
+                    <div className="h-4 w-20 rounded bg-stone-100 animate-pulse" />
+                  </div>
+                  <div className="h-5 w-3/4 rounded bg-stone-200 animate-pulse" />
+                  <div className="h-3 w-full rounded bg-stone-100 animate-pulse" />
+                  <div className="h-12 w-full rounded-xl bg-stone-100 animate-pulse" />
                 </div>
-                <div className="h-5 w-3/4 rounded bg-stone-200 animate-pulse" />
-                <div className="h-3 w-full rounded bg-stone-100 animate-pulse" />
-                <div className="h-12 w-full rounded-xl bg-stone-100 animate-pulse" />
               </div>
             </div>
           </div>
-        </div>
-      ))}
+        ))}
+      </div>
     </div>
   );
 }
@@ -318,31 +401,7 @@ export default function AiSuggest() {
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
             >
-              {/* Problem echo */}
-              <div
-                className="rounded-2xl p-4 mb-5 bg-white"
-                style={{ boxShadow: '0 1px 4px rgba(0,0,0,0.06)', border: '1px solid rgba(99,102,241,0.15)' }}
-              >
-                <p className="text-[10px] font-semibold text-indigo-500 uppercase tracking-wider mb-1">Your challenge</p>
-                <p className="text-sm text-stone-700 leading-relaxed">{problem}</p>
-              </div>
-
-              {/* Thinking indicator */}
-              <div className="flex items-center gap-2 mb-4 px-1">
-                <div className="flex gap-1">
-                  {[0, 1, 2].map(i => (
-                    <motion.div
-                      key={i}
-                      className="w-1.5 h-1.5 rounded-full bg-indigo-400"
-                      animate={{ scale: [1, 1.4, 1], opacity: [0.5, 1, 0.5] }}
-                      transition={{ duration: 0.8, delay: i * 0.2, repeat: Infinity }}
-                    />
-                  ))}
-                </div>
-                <span className="text-xs text-stone-400">Analysing your challenge…</span>
-              </div>
-
-              <LoadingSkeleton />
+              <LoadingState problem={problem} />
             </motion.div>
           )}
         </AnimatePresence>
