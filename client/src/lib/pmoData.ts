@@ -59,34 +59,34 @@ export const DECKS: Deck[] = [
   {
     id: 'methodologies',
     title: 'Methodologies',
-    subtitle: 'M1 – M7',
+    subtitle: 'M1 – M9',
     color: '#4F46E5',
     bgColor: '#EEF2FF',
     textColor: '#312E81',
     icon: '⚙️',
-    cardCount: 7,
+    cardCount: 9,
     description: 'Waterfall, Agile, Kanban, and Hybrid — choose the right delivery method.',
   },
   {
     id: 'people',
     title: 'People Domain',
-    subtitle: '15 Tasks',
+    subtitle: '17 Tasks',
     color: '#E11D48',
     bgColor: '#FFE4E6',
     textColor: '#881337',
     icon: '👥',
-    cardCount: 15,
+    cardCount: 17,
     description: 'Lead teams, manage conflict, build shared understanding, and empower stakeholders.',
   },
   {
     id: 'process',
     title: 'Process Domain',
-    subtitle: '17 Tasks',
+    subtitle: '21 Tasks',
     color: '#059669',
     bgColor: '#D1FAE5',
     textColor: '#064E3B',
     icon: '📋',
-    cardCount: 17,
+    cardCount: 21,
     description: 'Execute projects, manage risks, budgets, scope, quality, and governance.',
   },
   {
@@ -103,23 +103,23 @@ export const DECKS: Deck[] = [
   {
     id: 'tools',
     title: 'Tools Deck',
-    subtitle: 'T1 – T19',
+    subtitle: 'T1 – T20',
     color: '#0284C7',
     bgColor: '#E0F2FE',
     textColor: '#0C4A6E',
     icon: '🔧',
-    cardCount: 19,
+    cardCount: 20,
     description: 'Practical tools — Gantt charts, Kanban boards, risk registers, and more.',
   },
   {
     id: 'techniques',
     title: 'Advanced Techniques',
-    subtitle: 'A1 – A85',
+    subtitle: 'A1 – A87',
     color: '#475569',
     bgColor: '#F1F5F9',
     textColor: '#1E293B',
     icon: '🎯',
-    cardCount: 85,
+    cardCount: 87,
     description: 'Deep-dive techniques for negotiation, analysis, change management, and beyond.',
   },
 ];
@@ -3303,8 +3303,8 @@ export const CARDS: PMOCard[] = [
   // ─── PMBOK 7 / Agile Guide Gap-Fill Cards ────────────────────────────────
 
   {
-    id: 'A86',
-    code: 'A86',
+    id: 'M8',
+    code: 'M8',
     title: 'Value Delivery System',
     deckId: 'methodologies',
     type: 'technique',
@@ -3325,8 +3325,8 @@ export const CARDS: PMOCard[] = [
   },
 
   {
-    id: 'A87',
-    code: 'A87',
+    id: 'people-15',
+    code: 'PD15',
     title: 'Stakeholder Performance Domain',
     deckId: 'people',
     type: 'technique',
@@ -3347,8 +3347,8 @@ export const CARDS: PMOCard[] = [
   },
 
   {
-    id: 'A88',
-    code: 'A88',
+    id: 'people-16',
+    code: 'PD16',
     title: 'Team Performance Domain',
     deckId: 'people',
     type: 'technique',
@@ -3369,8 +3369,8 @@ export const CARDS: PMOCard[] = [
   },
 
   {
-    id: 'A89',
-    code: 'A89',
+    id: 'M9',
+    code: 'M9',
     title: 'Development Approach & Lifecycle',
     deckId: 'methodologies',
     type: 'technique',
@@ -3391,8 +3391,8 @@ export const CARDS: PMOCard[] = [
   },
 
   {
-    id: 'A90',
-    code: 'A90',
+    id: 'process-18',
+    code: 'PRC18',
     title: 'Planning Performance Domain',
     deckId: 'process',
     type: 'technique',
@@ -3413,8 +3413,8 @@ export const CARDS: PMOCard[] = [
   },
 
   {
-    id: 'A91',
-    code: 'A91',
+    id: 'process-19',
+    code: 'PRC19',
     title: 'Delivery Performance Domain',
     deckId: 'process',
     type: 'technique',
@@ -3435,8 +3435,8 @@ export const CARDS: PMOCard[] = [
   },
 
   {
-    id: 'A92',
-    code: 'A92',
+    id: 'process-20',
+    code: 'PRC20',
     title: 'Measurement Performance Domain',
     deckId: 'process',
     type: 'technique',
@@ -3457,8 +3457,8 @@ export const CARDS: PMOCard[] = [
   },
 
   {
-    id: 'A93',
-    code: 'A93',
+    id: 'process-21',
+    code: 'PRC21',
     title: 'Uncertainty Performance Domain',
     deckId: 'process',
     type: 'technique',
@@ -3479,8 +3479,8 @@ export const CARDS: PMOCard[] = [
   },
 
   {
-    id: 'A94',
-    code: 'A94',
+    id: 'A86',
+    code: 'A86',
     title: 'Retrospective (Agile)',
     deckId: 'techniques',
     type: 'technique',
@@ -3501,8 +3501,8 @@ export const CARDS: PMOCard[] = [
   },
 
   {
-    id: 'A95',
-    code: 'A95',
+    id: 'A87',
+    code: 'A87',
     title: 'Definition of Done (DoD)',
     deckId: 'techniques',
     type: 'technique',
@@ -3523,8 +3523,8 @@ export const CARDS: PMOCard[] = [
   },
 
   {
-    id: 'A96',
-    code: 'A96',
+    id: 'people-17',
+    code: 'PD17',
     title: 'Servant Leadership',
     deckId: 'people',
     type: 'technique',
@@ -3545,8 +3545,8 @@ export const CARDS: PMOCard[] = [
   },
 
   {
-    id: 'A97',
-    code: 'A97',
+    id: 'T20',
+    code: 'T20',
     title: 'Continuous Integration & Deployment (CI/CD)',
     deckId: 'tools',
     type: 'tool',

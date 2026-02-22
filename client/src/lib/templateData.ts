@@ -380,6 +380,79 @@ const methodologyTemplates: CardTemplate[] = [
       },
     ],
   },
+  {
+    cardId: 'M8',
+    title: 'Value Delivery System Canvas',
+    description: "Map your organisation's end-to-end value delivery system across all three PMBOK 7 domains.",
+    sections: [
+      {
+        heading: 'System Overview',
+        content: `| Field | Your Entry |
+|---|---|
+| Organisation / Portfolio Name | |
+| Primary Value Stream | |
+| Key Stakeholder Groups | |
+| Delivery Horizon (months) | |`,
+      },
+      {
+        heading: 'Value Delivery Components',
+        content: `| Component | Current State | Target State | Owner | Priority |
+|---|---|---|---|---|
+| Portfolio Governance | | | | |
+| Programme Management | | | | |
+| Project Execution | | | | |
+| Operations & Benefits | | | | |`,
+      },
+      {
+        heading: 'Performance Indicators',
+        content: `| KPI | Baseline | Target | Frequency | Owner |
+|---|---|---|---|---|
+| Benefits Realised (%) | | | | |
+| On-Time Delivery Rate | | | | |
+| Stakeholder Satisfaction | | | | |
+| Resource Utilisation | | | | |`,
+      },
+    ],
+  },
+  {
+    cardId: 'M9',
+    title: 'Development Approach & Lifecycle Selector',
+    description: 'Determine the most appropriate delivery approach for your project using PMBOK 7 guidance.',
+    sections: [
+      {
+        heading: 'Project Characteristics Assessment',
+        content: `| Factor | Score 1-5 (1=Low, 5=High) | Notes |
+|---|---|---|
+| Requirements Clarity | | |
+| Stakeholder Availability | | |
+| Risk Tolerance | | |
+| Delivery Frequency Needed | | |
+| Team Agile Maturity | | |
+| Regulatory Constraints | | |`,
+      },
+      {
+        heading: 'Approach Recommendation',
+        content: `| Score Range | Recommended Approach |
+|---|---|
+| 6-12 | Predictive (Waterfall) |
+| 13-20 | Hybrid |
+| 21-30 | Adaptive (Agile/Iterative) |
+
+**Your Total Score:** ___
+**Recommended Approach:** ___`,
+      },
+      {
+        heading: 'Lifecycle Milestones',
+        content: `| Phase | Key Deliverable | Gate Criteria | Date |
+|---|---|---|---|
+| Initiation | | | |
+| Planning | | | |
+| Execution | | | |
+| Delivery | | | |
+| Closure | | | |`,
+      },
+    ],
+  },
 ];
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -722,6 +795,81 @@ const peopleTemplates: CardTemplate[] = [
       },
     ],
   },
+  {
+    cardId: 'people-15',
+    title: 'Stakeholder Performance Domain Tracker',
+    description: 'Track stakeholder engagement across the PMBOK 7 Stakeholder Performance Domain.',
+    sections: [
+      {
+        heading: 'Stakeholder Engagement Register',
+        content: `| Stakeholder | Role | Interest Level | Influence Level | Current Engagement | Target Engagement | Actions |
+|---|---|---|---|---|---|---|
+| | | H/M/L | H/M/L | Unaware/Resistant/Neutral/Supportive/Leading | | |`,
+      },
+      {
+        heading: 'Engagement Actions Log',
+        content: `| Date | Stakeholder | Action Taken | Response | Next Step | Owner |
+|---|---|---|---|---|---|
+| | | | | | |`,
+      },
+    ],
+  },
+  {
+    cardId: 'people-16',
+    title: 'Team Performance Domain Health Check',
+    description: 'Assess team health across the five PMBOK 7 Team Performance Domain dimensions.',
+    sections: [
+      {
+        heading: 'Team Health Assessment',
+        content: `Rate each dimension 1 (Poor) to 5 (Excellent).
+
+| Dimension | Score | Evidence | Action Needed |
+|---|---|---|---|
+| Shared ownership and accountability | | | |
+| High-trust environment | | | |
+| Collaborative decision-making | | | |
+| Continuous learning culture | | | |
+| Adaptability to change | | | |
+| **Total** | **/25** | | |`,
+      },
+      {
+        heading: 'Improvement Actions',
+        content: `| Priority | Action | Owner | Due Date | Status |
+|---|---|---|---|---|
+| | | | | |`,
+      },
+    ],
+  },
+  {
+    cardId: 'people-17',
+    title: 'Servant Leadership Self-Assessment',
+    description: 'Evaluate your servant leadership behaviours and identify growth areas.',
+    sections: [
+      {
+        heading: 'Servant Leadership Inventory',
+        content: `Rate yourself 1 (Rarely) to 5 (Always).
+
+| Servant Leadership Behaviour | Score | Example | Development Action |
+|---|---|---|---|
+| I listen actively before responding | | | |
+| I prioritise team needs over personal recognition | | | |
+| I create conditions for team autonomy | | | |
+| I remove obstacles proactively | | | |
+| I build community and shared purpose | | | |
+| I develop others' capabilities | | | |
+| I lead with empathy and emotional intelligence | | | |
+| I share power and decision-making | | | |
+| **Total** | **/40** | | |`,
+      },
+      {
+        heading: 'Growth Plan',
+        content: `| Focus Area | Current Behaviour | Target Behaviour | Support Needed | Review Date |
+|---|---|---|---|---|
+| | | | | |`,
+      },
+    ],
+  },
+
 ];
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -1076,6 +1224,100 @@ const processTemplates: CardTemplate[] = [
       },
     ],
   },
+  {
+    cardId: 'process-18',
+    title: 'Planning Performance Domain Checklist',
+    description: 'Ensure all PMBOK 7 Planning Performance Domain activities are addressed.',
+    sections: [
+      {
+        heading: 'Planning Domain Checklist',
+        content: `| Planning Activity | Completed | Owner | Notes |
+|---|---|---|---|
+| Delivery approach selected (predictive/agile/hybrid) | ☐ | | |
+| Project scope defined and agreed | ☐ | | |
+| Schedule baseline established | ☐ | | |
+| Budget baseline established | ☐ | | |
+| Resource plan completed | ☐ | | |
+| Risk register populated | ☐ | | |
+| Communication plan agreed | ☐ | | |
+| Quality management approach defined | ☐ | | |
+| Procurement strategy confirmed | ☐ | | |`,
+      },
+      {
+        heading: 'Planning Assumptions & Constraints',
+        content: `| Type | Description | Impact | Owner |
+|---|---|---|---|
+| Assumption | | | |
+| Constraint | | | |`,
+      },
+    ],
+  },
+  {
+    cardId: 'process-19',
+    title: 'Delivery Performance Domain Tracker',
+    description: 'Track delivery progress against the PMBOK 7 Delivery Performance Domain outcomes.',
+    sections: [
+      {
+        heading: 'Delivery Outcomes Tracker',
+        content: `| Outcome | Target | Actual | Variance | Action |
+|---|---|---|---|---|
+| Requirements met (%) | 100% | | | |
+| Scope delivered on time | Yes | | | |
+| Quality criteria met | Yes | | | |
+| Stakeholder acceptance obtained | Yes | | | |`,
+      },
+      {
+        heading: 'Deliverable Acceptance Log',
+        content: `| Deliverable | Acceptance Criteria | Accepted By | Date | Notes |
+|---|---|---|---|---|
+| | | | | |`,
+      },
+    ],
+  },
+  {
+    cardId: 'process-20',
+    title: 'Measurement Performance Domain Dashboard',
+    description: 'Define and track the key metrics for the PMBOK 7 Measurement Performance Domain.',
+    sections: [
+      {
+        heading: 'Project Metrics Dashboard',
+        content: `| Metric | Baseline | Current | Target | Trend | Action |
+|---|---|---|---|---|---|
+| Schedule Performance Index (SPI) | 1.0 | | >0.9 | | |
+| Cost Performance Index (CPI) | 1.0 | | >0.9 | | |
+| Scope Completion (%) | 0% | | 100% | | |
+| Defect Rate | 0 | | <5% | | |
+| Stakeholder Satisfaction | | | >4/5 | | |
+| Team Velocity (if Agile) | | | | | |`,
+      },
+      {
+        heading: 'Measurement Review Log',
+        content: `| Date | Metric | Value | Interpretation | Decision Made |
+|---|---|---|---|---|
+| | | | | |`,
+      },
+    ],
+  },
+  {
+    cardId: 'process-21',
+    title: 'Uncertainty Performance Domain Risk Log',
+    description: 'Manage uncertainty and ambiguity using the PMBOK 7 Uncertainty Performance Domain framework.',
+    sections: [
+      {
+        heading: 'Uncertainty Register',
+        content: `| ID | Uncertainty Type | Description | Probability | Impact | Response Strategy | Owner | Status |
+|---|---|---|---|---|---|---|---|
+| U-001 | Risk / Ambiguity / Complexity / Volatility | | H/M/L | H/M/L | Accept/Mitigate/Transfer/Avoid/Exploit | | Open |`,
+      },
+      {
+        heading: 'Resilience Actions',
+        content: `| Action | Purpose | Owner | Due Date | Status |
+|---|---|---|---|---|
+| | | | | |`,
+      },
+    ],
+  },
+
 ];
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -1646,6 +1888,37 @@ const toolTemplates: CardTemplate[] = [
       },
     ],
   },
+  {
+    cardId: 'T20',
+    title: 'CI/CD Pipeline Design Canvas',
+    description: 'Design and document your Continuous Integration and Continuous Delivery pipeline.',
+    sections: [
+      {
+        heading: 'Pipeline Stages',
+        content: `| Stage | Tools Used | Trigger | Success Criteria | Owner |
+|---|---|---|---|---|
+| Source Control | | Code commit | Branch policy met | |
+| Build | | On commit | Build passes | |
+| Unit Test | | On build | >80% coverage | |
+| Code Quality | | On build | No critical issues | |
+| Integration Test | | On merge | All tests pass | |
+| Staging Deploy | | On PR merge | Deploy successful | |
+| UAT / Smoke Test | | On staging deploy | Key flows pass | |
+| Production Deploy | | Manual approval | Deploy successful | |`,
+      },
+      {
+        heading: 'Pipeline Health Metrics',
+        content: `| Metric | Current | Target | Notes |
+|---|---|---|---|
+| Build success rate | | >95% | |
+| Mean time to deploy (mins) | | <30 | |
+| Deployment frequency (per week) | | | |
+| Change failure rate | | <5% | |
+| Mean time to recovery (MTTR) | | <1hr | |`,
+      },
+    ],
+  },
+
 ];
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -3210,6 +3483,68 @@ const techniqueTemplates: CardTemplate[] = [
       },
     ],
   },
+  {
+    cardId: 'A86',
+    title: 'Sprint Retrospective Template',
+    description: 'A structured retrospective to inspect and adapt team processes at the end of each sprint.',
+    sections: [
+      {
+        heading: 'Retrospective Board',
+        content: `| Category | Items | Action | Owner | Due |
+|---|---|---|---|---|
+| ✓ What went well | | — | — | — |
+| ✗ What didn't go well | | | | |
+| ▲ What to try next sprint | | | | |
+| ? Questions / Confusions | | | | |`,
+      },
+      {
+        heading: 'Action Tracker',
+        content: `| Sprint | Action | Owner | Due Date | Status |
+|---|---|---|---|---|
+| | | | | Open / Done |`,
+      },
+      {
+        heading: 'Team Health Pulse',
+        content: `Rate each dimension 1 (Low) to 5 (High) — anonymous voting encouraged.
+
+| Dimension | Score | Notes |
+|---|---|---|
+| Fun & motivation | | |
+| Learning & growth | | |
+| Delivery confidence | | |
+| Team collaboration | | |
+| Process clarity | | |`,
+      },
+    ],
+  },
+  {
+    cardId: 'A87',
+    title: 'Definition of Done Checklist',
+    description: 'Define and apply a rigorous Definition of Done to ensure consistent quality across all user stories.',
+    sections: [
+      {
+        heading: 'Definition of Done — Standard Criteria',
+        content: `| Criterion | Applies? | Notes |
+|---|---|---|
+| Code reviewed by at least one peer | ✓ / ✗ | |
+| Unit tests written and passing | ✓ / ✗ | |
+| Integration tests passing | ✓ / ✗ | |
+| Code merged to main branch | ✓ / ✗ | |
+| Build pipeline passing | ✓ / ✗ | |
+| Acceptance criteria verified by PO | ✓ / ✗ | |
+| Documentation updated | ✓ / ✗ | |
+| No open P1/P2 defects | ✓ / ✗ | |
+| Deployed to staging environment | ✓ / ✗ | |`,
+      },
+      {
+        heading: 'Story-Level DoD Verification',
+        content: `| Story ID | Title | All DoD Met? | Verified By | Date |
+|---|---|---|---|---|
+| | | ✓ Yes / ✗ No | | |`,
+      },
+    ],
+  },
+
 ];
 
 // ─────────────────────────────────────────────────────────────────────────────
