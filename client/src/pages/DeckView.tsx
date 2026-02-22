@@ -42,45 +42,41 @@ function TitleCard({
         borderRadius: '20px',
         boxShadow: '0 12px 40px rgba(0,0,0,0.15), 0 4px 12px rgba(0,0,0,0.08)',
         border: `3px solid ${deck.color}`,
-        backgroundColor: '#ffffff',
+        backgroundColor: deck.bgColor,
       }}
     >
-      {/* ── Text content on top ── */}
-      <div className="relative z-10 px-6 pt-5 pb-3 text-center">
+      {/* ── Full-height illustration as the card background ── */}
+      <img
+        src={intro.coverImage}
+        alt={deck.title}
+        className="w-full block"
+        style={{
+          display: 'block',
+          width: '100%',
+          height: 'auto',
+          mixBlendMode: 'multiply',
+        }}
+      />
+
+      {/* ── Text overlay at the top ── */}
+      <div
+        className="absolute inset-x-0 top-0 z-10 px-6 pt-5 pb-16 text-center"
+        style={{
+          background: `linear-gradient(to bottom, ${deck.bgColor} 0%, ${deck.bgColor}CC 50%, transparent 100%)`,
+        }}
+      >
         <p className="text-sm font-bold uppercase tracking-widest mb-3" style={{ color: deck.color }}>
           {deck.subtitle}
         </p>
         <h1
           className="text-4xl font-black leading-tight tracking-tight"
-          style={{ color: '#1a1a1a', fontFamily: "'Sora', sans-serif", letterSpacing: '-0.02em' }}
+          style={{ color: deck.textColor, fontFamily: "'Sora', sans-serif", letterSpacing: '-0.02em' }}
         >
           {deck.title}
         </h1>
-        <p className="text-sm mt-3 leading-relaxed" style={{ color: '#57534e', opacity: 0.8 }}>
+        <p className="text-sm mt-3 leading-relaxed" style={{ color: deck.textColor, opacity: 0.75 }}>
           {intro.tagline}
         </p>
-      </div>
-
-      {/* ── Illustration below text with fade ── */}
-      <div className="relative" style={{ backgroundColor: deck.bgColor }}>
-        {/* Top fade gradient — blends illustration into the white text area above */}
-        <div
-          className="absolute inset-x-0 top-0 z-10 pointer-events-none"
-          style={{
-            height: '40px',
-            background: `linear-gradient(to bottom, #ffffff 0%, ${deck.bgColor} 100%)`,
-          }}
-        />
-        <img
-          src={intro.coverImage}
-          alt={deck.title}
-          className="w-full block"
-          style={{
-            height: '160px',
-            objectFit: 'cover',
-            objectPosition: 'center 30%',
-          }}
-        />
       </div>
     </div>
   );
