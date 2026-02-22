@@ -340,7 +340,7 @@ export const CARDS: PMOCard[] = [
     title: 'Scrum Framework',
     deckId: 'methodologies',
     type: 'methodology',
-    tagline: 'Scrum is a lightweight, iterative, and incremental Agile framework for managing complex product development. It emphasizes teamwork, accountability, and iterative progress toward a well-defined goal. This framework is designed to deliver value quickly and adapt to changing requirements efficiently.',
+    tagline: 'Iterative sprints, defined roles, and continuous delivery of working software',
     whatItIs: 'The Scrum Framework is an Agile methodology that helps teams deliver products in short, iterative cycles called Sprints. It defines specific roles, events, and artifacts to facilitate effective collaboration and continuous improvement. Scrum promotes transparency, inspection, and adaptation throughout the development process, ensuring that the team consistently builds the right product.',
     whenToUse: 'Scrum is ideal for projects with evolving requirements, where rapid feedback and continuous delivery are crucial. It is particularly effective for complex product development where the solution is not fully defined at the outset. Use Scrum when you need to empower self-organizing teams and foster a culture of continuous learning and improvement.',
     steps: [
@@ -361,7 +361,7 @@ export const CARDS: PMOCard[] = [
     title: 'PRINCE2',
     deckId: 'methodologies',
     type: 'methodology',
-    tagline: 'A structured project management methodology emphasizing control, organization, and clear roles for successful project delivery.',
+    tagline: 'Controlled stages, defined roles, and board-level governance for structured delivery',
     whatItIs: 'PRINCE2 (Projects IN Controlled Environments) is a process-based project management methodology widely used in the UK and Europe. It provides a robust framework for managing projects of any type or size, focusing on clear roles, responsibilities, and decision points. The methodology is built around seven principles, seven themes, and seven processes, ensuring a highly controlled and organized approach to project execution.',
     whenToUse: 'PRINCE2 is particularly effective for projects requiring a high degree of control, clear governance, and defined stages, such as government contracts or large-scale IT implementations. It is ideal when the project environment demands strict adherence to a business case, detailed product-based planning, and a clear audit trail. Use PRINCE2 when managing risk and ensuring quality are paramount to project success.',
     steps: [
@@ -382,7 +382,7 @@ export const CARDS: PMOCard[] = [
     title: 'SAFe - Scaled Agile Framework',
     deckId: 'methodologies',
     type: 'methodology',
-    tagline: 'A comprehensive framework for scaling Agile development across large enterprises.',
+    tagline: 'Align multiple Agile teams around a shared programme cadence and strategy',
     whatItIs: 'The Scaled Agile Framework (SAFe) is a set of organizational and workflow patterns for implementing lean and agile practices at enterprise scale. It provides guidance for all levels of an organization that are involved in developing and delivering solutions. SAFe supports four configurations: Essential, Large Solution, Portfolio, and Full SAFe, allowing organizations to choose the level of guidance appropriate for their context. Key elements include Agile Release Trains (ARTs) for team-of-teams coordination, Program Increments (PIs) for timeboxed development, and PI Planning events for alignment.',
     whenToUse: 'SAFe is ideal for large organizations facing challenges in coordinating multiple Agile teams, managing complex product portfolios, or delivering large-scale solutions. It is particularly effective when there is a need to align business strategy with execution across many development teams and value streams. Use SAFe when a structured approach is required to scale Agile principles beyond individual teams to the entire enterprise.',
     steps: [
@@ -721,7 +721,7 @@ export const CARDS: PMOCard[] = [
     title: 'Psychological Safety',
     deckId: 'people',
     type: 'domain-task',
-    tagline: 'Amy Edmondson\'s framework for creating team environments where members feel safe to speak up, take risks, and admit mistakes without fear of punishment or humiliation. Foundation of high-performing teams. Google Project Aristotle findings.',
+    tagline: 'Create the safety for teams to speak up, take risks, and learn from failure',
     whatItIs: 'Psychological safety is a shared belief held by members of a team that the team is safe for interpersonal risk-taking. It is about feeling able to speak up with ideas, questions, concerns, or mistakes without fear of embarrassment or punishment. This concept, championed by Amy Edmondson, is crucial for fostering an environment where innovation thrives and learning is continuous.',
     whenToUse: 'Implement psychological safety when forming new teams, during periods of significant change, or when addressing performance issues related to communication and collaboration. It is particularly vital in complex projects requiring diverse perspectives and continuous problem-solving. Use it to unlock team potential and improve decision-making processes.',
     steps: [
@@ -1527,7 +1527,7 @@ export const CARDS: PMOCard[] = [
     title: 'Critical Path Method CPM',
     deckId: 'tools',
     type: 'tool',
-    tagline: 'The Critical Path Method (CPM) is a project management technique for scheduling project activities. It helps in identifying the longest sequence of dependent tasks, which dictates the minimum time required to complete the project. Understanding the critical path is crucial for effective resource allocation and timely project delivery. This method ensures that project managers can focus on the activities that directly impact the project\'s overall duration.',
+    tagline: 'Find the longest chain of dependent tasks to reveal your true project deadline',
     whatItIs: 'Critical Path Method (CPM) is an algorithm for scheduling a set of project activities. It is a network diagram technique used to determine the total duration of a project by identifying the longest sequence of dependent tasks, known as the critical path. This path represents the minimum time needed to complete the project, as any delay in these tasks will directly delay the entire project. CPM also involves calculating float or slack for non-critical activities, indicating how much they can be delayed without affecting the project\'s end date.',
     whenToUse: 'CPM is best utilized in projects with well-defined activities, clear dependencies, and predictable durations, such as construction, software development, or manufacturing. It is particularly effective when there is a need to optimize project schedules, identify potential bottlenecks, and manage resources efficiently. Use CPM when you need to understand the earliest and latest possible completion times for tasks and the overall project. It\'s also invaluable for tracking progress and making informed decisions when delays occur.',
     steps: [
@@ -1548,7 +1548,7 @@ export const CARDS: PMOCard[] = [
     title: 'RAID Log',
     deckId: 'tools',
     type: 'tool',
-    tagline: 'Risks, Assumptions, Issues, Dependencies tracking log. Universal project management tool for capturing and managing all four categories in a single structured register. Status tracking, owner assignment, mitigation actions.',
+    tagline: 'One log to track Risks, Assumptions, Issues, and Dependencies — nothing falls through',
     whatItIs: 'A RAID Log is a comprehensive project management document used to identify, track, and manage Risks, Assumptions, Issues, and Dependencies throughout a project\'s lifecycle. It serves as a central repository for these critical elements, ensuring that potential problems are anticipated, current problems are addressed, and inter-project relationships are understood. This proactive approach helps project managers maintain control, minimize disruptions, and ensure project objectives are met efficiently.',
     whenToUse: 'The RAID Log should be initiated at the very beginning of a project during the planning phase and maintained continuously until project closure. It is particularly crucial for complex projects with multiple stakeholders, external dependencies, or high levels of uncertainty. Regular reviews of the log are essential during team meetings and stakeholder updates to keep it current and relevant.',
     steps: [
@@ -3245,7 +3245,7 @@ export const CARDS: PMOCard[] = [
     title: 'Pre-Mortem Analysis',
     deckId: 'techniques',
     type: 'technique',
-    tagline: 'Prospective hindsight technique where the team imagines the project has already failed and works backwards to identify what went wrong. Gary Klein\'s research-based approach. Surfaces hidden risks before they materialise.',
+    tagline: 'Imagine the project has already failed — then work backwards to prevent it',
     whatItIs: 'Pre-Mortem Analysis is a powerful risk management technique designed to identify potential project failures before they occur. It involves a team collectively imagining that a project has already failed, then brainstorming all possible reasons for that failure. This method leverages \'prospective hindsight\' to uncover hidden assumptions and risks that might otherwise be overlooked during traditional risk assessments.',
     whenToUse: 'This technique is best applied at the beginning of a project, or at key milestones, after the project plan has been developed but before significant resources are committed. It is particularly effective for complex, high-stakes projects where the cost of failure is substantial. Use it when you need to challenge assumptions, foster critical thinking, and build a more robust risk mitigation strategy.',
     steps: [
@@ -3265,7 +3265,7 @@ export const CARDS: PMOCard[] = [
     title: 'Kano Model',
     deckId: 'techniques',
     type: 'technique',
-    tagline: 'A powerful requirements prioritization framework that categorizes features based on their impact on customer satisfaction, distinguishing between basic expectations, performance drivers, and delightful innovations.',
+    tagline: 'Separate must-haves from delighters to build what customers actually value',
     whatItIs: 'The Kano Model, developed by Professor Noriaki Kano in 1984, is a theory for product development and customer satisfaction that classifies customer preferences into five categories: Must-Be, Performance, Excitement, Indifferent, and Reverse. It helps project teams understand which features are essential, which will improve satisfaction linearly, and which will truly delight customers, guiding strategic investment decisions. This model emphasizes that not all features are equal in the eyes of the customer and their perceived value changes over time.',
     whenToUse: 'Use the Kano Model when prioritizing a large backlog of features for a new product or a significant update, especially when customer satisfaction is a primary driver. It is particularly effective during the early stages of product development or when re-evaluating an existing product\'s feature set to ensure alignment with customer needs and market expectations. This technique helps in allocating resources effectively by focusing on features that yield the highest customer value.',
     steps: [
@@ -3285,7 +3285,7 @@ export const CARDS: PMOCard[] = [
     title: 'User Story Mapping',
     deckId: 'techniques',
     type: 'technique',
-    tagline: 'A visual technique for organizing user stories into a two-dimensional map, aligning product vision with development efforts.',
+    tagline: 'Arrange user stories on a two-axis map to reveal the full product journey',
     whatItIs: 'User Story Mapping is a collaborative, visual technique for organizing user stories to create a holistic view of a product\'s functionality and user experience. It arranges user activities chronologically along a \'backbone\' and breaks them down into detailed user stories. This method helps teams understand the user journey, identify gaps, and prioritize features for release planning.',
     whenToUse: 'This technique is ideal when a team needs to build a shared understanding of a complex product backlog and its underlying user journeys. It is particularly effective at the start of a new product development, for major feature enhancements, or when re-evaluating an existing product\'s scope. It ensures alignment among stakeholders and provides a clear roadmap for iterative development.',
     steps: [
