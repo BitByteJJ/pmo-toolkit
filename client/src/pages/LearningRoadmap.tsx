@@ -343,11 +343,11 @@ export default function LearningRoadmap() {
     : null;
 
   return (
-    <div className="min-h-screen pt-11 pb-24" style={{ backgroundColor: '#FAFAF8' }}>
+    <div className="min-h-screen pt-12 pb-24">
       {/* Header */}
       <div
-        className="sticky top-11 z-20 px-4"
-        style={{ backgroundColor: '#FAFAF8', borderBottom: '1px solid #F5F5F4' }}
+        className="sticky top-12 z-20 px-4"
+        style={{ background: 'rgba(252,251,249,0.96)', backdropFilter: 'blur(20px) saturate(1.4)', WebkitBackdropFilter: 'blur(20px) saturate(1.4)', borderBottom: '1.5px solid rgba(0,0,0,0.06)' }}
       >
         <div className="max-w-2xl mx-auto py-3 flex items-center justify-between">
           <div>

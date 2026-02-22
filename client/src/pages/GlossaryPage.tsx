@@ -32,7 +32,7 @@ function TermCard({ term, onCardClick }: { term: GlossaryTerm; onCardClick: (car
       exit={{ opacity: 0 }}
       transition={{ duration: 0.22 }}
       className="bg-white rounded-2xl overflow-hidden"
-      style={{ boxShadow: '0 1px 4px rgba(0,0,0,0.06)', border: `1.5px solid ${colors.border}18` }}
+      style={{ boxShadow: '0 2px 10px rgba(0,0,0,0.055), 0 1px 3px rgba(0,0,0,0.04), 0 0 0 1px rgba(0,0,0,0.03)' }}
     >
       {/* Left accent bar */}
       <div className="flex">
@@ -193,9 +193,9 @@ export default function GlossaryPage() {
   }
 
   return (
-    <div className="min-h-screen pt-11 pb-24" style={{ backgroundColor: '#F5F3EE' }}>
+    <div className="min-h-screen pt-12 pb-24">
       {/* Header */}
-      <div className="sticky top-11 z-30 bg-[#F5F3EE]/95 backdrop-blur-sm border-b border-stone-100">
+      <div className="sticky top-12 z-30 border-b" style={{ background: 'rgba(252,251,249,0.96)', backdropFilter: 'blur(20px) saturate(1.4)', WebkitBackdropFilter: 'blur(20px) saturate(1.4)', borderColor: 'rgba(0,0,0,0.06)' }}>
         <div className="max-w-2xl mx-auto px-4 pt-4 pb-3">
           <div className="mb-3">
             <h1
@@ -218,7 +218,7 @@ export default function GlossaryPage() {
               value={searchQuery}
               onChange={e => { setSearchQuery(e.target.value); setActiveLetter(null); }}
               className="w-full pl-8 pr-8 py-2.5 rounded-xl bg-white text-[12px] text-stone-700 placeholder-stone-400 outline-none"
-              style={{ boxShadow: '0 1px 3px rgba(0,0,0,0.06)' }}
+              style={{ boxShadow: '0 2px 8px rgba(0,0,0,0.07), 0 0 0 1px rgba(0,0,0,0.05)' }}
             />
             {searchQuery && (
               <button

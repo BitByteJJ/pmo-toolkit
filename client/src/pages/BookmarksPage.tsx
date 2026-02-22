@@ -17,9 +17,9 @@ export default function BookmarksPage() {
     .filter(Boolean) as NonNullable<ReturnType<typeof getCardById>>[];
 
   return (
-    <div className="min-h-screen pt-11 bg-[#FAFAF8] pb-24">
+    <div className="min-h-screen pt-12 pb-24">
       {/* Header */}
-      <div className="bg-white border-b border-stone-100/80 pt-4 pb-4">
+      <div className="border-b pt-4 pb-4" style={{ background: 'rgba(252,251,249,0.96)', backdropFilter: 'blur(20px) saturate(1.4)', WebkitBackdropFilter: 'blur(20px) saturate(1.4)', borderColor: 'rgba(0,0,0,0.06)' }}>
         <div className="max-w-2xl mx-auto px-4">
           <div className="flex items-center justify-between">
             <div>
@@ -89,7 +89,7 @@ export default function BookmarksPage() {
                       className="bg-white rounded-2xl overflow-hidden"
                       style={{
                         borderLeft: `4px solid ${deck?.color ?? '#ccc'}`,
-                        boxShadow: '0 1px 3px rgba(0,0,0,0.05)',
+                        boxShadow: '0 2px 10px rgba(0,0,0,0.055), 0 1px 3px rgba(0,0,0,0.04), 0 0 0 1px rgba(0,0,0,0.03)',
                       }}
                     >
                       <div className="flex items-start gap-0 p-4 pr-2">

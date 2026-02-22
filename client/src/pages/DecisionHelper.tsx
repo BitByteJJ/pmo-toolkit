@@ -443,9 +443,9 @@ export default function DecisionHelper() {
   }, []);
 
   return (
-    <div className="min-h-screen pt-11 pb-32" style={{ backgroundColor: '#F5F3EE' }}>
+    <div className="min-h-screen pt-12 pb-32">
       {/* Header */}
-      <div className="sticky top-11 z-20 bg-[#F5F3EE]/95 backdrop-blur-sm">
+      <div className="sticky top-12 z-20 border-b" style={{ background: 'rgba(252,251,249,0.96)', backdropFilter: 'blur(20px) saturate(1.4)', WebkitBackdropFilter: 'blur(20px) saturate(1.4)', borderColor: 'rgba(0,0,0,0.06)' }}>
         <div className="max-w-2xl mx-auto px-4 pt-4 pb-3 flex items-center gap-3">
           <button
             onClick={() => navigate('/')}

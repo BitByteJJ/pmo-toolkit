@@ -811,7 +811,7 @@ export function VideoGuide({ data }: VideoGuideProps) {
   return (
     <div className="flex flex-col gap-3">
       {/* Player */}
-      <div className="rounded-2xl overflow-hidden" style={{ border: `2px solid ${deckColor}30` }}>
+      <div className="rounded-2xl overflow-hidden" style={{ boxShadow: `0 4px 24px ${deckColor}22, 0 1px 4px rgba(0,0,0,0.08), 0 0 0 1.5px ${deckColor}28` }}>
         {/* Scene viewport */}
         <div className="relative" style={{ height: '280px', backgroundColor: deckBgColor }}>
           <AnimatePresence mode="wait">
@@ -875,13 +875,13 @@ export function VideoGuide({ data }: VideoGuideProps) {
         </div>
 
         {/* Controls */}
-        <div className="flex items-center justify-between px-4 py-3" style={{ backgroundColor: deckBgColor }}>
+        <div className="flex items-center justify-between px-4 py-3.5" style={{ backgroundColor: deckBgColor, borderTop: `1px solid ${deckColor}18` }}>
           <div className="flex items-center gap-2">
             <button
               onClick={handleSkipBack}
               disabled={currentIndex === 0}
-              className="w-8 h-8 rounded-full flex items-center justify-center disabled:opacity-30 transition-opacity"
-              style={{ backgroundColor: deckColor + '15' }}
+              className="w-9 h-9 rounded-full flex items-center justify-center disabled:opacity-30 transition-all hover:scale-105"
+              style={{ backgroundColor: deckColor + '18', boxShadow: `0 1px 3px ${deckColor}20` }}
             >
               <SkipBack size={14} style={{ color: deckColor }} />
             </button>
@@ -889,21 +889,21 @@ export function VideoGuide({ data }: VideoGuideProps) {
             {isPlaying ? (
               <button
                 onClick={handlePause}
-                className="w-10 h-10 rounded-full flex items-center justify-center text-white"
-                style={{ backgroundColor: deckColor }}
+                className="w-12 h-12 rounded-full flex items-center justify-center text-white transition-all hover:scale-105"
+                style={{ backgroundColor: deckColor, boxShadow: `0 4px 12px ${deckColor}50` }}
               >
-                <Pause size={16} fill="white" />
+                <Pause size={18} fill="white" />
               </button>
             ) : (
               <button
                 onClick={hasStarted ? handleResume : handlePlay}
                 disabled={!hasStarted && isWarmingUp}
-                className="w-10 h-10 rounded-full flex items-center justify-center text-white disabled:opacity-60"
-                style={{ backgroundColor: deckColor }}
+                className="w-12 h-12 rounded-full flex items-center justify-center text-white disabled:opacity-60 transition-all hover:scale-105"
+                style={{ backgroundColor: deckColor, boxShadow: `0 4px 12px ${deckColor}50` }}
               >
                 {!hasStarted && isWarmingUp
-                  ? <Loader2 size={16} className="animate-spin" />
-                  : <Play size={16} fill="white" />
+                  ? <Loader2 size={18} className="animate-spin" />
+                  : <Play size={18} fill="white" />
                 }
               </button>
             )}
@@ -911,30 +911,30 @@ export function VideoGuide({ data }: VideoGuideProps) {
             <button
               onClick={handleSkipForward}
               disabled={currentIndex === totalScenes - 1}
-              className="w-8 h-8 rounded-full flex items-center justify-center disabled:opacity-30 transition-opacity"
-              style={{ backgroundColor: deckColor + '15' }}
+              className="w-9 h-9 rounded-full flex items-center justify-center disabled:opacity-30 transition-all hover:scale-105"
+              style={{ backgroundColor: deckColor + '18', boxShadow: `0 1px 3px ${deckColor}20` }}
             >
               <SkipForward size={14} style={{ color: deckColor }} />
             </button>
           </div>
 
-          <div className="text-xs font-medium text-gray-600 flex-1 text-center px-2 truncate">
+          <div className="text-[11px] font-semibold text-gray-500 flex-1 text-center px-2 truncate tracking-tight">
             {currentScene.heading || cardTitle}
           </div>
 
           <div className="flex items-center gap-2">
             <button
               onClick={handleRestart}
-              className="w-8 h-8 rounded-full flex items-center justify-center"
-              style={{ backgroundColor: deckColor + '15' }}
+              className="w-9 h-9 rounded-full flex items-center justify-center transition-all hover:scale-105"
+              style={{ backgroundColor: deckColor + '18', boxShadow: `0 1px 3px ${deckColor}20` }}
             >
               <RotateCcw size={13} style={{ color: deckColor }} />
             </button>
             {supported && (
               <button
                 onClick={handleMuteToggle}
-                className="w-8 h-8 rounded-full flex items-center justify-center"
-                style={{ backgroundColor: deckColor + '15' }}
+                className="w-9 h-9 rounded-full flex items-center justify-center transition-all hover:scale-105"
+                style={{ backgroundColor: deckColor + '18', boxShadow: `0 1px 3px ${deckColor}20` }}
               >
                 {isMuted ? <VolumeX size={14} style={{ color: deckColor }} /> : <Volume2 size={14} style={{ color: deckColor }} />}
               </button>
@@ -949,11 +949,13 @@ export function VideoGuide({ data }: VideoGuideProps) {
           <button
             key={i}
             onClick={() => handleSceneClick(i)}
-            className="shrink-0 rounded-lg px-2.5 py-1.5 text-[10px] font-semibold transition-all"
+            className="shrink-0 rounded-xl px-3 py-1.5 text-[10px] font-bold transition-all"
             style={{
-              backgroundColor: i === currentIndex ? deckColor : deckColor + '15',
+              backgroundColor: i === currentIndex ? deckColor : 'white',
               color: i === currentIndex ? 'white' : deckColor,
-              border: `1.5px solid ${i === currentIndex ? deckColor : deckColor + '30'}`,
+              boxShadow: i === currentIndex
+                ? `0 2px 8px ${deckColor}40`
+                : '0 1px 3px rgba(0,0,0,0.06), 0 0 0 1px rgba(0,0,0,0.04)',
             }}
           >
             {i + 1}. {(scene.heading || scene.type).slice(0, 14)}
@@ -962,7 +964,7 @@ export function VideoGuide({ data }: VideoGuideProps) {
       </div>
 
       {/* Narration text */}
-      <div className="rounded-xl p-3 text-xs text-gray-600 leading-relaxed" style={{ backgroundColor: deckColor + '08', border: `1px solid ${deckColor}20` }}>
+      <div className="rounded-2xl p-4 text-xs text-gray-600 leading-relaxed" style={{ backgroundColor: 'white', boxShadow: '0 1px 4px rgba(0,0,0,0.06), 0 0 0 1px rgba(0,0,0,0.04)' }}>
         <span className="font-semibold text-gray-500 text-[10px] uppercase tracking-wide block mb-1">Narration</span>
         {currentScene.narration}
       </div>

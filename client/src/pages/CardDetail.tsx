@@ -40,15 +40,18 @@ function Section({ icon: Icon, title, children, color }: {
   color: string;
 }) {
   return (
-    <div className="bg-white rounded-2xl p-4" style={{ boxShadow: '0 1px 3px rgba(0,0,0,0.05)' }}>
-      <div className="flex items-center gap-2 mb-3">
+    <div
+      className="bg-white rounded-2xl p-4"
+      style={{ boxShadow: '0 2px 10px rgba(0,0,0,0.055), 0 1px 3px rgba(0,0,0,0.04), 0 0 0 1px rgba(0,0,0,0.035)' }}
+    >
+      <div className="flex items-center gap-2 mb-3.5">
         <div
-          className="w-5 h-5 rounded-md flex items-center justify-center shrink-0"
-          style={{ backgroundColor: color + '20' }}
+          className="w-6 h-6 rounded-lg flex items-center justify-center shrink-0"
+          style={{ background: `linear-gradient(135deg, ${color}28, ${color}14)`, border: `1px solid ${color}22` }}
         >
-          <Icon size={11} style={{ color }} />
+          <Icon size={12} style={{ color }} />
         </div>
-        <h3 className="text-[10px] font-bold text-stone-400 uppercase tracking-wider">{title}</h3>
+        <h3 className="text-[10px] font-black text-stone-400 uppercase tracking-[0.1em]">{title}</h3>
       </div>
       {children}
     </div>
@@ -247,7 +250,7 @@ export default function CardDetail() {
 
   if (!card) {
     return (
-      <div className="min-h-screen bg-[#FAFAF8] flex flex-col items-center justify-center pb-24">
+      <div className="min-h-screen flex flex-col items-center justify-center pb-24">
         <div className="text-center px-8">
           <p className="text-stone-400 text-sm mb-4">Card not found</p>
           <button
@@ -404,7 +407,7 @@ export default function CardDetail() {
   }
 
   return (
-    <div className="min-h-screen pt-11 bg-[#FAFAF8] pb-24 overflow-x-hidden">
+    <div className="min-h-screen pt-12 pb-24 overflow-x-hidden">
 
       {/* Completion celebration overlay */}
       <AnimatePresence>
@@ -682,14 +685,14 @@ export default function CardDetail() {
       </AnimatePresence>
 
       {/* ── Tab Bar ── */}
-      <div className="sticky top-11 z-30 bg-[#FAFAF8]/95 backdrop-blur-sm border-b border-stone-100">
+      <div className="sticky top-12 z-30 border-b" style={{ background: 'rgba(252,251,249,0.96)', backdropFilter: 'blur(16px)', WebkitBackdropFilter: 'blur(16px)', borderColor: 'rgba(0,0,0,0.06)' }}>
         <div className="max-w-2xl mx-auto px-4">
           <div className="flex gap-1 pt-2 pb-0 overflow-x-auto scrollbar-none">
             {(['overview', ...(template ? ['template'] : []), ...(caseStudy ? ['case-study'] : []), 'deep-dive', 'video-guide'] as ('overview' | 'template' | 'case-study' | 'deep-dive' | 'video-guide')[]).map(tab => (
               <button
                 key={tab}
                 onClick={() => setActiveTab(tab)}
-                className="relative flex items-center gap-1.5 px-3 py-2 text-[11px] font-bold capitalize transition-all"
+                className="relative flex items-center gap-1.5 px-3 py-2.5 text-[11px] font-bold capitalize transition-all whitespace-nowrap"
                 style={{
                   color: activeTab === tab ? (deck?.color ?? '#0284C7') : '#a8a29e',
                 }}
@@ -729,7 +732,7 @@ export default function CardDetail() {
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: -14 }}
           transition={{ duration: 0.28 }}
-          className="max-w-2xl mx-auto px-4 pt-4 space-y-3"
+          className="max-w-2xl mx-auto px-4 pt-4 space-y-3.5"
         >
           {/* ── TEMPLATE TAB ── */}
           {activeTab === 'template' && (

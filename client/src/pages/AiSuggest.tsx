@@ -277,15 +277,15 @@ export default function AiSuggest() {
   };
 
   return (
-    <div className="min-h-screen pt-11 pb-32" style={{ backgroundColor: '#FAFAF8' }}>
+    <div className="min-h-screen pt-12 pb-32">
       {/* ── Header ── */}
       <div
-        className="sticky top-11 z-40 px-4 pt-4 pb-4"
+        className="sticky top-12 z-40 px-4 pt-4 pb-4"
         style={{
-          background: 'rgba(250,250,248,0.92)',
-          backdropFilter: 'blur(12px)',
-          WebkitBackdropFilter: 'blur(12px)',
-          borderBottom: '1px solid rgba(0,0,0,0.05)',
+          background: 'rgba(252,251,249,0.96)',
+          backdropFilter: 'blur(20px) saturate(1.4)',
+          WebkitBackdropFilter: 'blur(20px) saturate(1.4)',
+          borderBottom: '1.5px solid rgba(0,0,0,0.06)',
         }}
       >
         <div className="max-w-lg mx-auto">

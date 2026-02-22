@@ -370,9 +370,8 @@ function CardListItem({
       <div
         className="relative overflow-hidden cursor-pointer"
         style={{
-          borderRadius: '16px',
-          boxShadow: `0 3px 12px ${deck.color}22, 0 1px 4px rgba(0,0,0,0.07)`,
-          border: `1.5px solid ${read ? deck.color + '50' : deck.color + '25'}`,
+          borderRadius: '18px',
+          boxShadow: `0 3px 14px ${deck.color}1A, 0 1px 4px rgba(0,0,0,0.055), 0 0 0 1px ${read ? deck.color + '40' : deck.color + '18'}`,
           minHeight: '88px',
           backgroundColor: '#ffffff',
         }}
@@ -573,7 +572,7 @@ export default function DeckView() {
   }
 
   return (
-    <div className="min-h-screen pt-11 pb-24" style={{ backgroundColor: '#F7F6F3' }}>
+    <div className="min-h-screen pt-12 pb-24">
       {/* Sprint Mode overlay */}
       <AnimatePresence>
         {sprintMode && (
@@ -583,11 +582,13 @@ export default function DeckView() {
 
       {/* Sticky deck sub-header */}
       <div
-        className="sticky top-11 z-30 py-2"
+        className="sticky top-12 z-30 py-2"
         style={{
-          backgroundColor: 'rgba(247,246,243,0.95)',
-          backdropFilter: 'blur(12px)',
-          borderBottom: `2px solid ${deck.color}20`,
+          background: 'rgba(252,251,249,0.95)',
+          backdropFilter: 'blur(20px) saturate(1.4)',
+          WebkitBackdropFilter: 'blur(20px) saturate(1.4)',
+          borderBottom: `1.5px solid ${deck.color}22`,
+          boxShadow: `0 2px 12px ${deck.color}10`,
         }}
       >
         <div className="max-w-2xl mx-auto px-4 flex items-center justify-between w-full">

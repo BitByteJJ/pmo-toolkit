@@ -1,5 +1,5 @@
 /* PMO Toolkit Navigator — Global Styles */
-/* Design: "Clarity Cards" — Scandinavian Minimalism, warm whites, category color wayfinding */
+/* Design: "Clarity Cards" — premium Scandinavian minimalism */
 /* Fonts: Sora (display) + Inter (body) */
 
 @import "tailwindcss";
@@ -47,53 +47,73 @@
 }
 
 :root {
-  --radius: 0.75rem;
+  --radius: 0.875rem;
 
-  /* PMO Toolkit warm neutral palette */
-  --background: oklch(0.99 0.002 80);
-  --foreground: oklch(0.18 0.01 60);
+  /* ── Premium warm neutral palette ── */
+  --background: oklch(0.985 0.004 75);
+  --foreground: oklch(0.16 0.012 55);
   --card: oklch(1 0 0);
-  --card-foreground: oklch(0.18 0.01 60);
+  --card-foreground: oklch(0.16 0.012 55);
   --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.18 0.01 60);
-  --primary: oklch(0.35 0.02 60);
+  --popover-foreground: oklch(0.16 0.012 55);
+  --primary: oklch(0.28 0.025 55);
   --primary-foreground: oklch(0.99 0 0);
-  --secondary: oklch(0.96 0.003 80);
-  --secondary-foreground: oklch(0.35 0.02 60);
-  --muted: oklch(0.96 0.003 80);
-  --muted-foreground: oklch(0.55 0.01 60);
-  --accent: oklch(0.96 0.003 80);
-  --accent-foreground: oklch(0.18 0.01 60);
+  --secondary: oklch(0.965 0.005 75);
+  --secondary-foreground: oklch(0.28 0.025 55);
+  --muted: oklch(0.965 0.005 75);
+  --muted-foreground: oklch(0.52 0.012 60);
+  --accent: oklch(0.965 0.005 75);
+  --accent-foreground: oklch(0.16 0.012 55);
   --destructive: oklch(0.577 0.245 27.325);
   --destructive-foreground: oklch(0.985 0 0);
-  --border: oklch(0.92 0.003 80);
-  --input: oklch(0.92 0.003 80);
-  --ring: oklch(0.55 0.01 60);
+  --border: oklch(0.91 0.004 75);
+  --input: oklch(0.91 0.004 75);
+  --ring: oklch(0.52 0.012 60);
   --chart-1: oklch(0.6 0.15 200);
   --chart-2: oklch(0.6 0.15 150);
   --chart-3: oklch(0.6 0.15 100);
   --chart-4: oklch(0.6 0.15 50);
   --chart-5: oklch(0.6 0.15 0);
-  --sidebar: oklch(0.99 0.002 80);
-  --sidebar-foreground: oklch(0.18 0.01 60);
-  --sidebar-primary: oklch(0.35 0.02 60);
+  --sidebar: oklch(0.985 0.004 75);
+  --sidebar-foreground: oklch(0.16 0.012 55);
+  --sidebar-primary: oklch(0.28 0.025 55);
   --sidebar-primary-foreground: oklch(0.99 0 0);
-  --sidebar-accent: oklch(0.96 0.003 80);
-  --sidebar-accent-foreground: oklch(0.18 0.01 60);
-  --sidebar-border: oklch(0.92 0.003 80);
-  --sidebar-ring: oklch(0.55 0.01 60);
+  --sidebar-accent: oklch(0.965 0.005 75);
+  --sidebar-accent-foreground: oklch(0.16 0.012 55);
+  --sidebar-border: oklch(0.91 0.004 75);
+  --sidebar-ring: oklch(0.52 0.012 60);
+
+  /* ── Premium shadow scale ── */
+  --shadow-xs:  0 1px 2px rgba(0,0,0,0.04);
+  --shadow-sm:  0 1px 3px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04);
+  --shadow-md:  0 4px 12px rgba(0,0,0,0.07), 0 2px 4px rgba(0,0,0,0.04);
+  --shadow-lg:  0 8px 24px rgba(0,0,0,0.09), 0 3px 8px rgba(0,0,0,0.05);
+  --shadow-xl:  0 16px 40px rgba(0,0,0,0.11), 0 6px 16px rgba(0,0,0,0.06);
+  --shadow-2xl: 0 24px 60px rgba(0,0,0,0.14), 0 8px 24px rgba(0,0,0,0.08);
 }
 
 @layer base {
   * {
     @apply border-border outline-ring/50;
   }
+
+  html {
+    /* Subtle warm grain texture on the page background */
+    background-color: oklch(0.985 0.004 75);
+  }
+
   body {
     @apply bg-background text-foreground;
     font-family: 'Inter', system-ui, -apple-system, sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    /* Grain texture overlay for premium paper feel */
+    background-image:
+      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23noise)' opacity='0.022'/%3E%3C/svg%3E");
+    background-repeat: repeat;
+    background-size: 300px 300px;
   }
+
   button:not(:disabled),
   [role="button"]:not([aria-disabled="true"]),
   [type="button"]:not(:disabled),
@@ -104,6 +124,11 @@
   input[type="checkbox"]:not(:disabled),
   input[type="radio"]:not(:disabled) {
     @apply cursor-pointer;
+  }
+
+  /* Premium heading style */
+  h1, h2, h3 {
+    letter-spacing: -0.02em;
   }
 }
 
@@ -144,17 +169,72 @@
     position: relative;
   }
 
+  /* Premium card surface */
+  .card-surface {
+    background: white;
+    border-radius: var(--radius-xl);
+    box-shadow: var(--shadow-md);
+    border: 1px solid oklch(0.93 0.003 75);
+  }
+
+  /* Premium frosted glass surface */
+  .glass-surface {
+    background: rgba(255, 255, 255, 0.88);
+    backdrop-filter: blur(20px) saturate(1.4);
+    -webkit-backdrop-filter: blur(20px) saturate(1.4);
+    border: 1px solid rgba(255, 255, 255, 0.7);
+  }
+
+  /* Elevated float surface (nav bars, dropdowns) */
+  .float-surface {
+    background: rgba(255, 255, 255, 0.94);
+    backdrop-filter: blur(24px) saturate(1.5);
+    -webkit-backdrop-filter: blur(24px) saturate(1.5);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.055);
+    box-shadow: 0 1px 0 rgba(255,255,255,0.8) inset, var(--shadow-sm);
+  }
+
+  /* Section label — premium small caps style */
+  .section-label {
+    font-size: 0.625rem;
+    font-weight: 800;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: oklch(0.52 0.012 60);
+  }
+
   /* Hide scrollbar but keep scrolling */
-  .scrollbar-hide {
+  .scrollbar-hide,
+  .no-scrollbar {
     -ms-overflow-style: none;
     scrollbar-width: none;
   }
-  .scrollbar-hide::-webkit-scrollbar {
+  .scrollbar-hide::-webkit-scrollbar,
+  .no-scrollbar::-webkit-scrollbar {
     display: none;
   }
 
   /* Safe area padding for iOS */
   .safe-area-pb {
     padding-bottom: env(safe-area-inset-bottom, 0px);
+  }
+
+  /* Premium pill badge */
+  .pill-badge {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.2rem 0.6rem;
+    border-radius: 9999px;
+    font-size: 0.65rem;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+  }
+
+  /* Smooth press effect */
+  .press-effect {
+    transition: transform 0.12s ease, box-shadow 0.12s ease;
+  }
+  .press-effect:active {
+    transform: scale(0.97);
   }
 }

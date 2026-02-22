@@ -256,9 +256,9 @@ export default function DecksPage() {
   const { badges, totalBadges } = useMasteryBadges();
   const maxBadges = DECKS.length * 2;
   return (
-    <div className="min-h-screen pb-24" style={{ backgroundColor: '#F7F5F0' }}>
+    <div className="min-h-screen pb-24">
       <TopNav />
-      <div className="pt-11">
+      <div className="pt-12">
         <div className="max-w-5xl mx-auto px-4 pt-6 pb-4">
           <h1 className="text-2xl font-black text-stone-900 mb-1" style={{ fontFamily: 'Sora, sans-serif' }}>
             All Decks
@@ -267,7 +267,7 @@ export default function DecksPage() {
             {DECKS.length} decks · {DECKS.reduce((s, d) => s + getCardsByDeck(d.id).length, 0)} cards
           </p>
           {/* Mastery Badge Summary */}
-          <div className="flex items-center gap-3 mb-6 p-3 rounded-2xl bg-white" style={{ boxShadow: '0 2px 8px rgba(0,0,0,0.06)', border: '1.5px solid #e7e5e4' }}>
+          <div className="flex items-center gap-3 mb-6 p-3 rounded-2xl bg-white" style={{ boxShadow: '0 2px 10px rgba(0,0,0,0.055), 0 1px 3px rgba(0,0,0,0.04), 0 0 0 1px rgba(0,0,0,0.04)' }}>
             <div className="w-9 h-9 rounded-xl flex items-center justify-center" style={{ backgroundColor: '#FEF3C7' }}>
               <Trophy size={16} className="text-amber-500" />
             </div>

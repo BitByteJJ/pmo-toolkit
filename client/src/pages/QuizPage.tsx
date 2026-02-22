@@ -314,15 +314,15 @@ export default function QuizPage() {
   }
 
   return (
-    <div className="min-h-screen pt-11 pb-8" style={{ backgroundColor: '#F5F3EE' }}>
+    <div className="min-h-screen pt-12 pb-8">
       {/* Header */}
       <div
-        className="sticky top-11 z-40 px-4"
+        className="sticky top-12 z-40 px-4"
         style={{
-          background: 'rgba(245,243,238,0.95)',
-          backdropFilter: 'blur(12px)',
-          WebkitBackdropFilter: 'blur(12px)',
-          borderBottom: '1px solid rgba(0,0,0,0.06)',
+          background: 'rgba(252,251,249,0.96)',
+          backdropFilter: 'blur(20px) saturate(1.4)',
+          WebkitBackdropFilter: 'blur(20px) saturate(1.4)',
+          borderBottom: '1.5px solid rgba(0,0,0,0.06)',
         }}
       >
         <div className="flex items-center gap-3 py-3">

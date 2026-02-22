@@ -36,16 +36,16 @@ export default function SearchPage() {
   const popularSearches = ['RACI', 'risk', 'stakeholder', 'Agile', 'SWOT', 'communication', 'change', 'Kanban'];
 
   return (
-    <div className="min-h-screen pt-11 bg-[#FAFAF8] pb-24">
+    <div className="min-h-screen pt-12 pb-24">
       {/* Header — sticky below TopNav */}
       <div
-        className="pb-3 sticky top-11 z-30"
+        className="pb-3 sticky top-12 z-30"
         style={{
           paddingTop: '12px',
-          background: 'rgba(250,250,248,0.95)',
-          backdropFilter: 'blur(10px)',
-          WebkitBackdropFilter: 'blur(10px)',
-          borderBottom: '1px solid rgba(0,0,0,0.05)',
+          background: 'rgba(252,251,249,0.96)',
+          backdropFilter: 'blur(20px) saturate(1.4)',
+          WebkitBackdropFilter: 'blur(20px) saturate(1.4)',
+          borderBottom: '1.5px solid rgba(0,0,0,0.06)',
         }}
       >
         <div className="max-w-2xl mx-auto px-4">
@@ -63,7 +63,8 @@ export default function SearchPage() {
             value={query}
             onChange={e => setQuery(e.target.value)}
             placeholder="Search tools, techniques, frameworks…"
-            className="w-full bg-stone-100 rounded-xl pl-9 pr-9 py-2.5 text-sm text-stone-800 placeholder:text-stone-400 outline-none focus:ring-2 focus:ring-stone-200 transition-all"
+            className="w-full bg-white rounded-xl pl-9 pr-9 py-2.5 text-sm text-stone-800 placeholder:text-stone-400 outline-none transition-all"
+            style={{ boxShadow: '0 2px 8px rgba(0,0,0,0.07), 0 0 0 1px rgba(0,0,0,0.05)' }}
             autoFocus
           />
           {query && (
@@ -213,7 +214,7 @@ export default function SearchPage() {
                           className="bg-white rounded-2xl overflow-hidden"
                           style={{
                             borderLeft: `4px solid ${deck?.color ?? '#ccc'}`,
-                            boxShadow: '0 1px 3px rgba(0,0,0,0.05)',
+                            boxShadow: '0 2px 10px rgba(0,0,0,0.055), 0 1px 3px rgba(0,0,0,0.04), 0 0 0 1px rgba(0,0,0,0.03)',
                           }}
                         >
                           <div
