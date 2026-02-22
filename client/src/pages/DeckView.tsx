@@ -584,17 +584,17 @@ export default function DeckView() {
       <div
         className="sticky top-12 z-30 py-2"
         style={{
-          background: 'rgba(252,251,249,0.95)',
+          background: 'rgba(10,22,40,0.88)',
           backdropFilter: 'blur(20px) saturate(1.4)',
           WebkitBackdropFilter: 'blur(20px) saturate(1.4)',
-          borderBottom: `1.5px solid ${deck.color}22`,
-          boxShadow: `0 2px 12px ${deck.color}10`,
+          borderBottom: `1.5px solid ${deck.color}50`,
+          boxShadow: `0 2px 16px rgba(0,0,0,0.3), 0 1px 0 ${deck.color}20`,
         }}
       >
         <div className="max-w-2xl mx-auto px-4 flex items-center justify-between w-full">
           <div className="flex items-center gap-2">
             <span className="text-lg leading-none">{deck.icon}</span>
-            <span className="text-sm font-bold" style={{ color: deck.textColor }}>
+            <span className="text-sm font-bold" style={{ color: '#e2e8f0' }}>
               {deck.title}
             </span>
           </div>

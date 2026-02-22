@@ -161,7 +161,7 @@ const phaseTemplates: CardTemplate[] = [
 
 const archetypeTemplates: CardTemplate[] = [
   {
-    cardId: 'archetype-1',
+    cardId: 'AG1',
     title: 'Project Complexity Assessment',
     description: 'Score your project across key dimensions to determine the right approach and methodology.',
     sections: [
@@ -193,7 +193,7 @@ const archetypeTemplates: CardTemplate[] = [
     ],
   },
   {
-    cardId: 'archetype-2',
+    cardId: 'AG2',
     title: 'Methodology Selection Worksheet',
     description: 'A structured worksheet to select the best delivery methodology for your project context.',
     sections: [
@@ -231,7 +231,7 @@ const archetypeTemplates: CardTemplate[] = [
     ],
   },
   {
-    cardId: 'archetype-3',
+    cardId: 'AG3',
     title: 'Hybrid Approach Design Canvas',
     description: 'Design a bespoke hybrid methodology by mapping which phases use which approach.',
     sections: [
@@ -258,7 +258,7 @@ const archetypeTemplates: CardTemplate[] = [
 
 const methodologyTemplates: CardTemplate[] = [
   {
-    cardId: 'methodology-1',
+    cardId: 'M1',
     title: 'Waterfall Project Plan Template',
     description: 'A sequential phase-gate plan with milestones, deliverables, and sign-off requirements.',
     sections: [
@@ -283,7 +283,7 @@ const methodologyTemplates: CardTemplate[] = [
     ],
   },
   {
-    cardId: 'methodology-2',
+    cardId: 'M2',
     title: 'Agile Sprint Planning Template',
     description: 'A sprint planning board with backlog, sprint goal, capacity, and acceptance criteria.',
     sections: [
@@ -321,7 +321,7 @@ const methodologyTemplates: CardTemplate[] = [
     ],
   },
   {
-    cardId: 'methodology-3',
+    cardId: 'M3',
     title: 'Kanban Board Template',
     description: 'A Kanban board with WIP limits, flow metrics, and a blocker log.',
     sections: [
@@ -356,7 +356,7 @@ const methodologyTemplates: CardTemplate[] = [
     ],
   },
   {
-    cardId: 'methodology-4',
+    cardId: 'M4',
     title: 'Hybrid Delivery Plan',
     description: 'A hybrid plan combining Waterfall governance gates with Agile sprint delivery.',
     sections: [
@@ -453,6 +453,164 @@ const methodologyTemplates: CardTemplate[] = [
       },
     ],
   },
+  {
+    cardId: 'M5',
+    title: 'Scrum Sprint Planning Board',
+    description: 'Plan and track a Scrum sprint from backlog refinement through to sprint review.',
+    sections: [
+      {
+        heading: 'Sprint Details',
+        content: `| Field | Entry |
+|---|---|
+| Sprint Number | |
+| Sprint Goal | |
+| Sprint Duration (weeks) | |
+| Start Date | |
+| End Date | |
+| Scrum Master | |
+| Product Owner | |`,
+      },
+      {
+        heading: 'Sprint Backlog',
+        content: `| Story ID | User Story | Story Points | Assignee | Status |
+|---|---|---|---|---|
+| US-001 | As a [user] I want [goal] so that [benefit] | | | To Do |
+| US-002 | | | | To Do |
+| US-003 | | | | To Do |
+| US-004 | | | | To Do |
+| US-005 | | | | To Do |`,
+      },
+      {
+        heading: 'Daily Scrum Tracker',
+        content: `| Date | What did I do yesterday? | What will I do today? | Blockers? |
+|---|---|---|---|
+| Day 1 | | | |
+| Day 2 | | | |
+| Day 3 | | | |
+| Day 4 | | | |
+| Day 5 | | | |`,
+      },
+      {
+        heading: 'Sprint Review & Retrospective',
+        content: `**Sprint Review**
+
+| Metric | Planned | Actual |
+|---|---|---|
+| Story Points Committed | | |
+| Story Points Completed | | |
+| Velocity | | |
+| Bugs Found | | |
+
+**Retrospective**
+
+What went well:
+
+What could be improved:
+
+Action items for next sprint:`,
+      },
+    ],
+  },
+  {
+    cardId: 'M6',
+    title: 'PRINCE2 Project Brief',
+    description: 'Document the project mandate, objectives, scope, and governance structure using PRINCE2 principles.',
+    sections: [
+      {
+        heading: 'Project Definition',
+        content: `| Field | Entry |
+|---|---|
+| Project Title | |
+| Project Mandate / Trigger | |
+| Project Objective | |
+| Desired Outcome | |
+| Scope (In) | |
+| Scope (Out) | |
+| Constraints | |
+| Assumptions | |`,
+      },
+      {
+        heading: 'Business Case Summary',
+        content: `| Element | Description |
+|---|---|
+| Reasons (Why) | |
+| Expected Benefits | |
+| Expected Dis-benefits | |
+| Timescale | |
+| Costs (Estimate) | |
+| Investment Appraisal | |
+| Major Risks | |`,
+      },
+      {
+        heading: 'Project Organisation',
+        content: `| Role | Name | Responsibilities |
+|---|---|---|
+| Executive (Sponsor) | | Owns the Business Case; accountable for project success |
+| Senior User | | Represents user interests; approves requirements |
+| Senior Supplier | | Represents supplier interests; approves design |
+| Project Manager | | Day-to-day management; reports to Project Board |
+| Team Manager(s) | | Delivers work packages |`,
+      },
+      {
+        heading: 'Stage Plan Summary',
+        content: `| Stage | Key Deliverables | Start | End | Budget |
+|---|---|---|---|---|
+| Initiation Stage | Project Initiation Document | | | |
+| Stage 1 | | | | |
+| Stage 2 | | | | |
+| Stage 3 | | | | |
+| Final Stage | End Project Report | | | |`,
+      },
+    ],
+  },
+  {
+    cardId: 'M7',
+    title: 'SAFe PI Planning Canvas',
+    description: 'Plan a Programme Increment (PI) across multiple Agile Release Trains using SAFe principles.',
+    sections: [
+      {
+        heading: 'PI Overview',
+        content: `| Field | Entry |
+|---|---|
+| PI Number | |
+| PI Duration (weeks) | |
+| PI Start Date | |
+| PI End Date | |
+| Agile Release Train (ART) | |
+| Release Train Engineer (RTE) | |
+| Business Context / Vision | |`,
+      },
+      {
+        heading: 'PI Objectives',
+        content: `| # | PI Objective | Business Value (1-10) | Team | Committed? |
+|---|---|---|---|---|
+| 1 | | | | Yes / Stretch |
+| 2 | | | | Yes / Stretch |
+| 3 | | | | Yes / Stretch |
+| 4 | | | | Yes / Stretch |
+| 5 | | | | Yes / Stretch |`,
+      },
+      {
+        heading: 'Team Iteration Plan',
+        content: `| Team | Iteration 1 | Iteration 2 | Iteration 3 | Iteration 4 | IP Iteration |
+|---|---|---|---|---|---|
+| Team A | | | | | |
+| Team B | | | | | |
+| Team C | | | | | |
+| Team D | | | | | |`,
+      },
+      {
+        heading: 'Risks & Dependencies',
+        content: `| ID | Risk / Dependency | Owner | Mitigation | Status |
+|---|---|---|---|---|
+| R1 | | | | |
+| R2 | | | | |
+| D1 | | | | |
+| D2 | | | | |`,
+      },
+    ],
+  },
+
 ];
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -1444,6 +1602,50 @@ const businessTemplates: CardTemplate[] = [
       },
     ],
   },
+  {
+    cardId: 'BE05',
+    title: 'PESTLE Analysis Canvas',
+    description: 'Scan the macro-environment across six dimensions to surface threats and opportunities before they impact your project.',
+    sections: [
+      {
+        heading: 'Project Context',
+        content: `| Field | Entry |
+|---|---|
+| Project / Initiative | |
+| Industry / Sector | |
+| Geography | |
+| Analysis Date | |
+| Facilitator | |`,
+      },
+      {
+        heading: 'PESTLE Factors',
+        content: `| Factor | Key Observations | Impact (H/M/L) | Opportunity or Threat | Response |
+|---|---|---|---|---|
+| Political | | | | |
+| Economic | | | | |
+| Social | | | | |
+| Technological | | | | |
+| Legal | | | | |
+| Environmental | | | | |`,
+      },
+      {
+        heading: 'Priority Factors',
+        content: `List the top 3 factors requiring immediate attention and the planned response:
+
+1. Factor: ___  Impact: ___  Response: ___
+2. Factor: ___  Impact: ___  Response: ___
+3. Factor: ___  Impact: ___  Response: ___`,
+      },
+      {
+        heading: 'Review Schedule',
+        content: `| Review Date | Trigger | Owner | Changes Since Last Review |
+|---|---|---|---|
+| | | | |
+| | | | |`,
+      },
+    ],
+  },
+
 ];
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -1953,6 +2155,87 @@ const toolTemplates: CardTemplate[] = [
 | Deployment frequency (per week) | | | |
 | Change failure rate | | <5% | |
 | Mean time to recovery (MTTR) | | <1hr | |`,
+      },
+    ],
+  },
+
+  {
+    cardId: 'T18',
+    title: 'Critical Path Method (CPM) Worksheet',
+    description: 'Map your project network, calculate early/late start and finish times, and identify the critical path.',
+    sections: [
+      {
+        heading: 'Activity List',
+        content: `| Activity ID | Activity Name | Duration (days) | Predecessors | Resources |
+|---|---|---|---|---|
+| A | | | None | |
+| B | | | A | |
+| C | | | A | |
+| D | | | B, C | |
+| E | | | D | |`,
+      },
+      {
+        heading: 'Forward & Backward Pass',
+        content: `| Activity | Duration | ES | EF | LS | LF | Float |
+|---|---|---|---|---|---|---|
+| A | | | | | | |
+| B | | | | | | |
+| C | | | | | | |
+| D | | | | | | |
+| E | | | | | | |
+
+ES = Early Start  EF = Early Finish  LS = Late Start  LF = Late Finish  Float = LF minus EF`,
+      },
+      {
+        heading: 'Critical Path',
+        content: `Critical Path: ___ to ___ to ___ to ___
+
+Total Project Duration: ___ days
+
+Activities with Zero Float (must not slip):`,
+      },
+      {
+        heading: 'Schedule Risk',
+        content: `| Activity | Float (days) | Risk if Delayed | Mitigation |
+|---|---|---|---|
+| | | | |
+| | | | |`,
+      },
+    ],
+  },
+  {
+    cardId: 'T19',
+    title: 'RAID Log',
+    description: 'Track Risks, Assumptions, Issues, and Dependencies in one central log throughout the project lifecycle.',
+    sections: [
+      {
+        heading: 'Risks',
+        content: `| ID | Risk Description | Probability (H/M/L) | Impact (H/M/L) | Score | Owner | Response | Status |
+|---|---|---|---|---|---|---|---|
+| R001 | | | | | | | Open |
+| R002 | | | | | | | Open |
+| R003 | | | | | | | Open |`,
+      },
+      {
+        heading: 'Assumptions',
+        content: `| ID | Assumption | If Wrong, Impact | Owner | Validation Date | Status |
+|---|---|---|---|---|---|
+| A001 | | | | | Active |
+| A002 | | | | | Active |`,
+      },
+      {
+        heading: 'Issues',
+        content: `| ID | Issue Description | Priority (H/M/L) | Owner | Resolution | Due Date | Status |
+|---|---|---|---|---|---|---|
+| I001 | | | | | | Open |
+| I002 | | | | | | Open |`,
+      },
+      {
+        heading: 'Dependencies',
+        content: `| ID | Dependency Description | Type (Internal/External) | Depends On | Owner | Due Date | Status |
+|---|---|---|---|---|---|---|
+| D001 | | | | | | On Track |
+| D002 | | | | | | On Track |`,
       },
     ],
   },
@@ -3579,6 +3862,269 @@ const techniqueTemplates: CardTemplate[] = [
         content: `| Story ID | Title | All DoD Met? | Verified By | Date |
 |---|---|---|---|---|
 | | | ✓ Yes / ✗ No | | |`,
+      },
+    ],
+  },
+
+  {
+    cardId: 'A49',
+    title: 'Heart, Head, Hands (3H) Change Plan',
+    description: 'Design a change initiative that addresses emotional, rational, and practical dimensions simultaneously.',
+    sections: [
+      {
+        heading: 'Change Overview',
+        content: `| Field | Entry |
+|---|---|
+| Change Initiative | |
+| Target Audience | |
+| Change Lead | |
+| Target Date | |`,
+      },
+      {
+        heading: 'Heart (Emotional)',
+        content: `Address the emotional why - connect the change to values, purpose, and identity.
+
+| Stakeholder Group | Current Emotional State | Desired Emotional State | Key Messages | Activities |
+|---|---|---|---|---|
+| | | | | |
+| | | | | |`,
+      },
+      {
+        heading: 'Head (Rational)',
+        content: `Provide the logical case - data, evidence, and clear reasoning.
+
+| Stakeholder Group | Key Concerns | Evidence / Data to Share | Communication Channel | Owner |
+|---|---|---|---|---|
+| | | | | |
+| | | | | |`,
+      },
+      {
+        heading: 'Hands (Practical)',
+        content: `Enable action - training, tools, and support to make the change possible.
+
+| Capability Gap | Training / Support Needed | Format | Owner | Deadline |
+|---|---|---|---|---|
+| | | | | |
+| | | | | |`,
+      },
+    ],
+  },
+  {
+    cardId: 'A71',
+    title: 'Situational Leadership Assessment',
+    description: "Assess each team member's development level and select the matching leadership style using the Hersey-Blanchard model.",
+    sections: [
+      {
+        heading: 'Team Member Assessment',
+        content: `| Team Member | Task / Role | Competence (1-4) | Commitment (1-4) | Development Level | Recommended Style |
+|---|---|---|---|---|---|
+| | | | | D1/D2/D3/D4 | S1/S2/S3/S4 |
+| | | | | D1/D2/D3/D4 | S1/S2/S3/S4 |
+| | | | | D1/D2/D3/D4 | S1/S2/S3/S4 |
+
+D1 = Enthusiastic Beginner - Style S1 Directing
+D2 = Disillusioned Learner - Style S2 Coaching
+D3 = Capable but Cautious - Style S3 Supporting
+D4 = Self-Reliant Achiever - Style S4 Delegating`,
+      },
+      {
+        heading: 'Leadership Actions',
+        content: `| Team Member | Current Style | Planned Actions | Check-in Date | Progress |
+|---|---|---|---|---|
+| | | | | |
+| | | | | |`,
+      },
+    ],
+  },
+  {
+    cardId: 'A74',
+    title: 'Cultural Web Mapping Canvas',
+    description: "Map the six elements of your organisation's cultural web to understand the paradigm driving current behaviour.",
+    sections: [
+      {
+        heading: 'Cultural Web Elements',
+        content: `| Element | Current State (What exists today?) | Desired State (What needs to change?) |
+|---|---|---|
+| Stories (What do people talk about?) | | |
+| Rituals and Routines (What behaviours are rewarded?) | | |
+| Symbols (What do logos, offices, titles signal?) | | |
+| Organisational Structure (Formal and informal power) | | |
+| Control Systems (What is measured and rewarded?) | | |
+| Power Structures (Who has real influence?) | | |`,
+      },
+      {
+        heading: 'The Paradigm',
+        content: `The central paradigm (the core assumption driving all six elements):
+
+Current paradigm: ___
+
+Desired paradigm: ___`,
+      },
+      {
+        heading: 'Change Priorities',
+        content: `| Element to Change | Specific Action | Owner | Timeline | Success Indicator |
+|---|---|---|---|---|
+| | | | | |
+| | | | | |`,
+      },
+    ],
+  },
+  {
+    cardId: 'A78',
+    title: 'TRIZ Contradiction Matrix',
+    description: 'Identify the technical or physical contradiction in your design problem and apply the relevant inventive principles.',
+    sections: [
+      {
+        heading: 'Problem Definition',
+        content: `| Field | Entry |
+|---|---|
+| System / Product Being Improved | |
+| Desired Improvement (what you want to improve) | |
+| Undesired Consequence (what gets worse) | |
+| Type of Contradiction | Technical / Physical |`,
+      },
+      {
+        heading: 'Contradiction Analysis',
+        content: `Technical Contradiction (improving one parameter worsens another):
+
+Improving parameter: ___
+Worsening parameter: ___
+Relevant TRIZ Inventive Principles (from matrix): ___
+
+Physical Contradiction (same parameter must have opposite values):
+
+Parameter must be: ___ AND ___
+Separation principle to apply: Time / Space / Condition / System Level`,
+      },
+      {
+        heading: 'Solution Concepts',
+        content: `| Inventive Principle | Concept Generated | Feasibility (H/M/L) | Next Step |
+|---|---|---|---|
+| | | | |
+| | | | |
+| | | | |`,
+      },
+    ],
+  },
+  {
+    cardId: 'A83',
+    title: 'Pre-Mortem Analysis',
+    description: 'Imagine the project has already failed and work backwards to identify the most likely causes - then prevent them.',
+    sections: [
+      {
+        heading: 'Project Context',
+        content: `| Field | Entry |
+|---|---|
+| Project / Initiative | |
+| Pre-Mortem Date | |
+| Facilitator | |
+| Participants | |
+| Planned Launch / Delivery Date | |`,
+      },
+      {
+        heading: 'Failure Scenarios',
+        content: `Imagine it is [delivery date + 6 months] and the project has failed completely. List every plausible reason:
+
+| # | Failure Reason | Category (Scope/Schedule/Budget/Quality/Stakeholder/External) | Likelihood (H/M/L) |
+|---|---|---|---|
+| 1 | | | |
+| 2 | | | |
+| 3 | | | |
+| 4 | | | |
+| 5 | | | |`,
+      },
+      {
+        heading: 'Top Risks & Preventive Actions',
+        content: `| Failure Reason | Root Cause | Preventive Action | Owner | By When |
+|---|---|---|---|---|
+| | | | | |
+| | | | | |
+| | | | | |`,
+      },
+      {
+        heading: 'Plan Adjustments',
+        content: `Based on the pre-mortem, list specific changes to the project plan:
+
+1. 
+2. 
+3. 
+
+Review date for these adjustments: ___`,
+      },
+    ],
+  },
+  {
+    cardId: 'A84',
+    title: 'Kano Model Feature Prioritisation',
+    description: 'Classify product features into Must-Haves, Performance, and Delighters to prioritise the backlog by customer value.',
+    sections: [
+      {
+        heading: 'Feature Survey Results',
+        content: `| Feature | Functional (if present, how do you feel?) | Dysfunctional (if absent, how do you feel?) | Category | Priority |
+|---|---|---|---|---|
+| | | | Must-Have / Performance / Delighter / Indifferent | |
+| | | | | |
+| | | | | |`,
+      },
+      {
+        heading: 'Kano Categories Summary',
+        content: `| Category | Features | Rationale |
+|---|---|---|
+| Must-Have (Basic) | | Customers expect these - absence causes dissatisfaction |
+| Performance (Linear) | | More = better; directly drives satisfaction |
+| Delighter (Excitement) | | Unexpected; creates delight when present |
+| Indifferent | | Customers do not care either way |
+| Reverse | | Some customers dislike this feature |`,
+      },
+      {
+        heading: 'Prioritised Backlog',
+        content: `| Priority | Feature | Category | Rationale | Sprint / Release |
+|---|---|---|---|---|
+| 1 | | Must-Have | | |
+| 2 | | Must-Have | | |
+| 3 | | Performance | | |
+| 4 | | Delighter | | |`,
+      },
+    ],
+  },
+  {
+    cardId: 'A85',
+    title: 'User Story Map',
+    description: 'Arrange user stories on a two-axis map to reveal the full product journey and plan coherent release slices.',
+    sections: [
+      {
+        heading: 'User Persona & Journey',
+        content: `| Field | Entry |
+|---|---|
+| Primary Persona | |
+| Persona Goal | |
+| Journey Start | |
+| Journey End | |`,
+      },
+      {
+        heading: 'Story Map Backbone (Activities)',
+        content: `List the high-level user activities in chronological order across the backbone:
+
+| Activity 1 | Activity 2 | Activity 3 | Activity 4 | Activity 5 |
+|---|---|---|---|---|
+| e.g. Sign Up | e.g. Onboard | e.g. Use Core Feature | e.g. Manage Account | e.g. Get Support |`,
+      },
+      {
+        heading: 'User Tasks & Stories',
+        content: `| Activity | Task (Walking Skeleton) | User Story | Priority | Release |
+|---|---|---|---|---|
+| | | As a [user] I want [goal] so that [benefit] | Must / Should / Could | R1 / R2 / R3 |
+| | | | | |
+| | | | | |
+| | | | | |`,
+      },
+      {
+        heading: 'Release Slices',
+        content: `| Release | Stories Included | User Value Delivered | Target Date |
+|---|---|---|---|
+| Release 1 (MVP) | | Minimum viable experience | |
+| Release 2 | | | |
+| Release 3 | | | |`,
       },
     ],
   },

@@ -35,11 +35,11 @@ export default function BottomNav() {
     <nav
       className="fixed bottom-0 left-0 right-0 z-50"
       style={{
-        background: 'rgba(255,255,255,0.96)',
+        background: 'rgba(10,22,40,0.88)',
         backdropFilter: 'blur(24px) saturate(1.5)',
         WebkitBackdropFilter: 'blur(24px) saturate(1.5)',
-        borderTop: '1px solid rgba(0,0,0,0.07)',
-        boxShadow: '0 -1px 0 rgba(255,255,255,0.9) inset, 0 -4px 20px rgba(0,0,0,0.05)',
+        borderTop: '1px solid rgba(255,255,255,0.07)',
+        boxShadow: '0 -4px 24px rgba(0,0,0,0.35)',
       }}
     >
       <div
@@ -67,7 +67,7 @@ export default function BottomNav() {
                 <motion.div
                   layoutId="nav-pill"
                   className="absolute inset-x-1 inset-y-0 rounded-xl"
-                  style={{ backgroundColor: 'rgba(0,0,0,0.055)' }}
+                  style={{ backgroundColor: 'rgba(255,255,255,0.10)' }}
                   transition={{ type: 'spring', stiffness: 500, damping: 40 }}
                 />
               )}
@@ -78,8 +78,8 @@ export default function BottomNav() {
                   size={19}
                   strokeWidth={active ? 2.4 : 1.7}
                   style={{
-                    color: active ? '#1a1a2e' : '#a8a29e',
-                    transition: 'stroke-width 0.15s ease, color 0.15s ease',
+                  color: active ? '#e2e8f0' : 'rgba(148,163,184,0.55)',
+                  transition: 'stroke-width 0.15s ease, color 0.15s ease',
                   }}
                 />
                 {isBookmarkTab && bookmarks.length > 0 && (
@@ -111,7 +111,7 @@ export default function BottomNav() {
                 className="relative z-10 leading-none font-semibold"
                 style={{
                   fontSize: '8px',
-                  color: active ? '#1a1a2e' : '#a8a29e',
+                  color: active ? '#e2e8f0' : 'rgba(148,163,184,0.55)',
                   transition: 'color 0.15s ease',
                 }}
               >
