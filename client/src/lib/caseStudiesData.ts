@@ -2696,7 +2696,7 @@ const CASE_STUDIES: CaseStudy[] = [
     teamSize: `1,200 survey respondents; 8-person analysis team`,
   },
   {
-    cardId: 'people-16',
+    cardId: 'people-15',
     organisation: `Google`,
     industry: `Technology`,
     projectName: `Project Aristotle — Team Effectiveness Research`,

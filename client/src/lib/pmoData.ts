@@ -372,7 +372,7 @@ export const CARDS: PMOCard[] = [
     ],
     proTip: 'While PRINCE2 provides a rigid framework, remember to tailor the methodology to suit the specific needs and complexity of your project. Not every process or document needs to be applied with the same rigor for every project. Focus on the principles and adapt the themes and processes to achieve optimal control without unnecessary bureaucracy.',
     example: 'A large pharmaceutical company is developing a new drug and needs to manage the clinical trial phase. They adopt PRINCE2 to ensure strict regulatory compliance, clear accountability across research teams, and phased delivery of trial results. The methodology helps manage the complex interdependencies, track progress against the business case, and maintain rigorous documentation for audit purposes.',
-    relatedCards: ['M5', 'T1', 'P01', 'phase-execution'],
+    relatedCards: ['M5', 'T1', 'people-1', 'phase-execution'],
     tags: ['methodology', 'structured', 'governance', 'UK'],
   },
 
@@ -717,7 +717,7 @@ export const CARDS: PMOCard[] = [
   },
   {
     id: 'people-15',
-    code: 'people-15',
+    code: 'P15',
     title: 'Psychological Safety',
     deckId: 'people',
     type: 'domain-task',
@@ -732,7 +732,7 @@ export const CARDS: PMOCard[] = [
     ],
     proTip: 'Leaders must consistently demonstrate vulnerability and actively listen to foster psychological safety. It\'s not enough to say it\'s safe; actions must reinforce that speaking up, even with bad news or unpopular opinions, is valued and protected.',
     example: 'In an agile software development project, a junior developer discovers a critical bug in a module developed by a senior team member. Instead of silently trying to fix it or fearing repercussions, the junior developer immediately raises the issue in the daily stand-up, explaining the potential impact. The project manager and senior developer thank them for their vigilance, and the team collaboratively works to resolve the bug, preventing a major release delay.',
-    relatedCards: ['P01', 'P02'],
+    relatedCards: ['people-1', 'people-2', 'people-14', 'people-17', 'A42', 'A60'],
     tags: ['teamwork', 'culture', 'leadership', 'communication'],
   },
   {
@@ -1175,7 +1175,7 @@ export const CARDS: PMOCard[] = [
     ],
     proTip: 'PESTLE is most powerful when combined with a SWOT Analysis (A32) — PESTLE identifies external factors, while SWOT maps them against internal strengths and weaknesses to produce actionable strategic insights.',
     example: 'A pharmaceutical company planning to launch a new drug in three emerging markets uses PESTLE to assess each country. The Political scan reveals upcoming elections in one market that may delay regulatory approvals. The Economic scan identifies currency volatility risk. The Legal scan uncovers differing data-privacy requirements for clinical trial data. These findings reshape the launch sequencing and risk register before a single resource is committed.',
-    relatedCards: ['A32', 'T6', 'BE01', 'BE03', 'A27', 'PR03'],
+    relatedCards: ['A32', 'T6', 'A33', 'A27', 'process-3', 'A34'],
     tags: ['strategy', 'environment', 'risk', 'planning', 'macro', 'analysis'],
   },
 
@@ -3326,7 +3326,7 @@ export const CARDS: PMOCard[] = [
 
   {
     id: 'people-16',
-    code: 'PD15',
+    code: 'P16',
     title: 'Stakeholder Performance Domain',
     deckId: 'people',
     type: 'technique',
@@ -3348,7 +3348,7 @@ export const CARDS: PMOCard[] = [
 
   {
     id: 'people-17',
-    code: 'PD16',
+    code: 'P17',
     title: 'Team Performance Domain',
     deckId: 'people',
     type: 'technique',
@@ -3386,13 +3386,13 @@ export const CARDS: PMOCard[] = [
     ],
     proTip: 'Use the Stacey Matrix to plot your project on two axes: requirements clarity and technical certainty. Projects in the complex or chaotic zones almost always benefit from agile or adaptive approaches, regardless of organisational preference.',
     example: 'A financial services firm is running two simultaneous projects: a regulatory reporting system (clear requirements, fixed deadline, audit trail required) and a new customer onboarding experience (unclear user needs, competitive pressure to iterate). The PMO assigns waterfall to the first and Scrum to the second, rather than forcing both into the same methodology.',
-    relatedCards: ['M1', 'M2', 'M4', 'process-13', 'A89'],
+    relatedCards: ['M1', 'M2', 'M4', 'process-13', 'A86'],
     tags: ['PMBOK 7', 'Methodology', 'Lifecycle', 'Planning'],
   },
 
   {
     id: 'process-18',
-    code: 'PRC18',
+    code: 'PR18',
     title: 'Planning Performance Domain',
     deckId: 'process',
     type: 'technique',
@@ -3414,7 +3414,7 @@ export const CARDS: PMOCard[] = [
 
   {
     id: 'process-19',
-    code: 'PRC19',
+    code: 'PR19',
     title: 'Delivery Performance Domain',
     deckId: 'process',
     type: 'technique',
@@ -3430,13 +3430,13 @@ export const CARDS: PMOCard[] = [
     ],
     proTip: 'Replace your weekly status report with a value delivery dashboard showing three metrics: features delivered vs planned, customer satisfaction score, and defect escape rate. These three numbers tell the real story of project health.',
     example: 'An e-commerce platform team shifts from measuring sprint velocity (story points completed) to measuring business value delivered (revenue-generating features live, conversion rate improvement). In three months, they reduce their backlog by 40% by eliminating low-value features that were consuming velocity without delivering business outcomes.',
-    relatedCards: ['process-7', 'process-8', 'A14', 'A91'],
+    relatedCards: ['process-7', 'process-8', 'A14', 'A47'],
     tags: ['PMBOK 7', 'Delivery', 'Quality', 'Value'],
   },
 
   {
     id: 'process-20',
-    code: 'PRC20',
+    code: 'PR20',
     title: 'Measurement Performance Domain',
     deckId: 'process',
     type: 'technique',
@@ -3452,13 +3452,13 @@ export const CARDS: PMOCard[] = [
     ],
     proTip: 'Limit your core project dashboard to five metrics. More than five and people stop reading it. Choose one metric each for: schedule health, budget health, quality, stakeholder satisfaction, and team wellbeing.',
     example: 'A construction project reports green on schedule and budget for six months, then suddenly requests a three-month extension. A post-mortem reveals that the weekly status report tracked 47 metrics but none measured subcontractor delivery risk. The PMO redesigns the dashboard to include a subcontractor performance index as a leading indicator.',
-    relatedCards: ['T3', 'process-5', 'A14', 'A92'],
+    relatedCards: ['T3', 'process-5', 'A14', 'A23'],
     tags: ['PMBOK 7', 'Metrics', 'Performance', 'Data'],
   },
 
   {
     id: 'process-21',
-    code: 'PRC21',
+    code: 'PR21',
     title: 'Uncertainty Performance Domain',
     deckId: 'process',
     type: 'technique',
@@ -3518,13 +3518,13 @@ export const CARDS: PMOCard[] = [
     ],
     proTip: 'Start with a minimal DoD (3-5 criteria) and grow it over time. A DoD that is too ambitious at the start becomes a source of frustration rather than quality. Add one new criterion per retrospective as the team builds the habit.',
     example: 'A fintech startup\'s initial DoD has four items: code reviewed by a peer, unit tests written and passing, feature tested in staging, and product owner sign-off. After six sprints, they add: security scan passed, performance benchmark met, and rollback procedure documented. Their production incident rate drops by 60% over the following quarter.',
-    relatedCards: ['M5', 'A94', 'A82', 'process-8'],
+    relatedCards: ['M5', 'A85', 'A82', 'process-8'],
     tags: ['Agile', 'Scrum', 'Quality', 'Definition of Done'],
   },
 
   {
     id: 'people-18',
-    code: 'PD17',
+    code: 'P18',
     title: 'Servant Leadership',
     deckId: 'people',
     type: 'technique',
@@ -3540,7 +3540,7 @@ export const CARDS: PMOCard[] = [
     ],
     proTip: 'Track your impediment resolution time. If blockers are sitting unresolved for more than three days, you are not serving your team effectively. Make impediment removal your first task each morning before any other work.',
     example: 'A senior PM joins a struggling agile team that has missed three consecutive sprint goals. Rather than imposing a recovery plan, she spends the first week in listening mode: one-on-ones with each team member, attending standups without speaking, and reviewing the impediment log. She identifies that two engineers are blocked by an unresponsive external vendor. She escalates to the vendor\'s account manager and resolves the blocker in 48 hours. The next sprint is the team\'s first successful one in two months.',
-    relatedCards: ['people-2', 'people-4', 'A96', 'A88'],
+    relatedCards: ['people-2', 'people-4', 'A12', 'A42'],
     tags: ['PMBOK 7', 'Agile', 'Leadership', 'Servant Leadership'],
   },
 
@@ -3562,7 +3562,7 @@ export const CARDS: PMOCard[] = [
     ],
     proTip: 'Measure your deployment frequency and lead time for changes (time from code commit to production). These are two of the four DORA metrics that best predict software delivery performance. If you are deploying less than once per week, CI/CD is your highest-leverage improvement.',
     example: 'A retail company\'s engineering team is deploying to production once per month, with each release requiring a two-day manual testing and deployment weekend. After implementing CI/CD over three months, they deploy 15-20 times per day with zero manual intervention. The monthly deployment weekend is eliminated, and production incidents drop by 45% due to smaller, safer releases.',
-    relatedCards: ['M5', 'M2', 'A94', 'A95'],
+    relatedCards: ['M5', 'M2', 'A85', 'A86'],
     tags: ['Agile', 'Engineering', 'DevOps', 'Automation'],
   },
 ];

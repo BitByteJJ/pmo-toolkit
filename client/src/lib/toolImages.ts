@@ -127,7 +127,7 @@ export const CARD_ILLUSTRATIONS: Record<string, string> = {
   "people-12": "https://files.manuscdn.com/user_upload_by_module/session_file/310419663029097403/SDjIYKBWISiluIau.png",
   "people-13": "https://files.manuscdn.com/user_upload_by_module/session_file/310419663029097403/VrkDJiVsAuuSTNGY.png",
   "people-14": "https://files.manuscdn.com/user_upload_by_module/session_file/310419663029097403/QRWJpbxhyAgFOjkh.png",
-  "P15": "https://files.manuscdn.com/user_upload_by_module/session_file/310419663029097403/igrUBXUYbBOWGXRJ.png",
+  "people-15": "https://files.manuscdn.com/user_upload_by_module/session_file/310419663029097403/igrUBXUYbBOWGXRJ.png",
   "people-2": "https://files.manuscdn.com/user_upload_by_module/session_file/310419663029097403/mmxNQffPFaSeXaAb.png",
   "people-3": "https://files.manuscdn.com/user_upload_by_module/session_file/310419663029097403/nAYIFTILitTaGqkI.png",
   "people-4": "https://files.manuscdn.com/user_upload_by_module/session_file/310419663029097403/vmAoLEkyGpwPiGym.png",

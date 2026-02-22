@@ -796,6 +796,43 @@ const peopleTemplates: CardTemplate[] = [
     ],
   },
   {
+    cardId: 'people-15',
+    title: 'Psychological Safety Assessment & Action Plan',
+    description: "Measure your team's current psychological safety level and create a targeted action plan to improve it.",
+    sections: [
+      {
+        heading: 'Psychological Safety Survey (Team Self-Assessment)',
+        content: `Rate each statement 1 (Strongly Disagree) to 5 (Strongly Agree). Complete anonymously for honest results.
+| Statement | Score (1–5) |
+|---|---|
+| If I make a mistake, it is not held against me | |
+| I can raise concerns without fear of negative consequences | |
+| Team members value my unique skills and contributions | |
+| It is safe to take risks on this team | |
+| I can ask for help without feeling judged | |
+| No one on this team would deliberately undermine my efforts | |
+| I feel comfortable disagreeing with the project manager | |
+| **Average Score** | |`,
+      },
+      {
+        heading: 'Psychological Safety Level Interpretation',
+        content: `| Average Score | Level | Recommended Action |
+|---|---|---|
+| 4.5 – 5.0 | Exemplary | Maintain and share practices with other teams |
+| 3.5 – 4.4 | Strong | Targeted reinforcement in lowest-scoring areas |
+| 2.5 – 3.4 | Developing | Structured intervention programme required |
+| 1.0 – 2.4 | At Risk | Immediate leadership coaching and team reset |`,
+      },
+      {
+        heading: 'Action Plan',
+        content: `| Area for Improvement | Specific Action | Owner | Timeline | Success Measure |
+|---|---|---|---|---|
+| | | | | |
+| | | | | |`,
+      },
+    ],
+  },
+  {
     cardId: 'people-16',
     title: 'Stakeholder Performance Domain Tracker',
     description: 'Track stakeholder engagement across the PMBOK 7 Stakeholder Performance Domain.',
