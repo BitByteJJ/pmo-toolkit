@@ -114,3 +114,6 @@
 
 ## PDF Page Break Fix
 - [x] Re-engineer PDF export to keep all text within page limits with proper pagination
+
+## Bug Fixes
+- [x] Fix process-3 / PR03 (Assess & Manage Risks): added A47 (TOC) to relatedCards so the link chip now appears

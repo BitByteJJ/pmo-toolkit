@@ -691,7 +691,7 @@ export const CARDS: PMOCard[] = [
     ],
     proTip: 'Involve cross-functional experts to uncover hidden risks. Use TOC (A47) if resources are the main risk driver.',
     example: 'The Risk Register (T6) for the insulin pen launch identifies 3 critical risks: regulatory rejection (High/High), supplier delay (Medium/High), and label printing error (Low/High). Monte Carlo (T9) simulation shows a 35% chance of a 2-week delay — a buffer is added to the plan.',
-    relatedCards: ['T6', 'T9', 'A14', 'A21', 'A57'],
+    relatedCards: ['T6', 'T9', 'A14', 'A21', 'A47', 'A57'],
     tags: ['risk', 'register', 'mitigation', 'Monte Carlo', 'contingency'],
   },
   {
