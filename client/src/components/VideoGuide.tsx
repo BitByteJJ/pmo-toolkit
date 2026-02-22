@@ -470,6 +470,20 @@ interface VideoGuideProps {
   data: VideoGuideData;
 }
 
+// Ava's name and daily greeting — shown once per calendar day
+const AVA_NAME = 'Ava';
+const AVA_GREETING_KEY = 'ava-greeting-date';
+
+function getAvaGreeting(): string | null {
+  const today = new Date().toDateString();
+  const lastSeen = localStorage.getItem(AVA_GREETING_KEY);
+  if (lastSeen === today) return null; // already greeted today
+  localStorage.setItem(AVA_GREETING_KEY, today);
+  const hour = new Date().getHours();
+  const timeOfDay = hour < 12 ? 'morning' : hour < 17 ? 'afternoon' : 'evening';
+  return `Hi, good ${timeOfDay}. I'm ${AVA_NAME}, your learning guide. Let's dive in.`;
+}
+
 export function VideoGuide({ data }: VideoGuideProps) {
   const { scenes, deckColor, deckBgColor, cardTitle } = data;
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -531,6 +545,19 @@ export function VideoGuide({ data }: VideoGuideProps) {
   const handlePlay = () => {
     setHasStarted(true);
     setIsPlaying(true);
+
+    // Ava greets the user once per day before the first scene
+    if (!isMuted && supported && currentIndex === 0) {
+      const greeting = getAvaGreeting();
+      if (greeting) {
+        speak(greeting, () => {
+          // After greeting, play the first scene normally
+          playScene(0, isMuted);
+        });
+        return;
+      }
+    }
+
     playScene(currentIndex, isMuted);
   };
 

@@ -2,18 +2,40 @@ import type { Request, Response } from 'express';
 
 const GOOGLE_TTS_URL = 'https://texttospeech.googleapis.com/v1/text:synthesize';
 
-/// Journey-F — Google's most natural, conversational voice (designed for long-form content)
+// Ava — Journey-O is Google's warmest, most conversational voice
+// Designed specifically for long-form, friendly narration
 const VOICE_CONFIG = {
   languageCode: 'en-US',
-  name: 'en-US-Journey-F', // Warm, natural, encouraging — ideal for explainer narration
+  name: 'en-US-Journey-O', // Warmest Journey voice — friendly, encouraging, natural
   ssmlGender: 'FEMALE',
 };
-// Fallback: Neural2-F if Journey quota is exceeded
+
+// Fallback: Journey-F if Journey-O quota is exceeded
 const FALLBACK_VOICE = {
   languageCode: 'en-US',
-  name: 'en-US-Neural2-F',
+  name: 'en-US-Journey-F',
   ssmlGender: 'FEMALE',
 };
+
+/**
+ * Soften punctuation so Ava sounds more conversational and less staccato.
+ * - Replace em-dashes and colons with commas (softer pause)
+ * - Replace multiple exclamation marks with a single one
+ * - Remove parenthetical asides that cause unnatural pauses
+ * - Replace semicolons with commas
+ * - Soften ellipses to a single comma pause
+ */
+function softenPunctuation(text: string): string {
+  return text
+    .replace(/\s*—\s*/g, ', ')           // em-dash → comma
+    .replace(/\s*:\s+/g, ', ')            // colon → comma (mid-sentence)
+    .replace(/;/g, ',')                   // semicolons → commas
+    .replace(/\.\.\./g, ',')              // ellipsis → comma
+    .replace(/!{2,}/g, '!')              // multiple ! → single
+    .replace(/\(([^)]{1,60})\)/g, ', $1,') // short parentheticals → inline with commas
+    .replace(/\s{2,}/g, ' ')             // collapse extra spaces
+    .trim();
+}
 
 export async function handleGoogleTts(req: Request, res: Response): Promise<void> {
   try {
@@ -66,16 +88,16 @@ export async function handleGoogleTts(req: Request, res: Response): Promise<void
       }
     };
 
-    // Limit text length to avoid excessive API costs
-    const truncated = text.slice(0, 4000);
+    // Soften punctuation and limit length
+    const processed = softenPunctuation(text.slice(0, 4000));
 
     const requestBody = {
-      input: { text: truncated },
+      input: { text: processed },
       voice: VOICE_CONFIG,
       audioConfig: {
         audioEncoding: 'MP3',
-        speakingRate: 1.0,    // Natural pace — Journey voice handles rhythm itself
-        pitch: 0.0,           // No pitch adjustment — Journey voice is naturally warm
+        speakingRate: 1.0,    // Natural pace — Journey-O handles its own rhythm
+        pitch: 0.0,           // No pitch shift — Journey-O is naturally warm
         volumeGainDb: 1.5,    // Slightly louder for clarity
         effectsProfileId: ['headphone-class-device'],
       },
@@ -87,10 +109,10 @@ export async function handleGoogleTts(req: Request, res: Response): Promise<void
       body: JSON.stringify(requestBody),
     });
 
-    // If Neural2 fails (quota/billing), retry with WaveNet
+    // Fallback to Journey-F if Journey-O quota is exceeded
     if (!response.ok) {
       const errText = await response.text();
-      console.warn('[TTS] Neural2 failed, trying WaveNet fallback:', errText.slice(0, 200));
+      console.warn('[TTS] Journey-O failed, trying Journey-F fallback:', errText.slice(0, 200));
 
       const fallbackBody = { ...requestBody, voice: FALLBACK_VOICE };
       response = await fetch(`${GOOGLE_TTS_URL}?key=${apiKey}`, {

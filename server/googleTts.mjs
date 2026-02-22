@@ -2,15 +2,18 @@
 var GOOGLE_TTS_URL = "https://texttospeech.googleapis.com/v1/text:synthesize";
 var VOICE_CONFIG = {
   languageCode: "en-US",
-  name: "en-US-Journey-F",
-  // Warm, natural, encouraging — ideal for explainer narration
+  name: "en-US-Journey-O",
+  // Warmest Journey voice — friendly, encouraging, natural
   ssmlGender: "FEMALE"
 };
 var FALLBACK_VOICE = {
   languageCode: "en-US",
-  name: "en-US-Neural2-F",
+  name: "en-US-Journey-F",
   ssmlGender: "FEMALE"
 };
+function softenPunctuation(text) {
+  return text.replace(/\s*—\s*/g, ", ").replace(/\s*:\s+/g, ", ").replace(/;/g, ",").replace(/\.\.\./g, ",").replace(/!{2,}/g, "!").replace(/\(([^)]{1,60})\)/g, ", $1,").replace(/\s{2,}/g, " ").trim();
+}
 async function handleGoogleTts(req, res) {
   try {
     const apiKey = process.env.GOOGLE_TTS_API_KEY;
@@ -59,16 +62,16 @@ async function handleGoogleTts(req, res) {
         res.status(code).json(data2);
       }
     };
-    const truncated = text.slice(0, 4e3);
+    const processed = softenPunctuation(text.slice(0, 4e3));
     const requestBody = {
-      input: { text: truncated },
+      input: { text: processed },
       voice: VOICE_CONFIG,
       audioConfig: {
         audioEncoding: "MP3",
         speakingRate: 1,
-        // Natural pace — Journey voice handles rhythm itself
+        // Natural pace — Journey-O handles its own rhythm
         pitch: 0,
-        // No pitch adjustment — Journey voice is naturally warm
+        // No pitch shift — Journey-O is naturally warm
         volumeGainDb: 1.5,
         // Slightly louder for clarity
         effectsProfileId: ["headphone-class-device"]
@@ -81,7 +84,7 @@ async function handleGoogleTts(req, res) {
     });
     if (!response.ok) {
       const errText = await response.text();
-      console.warn("[TTS] Neural2 failed, trying WaveNet fallback:", errText.slice(0, 200));
+      console.warn("[TTS] Journey-O failed, trying Journey-F fallback:", errText.slice(0, 200));
       const fallbackBody = { ...requestBody, voice: FALLBACK_VOICE };
       response = await fetch(`${GOOGLE_TTS_URL}?key=${apiKey}`, {
         method: "POST",
