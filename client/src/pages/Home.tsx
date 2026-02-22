@@ -5,7 +5,7 @@
 
 import { useLocation } from 'wouter';
 import { motion } from 'framer-motion';
-import { Layers, Zap, BookOpen, Search, ArrowRight, Map, Heart, Flame, Compass, Sparkles } from 'lucide-react';
+import { Layers, Zap, BookOpen, Search, ArrowRight, Map, Heart, Flame, Compass, Sparkles, Route } from 'lucide-react';
 import BottomNav from '@/components/BottomNav';
 import { DECKS, CARDS, getCardsByDeck } from '@/lib/pmoData';
 import { useBookmarks } from '@/contexts/BookmarksContext';
@@ -544,6 +544,30 @@ export default function Home() {
           <div className="flex-1 text-left">
             <p className="text-sm font-bold text-white leading-tight">AI Tool Finder</p>
             <p className="text-[11px] text-white/70 mt-0.5">Describe your challenge — get personalised tool recommendations</p>
+          </div>
+          <ArrowRight size={14} className="text-white/60 shrink-0" />
+        </motion.button>
+
+        {/* Learning Roadmap CTA */}
+        <motion.button
+          initial={{ opacity: 0, y: 8 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.35, delay: 0.19 }}
+          onClick={() => navigate('/roadmap')}
+          className="w-full flex items-center gap-3 rounded-2xl px-4 py-3 text-left"
+          style={{
+            background: 'linear-gradient(135deg, #065F46 0%, #059669 100%)',
+            boxShadow: '0 4px 16px rgba(5,150,105,0.28)',
+          }}
+          whileHover={{ scale: 1.01 }}
+          whileTap={{ scale: 0.98 }}
+        >
+          <div className="w-8 h-8 rounded-xl bg-white/20 flex items-center justify-center shrink-0">
+            <Route size={15} className="text-white" />
+          </div>
+          <div className="flex-1 text-left">
+            <p className="text-sm font-bold text-white leading-tight">Learning Roadmap</p>
+            <p className="text-[11px] text-white/70 mt-0.5">Curated paths for Beginner, Intermediate &amp; Advanced PMs</p>
           </div>
           <ArrowRight size={14} className="text-white/60 shrink-0" />
         </motion.button>

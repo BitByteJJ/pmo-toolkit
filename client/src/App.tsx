@@ -20,6 +20,7 @@ import LessonPage from './pages/LessonPage';
 import EarnHeartPage from './pages/EarnHeartPage';
 import DecisionHelper from './pages/DecisionHelper';
 import AiSuggest from './pages/AiSuggest';
+import LearningRoadmap from './pages/LearningRoadmap';
 import QuizPage from './pages/QuizPage';
 import CaseStudiesPage from './pages/CaseStudiesPage';
 import GlossaryPage from './pages/GlossaryPage';
@@ -90,6 +91,7 @@ function Router() {
         <Route path="/journey/earn-heart" component={EarnHeartPage} />
         <Route path="/decision" component={DecisionHelper} />
         <Route path="/ai-suggest" component={AiSuggest} />
+        <Route path="/roadmap" component={LearningRoadmap} />
         <Route path="/quiz/:deckId" component={QuizPage} />
         <Route path="/case-studies" component={CaseStudiesPage} />
         <Route path="/glossary" component={GlossaryPage} />

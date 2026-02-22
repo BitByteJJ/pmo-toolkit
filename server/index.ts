@@ -3,6 +3,8 @@ import { createServer } from "http";
 import path from "path";
 import { fileURLToPath } from "url";
 import { handleAiSuggest } from "./aiSuggest.js";
+import { handleAiDeepDive } from "./aiDeepDive.js";
+import { handleAiVideoScript } from "./aiVideoScript.js";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -17,6 +19,26 @@ async function startServer() {
       // Inject the already-parsed body so handleAiSuggest doesn't need to re-read the stream
       (req as any)._parsedBody = req.body;
       await handleAiSuggest(req as any, res as any);
+    } catch (e) {
+      next(e);
+    }
+  });
+
+  // AI Deep Dive endpoint
+  app.post('/api/ai-deep-dive', express.json(), async (req, res, next) => {
+    try {
+      (req as any)._parsedBody = req.body;
+      await handleAiDeepDive(req as any, res as any);
+    } catch (e) {
+      next(e);
+    }
+  });
+
+  // AI Video Script endpoint
+  app.post('/api/ai-video-script', express.json(), async (req, res, next) => {
+    try {
+      (req as any)._parsedBody = req.body;
+      await handleAiVideoScript(req as any, res as any);
     } catch (e) {
       next(e);
     }

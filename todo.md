@@ -136,3 +136,18 @@
 - [x] AI tab added to BottomNav (Sparkles icon)
 - [x] AI Tool Finder CTA banner added to Home page (indigo gradient)
 - [x] 6 vitest unit tests for enrichRecommendations logic and CARD_CATALOGUE structure (all passing)
+
+## Deep Dive Card Sections
+- [x] Add AI endpoint for generating Deep Dive content per card (Core Concept, How It Works, Real-World Example, Common Mistakes, When NOT to Use)
+- [x] Add Deep Dive tab to CardDetail page with accordion sections
+- [x] Cache generated content in localStorage per card
+
+## Video Script Generator
+- [x] Add AI endpoint for generating video scripts per card (human tone, ~2 min)
+- [x] Add Script tab to CardDetail page with copy button
+- [x] Cache generated scripts in localStorage per card
+
+## Learning Journey Roadmap
+- [x] Design journey data for Beginner / Intermediate / Advanced paths (~10 cards each)
+- [x] Build visual roadmap page with experience level selector
+- [x] Wire roadmap into navigation

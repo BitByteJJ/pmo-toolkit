@@ -2,7 +2,7 @@
 // Design: "Clarity Cards" — clean floating tab bar with active state indicators
 
 import { useLocation } from 'wouter';
-import { Home, LayoutGrid, Search, Bookmark, Map, BookOpen, BookMarked, Sparkles } from 'lucide-react';
+import { Home, LayoutGrid, Search, Bookmark, Map, BookOpen, BookMarked, Sparkles, Route } from 'lucide-react';
 import { useBookmarks } from '@/contexts/BookmarksContext';
 import { useJourney, MAX_HEARTS } from '@/contexts/JourneyContext';
 import { Heart } from 'lucide-react';
@@ -11,6 +11,7 @@ const tabs = [
   { path: '/', icon: Home, label: 'Home' },
   { path: '/decks', icon: LayoutGrid, label: 'Decks' },
   { path: '/ai-suggest', icon: Sparkles, label: 'AI' },
+  { path: '/roadmap', icon: Route, label: 'Roadmap' },
   { path: '/journey', icon: Map, label: 'Journey' },
   { path: '/case-studies', icon: BookOpen, label: 'Cases' },
   { path: '/glossary', icon: BookMarked, label: 'Glossary' },

@@ -114,6 +114,34 @@ function vitePluginManusDebugCollector(): Plugin {
         }
       });
 
+      // POST /api/ai-deep-dive — AI deep dive content generator
+      server.middlewares.use("/api/ai-deep-dive", async (req: any, res: any, next: any) => {
+        if (req.method !== 'POST') return next();
+        try {
+          const mjsPath = path.resolve(PROJECT_ROOT, 'server', 'aiDeepDive.js');
+          const { handleAiDeepDive } = await import(/* @vite-ignore */ `${mjsPath}?t=${Date.now()}`);
+          await handleAiDeepDive(req, res);
+        } catch (e) {
+          console.error('[Vite AI Deep Dive]', e);
+          res.writeHead(500, { 'Content-Type': 'application/json' });
+          res.end(JSON.stringify({ error: String(e) }));
+        }
+      });
+
+      // POST /api/ai-video-script — AI video script generator
+      server.middlewares.use("/api/ai-video-script", async (req: any, res: any, next: any) => {
+        if (req.method !== 'POST') return next();
+        try {
+          const mjsPath = path.resolve(PROJECT_ROOT, 'server', 'aiVideoScript.js');
+          const { handleAiVideoScript } = await import(/* @vite-ignore */ `${mjsPath}?t=${Date.now()}`);
+          await handleAiVideoScript(req, res);
+        } catch (e) {
+          console.error('[Vite AI Video Script]', e);
+          res.writeHead(500, { 'Content-Type': 'application/json' });
+          res.end(JSON.stringify({ error: String(e) }));
+        }
+      });
+
       // GET /api/image-proxy?url=... — proxy CDN images to avoid CORS issues for PDF export
       server.middlewares.use("/api/image-proxy", async (req, res, next) => {
         if (req.method !== "GET") return next();
