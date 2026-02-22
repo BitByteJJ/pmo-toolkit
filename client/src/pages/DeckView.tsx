@@ -42,12 +42,11 @@ function TitleCard({
         borderRadius: '20px',
         boxShadow: '0 12px 40px rgba(0,0,0,0.15), 0 4px 12px rgba(0,0,0,0.08)',
         border: `3px solid ${deck.color}`,
-        minHeight: '380px',
         backgroundColor: '#ffffff',
       }}
     >
       {/* ── Text content on top ── */}
-      <div className="relative z-10 px-6 pt-10 pb-4 text-center">
+      <div className="relative z-10 px-6 pt-5 pb-3 text-center">
         <p className="text-sm font-bold uppercase tracking-widest mb-3" style={{ color: deck.color }}>
           {deck.subtitle}
         </p>
@@ -63,32 +62,23 @@ function TitleCard({
       </div>
 
       {/* ── Illustration below text with fade ── */}
-      <div className="relative" style={{ minHeight: '220px' }}>
-        {/* Top fade gradient — blends illustration into the white text area */}
+      <div className="relative" style={{ backgroundColor: deck.bgColor }}>
+        {/* Top fade gradient — blends illustration into the white text area above */}
         <div
           className="absolute inset-x-0 top-0 z-10 pointer-events-none"
           style={{
-            height: '80px',
-            background: 'linear-gradient(to bottom, #ffffff 0%, rgba(255,255,255,0.6) 50%, transparent 100%)',
+            height: '40px',
+            background: `linear-gradient(to bottom, #ffffff 0%, ${deck.bgColor} 100%)`,
           }}
         />
         <img
           src={intro.coverImage}
           alt={deck.title}
-          className="w-full h-full object-cover"
+          className="w-full block"
           style={{
-            objectPosition: 'center top',
-            opacity: 0.55,
-            mixBlendMode: 'multiply',
-            minHeight: '220px',
-          }}
-        />
-        {/* Bottom subtle tint */}
-        <div
-          className="absolute inset-x-0 bottom-0 pointer-events-none"
-          style={{
-            height: '60px',
-            background: `linear-gradient(to top, ${deck.bgColor}90, transparent)`,
+            height: '160px',
+            objectFit: 'cover',
+            objectPosition: 'center 30%',
           }}
         />
       </div>
