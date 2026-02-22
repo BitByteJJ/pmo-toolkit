@@ -4,7 +4,7 @@
 
 import { useLocation } from 'wouter';
 import { motion } from 'framer-motion';
-import { Layers, Zap, BookOpen, Search, ArrowRight, Map, Heart, Flame, Compass, Sparkles, Route, Bookmark } from 'lucide-react';
+import { Layers, Zap, BookOpen, Search, ArrowRight, Map, Heart, Flame, Compass, Sparkles, Route, Bookmark, LayoutGrid, BookMarked } from 'lucide-react';
 import BottomNav from '@/components/BottomNav';
 import { DECKS, CARDS, getCardsByDeck } from '@/lib/pmoData';
 import { useBookmarks } from '@/contexts/BookmarksContext';
@@ -71,28 +71,32 @@ function PhysicalDeckCard({ deck, index }: { deck: typeof DECKS[0]; index: numbe
           boxShadow: `0 6px 20px ${deck.color}28, 0 2px 8px rgba(0,0,0,0.07), 0 0 0 1px ${deck.color}18`,
         }}
       >
-        {/* ── DESKTOP: full-bleed illustration ── */}
-        <div className="hidden lg:flex flex-col h-full relative" style={{ minHeight: '360px' }}>
+        {/* ── Vertical layout — same on all screen sizes ── */}
+        <div className="flex flex-col h-full relative" style={{ minHeight: '280px' }}>
+          {/* Full-bleed illustration */}
           {coverImg && (
             <div className="absolute inset-0">
-              <img src={coverImg} alt="" aria-hidden="true" className="w-full h-full object-cover" style={{ objectPosition: 'center center', opacity: 0.95 }} />
+              <img src={coverImg} alt="" aria-hidden="true" className="w-full h-full object-cover" style={{ objectPosition: 'center top', opacity: 0.95 }} />
             </div>
           )}
-          <div className="absolute inset-0" style={{ background: `linear-gradient(to bottom, transparent 28%, ${deck.bgColor}CC 60%, ${deck.bgColor}F8 80%, ${deck.bgColor} 100%)` }} />
+          {/* Gradient overlay — strong at bottom for text legibility */}
+          <div className="absolute inset-0" style={{ background: `linear-gradient(to bottom, transparent 25%, ${deck.bgColor}CC 58%, ${deck.bgColor}F8 78%, ${deck.bgColor} 100%)` }} />
 
-          {/* Card count */}
+          {/* Card count badge */}
           <div className="absolute top-3 right-3 z-10">
             <div className="flex items-center gap-1 px-2 py-0.5 rounded-full text-white text-[10px] font-bold" style={{ backgroundColor: deck.color }}>
               <span>{cards.length}</span>
               <span className="opacity-80">cards</span>
             </div>
           </div>
+          {/* Completion badge */}
           {isComplete && (
             <div className="absolute top-3 left-3 z-10">
               <span className="w-6 h-6 rounded-full flex items-center justify-center text-[10px] font-bold text-white" style={{ backgroundColor: deck.color }}>✓</span>
             </div>
           )}
 
+          {/* Text overlay at bottom */}
           <div className="relative mt-auto px-4 pb-4 pt-2 z-10">
             <span className="text-[9px] font-mono font-bold px-1.5 py-0.5 rounded-md inline-block mb-1.5" style={{ backgroundColor: deck.color + '30', color: deck.textColor }}>
               {deck.subtitle}
@@ -117,60 +121,8 @@ function PhysicalDeckCard({ deck, index }: { deck: typeof DECKS[0]; index: numbe
               </div>
             </div>
           </div>
+          {/* Bottom accent bar */}
           <div className="h-1 w-full shrink-0 relative z-10" style={{ backgroundColor: deck.color }} />
-        </div>
-
-        {/* ── MOBILE: horizontal layout ── */}
-        <div className="lg:hidden flex flex-col h-full">
-          <div className="absolute inset-0" style={{ backgroundColor: deck.bgColor }} />
-          {coverImg && (
-            <div className="absolute inset-0 overflow-hidden pointer-events-none" style={{ zIndex: 1 }}>
-              <img src={coverImg} alt="" aria-hidden="true" className="absolute" style={{ right: '-8px', top: '50%', transform: 'translateY(-50%)', height: '130%', width: 'auto', maxWidth: '55%', objectFit: 'contain', mixBlendMode: 'multiply', opacity: 0.88 }} />
-              <div className="absolute inset-0" style={{ background: `linear-gradient(to right, ${deck.bgColor} 38%, ${deck.bgColor}CC 58%, transparent 85%)` }} />
-            </div>
-          )}
-          <div className="relative flex flex-col flex-1 px-4 pb-4 pt-3" style={{ zIndex: 2 }}>
-            <div className="flex items-center justify-between mb-2">
-              <div className="w-8 h-8 rounded-xl flex items-center justify-center text-lg shrink-0 relative" style={{ backgroundColor: deck.color + '22' }}>
-                {deck.icon}
-                {isComplete && (
-                  <span className="absolute -top-1 -right-1 w-4 h-4 rounded-full flex items-center justify-center text-[8px]" style={{ backgroundColor: deck.color, color: '#fff' }}>✓</span>
-                )}
-              </div>
-              <div className="flex items-center gap-1 px-2 py-0.5 rounded-full text-white text-[10px] font-bold" style={{ backgroundColor: deck.color }}>
-                <span>{cards.length}</span>
-                <span className="opacity-75">cards</span>
-              </div>
-            </div>
-            <div className="mb-1">
-              <span className="text-[9px] font-mono font-bold px-1.5 py-0.5 rounded-md" style={{ backgroundColor: deck.color + '20', color: deck.textColor, opacity: 0.7 }}>{deck.subtitle}</span>
-            </div>
-            <h3 className="text-base font-bold leading-tight mb-1" style={{ fontFamily: 'Sora, sans-serif', color: deck.textColor }}>{deck.title}</h3>
-            <p className="text-[11px] leading-relaxed line-clamp-2 mb-3 flex-1" style={{ color: deck.textColor, opacity: 0.65, maxWidth: '62%' }}>{deck.description}</p>
-            {readCount > 0 && (
-              <div className="mb-3">
-                <div className="flex items-center justify-between mb-1">
-                  <span className="text-[9px] font-semibold" style={{ color: deck.textColor, opacity: 0.5 }}>{readCount} / {cards.length} read</span>
-                  <span className="text-[9px] font-bold" style={{ color: deck.color }}>{pct}%{isComplete ? ' ✓' : ''}</span>
-                </div>
-                <div className="h-1 rounded-full overflow-hidden" style={{ backgroundColor: deck.color + '25' }}>
-                  <motion.div className="h-full rounded-full" initial={{ width: 0 }} animate={{ width: `${pct}%` }} transition={{ duration: 0.6, ease: 'easeOut' }} style={{ backgroundColor: deck.color }} />
-                </div>
-              </div>
-            )}
-            <div className="flex items-center justify-between mt-auto">
-              <div className="flex items-center gap-1">
-                {cards.slice(0, 4).map((c, i) => (
-                  <div key={c.id} className="w-5 h-7 rounded-md" style={{ backgroundColor: deck.color, opacity: 0.15 + i * 0.15, transform: `rotate(${(i - 1.5) * 3}deg)`, marginLeft: i > 0 ? '-5px' : '0', zIndex: i, position: 'relative' }} />
-                ))}
-              </div>
-              <div className="flex items-center gap-1 text-[11px] font-bold" style={{ color: deck.color }}>
-                {readCount === 0 ? 'Start deck' : isComplete ? 'Review deck' : 'Continue'}
-                <ArrowRight size={12} />
-              </div>
-            </div>
-          </div>
-          <div className="h-1 w-full shrink-0 relative" style={{ backgroundColor: deck.color }} />
         </div>
       </motion.div>
     </motion.div>
@@ -255,7 +207,7 @@ function JourneyCTA() {
           <p className="text-sm font-bold text-stone-800 leading-tight" style={{ fontFamily: 'Sora, sans-serif' }}>
             {hasStarted ? (nextLesson ? `Next: Day ${nextDay} — ${nextLesson.title}` : 'Journey Complete! 🏆') : 'Start your PM learning journey'}
           </p>
-          {!hasStarted && <p className="text-[10px] text-stone-500 mt-0.5">Master 154 PM tools in 30 guided days</p>}
+          {!hasStarted && <p className="text-[10px] text-stone-500 mt-0.5">Master 174 PM tools in 30 guided days</p>}
         </div>
         <div className="flex flex-col items-end gap-1 shrink-0">
           <div className="flex items-center gap-0.5">
@@ -451,22 +403,91 @@ export default function Home() {
           />
         </div>
 
-        {/* All Decks */}
-        <div>
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.12 }}
-            className="flex items-center justify-between mb-3.5"
-          >
-            <h2 className="section-label">All Decks</h2>
-          </motion.div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 items-stretch">
-            {DECKS.map((deck, index) => (
-              <PhysicalDeckCard key={deck.id} deck={deck} index={index} />
+        {/* How to Navigate */}
+        <motion.div
+          initial={{ opacity: 0, y: 8 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.4, delay: 0.22 }}
+        >
+          <h2 className="section-label mb-3">How to use StratAlign</h2>
+          <div className="space-y-2.5">
+            {[
+              {
+                icon: LayoutGrid,
+                color: '#0284C7',
+                bg: '#EFF6FF',
+                title: 'Browse the Decks',
+                desc: 'Tap Decks in the nav to explore all 8 topic decks — Phases, People, Tools, Techniques and more. Each deck is a set of visual cards covering a PM concept.',
+              },
+              {
+                icon: BookOpen,
+                color: '#059669',
+                bg: '#ECFDF5',
+                title: 'Read a Card',
+                desc: 'Open any card for a summary, deep dive, real-world case study, a downloadable template, and a glossary of related terms.',
+              },
+              {
+                icon: Map,
+                color: '#3B82F6',
+                bg: '#EFF6FF',
+                title: 'Follow the Journey',
+                desc: 'The 30-Day PM Journey guides you through the library in a structured order — one lesson per day, with quizzes and XP to keep you on track.',
+              },
+              {
+                icon: Route,
+                color: '#065F46',
+                bg: '#ECFDF5',
+                title: 'Pick a Learning Path',
+                desc: 'The Learning Roadmap offers curated paths for Beginner, Intermediate, and Advanced PMs — skip to what matters most to you right now.',
+              },
+              {
+                icon: Compass,
+                color: '#1e3a5f',
+                bg: '#EFF6FF',
+                title: 'Not sure where to start?',
+                desc: 'Use the Decision Helper — answer 2–3 quick questions and get a personalised tool recommendation for your current project challenge.',
+              },
+              {
+                icon: Sparkles,
+                color: '#4F46E5',
+                bg: '#F5F3FF',
+                title: 'Ask the AI Tool Finder',
+                desc: 'Describe your challenge in plain language and the AI will surface the most relevant PM tools and frameworks from the library.',
+              },
+              {
+                icon: BookMarked,
+                color: '#B45309',
+                bg: '#FFFBEB',
+                title: 'Build your Glossary knowledge',
+                desc: 'The Glossary covers 125+ PM terms. Use the Checker tab to quiz yourself and test how many you can recall from definition alone.',
+              },
+              {
+                icon: Bookmark,
+                color: '#E11D48',
+                bg: '#FFF1F2',
+                title: 'Save cards for later',
+                desc: 'Tap the bookmark icon on any card to save it. Find all your saved cards in the Saved tab — great for building a personal reference library.',
+              },
+            ].map(({ icon: Icon, color, bg, title, desc }, i) => (
+              <motion.div
+                key={title}
+                initial={{ opacity: 0, x: -8 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.3, delay: 0.24 + i * 0.04 }}
+                className="flex items-start gap-3 rounded-2xl px-3.5 py-3"
+                style={{ background: 'white', boxShadow: '0 1px 4px rgba(0,0,0,0.05), 0 0 0 1px rgba(0,0,0,0.04)' }}
+              >
+                <div className="w-8 h-8 rounded-xl flex items-center justify-center shrink-0 mt-0.5" style={{ backgroundColor: bg }}>
+                  <Icon size={15} style={{ color }} />
+                </div>
+                <div>
+                  <p className="text-[13px] font-bold text-stone-800 leading-tight mb-0.5" style={{ fontFamily: 'Sora, sans-serif' }}>{title}</p>
+                  <p className="text-[11px] text-stone-500 leading-relaxed">{desc}</p>
+                </div>
+              </motion.div>
             ))}
           </div>
-        </div>
+        </motion.div>
 
         {/* Footer */}
         <p className="text-center text-[10px] text-stone-400 pb-2 tracking-wide">

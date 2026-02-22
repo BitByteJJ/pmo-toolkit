@@ -43,6 +43,8 @@ export default function BottomNav() {
         boxShadow: '0 -1px 0 rgba(255,255,255,0.9) inset, 0 -4px 16px rgba(0,0,0,0.04)',
       }}
     >
+      {/* Centred inner wrapper — matches .app-shell max-width so tabs align with content */}
+      <div style={{ maxWidth: '480px', margin: '0 auto', width: '100%' }}>
       <div
         className="flex items-center w-full overflow-x-auto px-2 pt-1.5"
         style={{
@@ -114,6 +116,7 @@ export default function BottomNav() {
             </button>
           );
         })}
+      </div>
       </div>
     </nav>
   );

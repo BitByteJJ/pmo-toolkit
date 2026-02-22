@@ -351,7 +351,7 @@ export const CARDS: PMOCard[] = [
     ],
     proTip: 'To maximize Scrum\'s benefits, foster a culture of psychological safety within your team, encouraging open communication and constructive feedback. Ensure the Product Owner is truly empowered to make decisions and that the Scrum Master actively removes impediments. Consistent adherence to Scrum values and principles is more important than rigid adherence to practices.',
     example: 'A financial services company is developing a new mobile banking application. Instead of a lengthy waterfall approach, they adopt Scrum. They release new features like secure login, balance inquiry, and fund transfers in two-week Sprints, gathering user feedback after each increment to refine subsequent development. This iterative approach allows them to quickly respond to market demands and user preferences.',
-    relatedCards: ['A85', 'T1', 'phase-execution', 'P15'],
+    relatedCards: ['A85', 'T1', 'phase-execution', 'people-15'],
     tags: ['Agile', 'Methodology', 'Software Development'],
   },
 
@@ -716,8 +716,8 @@ export const CARDS: PMOCard[] = [
     tags: ['urgency', 'quick wins', 'prioritisation', 'value delivery'],
   },
   {
-    id: 'P15',
-    code: 'P15',
+    id: 'people-15',
+    code: 'people-15',
     title: 'Psychological Safety',
     deckId: 'people',
     type: 'domain-task',
@@ -3325,7 +3325,7 @@ export const CARDS: PMOCard[] = [
   },
 
   {
-    id: 'people-15',
+    id: 'people-16',
     code: 'PD15',
     title: 'Stakeholder Performance Domain',
     deckId: 'people',
@@ -3347,7 +3347,7 @@ export const CARDS: PMOCard[] = [
   },
 
   {
-    id: 'people-16',
+    id: 'people-17',
     code: 'PD16',
     title: 'Team Performance Domain',
     deckId: 'people',
@@ -3523,7 +3523,7 @@ export const CARDS: PMOCard[] = [
   },
 
   {
-    id: 'people-17',
+    id: 'people-18',
     code: 'PD17',
     title: 'Servant Leadership',
     deckId: 'people',

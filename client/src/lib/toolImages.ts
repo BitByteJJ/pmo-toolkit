@@ -158,18 +158,18 @@ export const CARD_ILLUSTRATIONS: Record<string, string> = {
   "process-9": "https://files.manuscdn.com/user_upload_by_module/session_file/310419663029097403/PMMPXuTYeXUlebKs.png",
 
   // PMBOK 7 / Agile gap-fill cards — unique illustrations
-  "M8": "https://files.manuscdn.com/user_upload_by_module/session_file/310419663029097403/PGiQgWPlUMAvIgjn.png",
-  "M9": "https://files.manuscdn.com/user_upload_by_module/session_file/310419663029097403/XtECOuATLrCeINOU.png",
-  "people-15": "https://files.manuscdn.com/user_upload_by_module/session_file/310419663029097403/PQTHvMPhKVjfhVsn.png",
-  "people-16": "https://files.manuscdn.com/user_upload_by_module/session_file/310419663029097403/ivSefyNAGjJkznRY.png",
-  "people-17": "https://files.manuscdn.com/user_upload_by_module/session_file/310419663029097403/WxAAWhjQFvCHdkwv.png",
-  "process-18": "https://files.manuscdn.com/user_upload_by_module/session_file/310419663029097403/qMDADqJJOTOxugWb.png",
-  "process-19": "https://files.manuscdn.com/user_upload_by_module/session_file/310419663029097403/VEFsDexUSacxYPkl.png",
-  "process-20": "https://files.manuscdn.com/user_upload_by_module/session_file/310419663029097403/xKutaQWuZmNyxltA.png",
-  "process-21": "https://files.manuscdn.com/user_upload_by_module/session_file/310419663029097403/WPjPIFvHtUQMySBj.png",
-  "A86": "https://files.manuscdn.com/user_upload_by_module/session_file/310419663029097403/UeGScqsOCcDDyEsB.png",
-  "A87": "https://files.manuscdn.com/user_upload_by_module/session_file/310419663029097403/iskCSUgwJDDlkAsf.png",
-  "T20": "https://files.manuscdn.com/user_upload_by_module/session_file/310419663029097403/kiVFOVKCoRLvqSbV.png",
+  "M8": "https://files.manuscdn.com/user_upload_by_module/session_file/310419663029097403/DjUJRWkoNTlgPNeN.png",
+  "M9": "https://files.manuscdn.com/user_upload_by_module/session_file/310419663029097403/mwgYmmDissmmasnZ.png",
+  "people-16": "https://files.manuscdn.com/user_upload_by_module/session_file/310419663029097403/HzXrHiIpyVTojniK.png",
+  "people-17": "https://files.manuscdn.com/user_upload_by_module/session_file/310419663029097403/DKQnyTbOLxtBXnRy.png",
+  "people-18": "https://files.manuscdn.com/user_upload_by_module/session_file/310419663029097403/gIytUoFpDtpSibpw.png",
+  "process-18": "https://files.manuscdn.com/user_upload_by_module/session_file/310419663029097403/OatAzKHhwdxElKgO.png",
+  "process-19": "https://files.manuscdn.com/user_upload_by_module/session_file/310419663029097403/DlTtGJTrtitwSvKV.png",
+  "process-20": "https://files.manuscdn.com/user_upload_by_module/session_file/310419663029097403/jmArnrchZtufJwTM.png",
+  "process-21": "https://files.manuscdn.com/user_upload_by_module/session_file/310419663029097403/taDsPdpEsuFMLDOD.png",
+  "A86": "https://files.manuscdn.com/user_upload_by_module/session_file/310419663029097403/BUQZnUXNXnwXicLl.png",
+  "A87": "https://files.manuscdn.com/user_upload_by_module/session_file/310419663029097403/tSOnaBZxAaDxVlJy.png",
+  "T20": "https://files.manuscdn.com/user_upload_by_module/session_file/310419663029097403/RrBKoxUIBoyvwfWa.png",
 };
 
 export const DECK_COVERS: Record<string, string> = {

@@ -796,7 +796,7 @@ const peopleTemplates: CardTemplate[] = [
     ],
   },
   {
-    cardId: 'people-15',
+    cardId: 'people-16',
     title: 'Stakeholder Performance Domain Tracker',
     description: 'Track stakeholder engagement across the PMBOK 7 Stakeholder Performance Domain.',
     sections: [
@@ -815,7 +815,7 @@ const peopleTemplates: CardTemplate[] = [
     ],
   },
   {
-    cardId: 'people-16',
+    cardId: 'people-17',
     title: 'Team Performance Domain Health Check',
     description: 'Assess team health across the five PMBOK 7 Team Performance Domain dimensions.',
     sections: [
@@ -841,7 +841,7 @@ const peopleTemplates: CardTemplate[] = [
     ],
   },
   {
-    cardId: 'people-17',
+    cardId: 'people-18',
     title: 'Servant Leadership Self-Assessment',
     description: 'Evaluate your servant leadership behaviours and identify growth areas.',
     sections: [

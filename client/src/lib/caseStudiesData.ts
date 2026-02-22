@@ -2696,7 +2696,7 @@ const CASE_STUDIES: CaseStudy[] = [
     teamSize: `1,200 survey respondents; 8-person analysis team`,
   },
   {
-    cardId: 'P15',
+    cardId: 'people-16',
     organisation: `Google`,
     industry: `Technology`,
     projectName: `Project Aristotle — Team Effectiveness Research`,
@@ -2777,7 +2777,7 @@ const CASE_STUDIES: CaseStudy[] = [
     teamSize: '10,000+ workers at peak construction',
   },
   {
-    cardId: 'people-15',
+    cardId: 'people-16',
     organisation: 'Heathrow Airport',
     industry: 'Aviation / Infrastructure',
     projectName: 'Terminal 2 Stakeholder Engagement Programme',
@@ -2793,7 +2793,7 @@ const CASE_STUDIES: CaseStudy[] = [
     teamSize: '8-person Stakeholder Engagement Office, 3,500 construction workers',
   },
   {
-    cardId: 'people-16',
+    cardId: 'people-17',
     organisation: 'Spotify',
     industry: 'Technology / Music Streaming',
     projectName: 'Squad Health Check Model Implementation',
@@ -2813,7 +2813,7 @@ const CASE_STUDIES: CaseStudy[] = [
     },
   },
   {
-    cardId: 'people-17',
+    cardId: 'people-18',
     organisation: 'W.L. Gore & Associates',
     industry: 'Manufacturing / Materials Science',
     projectName: 'Lattice Organisation and Servant Leadership Culture',

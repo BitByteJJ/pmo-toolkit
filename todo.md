@@ -168,3 +168,15 @@
 ## Navigation & UX Fixes
 - [ ] Fix roadmap back-navigation — show "Back to Roadmap" button in CardDetail when navigating from roadmap
 - [ ] Improve Video Guide voiceover quality — less robotic, more natural-sounding TTS
+
+## QA Fix Pass — Feb 23 2026
+
+- [ ] Re-ID process cards: process-18→PR18, process-19→PR19, process-20→PR20, process-21→PR21 across pmoData, deepDiveData, templateData, caseStudiesData, toolImages
+- [ ] Re-ID people cards: people-15→P15, people-16→P16, people-17→P17 across all data files
+- [ ] Regenerate 12 illustrations to match existing fine-line caricature deck style
+- [ ] Add glossary section to all 12 new cards in pmoData.ts
+- [ ] Fix BottomNav placement — currently left-aligned, must be bottom-fixed
+- [ ] Redesign Home page: add how-to-navigate section, remove duplicate decks grid
+- [ ] Fix deck covers to vertical-only orientation (no expanding horizontal layout on desktop)
+- [ ] Full QA: verify card counts, ID consistency, navigation across all pages
+- [ ] Update Welcome modal count from 154 to dynamic CARDS.length
