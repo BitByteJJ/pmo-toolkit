@@ -107,10 +107,10 @@ export default function DailyChallenge({ darkMode = false }: { darkMode?: boolea
   const cardShadow = darkMode
     ? `0 4px 20px ${color}30, 0 2px 8px rgba(0,0,0,0.3), 0 0 0 1px ${color}25`
     : `0 3px 12px ${color}20, 0 1px 4px rgba(0,0,0,0.06)`;
-  const titleColor = darkMode ? '#f1f5f9' : '#1c1917';
+  const titleColor = '#f1f5f9';
   const subtitleColor = darkMode ? 'rgba(148,163,184,0.7)' : '#a8a29e';
   const chevronColor = darkMode ? 'rgba(148,163,184,0.7)' : '#a8a29e';
-  const questionColor = darkMode ? '#f1f5f9' : '#1c1917';
+  const questionColor = '#f1f5f9';
   const typeColor = darkMode ? 'rgba(148,163,184,0.6)' : '#a8a29e';
 
   return (
@@ -197,15 +197,15 @@ export default function DailyChallenge({ darkMode = false }: { darkMode?: boolea
                       else style = 'border border-white/5 text-slate-500 opacity-40';
                     }
                   } else {
-                    style = 'border border-stone-200 text-stone-700';
+                    style = 'border border-white/10 text-slate-300';
                     if (answerState !== 'unanswered') {
-                      if (i === question.correctIndex) style = 'border-2 border-emerald-500 bg-emerald-50 text-stone-700';
-                      else if (i === selected && answerState === 'wrong') style = 'border-2 border-red-400 bg-red-50 text-stone-500';
-                      else style = 'border border-stone-200 text-stone-400 opacity-50';
+                      if (i === question.correctIndex) style = 'border-2 border-emerald-500 bg-emerald-50 text-slate-300';
+                      else if (i === selected && answerState === 'wrong') style = 'border-2 border-red-400 bg-red-50 text-slate-400';
+                      else style = 'border border-white/10 text-slate-400 opacity-50';
                     }
                   }
                   const hoverClass = answerState === 'unanswered' && !alreadyDone
-                    ? (darkMode ? 'hover:bg-white/10 cursor-pointer' : 'hover:bg-stone-50 cursor-pointer')
+                    ? (darkMode ? 'hover:bg-white/10 cursor-pointer' : 'hover:bg-white/5 cursor-pointer')
                     : '';
                   return (
                     <button

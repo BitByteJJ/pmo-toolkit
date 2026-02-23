@@ -15,7 +15,7 @@ export default function CardChip({ code, size = 'sm' }: CardChipProps) {
   const card = CARDS.find(c => c.code === code || c.id === code);
   if (!card) {
     return (
-      <span className={`inline-flex items-center font-mono bg-stone-100 text-stone-500 rounded px-1.5 py-0.5 ${size === 'sm' ? 'text-[10px]' : 'text-xs'}`}>
+      <span className={`inline-flex items-center font-mono bg-white/10 text-slate-400 rounded px-1.5 py-0.5 ${size === 'sm' ? 'text-[10px]' : 'text-xs'}`}>
         {code}
       </span>
     );

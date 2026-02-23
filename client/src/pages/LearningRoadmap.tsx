@@ -131,8 +131,8 @@ function RoadmapStep({
               <CheckCircle2 size={16} className="text-white" />
             </div>
           ) : isLocked ? (
-            <div className="w-9 h-9 rounded-full flex items-center justify-center bg-stone-100">
-              <Lock size={14} className="text-stone-300" />
+            <div className="w-9 h-9 rounded-full flex items-center justify-center bg-white/10">
+              <Lock size={14} className="text-slate-500" />
             </div>
           ) : (
             <div
@@ -287,10 +287,10 @@ function JourneyRoadmap({ journey }: { journey: LearningJourney }) {
               <MapPin size={11} className="text-white" />
             </div>
             <div>
-              <div className="text-[11px] font-black text-stone-800" style={{ fontFamily: 'Sora, sans-serif' }}>
+              <div className="text-[11px] font-black text-slate-200" style={{ fontFamily: 'Sora, sans-serif' }}>
                 {section.title}
               </div>
-              <div className="text-[10px] text-stone-400">{section.description}</div>
+              <div className="text-[10px] text-slate-400">{section.description}</div>
             </div>
           </div>
 
@@ -347,28 +347,28 @@ export default function LearningRoadmap() {
       {/* Header */}
       <div
         className="sticky top-12 z-20 px-4"
-        style={{ background: 'rgba(252,251,249,0.96)', backdropFilter: 'blur(20px) saturate(1.4)', WebkitBackdropFilter: 'blur(20px) saturate(1.4)', borderBottom: '1.5px solid rgba(0,0,0,0.06)' }}
+        style={{ background: 'rgba(19,24,42,0.96)', backdropFilter: 'blur(20px) saturate(1.4)', WebkitBackdropFilter: 'blur(20px) saturate(1.4)', borderBottom: '1.5px solid rgba(0,0,0,0.06)' }}
       >
         <div className="max-w-2xl mx-auto py-3 flex items-center justify-between">
           <div>
             <h1
-              className="text-[18px] font-black text-stone-900 leading-tight"
+              className="text-[18px] font-black text-slate-100 leading-tight"
               style={{ fontFamily: 'Sora, sans-serif' }}
             >
               Learning Roadmap
             </h1>
-            <p className="text-[11px] text-stone-400 font-medium">
+            <p className="text-[11px] text-slate-400 font-medium">
               Curated paths for every stage of your PM career
             </p>
           </div>
-          <Zap size={20} className="text-stone-300" />
+          <Zap size={20} className="text-slate-500" />
         </div>
       </div>
 
       <div className="max-w-2xl mx-auto px-4 pt-4">
         {/* Level selector */}
         <div className="space-y-3 mb-6">
-          <p className="text-[11px] font-bold text-stone-400 uppercase tracking-wider px-1">
+          <p className="text-[11px] font-bold text-slate-400 uppercase tracking-wider px-1">
             Choose your level
           </p>
           {LEARNING_JOURNEYS.map(journey => (
@@ -395,7 +395,7 @@ export default function LearningRoadmap() {
             >
               {/* Journey description */}
               <div className="mb-5 px-1">
-                <p className="text-[13px] text-stone-600 leading-relaxed">
+                <p className="text-[13px] text-slate-400 leading-relaxed">
                   {selectedJourney.description}
                 </p>
               </div>
@@ -408,7 +408,7 @@ export default function LearningRoadmap() {
         {!selectedLevel && (
           <div className="text-center py-8">
             <div className="text-4xl mb-3">🗺️</div>
-            <p className="text-[13px] text-stone-400 font-medium">
+            <p className="text-[13px] text-slate-400 font-medium">
               Select a level above to see your personalised roadmap
             </p>
           </div>

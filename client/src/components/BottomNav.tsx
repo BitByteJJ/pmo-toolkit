@@ -107,16 +107,16 @@ export default function BottomNav() {
               bottom: 'calc(env(safe-area-inset-bottom, 0px) + 64px)',
               left: 'calc(50vw - 144px)',
               transform: 'none',
-              background: 'rgba(255,255,255,0.98)',
+              background: 'rgba(20,24,42,0.98)',
               backdropFilter: 'blur(20px)',
               WebkitBackdropFilter: 'blur(20px)',
-              boxShadow: '0 -8px 32px rgba(0,0,0,0.18), 0 4px 12px rgba(0,0,0,0.07)',
-              border: '1px solid rgba(0,0,0,0.07)',
+              boxShadow: '0 -8px 32px rgba(0,0,0,0.5), 0 4px 12px rgba(0,0,0,0.3)',
+              border: '1px solid rgba(255,255,255,0.08)',
               zIndex: 60,
             }}
           >
             <div className="px-3.5 pt-3 pb-1.5">
-              <p className="text-[10px] font-bold text-stone-400 uppercase tracking-widest">Jump to deck</p>
+              <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Jump to deck</p>
             </div>
             <div className="pb-2 max-h-72 overflow-y-auto">
               {DECKS.map((deck, i) => (
@@ -126,13 +126,13 @@ export default function BottomNav() {
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ delay: i * 0.025 }}
                   onClick={() => { setDecksOpen(false); navigate(`/deck/${deck.id}`); }}
-                  className="w-full flex items-center gap-2.5 px-3.5 py-2.5 text-left transition-colors hover:bg-stone-50/80 active:bg-stone-100"
+                  className="w-full flex items-center gap-2.5 px-3.5 py-2.5 text-left transition-colors hover:bg-white/5 active:bg-card/10"
                 >
                   <span className="w-2.5 h-2.5 rounded-full shrink-0" style={{ backgroundColor: deck.color }} />
                   <span className="text-base leading-none shrink-0">{deck.icon}</span>
                   <div className="flex-1 min-w-0">
-                    <div className="text-[12.5px] font-semibold text-stone-800 truncate leading-tight">{deck.title}</div>
-                    <div className="text-[9.5px] text-stone-400 font-mono mt-0.5">{deck.subtitle}</div>
+                    <div className="text-[12.5px] font-semibold text-slate-100 truncate leading-tight">{deck.title}</div>
+                    <div className="text-[9.5px] text-slate-400 font-mono mt-0.5">{deck.subtitle}</div>
                   </div>
                   <span
                     className="text-[9px] font-bold px-1.5 py-0.5 rounded-full shrink-0"

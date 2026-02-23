@@ -114,26 +114,26 @@ export default function ShareSheet({ open, onClose, url, title, tagline }: Share
             animate={{ y: 0 }}
             exit={{ y: '100%' }}
             transition={{ type: 'spring', stiffness: 380, damping: 34 }}
-            className="fixed bottom-0 left-0 right-0 z-50 bg-white rounded-t-3xl px-5 pt-4 pb-10 max-w-lg mx-auto"
+            className="fixed bottom-0 left-0 right-0 z-50 bg-card rounded-t-3xl px-5 pt-4 pb-10 max-w-lg mx-auto"
             style={{ boxShadow: '0 -8px 40px rgba(0,0,0,0.18)' }}
           >
             {/* Handle */}
-            <div className="w-10 h-1 rounded-full bg-stone-200 mx-auto mb-4" />
+            <div className="w-10 h-1 rounded-full bg-white/15 mx-auto mb-4" />
 
             {/* Header */}
             <div className="flex items-start justify-between mb-5">
               <div className="flex-1 min-w-0 pr-3">
-                <p className="text-[10px] font-bold text-stone-400 uppercase tracking-widest mb-0.5">Share</p>
-                <h3 className="text-sm font-bold text-stone-800 leading-tight truncate">{title}</h3>
+                <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-0.5">Share</p>
+                <h3 className="text-sm font-bold text-slate-200 leading-tight truncate">{title}</h3>
                 {tagline && (
-                  <p className="text-[11px] text-stone-400 mt-0.5 line-clamp-1">{tagline}</p>
+                  <p className="text-[11px] text-slate-400 mt-0.5 line-clamp-1">{tagline}</p>
                 )}
               </div>
               <button
                 onClick={onClose}
-                className="shrink-0 w-7 h-7 rounded-full bg-stone-100 flex items-center justify-center hover:bg-stone-200 transition-colors"
+                className="shrink-0 w-7 h-7 rounded-full bg-white/10 flex items-center justify-center hover:bg-white/15 transition-colors"
               >
-                <X size={13} className="text-stone-500" />
+                <X size={13} className="text-slate-400" />
               </button>
             </div>
 
@@ -151,25 +151,25 @@ export default function ShareSheet({ open, onClose, url, title, tagline }: Share
                   >
                     {p.icon}
                   </div>
-                  <span className="text-[9px] font-semibold text-stone-500 text-center leading-tight">{p.name}</span>
+                  <span className="text-[9px] font-semibold text-slate-400 text-center leading-tight">{p.name}</span>
                 </button>
               ))}
             </div>
 
             {/* Copy link row */}
             <div
-              className="flex items-center gap-3 bg-stone-50 rounded-2xl px-4 py-3 cursor-pointer hover:bg-stone-100 transition-colors"
+              className="flex items-center gap-3 bg-white/5 rounded-2xl px-4 py-3 cursor-pointer hover:bg-white/10 transition-colors"
               onClick={handleCopy}
             >
-              <div className="w-9 h-9 rounded-xl bg-stone-200 flex items-center justify-center shrink-0">
+              <div className="w-9 h-9 rounded-xl bg-white/15 flex items-center justify-center shrink-0">
                 {copied
                   ? <Check size={15} className="text-emerald-500" />
-                  : <Link2 size={15} className="text-stone-500" />
+                  : <Link2 size={15} className="text-slate-400" />
                 }
               </div>
               <div className="flex-1 min-w-0">
-                <p className="text-xs font-semibold text-stone-700">{copied ? 'Link copied!' : 'Copy link'}</p>
-                <p className="text-[10px] text-stone-400 truncate">{url}</p>
+                <p className="text-xs font-semibold text-slate-300">{copied ? 'Link copied!' : 'Copy link'}</p>
+                <p className="text-[10px] text-slate-400 truncate">{url}</p>
               </div>
             </div>
 
@@ -177,7 +177,7 @@ export default function ShareSheet({ open, onClose, url, title, tagline }: Share
             {typeof navigator !== 'undefined' && 'share' in navigator && (
               <button
                 onClick={handleNativeShare}
-                className="w-full mt-3 py-2.5 rounded-2xl text-xs font-bold text-stone-600 bg-stone-100 hover:bg-stone-200 transition-colors"
+                className="w-full mt-3 py-2.5 rounded-2xl text-xs font-bold text-slate-400 bg-white/10 hover:bg-white/15 transition-colors"
               >
                 More options…
               </button>

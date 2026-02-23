@@ -51,7 +51,7 @@ function TitleScene({ scene, color, bgColor }: { scene: VideoScene; color: strin
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6, delay: 0.3 }}
         className="text-2xl font-bold leading-tight mb-3"
-        style={{ fontFamily: 'Sora, sans-serif', color: '#1a1a2e' }}
+        style={{ fontFamily: 'Sora, sans-serif', color: '#e2e8f0' }}
       >
         {scene.heading}
       </motion.h1>
@@ -86,7 +86,7 @@ function BulletRevealScene({ scene, color, bgColor }: { scene: VideoScene; color
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.4 }}
           className="text-lg font-bold mb-5"
-          style={{ fontFamily: 'Sora, sans-serif', color: '#1a1a2e' }}
+          style={{ fontFamily: 'Sora, sans-serif', color: '#e2e8f0' }}
         >
           {scene.heading}
         </motion.h2>
@@ -156,7 +156,7 @@ function SplitScene({ scene, color, bgColor }: { scene: VideoScene; color: strin
         className="flex-1"
       >
         {scene.heading && (
-          <h2 className="text-base font-bold mb-3" style={{ fontFamily: 'Sora, sans-serif', color: '#1a1a2e' }}>
+          <h2 className="text-base font-bold mb-3" style={{ fontFamily: 'Sora, sans-serif', color: '#e2e8f0' }}>
             {scene.heading}
           </h2>
         )}
@@ -187,7 +187,7 @@ function DiagramScene({ scene, color, bgColor }: { scene: VideoScene; color: str
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             className="text-sm font-bold mb-4 text-center"
-            style={{ color: '#1a1a2e', fontFamily: 'Sora, sans-serif' }}
+            style={{ color: '#e2e8f0', fontFamily: 'Sora, sans-serif' }}
           >
             {scene.heading}
           </motion.h2>
@@ -200,7 +200,7 @@ function DiagramScene({ scene, color, bgColor }: { scene: VideoScene; color: str
               animate={{ opacity: 1, scale: 1 }}
               transition={{ duration: 0.35, delay: 0.2 + i * 0.15 }}
               className="rounded-xl p-3 text-center text-xs font-semibold"
-              style={{ backgroundColor: color + (i % 2 === 0 ? '25' : '15'), color: '#1a1a2e', border: `1.5px solid ${color}40` }}
+              style={{ backgroundColor: color + (i % 2 === 0 ? '25' : '15'), color: '#e2e8f0', border: `1.5px solid ${color}40` }}
             >
               {label}
             </motion.div>
@@ -218,7 +218,7 @@ function DiagramScene({ scene, color, bgColor }: { scene: VideoScene; color: str
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             className="text-sm font-bold mb-4 text-center"
-            style={{ color: '#1a1a2e', fontFamily: 'Sora, sans-serif' }}
+            style={{ color: '#e2e8f0', fontFamily: 'Sora, sans-serif' }}
           >
             {scene.heading}
           </motion.h2>
@@ -234,7 +234,7 @@ function DiagramScene({ scene, color, bgColor }: { scene: VideoScene; color: str
             >
               <div
                 className="rounded-lg px-3 py-2 text-center text-xs font-semibold w-full"
-                style={{ backgroundColor: color + '20', color: '#1a1a2e', border: `1.5px solid ${color}50` }}
+                style={{ backgroundColor: color + '20', color: '#e2e8f0', border: `1.5px solid ${color}50` }}
               >
                 {step}
               </div>
@@ -258,7 +258,7 @@ function DiagramScene({ scene, color, bgColor }: { scene: VideoScene; color: str
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             className="text-sm font-bold mb-3 text-center"
-            style={{ color: '#1a1a2e', fontFamily: 'Sora, sans-serif' }}
+            style={{ color: '#e2e8f0', fontFamily: 'Sora, sans-serif' }}
           >
             {scene.heading}
           </motion.h2>
@@ -271,7 +271,7 @@ function DiagramScene({ scene, color, bgColor }: { scene: VideoScene; color: str
               animate={{ opacity: 1, scale: 1 }}
               transition={{ duration: 0.4, delay: 0.15 + i * 0.2 }}
               className="rounded-full px-2 py-2 text-center text-[11px] font-bold flex items-center justify-center"
-              style={{ backgroundColor: color + '20', color: '#1a1a2e', border: `2px solid ${color}60`, minHeight: '52px' }}
+              style={{ backgroundColor: color + '20', color: '#e2e8f0', border: `2px solid ${color}60`, minHeight: '52px' }}
             >
               {step}
             </motion.div>
@@ -296,7 +296,7 @@ function SummaryScene({ scene, color, bgColor }: { scene: VideoScene; color: str
         <div className="w-6 h-6 rounded-full flex items-center justify-center text-white text-xs font-bold" style={{ backgroundColor: color }}>
           ✓
         </div>
-        <h2 className="text-base font-bold" style={{ fontFamily: 'Sora, sans-serif', color: '#1a1a2e' }}>
+        <h2 className="text-base font-bold" style={{ fontFamily: 'Sora, sans-serif', color: '#e2e8f0' }}>
           {scene.heading || 'Key Takeaways'}
         </h2>
       </motion.div>

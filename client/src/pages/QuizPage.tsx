@@ -17,7 +17,7 @@ import { useMasteryBadges } from '@/hooks/useMasteryBadges';
 function ProgressBar({ current, total, color }: { current: number; total: number; color: string }) {
   const pct = total > 0 ? Math.min(100, Math.round((current / total) * 100)) : 0;
   return (
-    <div className="h-2 rounded-full bg-stone-200 overflow-hidden flex-1">
+    <div className="h-2 rounded-full bg-white/15 overflow-hidden flex-1">
       <motion.div
         className="h-full rounded-full"
         style={{ backgroundColor: color }}
@@ -58,12 +58,12 @@ function QuestionCard({
   const optionStyle = (index: number) => {
     if (answerState === 'unanswered') {
       return selected === index
-        ? 'border-2 bg-stone-100'
-        : 'border border-stone-200 hover:border-stone-300 hover:bg-stone-50 cursor-pointer';
+        ? 'border-2 bg-white/10'
+        : 'border border-white/10 hover:border-white/15 hover:bg-white/5 cursor-pointer';
     }
     if (index === question.correctIndex) return 'border-2 border-emerald-500 bg-emerald-50';
     if (index === selected && answerState === 'wrong') return 'border-2 border-red-400 bg-red-50';
-    return 'border border-stone-200 opacity-50';
+    return 'border border-white/10 opacity-50';
   };
 
   return (
@@ -83,13 +83,13 @@ function QuestionCard({
         >
           {question.type === 'truefalse' ? 'TRUE / FALSE' : question.type === 'scenario' ? 'SCENARIO' : 'MULTIPLE CHOICE'}
         </span>
-        <span className="text-[10px] text-stone-400 font-medium">
+        <span className="text-[10px] text-slate-400 font-medium">
           Question {questionNumber} of {total}
         </span>
       </div>
 
       {/* Prompt */}
-      <p className="text-[15px] font-semibold text-stone-900 leading-relaxed" style={{ fontFamily: 'Sora, sans-serif' }}>
+      <p className="text-[15px] font-semibold text-slate-100 leading-relaxed" style={{ fontFamily: 'Sora, sans-serif' }}>
         {question.prompt}
       </p>
 
@@ -122,7 +122,7 @@ function QuestionCard({
             >
               {String.fromCharCode(65 + i)}
             </span>
-            <span className="text-[13px] font-medium text-stone-700 leading-snug">{opt}</span>
+            <span className="text-[13px] font-medium text-slate-300 leading-snug">{opt}</span>
             {answerState !== 'unanswered' && i === question.correctIndex && (
               <CheckCircle2 size={16} className="ml-auto text-emerald-500 shrink-0" />
             )}
@@ -146,7 +146,7 @@ function QuestionCard({
                 ? <CheckCircle2 size={16} className="text-emerald-600 shrink-0 mt-0.5" />
                 : <XCircle size={16} className="text-amber-600 shrink-0 mt-0.5" />
               }
-              <p className="text-[12px] leading-relaxed text-stone-700">{question.explanation}</p>
+              <p className="text-[12px] leading-relaxed text-slate-300">{question.explanation}</p>
             </div>
           </motion.div>
         )}
@@ -198,10 +198,10 @@ function ResultsScreen({
       )}
 
       <div>
-        <p className="text-2xl font-black text-stone-900 mb-1" style={{ fontFamily: 'Sora, sans-serif' }}>
+        <p className="text-2xl font-black text-slate-100 mb-1" style={{ fontFamily: 'Sora, sans-serif' }}>
           {grade}
         </p>
-        <p className="text-sm text-stone-500">
+        <p className="text-sm text-slate-400">
           You scored <strong>{score} out of {total}</strong> on the {deck?.title} quiz
         </p>
       </div>
@@ -227,12 +227,12 @@ function ResultsScreen({
       )}
 
       {pct < 100 && pct >= 60 && (
-        <p className="text-[12px] text-stone-500 max-w-xs">
+        <p className="text-[12px] text-slate-400 max-w-xs">
           Review the cards you got wrong and try again to earn the mastery badge.
         </p>
       )}
       {pct < 60 && (
-        <p className="text-[12px] text-stone-500 max-w-xs">
+        <p className="text-[12px] text-slate-400 max-w-xs">
           Study the {deck?.title} deck cards and come back when you're ready to try again.
         </p>
       )}
@@ -248,7 +248,7 @@ function ResultsScreen({
         </button>
         <button
           onClick={onExit}
-          className="flex items-center justify-center gap-2 w-full py-3 rounded-2xl font-bold text-stone-700 text-sm bg-stone-100"
+          className="flex items-center justify-center gap-2 w-full py-3 rounded-2xl font-bold text-slate-300 text-sm bg-white/10"
         >
           <ArrowLeft size={16} />
           Back to Deck
@@ -308,7 +308,7 @@ export default function QuizPage() {
   if (!deck || !quiz) {
     return (
       <div className="min-h-screen flex items-center justify-center">
-        <p className="text-stone-500">No quiz available for this deck yet.</p>
+        <p className="text-slate-400">No quiz available for this deck yet.</p>
       </div>
     );
   }
@@ -319,7 +319,7 @@ export default function QuizPage() {
       <div
         className="sticky top-12 z-40 px-4"
         style={{
-          background: 'rgba(252,251,249,0.96)',
+          background: 'rgba(19,24,42,0.96)',
           backdropFilter: 'blur(20px) saturate(1.4)',
           WebkitBackdropFilter: 'blur(20px) saturate(1.4)',
           borderBottom: '1.5px solid rgba(0,0,0,0.06)',
@@ -328,20 +328,20 @@ export default function QuizPage() {
         <div className="flex items-center gap-3 py-3">
           <button
             onClick={() => navigate(`/deck/${deckId}`)}
-            className="w-8 h-8 flex items-center justify-center rounded-xl hover:bg-stone-100 transition-colors shrink-0"
+            className="w-8 h-8 flex items-center justify-center rounded-xl hover:bg-white/10 transition-colors shrink-0"
           >
-            <X size={18} className="text-stone-600" />
+            <X size={18} className="text-slate-400" />
           </button>
           {!finished && (
             <>
               <ProgressBar current={currentIndex} total={questions.length} color={deck.color} />
-              <span className="text-[11px] font-bold text-stone-500 shrink-0">
+              <span className="text-[11px] font-bold text-slate-400 shrink-0">
                 {currentIndex}/{questions.length}
               </span>
             </>
           )}
           {finished && (
-            <h1 className="text-base font-black text-stone-900 flex-1 text-center pr-8" style={{ fontFamily: 'Sora, sans-serif' }}>
+            <h1 className="text-base font-black text-slate-100 flex-1 text-center pr-8" style={{ fontFamily: 'Sora, sans-serif' }}>
               Quiz Results
             </h1>
           )}

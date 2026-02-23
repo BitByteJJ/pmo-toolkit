@@ -354,7 +354,7 @@ function SectionForm({
   const textValue = (state.fields[textKey] as string) || '';
 
   return (
-    <div className="rounded-2xl overflow-hidden mb-4 bg-white shadow-sm border border-slate-100">
+    <div className="rounded-2xl overflow-hidden mb-4 bg-card shadow-sm border border-slate-100">
       {/* Section header */}
       <button
         type="button"
@@ -680,12 +680,12 @@ export default function TemplateFiller() {
       <div className="sticky top-12 z-40 px-4 py-3"
         style={{ background: theme.color, boxShadow: `0 2px 16px ${theme.color}40` }}>
         <div className="flex items-center gap-3">
-          <button onClick={() => navigate('/templates')} className="p-1.5 rounded-lg bg-white/20 hover:bg-white/30 transition-colors">
+          <button onClick={() => navigate('/templates')} className="p-1.5 rounded-lg bg-white/20 hover:bg-card/30 transition-colors">
             <ArrowLeft size={16} className="text-white" />
           </button>
           <div className="flex-1 min-w-0">
             <div className="flex items-center gap-2">
-              <span className="text-[10px] font-bold px-1.5 py-0.5 rounded-md bg-white/25 text-white">{card.id}</span>
+              <span className="text-[10px] font-bold px-1.5 py-0.5 rounded-md bg-card/25 text-white">{card.id}</span>
               <span className="text-[10px] text-white/70">{theme.title}</span>
             </div>
             <h1 className="text-sm font-bold text-white truncate" style={{ fontFamily: 'Sora, sans-serif' }}>
@@ -702,7 +702,7 @@ export default function TemplateFiller() {
             <button
               onClick={() => setShowDownloadMenu(m => !m)}
               disabled={isDownloading}
-              className="flex items-center gap-1.5 px-3 py-2 rounded-xl bg-white font-bold text-sm transition-colors"
+              className="flex items-center gap-1.5 px-3 py-2 rounded-xl bg-card font-bold text-sm transition-colors"
               style={{ color: theme.color }}
             >
               {isDownloading ? (
@@ -717,7 +717,7 @@ export default function TemplateFiller() {
                   initial={{ opacity: 0, scale: 0.95, y: -4 }}
                   animate={{ opacity: 1, scale: 1, y: 0 }}
                   exit={{ opacity: 0, scale: 0.95, y: -4 }}
-                  className="absolute right-0 top-full mt-1 bg-white rounded-xl shadow-xl border border-slate-100 overflow-hidden z-50 min-w-[160px]"
+                  className="absolute right-0 top-full mt-1 bg-card rounded-xl shadow-xl border border-slate-100 overflow-hidden z-50 min-w-[160px]"
                 >
                   <button
                     onClick={() => handleDownload('pdf')}
@@ -752,7 +752,7 @@ export default function TemplateFiller() {
         </div>
 
         {/* Header fields */}
-        <div className="bg-white rounded-2xl shadow-sm border border-slate-100 p-4 mb-4">
+        <div className="bg-card rounded-2xl shadow-sm border border-slate-100 p-4 mb-4">
           <h2 className="text-xs font-bold uppercase tracking-wider mb-3" style={{ color: theme.color }}>
             Document Header
           </h2>
@@ -827,7 +827,7 @@ export default function TemplateFiller() {
           <div className="flex gap-2 max-w-lg mx-auto">
             <button
               onClick={handleReset}
-              className="flex items-center gap-1.5 px-4 py-3 rounded-xl text-sm font-semibold bg-white shadow-md border border-slate-200 text-slate-600 hover:bg-slate-50 transition-colors"
+              className="flex items-center gap-1.5 px-4 py-3 rounded-xl text-sm font-semibold bg-card shadow-md border border-slate-200 text-slate-600 hover:bg-slate-50 transition-colors"
             >
               <RotateCcw size={14} /> Reset
             </button>

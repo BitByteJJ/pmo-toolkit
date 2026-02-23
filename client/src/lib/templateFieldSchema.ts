@@ -65,7 +65,7 @@ export const DECK_THEME: Record<string, { color: string; bg: string; text: strin
   process:      { color: '#059669', bg: '#D1FAE5', text: '#064E3B', title: 'Process Domain' },
   business:     { color: '#7C3AED', bg: '#EDE9FE', text: '#4C1D95', title: 'Business Environment' },
   tools:        { color: '#0284C7', bg: '#E0F2FE', text: '#0C4A6E', title: 'Tools Deck' },
-  techniques:   { color: '#475569', bg: '#F1F5F9', text: '#1E293B', title: 'Advanced Techniques' },
+  techniques:   { color: '#94a3b8', bg: '#1E293B', text: '#e2e8f0', title: 'Advanced Techniques' },
 };
 
 // ─────────────────────────────────────────────────────────────────────────────

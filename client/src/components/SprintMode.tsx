@@ -146,7 +146,7 @@ export default function SprintMode({ deckId, startIndex = 0, onClose }: SprintMo
                     animate={{ opacity: 1, scale: 1 }}
                     exit={{ opacity: 0, scale: 0.96 }}
                     transition={{ duration: 0.22 }}
-                    className="absolute inset-0 flex flex-col p-6 bg-white"
+                    className="absolute inset-0 flex flex-col p-6 bg-card"
                   >
                     {/* Colour top bar */}
                     <div className="absolute top-0 left-0 right-0 h-2 rounded-t-3xl" style={{ backgroundColor: deck.color }} />
@@ -172,7 +172,7 @@ export default function SprintMode({ deckId, startIndex = 0, onClose }: SprintMo
                       >
                         {card.title}
                       </h2>
-                      <p className="text-sm text-stone-500 leading-relaxed text-center mb-4">{card.tagline}</p>
+                      <p className="text-sm text-slate-400 leading-relaxed text-center mb-4">{card.tagline}</p>
 
                       {/* Card illustration */}
                       {getCardIllustration(card.id) && (
@@ -244,7 +244,7 @@ export default function SprintMode({ deckId, startIndex = 0, onClose }: SprintMo
                           <div className="text-[9px] font-black uppercase tracking-widest mb-1" style={{ color: deck.color }}>
                             What it is
                           </div>
-                          <p className="text-[12px] text-stone-700 leading-relaxed">{card.whatItIs}</p>
+                          <p className="text-[12px] text-slate-300 leading-relaxed">{card.whatItIs}</p>
                         </div>
                       )}
                       {card.proTip && (
@@ -255,7 +255,7 @@ export default function SprintMode({ deckId, startIndex = 0, onClose }: SprintMo
                           <div className="text-[9px] font-black uppercase tracking-widest mb-1" style={{ color: deck.color }}>
                             Pro Tip
                           </div>
-                          <p className="text-[11px] text-stone-600 leading-relaxed">{card.proTip}</p>
+                          <p className="text-[11px] text-slate-400 leading-relaxed">{card.proTip}</p>
                         </div>
                       )}
                     </div>

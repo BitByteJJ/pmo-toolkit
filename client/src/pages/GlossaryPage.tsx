@@ -35,7 +35,7 @@ function TermCard({ term, onCardClick }: { term: GlossaryTerm; onCardClick: (car
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0 }}
       transition={{ duration: 0.22 }}
-      className="bg-white rounded-2xl overflow-hidden"
+      className="bg-card rounded-2xl overflow-hidden"
       style={{ boxShadow: '0 2px 10px rgba(0,0,0,0.055), 0 1px 3px rgba(0,0,0,0.04), 0 0 0 1px rgba(0,0,0,0.03)' }}
     >
       <div className="flex">
@@ -45,7 +45,7 @@ function TermCard({ term, onCardClick }: { term: GlossaryTerm; onCardClick: (car
             <div className="flex items-start justify-between gap-2">
               <div className="flex-1 min-w-0">
                 <div className="flex items-center gap-2 mb-1 flex-wrap">
-                  <h3 className="text-[14px] font-bold text-stone-800" style={{ fontFamily: 'Sora, sans-serif' }}>
+                  <h3 className="text-[14px] font-bold text-slate-200" style={{ fontFamily: 'Sora, sans-serif' }}>
                     {term.term}
                   </h3>
                   <span
@@ -55,13 +55,13 @@ function TermCard({ term, onCardClick }: { term: GlossaryTerm; onCardClick: (car
                     {CATEGORY_LABELS[term.category]}
                   </span>
                 </div>
-                <p className={`text-[12px] text-stone-500 leading-relaxed ${expanded ? '' : 'line-clamp-2'}`}>
+                <p className={`text-[12px] text-slate-400 leading-relaxed ${expanded ? '' : 'line-clamp-2'}`}>
                   {term.definition}
                 </p>
               </div>
               <ChevronRight
                 size={14}
-                className="text-stone-300 shrink-0 mt-0.5 transition-transform"
+                className="text-slate-500 shrink-0 mt-0.5 transition-transform"
                 style={{ transform: expanded ? 'rotate(90deg)' : 'none' }}
               />
             </div>
@@ -79,7 +79,7 @@ function TermCard({ term, onCardClick }: { term: GlossaryTerm; onCardClick: (car
                 <div className="pt-3 space-y-2">
                   {term.relatedCards.length > 0 && (
                     <div>
-                      <p className="text-[9px] font-bold text-stone-400 uppercase tracking-widest mb-1.5">Related Cards</p>
+                      <p className="text-[9px] font-bold text-slate-400 uppercase tracking-widest mb-1.5">Related Cards</p>
                       <div className="flex flex-wrap gap-1.5">
                         {term.relatedCards.map(cardId => {
                           const card = getCardById(cardId);
@@ -106,7 +106,7 @@ function TermCard({ term, onCardClick }: { term: GlossaryTerm; onCardClick: (car
                   )}
                   {term.seeAlso && term.seeAlso.length > 0 && (
                     <div>
-                      <p className="text-[9px] font-bold text-stone-400 uppercase tracking-widest mb-1.5">See Also</p>
+                      <p className="text-[9px] font-bold text-slate-400 uppercase tracking-widest mb-1.5">See Also</p>
                       <div className="flex flex-wrap gap-1.5">
                         {term.seeAlso.map(id => {
                           const related = GLOSSARY_TERMS.find(t => t.id === id);
@@ -206,7 +206,7 @@ function GlossaryChecker() {
         <motion.div
           initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
-          className="bg-white rounded-3xl p-6 text-center"
+          className="bg-card rounded-3xl p-6 text-center"
           style={{ boxShadow: '0 4px 24px rgba(0,0,0,0.07), 0 0 0 1px rgba(0,0,0,0.04)' }}
         >
           <div
@@ -215,16 +215,16 @@ function GlossaryChecker() {
           >
             <Brain size={28} className="text-white" />
           </div>
-          <h2 className="text-[20px] font-black text-stone-900 mb-2" style={{ fontFamily: 'Sora, sans-serif' }}>
+          <h2 className="text-[20px] font-black text-slate-100 mb-2" style={{ fontFamily: 'Sora, sans-serif' }}>
             Glossary Checker
           </h2>
-          <p className="text-[13px] text-stone-500 leading-relaxed mb-6">
+          <p className="text-[13px] text-slate-400 leading-relaxed mb-6">
             Read the definition — pick the correct PM term. Tests your vocabulary across all {GLOSSARY_TERMS.length} terms.
           </p>
 
           {/* Question count selector */}
           <div className="mb-6">
-            <p className="text-[10px] font-bold text-stone-400 uppercase tracking-widest mb-2">Number of Questions</p>
+            <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-2">Number of Questions</p>
             <div className="flex gap-2 justify-center">
               {[5, 10, 15, 20].map(n => (
                 <button
@@ -258,8 +258,8 @@ function GlossaryChecker() {
               { icon: Trophy, label: 'Track your score' },
             ].map(({ icon: Icon, label }) => (
               <div key={label} className="rounded-xl p-3" style={{ backgroundColor: '#f5f3ee' }}>
-                <Icon size={16} className="mx-auto mb-1.5 text-stone-500" />
-                <p className="text-[10px] font-semibold text-stone-500 leading-tight">{label}</p>
+                <Icon size={16} className="mx-auto mb-1.5 text-slate-400" />
+                <p className="text-[10px] font-semibold text-slate-400 leading-tight">{label}</p>
               </div>
             ))}
           </div>
@@ -278,15 +278,15 @@ function GlossaryChecker() {
         <motion.div
           initial={{ opacity: 0, scale: 0.97 }}
           animate={{ opacity: 1, scale: 1 }}
-          className="bg-white rounded-3xl p-6"
+          className="bg-card rounded-3xl p-6"
           style={{ boxShadow: '0 4px 24px rgba(0,0,0,0.07), 0 0 0 1px rgba(0,0,0,0.04)' }}
         >
           <div className="text-center mb-6">
             <Trophy size={40} className="mx-auto mb-3" style={{ color: gradeColor }} />
-            <h2 className="text-[22px] font-black text-stone-900 mb-1" style={{ fontFamily: 'Sora, sans-serif' }}>
+            <h2 className="text-[22px] font-black text-slate-100 mb-1" style={{ fontFamily: 'Sora, sans-serif' }}>
               {grade}
             </h2>
-            <p className="text-[13px] text-stone-500">
+            <p className="text-[13px] text-slate-400">
               You scored <span className="font-bold" style={{ color: gradeColor }}>{score} / {questions.length}</span> ({pct}%)
             </p>
           </div>
@@ -304,7 +304,7 @@ function GlossaryChecker() {
                 />
               </svg>
               <div className="absolute inset-0 flex items-center justify-center">
-                <span className="text-[18px] font-black text-stone-900">{pct}%</span>
+                <span className="text-[18px] font-black text-slate-100">{pct}%</span>
               </div>
             </div>
           </div>
@@ -312,7 +312,7 @@ function GlossaryChecker() {
           {/* Wrong terms */}
           {wrongTerms.length > 0 && (
             <div className="mb-5">
-              <p className="text-[10px] font-bold text-stone-400 uppercase tracking-widest mb-2">
+              <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-2">
                 Review These Terms ({wrongTerms.length})
               </p>
               <div className="flex flex-wrap gap-1.5">
@@ -359,7 +359,7 @@ function GlossaryChecker() {
       {/* Progress bar */}
       <div className="mb-4">
         <div className="flex items-center justify-between mb-1.5">
-          <span className="text-[11px] font-semibold text-stone-400">
+          <span className="text-[11px] font-semibold text-slate-400">
             Question {currentIdx + 1} of {questions.length}
           </span>
           <span className="text-[11px] font-bold" style={{ color: '#7c3aed' }}>
@@ -384,7 +384,7 @@ function GlossaryChecker() {
           animate={{ opacity: 1, x: 0 }}
           exit={{ opacity: 0, x: -20 }}
           transition={{ duration: 0.25 }}
-          className="bg-white rounded-3xl p-5 mb-4"
+          className="bg-card rounded-3xl p-5 mb-4"
           style={{ boxShadow: '0 4px 24px rgba(0,0,0,0.07), 0 0 0 1px rgba(0,0,0,0.04)' }}
         >
           {/* Category badge */}
@@ -400,10 +400,10 @@ function GlossaryChecker() {
             </span>
           </div>
 
-          <p className="text-[11px] font-bold text-stone-400 uppercase tracking-widest mb-2">
+          <p className="text-[11px] font-bold text-slate-400 uppercase tracking-widest mb-2">
             What PM term is this?
           </p>
-          <p className="text-[15px] text-stone-800 leading-relaxed font-medium">
+          <p className="text-[15px] text-slate-200 leading-relaxed font-medium">
             {current.term.definition}
           </p>
         </motion.div>
@@ -418,7 +418,7 @@ function GlossaryChecker() {
 
           let bg = '#ffffff';
           let border = 'rgba(0,0,0,0.07)';
-          let textColor = '#1c1917';
+          let textColor = '#e2e8f0';
           let icon = null;
 
           if (revealed) {
@@ -522,7 +522,7 @@ export default function GlossaryPage() {
       <div
         className="sticky top-12 z-30 border-b"
         style={{
-          background: 'rgba(252,251,249,0.96)',
+          background: 'rgba(19,24,42,0.96)',
           backdropFilter: 'blur(20px) saturate(1.4)',
           WebkitBackdropFilter: 'blur(20px) saturate(1.4)',
           borderColor: 'rgba(0,0,0,0.06)',
@@ -532,12 +532,12 @@ export default function GlossaryPage() {
           <div className="flex items-center justify-between mb-3">
             <div>
               <h1
-                className="text-[20px] font-black text-stone-900 leading-tight"
+                className="text-[20px] font-black text-slate-100 leading-tight"
                 style={{ fontFamily: 'Sora, sans-serif', letterSpacing: '-0.02em' }}
               >
                 Glossary
               </h1>
-              <p className="text-[11px] text-stone-400 font-semibold mt-0.5">
+              <p className="text-[11px] text-slate-400 font-semibold mt-0.5">
                 {GLOSSARY_TERMS.length} PM terms · plain English
               </p>
             </div>
@@ -545,7 +545,7 @@ export default function GlossaryPage() {
             {/* Tab toggle */}
             <div
               className="flex rounded-xl overflow-hidden"
-              style={{ backgroundColor: '#1c191710', padding: '2px' }}
+              style={{ backgroundColor: 'rgba(255,255,255,0.06)', padding: '2px' }}
             >
               {(['browse', 'checker'] as const).map(tab => (
                 <button
@@ -553,7 +553,7 @@ export default function GlossaryPage() {
                   onClick={() => setActiveTab(tab)}
                   className="px-3 py-1.5 rounded-lg text-[11px] font-bold transition-all"
                   style={{
-                    backgroundColor: activeTab === tab ? (tab === 'checker' ? '#7c3aed' : '#1c1917') : 'transparent',
+                    backgroundColor: activeTab === tab ? (tab === 'checker' ? '#7c3aed' : '#6366f1') : 'transparent',
                     color: activeTab === tab ? '#fff' : '#78716c',
                   }}
                 >
@@ -567,19 +567,19 @@ export default function GlossaryPage() {
           {activeTab === 'browse' && (
             <>
               <div className="relative mb-3">
-                <Search size={13} className="absolute left-3 top-1/2 -translate-y-1/2 text-stone-400" />
+                <Search size={13} className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" />
                 <input
                   type="text"
                   placeholder="Search terms and definitions…"
                   value={searchQuery}
                   onChange={e => { setSearchQuery(e.target.value); setActiveLetter(null); }}
-                  className="w-full pl-8 pr-8 py-2.5 rounded-xl bg-white text-[12px] text-stone-700 placeholder-stone-400 outline-none"
+                  className="w-full pl-8 pr-8 py-2.5 rounded-xl bg-card text-[12px] text-slate-300 placeholder-slate-500 outline-none"
                   style={{ boxShadow: '0 2px 8px rgba(0,0,0,0.07), 0 0 0 1px rgba(0,0,0,0.05)' }}
                 />
                 {searchQuery && (
                   <button
                     onClick={() => setSearchQuery('')}
-                    className="absolute right-3 top-1/2 -translate-y-1/2 text-stone-400"
+                    className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400"
                   >
                     <X size={12} />
                   </button>
@@ -591,7 +591,7 @@ export default function GlossaryPage() {
                   onClick={() => setSelectedCategory(null)}
                   className="shrink-0 px-2.5 py-1 rounded-full text-[10px] font-bold transition-all"
                   style={{
-                    backgroundColor: !selectedCategory ? '#1c1917' : '#1c191712',
+                    backgroundColor: !selectedCategory ? '#6366f1' : 'rgba(255,255,255,0.07)',
                     color: !selectedCategory ? '#fff' : '#57534e',
                   }}
                 >
@@ -629,7 +629,7 @@ export default function GlossaryPage() {
                   onClick={() => scrollToLetter(letter)}
                   className="shrink-0 w-7 h-7 rounded-lg text-[11px] font-black transition-all"
                   style={{
-                    backgroundColor: activeLetter === letter ? '#1c1917' : '#1c191710',
+                    backgroundColor: activeLetter === letter ? '#6366f1' : 'rgba(255,255,255,0.06)',
                     color: activeLetter === letter ? '#fff' : '#78716c',
                   }}
                 >
@@ -652,18 +652,18 @@ export default function GlossaryPage() {
             <div className="max-w-2xl mx-auto px-4 pt-4">
               {filtered.length === 0 ? (
                 <div className="text-center py-16">
-                  <BookMarked size={32} className="mx-auto text-stone-300 mb-3" />
-                  <p className="text-sm font-semibold text-stone-400">No terms match your search</p>
+                  <BookMarked size={32} className="mx-auto text-slate-500 mb-3" />
+                  <p className="text-sm font-semibold text-slate-400">No terms match your search</p>
                   <button
                     onClick={() => { setSearchQuery(''); setSelectedCategory(null); setActiveLetter(null); }}
-                    className="mt-2 text-[11px] font-bold text-stone-400 underline"
+                    className="mt-2 text-[11px] font-bold text-slate-400 underline"
                   >
                     Clear filters
                   </button>
                 </div>
               ) : searchQuery.trim() || selectedCategory ? (
                 <div className="space-y-2.5">
-                  <p className="text-[10px] font-semibold text-stone-400 mb-3">
+                  <p className="text-[10px] font-semibold text-slate-400 mb-3">
                     {filtered.length} result{filtered.length !== 1 ? 's' : ''}
                   </p>
                   <AnimatePresence mode="popLayout">
@@ -679,12 +679,12 @@ export default function GlossaryPage() {
                       <div className="flex items-center gap-2 mb-2">
                         <div
                           className="w-8 h-8 rounded-xl flex items-center justify-center text-[14px] font-black"
-                          style={{ backgroundColor: '#1c191712', color: '#1c1917' }}
+                          style={{ backgroundColor: 'rgba(255,255,255,0.07)', color: '#e2e8f0' }}
                         >
                           {letter}
                         </div>
-                        <div className="flex-1 h-px bg-stone-200" />
-                        <span className="text-[10px] text-stone-400 font-semibold">{terms.length}</span>
+                        <div className="flex-1 h-px bg-white/15" />
+                        <span className="text-[10px] text-slate-400 font-semibold">{terms.length}</span>
                       </div>
                       <div className="space-y-2">
                         {terms.map(term => (

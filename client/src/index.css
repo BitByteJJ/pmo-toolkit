@@ -1,5 +1,5 @@
 /* PMO Toolkit Navigator — Global Styles */
-/* Design: "Clarity Cards" — premium Scandinavian minimalism */
+/* Design: "Clarity Cards" — premium dark-mode first */
 /* Fonts: Sora (display) + Inter (body) */
 
 @import "tailwindcss";
@@ -46,17 +46,17 @@
   --color-sidebar-ring: var(--sidebar-ring);
 }
 
+/* ── LIGHT theme (fallback) ── */
 :root {
   --radius: 0.875rem;
 
-  /* ── Premium warm neutral palette — deeper tone ── */
-  --background: oklch(0.955 0.007 72);   /* warm stone, noticeably darker */
+  --background: oklch(0.955 0.007 72);
   --foreground: oklch(0.14 0.014 52);
-  --card: oklch(0.99 0.003 72);           /* cards stay near-white for contrast */
+  --card: oklch(0.99 0.003 72);
   --card-foreground: oklch(0.14 0.014 52);
   --popover: oklch(0.99 0.003 72);
   --popover-foreground: oklch(0.14 0.014 52);
-  --primary: oklch(0.26 0.028 52);
+  --primary: oklch(0.55 0.18 260);
   --primary-foreground: oklch(0.99 0 0);
   --secondary: oklch(0.94 0.007 72);
   --secondary-foreground: oklch(0.26 0.028 52);
@@ -68,7 +68,7 @@
   --destructive-foreground: oklch(0.985 0 0);
   --border: oklch(0.88 0.006 72);
   --input: oklch(0.88 0.006 72);
-  --ring: oklch(0.50 0.014 58);
+  --ring: oklch(0.55 0.18 260);
   --chart-1: oklch(0.6 0.15 200);
   --chart-2: oklch(0.6 0.15 150);
   --chart-3: oklch(0.6 0.15 100);
@@ -76,12 +76,12 @@
   --chart-5: oklch(0.6 0.15 0);
   --sidebar: oklch(0.985 0.004 75);
   --sidebar-foreground: oklch(0.16 0.012 55);
-  --sidebar-primary: oklch(0.28 0.025 55);
+  --sidebar-primary: oklch(0.55 0.18 260);
   --sidebar-primary-foreground: oklch(0.99 0 0);
   --sidebar-accent: oklch(0.965 0.005 75);
   --sidebar-accent-foreground: oklch(0.16 0.012 55);
   --sidebar-border: oklch(0.91 0.004 75);
-  --sidebar-ring: oklch(0.52 0.012 60);
+  --sidebar-ring: oklch(0.55 0.18 260);
 
   /* ── Premium shadow scale ── */
   --shadow-xs:  0 1px 2px rgba(0,0,0,0.04);
@@ -92,14 +92,57 @@
   --shadow-2xl: 0 24px 60px rgba(0,0,0,0.14), 0 8px 24px rgba(0,0,0,0.08);
 }
 
+/* ── DARK theme ── */
+.dark {
+  --background: oklch(0.13 0.012 260);      /* deep navy-charcoal */
+  --foreground: oklch(0.93 0.006 72);       /* warm off-white */
+  --card: oklch(0.18 0.014 260);            /* slightly lighter card surface */
+  --card-foreground: oklch(0.93 0.006 72);
+  --popover: oklch(0.16 0.013 260);
+  --popover-foreground: oklch(0.93 0.006 72);
+  --primary: oklch(0.65 0.20 260);          /* bright violet-blue */
+  --primary-foreground: oklch(0.99 0 0);
+  --secondary: oklch(0.22 0.015 260);
+  --secondary-foreground: oklch(0.88 0.006 72);
+  --muted: oklch(0.22 0.015 260);
+  --muted-foreground: oklch(0.60 0.010 260);
+  --accent: oklch(0.25 0.018 260);
+  --accent-foreground: oklch(0.93 0.006 72);
+  --destructive: oklch(0.60 0.22 27);
+  --destructive-foreground: oklch(0.99 0 0);
+  --border: oklch(0.26 0.016 260);
+  --input: oklch(0.22 0.015 260);
+  --ring: oklch(0.65 0.20 260);
+  --chart-1: oklch(0.65 0.18 200);
+  --chart-2: oklch(0.65 0.18 150);
+  --chart-3: oklch(0.65 0.18 100);
+  --chart-4: oklch(0.65 0.18 50);
+  --chart-5: oklch(0.65 0.18 0);
+  --sidebar: oklch(0.16 0.013 260);
+  --sidebar-foreground: oklch(0.88 0.006 72);
+  --sidebar-primary: oklch(0.65 0.20 260);
+  --sidebar-primary-foreground: oklch(0.99 0 0);
+  --sidebar-accent: oklch(0.22 0.015 260);
+  --sidebar-accent-foreground: oklch(0.88 0.006 72);
+  --sidebar-border: oklch(0.26 0.016 260);
+  --sidebar-ring: oklch(0.65 0.20 260);
+
+  /* ── Dark shadow scale (more visible on dark bg) ── */
+  --shadow-xs:  0 1px 2px rgba(0,0,0,0.20);
+  --shadow-sm:  0 1px 3px rgba(0,0,0,0.30), 0 1px 2px rgba(0,0,0,0.20);
+  --shadow-md:  0 4px 12px rgba(0,0,0,0.35), 0 2px 4px rgba(0,0,0,0.20);
+  --shadow-lg:  0 8px 24px rgba(0,0,0,0.40), 0 3px 8px rgba(0,0,0,0.25);
+  --shadow-xl:  0 16px 40px rgba(0,0,0,0.45), 0 6px 16px rgba(0,0,0,0.30);
+  --shadow-2xl: 0 24px 60px rgba(0,0,0,0.50), 0 8px 24px rgba(0,0,0,0.35);
+}
+
 @layer base {
   * {
     @apply border-border outline-ring/50;
   }
 
   html {
-    /* Warm stone background — deeper tone */
-    background-color: oklch(0.955 0.007 72);
+    background-color: oklch(0.13 0.012 260);
   }
 
   body {
@@ -107,9 +150,9 @@
     font-family: 'Inter', system-ui, -apple-system, sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    /* Grain texture overlay — slightly stronger for the darker tone */
+    /* Subtle grain texture */
     background-image:
-      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23noise)' opacity='0.032'/%3E%3C/svg%3E");
+      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23noise)' opacity='0.025'/%3E%3C/svg%3E");
     background-repeat: repeat;
     background-size: 300px 300px;
   }
@@ -169,29 +212,30 @@
     position: relative;
   }
 
-  /* Premium card surface */
+  /* Premium card surface — adapts to dark/light */
   .card-surface {
-    background: white;
+    background: var(--card);
+    color: var(--card-foreground);
     border-radius: var(--radius-xl);
     box-shadow: var(--shadow-md);
-    border: 1px solid oklch(0.93 0.003 75);
+    border: 1px solid var(--border);
   }
 
   /* Premium frosted glass surface */
   .glass-surface {
-    background: rgba(255, 255, 255, 0.88);
+    background: rgba(24, 28, 48, 0.88);
     backdrop-filter: blur(20px) saturate(1.4);
     -webkit-backdrop-filter: blur(20px) saturate(1.4);
-    border: 1px solid rgba(255, 255, 255, 0.7);
+    border: 1px solid rgba(255, 255, 255, 0.08);
   }
 
   /* Elevated float surface (nav bars, dropdowns) */
   .float-surface {
-    background: rgba(255, 255, 255, 0.94);
+    background: rgba(20, 24, 42, 0.96);
     backdrop-filter: blur(24px) saturate(1.5);
     -webkit-backdrop-filter: blur(24px) saturate(1.5);
-    border-bottom: 1px solid rgba(0, 0, 0, 0.055);
-    box-shadow: 0 1px 0 rgba(255,255,255,0.8) inset, var(--shadow-sm);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+    box-shadow: 0 1px 0 rgba(255,255,255,0.04) inset, var(--shadow-sm);
   }
 
   /* Section label — premium small caps style */
@@ -200,7 +244,7 @@
     font-weight: 800;
     letter-spacing: 0.1em;
     text-transform: uppercase;
-    color: oklch(0.52 0.012 60);
+    color: var(--muted-foreground);
   }
 
   /* Hide scrollbar but keep scrolling */

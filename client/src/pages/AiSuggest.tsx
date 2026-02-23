@@ -50,7 +50,7 @@ function RecommendationCard({ rec, index }: { rec: Recommendation; index: number
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.35, delay: index * 0.08, ease: [0.22, 1, 0.36, 1] }}
       onClick={() => card && navigate(`/card/${rec.cardId}`)}
-      className="w-full text-left rounded-2xl overflow-hidden bg-white relative"
+      className="w-full text-left rounded-2xl overflow-hidden bg-card relative"
       style={{ boxShadow: `0 2px 16px ${accentColor}20, 0 1px 4px rgba(0,0,0,0.06)` }}
       whileHover={{ scale: 1.015, y: -2 }}
       whileTap={{ scale: 0.98 }}
@@ -78,7 +78,7 @@ function RecommendationCard({ rec, index }: { rec: Recommendation; index: number
                 {rec.code}
               </span>
               {deck && (
-                <span className="text-[10px] text-stone-400 font-medium truncate">
+                <span className="text-[10px] text-slate-400 font-medium truncate">
                   {deck.title}
                 </span>
               )}
@@ -86,14 +86,14 @@ function RecommendationCard({ rec, index }: { rec: Recommendation; index: number
 
             {/* Title */}
             <h3
-              className="text-base font-bold leading-tight text-stone-900 mb-1"
+              className="text-base font-bold leading-tight text-slate-100 mb-1"
               style={{ fontFamily: "'Sora', sans-serif" }}
             >
               {rec.title}
             </h3>
 
             {/* Tagline */}
-            <p className="text-xs text-stone-500 mb-2 leading-relaxed">
+            <p className="text-xs text-slate-400 mb-2 leading-relaxed">
               {rec.tagline}
             </p>
 
@@ -108,7 +108,7 @@ function RecommendationCard({ rec, index }: { rec: Recommendation; index: number
           </div>
 
           {/* Arrow */}
-          <ChevronRight size={16} className="shrink-0 text-stone-300 mt-1" />
+          <ChevronRight size={16} className="shrink-0 text-slate-500 mt-1" />
         </div>
       </div>
     </motion.button>
@@ -149,16 +149,16 @@ function LoadingState({ problem }: { problem: string }) {
     <div>
       {/* Problem echo */}
       <div
-        className="rounded-2xl p-4 mb-5 bg-white"
+        className="rounded-2xl p-4 mb-5 bg-card"
         style={{ boxShadow: '0 1px 4px rgba(0,0,0,0.06)', border: '1px solid rgba(99,102,241,0.15)' }}
       >
         <p className="text-[10px] font-semibold text-indigo-500 uppercase tracking-wider mb-1">Your challenge</p>
-        <p className="text-sm text-stone-700 leading-relaxed">{problem}</p>
+        <p className="text-sm text-slate-300 leading-relaxed">{problem}</p>
       </div>
 
       {/* Animated thinking card */}
       <div
-        className="rounded-2xl p-5 mb-5 bg-white"
+        className="rounded-2xl p-5 mb-5 bg-card"
         style={{ boxShadow: '0 2px 16px rgba(99,102,241,0.1)', border: '1px solid rgba(99,102,241,0.12)' }}
       >
         {/* Pulsing icon */}
@@ -172,7 +172,7 @@ function LoadingState({ problem }: { problem: string }) {
             <Sparkles size={18} className="text-white" />
           </motion.div>
           <div>
-            <p className="text-sm font-bold text-stone-800">AI is thinking…</p>
+            <p className="text-sm font-bold text-slate-200">AI is thinking…</p>
             <AnimatePresence mode="wait">
               <motion.p
                 key={msgIndex}
@@ -180,7 +180,7 @@ function LoadingState({ problem }: { problem: string }) {
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -4 }}
                 transition={{ duration: 0.3 }}
-                className="text-xs text-stone-400"
+                className="text-xs text-slate-400"
               >
                 {THINKING_MESSAGES[msgIndex]}
               </motion.p>
@@ -189,7 +189,7 @@ function LoadingState({ problem }: { problem: string }) {
         </div>
 
         {/* Progress bar */}
-        <div className="h-1.5 rounded-full bg-stone-100 overflow-hidden">
+        <div className="h-1.5 rounded-full bg-white/10 overflow-hidden">
           <motion.div
             className="h-full rounded-full"
             style={{ background: 'linear-gradient(90deg, #6366F1, #8B5CF6)' }}
@@ -197,25 +197,25 @@ function LoadingState({ problem }: { problem: string }) {
             transition={{ duration: 0.3, ease: 'easeOut' }}
           />
         </div>
-        <p className="text-[10px] text-stone-400 mt-1.5 text-right">{progress}%</p>
+        <p className="text-[10px] text-slate-400 mt-1.5 text-right">{progress}%</p>
       </div>
 
       {/* Skeleton cards */}
       <div className="space-y-3">
         {[0, 1, 2, 3].map(i => (
-          <div key={i} className="rounded-2xl overflow-hidden bg-white" style={{ boxShadow: '0 1px 4px rgba(0,0,0,0.06)' }}>
-            <div className="h-1 w-full bg-stone-200 animate-pulse" />
+          <div key={i} className="rounded-2xl overflow-hidden bg-card" style={{ boxShadow: '0 1px 4px rgba(0,0,0,0.06)' }}>
+            <div className="h-1 w-full bg-white/15 animate-pulse" />
             <div className="p-4">
               <div className="flex items-start gap-3">
-                <div className="w-8 h-8 rounded-xl bg-stone-200 animate-pulse shrink-0" style={{ animationDelay: `${i * 0.15}s` }} />
+                <div className="w-8 h-8 rounded-xl bg-white/15 animate-pulse shrink-0" style={{ animationDelay: `${i * 0.15}s` }} />
                 <div className="flex-1 space-y-2">
                   <div className="flex gap-2">
-                    <div className="h-4 w-10 rounded bg-stone-200 animate-pulse" />
-                    <div className="h-4 w-20 rounded bg-stone-100 animate-pulse" />
+                    <div className="h-4 w-10 rounded bg-white/15 animate-pulse" />
+                    <div className="h-4 w-20 rounded bg-white/10 animate-pulse" />
                   </div>
-                  <div className="h-5 w-3/4 rounded bg-stone-200 animate-pulse" />
-                  <div className="h-3 w-full rounded bg-stone-100 animate-pulse" />
-                  <div className="h-12 w-full rounded-xl bg-stone-100 animate-pulse" />
+                  <div className="h-5 w-3/4 rounded bg-white/15 animate-pulse" />
+                  <div className="h-3 w-full rounded bg-white/10 animate-pulse" />
+                  <div className="h-12 w-full rounded-xl bg-white/10 animate-pulse" />
                 </div>
               </div>
             </div>
@@ -282,7 +282,7 @@ export default function AiSuggest() {
       <div
         className="sticky top-12 z-40 px-4 pt-4 pb-4"
         style={{
-          background: 'rgba(252,251,249,0.96)',
+          background: 'rgba(19,24,42,0.96)',
           backdropFilter: 'blur(20px) saturate(1.4)',
           WebkitBackdropFilter: 'blur(20px) saturate(1.4)',
           borderBottom: '1.5px solid rgba(0,0,0,0.06)',
@@ -297,13 +297,13 @@ export default function AiSuggest() {
               <Sparkles size={16} className="text-white" />
             </div>
             <h1
-              className="text-xl font-black text-stone-900"
+              className="text-xl font-black text-slate-100"
               style={{ fontFamily: "'Sora', sans-serif" }}
             >
               AI Tool Finder
             </h1>
           </div>
-          <p className="text-xs text-stone-500 leading-relaxed">
+          <p className="text-xs text-slate-400 leading-relaxed">
             Describe your project challenge and get personalised recommendations from 198 PMO tools, techniques, and frameworks.
           </p>
         </div>
@@ -333,7 +333,7 @@ export default function AiSuggest() {
 
               {/* Text input */}
               <div
-                className="rounded-2xl overflow-hidden bg-white mb-4"
+                className="rounded-2xl overflow-hidden bg-card mb-4"
                 style={{ boxShadow: '0 2px 16px rgba(99,102,241,0.12), 0 1px 4px rgba(0,0,0,0.06)', border: '2px solid transparent', outline: 'none' }}
               >
                 <textarea
@@ -347,12 +347,12 @@ export default function AiSuggest() {
                     }
                   }}
                   placeholder="Describe your project challenge…&#10;&#10;e.g. My team keeps missing deadlines and nobody knows who is responsible for what."
-                  className="w-full px-4 pt-4 pb-2 text-sm text-stone-800 placeholder-stone-400 resize-none outline-none bg-transparent leading-relaxed"
+                  className="w-full px-4 pt-4 pb-2 text-sm text-slate-200 placeholder-slate-500 resize-none outline-none bg-transparent leading-relaxed"
                   rows={4}
                   autoFocus
                 />
                 <div className="flex items-center justify-between px-4 pb-3">
-                  <span className="text-[10px] text-stone-400">⌘↵ to submit</span>
+                  <span className="text-[10px] text-slate-400">⌘↵ to submit</span>
                   <button
                     onClick={() => handleSubmit()}
                     disabled={!problem.trim() || loading}
@@ -369,7 +369,7 @@ export default function AiSuggest() {
               <div>
                 <div className="flex items-center gap-1.5 mb-2.5">
                   <Lightbulb size={12} className="text-amber-500" />
-                  <span className="text-[11px] font-semibold text-stone-500 uppercase tracking-wider">Try an example</span>
+                  <span className="text-[11px] font-semibold text-slate-400 uppercase tracking-wider">Try an example</span>
                 </div>
                 <div className="space-y-2">
                   {EXAMPLE_PROMPTS.map((prompt, i) => (
@@ -379,10 +379,10 @@ export default function AiSuggest() {
                       animate={{ opacity: 1, x: 0 }}
                       transition={{ duration: 0.25, delay: i * 0.05 }}
                       onClick={() => handleExampleClick(prompt)}
-                      className="w-full text-left px-3.5 py-2.5 rounded-xl bg-white text-xs text-stone-600 hover:text-stone-900 transition-all flex items-center gap-2 group"
+                      className="w-full text-left px-3.5 py-2.5 rounded-xl bg-card text-xs text-slate-400 hover:text-slate-100 transition-all flex items-center gap-2 group"
                       style={{ boxShadow: '0 1px 3px rgba(0,0,0,0.06)', border: '1px solid rgba(0,0,0,0.05)' }}
                     >
-                      <ArrowRight size={12} className="shrink-0 text-stone-300 group-hover:text-indigo-400 transition-colors" />
+                      <ArrowRight size={12} className="shrink-0 text-slate-500 group-hover:text-indigo-400 transition-colors" />
                       <span className="leading-relaxed">{prompt}</span>
                     </motion.button>
                   ))}
@@ -440,11 +440,11 @@ export default function AiSuggest() {
             >
               {/* Problem echo */}
               <div
-                className="rounded-2xl p-4 mb-4 bg-white"
+                className="rounded-2xl p-4 mb-4 bg-card"
                 style={{ boxShadow: '0 1px 4px rgba(0,0,0,0.06)', border: '1px solid rgba(99,102,241,0.15)' }}
               >
                 <p className="text-[10px] font-semibold text-indigo-500 uppercase tracking-wider mb-1">Your challenge</p>
-                <p className="text-sm text-stone-700 leading-relaxed">{problem}</p>
+                <p className="text-sm text-slate-300 leading-relaxed">{problem}</p>
               </div>
 
               {/* AI summary */}
@@ -467,7 +467,7 @@ export default function AiSuggest() {
 
               {/* Recommendation cards */}
               <div className="flex items-center gap-1.5 mb-3 px-1">
-                <span className="text-[11px] font-semibold text-stone-500 uppercase tracking-wider">
+                <span className="text-[11px] font-semibold text-slate-400 uppercase tracking-wider">
                   {result.recommendations.length} recommended tools
                 </span>
               </div>
@@ -481,7 +481,7 @@ export default function AiSuggest() {
               {/* Reset button */}
               <button
                 onClick={handleReset}
-                className="w-full flex items-center justify-center gap-2 py-3.5 rounded-2xl text-sm font-bold text-stone-600 bg-white transition-all hover:bg-stone-50"
+                className="w-full flex items-center justify-center gap-2 py-3.5 rounded-2xl text-sm font-bold text-slate-400 bg-card transition-all hover:bg-white/5"
                 style={{ boxShadow: '0 1px 4px rgba(0,0,0,0.06)', border: '1px solid rgba(0,0,0,0.07)' }}
               >
                 <RotateCcw size={14} />

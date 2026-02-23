@@ -143,15 +143,15 @@ export default function JourneySetupWizard({ onComplete }: Props) {
               {step > 0 && (
                 <button
                   onClick={goBack}
-                  className="p-1.5 rounded-full hover:bg-stone-100 transition-colors"
+                  className="p-1.5 rounded-full hover:bg-white/10 transition-colors"
                   aria-label="Back"
                 >
-                  <ArrowLeft size={14} className="text-stone-400" />
+                  <ArrowLeft size={14} className="text-slate-400" />
                 </button>
               )}
               <div className="flex items-center gap-1.5">
                 <Sparkles size={14} className="text-violet-500" />
-                <span className="text-[11px] font-bold text-stone-400 uppercase tracking-widest">
+                <span className="text-[11px] font-bold text-slate-400 uppercase tracking-widest">
                   Personalise your journey
                 </span>
               </div>
@@ -182,12 +182,12 @@ export default function JourneySetupWizard({ onComplete }: Props) {
               transition={{ duration: 0.2 }}
             >
               <h2
-                className="text-lg font-black text-stone-900 leading-tight mb-1"
+                className="text-lg font-black text-slate-100 leading-tight mb-1"
                 style={{ fontFamily: 'Sora, sans-serif' }}
               >
                 {q.question}
               </h2>
-              <p className="text-[12px] text-stone-400 mb-4 leading-relaxed">{q.subtitle}</p>
+              <p className="text-[12px] text-slate-400 mb-4 leading-relaxed">{q.subtitle}</p>
 
               {/* Options */}
               <div className="space-y-2">
@@ -206,10 +206,10 @@ export default function JourneySetupWizard({ onComplete }: Props) {
                     }}
                   >
                     <span className="text-xl shrink-0">{opt.emoji}</span>
-                    <span className="text-sm font-semibold text-stone-700 leading-tight flex-1">
+                    <span className="text-sm font-semibold text-slate-300 leading-tight flex-1">
                       {opt.label}
                     </span>
-                    <ChevronRight size={14} className="text-stone-300 shrink-0" />
+                    <ChevronRight size={14} className="text-slate-500 shrink-0" />
                   </button>
                 ))}
               </div>
@@ -217,7 +217,7 @@ export default function JourneySetupWizard({ onComplete }: Props) {
           </AnimatePresence>
 
           {/* Step counter */}
-          <p className="text-[10px] text-stone-300 text-center mt-4">
+          <p className="text-[10px] text-slate-500 text-center mt-4">
             Question {step + 1} of {totalSteps}
           </p>
         </div>

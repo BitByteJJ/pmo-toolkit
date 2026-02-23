@@ -83,12 +83,12 @@ function renderInline(text: string): React.ReactNode {
     }
 
     if (type === 'bold') {
-      parts.push(<strong key={key++} className="font-semibold text-stone-800">{match[1]}</strong>);
+      parts.push(<strong key={key++} className="font-semibold text-slate-200">{match[1]}</strong>);
     } else if (type === 'italic') {
-      parts.push(<em key={key++} className="italic text-stone-600">{match[1]}</em>);
+      parts.push(<em key={key++} className="italic text-slate-400">{match[1]}</em>);
     } else {
       parts.push(
-        <code key={key++} className="bg-stone-100 text-stone-700 px-1 py-0.5 rounded text-[10px] font-mono">
+        <code key={key++} className="bg-white/10 text-slate-300 px-1 py-0.5 rounded text-[10px] font-mono">
           {match[1]}
         </code>
       );
@@ -104,7 +104,7 @@ function renderInline(text: string): React.ReactNode {
 
 function TableRenderer({ text, accentColor }: { text: string; accentColor: string }) {
   const parsed = parsePipeTable(text);
-  if (!parsed) return <pre className="text-[11px] text-stone-500 whitespace-pre-wrap">{text}</pre>;
+  if (!parsed) return <pre className="text-[11px] text-slate-400 whitespace-pre-wrap">{text}</pre>;
 
   const { headers, rows } = parsed;
 
@@ -116,7 +116,7 @@ function TableRenderer({ text, accentColor }: { text: string; accentColor: strin
             {headers.map((h, i) => (
               <th
                 key={i}
-                className="text-left px-3 py-2 font-bold text-stone-700 whitespace-nowrap border-b"
+                className="text-left px-3 py-2 font-bold text-slate-300 whitespace-nowrap border-b"
                 style={{ borderColor: accentColor + '30', color: accentColor === '#6B7280' ? '#374151' : accentColor }}
               >
                 {renderInline(h)}
@@ -128,14 +128,14 @@ function TableRenderer({ text, accentColor }: { text: string; accentColor: strin
           {rows.map((row, ri) => (
             <tr
               key={ri}
-              className="border-b transition-colors hover:bg-stone-50"
+              className="border-b transition-colors hover:bg-white/5"
               style={{ borderColor: '#F3F4F6', backgroundColor: ri % 2 === 0 ? '#FFFFFF' : '#FAFAFA' }}
             >
               {row.map((cell, ci) => (
-                <td key={ci} className="px-3 py-2 text-stone-600 align-top leading-relaxed">
+                <td key={ci} className="px-3 py-2 text-slate-400 align-top leading-relaxed">
                   {/* First column often acts as a label — make it slightly bolder */}
                   {ci === 0 ? (
-                    <span className="font-medium text-stone-700">{renderInline(cell)}</span>
+                    <span className="font-medium text-slate-300">{renderInline(cell)}</span>
                   ) : (
                     renderInline(cell)
                   )}
@@ -173,7 +173,7 @@ function ChecklistRenderer({ text, accentColor }: { text: string; accentColor: s
                   </svg>
                 )}
               </div>
-              <span className={`text-[12px] leading-relaxed ${checked ? 'line-through text-stone-400' : 'text-stone-600'}`}>
+              <span className={`text-[12px] leading-relaxed ${checked ? 'line-through text-slate-400' : 'text-slate-400'}`}>
                 {renderInline(checkedMatch[2])}
               </span>
             </div>
@@ -187,14 +187,14 @@ function ChecklistRenderer({ text, accentColor }: { text: string; accentColor: s
                 className="shrink-0 mt-1.5 w-1.5 h-1.5 rounded-full"
                 style={{ backgroundColor: accentColor }}
               />
-              <span className="text-[12px] text-stone-600 leading-relaxed">
+              <span className="text-[12px] text-slate-400 leading-relaxed">
                 {renderInline(trimmed.replace(/^[-*]\s/, ''))}
               </span>
             </div>
           );
         }
         return (
-          <p key={i} className="text-[12px] text-stone-600 leading-relaxed">
+          <p key={i} className="text-[12px] text-slate-400 leading-relaxed">
             {renderInline(trimmed)}
           </p>
         );
@@ -218,7 +218,7 @@ function NumberedListRenderer({ text, accentColor }: { text: string; accentColor
             >
               {i + 1}
             </span>
-            <span className="text-[12px] text-stone-600 leading-relaxed">{renderInline(content)}</span>
+            <span className="text-[12px] text-slate-400 leading-relaxed">{renderInline(content)}</span>
           </li>
         );
       })}
@@ -238,7 +238,7 @@ function BulletListRenderer({ text, accentColor }: { text: string; accentColor: 
               className="shrink-0 mt-1.5 w-1.5 h-1.5 rounded-full"
               style={{ backgroundColor: accentColor }}
             />
-            <span className="text-[12px] text-stone-600 leading-relaxed">{renderInline(content)}</span>
+            <span className="text-[12px] text-slate-400 leading-relaxed">{renderInline(content)}</span>
           </li>
         );
       })}
@@ -251,7 +251,7 @@ function ProseRenderer({ text }: { text: string }) {
   return (
     <div className="space-y-2">
       {lines.map((line, i) => (
-        <p key={i} className="text-[12px] text-stone-600 leading-relaxed">
+        <p key={i} className="text-[12px] text-slate-400 leading-relaxed">
           {renderInline(line.trim())}
         </p>
       ))}

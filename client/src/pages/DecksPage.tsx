@@ -258,18 +258,18 @@ export default function DecksPage() {
     <div className="min-h-screen pb-24">
       <div className="pt-12">
         <div className="max-w-5xl mx-auto px-4 pt-6 pb-4">
-          <h1 className="text-2xl font-black text-stone-900 mb-1" style={{ fontFamily: 'Sora, sans-serif' }}>
+          <h1 className="text-2xl font-black text-slate-100 mb-1" style={{ fontFamily: 'Sora, sans-serif' }}>
             All Decks
           </h1>
 
           {/* Mastery Badge Summary */}
-          <div className="flex items-center gap-3 mb-6 p-3 rounded-2xl bg-white" style={{ boxShadow: '0 2px 10px rgba(0,0,0,0.055), 0 1px 3px rgba(0,0,0,0.04), 0 0 0 1px rgba(0,0,0,0.04)' }}>
+          <div className="flex items-center gap-3 mb-6 p-3 rounded-2xl bg-card" style={{ boxShadow: '0 2px 10px rgba(0,0,0,0.055), 0 1px 3px rgba(0,0,0,0.04), 0 0 0 1px rgba(0,0,0,0.04)' }}>
             <div className="w-9 h-9 rounded-xl flex items-center justify-center" style={{ backgroundColor: '#FEF3C7' }}>
               <Trophy size={16} className="text-amber-500" />
             </div>
             <div className="flex-1 min-w-0">
-              <p className="text-sm font-bold text-stone-800">Mastery Badges</p>
-              <p className="text-[11px] text-stone-400">{totalBadges} of {maxBadges} earned — read all cards or ace a quiz to unlock</p>
+              <p className="text-sm font-bold text-slate-200">Mastery Badges</p>
+              <p className="text-[11px] text-slate-400">{totalBadges} of {maxBadges} earned — read all cards or ace a quiz to unlock</p>
             </div>
             <div className="flex gap-1 flex-wrap justify-end">
               {DECKS.map(d => {

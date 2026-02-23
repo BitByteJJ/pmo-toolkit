@@ -121,7 +121,7 @@ function AppInner() {
 function App() {
   return (
     <ErrorBoundary>
-      <ThemeProvider defaultTheme="light">
+      <ThemeProvider defaultTheme="dark">
         <JourneyProvider>
         <BookmarksProvider>
           <TooltipProvider>

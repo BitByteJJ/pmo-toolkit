@@ -93,7 +93,7 @@ function HowToStartCard({
   const [expanded, setExpanded] = useState(false);
   return (
     <div
-      className="rounded-2xl overflow-hidden bg-white"
+      className="rounded-2xl overflow-hidden bg-card"
       style={{ boxShadow: '0 2px 8px rgba(0,0,0,0.06)', border: `1.5px solid ${deck.color}20` }}
     >
       <button
@@ -107,12 +107,12 @@ function HowToStartCard({
           >
             <Lightbulb size={13} style={{ color: deck.color }} />
           </div>
-          <span className="text-sm font-bold text-stone-800">How to start</span>
+          <span className="text-sm font-bold text-slate-200">How to start</span>
         </div>
         {expanded ? (
-          <ChevronUp size={15} className="text-stone-400" />
+          <ChevronUp size={15} className="text-slate-400" />
         ) : (
-          <ChevronDown size={15} className="text-stone-400" />
+          <ChevronDown size={15} className="text-slate-400" />
         )}
       </button>
       <AnimatePresence>
@@ -134,9 +134,9 @@ function HowToStartCard({
                     {i + 1}
                   </span>
                   <div>
-                    <p className="text-sm font-semibold text-stone-700">{item.title}</p>
+                    <p className="text-sm font-semibold text-slate-300">{item.title}</p>
                     {item.steps.map((s, j) => (
-                      <p key={j} className="text-[11px] text-stone-500 leading-relaxed mt-0.5">
+                      <p key={j} className="text-[11px] text-slate-400 leading-relaxed mt-0.5">
                         {s}
                       </p>
                     ))}
@@ -163,7 +163,7 @@ function SystemCard({
   if (!intro.systemNodes || intro.systemNodes.length === 0) return null;
   return (
     <div
-      className="rounded-2xl overflow-hidden bg-white"
+      className="rounded-2xl overflow-hidden bg-card"
       style={{ boxShadow: '0 2px 8px rgba(0,0,0,0.06)', border: `1.5px solid ${deck.color}20` }}
     >
       <button
@@ -177,12 +177,12 @@ function SystemCard({
           >
             <Compass size={13} style={{ color: deck.color }} />
           </div>
-          <span className="text-sm font-bold text-stone-800">Decision guide</span>
+          <span className="text-sm font-bold text-slate-200">Decision guide</span>
         </div>
         {expanded ? (
-          <ChevronUp size={15} className="text-stone-400" />
+          <ChevronUp size={15} className="text-slate-400" />
         ) : (
-          <ChevronDown size={15} className="text-stone-400" />
+          <ChevronDown size={15} className="text-slate-400" />
         )}
       </button>
       <AnimatePresence>
@@ -204,11 +204,11 @@ function SystemCard({
                     {i + 1}
                   </span>
                   <div>
-                    <p className="text-sm font-semibold text-stone-700">{node.question}</p>
+                    <p className="text-sm font-semibold text-slate-300">{node.question}</p>
                     {node.yesNext && (
-                      <p className="text-[11px] text-stone-500 mt-0.5">→ Yes: {node.yesNext}</p>
+                      <p className="text-[11px] text-slate-400 mt-0.5">→ Yes: {node.yesNext}</p>
                     )}
-                    <p className="text-[11px] text-stone-500 mt-0.5">
+                    <p className="text-[11px] text-slate-400 mt-0.5">
                       {node.noIcon} {node.noCategory}
                     </p>
                   </div>
@@ -242,7 +242,7 @@ function CategoriesCard({
 
   return (
     <div
-      className="rounded-2xl overflow-hidden bg-white"
+      className="rounded-2xl overflow-hidden bg-card"
       style={{
         boxShadow: '0 2px 8px rgba(0,0,0,0.06)',
         border: `1.5px solid ${activeCategory ? deck.color + '60' : deck.color + '20'}`,
@@ -261,7 +261,7 @@ function CategoriesCard({
           >
             <Layers size={13} style={{ color: deck.color }} />
           </div>
-          <span className="text-sm font-bold text-stone-800">Categories</span>
+          <span className="text-sm font-bold text-slate-200">Categories</span>
           {/* Active badge shown in header */}
           {activeCategory && (
             <span
@@ -273,9 +273,9 @@ function CategoriesCard({
           )}
         </div>
         {isOpen ? (
-          <ChevronUp size={15} className="text-stone-400" />
+          <ChevronUp size={15} className="text-slate-400" />
         ) : (
-          <ChevronDown size={15} className="text-stone-400" />
+          <ChevronDown size={15} className="text-slate-400" />
         )}
       </button>
 
@@ -331,7 +331,7 @@ function CategoriesCard({
                 (() => {
                   const cat = intro.categories.find(c => c.name === activeCategory);
                   return cat ? (
-                    <p className="text-[11px] text-stone-500 leading-relaxed">
+                    <p className="text-[11px] text-slate-400 leading-relaxed">
                       <span className="font-semibold" style={{ color: cat.color }}>
                         {cat.icon} {cat.name}:
                       </span>{' '}
@@ -562,7 +562,7 @@ export default function DeckView() {
     return (
       <div className="min-h-screen flex items-center justify-center">
         <div className="text-center">
-          <p className="text-stone-500 mb-4">Deck not found</p>
+          <p className="text-slate-400 mb-4">Deck not found</p>
           <button onClick={() => navigate('/')} className="text-blue-600 font-medium">
             Go home
           </button>
@@ -833,7 +833,7 @@ export default function DeckView() {
               className="text-center py-10 rounded-2xl"
               style={{ backgroundColor: deck.color + '08' }}
             >
-              <p className="text-sm font-semibold text-stone-400">No cards match this filter.</p>
+              <p className="text-sm font-semibold text-slate-400">No cards match this filter.</p>
               <button
                 onClick={clearFilter}
                 className="mt-2 text-xs font-bold"

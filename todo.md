@@ -284,3 +284,14 @@
 - [x] Build first-time visitor onboarding tour with navigation map (Take Tour / Skip)
 - [x] Verify case studies for factual accuracy and apply corrections
 - [x] Build "How It Was Built" documentation page (prompt library + tools used)
+
+## Dark Mode — Feb 23 2026 (Session 4)
+- [x] Apply dark ThemeProvider globally (defaultTheme="dark")
+- [x] Fix TopNav: dark frosted glass bar, dark dropdown panel, light text
+- [x] Fix BottomNav: dark dropdown panel, light deck titles
+- [x] Fix JourneyPage: full dark-mode rewrite with dark card containers
+- [x] Fix Advanced Techniques deck theme color for dark mode visibility
+- [x] Batch replace all stone-* text/bg classes with dark-mode equivalents across all pages
+- [x] Fix CardDetail: dark modal, dark sticky header, dark card surfaces
+- [x] Fix CaseStudiesPage, BookmarksPage, DecisionHelper, GlossaryPage, LessonPage, QuizPage, AiSuggest
+- [x] Fix VideoGuide and DailyChallenge component dark text colors

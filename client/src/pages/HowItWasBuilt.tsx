@@ -267,13 +267,13 @@ function CopyButton({ text }: { text: string }) {
 function PromptCard({ title, prompt }: { title: string; prompt: string }) {
   const [expanded, setExpanded] = useState(false);
   return (
-    <div className="rounded-xl border border-stone-200 overflow-hidden">
+    <div className="rounded-xl border border-white/10 overflow-hidden">
       <button
         onClick={() => setExpanded(e => !e)}
-        className="w-full flex items-center justify-between px-4 py-3 text-left hover:bg-stone-50 transition-colors"
+        className="w-full flex items-center justify-between px-4 py-3 text-left hover:bg-white/5 transition-colors"
       >
-        <span className="text-[13px] font-semibold text-stone-800">{title}</span>
-        {expanded ? <ChevronUp size={14} strokeWidth={2} className="text-stone-400 shrink-0" /> : <ChevronDown size={14} strokeWidth={2} className="text-stone-400 shrink-0" />}
+        <span className="text-[13px] font-semibold text-slate-200">{title}</span>
+        {expanded ? <ChevronUp size={14} strokeWidth={2} className="text-slate-400 shrink-0" /> : <ChevronDown size={14} strokeWidth={2} className="text-slate-400 shrink-0" />}
       </button>
       <AnimatePresence>
         {expanded && (
@@ -286,11 +286,11 @@ function PromptCard({ title, prompt }: { title: string; prompt: string }) {
           >
             <div className="px-4 pb-4">
               <div className="flex items-center justify-between mb-2">
-                <span className="text-[10px] font-mono text-stone-400 uppercase tracking-widest">Prompt</span>
+                <span className="text-[10px] font-mono text-slate-400 uppercase tracking-widest">Prompt</span>
                 <CopyButton text={prompt} />
               </div>
               <pre
-                className="text-[11.5px] leading-relaxed text-stone-700 whitespace-pre-wrap font-mono bg-stone-50 rounded-lg p-3 border border-stone-100"
+                className="text-[11.5px] leading-relaxed text-slate-300 whitespace-pre-wrap font-mono bg-white/5 rounded-lg p-3 border border-white/8"
                 style={{ fontFamily: 'JetBrains Mono, monospace' }}
               >
                 {prompt}
@@ -316,7 +316,7 @@ export default function HowItWasBuilt() {
   ] as const;
 
   return (
-    <div className="min-h-screen bg-white pb-24">
+    <div className="min-h-screen bg-card pb-24">
       {/* Header */}
       <div
         className="pt-12 pb-6 px-4"
@@ -349,7 +349,7 @@ export default function HowItWasBuilt() {
 
       {/* Tab bar */}
       <div
-        className="sticky z-40 bg-white border-b border-stone-100"
+        className="sticky z-40 bg-card border-b border-white/8"
         style={{ top: '48px' }}
       >
         <div className="flex" style={{ maxWidth: '480px', margin: '0 auto' }}>
@@ -379,7 +379,7 @@ export default function HowItWasBuilt() {
         {/* ── PROCESS TAB ─────────────────────────────────────────────────── */}
         {activeTab === 'process' && (
           <div className="pt-5 space-y-4">
-            <p className="text-[12px] text-stone-500 leading-relaxed">
+            <p className="text-[12px] text-slate-400 leading-relaxed">
               StratAlign was built over several days using an AI-assisted development workflow. 
               Here's the end-to-end process from content architecture to deployment.
             </p>
@@ -397,9 +397,9 @@ export default function HowItWasBuilt() {
                 >
                   {step.step}
                 </div>
-                <div className="flex-1 pb-4 border-b border-stone-100 last:border-0">
-                  <h3 className="text-[14px] font-bold text-stone-900 mb-1">{step.title}</h3>
-                  <p className="text-[12px] text-stone-500 leading-relaxed">{step.desc}</p>
+                <div className="flex-1 pb-4 border-b border-white/8 last:border-0">
+                  <h3 className="text-[14px] font-bold text-slate-100 mb-1">{step.title}</h3>
+                  <p className="text-[12px] text-slate-400 leading-relaxed">{step.desc}</p>
                 </div>
               </motion.div>
             ))}
@@ -419,7 +419,7 @@ export default function HowItWasBuilt() {
                   { label: 'Vitest tests', value: '41' },
                 ].map(stat => (
                   <div key={stat.label} className="flex items-center justify-between">
-                    <span className="text-[11px] text-stone-500">{stat.label}</span>
+                    <span className="text-[11px] text-slate-400">{stat.label}</span>
                     <span className="text-[13px] font-black text-indigo-700">{stat.value}</span>
                   </div>
                 ))}
@@ -445,7 +445,7 @@ export default function HowItWasBuilt() {
                   >
                     <section.icon size={14} strokeWidth={1.8} style={{ color: section.color }} />
                   </div>
-                  <h3 className="text-[13px] font-bold text-stone-800">{section.category}</h3>
+                  <h3 className="text-[13px] font-bold text-slate-200">{section.category}</h3>
                 </div>
                 <div className="space-y-2">
                   {section.items.map(item => (
@@ -459,8 +459,8 @@ export default function HowItWasBuilt() {
                         style={{ backgroundColor: section.color }}
                       />
                       <div>
-                        <div className="text-[12.5px] font-semibold text-stone-800">{item.name}</div>
-                        <div className="text-[11px] text-stone-500 mt-0.5">{item.desc}</div>
+                        <div className="text-[12.5px] font-semibold text-slate-200">{item.name}</div>
+                        <div className="text-[11px] text-slate-400 mt-0.5">{item.desc}</div>
                       </div>
                     </div>
                   ))}
@@ -469,11 +469,11 @@ export default function HowItWasBuilt() {
             ))}
 
             {/* GitHub CTA */}
-            <div className="rounded-2xl p-4 border border-stone-200 flex items-center gap-3">
-              <Github size={20} strokeWidth={1.8} className="text-stone-600 shrink-0" />
+            <div className="rounded-2xl p-4 border border-white/10 flex items-center gap-3">
+              <Github size={20} strokeWidth={1.8} className="text-slate-400 shrink-0" />
               <div className="flex-1">
-                <div className="text-[13px] font-bold text-stone-800">Source Code</div>
-                <div className="text-[11px] text-stone-500 mt-0.5">
+                <div className="text-[13px] font-bold text-slate-200">Source Code</div>
+                <div className="text-[11px] text-slate-400 mt-0.5">
                   GitHub repository coming soon — watch Jackson Joy's LinkedIn for the announcement.
                 </div>
               </div>
@@ -484,7 +484,7 @@ export default function HowItWasBuilt() {
         {/* ── PROMPTS TAB ─────────────────────────────────────────────────── */}
         {activeTab === 'prompts' && (
           <div className="pt-5 space-y-6">
-            <p className="text-[12px] text-stone-500 leading-relaxed">
+            <p className="text-[12px] text-slate-400 leading-relaxed">
               These are the AI prompts used to generate the content in StratAlign. 
               Copy and adapt them for your own PM content projects. 
               Variables in {'{CURLY_BRACES}'} should be replaced with your specific values.
@@ -498,7 +498,7 @@ export default function HowItWasBuilt() {
               >
                 <div className="flex items-center gap-2 mb-3">
                   <section.icon size={14} strokeWidth={1.8} style={{ color: section.color }} />
-                  <h3 className="text-[13px] font-bold text-stone-800">{section.category}</h3>
+                  <h3 className="text-[13px] font-bold text-slate-200">{section.category}</h3>
                 </div>
                 <div className="space-y-2">
                   {section.prompts.map(p => (

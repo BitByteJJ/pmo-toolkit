@@ -19,17 +19,17 @@ export default function BookmarksPage() {
   return (
     <div className="min-h-screen pt-12 pb-24">
       {/* Header */}
-      <div className="border-b pt-4 pb-4" style={{ background: 'rgba(252,251,249,0.96)', backdropFilter: 'blur(20px) saturate(1.4)', WebkitBackdropFilter: 'blur(20px) saturate(1.4)', borderColor: 'rgba(0,0,0,0.06)' }}>
+      <div className="border-b pt-4 pb-4" style={{ background: 'rgba(19,24,42,0.96)', backdropFilter: 'blur(20px) saturate(1.4)', WebkitBackdropFilter: 'blur(20px) saturate(1.4)', borderColor: 'rgba(0,0,0,0.06)' }}>
         <div className="max-w-2xl mx-auto px-4">
           <div className="flex items-center justify-between">
             <div>
               <h1
-                className="text-xl font-bold text-stone-900"
+                className="text-xl font-bold text-slate-100"
                 style={{ fontFamily: 'Sora, sans-serif' }}
               >
                 Saved Cards
               </h1>
-              <p className="text-[11px] text-stone-400 font-medium mt-0.5">
+              <p className="text-[11px] text-slate-400 font-medium mt-0.5">
                 {savedCards.length} card{savedCards.length !== 1 ? 's' : ''} saved
               </p>
             </div>
@@ -52,16 +52,16 @@ export default function BookmarksPage() {
             animate={{ opacity: 1, y: 0 }}
             className="flex flex-col items-center justify-center py-20 text-center"
           >
-            <div className="w-16 h-16 rounded-2xl bg-stone-100 flex items-center justify-center mb-4">
-              <Bookmark size={26} className="text-stone-300" />
+            <div className="w-16 h-16 rounded-2xl bg-white/10 flex items-center justify-center mb-4">
+              <Bookmark size={26} className="text-slate-500" />
             </div>
-            <h2 className="text-base font-semibold text-stone-600 mb-1">No saved cards yet</h2>
-            <p className="text-sm text-stone-400 max-w-xs leading-relaxed">
+            <h2 className="text-base font-semibold text-slate-400 mb-1">No saved cards yet</h2>
+            <p className="text-sm text-slate-400 max-w-xs leading-relaxed">
               Tap the bookmark icon on any card to save it here for quick reference.
             </p>
             <button
               onClick={() => navigate('/')}
-              className="mt-6 flex items-center gap-1.5 text-sm font-semibold text-stone-700 bg-white rounded-xl px-4 py-2.5 transition-all hover:shadow-md"
+              className="mt-6 flex items-center gap-1.5 text-sm font-semibold text-slate-300 bg-card rounded-xl px-4 py-2.5 transition-all hover:shadow-md"
               style={{ boxShadow: '0 1px 3px rgba(0,0,0,0.08)' }}
             >
               Browse decks
@@ -86,7 +86,7 @@ export default function BookmarksPage() {
                     transition={{ delay: i * 0.04 }}
                   >
                     <div
-                      className="bg-white rounded-2xl overflow-hidden"
+                      className="bg-card rounded-2xl overflow-hidden"
                       style={{
                         borderLeft: `4px solid ${deck?.color ?? '#ccc'}`,
                         boxShadow: '0 2px 10px rgba(0,0,0,0.055), 0 1px 3px rgba(0,0,0,0.04), 0 0 0 1px rgba(0,0,0,0.03)',
@@ -104,10 +104,10 @@ export default function BookmarksPage() {
                             >
                               {card.code}
                             </span>
-                            <span className="text-[9px] text-stone-400 font-medium capitalize">{card.type}</span>
+                            <span className="text-[9px] text-slate-400 font-medium capitalize">{card.type}</span>
                           </div>
-                          <h3 className="text-sm font-semibold text-stone-800 leading-tight">{card.title}</h3>
-                          <p className="text-[11px] text-stone-500 mt-1 line-clamp-2 leading-relaxed">{card.tagline}</p>
+                          <h3 className="text-sm font-semibold text-slate-200 leading-tight">{card.title}</h3>
+                          <p className="text-[11px] text-slate-400 mt-1 line-clamp-2 leading-relaxed">{card.tagline}</p>
                         </button>
                         <button
                           onClick={() => toggleBookmark(card.id)}

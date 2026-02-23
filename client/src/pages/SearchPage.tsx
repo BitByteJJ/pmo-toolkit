@@ -42,7 +42,7 @@ export default function SearchPage() {
         className="pb-3 sticky top-12 z-30"
         style={{
           paddingTop: '12px',
-          background: 'rgba(252,251,249,0.96)',
+          background: 'rgba(19,24,42,0.96)',
           backdropFilter: 'blur(20px) saturate(1.4)',
           WebkitBackdropFilter: 'blur(20px) saturate(1.4)',
           borderBottom: '1.5px solid rgba(0,0,0,0.06)',
@@ -50,27 +50,27 @@ export default function SearchPage() {
       >
         <div className="max-w-2xl mx-auto px-4">
         <h1
-          className="text-xl font-bold text-stone-900 mb-3"
+          className="text-xl font-bold text-slate-100 mb-3"
           style={{ fontFamily: 'Sora, sans-serif' }}
         >
           Search
         </h1>
         {/* Search input */}
         <div className="relative">
-          <Search size={15} className="absolute left-3 top-1/2 -translate-y-1/2 text-stone-400" />
+          <Search size={15} className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" />
           <input
             type="text"
             value={query}
             onChange={e => setQuery(e.target.value)}
             placeholder="Search tools, techniques, frameworks…"
-            className="w-full bg-white rounded-xl pl-9 pr-9 py-2.5 text-sm text-stone-800 placeholder:text-stone-400 outline-none transition-all"
+            className="w-full bg-card rounded-xl pl-9 pr-9 py-2.5 text-sm text-slate-200 placeholder:text-slate-400 outline-none transition-all"
             style={{ boxShadow: '0 2px 8px rgba(0,0,0,0.07), 0 0 0 1px rgba(0,0,0,0.05)' }}
             autoFocus
           />
           {query && (
             <button
               onClick={() => setQuery('')}
-              className="absolute right-3 top-1/2 -translate-y-1/2 text-stone-400 hover:text-stone-600 transition-colors"
+              className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-400 transition-colors"
             >
               <X size={13} />
             </button>
@@ -131,7 +131,7 @@ export default function SearchPage() {
             className="space-y-5"
           >
             <div>
-              <h2 className="text-[10px] font-bold text-stone-400 uppercase tracking-widest mb-2.5">
+              <h2 className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-2.5">
                 Popular Searches
               </h2>
               <div className="flex flex-wrap gap-2">
@@ -139,7 +139,7 @@ export default function SearchPage() {
                   <button
                     key={s}
                     onClick={() => setQuery(s)}
-                    className="text-xs px-3 py-1.5 bg-white rounded-xl text-stone-600 font-medium hover:shadow-md transition-all active:scale-95"
+                    className="text-xs px-3 py-1.5 bg-card rounded-xl text-slate-400 font-medium hover:shadow-md transition-all active:scale-95"
                     style={{ boxShadow: '0 1px 3px rgba(0,0,0,0.06)' }}
                   >
                     {s}
@@ -149,7 +149,7 @@ export default function SearchPage() {
             </div>
 
             <div>
-              <h2 className="text-[10px] font-bold text-stone-400 uppercase tracking-widest mb-2.5">
+              <h2 className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-2.5">
                 Browse by Deck
               </h2>
               <div className="space-y-2">
@@ -181,7 +181,7 @@ export default function SearchPage() {
         {/* Results */}
         {query && (
           <div>
-            <p className="text-[11px] text-stone-400 font-semibold mb-3">
+            <p className="text-[11px] text-slate-400 font-semibold mb-3">
               {results.length} result{results.length !== 1 ? 's' : ''} for "{query}"
             </p>
             <AnimatePresence>
@@ -191,8 +191,8 @@ export default function SearchPage() {
                   animate={{ opacity: 1 }}
                   className="text-center py-12"
                 >
-                  <p className="text-stone-400 text-sm">No cards match your search.</p>
-                  <p className="text-stone-300 text-xs mt-1">Try different keywords or browse by deck.</p>
+                  <p className="text-slate-400 text-sm">No cards match your search.</p>
+                  <p className="text-slate-500 text-xs mt-1">Try different keywords or browse by deck.</p>
                 </motion.div>
               ) : (
                 <motion.div
@@ -211,7 +211,7 @@ export default function SearchPage() {
                         transition={{ delay: i * 0.025 }}
                       >
                         <div
-                          className="bg-white rounded-2xl overflow-hidden"
+                          className="bg-card rounded-2xl overflow-hidden"
                           style={{
                             borderLeft: `4px solid ${deck?.color ?? '#ccc'}`,
                             boxShadow: '0 2px 10px rgba(0,0,0,0.055), 0 1px 3px rgba(0,0,0,0.04), 0 0 0 1px rgba(0,0,0,0.03)',
@@ -230,19 +230,19 @@ export default function SearchPage() {
                                   >
                                     {card.code}
                                   </span>
-                                  <span className="text-[9px] text-stone-400 font-medium capitalize">{card.type}</span>
+                                  <span className="text-[9px] text-slate-400 font-medium capitalize">{card.type}</span>
                                 </div>
-                                <h3 className="text-sm font-semibold text-stone-800 leading-tight">{card.title}</h3>
-                                <p className="text-[11px] text-stone-500 mt-1 line-clamp-2 leading-relaxed">{card.tagline}</p>
+                                <h3 className="text-sm font-semibold text-slate-200 leading-tight">{card.title}</h3>
+                                <p className="text-[11px] text-slate-400 mt-1 line-clamp-2 leading-relaxed">{card.tagline}</p>
                               </div>
                               <button
                                 onClick={e => { e.stopPropagation(); toggleBookmark(card.id); }}
-                                className="shrink-0 p-2 rounded-xl hover:bg-stone-50 transition-colors"
+                                className="shrink-0 p-2 rounded-xl hover:bg-white/5 transition-colors"
                               >
                                 {bookmarked ? (
                                   <BookmarkCheck size={15} className="text-rose-500" />
                                 ) : (
-                                  <Bookmark size={15} className="text-stone-300" />
+                                  <Bookmark size={15} className="text-slate-500" />
                                 )}
                               </button>
                             </div>

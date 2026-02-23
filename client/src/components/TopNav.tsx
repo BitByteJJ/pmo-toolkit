@@ -79,7 +79,7 @@ const MINI_APPS = [
 
 type DropdownType = 'apps' | null;
 
-export default function TopNav({ accentColor = '#475569' }: TopNavProps) {
+export default function TopNav({ accentColor = '#818cf8' }: TopNavProps) {
   const [location, navigate] = useLocation();
   const [openDropdown, setOpenDropdown] = useState<DropdownType>(null);
   const appsRef = useRef<HTMLDivElement>(null);
@@ -112,17 +112,17 @@ export default function TopNav({ accentColor = '#475569' }: TopNavProps) {
       transition={{ duration: 0.15, ease: [0.22, 1, 0.36, 1] }}
       className="absolute right-0 top-full mt-2 w-72 rounded-2xl overflow-hidden"
       style={{
-        background: 'rgba(255,255,255,0.98)',
+        background: 'rgba(20,24,42,0.98)',
         backdropFilter: 'blur(20px)',
         WebkitBackdropFilter: 'blur(20px)',
-        boxShadow: '0 16px 40px rgba(0,0,0,0.12), 0 4px 12px rgba(0,0,0,0.07)',
-        border: '1px solid rgba(0,0,0,0.07)',
+        boxShadow: '0 16px 40px rgba(0,0,0,0.5), 0 4px 12px rgba(0,0,0,0.3)',
+        border: '1px solid rgba(255,255,255,0.08)',
         transformOrigin: 'top right',
         zIndex: 60,
       }}
     >
       <div className="px-3.5 pt-3 pb-1.5">
-        <p className="text-[10px] font-bold text-stone-400 uppercase tracking-widest">Mini-Apps</p>
+        <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Mini-Apps</p>
       </div>
       <div className="pb-2">
         {MINI_APPS.map((app, i) => {
@@ -134,23 +134,23 @@ export default function TopNav({ accentColor = '#475569' }: TopNavProps) {
               animate={{ opacity: 1, x: 0 }}
               transition={{ delay: i * 0.03 }}
               onClick={() => { setOpenDropdown(null); navigate(app.path); }}
-              className="w-full flex items-center gap-3 px-3.5 py-2.5 text-left transition-colors hover:bg-stone-50/80 active:bg-stone-100"
-              style={{ backgroundColor: active ? app.color + '0d' : undefined }}
+              className="w-full flex items-center gap-3 px-3.5 py-2.5 text-left transition-colors hover:bg-white/5 active:bg-card/10"
+              style={{ backgroundColor: active ? app.color + '18' : undefined }}
             >
               <div
                 className="w-7 h-7 rounded-lg flex items-center justify-center shrink-0"
-                style={{ backgroundColor: app.color + '18' }}
+                style={{ backgroundColor: app.color + '22' }}
               >
                 <app.icon size={14} strokeWidth={2} style={{ color: app.color }} />
               </div>
               <div className="flex-1 min-w-0">
                 <div
                   className="text-[12.5px] font-semibold leading-tight truncate"
-                  style={{ color: active ? app.color : '#1c1917' }}
+                  style={{ color: active ? app.color : '#e2e8f0' }}
                 >
                   {app.label}
                 </div>
-                <div className="text-[10px] text-stone-400 mt-0.5 leading-tight line-clamp-1">{app.desc}</div>
+                <div className="text-[10px] text-slate-400 mt-0.5 leading-tight line-clamp-1">{app.desc}</div>
               </div>
               {active && (
                 <span
@@ -170,11 +170,11 @@ export default function TopNav({ accentColor = '#475569' }: TopNavProps) {
       className="fixed top-0 left-0 right-0 z-50"
       style={{
         height: '48px',
-        background: 'rgba(255,255,255,0.92)',
+        background: 'rgba(19,24,42,0.96)',
         backdropFilter: 'blur(24px) saturate(1.5)',
         WebkitBackdropFilter: 'blur(24px) saturate(1.5)',
-        borderBottom: '1px solid rgba(0,0,0,0.06)',
-        boxShadow: '0 1px 0 rgba(255,255,255,0.8) inset, 0 1px 3px rgba(0,0,0,0.05)',
+        borderBottom: '1px solid rgba(255,255,255,0.07)',
+        boxShadow: '0 1px 0 rgba(255,255,255,0.04) inset, 0 1px 3px rgba(0,0,0,0.3)',
       }}
     >
       {/* ── Mobile layout (< lg) ─────────────────────────────────────────── */}
@@ -185,7 +185,7 @@ export default function TopNav({ accentColor = '#475569' }: TopNavProps) {
         {/* Wordmark */}
         <button
           onClick={() => navigate('/')}
-          className="flex items-center gap-1.5 rounded-xl px-2 py-1.5 transition-all hover:bg-black/5 active:scale-95 shrink-0"
+          className="flex items-center gap-1.5 rounded-xl px-2 py-1.5 transition-all hover:bg-card/10 active:scale-95 shrink-0"
           aria-label="Go to home"
         >
           <div
@@ -195,8 +195,8 @@ export default function TopNav({ accentColor = '#475569' }: TopNavProps) {
             <LayoutGrid size={11} strokeWidth={2.5} color="white" />
           </div>
           <span
-            className="text-[13px] font-black tracking-tight"
-            style={{ fontFamily: 'Sora, sans-serif', color: '#1a1a2e' }}
+            className="text-[13px] font-black tracking-tight text-white"
+            style={{ fontFamily: 'Sora, sans-serif' }}
           >
             StratAlign
           </span>
@@ -207,13 +207,13 @@ export default function TopNav({ accentColor = '#475569' }: TopNavProps) {
           {/* Bookmarks button (mobile) */}
           <button
             onClick={() => navigate('/bookmarks')}
-            className="relative flex items-center justify-center rounded-xl w-8 h-8 transition-all hover:bg-black/5 active:scale-95"
+            className="relative flex items-center justify-center rounded-xl w-8 h-8 transition-all hover:bg-card/10 active:scale-95"
             aria-label="Bookmarks"
           >
             <Bookmark
               size={16}
               strokeWidth={location === '/bookmarks' ? 2.4 : 1.8}
-              style={{ color: location === '/bookmarks' ? accentColor : '#64748b' }}
+              style={{ color: location === '/bookmarks' ? accentColor : '#94a3b8' }}
             />
             {bookmarks.length > 0 && (
               <span className="absolute top-0.5 right-0.5 min-w-[14px] h-3.5 bg-rose-500 text-white text-[8px] font-bold rounded-full flex items-center justify-center px-0.5 leading-none">
@@ -226,7 +226,7 @@ export default function TopNav({ accentColor = '#475569' }: TopNavProps) {
           <div className="relative" ref={appsRef}>
             <button
               onClick={() => toggle('apps')}
-              className="flex items-center gap-1 rounded-xl px-2.5 py-1.5 transition-all hover:bg-black/5 active:scale-95"
+              className="flex items-center gap-1 rounded-xl px-2.5 py-1.5 transition-all hover:bg-card/10 active:scale-95"
               style={{ color: accentColor }}
               aria-label="Open mini-apps"
               aria-expanded={openDropdown === 'apps'}
@@ -259,8 +259,8 @@ export default function TopNav({ accentColor = '#475569' }: TopNavProps) {
             <LayoutGrid size={13} strokeWidth={2.5} color="white" />
           </div>
           <span
-            className="text-[14px] font-black tracking-tight"
-            style={{ fontFamily: 'Sora, sans-serif', color: '#1a1a2e' }}
+            className="text-[14px] font-black tracking-tight text-white"
+            style={{ fontFamily: 'Sora, sans-serif' }}
           >
             StratAlign
           </span>
@@ -276,8 +276,8 @@ export default function TopNav({ accentColor = '#475569' }: TopNavProps) {
                 onClick={() => navigate(path)}
                 className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-[12px] font-semibold whitespace-nowrap transition-all"
                 style={{
-                  color: active ? accentColor : '#64748b',
-                  backgroundColor: active ? accentColor + '12' : 'transparent',
+                  color: active ? accentColor : '#94a3b8',
+                  backgroundColor: active ? accentColor + '18' : 'transparent',
                 }}
               >
                 <Icon size={13} strokeWidth={active ? 2.4 : 1.8} />
@@ -292,10 +292,10 @@ export default function TopNav({ accentColor = '#475569' }: TopNavProps) {
           {/* Bookmarks button (desktop) */}
           <button
             onClick={() => navigate('/bookmarks')}
-            className="relative flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-[12px] font-semibold transition-all hover:bg-black/5"
+            className="relative flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-[12px] font-semibold transition-all hover:bg-card/10"
             style={{
-              color: location === '/bookmarks' ? accentColor : '#64748b',
-              backgroundColor: location === '/bookmarks' ? accentColor + '12' : 'transparent',
+              color: location === '/bookmarks' ? accentColor : '#94a3b8',
+              backgroundColor: location === '/bookmarks' ? accentColor + '18' : 'transparent',
             }}
           >
             <Bookmark size={13} strokeWidth={location === '/bookmarks' ? 2.4 : 1.8} />
@@ -311,7 +311,7 @@ export default function TopNav({ accentColor = '#475569' }: TopNavProps) {
           <div className="relative" ref={appsRef}>
             <button
               onClick={() => toggle('apps')}
-              className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-[12px] font-bold transition-all hover:bg-black/5"
+              className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-[12px] font-bold transition-all hover:bg-card/10"
               style={{ color: accentColor }}
               aria-expanded={openDropdown === 'apps'}
             >

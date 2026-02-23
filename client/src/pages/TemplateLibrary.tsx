@@ -165,7 +165,7 @@ export default function TemplateLibrary() {
       <div className="sticky top-12 z-40"
         style={{ background: 'rgba(10,22,40,0.92)', backdropFilter: 'blur(16px)', borderBottom: '1px solid rgba(255,255,255,0.07)' }}>
         <div className="flex items-center gap-3 px-4 py-3" style={{ maxWidth: '480px', margin: '0 auto' }}>
-        <button onClick={() => navigate('/')} className="p-1.5 rounded-lg hover:bg-white/10 transition-colors">
+        <button onClick={() => navigate('/')} className="p-1.5 rounded-lg hover:bg-card/10 transition-colors">
           <ArrowLeft size={18} className="text-slate-300" />
         </button>
         <div className="flex items-center gap-2">
@@ -179,7 +179,7 @@ export default function TemplateLibrary() {
         </div>
         <div className="ml-auto flex gap-2">
           {step !== 'intro' && (
-            <button onClick={reset} className="flex items-center gap-1 text-xs text-slate-400 hover:text-white transition-colors px-2 py-1 rounded-lg hover:bg-white/10">
+            <button onClick={reset} className="flex items-center gap-1 text-xs text-slate-400 hover:text-white transition-colors px-2 py-1 rounded-lg hover:bg-card/10">
               <X size={12} /> Reset
             </button>
           )}
@@ -204,7 +204,7 @@ export default function TemplateLibrary() {
                 style={{ background: 'linear-gradient(135deg, #0284C7 0%, #0ea5e9 50%, #38bdf8 100%)' }}>
                 <div className="absolute inset-0 opacity-10" style={{ backgroundImage: 'radial-gradient(circle at 30% 70%, #fff 0%, transparent 60%)' }} />
                 <div className="relative z-10">
-                  <div className="w-16 h-16 rounded-2xl bg-white/20 flex items-center justify-center mx-auto mb-3">
+                  <div className="w-16 h-16 rounded-2xl bg-card/20 flex items-center justify-center mx-auto mb-3">
                     <FileText size={32} className="text-white" />
                   </div>
                   <h2 className="text-2xl font-bold text-white mb-2" style={{ fontFamily: 'Sora, sans-serif' }}>
@@ -448,7 +448,7 @@ function QuestionCard({
   return (
     <div>
       <div className="flex items-center gap-2 mb-4">
-        <button onClick={onBack} className="p-1.5 rounded-lg hover:bg-white/10 transition-colors">
+        <button onClick={onBack} className="p-1.5 rounded-lg hover:bg-card/10 transition-colors">
           <ArrowLeft size={16} className="text-slate-400" />
         </button>
         <span className="text-xs text-slate-500 font-semibold">{stepLabel}</span>
