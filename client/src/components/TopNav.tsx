@@ -11,6 +11,7 @@ import {
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { DECKS } from '@/lib/pmoData';
+import { useBookmarks } from '@/contexts/BookmarksContext';
 
 interface TopNavProps {
   accentColor?: string;
@@ -19,9 +20,8 @@ interface TopNavProps {
 
 // Primary nav links shown on desktop (not in any dropdown)
 const PRIMARY_LINKS = [
-  { path: '/',          icon: Home,       label: 'Home'      },
-  { path: '/search',    icon: Search,     label: 'Search'    },
-  { path: '/bookmarks', icon: Bookmark,   label: 'Saved'     },
+  { path: '/',       icon: Home,   label: 'Home'   },
+  { path: '/search', icon: Search, label: 'Search' },
 ];
 
 // Mini-Apps: all the interactive tools
@@ -84,6 +84,7 @@ export default function TopNav({ accentColor = '#475569' }: TopNavProps) {
   const [openDropdown, setOpenDropdown] = useState<DropdownType>(null);
   const decksRef = useRef<HTMLDivElement>(null);
   const appsRef = useRef<HTMLDivElement>(null);
+  const { bookmarks } = useBookmarks();
 
   useEffect(() => {
     function handleOutside(e: MouseEvent) {
@@ -272,6 +273,24 @@ export default function TopNav({ accentColor = '#475569' }: TopNavProps) {
             <AnimatePresence>{openDropdown === 'decks' && <DecksPanel />}</AnimatePresence>
           </div>
 
+          {/* Bookmarks button (mobile) */}
+          <button
+            onClick={() => navigate('/bookmarks')}
+            className="relative flex items-center justify-center rounded-xl w-8 h-8 transition-all hover:bg-black/5 active:scale-95"
+            aria-label="Bookmarks"
+          >
+            <Bookmark
+              size={16}
+              strokeWidth={location === '/bookmarks' ? 2.4 : 1.8}
+              style={{ color: location === '/bookmarks' ? accentColor : '#64748b' }}
+            />
+            {bookmarks.length > 0 && (
+              <span className="absolute top-0.5 right-0.5 min-w-[14px] h-3.5 bg-rose-500 text-white text-[8px] font-bold rounded-full flex items-center justify-center px-0.5 leading-none">
+                {bookmarks.length > 9 ? '9+' : bookmarks.length}
+              </span>
+            )}
+          </button>
+
           {/* Mini-Apps dropdown */}
           <div className="relative" ref={appsRef}>
             <button
@@ -337,7 +356,7 @@ export default function TopNav({ accentColor = '#475569' }: TopNavProps) {
           })}
         </div>
 
-        {/* Right side: Decks + Mini-Apps dropdowns */}
+        {/* Right side: Decks + Bookmarks + Mini-Apps dropdowns */}
         <div className="flex items-center gap-1 shrink-0">
           {/* Decks dropdown */}
           <div className="relative" ref={decksRef}>
@@ -360,6 +379,21 @@ export default function TopNav({ accentColor = '#475569' }: TopNavProps) {
             </button>
             <AnimatePresence>{openDropdown === 'decks' && <DecksPanel />}</AnimatePresence>
           </div>
+
+          {/* Bookmarks button (desktop) */}
+          <button
+            onClick={() => navigate('/bookmarks')}
+            className="relative flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-[12px] font-semibold transition-all hover:bg-black/5"
+            style={{ color: location === '/bookmarks' ? accentColor : '#64748b', backgroundColor: location === '/bookmarks' ? accentColor + '12' : 'transparent' }}
+          >
+            <Bookmark size={13} strokeWidth={location === '/bookmarks' ? 2.4 : 1.8} />
+            Saved
+            {bookmarks.length > 0 && (
+              <span className="min-w-[16px] h-4 bg-rose-500 text-white text-[8px] font-bold rounded-full flex items-center justify-center px-1 leading-none">
+                {bookmarks.length > 9 ? '9+' : bookmarks.length}
+              </span>
+            )}
+          </button>
 
           {/* Mini-Apps dropdown */}
           <div className="relative" ref={appsRef}>

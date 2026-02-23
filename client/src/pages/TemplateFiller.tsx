@@ -756,8 +756,9 @@ export default function TemplateFiller() {
           <h2 className="text-xs font-bold uppercase tracking-wider mb-3" style={{ color: theme.color }}>
             Document Header
           </h2>
-          <div className="grid grid-cols-2 gap-3">
-            <div className="col-span-2">
+          <div className="flex flex-col gap-3">
+            {/* Row 1: Project / Organisation Name — full width */}
+            <div>
               <label className="block text-xs font-semibold text-slate-500 mb-1">Project / Organisation Name</label>
               <input
                 type="text"
@@ -767,16 +768,30 @@ export default function TemplateFiller() {
                 className="w-full text-sm border border-slate-200 rounded-xl px-3 py-2 focus:outline-none focus:border-blue-400"
               />
             </div>
-            <div>
-              <label className="block text-xs font-semibold text-slate-500 mb-1">Prepared By</label>
-              <input
-                type="text"
-                value={projectOwner}
-                onChange={e => setProjectOwner(e.target.value)}
-                placeholder="Your name"
-                className="w-full text-sm border border-slate-200 rounded-xl px-3 py-2 focus:outline-none focus:border-blue-400"
-              />
+            {/* Row 2: Prepared By + Version side by side */}
+            <div className="grid grid-cols-2 gap-3">
+              <div>
+                <label className="block text-xs font-semibold text-slate-500 mb-1">Prepared By</label>
+                <input
+                  type="text"
+                  value={projectOwner}
+                  onChange={e => setProjectOwner(e.target.value)}
+                  placeholder="Your name"
+                  className="w-full text-sm border border-slate-200 rounded-xl px-3 py-2 focus:outline-none focus:border-blue-400"
+                />
+              </div>
+              <div>
+                <label className="block text-xs font-semibold text-slate-500 mb-1">Version</label>
+                <input
+                  type="text"
+                  value={version}
+                  onChange={e => setVersion(e.target.value)}
+                  placeholder="1.0"
+                  className="w-full text-sm border border-slate-200 rounded-xl px-3 py-2 focus:outline-none focus:border-blue-400"
+                />
+              </div>
             </div>
+            {/* Row 3: Date — full width so the native date picker has room */}
             <div>
               <label className="block text-xs font-semibold text-slate-500 mb-1">Date</label>
               <input
@@ -784,16 +799,7 @@ export default function TemplateFiller() {
                 value={projectDate}
                 onChange={e => setProjectDate(e.target.value)}
                 className="w-full text-sm border border-slate-200 rounded-xl px-3 py-2 focus:outline-none focus:border-blue-400"
-              />
-            </div>
-            <div>
-              <label className="block text-xs font-semibold text-slate-500 mb-1">Version</label>
-              <input
-                type="text"
-                value={version}
-                onChange={e => setVersion(e.target.value)}
-                placeholder="1.0"
-                className="w-full text-sm border border-slate-200 rounded-xl px-3 py-2 focus:outline-none focus:border-blue-400"
+                style={{ minWidth: 0, boxSizing: 'border-box' }}
               />
             </div>
           </div>

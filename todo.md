@@ -262,3 +262,11 @@
 ## Bug Fixes — Feb 23 2026
 
 - [x] Fix Template Filler header being cut off by TopNav bar — added pt-12 to outer wrapper and top-12 to sticky header in both TemplateFiller.tsx and TemplateLibrary.tsx
+- [ ] Fix date field overflow in Template Filler document header (date input falls outside its container)
+- [ ] Fix missing Word document footer (copyright + page numbers not appearing in downloaded .docx)
+
+## Nav Restructuring — Feb 23 2026
+
+- [x] Move Decks to centre slot of BottomNav (as a dropdown with upward panel, ChevronUp indicator)
+- [x] Remove Saved/Bookmarks from BottomNav (moved to TopNav)
+- [x] Add Bookmarks button to TopNav next to Mini-Apps (both mobile icon + desktop Saved label with badge)
