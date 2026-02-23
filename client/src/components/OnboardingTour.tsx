@@ -18,8 +18,8 @@ const TOUR_STEPS = [
   {
     id: 'welcome',
     icon: Layers,
-    color: '#0284C7',
-    bg: '#EFF6FF',
+    color: '#38bdf8',
+    bg: 'rgba(56,189,248,0.12)',
     title: 'Welcome to StratAlign',
     subtitle: '198 PM tools across 8 decks',
     body: 'StratAlign is your pocket PM toolkit. Browse 198 project management cards organised into 8 decks — from Project Phases to Advanced Techniques.',
@@ -29,8 +29,8 @@ const TOUR_STEPS = [
   {
     id: 'decks',
     icon: Layers,
-    color: '#0284C7',
-    bg: '#EFF6FF',
+    color: '#38bdf8',
+    bg: 'rgba(56,189,248,0.12)',
     title: 'Browse the 8 Decks',
     subtitle: 'Tap Decks ↑ in the bottom nav',
     body: 'Each deck covers a PM domain. Tap the Decks button in the centre of the bottom navigation bar to jump to any deck instantly.',
@@ -40,8 +40,8 @@ const TOUR_STEPS = [
   {
     id: 'ai',
     icon: Sparkles,
-    color: '#6366f1',
-    bg: '#EEF2FF',
+    color: '#818cf8',
+    bg: 'rgba(129,140,248,0.12)',
     title: 'AI Tool Finder',
     subtitle: 'Describe your challenge, get recommendations',
     body: 'Not sure which tool to use? Tap the AI tab and describe your project challenge in plain English. The AI will recommend the most relevant cards.',
@@ -107,8 +107,8 @@ const TOUR_STEPS = [
 
 // ── Navigation map items (shown on the map screen) ────────────────────────────
 const MAP_ITEMS = [
-  { icon: Layers,   color: '#0284C7', bg: '#EFF6FF',  label: 'Decks',           sub: '8 decks · 198 cards',           path: '/deck/phases'   },
-  { icon: Sparkles, color: '#6366f1', bg: '#EEF2FF',  label: 'AI Tool Finder',  sub: 'Describe your challenge',        path: '/ai-suggest'    },
+  { icon: Layers,   color: '#38bdf8', bg: 'rgba(56,189,248,0.12)',  label: 'Decks',           sub: '8 decks · 198 cards',           path: '/deck/phases'   },
+  { icon: Sparkles, color: '#818cf8', bg: 'rgba(129,140,248,0.12)',  label: 'AI Tool Finder',  sub: 'Describe your challenge',        path: '/ai-suggest'    },
   { icon: FileText, color: '#10b981', bg: 'rgba(16,185,129,0.12)',  label: 'Templates',       sub: '198 fillable templates',         path: '/templates'     },
   { icon: Map,      color: '#f59e0b', bg: 'rgba(245,158,11,0.12)',  label: 'Learning Journey',sub: '35-day PM game',                 path: '/journey'       },
   { icon: Compass,  color: '#0ea5e9', bg: 'rgba(14,165,233,0.12)',  label: 'Decision Helper', sub: 'Find the right tool fast',       path: '/decision'      },
@@ -185,8 +185,8 @@ export default function OnboardingTour({ onDismiss }: OnboardingTourProps) {
           style={{
             maxWidth: '480px',
             maxHeight: '90vh',
-            background: '#fff',
-            boxShadow: '0 -8px 40px rgba(0,0,0,0.18)',
+            background: '#0f1c30',
+            boxShadow: '0 -8px 40px rgba(0,0,0,0.55), 0 0 0 1px rgba(255,255,255,0.07)',
           }}
         >
           {/* ── MAP PHASE ─────────────────────────────────────────────────── */}
@@ -195,7 +195,7 @@ export default function OnboardingTour({ onDismiss }: OnboardingTourProps) {
               {/* Header */}
               <div className="flex items-start justify-between px-5 pt-5 pb-3 shrink-0">
                 <div>
-                  <h2 className="text-[18px] font-black text-slate-100" style={{ fontFamily: 'Sora, sans-serif' }}>
+                  <h2 className="text-[18px] font-black text-white" style={{ fontFamily: 'Sora, sans-serif' }}>
                     Welcome to StratAlign
                   </h2>
                   <p className="text-[12px] text-slate-400 mt-0.5">

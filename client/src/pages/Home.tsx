@@ -237,7 +237,7 @@ export default function Home() {
   const parallaxOffset = scrollY * 0.4;
 
   return (
-    <div className="app-shell min-h-screen" style={{ background: 'linear-gradient(180deg, #0f172a 0%, #0c1a2e 40%, #0a1628 100%)' }}>
+    <div className="app-shell min-h-screen" style={{ background: 'linear-gradient(135deg, #0a1628 0%, #0f2040 100%)' }}>
       {/* Subtle dot-grid texture */}
       <div
         className="fixed inset-0 pointer-events-none"
@@ -253,10 +253,10 @@ export default function Home() {
         className="relative overflow-hidden"
         style={{ minHeight: '240px' }}
       >
-        {/* Dark base layer */}
+        {/* Dark base layer — same navy as page bg so hero blends seamlessly */}
         <div
           className="absolute inset-0"
-          style={{ background: 'linear-gradient(135deg, #0f172a 0%, #1e1b4b 55%, #0c2340 100%)' }}
+          style={{ background: 'linear-gradient(135deg, #0a1628 0%, #162040 55%, #0f2040 100%)' }}
         />
 
         {/* Background illustration — parallax, blue-purple tinted */}
@@ -299,13 +299,13 @@ export default function Home() {
           <div
             className="absolute inset-0"
             style={{
-              background: 'linear-gradient(to right, #0f172a 28%, #0f172acc 50%, #0f172a44 72%, transparent 100%)',
+              background: 'linear-gradient(to right, #0a1628 28%, rgba(10,22,40,0.80) 50%, rgba(10,22,40,0.27) 72%, transparent 100%)',
             }}
           />
           {/* Bottom fade for smooth transition */}
           <div
             className="absolute bottom-0 left-0 right-0 h-20"
-            style={{ background: 'linear-gradient(to bottom, transparent, #0f172a)' }}
+            style={{ background: 'linear-gradient(to bottom, transparent, #0a1628)' }}
           />
         </div>
 

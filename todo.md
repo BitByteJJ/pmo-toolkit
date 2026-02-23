@@ -340,3 +340,19 @@
 - [x] HowItWasBuilt: replaced bg-amber-50 panel with dark equivalent
 - [x] OnboardingTour: replaced all light bg values (#ECFDF5, #FEF3C7, #F0F9FF, #F5F3FF, #FDF2F8, #FFF1F2, #F8FAFC) with rgba dark equivalents
 - [x] All 49 tests passing after changes
+
+## Tour & Home Background Fixes — Feb 23 2026
+- [x] Fix OnboardingTour sheet: replaced white #fff background with dark navy #0f1c30
+- [x] Fix OnboardingTour MAP_ITEMS: replaced #EFF6FF (Decks) and #EEF2FF (AI) with rgba dark equivalents
+- [x] Fix OnboardingTour TOUR_STEPS: replaced #EFF6FF bg for welcome/decks/ai steps with rgba dark equivalents
+- [x] Unify Home page background: replaced 3-stop dark-black gradient with single deep navy linear-gradient(135deg, #0a1628 0%, #0f2040 100%) matching TemplateLibrary
+- [x] Fix Home hero base layer: aligned to same navy so hero blends seamlessly into page body
+- [x] Fix Home hero overlay gradients: updated left-side and bottom-fade colours to match #0a1628
+
+## Tour & Home Background Fixes — Feb 23 2026
+- [x] Fix OnboardingTour sheet: replaced white #fff background with dark navy #0f1c30
+- [x] Fix OnboardingTour MAP_ITEMS: replaced #EFF6FF (Decks) and #EEF2FF (AI) with rgba dark equivalents
+- [x] Fix OnboardingTour TOUR_STEPS: replaced #EFF6FF bg for welcome/decks/ai steps with rgba dark equivalents
+- [x] Unify Home page background: single deep navy linear-gradient(135deg, #0a1628 0%, #0f2040 100%) matching TemplateLibrary
+- [x] Fix Home hero base layer: aligned to same navy so hero blends seamlessly into page body
+- [x] Fix Home hero overlay gradients: updated left-side and bottom-fade colours to match #0a1628
