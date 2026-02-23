@@ -159,7 +159,7 @@ export default function CaseStudiesPage() {
                 Case Studies
               </h1>
               <p className="text-[11px] text-stone-400 font-semibold mt-0.5">
-                {filtered.length} of {allStudies.length} real-world examples
+                {filtered.length} of {allStudies.length} examples · {allStudies.filter(s => !s.fictional).length} real-world, {allStudies.filter(s => s.fictional).length} illustrative
               </p>
             </div>
             <button
