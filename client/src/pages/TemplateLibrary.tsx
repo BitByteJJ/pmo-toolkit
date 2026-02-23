@@ -162,8 +162,9 @@ export default function TemplateLibrary() {
   return (
     <div className="min-h-screen pt-12 pb-28" style={{ background: 'linear-gradient(135deg, #0a1628 0%, #0f2040 100%)' }}>
       {/* Header — top-12 keeps it below the fixed 48px TopNav */}
-      <div className="sticky top-12 z-40 px-4 py-3 flex items-center gap-3"
+      <div className="sticky top-12 z-40"
         style={{ background: 'rgba(10,22,40,0.92)', backdropFilter: 'blur(16px)', borderBottom: '1px solid rgba(255,255,255,0.07)' }}>
+        <div className="flex items-center gap-3 px-4 py-3" style={{ maxWidth: '480px', margin: '0 auto' }}>
         <button onClick={() => navigate('/')} className="p-1.5 rounded-lg hover:bg-white/10 transition-colors">
           <ArrowLeft size={18} className="text-slate-300" />
         </button>
@@ -189,10 +190,10 @@ export default function TemplateLibrary() {
           >
             <LayoutGrid size={12} /> Browse All
           </button>
-        </div>
+        </div></div>
       </div>
 
-      <div className="px-4 pt-4">
+      <div className="px-4 pt-4" style={{ maxWidth: '480px', margin: '0 auto' }}>
         <AnimatePresence mode="wait">
 
           {/* ── INTRO ── */}
@@ -225,7 +226,7 @@ export default function TemplateLibrary() {
                   <div key={f.label} className="rounded-xl p-3 text-center" style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.08)' }}>
                     <div className="text-2xl mb-1">{f.icon}</div>
                     <div className="text-xs font-bold text-white mb-0.5">{f.label}</div>
-                    <div className="text-[10px] text-slate-400 leading-tight">{f.sub}</div>
+                    <div className="text-[10px] text-slate-300 leading-tight">{f.sub}</div>
                   </div>
                 ))}
               </div>
@@ -254,7 +255,7 @@ export default function TemplateLibrary() {
 
               {/* Deck quick-links */}
               <div className="mt-5">
-                <p className="text-xs text-slate-500 mb-3 font-semibold uppercase tracking-wider">Browse by Deck</p>
+                <p className="text-xs text-slate-300 mb-3 font-semibold uppercase tracking-wider">Browse by Deck</p>
                 <div className="grid grid-cols-2 gap-2">
                   {DECKS.map(deck => {
                     const theme = DECK_THEME[deck.id];
@@ -272,7 +273,7 @@ export default function TemplateLibrary() {
                         </div>
                         <div className="min-w-0">
                           <div className="text-xs font-bold truncate" style={{ color: theme.color }}>{deck.title}</div>
-                          <div className="text-[10px] text-slate-500">{count} templates</div>
+                          <div className="text-[10px] text-slate-400">{count} templates</div>
                         </div>
                       </motion.button>
                     );
@@ -395,7 +396,7 @@ export default function TemplateLibrary() {
               </div>
 
               {/* Results count */}
-              <p className="text-xs text-slate-500 mb-3">
+              <p className="text-xs text-slate-300 mb-3">
                 {filteredTemplates.length} template{filteredTemplates.length !== 1 ? 's' : ''}
                 {activeDeck !== 'all' ? ` in ${DECKS.find(d => d.id === activeDeck)?.title}` : ''}
                 {searchQuery ? ` matching "${searchQuery}"` : ''}

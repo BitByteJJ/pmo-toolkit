@@ -104,7 +104,7 @@ export default function BottomNav() {
             className="fixed w-72 rounded-2xl overflow-hidden"
             style={{
               bottom: 'calc(env(safe-area-inset-bottom, 0px) + 64px)',
-              left: '50%',
+              left: '50vw',
               transform: 'translateX(-50%)',
               background: 'rgba(255,255,255,0.98)',
               backdropFilter: 'blur(20px)',
