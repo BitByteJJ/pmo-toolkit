@@ -18,7 +18,7 @@ const TOOLS = [
   {
     category: 'Frontend',
     color: '#0ea5e9',
-    bg: '#F0F9FF',
+    bg: 'rgba(14,165,233,0.10)',
     icon: Globe,
     items: [
       { name: 'React 19 + TypeScript', desc: 'Component-based UI with full type safety' },
@@ -32,7 +32,7 @@ const TOOLS = [
   {
     category: 'Backend',
     color: '#10b981',
-    bg: '#ECFDF5',
+    bg: 'rgba(16,185,129,0.10)',
     icon: Database,
     items: [
       { name: 'Express 4 + tRPC 11', desc: 'Type-safe API layer — no REST boilerplate' },
@@ -44,7 +44,7 @@ const TOOLS = [
   {
     category: 'AI & Generation',
     color: '#6366f1',
-    bg: '#EEF2FF',
+    bg: 'rgba(99,102,241,0.10)',
     icon: Sparkles,
     items: [
       { name: 'Manus Built-in LLM API', desc: 'Powers AI Tool Finder recommendations and content generation' },
@@ -57,7 +57,7 @@ const TOOLS = [
   {
     category: 'Design & Assets',
     color: '#f59e0b',
-    bg: '#FEF3C7',
+    bg: 'rgba(245,158,11,0.10)',
     icon: Palette,
     items: [
       { name: 'Sora + Inter fonts', desc: 'Display + body typeface pairing via Google Fonts' },
@@ -69,7 +69,7 @@ const TOOLS = [
   {
     category: 'Infrastructure',
     color: '#8b5cf6',
-    bg: '#F5F3FF',
+    bg: 'rgba(139,92,246,0.10)',
     icon: Cpu,
     items: [
       { name: 'Manus Platform', desc: 'Hosting, CI/CD, secrets management, and analytics' },
@@ -405,7 +405,7 @@ export default function HowItWasBuilt() {
             ))}
 
             {/* Stats */}
-            <div className="rounded-2xl p-4 mt-2" style={{ background: 'linear-gradient(135deg, #EEF2FF, #F0F9FF)' }}>
+            <div className="rounded-2xl p-4 mt-2" style={{ background: 'rgba(99,102,241,0.12)', border: '1px solid rgba(99,102,241,0.25)' }}>
               <p className="text-[10px] font-bold text-indigo-400 uppercase tracking-widest mb-3">Build stats</p>
               <div className="grid grid-cols-2 gap-3">
                 {[
@@ -420,7 +420,7 @@ export default function HowItWasBuilt() {
                 ].map(stat => (
                   <div key={stat.label} className="flex items-center justify-between">
                     <span className="text-[11px] text-slate-400">{stat.label}</span>
-                    <span className="text-[13px] font-black text-indigo-700">{stat.value}</span>
+                    <span className="text-[13px] font-black" style={{ color: '#a5b4fc' }}>{stat.value}</span>
                   </div>
                 ))}
               </div>
@@ -510,7 +510,7 @@ export default function HowItWasBuilt() {
 
             {/* Disclaimer */}
             <div className="rounded-xl bg-amber-900/20 border border-amber-500/30 p-3.5">
-              <p className="text-[11px] text-amber-700 leading-relaxed">
+              <p className="text-[11px] text-amber-300 leading-relaxed">
                 <span className="font-bold">Note:</span> AI-generated content was reviewed and edited for accuracy before inclusion. 
                 All case studies reference publicly documented events. Deep dives and glossary entries 
                 are based on established PM frameworks (PMBOK, PRINCE2, Agile Manifesto, etc.).

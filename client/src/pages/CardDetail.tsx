@@ -458,7 +458,7 @@ export default function CardDetail() {
                 value={noteText}
                 onChange={e => setNoteText(e.target.value)}
                 placeholder="Jot down how you applied this technique, key insights, or reminders…"
-                className="w-full h-36 text-sm text-slate-300 leading-relaxed resize-none rounded-xl border border-white/10 p-3 focus:outline-none focus:border-white/30 placeholder:text-slate-500"
+                className="w-full h-36 text-sm text-slate-100 leading-relaxed resize-none rounded-xl border border-white/10 p-3 focus:outline-none focus:border-white/30 placeholder:text-slate-400 bg-white/5"
                 autoFocus
               />
               <div className="flex gap-2 mt-3">

@@ -360,3 +360,17 @@
 ## Home Page Desktop Layout & ContinueCard Fix — Feb 23 2026
 - [x] Add lg:two-column layout to Home page (hero left, feature grid right on desktop)
 - [x] Fix ContinueCard background to blend with unified navy (#0a1628)
+
+## Tech Stack & Notes Fixes
+- [ ] Fix HowItWasBuilt: replace light bg values (#F0F9FF, #ECFDF5, #EEF2FF, #FEF3C7, #F5F3FF) in TOOLS data with dark rgba equivalents
+- [x] Fix HowItWasBuilt: replace light gradient on Build Stats panel with dark navy
+- [x] Fix HowItWasBuilt: fix unreadable text-indigo-700 stat values (dark purple on dark bg)
+- [x] Fix HowItWasBuilt: fix amber disclaimer text-amber-700 (too dark on dark bg)
+- [ ] Fix CardDetail notes: brighten textarea text from text-slate-300 to text-slate-100, brighten placeholder
+
+## Tech Stack & Notes Fixes — Feb 23 2026
+- [x] Fix HowItWasBuilt: replace light bg values in TOOLS data with dark rgba equivalents
+- [ ] Fix HowItWasBuilt: replace light gradient on Build Stats panel with dark navy
+- [ ] Fix HowItWasBuilt: fix unreadable text-indigo-700 stat values
+- [ ] Fix HowItWasBuilt: fix amber disclaimer text-amber-700
+- [x] Fix CardDetail notes: brighten textarea text and placeholder
