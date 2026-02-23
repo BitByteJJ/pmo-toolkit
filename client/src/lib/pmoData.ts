@@ -330,7 +330,7 @@ export const CARDS: PMOCard[] = [
     ],
     proTip: 'Each handshake between sprints and sign-offs must be crystal clear. Use Agile-Waterfall Hybrid Mapping (A22) to show how sprint outputs feed into Waterfall gates.',
     example: 'The insulin pen launch Hybrid plan: Waterfall stream (regulatory dossier → Gate 1: submission, Gate 2: approval, Gate 3: launch readiness) runs in parallel with Agile stream (5 × 2-week sprints for campaign assets). Sprint 5 output (final campaign materials) feeds directly into Gate 3. Both streams are visible in one integrated Gantt chart.',
-    relatedCards: ['T1', 'T3', 'T17', 'A22', 'A29', 'PR13', 'business-4'],
+    relatedCards: ['T1', 'T3', 'T17', 'A22', 'A29', 'PR13', 'BE04'],
     tags: ['hybrid', 'agile', 'waterfall', 'blended', 'gates'],
   },
 
@@ -1074,7 +1074,7 @@ export const CARDS: PMOCard[] = [
 
   // ─── BUSINESS ENVIRONMENT DOMAIN ──────────────────────────────────
   {
-    id: 'business-1',
+    id: 'BE01',
     code: 'BE01',
     title: 'Plan & Manage Compliance',
     deckId: 'business',
@@ -1095,7 +1095,7 @@ export const CARDS: PMOCard[] = [
     tags: ['compliance', 'regulatory', 'audit', 'risk'],
   },
   {
-    id: 'business-2',
+    id: 'BE02',
     code: 'BE02',
     title: 'Evaluate & Deliver Benefits',
     deckId: 'business',
@@ -1116,7 +1116,7 @@ export const CARDS: PMOCard[] = [
     tags: ['benefits', 'value', 'ROI', 'scorecard', 'realisation'],
   },
   {
-    id: 'business-3',
+    id: 'BE03',
     code: 'BE03',
     title: 'Address External Changes',
     deckId: 'business',
@@ -1137,7 +1137,7 @@ export const CARDS: PMOCard[] = [
     tags: ['SWOT', 'PESTLE', 'environment', 'scenario planning', 'external'],
   },
   {
-    id: 'business-4',
+    id: 'BE04',
     code: 'BE04',
     title: 'Support Organisational Change',
     deckId: 'business',
@@ -1377,7 +1377,7 @@ export const CARDS: PMOCard[] = [
     ],
     proTip: 'Assigning realistic probabilities is crucial — guesswork undermines the tree\'s value. Use historical data or expert elicitation with at least two independent estimates per node.',
     example: 'The Decision Tree for the insulin pen launch evaluates two paths: launch in Q2 (higher cost, first-mover advantage, 60% probability of success) vs. Q3 (lower cost, competitor risk, 75% probability of success). Expected value calculation shows Q3 yields £120k higher NPV — Q3 is chosen.',
-    relatedCards: ['T9', 'business-1', 'A27'],
+    relatedCards: ['T9', 'BE01', 'A27'],
     tags: ['decision tree', 'expected value', 'probability', 'strategy'],
   },
   {
@@ -1397,7 +1397,7 @@ export const CARDS: PMOCard[] = [
     ],
     proTip: 'Focus on three to five critical KPIs per perspective to avoid overload — a Balanced Scorecard with 30 metrics is as useless as one with none. Less is more.',
     example: 'Metrics: "Budget Variance" (finance), "Customer Satisfaction" (customer), "Defect Rates" (process), "Skill Growth" (learning).',
-    relatedCards: ['P2', 'PR1', 'business-2', 'A26'],
+    relatedCards: ['P2', 'PR1', 'BE02', 'A26'],
     tags: ['Balanced Scorecard', 'KPIs', 'performance', 'measurement'],
   },
   {
@@ -1477,7 +1477,7 @@ export const CARDS: PMOCard[] = [
     ],
     proTip: 'Sometimes a small effort to reduce a single strong restraining force can tip the entire balance — identify the one restraining force causing the most friction and address it first.',
     example: 'The Force Field Analysis for switching to a new label printing vendor shows: Driving forces = 20% cost saving, faster turnaround, better colour accuracy (total score: 12). Restraining forces = requalification time, new SLA risk, staff retraining (total score: 7). Driving forces win — the switch proceeds.',
-    relatedCards: ['P1', 'PR4', 'business-4', 'A36'],
+    relatedCards: ['P1', 'PR4', 'BE04', 'A36'],
     tags: ['Force Field', 'change', 'pros cons', 'decision', 'Lewin'],
   },
   {
@@ -2082,7 +2082,7 @@ export const CARDS: PMOCard[] = [
     ],
     proTip: 'Don\'t declare victory at release — keep monitoring benefits for 3-6 months post-launch. Many projects deliver the output but fail to realise the outcome they were funded for.',
     example: 'The insulin pen business case promised: 15% market share in 6 months, 20% reduction in dispensing errors, £500k revenue in year 1. At month 4, the Balanced Scorecard (T11) shows 11% market share. The PM triggers a targeted HCP education campaign — market share reaches 14.5% by month 6.',
-    relatedCards: ['T11', 'A25', 'business-2', 'phase-closure'],
+    relatedCards: ['T11', 'A25', 'BE02', 'phase-closure'],
     tags: ['benefits realisation', 'ROI', 'value', 'post-launch', 'measurement'],
   },
   {
@@ -2102,7 +2102,7 @@ export const CARDS: PMOCard[] = [
     ],
     proTip: 'Focus on two or three plausible extremes, not an endless set of trivial variants — the goal is to stress-test your strategy against genuinely different futures, not to cover every possibility.',
     example: 'The insulin pen launch Scenario Plan covers 3 scenarios: (1) Competitor launches first → accelerate launch by 2 weeks; (2) Regulatory delay >4 weeks → pivot to a soft launch in 2 markets; (3) Supply shortage → prioritise hospital channel. When Scenario 1 triggers in week 8, the pre-prepared acceleration plan is activated within 24 hours.',
-    relatedCards: ['A32', 'T6', 'T10', 'business-3'],
+    relatedCards: ['A32', 'T6', 'T10', 'BE03'],
     tags: ['scenario planning', 'futures', 'strategy', 'risk', 'contingency'],
   },
   {
@@ -2125,7 +2125,7 @@ export const CARDS: PMOCard[] = [
     ],
     proTip: 'If momentum stalls, revisit earlier steps — especially short-term wins — to re-energise staff.',
     example: 'Pharmacists are resistant to the new insulin pen dispensing workflow. Using Kotter\'s 8 Steps: the PM shares a patient safety incident (urgency), recruits 5 pharmacy champions (coalition), runs a 10-pharmacy pilot (short-term win), and celebrates the 30% error reduction result publicly — national rollout follows with 85% adoption.',
-    relatedCards: ['A36', 'A48', 'A49', 'A55', 'business-2', 'business-4'],
+    relatedCards: ['A36', 'A48', 'A49', 'A55', 'BE02', 'BE04'],
     tags: ['Kotter', 'change management', 'organisational change', '8 steps'],
   },
   {
@@ -2206,7 +2206,7 @@ export const CARDS: PMOCard[] = [
     ],
     proTip: 'Pair SWOT with Scenario Planning (A27) for robust market adaptations — SWOT gives you a snapshot, Scenario Planning stress-tests your strategy against multiple possible futures.',
     example: 'SWOT for the insulin pen launch: Strengths = established brand trust, regulatory expertise; Weaknesses = higher price point, limited pharmacy reach; Opportunities = ageing population, NHS formulary inclusion; Threats = competitor biosimilar at 30% lower cost. Strategy: emphasise clinical differentiation and secure NHS formulary listing before competitor does.',
-    relatedCards: ['A27', 'business-3'],
+    relatedCards: ['A27', 'BE03'],
     tags: ['SWOT', 'strategy', 'strengths', 'weaknesses', 'opportunities', 'threats'],
   },
   {
@@ -2285,7 +2285,7 @@ export const CARDS: PMOCard[] = [
     ],
     proTip: 'Spend enough time in the "unfreezing" phase — or staff will resist the change. Lewin\'s most common failure mode is rushing to the "change" phase before people have let go of the old way.',
     example: 'Pharmacists are reverting to the old dispensing process after training. Lewin\'s model diagnoses the issue: the Unfreeze phase was too short — staff didn\'t fully understand why the old process was unsafe. The PM runs a 2-hour patient safety workshop (Unfreeze), re-implements the new process (Change), and adds a monthly audit (Refreeze). Reversion drops to 5%.',
-    relatedCards: ['A28', 'A48', 'A49', 'T15', 'business-4'],
+    relatedCards: ['A28', 'A48', 'A49', 'T15', 'BE04'],
     tags: ['Lewin', 'change management', 'unfreeze', 'refreeze', 'organisational change'],
   },
   {
@@ -2305,7 +2305,7 @@ export const CARDS: PMOCard[] = [
     ],
     proTip: 'A mismatch in any element of the McKinsey 7-S model can derail an otherwise solid plan — check all seven elements, not just Strategy and Structure, before declaring alignment.',
     example: 'The 7S analysis for the insulin pen project reveals a mismatch: Strategy = fast market entry; Systems = slow 5-layer approval process. The PM works with the PMO Head to streamline approvals from 5 layers to 2 for design decisions — design cycle time drops from 8 days to 3 days.',
-    relatedCards: ['A28', 'A48', 'business-2', 'business-4'],
+    relatedCards: ['A28', 'A48', 'BE02', 'BE04'],
     tags: ['McKinsey 7S', 'alignment', 'organisational design', 'strategy'],
   },
   {
@@ -2531,7 +2531,7 @@ export const CARDS: PMOCard[] = [
     ],
     proTip: 'Less famous than Kotter\'s but can be more adaptable if the environment changes mid-project.',
     example: 'The insulin pen project requires pharmacists to adopt a new dispensing protocol. Using Freedman\'s 6 phases: Exploration (feasibility check with 5 pharmacies), Commitment (NHS trust sign-off), Detailed Planning (training schedule), Implementation (pilot in 20 pharmacies), Reassessment (feedback reveals 2 workflow gaps — fixed), Stabilisation (national rollout with 88% adoption).',
-    relatedCards: ['A28', 'A36', 'A49', 'business-2', 'business-4'],
+    relatedCards: ['A28', 'A36', 'A49', 'BE02', 'BE04'],
     tags: ['Freedman', 'change management', 'transition', 'organisational change'],
   },
   {
@@ -2631,7 +2631,7 @@ export const CARDS: PMOCard[] = [
     ],
     proTip: 'Misclassifying a Complex problem as merely Complicated leads to poor solutions — re-check your classification if conditions evolve.',
     example: 'The insulin pen project has 3 types of work: regulatory submission (Complicated — apply expert knowledge), label design (Complex — iterate with pharmacist feedback), and print production (Obvious — follow established SOP). The PM applies expert-led review for regulatory, design sprints for labels, and a standard checklist for printing — no one approach fits all.',
-    relatedCards: ['AG1', 'AG2', 'M1', 'M2', 'PR13', 'business-3'],
+    relatedCards: ['AG1', 'AG2', 'M1', 'M2', 'PR13', 'BE03'],
     tags: ['Cynefin', 'sense-making', 'complexity', 'Complicated', 'Chaotic'],
   },
   {
@@ -2673,7 +2673,7 @@ export const CARDS: PMOCard[] = [
     ],
     proTip: 'If staff remain resistant, check if they\'re missing Awareness or Desire — address personal benefits or concerns to move them forward.',
     example: 'Pharmacists need to adopt a new insulin pen dispensing protocol. ADKAR: Awareness — PM shares a patient safety incident (why change is needed); Desire — pharmacy champions share their positive pilot experience; Knowledge — 2-hour training session; Ability — new dispensing tray provided; Reinforcement — monthly audit + recognition for compliant pharmacies. Adoption reaches 92% in 8 weeks.',
-    relatedCards: ['A28', 'A36', 'A48', 'A49', 'P4', 'P5', 'business-4'],
+    relatedCards: ['A28', 'A36', 'A48', 'A49', 'P4', 'P5', 'BE04'],
     tags: ['ADKAR', 'change management', 'adoption', 'Prosci', 'individual change'],
   },
   {
@@ -2881,7 +2881,7 @@ export const CARDS: PMOCard[] = [
     ],
     proTip: 'Pair with a Document Management System (A63) to ensure compliance changes are version-controlled and auditable.',
     example: 'If an FDA labelling requirement is missing from the pen instructions, it is flagged and corrected before launch.',
-    relatedCards: ['business-1', 'T15', 'T10', 'A63', 'A62'],
+    relatedCards: ['BE01', 'T15', 'T10', 'A63', 'A62'],
     tags: ['compliance', 'gap assessment', 'regulatory', 'audit', 'risk'],
   },
   {
@@ -2902,7 +2902,7 @@ export const CARDS: PMOCard[] = [
     ],
     proTip: 'Small, subtle shifts can yield significant changes in behaviour. The best nudges are invisible — people do not feel pushed.',
     example: 'Making the new labelling steps the default template so staff automatically use the correct format without extra effort.',
-    relatedCards: ['P12', 'P14', 'business-4', 'A67'],
+    relatedCards: ['P12', 'P14', 'BE04', 'A67'],
     tags: ['nudge theory', 'behavioural economics', 'change', 'defaults', 'motivation'],
   },
   {
@@ -2944,7 +2944,7 @@ export const CARDS: PMOCard[] = [
     ],
     proTip: 'Early Adopters are your champions — invest in them heavily. Their endorsement is more persuasive than any top-down mandate.',
     example: 'When rolling out a new insulin pen, a pilot with innovator doctors expands as success stories grow and spread to the broader clinical community.',
-    relatedCards: ['business-2', 'PR4', 'A28', 'A36'],
+    relatedCards: ['BE02', 'PR4', 'A28', 'A36'],
     tags: ['diffusion of innovation', 'adoption', 'change management', 'Rogers', 'early adopters'],
   },
   {
@@ -2965,7 +2965,7 @@ export const CARDS: PMOCard[] = [
     ],
     proTip: 'Balance resources so each horizon gets appropriate attention — over-focusing on H1 starves future growth.',
     example: 'H1: existing insulin pen, H2: minor enhancements and new markets, H3: a radically new device with built-in sensors.',
-    relatedCards: ['business-2', 'business-3', 'A72', 'A75', 'A27'],
+    relatedCards: ['BE02', 'BE03', 'A72', 'A75', 'A27'],
     tags: ['McKinsey', '3 horizons', 'strategy', 'innovation', 'portfolio'],
   },
   {
@@ -2986,7 +2986,7 @@ export const CARDS: PMOCard[] = [
     ],
     proTip: 'Sometimes addressing one strong restraining force can tip the entire scale in favour of the change.',
     example: 'Adding colour variations: brand differentiation is a driver; higher cost and longer lead times are restrainers. Reduce colour options or find cheaper printing to tip the balance.',
-    relatedCards: ['business-4', 'P1', 'T15', 'A36', 'A28'],
+    relatedCards: ['BE04', 'P1', 'T15', 'A36', 'A28'],
     tags: ['force field analysis', 'Lewin', 'change management', 'driving forces', 'restraining forces'],
   },
   {
@@ -3028,7 +3028,7 @@ export const CARDS: PMOCard[] = [
     ],
     proTip: 'Ideal for business environment scanning, especially if competitor undercutting is possible. Revisit as market conditions change.',
     example: 'A new insulin pen faces high threat of substitutes (cheaper pens) and strong supplier bargaining power (cartridge materials) — both require strategic mitigation.',
-    relatedCards: ['business-3', 'A27', 'A69', 'A75', 'A32'],
+    relatedCards: ['BE03', 'A27', 'A69', 'A75', 'A32'],
     tags: ['Porter', 'five forces', 'competitive analysis', 'market strategy', 'business environment'],
   },
   {
@@ -3070,7 +3070,7 @@ export const CARDS: PMOCard[] = [
     ],
     proTip: 'Stories and rituals from past failures can hamper buy-in to new methods unless explicitly addressed.',
     example: 'If negative stories about a failed product persist, the team may resist trying new features — surfacing and reframing those stories is essential.',
-    relatedCards: ['business-4', 'A28', 'A36', 'A77'],
+    relatedCards: ['BE04', 'A28', 'A36', 'A77'],
     tags: ['cultural web', 'organisational culture', 'change management', 'paradigm', 'stories'],
   },
   {
@@ -3090,7 +3090,7 @@ export const CARDS: PMOCard[] = [
     ],
     proTip: 'Stars can become Cash Cows over time — keep tracking progress and reinvest Cash Cow profits into promising Question Marks.',
     example: 'A new insulin pen might be a "Question Mark" — invest more in marketing to push it into "Star" territory.',
-    relatedCards: ['business-2', 'business-3', 'A69', 'A72'],
+    relatedCards: ['BE02', 'BE03', 'A69', 'A72'],
     tags: ['BCG matrix', 'portfolio', 'Stars', 'Cash Cows', 'strategy'],
   },
   {
@@ -3110,7 +3110,7 @@ export const CARDS: PMOCard[] = [
     ],
     proTip: "People often linger in the Neutral Zone longer than expected — be patient and provide extra support during this phase.",
     example: "Switching from Waterfall to Hybrid initially upsets staff used to rigid gating. Bridges' model helps them let go of old methods and embrace iterative working.",
-    relatedCards: ['business-4', 'A36', 'A28', 'A77', 'A74'],
+    relatedCards: ['BE04', 'A36', 'A28', 'A77', 'A74'],
     tags: ["Bridges", 'transition model', 'change management', 'endings', 'neutral zone'],
   },
   {
@@ -3131,7 +3131,7 @@ export const CARDS: PMOCard[] = [
     ],
     proTip: 'Normalising emotional reactions fosters trust — leaders who ignore them breed resistance. Name the stage, validate the feeling, then redirect.',
     example: 'When a new pen product replaced an older device, some staff denied the old device was outdated; others got angry about the forced switch. Acknowledging these reactions accelerated acceptance.',
-    relatedCards: ['business-4', 'A76', 'A28', 'A36', 'A74'],
+    relatedCards: ['BE04', 'A76', 'A28', 'A36', 'A74'],
     tags: ['Kübler-Ross', 'change curve', 'grief stages', 'emotional change', 'resistance'],
   },
   {
@@ -3215,7 +3215,7 @@ export const CARDS: PMOCard[] = [
     ],
     proTip: 'Pair NPS with an open-ended question for deeper insights. A score alone tells you the "what" — the open question tells you the "why."',
     example: "If your product's NPS is 15, you have more promoters than detractors, but significant dissatisfaction remains. Focus on common detractor complaints.",
-    relatedCards: ['business-2', 'PR4', 'T11', 'A26'],
+    relatedCards: ['BE02', 'PR4', 'T11', 'A26'],
     tags: ['NPS', 'Net Promoter Score', 'customer satisfaction', 'loyalty', 'measurement'],
   },
   {
@@ -3320,7 +3320,7 @@ export const CARDS: PMOCard[] = [
     ],
     proTip: 'Print the benefits map on A3 and put it on the wall of every project meeting. When debates about scope arise, point to the map and ask: which benefit does this serve? It cuts through politics faster than any governance process.',
     example: 'A hospital IT team replacing its patient records system defines value as a 20% reduction in nurse documentation time and zero critical data-entry errors within 90 days of launch. Every feature decision is evaluated against these two metrics, cutting three originally planned modules that added complexity without contributing to either measure.',
-    relatedCards: ['PR1', 'business-2', 'A14', 'A22'],
+    relatedCards: ['PR1', 'BE02', 'A14', 'A22'],
     tags: ['Strategy', 'Benefits', 'Value', 'Performance Domain'],
   },
 

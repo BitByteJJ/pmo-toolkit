@@ -450,7 +450,7 @@ const CASE_STUDIES: CaseStudy[] = [
   // ─── Business Environment ─────────────────────────────────────────────────
 
   {
-    cardId: 'business-2',
+    cardId: 'BE02',
     organisation: 'Rolls-Royce',
     industry: 'Aerospace / Engineering',
     projectName: 'Power-by-the-Hour — Benefits Realisation Innovation',
@@ -869,7 +869,7 @@ const CASE_STUDIES: CaseStudy[] = [
   // ─── Business Environment (additional) ────────────────────────────────────────
 
   {
-    cardId: 'business-1',
+    cardId: 'BE01',
     organisation: 'HSBC',
     industry: 'Financial Services / Banking',
     projectName: 'GDPR Compliance Programme',
@@ -886,7 +886,7 @@ const CASE_STUDIES: CaseStudy[] = [
   },
 
   {
-    cardId: 'business-3',
+    cardId: 'BE03',
     organisation: 'Kodak',
     industry: 'Photography / Technology',
     projectName: 'Failure to Adapt to Digital Photography',
@@ -907,7 +907,7 @@ const CASE_STUDIES: CaseStudy[] = [
   },
 
   {
-    cardId: 'business-4',
+    cardId: 'BE04',
     organisation: 'Procter & Gamble',
     industry: 'Consumer Goods',
     projectName: 'Connect + Develop — Open Innovation Transformation',

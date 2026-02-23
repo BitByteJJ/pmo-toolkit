@@ -1522,7 +1522,7 @@ const processTemplates: CardTemplate[] = [
 
 const businessTemplates: CardTemplate[] = [
   {
-    cardId: 'business-1',
+    cardId: 'BE01',
     title: 'Compliance Register',
     description: 'Identify, track, and manage all regulatory and compliance requirements for the project.',
     sections: [
@@ -1536,7 +1536,7 @@ const businessTemplates: CardTemplate[] = [
     ],
   },
   {
-    cardId: 'business-2',
+    cardId: 'BE02',
     title: 'Benefits Realisation Plan',
     description: 'Define, track, and report on the business benefits the project is expected to deliver.',
     sections: [
@@ -1557,7 +1557,7 @@ const businessTemplates: CardTemplate[] = [
     ],
   },
   {
-    cardId: 'business-3',
+    cardId: 'BE03',
     title: 'External Change Impact Assessment',
     description: 'Assess the impact of external changes (regulatory, market, political) on the project.',
     sections: [
@@ -1570,7 +1570,7 @@ const businessTemplates: CardTemplate[] = [
     ],
   },
   {
-    cardId: 'business-4',
+    cardId: 'BE04',
     title: 'Organisational Change Management Plan',
     description: 'Plan the people-side of change to maximise adoption and minimise resistance.',
     sections: [

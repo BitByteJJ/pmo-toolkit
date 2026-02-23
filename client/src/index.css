@@ -94,37 +94,37 @@
 
 /* ── DARK theme ── */
 .dark {
-  --background: oklch(0.13 0.012 260);      /* deep navy-charcoal */
+  --background: oklch(0.10 0.040 258);      /* deep navy #0a1628 — matches TemplateLibrary */
   --foreground: oklch(0.93 0.006 72);       /* warm off-white */
-  --card: oklch(0.18 0.014 260);            /* slightly lighter card surface */
+  --card: oklch(0.15 0.040 258);            /* card surface — navy lifted */
   --card-foreground: oklch(0.93 0.006 72);
-  --popover: oklch(0.16 0.013 260);
+  --popover: oklch(0.13 0.040 258);
   --popover-foreground: oklch(0.93 0.006 72);
   --primary: oklch(0.65 0.20 260);          /* bright violet-blue */
   --primary-foreground: oklch(0.99 0 0);
-  --secondary: oklch(0.22 0.015 260);
+  --secondary: oklch(0.18 0.040 258);
   --secondary-foreground: oklch(0.88 0.006 72);
-  --muted: oklch(0.22 0.015 260);
+  --muted: oklch(0.18 0.040 258);
   --muted-foreground: oklch(0.60 0.010 260);
-  --accent: oklch(0.25 0.018 260);
+  --accent: oklch(0.20 0.040 258);
   --accent-foreground: oklch(0.93 0.006 72);
   --destructive: oklch(0.60 0.22 27);
   --destructive-foreground: oklch(0.99 0 0);
-  --border: oklch(0.26 0.016 260);
-  --input: oklch(0.22 0.015 260);
+  --border: oklch(0.22 0.030 258);
+  --input: oklch(0.18 0.040 258);
   --ring: oklch(0.65 0.20 260);
   --chart-1: oklch(0.65 0.18 200);
   --chart-2: oklch(0.65 0.18 150);
   --chart-3: oklch(0.65 0.18 100);
   --chart-4: oklch(0.65 0.18 50);
   --chart-5: oklch(0.65 0.18 0);
-  --sidebar: oklch(0.16 0.013 260);
+  --sidebar: oklch(0.13 0.040 258);
   --sidebar-foreground: oklch(0.88 0.006 72);
   --sidebar-primary: oklch(0.65 0.20 260);
   --sidebar-primary-foreground: oklch(0.99 0 0);
-  --sidebar-accent: oklch(0.22 0.015 260);
+  --sidebar-accent: oklch(0.18 0.040 258);
   --sidebar-accent-foreground: oklch(0.88 0.006 72);
-  --sidebar-border: oklch(0.26 0.016 260);
+  --sidebar-border: oklch(0.22 0.030 258);
   --sidebar-ring: oklch(0.65 0.20 260);
 
   /* ── Dark shadow scale (more visible on dark bg) ── */
@@ -142,7 +142,7 @@
   }
 
   html {
-    background-color: oklch(0.13 0.012 260);
+    background-color: oklch(0.10 0.040 258);
   }
 
   body {

@@ -79,10 +79,10 @@ const RECOMMENDATION_MAP: Record<string, Record<string, string[]>> = {
     any:       ['phase-closure', 'PR16', 'A58', 'T13', 'business-5'],
   },
   process: {
-    waterfall: ['PR07', 'A7', 'A65', 'T8', 'A66', 'business-1', 'T15'],
+    waterfall: ['PR07', 'A7', 'A65', 'T8', 'A66', 'BE01', 'T15'],
     agile:     ['A7', 'A86', 'T8', 'A66', 'T15'],
     hybrid:    ['PR07', 'A7', 'A65', 'T8', 'A66', 'T15'],
-    any:       ['PR07', 'A7', 'A65', 'T8', 'A66', 'T15', 'business-1'],
+    any:       ['PR07', 'A7', 'A65', 'T8', 'A66', 'T15', 'BE01'],
   },
   estimation: {
     waterfall: ['T17', 'T18', 'T19', 'T20', 'T33', 'T34', 'T35', 'A93'],
@@ -506,16 +506,18 @@ function TemplateCard({
           {rank}
         </div>
       )}
-      {/* Deck colour dot */}
+      {/* Deck colour icon badge */}
       {!rank && (
-        <div className="w-3 h-3 rounded-full shrink-0 mt-1.5" style={{ backgroundColor: theme.color }} />
+        <div className="w-8 h-8 rounded-xl flex items-center justify-center shrink-0" style={{ backgroundColor: theme.color + '22' }}>
+          <Layers size={14} style={{ color: theme.color }} />
+        </div>
       )}
       <div className="flex-1 min-w-0">
         <div className="flex items-center gap-2 mb-0.5">
           <span className="text-[10px] font-bold px-1.5 py-0.5 rounded-md" style={{ backgroundColor: theme.color + '22', color: theme.color }}>
             {card.id}
           </span>
-          <span className="text-[10px] text-slate-500">{theme.title}</span>
+          <span className="text-[10px] font-medium" style={{ color: theme.color, opacity: 0.7 }}>{theme.title}</span>
         </div>
         <h3 className="text-sm font-bold text-white leading-snug mb-0.5" style={{ fontFamily: 'Sora, sans-serif' }}>
           {template.title}

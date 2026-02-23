@@ -307,3 +307,8 @@
 - [x] Fix Browse by Deck tiles (theme.bg+'22' → theme.bg direct)
 - [x] Fix EarnHeartPage, QuizPage, DecisionHelper, AiSuggest, LearningRoadmap, HowItWasBuilt light bg remnants
 - [x] Fix TemplateFiller color picker and priority badge light backgrounds
+
+## Theme Unification & Template Card Fixes — Feb 23 2026 (Session 5)
+- [x] Unify background to deep navy (#0a1628) across all pages via CSS --background variable
+- [x] Fix template card ID display (business-1 -> BE01, BE02, BE03, BE04, BE05 now consistent)
+- [x] Fix deck colour dot alignment on template cards - replaced with icon badge
