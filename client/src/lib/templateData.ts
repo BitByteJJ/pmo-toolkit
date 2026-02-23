@@ -5610,14 +5610,17 @@ Review date for these adjustments: ___`,
 | Software Category | Organic / Semi-Detached / Embedded |`,
       },
       {
-        heading: 'Size Estimation',
+        heading: 'Size Estimation — Input',
         content: `| Method | Value | Notes |
 |---|---|---|
 | Estimated Lines of Code (KLOC) | | 1 KLOC = 1,000 lines |
 | Function Points (if using FP method) | | |
-| Conversion to KLOC (if using FP) | FP × language factor | |
+| Conversion to KLOC (if using FP) | FP × language factor | |`,
+      },
+      {
+        heading: 'Language Conversion Factors',
+        content: `Approximate lines of code per function point by language.
 
-**Language Conversion Factors (approximate):**
 | Language | Lines of Code per Function Point |
 |---|---|
 | Java / C# | ~53 |
@@ -5626,21 +5629,24 @@ Review date for these adjustments: ___`,
 | C++ | ~55 |`,
       },
       {
-        heading: 'Basic COCOMO Calculation',
+        heading: 'COCOMO Coefficients by Project Type',
         content: `| Software Category | Effort Coefficient (a) | Effort Exponent (b) | Duration Coefficient (c) | Duration Exponent (d) |
 |---|---|---|---|---|
 | Organic (small, familiar) | 2.4 | 1.05 | 2.5 | 0.38 |
 | Semi-Detached (medium, mixed) | 3.0 | 1.12 | 2.5 | 0.35 |
-| Embedded (large, complex) | 3.6 | 1.20 | 2.5 | 0.32 |
-
-**Formulas:**
-- Effort (person-months) = a × (KLOC)^b
+| Embedded (large, complex) | 3.6 | 1.20 | 2.5 | 0.32 |`,
+      },
+      {
+        heading: 'Calculation Formulas',
+        content: `- Effort (person-months) = a × (KLOC)^b
 - Duration (months) = c × (Effort)^d
-- Team Size = Effort ÷ Duration
-
-| Metric | Calculation | Result |
+- Team Size = Effort ÷ Duration`,
+      },
+      {
+        heading: 'Estimation Results',
+        content: `| Metric | Calculation | Result |
 |---|---|---|
-| Estimated Effort (PM) | a × KLOC^b | |
+| Estimated Effort (person-months) | a × KLOC^b | |
 | Estimated Duration (months) | c × Effort^d | |
 | Recommended Team Size | Effort ÷ Duration | |`,
       },

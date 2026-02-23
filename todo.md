@@ -201,3 +201,7 @@
 - [x] Pass 1 validation: 198 cards — 0 structural issues (all fields, illustrations, templates, deep dives, case studies present)
 - [x] Pass 2 validation: 0 content issues (no PMBOK 7 mentions, no pip deck, TypeScript clean)
 - [x] Save checkpoint after all 32 cards complete
+
+## COCOMO Template Fix — Feb 2026
+
+- [x] Fix COCOMO template rendering issue in templateData.ts
