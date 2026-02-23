@@ -43,12 +43,10 @@ function ScrollToTop() {
   return null;
 }
 
-  // Show TopNav on all pages except home and journey (journey has its own header)
+  // Show TopNav on all pages except home and quiz
 function GlobalTopNav() {
   const [location] = useLocation();
   if (location === '/') return null;
-  if (location.startsWith('/journey')) return null;
-  if (location.startsWith('/decision')) return null;
   if (location.startsWith('/quiz')) return null;
 
   // Derive accent colour from current route

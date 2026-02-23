@@ -6,7 +6,6 @@ import { useLocation } from 'wouter';
 import { motion } from 'framer-motion';
 import { ArrowRight, Trophy, Star } from 'lucide-react';
 import BottomNav from '@/components/BottomNav';
-import TopNav from '@/components/TopNav';
 import { DECKS, getCardsByDeck } from '@/lib/pmoData';
 import { useCardProgress } from '@/hooks/useCardProgress';
 import { useMasteryBadges } from '@/hooks/useMasteryBadges';
@@ -257,7 +256,6 @@ export default function DecksPage() {
   const maxBadges = DECKS.length * 2;
   return (
     <div className="min-h-screen pb-24">
-      <TopNav />
       <div className="pt-12">
         <div className="max-w-5xl mx-auto px-4 pt-6 pb-4">
           <h1 className="text-2xl font-black text-stone-900 mb-1" style={{ fontFamily: 'Sora, sans-serif' }}>

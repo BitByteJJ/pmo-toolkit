@@ -7,10 +7,9 @@ import { motion, AnimatePresence } from 'framer-motion';
 import {
   Code2, Sparkles, Layers, FileText, ChevronDown, ChevronUp,
   Github, Globe, Cpu, Palette, Database, Zap, BookOpen,
-  Copy, Check, ArrowLeft,
+  Copy, Check,
 } from 'lucide-react';
 import { useLocation } from 'wouter';
-import TopNav from '@/components/TopNav';
 import BottomNav from '@/components/BottomNav';
 
 // ── Data ─────────────────────────────────────────────────────────────────────
@@ -318,22 +317,12 @@ export default function HowItWasBuilt() {
 
   return (
     <div className="min-h-screen bg-white pb-24">
-      <TopNav accentColor="#8b5cf6" />
-
       {/* Header */}
       <div
         className="pt-12 pb-6 px-4"
         style={{ background: 'linear-gradient(135deg, #1e1b4b 0%, #312e81 50%, #1e1b4b 100%)' }}
       >
         <div style={{ maxWidth: '480px', margin: '0 auto' }}>
-          <button
-            onClick={() => navigate('/')}
-            className="flex items-center gap-1.5 text-[11px] font-semibold text-indigo-300 mb-4 hover:text-white transition-colors"
-          >
-            <ArrowLeft size={13} strokeWidth={2.5} />
-            Back to home
-          </button>
-
           <div className="flex items-center gap-3 mb-3">
             <div className="w-12 h-12 rounded-2xl bg-indigo-500/20 flex items-center justify-center">
               <Code2 size={22} strokeWidth={1.8} className="text-indigo-300" />
