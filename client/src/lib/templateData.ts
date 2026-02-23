@@ -619,7 +619,7 @@ Action items for next sprint:`,
 
 const peopleTemplates: CardTemplate[] = [
   {
-    cardId: 'people-1',
+    cardId: 'P1',
     title: 'Leadership Style Self-Assessment',
     description: 'Reflect on your current leadership approach and identify development areas.',
     sections: [
@@ -647,7 +647,7 @@ const peopleTemplates: CardTemplate[] = [
     ],
   },
   {
-    cardId: 'people-2',
+    cardId: 'P2',
     title: 'Team Performance Review',
     description: 'A structured review to assess team performance and identify coaching opportunities.',
     sections: [
@@ -671,7 +671,7 @@ const peopleTemplates: CardTemplate[] = [
     ],
   },
   {
-    cardId: 'people-3',
+    cardId: 'P3',
     title: 'Conflict Resolution Log',
     description: 'Document and track interpersonal or team conflicts through to resolution.',
     sections: [
@@ -690,7 +690,7 @@ const peopleTemplates: CardTemplate[] = [
     ],
   },
   {
-    cardId: 'people-4',
+    cardId: 'P4',
     title: 'Empowerment & Accountability Matrix',
     description: 'Clarify who is empowered to make which decisions and at what level.',
     sections: [
@@ -709,7 +709,7 @@ const peopleTemplates: CardTemplate[] = [
     ],
   },
   {
-    cardId: 'people-5',
+    cardId: 'P5',
     title: 'Motivation & Recognition Tracker',
     description: 'Track individual motivators and recognition activities to sustain team morale.',
     sections: [
@@ -728,7 +728,7 @@ const peopleTemplates: CardTemplate[] = [
     ],
   },
   {
-    cardId: 'people-6',
+    cardId: 'P6',
     title: 'Team Charter',
     description: 'A team charter that defines purpose, norms, roles, and working agreements.',
     sections: [
@@ -762,7 +762,7 @@ const peopleTemplates: CardTemplate[] = [
     ],
   },
   {
-    cardId: 'people-7',
+    cardId: 'P7',
     title: 'Impediment Log',
     description: 'Track and resolve team blockers and impediments systematically.',
     sections: [
@@ -775,7 +775,7 @@ const peopleTemplates: CardTemplate[] = [
     ],
   },
   {
-    cardId: 'people-8',
+    cardId: 'P8',
     title: 'Negotiation Preparation Sheet',
     description: 'Prepare for a project negotiation by mapping positions, interests, and ZOPA.',
     sections: [
@@ -810,7 +810,7 @@ const peopleTemplates: CardTemplate[] = [
     ],
   },
   {
-    cardId: 'people-9',
+    cardId: 'P9',
     title: 'Stakeholder Collaboration Plan',
     description: 'Plan and track collaborative activities with key stakeholders throughout the project.',
     sections: [
@@ -829,7 +829,7 @@ const peopleTemplates: CardTemplate[] = [
     ],
   },
   {
-    cardId: 'people-10',
+    cardId: 'P10',
     title: 'Shared Understanding Canvas',
     description: 'Align the team and stakeholders on project vision, goals, constraints, and success criteria.',
     sections: [
@@ -852,7 +852,7 @@ const peopleTemplates: CardTemplate[] = [
     ],
   },
   {
-    cardId: 'people-11',
+    cardId: 'P11',
     title: 'Virtual Team Engagement Plan',
     description: 'A plan to keep distributed team members connected, informed, and engaged.',
     sections: [
@@ -874,7 +874,7 @@ const peopleTemplates: CardTemplate[] = [
     ],
   },
   {
-    cardId: 'people-12',
+    cardId: 'P12',
     title: 'Team Ground Rules Document',
     description: 'A co-created set of ground rules to govern team behaviour and working norms.',
     sections: [
@@ -900,7 +900,7 @@ const peopleTemplates: CardTemplate[] = [
     ],
   },
   {
-    cardId: 'people-13',
+    cardId: 'P13',
     title: 'Mentoring & Coaching Plan',
     description: 'A structured plan for mentoring stakeholders or team members through a project or skill development.',
     sections: [
@@ -929,7 +929,7 @@ const peopleTemplates: CardTemplate[] = [
     ],
   },
   {
-    cardId: 'people-14',
+    cardId: 'P14',
     title: 'Team Emotional Intelligence Assessment',
     description: 'Assess and develop emotional intelligence across the team to improve collaboration.',
     sections: [
@@ -954,7 +954,7 @@ const peopleTemplates: CardTemplate[] = [
     ],
   },
   {
-    cardId: 'people-15',
+    cardId: 'P15',
     title: 'Psychological Safety Assessment & Action Plan',
     description: "Measure your team's current psychological safety level and create a targeted action plan to improve it.",
     sections: [
@@ -992,7 +992,7 @@ const peopleTemplates: CardTemplate[] = [
     ],
   },
   {
-    cardId: 'people-16',
+    cardId: 'P16',
     title: 'Stakeholder Performance Domain Tracker',
     description: 'Track stakeholder engagement across the Stakeholder Performance Domain.',
     sections: [
@@ -1011,7 +1011,7 @@ const peopleTemplates: CardTemplate[] = [
     ],
   },
   {
-    cardId: 'people-17',
+    cardId: 'P17',
     title: 'Team Performance Domain Health Check',
     description: 'Assess team health across the five Team Performance Domain dimensions.',
     sections: [
@@ -1037,7 +1037,7 @@ const peopleTemplates: CardTemplate[] = [
     ],
   },
   {
-    cardId: 'people-18',
+    cardId: 'P18',
     title: 'Servant Leadership Self-Assessment',
     description: 'Evaluate your servant leadership behaviours and identify growth areas.',
     sections: [
@@ -1074,7 +1074,7 @@ const peopleTemplates: CardTemplate[] = [
 
 const processTemplates: CardTemplate[] = [
   {
-    cardId: 'process-1',
+    cardId: 'PR1',
     title: 'Execution Urgency Dashboard',
     description: 'A daily execution tracker to maintain momentum and surface blockers early.',
     sections: [
@@ -1093,7 +1093,7 @@ const processTemplates: CardTemplate[] = [
     ],
   },
   {
-    cardId: 'process-2',
+    cardId: 'PR2',
     title: 'Communications Plan',
     description: 'A structured plan defining what information is communicated, to whom, how, and when.',
     sections: [
@@ -1116,7 +1116,7 @@ const processTemplates: CardTemplate[] = [
     ],
   },
   {
-    cardId: 'process-3',
+    cardId: 'PR3',
     title: 'Risk Register',
     description: 'A comprehensive risk register to identify, assess, and manage project risks.',
     sections: [
@@ -1140,7 +1140,7 @@ const processTemplates: CardTemplate[] = [
     ],
   },
   {
-    cardId: 'process-4',
+    cardId: 'PR4',
     title: 'Stakeholder Engagement Plan',
     description: 'A plan to systematically engage stakeholders based on their influence and interest.',
     sections: [
@@ -1159,7 +1159,7 @@ const processTemplates: CardTemplate[] = [
     ],
   },
   {
-    cardId: 'process-5',
+    cardId: 'PR5',
     title: 'Project Budget Tracker',
     description: 'Track planned vs actual spend across budget categories with variance analysis.',
     sections: [
@@ -1185,7 +1185,7 @@ const processTemplates: CardTemplate[] = [
     ],
   },
   {
-    cardId: 'process-6',
+    cardId: 'PR6',
     title: 'Project Schedule Template',
     description: 'A milestone-based schedule with task dependencies and critical path indicators.',
     sections: [
@@ -1210,7 +1210,7 @@ const processTemplates: CardTemplate[] = [
     ],
   },
   {
-    cardId: 'process-7',
+    cardId: 'PR7',
     title: 'Quality Management Plan',
     description: 'Define quality standards, review processes, and acceptance criteria for project deliverables.',
     sections: [
@@ -1229,7 +1229,7 @@ const processTemplates: CardTemplate[] = [
     ],
   },
   {
-    cardId: 'process-8',
+    cardId: 'PR8',
     title: 'Scope Management Plan',
     description: 'Define, document, and control project scope with a clear change management process.',
     sections: [
@@ -1253,7 +1253,7 @@ const processTemplates: CardTemplate[] = [
     ],
   },
   {
-    cardId: 'process-9',
+    cardId: 'PR9',
     title: 'Integrated Project Plan',
     description: 'A one-page integrated plan linking scope, schedule, budget, risks, and resources.',
     sections: [
@@ -1273,7 +1273,7 @@ const processTemplates: CardTemplate[] = [
     ],
   },
   {
-    cardId: 'process-10',
+    cardId: 'PR10',
     title: 'Change Control Log',
     description: 'A formal log to capture, assess, and approve all project change requests.',
     sections: [
@@ -1286,7 +1286,7 @@ const processTemplates: CardTemplate[] = [
     ],
   },
   {
-    cardId: 'process-11',
+    cardId: 'PR11',
     title: 'Procurement Plan',
     description: 'Plan and track all procurement activities, vendor selection, and contract management.',
     sections: [
@@ -1305,7 +1305,7 @@ const processTemplates: CardTemplate[] = [
     ],
   },
   {
-    cardId: 'process-12',
+    cardId: 'PR12',
     title: 'Document Management Register',
     description: 'Track all project documents, versions, owners, and storage locations.',
     sections: [
@@ -1319,7 +1319,7 @@ const processTemplates: CardTemplate[] = [
     ],
   },
   {
-    cardId: 'process-13',
+    cardId: 'PR13',
     title: 'Methodology Selection Record',
     description: 'Document the rationale for the chosen delivery methodology.',
     sections: [
@@ -1338,7 +1338,7 @@ const processTemplates: CardTemplate[] = [
     ],
   },
   {
-    cardId: 'process-14',
+    cardId: 'PR14',
     title: 'Governance Framework',
     description: 'Define the governance structure, decision rights, and escalation paths for the project.',
     sections: [
@@ -1363,7 +1363,7 @@ const processTemplates: CardTemplate[] = [
     ],
   },
   {
-    cardId: 'process-15',
+    cardId: 'PR15',
     title: 'Issues Log',
     description: 'Track, assign, and resolve project issues systematically.',
     sections: [
@@ -1376,7 +1376,7 @@ const processTemplates: CardTemplate[] = [
     ],
   },
   {
-    cardId: 'process-16',
+    cardId: 'PR16',
     title: 'Knowledge Transfer Plan',
     description: 'Ensure critical project knowledge is captured and transferred to the receiving organisation.',
     sections: [
@@ -1400,7 +1400,7 @@ const processTemplates: CardTemplate[] = [
     ],
   },
   {
-    cardId: 'process-17',
+    cardId: 'PR17',
     title: 'Project Closure Checklist',
     description: 'A comprehensive checklist to ensure all closure activities are completed.',
     sections: [
@@ -1421,7 +1421,7 @@ const processTemplates: CardTemplate[] = [
     ],
   },
   {
-    cardId: 'process-18',
+    cardId: 'PR18',
     title: 'Planning Performance Domain Checklist',
     description: 'Ensure all Planning Performance Domain activities are addressed.',
     sections: [
@@ -1449,7 +1449,7 @@ const processTemplates: CardTemplate[] = [
     ],
   },
   {
-    cardId: 'process-19',
+    cardId: 'PR19',
     title: 'Delivery Performance Domain Tracker',
     description: 'Track delivery progress against the Delivery Performance Domain outcomes.',
     sections: [
@@ -1471,7 +1471,7 @@ const processTemplates: CardTemplate[] = [
     ],
   },
   {
-    cardId: 'process-20',
+    cardId: 'PR20',
     title: 'Measurement Performance Domain Dashboard',
     description: 'Define and track the key metrics for the Measurement Performance Domain.',
     sections: [
@@ -1495,7 +1495,7 @@ const processTemplates: CardTemplate[] = [
     ],
   },
   {
-    cardId: 'process-21',
+    cardId: 'PR21',
     title: 'Uncertainty Performance Domain Risk Log',
     description: 'Manage uncertainty and ambiguity using the Uncertainty Performance Domain framework.',
     sections: [
@@ -5663,10 +5663,10 @@ Review date for these adjustments: ___`,
     ],
   },
 
-// === PEOPLE DECK: people-19–people-21 ===
+// === PEOPLE DECK: P19–P21 ===
 
   {
-    cardId: 'people-19',
+    cardId: 'P19',
     title: 'Cultural Intelligence (CQ) Team Assessment',
     description: 'Assess and develop cultural intelligence across your project team to improve cross-cultural collaboration.',
     sections: [
@@ -5718,7 +5718,7 @@ Review date for these adjustments: ___`,
     ],
   },
   {
-    cardId: 'people-20',
+    cardId: 'P20',
     title: 'Green HRM — Sustainable Team Practices Planner',
     description: 'Plan and implement environmentally sustainable human resource practices across the project team.',
     sections: [
@@ -5763,7 +5763,7 @@ Review date for these adjustments: ___`,
     ],
   },
   {
-    cardId: 'people-21',
+    cardId: 'P21',
     title: 'Storytelling in Project Management — Narrative Planner',
     description: 'Craft compelling project narratives to engage stakeholders, communicate change, and drive action.',
     sections: [

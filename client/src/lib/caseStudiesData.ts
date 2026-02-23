@@ -297,7 +297,7 @@ const CASE_STUDIES: CaseStudy[] = [
   // ─── People Domain ────────────────────────────────────────────────────────
 
   {
-    cardId: 'people-1',
+    cardId: 'P1',
     organisation: 'Pixar Animation Studios',
     industry: 'Entertainment / Creative',
     projectName: 'Braintrust Model — Creative Conflict Resolution',
@@ -318,7 +318,7 @@ const CASE_STUDIES: CaseStudy[] = [
   },
 
   {
-    cardId: 'people-2',
+    cardId: 'P2',
     organisation: 'Microsoft',
     industry: 'Technology',
     projectName: 'Satya Nadella\'s Cultural Transformation',
@@ -339,7 +339,7 @@ const CASE_STUDIES: CaseStudy[] = [
   },
 
   {
-    cardId: 'people-6',
+    cardId: 'P6',
     organisation: 'Valve Corporation',
     industry: 'Technology / Gaming',
     projectName: 'Flat Organisation Team Building',
@@ -356,7 +356,7 @@ const CASE_STUDIES: CaseStudy[] = [
   },
 
   {
-    cardId: 'people-9',
+    cardId: 'P9',
     organisation: 'NHS England',
     industry: 'Healthcare / Public Sector',
     projectName: 'COVID-19 Vaccine Rollout Programme',
@@ -375,7 +375,7 @@ const CASE_STUDIES: CaseStudy[] = [
   // ─── Process Domain ───────────────────────────────────────────────────────
 
   {
-    cardId: 'process-3',
+    cardId: 'PR3',
     organisation: 'BP (British Petroleum)',
     industry: 'Energy / Oil & Gas',
     projectName: 'Deepwater Horizon — Risk Management Failure',
@@ -396,7 +396,7 @@ const CASE_STUDIES: CaseStudy[] = [
   },
 
   {
-    cardId: 'process-5',
+    cardId: 'PR5',
     organisation: 'Sydney Opera House',
     industry: 'Architecture / Public Infrastructure',
     projectName: 'Sydney Opera House Construction',
@@ -413,7 +413,7 @@ const CASE_STUDIES: CaseStudy[] = [
   },
 
   {
-    cardId: 'process-8',
+    cardId: 'PR8',
     organisation: 'Denver International Airport',
     industry: 'Aviation / Infrastructure',
     projectName: 'Automated Baggage System Scope Failure',
@@ -430,7 +430,7 @@ const CASE_STUDIES: CaseStudy[] = [
   },
 
   {
-    cardId: 'process-10',
+    cardId: 'PR10',
     organisation: 'Apple',
     industry: 'Technology / Consumer Electronics',
     projectName: 'iPhone Development (2005–2007)',
@@ -665,7 +665,7 @@ const CASE_STUDIES: CaseStudy[] = [
   // ─── People Domain (additional) ─────────────────────────────────────────────
 
   {
-    cardId: 'people-3',
+    cardId: 'P3',
     organisation: 'Atlassian',
     industry: 'Technology / Software',
     projectName: 'Team Health Monitor Programme',
@@ -686,7 +686,7 @@ const CASE_STUDIES: CaseStudy[] = [
   },
 
   {
-    cardId: 'people-4',
+    cardId: 'P4',
     organisation: 'W.L. Gore & Associates',
     industry: 'Manufacturing / Materials Science',
     projectName: 'Lattice Organisation — Empowering Associates',
@@ -703,7 +703,7 @@ const CASE_STUDIES: CaseStudy[] = [
   },
 
   {
-    cardId: 'people-7',
+    cardId: 'P7',
     organisation: 'Spotify',
     industry: 'Technology / Music Streaming',
     projectName: 'Removing Impediments — Chapter Lead Model',
@@ -720,7 +720,7 @@ const CASE_STUDIES: CaseStudy[] = [
   },
 
   {
-    cardId: 'people-10',
+    cardId: 'P10',
     organisation: 'NASA Johnson Space Center',
     industry: 'Aerospace / Government',
     projectName: 'Apollo 13 Mission — Shared Mental Models Under Crisis',
@@ -743,7 +743,7 @@ const CASE_STUDIES: CaseStudy[] = [
   // ─── Process Domain (additional) ──────────────────────────────────────────────
 
   {
-    cardId: 'process-2',
+    cardId: 'PR2',
     organisation: 'NHS Test and Trace',
     industry: 'Public Health / Government',
     projectName: 'COVID-19 Contact Tracing Communications Programme',
@@ -760,7 +760,7 @@ const CASE_STUDIES: CaseStudy[] = [
   },
 
   {
-    cardId: 'process-4',
+    cardId: 'PR4',
     organisation: 'Crossrail (Elizabeth Line)',
     industry: 'Infrastructure / Transport',
     projectName: 'Stakeholder Engagement on Europe\'s Largest Infrastructure Project',
@@ -777,7 +777,7 @@ const CASE_STUDIES: CaseStudy[] = [
   },
 
   {
-    cardId: 'process-6',
+    cardId: 'PR6',
     organisation: 'Boeing',
     industry: 'Aerospace / Manufacturing',
     projectName: '787 Dreamliner Schedule Recovery',
@@ -794,7 +794,7 @@ const CASE_STUDIES: CaseStudy[] = [
   },
 
   {
-    cardId: 'process-7',
+    cardId: 'PR7',
     organisation: 'Toyota Motor Corporation',
     industry: 'Automotive Manufacturing',
     projectName: 'Jidoka — Built-In Quality at the Source',
@@ -815,7 +815,7 @@ const CASE_STUDIES: CaseStudy[] = [
   },
 
   {
-    cardId: 'process-11',
+    cardId: 'PR11',
     organisation: 'UK Ministry of Defence',
     industry: 'Government / Defence',
     projectName: 'Ajax Armoured Vehicle Procurement',
@@ -832,7 +832,7 @@ const CASE_STUDIES: CaseStudy[] = [
   },
 
   {
-    cardId: 'process-14',
+    cardId: 'PR14',
     organisation: 'ING Bank',
     industry: 'Financial Services',
     projectName: 'Agile Governance Transformation',
@@ -849,7 +849,7 @@ const CASE_STUDIES: CaseStudy[] = [
   },
 
   {
-    cardId: 'process-15',
+    cardId: 'PR15',
     organisation: 'London 2012 Olympics Organising Committee (LOCOG)',
     industry: 'Events / Government',
     projectName: 'Olympic Venue Issues Management',
@@ -1689,7 +1689,7 @@ const CASE_STUDIES: CaseStudy[] = [
   },
 
   {
-    cardId: 'people-5',
+    cardId: 'P5',
     organisation: 'Accenture',
     industry: 'Professional Services',
     projectName: 'Training Adequacy Programme for SAP S/4HANA Migration',
@@ -1706,7 +1706,7 @@ const CASE_STUDIES: CaseStudy[] = [
   },
 
   {
-    cardId: 'people-8',
+    cardId: 'P8',
     organisation: 'World Bank',
     industry: 'International Development',
     projectName: 'Negotiating Project Agreements for Infrastructure Financing',
@@ -1722,7 +1722,7 @@ const CASE_STUDIES: CaseStudy[] = [
   },
 
   {
-    cardId: 'people-11',
+    cardId: 'P11',
     organisation: 'Cisco Systems',
     industry: 'Technology & Networking',
     projectName: 'Virtual Team Engagement for Global Network Architecture Project',
@@ -1739,7 +1739,7 @@ const CASE_STUDIES: CaseStudy[] = [
   },
 
   {
-    cardId: 'people-12',
+    cardId: 'P12',
     organisation: 'Spotify',
     industry: 'Technology (Music Streaming)',
     projectName: 'Team Ground Rules for the Squad Model',
@@ -1755,7 +1755,7 @@ const CASE_STUDIES: CaseStudy[] = [
   },
 
   {
-    cardId: 'process-1',
+    cardId: 'PR1',
     organisation: 'Amazon',
     industry: 'E-commerce & Technology',
     projectName: 'Execute with Urgency — Prime Day Launch',
@@ -1771,7 +1771,7 @@ const CASE_STUDIES: CaseStudy[] = [
   },
 
   {
-    cardId: 'process-9',
+    cardId: 'PR9',
     organisation: 'Airbus',
     industry: 'Aerospace & Manufacturing',
     projectName: 'Integrated Project Planning for A380 Programme',
@@ -1788,7 +1788,7 @@ const CASE_STUDIES: CaseStudy[] = [
   },
 
   {
-    cardId: 'process-12',
+    cardId: 'PR12',
     organisation: 'UK National Archives',
     industry: 'Government & Information Management',
     projectName: 'Project Artifact Management for Digital Preservation Programme',
@@ -1804,7 +1804,7 @@ const CASE_STUDIES: CaseStudy[] = [
   },
 
   {
-    cardId: 'process-16',
+    cardId: 'PR16',
     organisation: 'McKinsey & Company',
     industry: 'Management Consulting',
     projectName: 'Knowledge Transfer for Post-Engagement Capability Building',
@@ -2416,7 +2416,7 @@ const CASE_STUDIES: CaseStudy[] = [
     quote: { text: `'Choosing a Path' was invaluable for our Smart City project. It gave us the confidence to blend methodologies effectively, ensuring we had the right tools for every challenge, from concrete pouring to code deployment.`, attribution: `Ben Carter, Director of Urban Planning, Urban Development Corp.` },
   },
   {
-    cardId: 'people-13',
+    cardId: 'P13',
     organisation: `TechSolutions Inc.`,
     industry: `Software Development`,
     projectName: `Cloud Migration Initiative`,
@@ -2433,7 +2433,7 @@ const CASE_STUDIES: CaseStudy[] = [
     quote: { text: `The 'Mentor Stakeholders' approach was a game-changer. It transformed our business leaders from skeptics into advocates, ensuring everyone was aligned with the project's technical realities and strategic goals.`, attribution: `Sarah Chen, Head of Digital Transformation, TechSolutions Inc.` },
   },
   {
-    cardId: 'people-14',
+    cardId: 'P14',
     organisation: `Global Healthcare Systems`,
     industry: `Healthcare Technology`,
     projectName: `Electronic Health Record (EHR) System Upgrade`,
@@ -2501,7 +2501,7 @@ const CASE_STUDIES: CaseStudy[] = [
     quote: { text: `The Project Closure Phase is often overlooked, but for the Wind Farm, it was crucial. It allowed us to formally wrap everything up, learn from our journey, and set the stage for even greater success in our next ventures.`, attribution: `David Lee, Operations Director, Green Energy Solutions` },
   },
   {
-    cardId: 'process-13',
+    cardId: 'PR13',
     organisation: `FinTech Innovations Ltd.`,
     industry: `Financial Technology`,
     projectName: `New Mobile Banking App Development`,
@@ -2518,7 +2518,7 @@ const CASE_STUDIES: CaseStudy[] = [
     quote: { text: `Determining the right methodology was foundational for our mobile banking app. The hybrid approach gave us the agility to innovate rapidly while maintaining the strict security and compliance standards our industry demands.`, attribution: `Maria Rodriguez, Head of Product Development, FinTech Innovations Ltd.` },
   },
   {
-    cardId: 'process-17',
+    cardId: 'PR17',
     organisation: `MediCorp Pharmaceuticals`,
     industry: `Pharmaceutical Research`,
     projectName: `Clinical Trial Management System (CTMS) Implementation`,
@@ -2696,7 +2696,7 @@ const CASE_STUDIES: CaseStudy[] = [
     teamSize: `1,200 survey respondents; 8-person analysis team`,
   },
   {
-    cardId: 'people-15',
+    cardId: 'P15',
     organisation: `Google`,
     industry: `Technology`,
     projectName: `Project Aristotle — Team Effectiveness Research`,
@@ -2777,7 +2777,7 @@ const CASE_STUDIES: CaseStudy[] = [
     teamSize: '10,000+ workers at peak construction',
   },
   {
-    cardId: 'people-16',
+    cardId: 'P16',
     organisation: 'Heathrow Airport',
     industry: 'Aviation / Infrastructure',
     projectName: 'Terminal 2 Stakeholder Engagement Programme',
@@ -2793,7 +2793,7 @@ const CASE_STUDIES: CaseStudy[] = [
     teamSize: '8-person Stakeholder Engagement Office, 3,500 construction workers',
   },
   {
-    cardId: 'people-17',
+    cardId: 'P17',
     organisation: 'Spotify',
     industry: 'Technology / Music Streaming',
     projectName: 'Squad Health Check Model Implementation',
@@ -2813,7 +2813,7 @@ const CASE_STUDIES: CaseStudy[] = [
     },
   },
   {
-    cardId: 'people-18',
+    cardId: 'P18',
     organisation: 'W.L. Gore & Associates',
     industry: 'Manufacturing / Materials Science',
     projectName: 'Lattice Organisation and Servant Leadership Culture',
@@ -2829,7 +2829,7 @@ const CASE_STUDIES: CaseStudy[] = [
     teamSize: '10,000+ associates globally',
   },
   {
-    cardId: 'process-18',
+    cardId: 'PR18',
     organisation: 'UK Home Office',
     industry: 'Government / Public Sector',
     projectName: 'Emergency Services Mobile Communications Programme (ESMCP)',
@@ -2845,7 +2845,7 @@ const CASE_STUDIES: CaseStudy[] = [
     teamSize: '500+ programme staff across multiple suppliers',
   },
   {
-    cardId: 'process-19',
+    cardId: 'PR19',
     organisation: 'Airbnb',
     industry: 'Technology / Hospitality',
     projectName: 'Payments Platform Rebuild',
@@ -2861,7 +2861,7 @@ const CASE_STUDIES: CaseStudy[] = [
     teamSize: '45 engineers across 6 teams',
   },
   {
-    cardId: 'process-20',
+    cardId: 'PR20',
     organisation: 'NHS England',
     industry: 'Healthcare / Public Sector',
     projectName: 'COVID-19 Vaccination Programme Measurement Framework',
@@ -2881,7 +2881,7 @@ const CASE_STUDIES: CaseStudy[] = [
     },
   },
   {
-    cardId: 'process-21',
+    cardId: 'PR21',
     organisation: 'Shell',
     industry: 'Energy / Oil & Gas',
     projectName: 'Prelude FLNG Uncertainty Management',
@@ -3536,9 +3536,9 @@ const CASE_STUDIES: CaseStudy[] = [
     },
   },
 
-  // ─── PMBOK 8 New Cards — People people-19–people-21 ──────────────────────
+  // ─── PMBOK 8 New Cards — People P19–P21 ──────────────────────
   {
-    cardId: 'people-19',
+    cardId: 'P19',
     organisation: 'Aecom',
     industry: 'Engineering & Infrastructure',
     projectName: 'Middle East Infrastructure Programme — Cultural Intelligence in Practice',
@@ -3558,7 +3558,7 @@ const CASE_STUDIES: CaseStudy[] = [
     },
   },
   {
-    cardId: 'people-20',
+    cardId: 'P20',
     organisation: 'Sainsbury\'s',
     industry: 'Retail',
     projectName: 'Store Transformation Programme — Green HRM Implementation',
@@ -3578,7 +3578,7 @@ const CASE_STUDIES: CaseStudy[] = [
     },
   },
   {
-    cardId: 'people-21',
+    cardId: 'P21',
     organisation: 'NHS England',
     industry: 'Healthcare',
     projectName: 'Integrated Care System Implementation — Storytelling for Change',

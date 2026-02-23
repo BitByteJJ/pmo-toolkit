@@ -289,7 +289,7 @@ export const JOURNEY_LESSONS: JourneyLesson[] = [
     description: 'Define what\'s in, what\'s out, and what matters most.',
     icon: '📐',
     unit: 'foundations',
-    cardRefs: ['T14', 'T7', 'process-8'],
+    cardRefs: ['T14', 'T7', 'PR8'],
     questions: [
       {
         id: 'q-d3-1',
@@ -333,7 +333,7 @@ export const JOURNEY_LESSONS: JourneyLesson[] = [
         ],
         correctIndex: 1,
         explanation: 'Scope creep is the uncontrolled addition of features or requirements without going through formal change control. It is one of the most common causes of project overruns. The Project Scope Statement (T14) and Integrated Change Control (A20) are your defences.',
-        cardRefs: ['T14', 'process-8'],
+        cardRefs: ['T14', 'PR8'],
         xp: 10,
       },
       {
@@ -370,7 +370,7 @@ export const JOURNEY_LESSONS: JourneyLesson[] = [
     description: 'Identify, assess, and respond to project risks before they become issues.',
     icon: '⚠️',
     unit: 'foundations',
-    cardRefs: ['T6', 'A14', 'T9', 'process-4'],
+    cardRefs: ['T6', 'A14', 'T9', 'PR4'],
     questions: [
       {
         id: 'q-d4-1',
@@ -384,7 +384,7 @@ export const JOURNEY_LESSONS: JourneyLesson[] = [
         ],
         correctIndex: 1,
         explanation: 'A risk is an uncertain event that may occur in the future — it has a probability and potential impact. An issue is a risk that has materialised and must be managed now. The Risk Register (T6) tracks both, but they require different responses.',
-        cardRefs: ['T6', 'process-4'],
+        cardRefs: ['T6', 'PR4'],
         xp: 10,
       },
       {
@@ -399,7 +399,7 @@ export const JOURNEY_LESSONS: JourneyLesson[] = [
         ],
         correctIndex: 2,
         explanation: 'For High Probability, High Impact risks, mitigation is the primary strategy. Adding a schedule buffer and preparing a contingency plan (e.g., a soft launch in 2 markets if approval is delayed) reduces the impact if the risk materialises. Acceptance is only appropriate for low-impact risks.',
-        cardRefs: ['T6', 'A14', 'process-4'],
+        cardRefs: ['T6', 'A14', 'PR4'],
         xp: 10,
       },
       {
@@ -424,7 +424,7 @@ export const JOURNEY_LESSONS: JourneyLesson[] = [
         options: ['True', 'False'],
         correctIndex: 1,
         explanation: 'False. Risk management is continuous. The Risk Register should be reviewed weekly during execution, updated when new risks emerge, and revisited at every phase gate. New risks can appear at any time — especially during periods of change.',
-        cardRefs: ['T6', 'process-4'],
+        cardRefs: ['T6', 'PR4'],
         xp: 10,
       },
       {
@@ -536,7 +536,7 @@ export const JOURNEY_LESSONS: JourneyLesson[] = [
     description: 'Understand team development stages and how to lead through them.',
     icon: '🤝',
     unit: 'people',
-    cardRefs: ['people-1', 'A2', 'A38', 'A39'],
+    cardRefs: ['P1', 'A2', 'A38', 'A39'],
     questions: [
       {
         id: 'q-d6-1',
@@ -605,7 +605,7 @@ export const JOURNEY_LESSONS: JourneyLesson[] = [
         ],
         correctIndex: 1,
         explanation: 'Performing is the fourth stage of Tuckman\'s Ladder (A2). The team is self-managing and highly productive. Your role shifts from directing to delegating — remove obstacles, protect the team from distractions, and focus on strategic issues. Micromanaging a Performing team is counterproductive.',
-        cardRefs: ['A2', 'people-1'],
+        cardRefs: ['A2', 'P1'],
         xp: 10,
       },
     ],
@@ -617,7 +617,7 @@ export const JOURNEY_LESSONS: JourneyLesson[] = [
     description: 'Map, engage, and turn stakeholders into project champions.',
     icon: '🌐',
     unit: 'people',
-    cardRefs: ['T16', 'A15', 'people-9', 'people-3'],
+    cardRefs: ['T16', 'A15', 'P9', 'P3'],
     questions: [
       {
         id: 'q-d7-1',
@@ -646,7 +646,7 @@ export const JOURNEY_LESSONS: JourneyLesson[] = [
         ],
         correctIndex: 2,
         explanation: 'Co-Creation Workshops (A9) involve stakeholders directly in designing the solution. When people contribute their ideas, they become advocates rather than resistors. This is far more effective than trying to convince resistant stakeholders with data alone.',
-        cardRefs: ['A9', 'people-9'],
+        cardRefs: ['A9', 'P9'],
         xp: 10,
       },
       {
@@ -671,7 +671,7 @@ export const JOURNEY_LESSONS: JourneyLesson[] = [
         options: ['True', 'False'],
         correctIndex: 1,
         explanation: 'False. Effective stakeholder management covers all levels — team members, end users, regulators, vendors, and executives. Low-influence stakeholders can become blockers if ignored. The Stakeholder Matrix (T16) ensures you identify and engage all relevant parties, not just the most senior ones.',
-        cardRefs: ['T16', 'people-3'],
+        cardRefs: ['T16', 'P3'],
         xp: 10,
       },
       {
@@ -686,7 +686,7 @@ export const JOURNEY_LESSONS: JourneyLesson[] = [
         ],
         correctIndex: 1,
         explanation: 'Mind Mapping (A10) is a powerful facilitation technique for building shared understanding. A visual, collaborative session surfaces conflicting assumptions in real time — in this case, revealing that Supply Chain and Regulatory have incompatible timeline assumptions before a single task is scheduled.',
-        cardRefs: ['A10', 'people-10'],
+        cardRefs: ['A10', 'P10'],
         xp: 10,
       },
     ],
@@ -698,7 +698,7 @@ export const JOURNEY_LESSONS: JourneyLesson[] = [
     description: 'Resolve conflict constructively and communicate with impact.',
     icon: '💬',
     unit: 'people',
-    cardRefs: ['people-6', 'A1', 'A43', 'process-2', 'T5'],
+    cardRefs: ['P6', 'A1', 'A43', 'PR2', 'T5'],
     questions: [
       {
         id: 'q-d8-1',
@@ -748,11 +748,11 @@ export const JOURNEY_LESSONS: JourneyLesson[] = [
       {
         id: 'q-d8-4',
         type: 'truefalse',
-        prompt: 'True or False: The Communication Plan (process-2) should be created once at the start of the project and never changed.',
+        prompt: 'True or False: The Communication Plan (PR2) should be created once at the start of the project and never changed.',
         options: ['True', 'False'],
         correctIndex: 1,
         explanation: 'False. The Communication Plan should be reviewed and updated whenever stakeholder needs change, new stakeholders join, or the project enters a new phase. Communication needs during execution are very different from those during setup or closure.',
-        cardRefs: ['process-2'],
+        cardRefs: ['PR2'],
         xp: 10,
       },
       {
@@ -779,7 +779,7 @@ export const JOURNEY_LESSONS: JourneyLesson[] = [
     description: 'Understand what drives people and how to adapt your leadership style.',
     icon: '⚡',
     unit: 'people',
-    cardRefs: ['people-2', 'people-4', 'A44', 'A42'],
+    cardRefs: ['P2', 'P4', 'A44', 'A42'],
     questions: [
       {
         id: 'q-d9-1',
@@ -848,7 +848,7 @@ export const JOURNEY_LESSONS: JourneyLesson[] = [
         ],
         correctIndex: 2,
         explanation: 'Promoting Team Emotional Intelligence (P14) means modelling composure and empathy under pressure. The leader\'s emotional state sets the team\'s tone. A short, honest reset meeting — acknowledging the setback and showing a path forward — is far more effective than panic or silence.',
-        cardRefs: ['people-14', 'A42', 'A1'],
+        cardRefs: ['P14', 'A42', 'A1'],
         xp: 10,
       },
     ],
@@ -860,7 +860,7 @@ export const JOURNEY_LESSONS: JourneyLesson[] = [
     description: 'Lead distributed teams and build a culture of trust and accountability.',
     icon: '🌍',
     unit: 'people',
-    cardRefs: ['people-11', 'people-12', 'A60', 'A45'],
+    cardRefs: ['P11', 'P12', 'A60', 'A45'],
     questions: [
       {
         id: 'q-d10-1',
@@ -874,7 +874,7 @@ export const JOURNEY_LESSONS: JourneyLesson[] = [
         ],
         correctIndex: 1,
         explanation: 'A Virtual Team Charter (P11) establishes the rules of engagement for distributed teams: communication channels, response SLAs, meeting cadence, and cultural norms. Rotating meeting times ensures fairness across time zones. Without a charter, virtual teams default to the loudest voice.',
-        cardRefs: ['people-11'],
+        cardRefs: ['P11'],
         xp: 10,
       },
       {
@@ -889,7 +889,7 @@ export const JOURNEY_LESSONS: JourneyLesson[] = [
         ],
         correctIndex: 1,
         explanation: 'A Social Contract (A60) is co-created by the team — not imposed by the PM. When people design their own norms, they own them and hold each other accountable to them. This is far more effective than top-down rules. The Johari Window (A45) can be used alongside to surface blind spots.',
-        cardRefs: ['A60', 'people-12'],
+        cardRefs: ['A60', 'P12'],
         xp: 10,
       },
       {
@@ -929,7 +929,7 @@ export const JOURNEY_LESSONS: JourneyLesson[] = [
         ],
         correctIndex: 1,
         explanation: 'Ground rules only work if the PM actively enforces them — but with psychological safety, not public embarrassment. A private conversation after the meeting, referencing the agreed Social Contract (A60), is the right approach. It reinforces the norm while respecting the individual.',
-        cardRefs: ['A60', 'people-12'],
+        cardRefs: ['A60', 'P12'],
         xp: 10,
       },
     ],
@@ -945,7 +945,7 @@ export const JOURNEY_LESSONS: JourneyLesson[] = [
     description: 'Estimate, track, and control project costs with confidence.',
     icon: '💰',
     unit: 'process',
-    cardRefs: ['process-5', 'T4', 'A16', 'T13'],
+    cardRefs: ['PR5', 'T4', 'A16', 'T13'],
     questions: [
       {
         id: 'q-d11-1',
@@ -1026,7 +1026,7 @@ export const JOURNEY_LESSONS: JourneyLesson[] = [
     description: 'Build quality in from the start — don\'t inspect it in at the end.',
     icon: '✅',
     unit: 'process',
-    cardRefs: ['process-7', 'A18', 'T8', 'A23'],
+    cardRefs: ['PR7', 'A18', 'T8', 'A23'],
     questions: [
       {
         id: 'q-d12-1',
@@ -1040,7 +1040,7 @@ export const JOURNEY_LESSONS: JourneyLesson[] = [
         ],
         correctIndex: 1,
         explanation: 'Quality Assurance (QA) is process-oriented — it ensures the processes used to create deliverables are correct, preventing defects. Quality Control (QC) is product-oriented — it inspects finished deliverables to detect defects. The PM\'s goal is to invest in QA so that QC finds fewer defects.',
-        cardRefs: ['process-7'],
+        cardRefs: ['PR7'],
         xp: 10,
       },
       {
@@ -1080,7 +1080,7 @@ export const JOURNEY_LESSONS: JourneyLesson[] = [
         options: ['True', 'False'],
         correctIndex: 1,
         explanation: 'False. "Quality is built in, not inspected in." Inspection finds defects after they\'ve been created — which is expensive and wasteful. The PM\'s goal is to define acceptance criteria upfront, build quality processes, and prevent defects from occurring in the first place.',
-        cardRefs: ['process-7'],
+        cardRefs: ['PR7'],
         xp: 10,
       },
       {
@@ -1107,7 +1107,7 @@ export const JOURNEY_LESSONS: JourneyLesson[] = [
     description: 'Manage changes formally and maintain project governance.',
     icon: '🏛️',
     unit: 'process',
-    cardRefs: ['process-10', 'A20', 'process-9', 'process-16'],
+    cardRefs: ['PR10', 'A20', 'PR9', 'PR16'],
     questions: [
       {
         id: 'q-d13-1',
@@ -1136,7 +1136,7 @@ export const JOURNEY_LESSONS: JourneyLesson[] = [
         ],
         correctIndex: 1,
         explanation: 'The Change Control Board (CCB) is the governance body responsible for evaluating change requests against the project baseline (scope, schedule, cost). It ensures changes are assessed objectively and approved only when the benefit outweighs the impact. This prevents scope creep and unauthorised changes.',
-        cardRefs: ['A20', 'process-10'],
+        cardRefs: ['A20', 'PR10'],
         xp: 10,
       },
       {
@@ -1151,7 +1151,7 @@ export const JOURNEY_LESSONS: JourneyLesson[] = [
         ],
         correctIndex: 1,
         explanation: 'The project baseline (scope, schedule, cost) is the approved plan against which actual performance is measured. Changes to the baseline must go through formal change control. Without a baseline, you cannot measure variance or determine if the project is on track.',
-        cardRefs: ['A20', 'process-8'],
+        cardRefs: ['A20', 'PR8'],
         xp: 10,
       },
       {
@@ -1188,7 +1188,7 @@ export const JOURNEY_LESSONS: JourneyLesson[] = [
     description: 'Source, negotiate, and manage vendors effectively.',
     icon: '🤝',
     unit: 'process',
-    cardRefs: ['process-11', 'people-8', 'A21', 'A1'],
+    cardRefs: ['PR11', 'P8', 'A21', 'A1'],
     questions: [
       {
         id: 'q-d14-1',
@@ -1202,7 +1202,7 @@ export const JOURNEY_LESSONS: JourneyLesson[] = [
         ],
         correctIndex: 1,
         explanation: 'Single-source procurement creates dependency risk. If the vendor experiences supply issues, quality failures, or financial difficulties, the project has no fallback. Best practice is to identify at least one alternative supplier and maintain the relationship — this is also your BATNA in negotiations.',
-        cardRefs: ['process-11', 'A8'],
+        cardRefs: ['PR11', 'A8'],
         xp: 10,
       },
       {
@@ -1217,7 +1217,7 @@ export const JOURNEY_LESSONS: JourneyLesson[] = [
         ],
         correctIndex: 2,
         explanation: 'A weighted scoring matrix evaluates vendors across multiple criteria (price, quality, delivery, support) with weights reflecting their importance to the project. This ensures the decision is objective and defensible — not based on price alone or personal preference.',
-        cardRefs: ['process-11'],
+        cardRefs: ['PR11'],
         xp: 10,
       },
       {
@@ -1232,7 +1232,7 @@ export const JOURNEY_LESSONS: JourneyLesson[] = [
         ],
         correctIndex: 1,
         explanation: 'Fixed-price contracts transfer cost risk to the vendor — the buyer pays a set amount regardless of actual costs. Time-and-materials contracts transfer cost risk to the buyer — actual hours and materials are charged. Use fixed-price when scope is well-defined; time-and-materials when scope is uncertain.',
-        cardRefs: ['process-11'],
+        cardRefs: ['PR11'],
         xp: 10,
       },
       {
@@ -1242,7 +1242,7 @@ export const JOURNEY_LESSONS: JourneyLesson[] = [
         options: ['True', 'False'],
         correctIndex: 1,
         explanation: 'False. Contract signing is the beginning of vendor management, not the end. The PM must monitor vendor performance against contract terms, manage changes through formal processes, address issues promptly, and conduct a vendor performance review at project closure.',
-        cardRefs: ['process-11'],
+        cardRefs: ['PR11'],
         xp: 10,
       },
       {
@@ -1257,7 +1257,7 @@ export const JOURNEY_LESSONS: JourneyLesson[] = [
         ],
         correctIndex: 2,
         explanation: 'Effective vendor management requires objective analysis. Review the contract SLAs to establish what was agreed, document actual performance, and investigate root causes on both sides — including your own team\'s approval turnaround times. A formal performance review creates a shared understanding and action plan.',
-        cardRefs: ['process-11', 'A23'],
+        cardRefs: ['PR11', 'A23'],
         xp: 10,
       },
     ],
@@ -1269,7 +1269,7 @@ export const JOURNEY_LESSONS: JourneyLesson[] = [
     description: 'Track progress, identify variances, and report with clarity.',
     icon: '📊',
     unit: 'process',
-    cardRefs: ['process-13', 'process-14', 'T4', 'A61'],
+    cardRefs: ['PR13', 'PR14', 'T4', 'A61'],
     questions: [
       {
         id: 'q-d15-1',
@@ -1283,7 +1283,7 @@ export const JOURNEY_LESSONS: JourneyLesson[] = [
         ],
         correctIndex: 1,
         explanation: '"On track" is meaningless without data. EVM (T4) provides objective evidence: Schedule Performance Index (SPI = EV/PV) and Cost Performance Index (CPI = EV/AC). SPI and CPI above 1.0 mean ahead of schedule/under budget; below 1.0 means behind/over. Never rely on subjective status reports alone.',
-        cardRefs: ['T4', 'process-13'],
+        cardRefs: ['T4', 'PR13'],
         xp: 10,
       },
       {
@@ -1298,7 +1298,7 @@ export const JOURNEY_LESSONS: JourneyLesson[] = [
         ],
         correctIndex: 2,
         explanation: 'Effective communication (P02) means the right message to the right person at the right time. Executives need a one-page visual dashboard (A61); technical teams need detailed metrics; operational teams need task-level updates. One-size-fits-all communication wastes everyone\'s time.',
-        cardRefs: ['process-2', 'A61'],
+        cardRefs: ['PR2', 'A61'],
         xp: 10,
       },
       {
@@ -1338,7 +1338,7 @@ export const JOURNEY_LESSONS: JourneyLesson[] = [
         ],
         correctIndex: 1,
         explanation: 'Boards and sponsors need accurate information to make good decisions. Present the full picture: EVM variance data, root cause analysis, and a concrete recovery plan with revised forecasts. Hiding bad news destroys trust and prevents timely intervention. Transparency with a plan is far more credible than optimism without one.',
-        cardRefs: ['T4', 'process-13', 'process-14'],
+        cardRefs: ['T4', 'PR13', 'PR14'],
         xp: 10,
       },
     ],
@@ -1350,7 +1350,7 @@ export const JOURNEY_LESSONS: JourneyLesson[] = [
     description: 'Close projects properly and turn experience into organisational knowledge.',
     icon: '🏁',
     unit: 'process',
-    cardRefs: ['phase-closure', 'A25', 'A58', 'A63', 'process-17'],
+    cardRefs: ['phase-closure', 'A25', 'A58', 'A63', 'PR17'],
     questions: [
       {
         id: 'q-d16-1',
@@ -2496,7 +2496,7 @@ export const JOURNEY_LESSONS: JourneyLesson[] = [
     description: 'Bring everything together — the complete PM mindset.',
     icon: '🏆',
     unit: 'mastery',
-    cardRefs: ['phase-setup', 'phase-execution', 'phase-closure', 'people-1', 'process-1'],
+    cardRefs: ['phase-setup', 'phase-execution', 'phase-closure', 'P1', 'PR1'],
     questions: [
       {
         id: 'q-d30-1',
@@ -2525,7 +2525,7 @@ export const JOURNEY_LESSONS: JourneyLesson[] = [
         ],
         correctIndex: 1,
         explanation: 'In a crisis, the PM\'s first job is to understand the true situation — not to react. Use EVM (T4) to quantify the variance, use 5 Whys (A23) to identify root causes, and prepare a recovery plan with options. Then communicate transparently with stakeholders — presenting the problem AND the solution builds credibility.',
-        cardRefs: ['T4', 'A23', 'process-13'],
+        cardRefs: ['T4', 'A23', 'PR13'],
         xp: 15,
       },
       {
@@ -2570,7 +2570,7 @@ export const JOURNEY_LESSONS: JourneyLesson[] = [
         ],
         correctIndex: 1,
         explanation: 'Tools, techniques, and certifications are important — but trust is the foundation of everything. A PM who is trusted by their team will get honest status updates. A PM trusted by stakeholders will get support in a crisis. A PM trusted by the sponsor will get the resources they need. Trust is built through transparency, consistency, and genuine care for people.',
-        cardRefs: ['people-1', 'A2', 'A39'],
+        cardRefs: ['P1', 'A2', 'A39'],
         xp: 15,
       },
     ],
@@ -2747,7 +2747,7 @@ export const JOURNEY_LESSONS: JourneyLesson[] = [
     description: 'Build accurate estimates and optimise your schedule with PMBOK 8 techniques.',
     icon: '📊',
     unit: 'pmbok8',
-    cardRefs: ['T29', 'T30', 'T31', 'T25', 'T26', 'T34', 'A93'],
+    cardRefs: ['T29', 'T30', 'T31', 'T25', 'T26', 'T27', 'T28', 'T34', 'A93', 'T42'],
     questions: [
       {
         id: 'q-d33-1',
@@ -2828,7 +2828,7 @@ export const JOURNEY_LESSONS: JourneyLesson[] = [
     description: 'Master velocity, burnup charts, sprint reviews, control charts, and cost of quality.',
     icon: '📈',
     unit: 'pmbok8',
-    cardRefs: ['T35', 'T36', 'T37', 'T33', 'T32'],
+    cardRefs: ['T35', 'T36', 'T37', 'T33', 'T32', 'T38', 'T39'],
     questions: [
       {
         id: 'q-d34-1',
@@ -2909,7 +2909,7 @@ export const JOURNEY_LESSONS: JourneyLesson[] = [
     description: 'Lead diverse teams, embed sustainability, and communicate with impact.',
     icon: '🌱',
     unit: 'pmbok8',
-    cardRefs: ['people-19', 'people-20', 'people-21', 'A89', 'A90', 'A92'],
+    cardRefs: ['P19', 'P20', 'P21', 'A89', 'A90', 'A92'],
     questions: [
       {
         id: 'q-d35-1',
@@ -2922,14 +2922,14 @@ export const JOURNEY_LESSONS: JourneyLesson[] = [
           'Team charter — document communication norms',
         ],
         correctIndex: 1,
-        explanation: 'Cultural Intelligence (people-19) is the specific capability for navigating cross-cultural differences. High-context vs low-context communication is a classic cultural dimension (from Edward Hall\'s framework). A PM with high CQ recognises this pattern, facilitates a conversation about communication norms, and helps the team establish shared protocols that work across cultural styles.',
-        cardRefs: ['people-19'],
+        explanation: 'Cultural Intelligence (P19) is the specific capability for navigating cross-cultural differences. High-context vs low-context communication is a classic cultural dimension (from Edward Hall\'s framework). A PM with high CQ recognises this pattern, facilitates a conversation about communication norms, and helps the team establish shared protocols that work across cultural styles.',
+        cardRefs: ['P19'],
         xp: 10,
       },
       {
         id: 'q-d35-2',
         type: 'mcq',
-        prompt: 'Your organisation has committed to a Net Zero carbon target by 2030. As a PM, what does Green HRM (people-20) ask you to do?',
+        prompt: 'Your organisation has committed to a Net Zero carbon target by 2030. As a PM, what does Green HRM (P20) ask you to do?',
         options: [
           'Replace all team members with remote workers to reduce commuting',
           'Embed environmental sustainability into team practices — from how meetings are run to how deliverables are produced — making green behaviour part of team culture',
@@ -2937,8 +2937,8 @@ export const JOURNEY_LESSONS: JourneyLesson[] = [
           'Report carbon emissions to the board quarterly',
         ],
         correctIndex: 1,
-        explanation: 'Green HRM (people-20) is about integrating environmental sustainability into everyday team practices and culture — not just compliance reporting. This includes sustainable meeting practices (virtual-first, paperless), green procurement criteria, sustainability KPIs in performance reviews, and making environmental responsibility part of the team\'s identity. It is a cultural and behavioural change, not just a reporting exercise.',
-        cardRefs: ['people-20'],
+        explanation: 'Green HRM (P20) is about integrating environmental sustainability into everyday team practices and culture — not just compliance reporting. This includes sustainable meeting practices (virtual-first, paperless), green procurement criteria, sustainability KPIs in performance reviews, and making environmental responsibility part of the team\'s identity. It is a cultural and behavioural change, not just a reporting exercise.',
+        cardRefs: ['P20'],
         xp: 10,
       },
       {
@@ -2952,8 +2952,8 @@ export const JOURNEY_LESSONS: JourneyLesson[] = [
           'A risk register showing all 200+ risks',
         ],
         correctIndex: 1,
-        explanation: 'Storytelling (people-21) is the most effective technique for complex, high-stakes presentations. The human brain processes narrative 22 times more memorably than facts and figures. Frame the programme as: "Here is the world as it is (pain), here is the world as it could be (vision), here is the journey we will take together (plan), and here is what we need from you (call to action)." This creates emotional engagement and drives decision-making.',
-        cardRefs: ['people-21'],
+        explanation: 'Storytelling (P21) is the most effective technique for complex, high-stakes presentations. The human brain processes narrative 22 times more memorably than facts and figures. Frame the programme as: "Here is the world as it is (pain), here is the world as it could be (vision), here is the journey we will take together (plan), and here is what we need from you (call to action)." This creates emotional engagement and drives decision-making.',
+        cardRefs: ['P21'],
         xp: 10,
       },
       {

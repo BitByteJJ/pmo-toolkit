@@ -280,7 +280,7 @@ const peopleQuiz: DeckQuiz = {
       options: ['Ignore it and hope it resolves itself', 'Speak to each person privately to understand their perspective before bringing them together', 'Immediately escalate to HR', 'Remove one of them from the project'],
       correctIndex: 1,
       explanation: 'Understanding each party\'s perspective privately prevents defensiveness and gives you the full picture before attempting resolution.',
-      cardRefs: ['people-1'], xp: 10,
+      cardRefs: ['P1'], xp: 10,
     },
     {
       id: 'qz-ppl-2', type: 'truefalse',
@@ -288,7 +288,7 @@ const peopleQuiz: DeckQuiz = {
       options: ['True', 'False'],
       correctIndex: 1,
       explanation: 'Even high-performing teams need support. Team composition changes, new challenges emerge, and teams can regress. Ongoing coaching and recognition maintain performance.',
-      cardRefs: ['people-2'], xp: 10,
+      cardRefs: ['P2'], xp: 10,
     },
     {
       id: 'qz-ppl-3', type: 'scenario',
@@ -296,7 +296,7 @@ const peopleQuiz: DeckQuiz = {
       options: ['Exclude them from future meetings', 'Understand their concerns privately, address legitimate issues, and bring them on side', 'Escalate to their manager', 'Ignore their objections'],
       correctIndex: 1,
       explanation: 'Resistant stakeholders often have valid concerns. Engaging them privately, listening genuinely, and addressing their issues converts opponents into allies.',
-      cardRefs: ['people-3'], xp: 10,
+      cardRefs: ['P3'], xp: 10,
     },
     {
       id: 'qz-ppl-4', type: 'mcq',
@@ -304,7 +304,7 @@ const peopleQuiz: DeckQuiz = {
       options: ['To track project risks', 'To clarify who is Responsible, Accountable, Consulted, and Informed for each task', 'To schedule project activities', 'To manage the project budget'],
       correctIndex: 1,
       explanation: 'A RACI matrix eliminates confusion about roles. Without it, tasks fall through the gaps or get duplicated because people assume someone else is handling them.',
-      cardRefs: ['people-4'], xp: 10,
+      cardRefs: ['P4'], xp: 10,
     },
     {
       id: 'qz-ppl-5', type: 'scenario',
@@ -312,7 +312,7 @@ const peopleQuiz: DeckQuiz = {
       options: ['Threaten consequences for poor performance', 'Have individual conversations to understand what\'s causing the drop and address root causes', 'Add more process and oversight', 'Ignore it — motivation fluctuates naturally'],
       correctIndex: 1,
       explanation: 'Motivation drops have causes — unclear goals, lack of recognition, personal issues, or feeling undervalued. Listening first gives you the information to respond effectively.',
-      cardRefs: ['people-5'], xp: 10,
+      cardRefs: ['P5'], xp: 10,
     },
     {
       id: 'qz-ppl-6', type: 'mcq',
@@ -320,7 +320,7 @@ const peopleQuiz: DeckQuiz = {
       options: ['Delegating — give them full autonomy', 'Directing — provide clear instructions and close support', 'Laissez-faire — let them figure it out', 'Coaching — ask questions and let them discover answers'],
       correctIndex: 1,
       explanation: 'New team members need clear direction and support. As they grow in confidence and competence, you progressively shift toward coaching and then delegating.',
-      cardRefs: ['people-6'], xp: 10,
+      cardRefs: ['P6'], xp: 10,
     },
     {
       id: 'qz-ppl-7', type: 'truefalse',
@@ -328,7 +328,7 @@ const peopleQuiz: DeckQuiz = {
       options: ['True', 'False'],
       correctIndex: 1,
       explanation: 'Stakeholder management is continuous. Stakeholders\' interests, influence, and concerns change throughout the project. Regular engagement prevents surprises.',
-      cardRefs: ['people-3'], xp: 10,
+      cardRefs: ['P3'], xp: 10,
     },
     {
       id: 'qz-ppl-8', type: 'scenario',
@@ -336,7 +336,7 @@ const peopleQuiz: DeckQuiz = {
       options: ['Accept their excuses and adjust the plan', 'Have a direct, private conversation: acknowledge the challenges, agree on specific commitments, and follow up', 'Publicly call them out in a team meeting', 'Remove them from the project immediately'],
       correctIndex: 1,
       explanation: 'Direct, private conversations with clear expectations and follow-up are the most effective way to address performance issues. Public criticism damages trust and morale.',
-      cardRefs: ['people-7'], xp: 10,
+      cardRefs: ['P7'], xp: 10,
     },
     {
       id: 'qz-ppl-9', type: 'mcq',
@@ -344,7 +344,7 @@ const peopleQuiz: DeckQuiz = {
       options: ['Physical safety in the workplace', 'Team members feel safe to speak up, share ideas, and admit mistakes without fear of punishment', 'A risk management technique', 'A type of insurance for project teams'],
       correctIndex: 1,
       explanation: 'Psychological safety is the foundation of high-performing teams. Without it, people hide problems, avoid risks, and don\'t innovate — which is fatal for complex projects.',
-      cardRefs: ['people-8'], xp: 10,
+      cardRefs: ['P8'], xp: 10,
     },
     {
       id: 'qz-ppl-10', type: 'scenario',
@@ -352,7 +352,7 @@ const peopleQuiz: DeckQuiz = {
       options: ['Require everyone to work the same hours', 'Establish clear communication protocols: agreed overlap hours, async-first norms, and regular video check-ins', 'Reduce the team size', 'Move everyone to the same location'],
       correctIndex: 1,
       explanation: 'Distributed teams need explicit communication agreements. Async-first with regular synchronous touchpoints balances flexibility with connection.',
-      cardRefs: ['people-9'], xp: 10,
+      cardRefs: ['P9'], xp: 10,
     },
   ],
 };
@@ -367,7 +367,7 @@ const processQuiz: DeckQuiz = {
       options: ['To track project costs', 'To document, assess, and manage project risks in one place', 'To record team performance', 'To list project stakeholders'],
       correctIndex: 1,
       explanation: 'A Risk Register is the central tool for risk management. It captures each risk, its likelihood and impact, and the planned response — keeping risks visible and managed.',
-      cardRefs: ['process-3'], xp: 10,
+      cardRefs: ['PR3'], xp: 10,
     },
     {
       id: 'qz-proc-2', type: 'scenario',
@@ -375,7 +375,7 @@ const processQuiz: DeckQuiz = {
       options: ['Ignore it — it\'s unlikely', 'Add it to the Risk Register, assess likelihood and impact, and define a contingency plan', 'Immediately find a new supplier', 'Escalate to the board'],
       correctIndex: 1,
       explanation: 'All risks should be logged, assessed, and have a response plan. You may also want to identify a backup supplier as a contingency, but the first step is formal documentation.',
-      cardRefs: ['process-3'], xp: 10,
+      cardRefs: ['PR3'], xp: 10,
     },
     {
       id: 'qz-proc-3', type: 'truefalse',
@@ -383,7 +383,7 @@ const processQuiz: DeckQuiz = {
       options: ['True', 'False'],
       correctIndex: 1,
       explanation: 'Scope creep can come from any direction — the team adding features, the PM agreeing to extras informally, or the sponsor changing priorities. Poor scope definition is often the root cause.',
-      cardRefs: ['process-8'], xp: 10,
+      cardRefs: ['PR8'], xp: 10,
     },
     {
       id: 'qz-proc-4', type: 'mcq',
@@ -391,7 +391,7 @@ const processQuiz: DeckQuiz = {
       options: ['Prevent any changes to the project', 'Ensure all changes are assessed for impact and formally approved before implementation', 'Speed up project delivery', 'Reduce project costs'],
       correctIndex: 1,
       explanation: 'Change control doesn\'t prevent change — it manages it. Every change is assessed for its impact on scope, time, cost, and quality before a decision is made.',
-      cardRefs: ['process-8'], xp: 10,
+      cardRefs: ['PR8'], xp: 10,
     },
     {
       id: 'qz-proc-5', type: 'scenario',
@@ -399,7 +399,7 @@ const processQuiz: DeckQuiz = {
       options: ['Immediately add more people to the project', 'Analyse the cause of the delay before deciding on a response', 'Extend the deadline', 'Cut scope without telling the sponsor'],
       correctIndex: 1,
       explanation: 'Adding people to a late project often makes it later (Brooks\'s Law). Understanding the cause first — whether it\'s a bottleneck, a dependency, or a skills gap — leads to a better solution.',
-      cardRefs: ['process-9'], xp: 10,
+      cardRefs: ['PR9'], xp: 10,
     },
     {
       id: 'qz-proc-6', type: 'mcq',
@@ -407,7 +407,7 @@ const processQuiz: DeckQuiz = {
       options: ['Checking the final deliverable for defects', 'The ongoing process of ensuring project processes are fit for purpose and being followed', 'Writing a quality plan', 'Testing software'],
       correctIndex: 1,
       explanation: 'Quality assurance is process-focused — it\'s about preventing defects by ensuring the right processes are in place. Quality control is product-focused — checking the output.',
-      cardRefs: ['process-7'], xp: 10,
+      cardRefs: ['PR7'], xp: 10,
     },
     {
       id: 'qz-proc-7', type: 'truefalse',
@@ -415,7 +415,7 @@ const processQuiz: DeckQuiz = {
       options: ['True', 'False'],
       correctIndex: 1,
       explanation: 'A risk is a potential future event. An issue is a problem that has already occurred. They require different responses — risks are managed proactively, issues reactively.',
-      cardRefs: ['process-3'], xp: 10,
+      cardRefs: ['PR3'], xp: 10,
     },
     {
       id: 'qz-proc-8', type: 'scenario',
@@ -423,7 +423,7 @@ const processQuiz: DeckQuiz = {
       options: ['Agree immediately to keep them happy', 'Assess the impact on scope, time, and cost, then route through change control', 'Refuse — the scope is fixed', 'Ask the team to fit it in after hours'],
       correctIndex: 1,
       explanation: '"Small" changes accumulate. Each one individually seems trivial, but together they cause scope creep, budget overruns, and schedule delays. Change control protects the project.',
-      cardRefs: ['process-8'], xp: 10,
+      cardRefs: ['PR8'], xp: 10,
     },
     {
       id: 'qz-proc-9', type: 'mcq',
@@ -431,7 +431,7 @@ const processQuiz: DeckQuiz = {
       options: ['To set the minimum acceptable quality', 'To provide a fixed reference point for scope, schedule, and cost against which actual performance is measured', 'To define the project start date', 'To list all project risks'],
       correctIndex: 1,
       explanation: 'A baseline is your approved plan. Comparing actuals against the baseline tells you whether you\'re on track and by how much you\'ve deviated.',
-      cardRefs: ['process-9'], xp: 10,
+      cardRefs: ['PR9'], xp: 10,
     },
     {
       id: 'qz-proc-10', type: 'scenario',
@@ -439,7 +439,7 @@ const processQuiz: DeckQuiz = {
       options: ['Continue without one — it slows things down', 'Establish a simple sign-off process with the sponsor and key stakeholders immediately', 'Wait until the end of the project', 'Ask the team to self-certify their own work'],
       correctIndex: 1,
       explanation: 'Without a formal sign-off process, deliverables can be disputed at the end of the project. Establishing one early prevents costly rework and disagreements.',
-      cardRefs: ['process-7'], xp: 10,
+      cardRefs: ['PR7'], xp: 10,
     },
   ],
 };

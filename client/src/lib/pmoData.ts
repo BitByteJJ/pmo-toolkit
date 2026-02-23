@@ -270,7 +270,7 @@ export const CARDS: PMOCard[] = [
     ],
     proTip: 'Ideal for stable scopes with heavy compliance. If you see evolving needs, consider a partial pivot to Agile.',
     example: 'The insulin pen regulatory submission follows Waterfall: Phase 1 (dossier preparation, 4 weeks), Phase 2 (submission, 1 week), Phase 3 (agency review, 6 weeks), Phase 4 (approval and launch). Each phase has a formal gate sign-off. No phase begins until the previous one is approved — this ensures full regulatory compliance.',
-    relatedCards: ['T1', 'T4', 'A2', 'A17', 'M4', 'process-8', 'process-9'],
+    relatedCards: ['T1', 'T4', 'A2', 'A17', 'M4', 'PR8', 'PR9'],
     tags: ['waterfall', 'sequential', 'compliance', 'planning'],
   },
   {
@@ -290,7 +290,7 @@ export const CARDS: PMOCard[] = [
     ],
     proTip: 'Ideal when user-driven changes are expected. Keep sprint tasks manageable using Timeboxing (A35).',
     example: 'The insulin pen marketing campaign uses 2-week Agile sprints. Sprint 1: draft campaign concepts (3 options). Sprint 2: pharmacist feedback on concepts (1 selected). Sprint 3: develop final assets (copy, visuals, digital). Sprint 4: regulatory review and approval. Sprint 5: launch. Each sprint ends with a demo and retrospective — the campaign adapts based on real feedback.',
-    relatedCards: ['T2', 'T17', 'T7', 'A13', 'A33', 'A35', 'A47', 'people-4'],
+    relatedCards: ['T2', 'T17', 'T7', 'A13', 'A33', 'A35', 'A47', 'P4'],
     tags: ['agile', 'sprints', 'iterative', 'kanban', 'backlog'],
   },
   {
@@ -330,7 +330,7 @@ export const CARDS: PMOCard[] = [
     ],
     proTip: 'Each handshake between sprints and sign-offs must be crystal clear. Use Agile-Waterfall Hybrid Mapping (A22) to show how sprint outputs feed into Waterfall gates.',
     example: 'The insulin pen launch Hybrid plan: Waterfall stream (regulatory dossier → Gate 1: submission, Gate 2: approval, Gate 3: launch readiness) runs in parallel with Agile stream (5 × 2-week sprints for campaign assets). Sprint 5 output (final campaign materials) feeds directly into Gate 3. Both streams are visible in one integrated Gantt chart.',
-    relatedCards: ['T1', 'T3', 'T17', 'A22', 'A29', 'process-13', 'business-4'],
+    relatedCards: ['T1', 'T3', 'T17', 'A22', 'A29', 'PR13', 'business-4'],
     tags: ['hybrid', 'agile', 'waterfall', 'blended', 'gates'],
   },
 
@@ -351,7 +351,7 @@ export const CARDS: PMOCard[] = [
     ],
     proTip: 'To maximize Scrum\'s benefits, foster a culture of psychological safety within your team, encouraging open communication and constructive feedback. Ensure the Product Owner is truly empowered to make decisions and that the Scrum Master actively removes impediments. Consistent adherence to Scrum values and principles is more important than rigid adherence to practices.',
     example: 'A financial services company is developing a new mobile banking application. Instead of a lengthy waterfall approach, they adopt Scrum. They release new features like secure login, balance inquiry, and fund transfers in two-week Sprints, gathering user feedback after each increment to refine subsequent development. This iterative approach allows them to quickly respond to market demands and user preferences.',
-    relatedCards: ['A85', 'T1', 'phase-execution', 'people-15'],
+    relatedCards: ['A85', 'T1', 'phase-execution', 'P15'],
     tags: ['Agile', 'Methodology', 'Software Development'],
   },
 
@@ -372,7 +372,7 @@ export const CARDS: PMOCard[] = [
     ],
     proTip: 'While PRINCE2 provides a rigid framework, remember to tailor the methodology to suit the specific needs and complexity of your project. Not every process or document needs to be applied with the same rigor for every project. Focus on the principles and adapt the themes and processes to achieve optimal control without unnecessary bureaucracy.',
     example: 'A large pharmaceutical company is developing a new drug and needs to manage the clinical trial phase. They adopt PRINCE2 to ensure strict regulatory compliance, clear accountability across research teams, and phased delivery of trial results. The methodology helps manage the complex interdependencies, track progress against the business case, and maintain rigorous documentation for audit purposes.',
-    relatedCards: ['M5', 'T1', 'people-1', 'phase-execution'],
+    relatedCards: ['M5', 'T1', 'P1', 'phase-execution'],
     tags: ['methodology', 'structured', 'governance', 'UK'],
   },
 
@@ -399,7 +399,7 @@ export const CARDS: PMOCard[] = [
 
   // ─── PEOPLE DOMAIN ────────────────────────────────────────────────
   {
-    id: 'people-1',
+    id: 'P1',
     code: 'P01',
     title: 'Manage Conflict',
     deckId: 'people',
@@ -420,7 +420,7 @@ export const CARDS: PMOCard[] = [
     tags: ['conflict', 'negotiation', 'team', 'stakeholders'],
   },
   {
-    id: 'people-2',
+    id: 'P2',
     code: 'P02',
     title: 'Lead a Team',
     deckId: 'people',
@@ -441,7 +441,7 @@ export const CARDS: PMOCard[] = [
     tags: ['leadership', 'team', 'RACI', 'performance', 'Tuckman'],
   },
   {
-    id: 'people-3',
+    id: 'P3',
     code: 'P03',
     title: 'Support Team Performance',
     deckId: 'people',
@@ -462,7 +462,7 @@ export const CARDS: PMOCard[] = [
     tags: ['performance', 'coaching', 'impediments', 'morale'],
   },
   {
-    id: 'people-4',
+    id: 'P4',
     code: 'P04',
     title: 'Empower Team Members',
     deckId: 'people',
@@ -483,7 +483,7 @@ export const CARDS: PMOCard[] = [
     tags: ['empowerment', 'delegation', 'authority', 'stakeholders'],
   },
   {
-    id: 'people-5',
+    id: 'P5',
     code: 'P05',
     title: 'Ensure Adequate Training',
     deckId: 'people',
@@ -504,7 +504,7 @@ export const CARDS: PMOCard[] = [
     tags: ['training', 'skills', 'mentoring', 'onboarding'],
   },
   {
-    id: 'people-6',
+    id: 'P6',
     code: 'P06',
     title: 'Build a Team',
     deckId: 'people',
@@ -525,7 +525,7 @@ export const CARDS: PMOCard[] = [
     tags: ['team building', 'charter', 'roles', 'Belbin'],
   },
   {
-    id: 'people-7',
+    id: 'P7',
     code: 'P07',
     title: 'Address & Remove Impediments',
     deckId: 'people',
@@ -546,7 +546,7 @@ export const CARDS: PMOCard[] = [
     tags: ['impediments', 'blockers', 'escalation', 'problem solving'],
   },
   {
-    id: 'people-8',
+    id: 'P8',
     code: 'P08',
     title: 'Negotiate Project Agreements',
     deckId: 'people',
@@ -567,7 +567,7 @@ export const CARDS: PMOCard[] = [
     tags: ['negotiation', 'vendors', 'contracts', 'BATNA'],
   },
   {
-    id: 'people-9',
+    id: 'P9',
     code: 'P09',
     title: 'Collaborate with Stakeholders',
     deckId: 'people',
@@ -588,7 +588,7 @@ export const CARDS: PMOCard[] = [
     tags: ['stakeholders', 'collaboration', 'workshops', 'engagement'],
   },
   {
-    id: 'people-10',
+    id: 'P10',
     code: 'P10',
     title: 'Build Shared Understanding',
     deckId: 'people',
@@ -609,7 +609,7 @@ export const CARDS: PMOCard[] = [
     tags: ['alignment', 'vision', 'brainstorming', 'cross-functional'],
   },
   {
-    id: 'people-11',
+    id: 'P11',
     code: 'P11',
     title: 'Engage Virtual Teams',
     deckId: 'people',
@@ -630,7 +630,7 @@ export const CARDS: PMOCard[] = [
     tags: ['virtual teams', 'remote', 'collaboration', 'time zones'],
   },
   {
-    id: 'people-12',
+    id: 'P12',
     code: 'P12',
     title: 'Define Team Ground Rules',
     deckId: 'people',
@@ -651,7 +651,7 @@ export const CARDS: PMOCard[] = [
     tags: ['ground rules', 'social contract', 'norms', 'team culture'],
   },
   {
-    id: 'people-13',
+    id: 'P13',
     code: 'P13',
     title: 'Mentor Stakeholders',
     deckId: 'people',
@@ -672,7 +672,7 @@ export const CARDS: PMOCard[] = [
     tags: ['mentoring', 'knowledge transfer', 'skills', 'learning'],
   },
   {
-    id: 'people-14',
+    id: 'P14',
     code: 'P14',
     title: 'Promote Team EI',
     deckId: 'people',
@@ -695,7 +695,7 @@ export const CARDS: PMOCard[] = [
 
   // ─── PROCESS DOMAIN ───────────────────────────────────────────────
   {
-    id: 'process-1',
+    id: 'PR1',
     code: 'PR01',
     title: 'Execute with Urgency',
     deckId: 'process',
@@ -716,7 +716,7 @@ export const CARDS: PMOCard[] = [
     tags: ['urgency', 'quick wins', 'prioritisation', 'value delivery'],
   },
   {
-    id: 'people-15',
+    id: 'P15',
     code: 'P15',
     title: 'Psychological Safety',
     deckId: 'people',
@@ -732,11 +732,11 @@ export const CARDS: PMOCard[] = [
     ],
     proTip: 'Leaders must consistently demonstrate vulnerability and actively listen to foster psychological safety. It\'s not enough to say it\'s safe; actions must reinforce that speaking up, even with bad news or unpopular opinions, is valued and protected.',
     example: 'In an agile software development project, a junior developer discovers a critical bug in a module developed by a senior team member. Instead of silently trying to fix it or fearing repercussions, the junior developer immediately raises the issue in the daily stand-up, explaining the potential impact. The project manager and senior developer thank them for their vigilance, and the team collaboratively works to resolve the bug, preventing a major release delay.',
-    relatedCards: ['people-1', 'people-2', 'people-14', 'people-17', 'A42', 'A60'],
+    relatedCards: ['P1', 'P2', 'P14', 'P17', 'A42', 'A60'],
     tags: ['teamwork', 'culture', 'leadership', 'communication'],
   },
   {
-    id: 'process-2',
+    id: 'PR2',
     code: 'PR02',
     title: 'Manage Communications',
     deckId: 'process',
@@ -757,7 +757,7 @@ export const CARDS: PMOCard[] = [
     tags: ['communication', 'stakeholders', 'dashboard', 'plan'],
   },
   {
-    id: 'process-3',
+    id: 'PR3',
     code: 'PR03',
     title: 'Assess & Manage Risks',
     deckId: 'process',
@@ -778,7 +778,7 @@ export const CARDS: PMOCard[] = [
     tags: ['risk', 'register', 'mitigation', 'Monte Carlo', 'contingency'],
   },
   {
-    id: 'process-4',
+    id: 'PR4',
     code: 'PR04',
     title: 'Engage Stakeholders',
     deckId: 'process',
@@ -799,7 +799,7 @@ export const CARDS: PMOCard[] = [
     tags: ['stakeholders', 'engagement', 'power-interest', 'workshops'],
   },
   {
-    id: 'process-5',
+    id: 'PR5',
     code: 'PR05',
     title: 'Plan & Manage Budget',
     deckId: 'process',
@@ -820,7 +820,7 @@ export const CARDS: PMOCard[] = [
     tags: ['budget', 'EVM', 'cost', 'resources', 'contingency'],
   },
   {
-    id: 'process-6',
+    id: 'PR6',
     code: 'PR06',
     title: 'Plan & Manage Schedule',
     deckId: 'process',
@@ -841,7 +841,7 @@ export const CARDS: PMOCard[] = [
     tags: ['schedule', 'Gantt', 'critical path', 'PERT', 'CCPM'],
   },
   {
-    id: 'process-7',
+    id: 'PR7',
     code: 'PR07',
     title: 'Plan & Manage Quality',
     deckId: 'process',
@@ -862,7 +862,7 @@ export const CARDS: PMOCard[] = [
     tags: ['quality', 'QA', 'defects', 'Fishbone', 'Six Sigma'],
   },
   {
-    id: 'process-8',
+    id: 'PR8',
     code: 'PR08',
     title: 'Plan & Manage Scope',
     deckId: 'process',
@@ -883,7 +883,7 @@ export const CARDS: PMOCard[] = [
     tags: ['scope', 'requirements', 'change control', 'sign-off'],
   },
   {
-    id: 'process-9',
+    id: 'PR9',
     code: 'PR09',
     title: 'Integrate Project Planning',
     deckId: 'process',
@@ -904,7 +904,7 @@ export const CARDS: PMOCard[] = [
     tags: ['integration', 'master plan', 'WBS', 'dependencies'],
   },
   {
-    id: 'process-10',
+    id: 'PR10',
     code: 'PR10',
     title: 'Manage Project Changes',
     deckId: 'process',
@@ -925,7 +925,7 @@ export const CARDS: PMOCard[] = [
     tags: ['change control', 'change request', 'governance', 'baseline'],
   },
   {
-    id: 'process-11',
+    id: 'PR11',
     code: 'PR11',
     title: 'Plan & Manage Procurement',
     deckId: 'process',
@@ -946,7 +946,7 @@ export const CARDS: PMOCard[] = [
     tags: ['procurement', 'vendors', 'RFP', 'contracts', 'SLA'],
   },
   {
-    id: 'process-12',
+    id: 'PR12',
     code: 'PR12',
     title: 'Manage Project Artifacts',
     deckId: 'process',
@@ -967,7 +967,7 @@ export const CARDS: PMOCard[] = [
     tags: ['documents', 'versioning', 'DMS', 'knowledge management'],
   },
   {
-    id: 'process-13',
+    id: 'PR13',
     code: 'PR13',
     title: 'Determine Methodology',
     deckId: 'process',
@@ -988,7 +988,7 @@ export const CARDS: PMOCard[] = [
     tags: ['methodology', 'waterfall', 'agile', 'hybrid', 'selection'],
   },
   {
-    id: 'process-14',
+    id: 'PR14',
     code: 'PR14',
     title: 'Establish Governance',
     deckId: 'process',
@@ -1009,7 +1009,7 @@ export const CARDS: PMOCard[] = [
     tags: ['governance', 'RACI', 'authority', 'escalation', 'oversight'],
   },
   {
-    id: 'process-15',
+    id: 'PR15',
     code: 'PR15',
     title: 'Manage Project Issues',
     deckId: 'process',
@@ -1030,7 +1030,7 @@ export const CARDS: PMOCard[] = [
     tags: ['issues', 'log', 'problem solving', 'escalation'],
   },
   {
-    id: 'process-16',
+    id: 'PR16',
     code: 'PR16',
     title: 'Ensure Knowledge Transfer',
     deckId: 'process',
@@ -1051,7 +1051,7 @@ export const CARDS: PMOCard[] = [
     tags: ['knowledge transfer', 'documentation', 'best practices', 'KCS'],
   },
   {
-    id: 'process-17',
+    id: 'PR17',
     code: 'PR17',
     title: 'Plan Project Closure',
     deckId: 'process',
@@ -1175,7 +1175,7 @@ export const CARDS: PMOCard[] = [
     ],
     proTip: 'PESTLE is most powerful when combined with a SWOT Analysis (A32) — PESTLE identifies external factors, while SWOT maps them against internal strengths and weaknesses to produce actionable strategic insights.',
     example: 'A pharmaceutical company planning to launch a new drug in three emerging markets uses PESTLE to assess each country. The Political scan reveals upcoming elections in one market that may delay regulatory approvals. The Economic scan identifies currency volatility risk. The Legal scan uncovers differing data-privacy requirements for clinical trial data. These findings reshape the launch sequencing and risk register before a single resource is committed.',
-    relatedCards: ['A32', 'T6', 'A33', 'A27', 'process-3', 'A34'],
+    relatedCards: ['A32', 'T6', 'A33', 'A27', 'PR3', 'A34'],
     tags: ['strategy', 'environment', 'risk', 'planning', 'macro', 'analysis'],
   },
 
@@ -1257,7 +1257,7 @@ export const CARDS: PMOCard[] = [
     ],
     proTip: 'Run EVM checks bi-weekly, not just at month-end — catching a CPI below 0.9 early gives you time to recover before the variance compounds into a formal change request.',
     example: 'At week 8 of the insulin pen launch, EVM shows PV = £80k, EV = £68k, AC = £78k. CPI = 0.87 (over budget), SPI = 0.85 (behind schedule). The PM identifies label artwork rework as the driver, re-scopes remaining iterations, and recovers to CPI = 0.95 by week 10.',
-    relatedCards: ['T1', 'T3', 'T6', 'process-5'],
+    relatedCards: ['T1', 'T3', 'T6', 'PR5'],
     tags: ['EVM', 'budget', 'performance', 'CPI', 'SPI', 'cost'],
   },
   {
@@ -1277,7 +1277,7 @@ export const CARDS: PMOCard[] = [
     ],
     proTip: 'Avoid multiple "A" (Accountable) assignments on the same task — this prevents confusion on final decision authority and ensures someone is genuinely on the hook for delivery.',
     example: 'The insulin pen RACI Matrix assigns: Regulatory Affairs is Accountable for the label copy, Design is Responsible for artwork, Marketing is Consulted on brand guidelines, and the PMO Head is Informed. When a dispute arises over font size, the RACI resolves it in 5 minutes — Regulatory has the final say.',
-    relatedCards: ['people-2', 'process-14', 'A52'],
+    relatedCards: ['P2', 'PR14', 'A52'],
     tags: ['RACI', 'roles', 'accountability', 'governance', 'responsibility'],
   },
   {
@@ -1297,7 +1297,7 @@ export const CARDS: PMOCard[] = [
     ],
     proTip: 'Encourage each sub-team to add newly spotted risks quickly — don\'t wait for formal reviews.',
     example: 'The insulin pen Risk Register lists: Regulatory rejection (Prob: High, Impact: High, Mitigation: pre-submission consultation), Supplier delay (Prob: Medium, Impact: High, Mitigation: dual-source vendor), Label error (Prob: Low, Impact: High, Mitigation: 3-stage QA check). All three are monitored weekly.',
-    relatedCards: ['T9', 'A14', 'A21', 'A57', 'process-3'],
+    relatedCards: ['T9', 'A14', 'A21', 'A57', 'PR3'],
     tags: ['risk', 'register', 'probability', 'impact', 'mitigation'],
   },
   {
@@ -1317,7 +1317,7 @@ export const CARDS: PMOCard[] = [
     ],
     proTip: 'Great for paring down scope if deadlines loom. Combine with WSJF (A33) for backlog prioritisation.',
     example: 'For the insulin pen label redesign: Must Have = correct dosage markings and EU MDR compliance symbols; Should Have = updated brand colours; Could Have = QR code for patient leaflet; Won\'t Have = embedded NFC chip. The team delivers the Must and Should items on time, within budget.',
-    relatedCards: ['A33', 'process-1', 'process-8', 'M2'],
+    relatedCards: ['A33', 'PR1', 'PR8', 'M2'],
     tags: ['MoSCoW', 'prioritisation', 'requirements', 'scope', 'backlog'],
   },
   {
@@ -1337,7 +1337,7 @@ export const CARDS: PMOCard[] = [
     ],
     proTip: 'Combine with 5 Whys (A23) for deeper root-cause exploration — the Ishikawa diagram shows you where to look, and 5 Whys tells you why it happened.',
     example: 'Labels are failing colour-accuracy QA at a 12% defect rate. The Fishbone Diagram identifies 4 potential causes: printer miscalibration (Machinery), wrong ink specification (Materials), no colour profile standard (Methods), and operator not trained (People). Root cause confirmed: no colour profile standard. Fixed in 1 day.',
-    relatedCards: ['A18', 'A23', 'process-7'],
+    relatedCards: ['A18', 'A23', 'PR7'],
     tags: ['Fishbone', 'root cause', 'QA', 'Ishikawa', 'defects'],
   },
   {
@@ -1397,7 +1397,7 @@ export const CARDS: PMOCard[] = [
     ],
     proTip: 'Focus on three to five critical KPIs per perspective to avoid overload — a Balanced Scorecard with 30 metrics is as useless as one with none. Less is more.',
     example: 'Metrics: "Budget Variance" (finance), "Customer Satisfaction" (customer), "Defect Rates" (process), "Skill Growth" (learning).',
-    relatedCards: ['people-2', 'process-1', 'business-2', 'A26'],
+    relatedCards: ['P2', 'PR1', 'business-2', 'A26'],
     tags: ['Balanced Scorecard', 'KPIs', 'performance', 'measurement'],
   },
   {
@@ -1417,7 +1417,7 @@ export const CARDS: PMOCard[] = [
     ],
     proTip: 'Great for specialised design or regulatory questions where big-name individuals might skew results.',
     example: 'Bringing together leading clinicians on dosage design — several Delphi rounds allowed convergence on safe specifications.',
-    relatedCards: ['A10', 'people-10'],
+    relatedCards: ['A10', 'P10'],
     tags: ['Delphi', 'expert consensus', 'anonymous', 'estimation'],
   },
   {
@@ -1437,7 +1437,7 @@ export const CARDS: PMOCard[] = [
     ],
     proTip: 'Factor intangible gains (brand trust, goodwill) carefully — some are big but tricky to quantify.',
     example: 'If adding a digital readout costs £120k but generates only £80k in revenue, it may not be justified unless brand benefits outweigh the cost.',
-    relatedCards: ['T4', 'process-5', 'process-11', 'people-8'],
+    relatedCards: ['T4', 'PR5', 'PR11', 'P8'],
     tags: ['CBA', 'cost-benefit', 'ROI', 'investment', 'decision'],
   },
   {
@@ -1457,7 +1457,7 @@ export const CARDS: PMOCard[] = [
     ],
     proTip: 'Keep referencing it whenever new requests arise — if it\'s out-of-scope, it needs formal change.',
     example: 'An insulin pen project may include "adult Type-2 marketing," while "paediatric marketing" is explicitly out of scope.',
-    relatedCards: ['T7', 'A20', 'process-8', 'phase-setup'],
+    relatedCards: ['T7', 'A20', 'PR8', 'phase-setup'],
     tags: ['scope statement', 'scope', 'deliverables', 'boundaries', 'creep'],
   },
   {
@@ -1477,7 +1477,7 @@ export const CARDS: PMOCard[] = [
     ],
     proTip: 'Sometimes a small effort to reduce a single strong restraining force can tip the entire balance — identify the one restraining force causing the most friction and address it first.',
     example: 'The Force Field Analysis for switching to a new label printing vendor shows: Driving forces = 20% cost saving, faster turnaround, better colour accuracy (total score: 12). Restraining forces = requalification time, new SLA risk, staff retraining (total score: 7). Driving forces win — the switch proceeds.',
-    relatedCards: ['people-1', 'process-4', 'business-4', 'A36'],
+    relatedCards: ['P1', 'PR4', 'business-4', 'A36'],
     tags: ['Force Field', 'change', 'pros cons', 'decision', 'Lewin'],
   },
   {
@@ -1497,7 +1497,7 @@ export const CARDS: PMOCard[] = [
     ],
     proTip: 'Focus on "high power/high interest" stakeholders first — these can make or break your project.',
     example: 'The insulin pen Stakeholder Matrix places the CMO (High Power/High Interest) in the Manage Closely quadrant — weekly 1:1s. The IT team (Low Power/Low Interest) is in Monitor — monthly digest. The Regulatory Director (High Power/Low Interest) is Kept Satisfied — bi-weekly briefings. The PM saves 6 hours per week by not over-communicating.',
-    relatedCards: ['people-4', 'process-2', 'process-4', 'A15'],
+    relatedCards: ['P4', 'PR2', 'PR4', 'A15'],
     tags: ['stakeholders', 'power-interest', 'engagement', 'communication'],
   },
   {
@@ -1581,7 +1581,7 @@ export const CARDS: PMOCard[] = [
     ],
     proTip: 'Focus on interests, not positions — what does each party actually need vs. what are they demanding?',
     example: 'The print vendor quotes £0.12/label. The PM\'s position is £0.08. Using Principled Negotiation, the PM discovers the vendor\'s real interest is cash flow, not margin. A 50% upfront payment agreement (vs. the standard 30-day terms) brings the price down to £0.095 — both parties win.',
-    relatedCards: ['A8', 'A43', 'people-1', 'people-8'],
+    relatedCards: ['A8', 'A43', 'P1', 'P8'],
     tags: ['negotiation', 'win-win', 'interests', 'conflict', 'vendors'],
   },
   {
@@ -1601,7 +1601,7 @@ export const CARDS: PMOCard[] = [
     ],
     proTip: 'Teams can regress to earlier stages when membership changes or major challenges arise — this is normal.',
     example: 'A new team member joining mid-project can push the team back to Storming — acknowledge it and facilitate re-norming.',
-    relatedCards: ['A38', 'A39', 'A42', 'people-2', 'people-6'],
+    relatedCards: ['A38', 'A39', 'A42', 'P2', 'P6'],
     tags: ['Tuckman', 'team development', 'Forming', 'Storming', 'Performing'],
   },
   {
@@ -1621,7 +1621,7 @@ export const CARDS: PMOCard[] = [
     ],
     proTip: 'Be specific about the gap — "we need to improve" is not actionable; "we need to reduce defects from 8% to 2%" is.',
     example: 'The design team is producing 3 label artworks per week against a target of 6. The Performance Gap Analysis identifies the root cause as excessive revision loops due to unclear briefing templates — a new brief template reduces revisions by 60% and output reaches 5.5/week within a fortnight.',
-    relatedCards: ['A7', 'A23', 'A31', 'people-3'],
+    relatedCards: ['A7', 'A23', 'A31', 'P3'],
     tags: ['performance gap', 'improvement', 'analysis', 'velocity'],
   },
   {
@@ -1641,7 +1641,7 @@ export const CARDS: PMOCard[] = [
     ],
     proTip: 'Clear delegation guidelines prevent confusion or overreach — document what decisions each level can make autonomously, and revisit as team maturity grows to progressively expand autonomy.',
     example: 'Using Delegation Poker, the PM and team agree: the Regulatory Analyst has Level 6 (Delegate) authority on dossier formatting, but only Level 2 (Sell) on submission timing. This prevents both micromanagement and costly unilateral decisions.',
-    relatedCards: ['A44', 'people-4', 'T5'],
+    relatedCards: ['A44', 'P4', 'T5'],
     tags: ['delegation', 'empowerment', 'authority', 'Agile', 'management 3.0'],
   },
   {
@@ -1661,7 +1661,7 @@ export const CARDS: PMOCard[] = [
     ],
     proTip: 'Pair with KCS (A24) to ensure transferred knowledge is captured in a searchable format — knowledge transfer that lives only in someone\'s head disappears when they leave.',
     example: 'The Knowledge Transfer Matrix for the insulin pen project reveals that only one person knows the EU MDR label format requirements. The PM arranges a 2-day knowledge transfer session before that person goes on leave — preventing a potential 3-week delay.',
-    relatedCards: ['A11', 'A24', 'people-13', 'process-16'],
+    relatedCards: ['A11', 'A24', 'P13', 'PR16'],
     tags: ['knowledge transfer', 'matrix', 'silos', 'documentation'],
   },
   {
@@ -1681,7 +1681,7 @@ export const CARDS: PMOCard[] = [
     ],
     proTip: 'Use DISC profiles as a starting point for conversation, not as fixed labels — people adapt their style under pressure, so revisit profiles when team dynamics shift significantly.',
     example: 'The insulin pen team completes DISC profiles at kickoff. The PM discovers the Regulatory lead is a high-C (Conscientiousness) who needs detailed written briefs, while the Marketing lead is a high-I (Influence) who prefers verbal discussions. Adapting communication style reduces misunderstandings by half.',
-    relatedCards: ['A2', 'A38', 'A45', 'people-6'],
+    relatedCards: ['A2', 'A38', 'A45', 'P6'],
     tags: ['personality', 'MBTI', 'DISC', 'team building', 'communication'],
   },
   {
@@ -1701,7 +1701,7 @@ export const CARDS: PMOCard[] = [
     ],
     proTip: 'Use a Kaizen Blitz after Value Stream Mapping (A34) to target the biggest bottlenecks — a focused 3-day sprint on one process often delivers more improvement than months of gradual change.',
     example: 'A 3-day blitz on the label approval process reduced cycle time from 5 days to 1 day.',
-    relatedCards: ['A23', 'A34', 'A40', 'people-3', 'people-7'],
+    relatedCards: ['A23', 'A34', 'A40', 'P3', 'P7'],
     tags: ['Kaizen', 'rapid improvement', 'Lean', 'blitz', 'bottleneck'],
   },
   {
@@ -1721,7 +1721,7 @@ export const CARDS: PMOCard[] = [
     ],
     proTip: 'A strong BATNA gives you negotiating power. Improve your BATNA before entering tough negotiations.',
     example: 'Negotiating a print vendor contract: the PM\'s BATNA = use the in-house printer (slower but available). Vendor\'s BATNA = lose the contract. ZOPA: PM will pay up to £18/1000 units; vendor wants minimum £15/1000 units. The overlap (£15-£18) is the ZOPA. Deal agreed at £16.50 with a 5% volume discount — both parties satisfied.',
-    relatedCards: ['A1', 'A43', 'people-8'],
+    relatedCards: ['A1', 'A43', 'P8'],
     tags: ['BATNA', 'ZOPA', 'negotiation', 'walk-away', 'vendors'],
   },
   {
@@ -1741,7 +1741,7 @@ export const CARDS: PMOCard[] = [
     ],
     proTip: 'Involving stakeholders in the creation of a process map builds champions for the solution — people defend what they helped design, dramatically reducing adoption resistance.',
     example: 'The insulin pen label design co-creation workshop brings together 5 pharmacists, 2 designers, and the Regulatory Affairs lead. In 3 hours, they co-design a label layout that satisfies pharmacist usability needs, brand guidelines, and regulatory requirements — eliminating 4 rounds of back-and-forth revision that would have taken 3 weeks.',
-    relatedCards: ['A10', 'A12', 'A15', 'people-9', 'process-4'],
+    relatedCards: ['A10', 'A12', 'A15', 'P9', 'PR4'],
     tags: ['co-creation', 'workshops', 'stakeholders', 'facilitation', 'design'],
   },
   {
@@ -1761,7 +1761,7 @@ export const CARDS: PMOCard[] = [
     ],
     proTip: 'Mind maps are most powerful when created collaboratively — everyone sees the connections differently, and the group synthesis often reveals blind spots that solo mapping misses.',
     example: 'The insulin pen launch kickoff uses a mind map to capture the full scope: central node = "Insulin Pen Launch"; branches = Regulatory, Marketing, Supply Chain, Clinical, Finance; sub-branches = specific deliverables per function. The map reveals 3 previously unidentified dependencies between Regulatory and Supply Chain — captured in the Risk Register before they become issues.',
-    relatedCards: ['A9', 'A50', 'T12', 'people-10'],
+    relatedCards: ['A9', 'A50', 'T12', 'P10'],
     tags: ['mind mapping', 'brainstorming', 'visual', 'ideas', 'alignment'],
   },
   {
@@ -1781,7 +1781,7 @@ export const CARDS: PMOCard[] = [
     ],
     proTip: 'Frame benchmarking as mutual learning — both parties gain insights. Approach peers with a clear value exchange ("we share our data, you share yours") to open doors that cold requests cannot.',
     example: 'The 55-year-old Head of Regulatory is paired with a 26-year-old digital analyst. The analyst teaches the Head to use the electronic submission portal in 3 sessions; the Head teaches the analyst EU MDR compliance nuances. Both rate the experience as the most valuable learning of the year.',
-    relatedCards: ['A5', 'A11', 'people-5', 'people-13'],
+    relatedCards: ['A5', 'A11', 'P5', 'P13'],
     tags: ['reverse mentoring', 'knowledge transfer', 'digital skills', 'learning'],
   },
   {
@@ -1801,7 +1801,7 @@ export const CARDS: PMOCard[] = [
     ],
     proTip: 'Conduct empathy mapping with real users when possible — assumptions about what users think or feel are often wrong. Even a 30-minute interview per persona dramatically improves accuracy.',
     example: 'The team assumes pharmacists want a smaller insulin pen. An Empathy Map reveals pharmacists actually feel anxious about dosage errors (pain point) and want a clearer dose window (gain). The design is changed to feature a larger dose indicator — the product scores 4.7/5 in pharmacist usability testing.',
-    relatedCards: ['A9', 'A30', 'people-9', 'people-14'],
+    relatedCards: ['A9', 'A30', 'P9', 'P14'],
     tags: ['empathy mapping', 'user research', 'design thinking', 'stakeholders'],
   },
   {
@@ -1821,7 +1821,7 @@ export const CARDS: PMOCard[] = [
     ],
     proTip: 'Fail fast and cheap — a small pilot saves significant investment if the assumption is wrong.',
     example: 'Before printing 500,000 labels, the PM runs a Lean Startup Pilot with 500 labels in 3 pharmacies. The pilot reveals that the QR code is too small to scan reliably — fixed in the design before the full print run, saving an estimated £12,000 in reprinting costs.',
-    relatedCards: ['A30', 'A35', 'M2', 'process-1'],
+    relatedCards: ['A30', 'A35', 'M2', 'PR1'],
     tags: ['Lean Startup', 'MVP', 'pilot', 'testing', 'assumptions'],
   },
   {
@@ -1841,7 +1841,7 @@ export const CARDS: PMOCard[] = [
     ],
     proTip: 'Combine EVM with Monte Carlo simulation (T9) for a full probabilistic view of project outcomes — EVM tells you where you are, Monte Carlo tells you where you\'re likely to end up.',
     example: 'The insulin pen launch has 8 risks in the register. Quantitative Risk Analysis assigns numerical scores: Regulatory rejection scores 0.7 × 9 = 6.3 (highest exposure). The PM allocates 60% of the contingency budget to mitigating this single risk.',
-    relatedCards: ['T6', 'T9', 'A57', 'process-3', 'AG2'],
+    relatedCards: ['T6', 'T9', 'A57', 'PR3', 'AG2'],
     tags: ['quantitative risk', 'risk analysis', 'probability', 'impact', 'exposure'],
   },
   {
@@ -1861,7 +1861,7 @@ export const CARDS: PMOCard[] = [
     ],
     proTip: 'Focus first on moving Resistant stakeholders — they pose the highest risk to project success.',
     example: 'The Stakeholder Engagement Matrix shows the Head of Distribution is Resistant (current) but needs to be Supportive (desired). The PM arranges a 1:1 to understand his concerns — he fears extra workload. A dedicated logistics coordinator is assigned, moving him to Supportive within 2 weeks.',
-    relatedCards: ['T16', 'A9', 'people-9', 'process-4'],
+    relatedCards: ['T16', 'A9', 'P9', 'PR4'],
     tags: ['stakeholder engagement', 'matrix', 'resistance', 'support'],
   },
   {
@@ -1881,7 +1881,7 @@ export const CARDS: PMOCard[] = [
     ],
     proTip: 'Activity-Based Costing is particularly powerful for identifying legacy costs that no longer deliver value — many organisations discover 20-30% of activities add no customer value once they map them.',
     example: 'The insulin pen project budget is built from zero. The PM discovers £8,000 was allocated for a printed training manual — justified from a previous project. A digital version is created instead for £400, saving £7,600 with no loss of quality.',
-    relatedCards: ['T4', 'T13', 'process-5'],
+    relatedCards: ['T4', 'T13', 'PR5'],
     tags: ['zero-based budgeting', 'budget', 'cost', 'financial planning'],
   },
   {
@@ -1901,7 +1901,7 @@ export const CARDS: PMOCard[] = [
     ],
     proTip: 'PERT is most valuable for novel tasks where historical data is limited — the three-point estimate forces honest conversations about uncertainty that single-point estimates hide.',
     example: 'The regulatory submission task has never been done in this format before. PERT estimates: Optimistic = 4 weeks, Most Likely = 7 weeks, Pessimistic = 14 weeks. PERT estimate = (4 + 28 + 14) ÷ 6 = 7.7 weeks. The PM plans for 8 weeks and adds a 1-week buffer.',
-    relatedCards: ['T1', 'A29', 'process-6', 'M1'],
+    relatedCards: ['T1', 'A29', 'PR6', 'M1'],
     tags: ['PERT', 'estimation', 'schedule', 'uncertainty', 'critical path'],
   },
   {
@@ -1922,7 +1922,7 @@ export const CARDS: PMOCard[] = [
     ],
     proTip: 'Don\'t skip the Measure phase — without baseline data, you\'re guessing at root causes and have no way to prove your improvement actually worked.',
     example: 'Label defect rate is 12%. DMAIC: Define = reduce to <2%; Measure = 12% defect rate, 3 types of defects; Analyse = colour profile mismatch is root cause (Fishbone); Improve = standardise ICC colour profiles; Control = automated colour check at print start. Result: defect rate drops to 1.4% within 2 weeks.',
-    relatedCards: ['T8', 'A23', 'A31', 'A40', 'process-7'],
+    relatedCards: ['T8', 'A23', 'A31', 'A40', 'PR7'],
     tags: ['Six Sigma', 'DMAIC', 'quality', 'defects', 'process improvement'],
   },
   {
@@ -1942,7 +1942,7 @@ export const CARDS: PMOCard[] = [
     ],
     proTip: 'Rolling Wave is not an excuse to avoid planning — it\'s a disciplined approach to planning at the right level of detail.',
     example: 'The insulin pen launch plan details weeks 1–6 (design and regulatory) fully, and weeks 7–12 (print and launch) at a high level. After regulatory approval in week 6, the PM refines the print and launch plan with full task detail — avoiding wasted planning effort on tasks that might have changed.',
-    relatedCards: ['T3', 'T1', 'process-9', 'M4'],
+    relatedCards: ['T3', 'T1', 'PR9', 'M4'],
     tags: ['rolling wave', 'planning', 'progressive elaboration', 'uncertainty'],
   },
   {
@@ -1962,7 +1962,7 @@ export const CARDS: PMOCard[] = [
     ],
     proTip: 'Never implement a change without going through the formal process — even "small" changes can have large downstream impacts.',
     example: 'A "minor" font size change requested by Marketing is logged as a change request. Impact assessment reveals it requires re-approval from Regulatory (3 days) and reprint of the proof (1 day). The Change Control Board approves it with a 4-day schedule extension — avoiding a surprise delay.',
-    relatedCards: ['T14', 'T7', 'process-8', 'process-10'],
+    relatedCards: ['T14', 'T7', 'PR8', 'PR10'],
     tags: ['change control', 'change request', 'governance', 'baseline', 'impact'],
   },
   {
@@ -1982,7 +1982,7 @@ export const CARDS: PMOCard[] = [
     ],
     proTip: 'A Should-Cost analysis shifts negotiating power — you\'re no longer just reacting to the vendor\'s price.',
     example: 'The print vendor quotes £0.12/label. The PM\'s Should-Cost analysis (materials: £0.04, labour: £0.02, overhead: £0.015, profit 15%: £0.011) gives a should-cost of £0.086. Armed with this, the PM negotiates the vendor down to £0.095 — saving £12,500 on the run.',
-    relatedCards: ['T13', 'A16', 'process-5', 'process-11'],
+    relatedCards: ['T13', 'A16', 'PR5', 'PR11'],
     tags: ['should-cost', 'cost estimation', 'negotiation', 'procurement'],
   },
   {
@@ -2002,7 +2002,7 @@ export const CARDS: PMOCard[] = [
     ],
     proTip: 'Define each handshake or gate clearly so partial deliverables are recognised or locked at the proper milestones.',
     example: 'The insulin pen launch uses Waterfall for regulatory submission (Gate 1: dossier sign-off, Gate 2: approval received) and 2-week Agile sprints for the marketing campaign. The Hybrid Map shows Sprint 3 output (final campaign assets) feeds into Gate 3 (launch readiness review) — both streams are visible in one plan.',
-    relatedCards: ['M1', 'M2', 'M4', 'A29', 'process-13'],
+    relatedCards: ['M1', 'M2', 'M4', 'A29', 'PR13'],
     tags: ['hybrid', 'Agile', 'Waterfall', 'mapping', 'gates'],
   },
   {
@@ -2022,7 +2022,7 @@ export const CARDS: PMOCard[] = [
     ],
     proTip: 'Don\'t stop at the first "why" — keep drilling down until the root cause is something you can actually control. A cause you can\'t influence is not a useful root cause.',
     example: 'Labels are failing QA at 12%. Why? → Colour is off. Why? → Printer settings wrong. Why? → No standard ICC profile. Why? → No colour management procedure. Why? → Assumed the vendor would handle it. Root cause: no colour management SOP. Fix: create and enforce SOP. Defect rate drops to 1.2% in week 1.',
-    relatedCards: ['T8', 'A18', 'A41', 'people-7', 'process-15'],
+    relatedCards: ['T8', 'A18', 'A41', 'P7', 'PR15'],
     tags: ['root cause', '5 Whys', 'problem solving', 'RCA', 'defects'],
   },
   {
@@ -2042,7 +2042,7 @@ export const CARDS: PMOCard[] = [
     ],
     proTip: 'If the team updates the knowledge base in real-time rather than in batch, it stays fresh and adoption stays high — stale knowledge bases are abandoned within weeks.',
     example: 'The regulatory team encounters a new EU MDR question about font contrast ratios. They resolve it, then immediately add the answer to the KCS knowledge base. Two weeks later, the design team searches the base and finds the answer in 30 seconds — saving a 2-hour regulatory consultation.',
-    relatedCards: ['A5', 'A63', 'process-12', 'process-16'],
+    relatedCards: ['A5', 'A63', 'PR12', 'PR16'],
     tags: ['KCS', 'knowledge base', 'documentation', 'support', 'reuse'],
   },
   {
@@ -2062,7 +2062,7 @@ export const CARDS: PMOCard[] = [
     ],
     proTip: 'Wait a few weeks or months post-launch so actual usage data is available, not just initial hype.',
     example: 'The insulin pen PIR (6 weeks post-launch) shows: 11 of 12 success criteria met, market share at 13.5% vs. 15% target, label defect rate 0.8% vs. 2% target (exceeded). Root cause of the shortfall: HCP awareness campaign launched 2 weeks late. Lesson captured for the next launch.',
-    relatedCards: ['A26', 'A58', 'phase-closure', 'process-17'],
+    relatedCards: ['A26', 'A58', 'phase-closure', 'PR17'],
     tags: ['PIR', 'post-implementation', 'lessons learned', 'review', 'closure'],
   },
   {
@@ -2145,7 +2145,7 @@ export const CARDS: PMOCard[] = [
     ],
     proTip: 'Centralising safety time in buffers shortens the overall schedule vs. each task padding individually.',
     example: 'The insulin pen print production uses one specialist machine shared by 3 tasks: colour calibration, label printing, and quality inspection. CCPM identifies this as the critical chain. A 3-day project buffer is added at the end; a 2-day feeding buffer protects the artwork handover. When artwork is 1 day late, the buffer absorbs it — launch date holds.',
-    relatedCards: ['T1', 'A17', 'A22', 'process-6'],
+    relatedCards: ['T1', 'A17', 'A22', 'PR6'],
     tags: ['CCPM', 'critical chain', 'buffers', 'resources', 'schedule'],
   },
   {
@@ -2166,7 +2166,7 @@ export const CARDS: PMOCard[] = [
     ],
     proTip: 'Fail fast and learn — prototypes let you pivot without huge sunk costs. A paper prototype tested with five users will reveal more usability issues than months of internal design reviews.',
     example: 'The insulin pen label redesign uses Design Thinking: Empathise (interviews with 20 pharmacists reveal dose window anxiety), Define (core problem: dose markings are too small), Ideate (6 concepts generated), Prototype (3 paper mockups in 1 day), Test (pharmacists prefer Concept B — larger dose window, high-contrast font). Final design scores 4.8/5.',
-    relatedCards: ['A9', 'A12', 'A13', 'people-10', 'process-7'],
+    relatedCards: ['A9', 'A12', 'A13', 'P10', 'PR7'],
     tags: ['design thinking', 'user-centred', 'prototype', 'empathy', 'innovation'],
   },
   {
@@ -2186,7 +2186,7 @@ export const CARDS: PMOCard[] = [
     ],
     proTip: 'Sometimes shifting resources to fix the critical 20% yields significant overall gains quickly — identify your Pareto items first, then allocate your best people to them before tackling the long tail.',
     example: 'The insulin pen label QA log shows 47 defects in 3 months: colour mismatch (22), font size error (14), missing symbol (7), wrong barcode (4). Pareto Analysis shows colour mismatch + font size = 77% of all defects. The PM focuses the entire improvement sprint on these two causes — total defects drop from 47 to 9 the following month.',
-    relatedCards: ['A18', 'A23', 'T8', 'process-1', 'process-15'],
+    relatedCards: ['A18', 'A23', 'T8', 'PR1', 'PR15'],
     tags: ['Pareto', '80/20', 'prioritisation', 'defects', 'quality'],
   },
   {
@@ -2226,7 +2226,7 @@ export const CARDS: PMOCard[] = [
     ],
     proTip: 'Particularly common in scaled Agile contexts (SAFe). Combine with MoSCoW (T7) for comprehensive prioritisation.',
     example: 'The insulin pen project backlog has 8 items. WSJF scores: fixing the QR code scan failure (Cost of Delay: £12k/week, size: 2 days) = 6.0; adding a premium colour variant (Cost of Delay: £2k/week, size: 10 days) = 0.2. The QR code fix is done first — the colour variant is deprioritised to the next sprint.',
-    relatedCards: ['T7', 'A13', 'M2', 'process-1', 'process-11'],
+    relatedCards: ['T7', 'A13', 'M2', 'PR1', 'PR11'],
     tags: ['WSJF', 'prioritisation', 'SAFe', 'backlog', 'value', 'cost of delay'],
   },
   {
@@ -2246,7 +2246,7 @@ export const CARDS: PMOCard[] = [
     ],
     proTip: 'Use a Kaizen Blitz (A7) on the biggest bottlenecks identified after mapping — Value Stream Mapping shows you where waste is, Kaizen Blitz removes it.',
     example: 'VSM of the insulin pen label process reveals: Design (2 days), Approval (5 days — waste: 3 days waiting), Printing (1 day), QC (2 days), Dispatch (1 day). Total lead time: 11 days; value-adding time: 6 days. The approval bottleneck is targeted with a Kaizen Blitz (A7) — approval time drops to 1.5 days.',
-    relatedCards: ['A7', 'A40', 'process-1', 'process-15'],
+    relatedCards: ['A7', 'A40', 'PR1', 'PR15'],
     tags: ['value stream mapping', 'VSM', 'Lean', 'waste', 'flow'],
   },
   {
@@ -2266,7 +2266,7 @@ export const CARDS: PMOCard[] = [
     ],
     proTip: 'Timeboxing ensures progress even under uncertainty — it forces decisions or partial completions.',
     example: 'The label artwork review is timeboxed to 5 working days. On day 5, 90% of comments are resolved. The PM calls time: the remaining 10% (minor colour tweaks) are logged as a separate change request rather than delaying the print run. The launch date is preserved.',
-    relatedCards: ['M2', 'T17', 'A13', 'process-1', 'phase-setup'],
+    relatedCards: ['M2', 'T17', 'A13', 'PR1', 'phase-setup'],
     tags: ['timeboxing', 'sprints', 'Agile', 'time management', 'scope'],
   },
   {
@@ -2325,7 +2325,7 @@ export const CARDS: PMOCard[] = [
     ],
     proTip: 'Too many "Plants" and no "Completer-Finisher" leads to many ideas but poor final quality — audit your team\'s Belbin profiles and fill gaps with targeted recruitment or role assignment.',
     example: 'The insulin pen team Belbin assessment reveals 3 Plants (idea generators), 2 Shapers (drivers), but no Completer-Finisher. The PM assigns the Regulatory Analyst (high CF tendency) to own the final QA checklist. Label defect rate drops from 12% to 2% — the missing role was the gap.',
-    relatedCards: ['A2', 'A6', 'A39', 'people-2', 'people-6'],
+    relatedCards: ['A2', 'A6', 'A39', 'P2', 'P6'],
     tags: ['Belbin', 'team roles', 'balance', 'Plant', 'Completer-Finisher'],
   },
   {
@@ -2345,7 +2345,7 @@ export const CARDS: PMOCard[] = [
     ],
     proTip: 'Trust is the foundation — without it, all other dysfunctions are inevitable. Address trust issues directly before trying to fix accountability or results — the order matters.',
     example: 'The insulin pen team is avoiding conflict — everyone agrees in meetings but nothing gets resolved. The PM runs a Lencioni team health survey: the dominant dysfunction is Fear of Conflict rooted in Absence of Trust. A vulnerability-based trust exercise and structured debate session shift the team to open, productive disagreement within 2 weeks.',
-    relatedCards: ['A2', 'A42', 'A45', 'people-2', 'people-12'],
+    relatedCards: ['A2', 'A42', 'A45', 'P2', 'P12'],
     tags: ['5 Dysfunctions', 'Lencioni', 'trust', 'conflict', 'team health'],
   },
   {
@@ -2389,7 +2389,7 @@ export const CARDS: PMOCard[] = [
     ],
     proTip: 'D3 (interim containment) is often skipped — but it\'s critical to stop the bleeding while you find the root cause.',
     example: 'A batch of 10,000 insulin pen labels is found to have incorrect dosage markings. 8D: D1 = QA + Regulatory team assembled; D2 = wrong template version used; D3 = halt distribution, quarantine batch (containment); D4 = root cause = no version control on templates; D5-D6 = implement DMS with version lock; D7 = update SOP; D8 = team recognised. Zero recurrence in 6 months.',
-    relatedCards: ['A23', 'A18', 'T8', 'people-7', 'process-15'],
+    relatedCards: ['A23', 'A18', 'T8', 'P7', 'PR15'],
     tags: ['8D', 'problem solving', 'root cause', 'quality', 'manufacturing'],
   },
   {
@@ -2409,7 +2409,7 @@ export const CARDS: PMOCard[] = [
     ],
     proTip: 'Even small perceived threats to Status or Fairness can trigger strong defensive reactions — be mindful of language and process.',
     example: 'The PM announces a new approval process without consultation. Three team members disengage (Certainty and Autonomy threatened). Using SCARF, the PM redesigns the rollout: shares the reason (Certainty), invites input on implementation (Autonomy), and publicly credits contributors (Status). Engagement recovers within a week.',
-    relatedCards: ['A2', 'A39', 'A45', 'people-2', 'people-14'],
+    relatedCards: ['A2', 'A39', 'A45', 'P2', 'P14'],
     tags: ['SCARF', 'neuroscience', 'social triggers', 'psychological safety', 'motivation'],
   },
   {
@@ -2429,7 +2429,7 @@ export const CARDS: PMOCard[] = [
     ],
     proTip: 'No mode is universally best — Competing is right for emergencies, Collaborating for complex issues requiring buy-in.',
     example: 'Marketing and Regulatory are in conflict over label copy. TKI reveals Marketing is Competing (wants brand language) and Regulatory is Avoiding (doesn\'t want confrontation). The PM facilitates a Collaborating session: both parties identify shared interests (patient safety + brand trust) and agree on copy that satisfies both. Conflict resolved in 90 minutes.',
-    relatedCards: ['A1', 'A8', 'people-1', 'people-8'],
+    relatedCards: ['A1', 'A8', 'P1', 'P8'],
     tags: ['TKI', 'conflict', 'modes', 'negotiation', 'Thomas-Kilmann'],
   },
   {
@@ -2449,7 +2449,7 @@ export const CARDS: PMOCard[] = [
     ],
     proTip: 'Early in a new project, a more directive style might be needed — shift to delegative as the team matures.',
     example: 'In week 1 of the insulin pen project, the PM uses a directive style (Tell) — the team is new and needs clear instructions. By week 6, with the team performing well, the PM shifts to Delegate — the design lead owns all artwork decisions autonomously. The PM intervenes only for budget or regulatory issues.',
-    relatedCards: ['A4', 'A2', 'people-2', 'people-4'],
+    relatedCards: ['A4', 'A2', 'P2', 'P4'],
     tags: ['leadership', 'delegation', 'autocratic', 'democratic', 'continuum'],
   },
   {
@@ -2469,7 +2469,7 @@ export const CARDS: PMOCard[] = [
     ],
     proTip: 'A safe environment for feedback is crucial — psychological safety enables honest disclosure.',
     example: 'The PM\'s Johari Window reveals a Blind Spot: the team perceives the PM as dismissive of design concerns (they haven\'t said it directly). A structured feedback session surfaces this. The PM adjusts by adding a 10-minute design review slot to weekly meetings — team satisfaction scores improve from 6.2 to 8.1/10.',
-    relatedCards: ['A6', 'A39', 'A42', 'people-12', 'people-14'],
+    relatedCards: ['A6', 'A39', 'A42', 'P12', 'P14'],
     tags: ['Johari Window', 'self-awareness', 'blind spots', 'feedback', 'trust'],
   },
   {
@@ -2489,7 +2489,7 @@ export const CARDS: PMOCard[] = [
     ],
     proTip: 'The one-page limit is a feature, not a constraint — it forces clarity and prevents burying the real problem in lengthy documents. If it won\'t fit on one page, the problem isn\'t well-defined yet.',
     example: 'The label QR code scan failure is documented on a single A3 sheet: Context (QR code fails 40% of scans), Current State (module size too small for standard scanners), Root Cause (designer used print spec not scanner spec), Countermeasure (update design spec to ISO 18004 minimum size), Follow-up (re-test with 3 scanner models — 100% pass rate). Total resolution time: 1 day.',
-    relatedCards: ['A23', 'A41', 'process-15', 'process-16'],
+    relatedCards: ['A23', 'A41', 'PR15', 'PR16'],
     tags: ['A3', 'problem solving', 'Lean', 'one-page', 'concise'],
   },
   {
@@ -2509,7 +2509,7 @@ export const CARDS: PMOCard[] = [
     ],
     proTip: 'Focus improvement efforts on the constraint first — optimising non-constraints is waste. Identify your single biggest bottleneck and subordinate everything else to exploiting it.',
     example: 'The insulin pen label process has 3 steps: Design (2 days), Regulatory Approval (5 days), Printing (1 day). TOC identifies Regulatory Approval as the constraint. The PM exploits it: pre-submits design drafts for early review, subordinates design to regulatory timelines, and elevates by adding a second regulatory reviewer. Approval time drops from 5 days to 2 days.',
-    relatedCards: ['A7', 'A34', 'M2', 'people-7', 'process-1'],
+    relatedCards: ['A7', 'A34', 'M2', 'P7', 'PR1'],
     tags: ['TOC', 'Theory of Constraints', 'bottleneck', 'throughput', 'Lean'],
   },
   {
@@ -2551,7 +2551,7 @@ export const CARDS: PMOCard[] = [
     ],
     proTip: 'Ignoring any dimension of the ADKAR model leads to partial adoption or resistance — if people have Awareness and Desire but lack Knowledge, training is the fix, not more communication.',
     example: 'Pharmacists are trained on the new insulin pen protocol but still revert to old habits. 3H analysis: Heart — they don\'t feel the personal urgency (fix: share a patient safety case study); Head — they understand the process (already done); Hands — the new dispensing tray is awkward (fix: redesign the tray layout). After both fixes, adoption rises from 45% to 91%.',
-    relatedCards: ['A28', 'A36', 'A48', 'A55', 'people-5', 'people-14'],
+    relatedCards: ['A28', 'A36', 'A48', 'A55', 'P5', 'P14'],
     tags: ['3H', 'Heart Head Hands', 'change management', 'adoption', 'emotional'],
   },
   {
@@ -2571,7 +2571,7 @@ export const CARDS: PMOCard[] = [
     ],
     proTip: 'SSM is cyclical — it\'s about discovering real issues in complex organisational structures, not just solving them once.',
     example: 'The insulin pen project is stalling due to unclear ownership between Marketing and Regulatory. SSM Rich Picture reveals 3 conflicting worldviews: Marketing sees speed as the priority, Regulatory sees compliance as non-negotiable, and the PM sees budget as the constraint. Surfacing these worldviews leads to a shared governance model that satisfies all three.',
-    relatedCards: ['A10', 'A51', 'people-10', 'process-9'],
+    relatedCards: ['A10', 'A51', 'P10', 'PR9'],
     tags: ['SSM', 'soft systems', 'messy problems', 'rich pictures', 'Checkland'],
   },
   {
@@ -2591,7 +2591,7 @@ export const CARDS: PMOCard[] = [
     ],
     proTip: 'Trust participants\' autonomy in Open Space Technology — often, the best ideas surface spontaneously from self-organised groups rather than from facilitator-directed sessions.',
     example: 'The PMO Head runs an Open Space session with 40 stakeholders around the theme "How do we halve our label-to-launch time?" Three unexpected sessions emerge: a cross-departmental pre-submission review process, a shared design template library, and a vendor SLA renegotiation. All three are implemented — launch time drops by 35%.',
-    relatedCards: ['A9', 'A50', 'people-9', 'people-11'],
+    relatedCards: ['A9', 'A50', 'P9', 'P11'],
     tags: ['Open Space', 'facilitation', 'self-organisation', 'large groups', 'emergent'],
   },
   {
@@ -2611,7 +2611,7 @@ export const CARDS: PMOCard[] = [
     ],
     proTip: 'One Approver per decision keeps sign-off from stalling in committee — if you find yourself with two Approvers on the RACI, escalate to leadership to clarify who has final authority.',
     example: 'The insulin pen project needs to decide on a new print vendor. DACI: Driver = Procurement Manager (runs the evaluation); Approver = PMO Head (final sign-off); Contributors = Marketing (brand requirements), Regulatory (compliance requirements), Finance (cost model); Informed = Sales Director. Decision made in 3 days vs. the usual 2-week committee process.',
-    relatedCards: ['T5', 'people-8', 'process-2'],
+    relatedCards: ['T5', 'P8', 'PR2'],
     tags: ['DACI', 'decision making', 'governance', 'accountability', 'RACI'],
   },
   {
@@ -2631,7 +2631,7 @@ export const CARDS: PMOCard[] = [
     ],
     proTip: 'Misclassifying a Complex problem as merely Complicated leads to poor solutions — re-check your classification if conditions evolve.',
     example: 'The insulin pen project has 3 types of work: regulatory submission (Complicated — apply expert knowledge), label design (Complex — iterate with pharmacist feedback), and print production (Obvious — follow established SOP). The PM applies expert-led review for regulatory, design sprints for labels, and a standard checklist for printing — no one approach fits all.',
-    relatedCards: ['AG1', 'AG2', 'M1', 'M2', 'process-13', 'business-3'],
+    relatedCards: ['AG1', 'AG2', 'M1', 'M2', 'PR13', 'business-3'],
     tags: ['Cynefin', 'sense-making', 'complexity', 'Complicated', 'Chaotic'],
   },
   {
@@ -2652,7 +2652,7 @@ export const CARDS: PMOCard[] = [
     ],
     proTip: 'Though presented linearly, you often loop between planning, executing, and monitoring as new info arises.',
     example: 'The insulin pen launch follows all 5 process groups: Initiate (project charter signed, PMO Head as sponsor), Plan (12-week schedule, £120k budget, risk register), Execute (label design, regulatory submission, print run), Monitor & Control (weekly EVM reviews, 2 change requests processed), Close (PIR, lessons learned, team celebration).',
-    relatedCards: ['phase-setup', 'phase-execution', 'phase-closure', 'process-9', 'process-10'],
+    relatedCards: ['phase-setup', 'phase-execution', 'phase-closure', 'PR9', 'PR10'],
     tags: ['PMBOK', 'process groups', 'Initiating', 'Planning', 'Executing', 'Closing'],
   },
   {
@@ -2673,7 +2673,7 @@ export const CARDS: PMOCard[] = [
     ],
     proTip: 'If staff remain resistant, check if they\'re missing Awareness or Desire — address personal benefits or concerns to move them forward.',
     example: 'Pharmacists need to adopt a new insulin pen dispensing protocol. ADKAR: Awareness — PM shares a patient safety incident (why change is needed); Desire — pharmacy champions share their positive pilot experience; Knowledge — 2-hour training session; Ability — new dispensing tray provided; Reinforcement — monthly audit + recognition for compliant pharmacies. Adoption reaches 92% in 8 weeks.',
-    relatedCards: ['A28', 'A36', 'A48', 'A49', 'people-4', 'people-5', 'business-4'],
+    relatedCards: ['A28', 'A36', 'A48', 'A49', 'P4', 'P5', 'business-4'],
     tags: ['ADKAR', 'change management', 'adoption', 'Prosci', 'individual change'],
   },
   {
@@ -2693,7 +2693,7 @@ export const CARDS: PMOCard[] = [
     ],
     proTip: 'High nPow individuals thrive in leadership roles; high nAff individuals flourish in collaborative settings.',
     example: 'The Regulatory Analyst is high nAch (loves mastering complex problems). The PM assigns her to lead the EU MDR compliance deep-dive — she delivers a 40-page compliance framework in 3 days, 2 days ahead of schedule. The Marketing Coordinator is high nAff — assigned to stakeholder engagement workshops, where she excels.',
-    relatedCards: ['A2', 'A42', 'people-2', 'people-5', 'people-14'],
+    relatedCards: ['A2', 'A42', 'P2', 'P5', 'P14'],
     tags: ['McClelland', 'motivation', 'Achievement', 'Affiliation', 'Power'],
   },
   {
@@ -2713,7 +2713,7 @@ export const CARDS: PMOCard[] = [
     ],
     proTip: 'Agree on objective thresholds (e.g., "high impact" = >£50k cost overrun) to avoid subjective ratings.',
     example: 'The insulin pen Risk Register has 8 risks plotted on the P&I Matrix. Top-right (High/High): Regulatory rejection — PM arranges pre-submission consultation. Mid-right (Medium/High): Supplier delay — PM qualifies a backup supplier. Bottom-left (Low/Low): Minor artwork revision — accepted, no action. Resources focused on the top 2 risks only.',
-    relatedCards: ['T6', 'T9', 'A14', 'process-3', 'people-8'],
+    relatedCards: ['T6', 'T9', 'A14', 'PR3', 'P8'],
     tags: ['probability impact matrix', 'risk', 'prioritisation', 'heat map'],
   },
   {
@@ -2733,7 +2733,7 @@ export const CARDS: PMOCard[] = [
     ],
     proTip: 'Lessons learned are only valuable if they\'re actually read and applied in future projects — make them accessible and searchable.',
     example: 'The insulin pen project captures 14 lessons learned. Top 3: (1) Pre-submission regulatory consultation saves 4 weeks — make it mandatory; (2) Dual-source vendor policy prevents supply delays; (3) Colour profile SOP eliminates 90% of label defects. All 3 are adopted as standard practice for the next 3 product launches.',
-    relatedCards: ['A25', 'A24', 'A46', 'phase-closure', 'process-17'],
+    relatedCards: ['A25', 'A24', 'A46', 'phase-closure', 'PR17'],
     tags: ['lessons learned', 'retrospective', 'continuous improvement', 'knowledge'],
   },
   // ─── MISSING TECHNIQUES ───────────────────────────────────────────────
@@ -2755,7 +2755,7 @@ export const CARDS: PMOCard[] = [
     ],
     proTip: 'Use anonymous input modes to reduce groupthink — people share more honestly when names are hidden.',
     example: 'A distributed marketing team uses Miro to run a sprint retrospective, with sticky notes colour-coded by theme.',
-    relatedCards: ['people-11', 'process-2', 'A51', 'A9'],
+    relatedCards: ['P11', 'PR2', 'A51', 'A9'],
     tags: ['virtual', 'brainstorming', 'remote', 'collaboration', 'digital tools'],
   },
   {
@@ -2776,7 +2776,7 @@ export const CARDS: PMOCard[] = [
     ],
     proTip: 'Post the social contract visibly in your team space (physical or virtual) — out of sight means out of mind.',
     example: 'A cross-functional project team agrees: "We respond to messages within 4 hours," "We raise blockers immediately," and "We celebrate small wins."',
-    relatedCards: ['people-12', 'A45', 'A39', 'A2'],
+    relatedCards: ['P12', 'A45', 'A39', 'A2'],
     tags: ['team norms', 'social contract', 'ground rules', 'team charter', 'agreements'],
   },
   {
@@ -2797,7 +2797,7 @@ export const CARDS: PMOCard[] = [
     ],
     proTip: 'Keep it uncluttered — highlight critical items prominently. A dashboard nobody reads is a dashboard that does not work.',
     example: 'Label design status shown in red if delayed, budget usage in green if on track, risk count flagged in amber.',
-    relatedCards: ['phase-execution', 'process-2', 'process-4', 'T16', 'A15'],
+    relatedCards: ['phase-execution', 'PR2', 'PR4', 'T16', 'A15'],
     tags: ['dashboard', 'visual management', 'communications', 'status reporting', 'transparency'],
   },
   {
@@ -2818,7 +2818,7 @@ export const CARDS: PMOCard[] = [
     ],
     proTip: 'It prevents missing a mandatory disclaimer or regulatory spec — invaluable in regulated industries.',
     example: '"Font size must be at least 12pt" → documented in design spec → tested in QA → verified in the final product.',
-    relatedCards: ['process-8', 'T14', 'A18', 'A20', 'A65'],
+    relatedCards: ['PR8', 'T14', 'A18', 'A20', 'A65'],
     tags: ['requirements', 'traceability', 'compliance', 'scope', 'quality'],
   },
   {
@@ -2839,7 +2839,7 @@ export const CARDS: PMOCard[] = [
     ],
     proTip: 'Automated versioning and notifications drastically cut the risk of referencing obsolete data — especially critical for compliance documents.',
     example: 'When the disclaimers document is updated to v2.3, everyone receives an alert immediately, preventing anyone from using v2.2.',
-    relatedCards: ['process-12', 'A24', 'A62', 'phase-closure'],
+    relatedCards: ['PR12', 'A24', 'A62', 'phase-closure'],
     tags: ['document management', 'version control', 'DMS', 'automation', 'compliance'],
   },
   {
@@ -2860,7 +2860,7 @@ export const CARDS: PMOCard[] = [
     ],
     proTip: 'A short weekly steering committee call can prevent significant delays from a large, formal board. Keep it time-boxed and action-focused.',
     example: 'The sponsor, finance rep, and marketing lead meet for 15 minutes weekly to approve major scope changes without lengthy forms.',
-    relatedCards: ['process-14', 'T5', 'A48', 'A22'],
+    relatedCards: ['PR14', 'T5', 'A48', 'A22'],
     tags: ['governance', 'lightweight', 'agile', 'decision-making', 'oversight'],
   },
   {
@@ -2902,7 +2902,7 @@ export const CARDS: PMOCard[] = [
     ],
     proTip: 'Small, subtle shifts can yield significant changes in behaviour. The best nudges are invisible — people do not feel pushed.',
     example: 'Making the new labelling steps the default template so staff automatically use the correct format without extra effort.',
-    relatedCards: ['people-12', 'people-14', 'business-4', 'A67'],
+    relatedCards: ['P12', 'P14', 'business-4', 'A67'],
     tags: ['nudge theory', 'behavioural economics', 'change', 'defaults', 'motivation'],
   },
   {
@@ -2923,7 +2923,7 @@ export const CARDS: PMOCard[] = [
     ],
     proTip: "If staff worry about job security, they won't focus on top-level achievements. Address lower-level needs first.",
     example: 'A team stressed about potential layoffs invested less energy in creative marketing solutions — addressing job security concerns unlocked their creativity.',
-    relatedCards: ['people-2', 'people-14', 'A73', 'A42'],
+    relatedCards: ['P2', 'P14', 'A73', 'A42'],
     tags: ["Maslow", 'hierarchy of needs', 'motivation', 'team wellbeing', 'psychology'],
   },
   {
@@ -2944,7 +2944,7 @@ export const CARDS: PMOCard[] = [
     ],
     proTip: 'Early Adopters are your champions — invest in them heavily. Their endorsement is more persuasive than any top-down mandate.',
     example: 'When rolling out a new insulin pen, a pilot with innovator doctors expands as success stories grow and spread to the broader clinical community.',
-    relatedCards: ['business-2', 'process-4', 'A28', 'A36'],
+    relatedCards: ['business-2', 'PR4', 'A28', 'A36'],
     tags: ['diffusion of innovation', 'adoption', 'change management', 'Rogers', 'early adopters'],
   },
   {
@@ -2986,7 +2986,7 @@ export const CARDS: PMOCard[] = [
     ],
     proTip: 'Sometimes addressing one strong restraining force can tip the entire scale in favour of the change.',
     example: 'Adding colour variations: brand differentiation is a driver; higher cost and longer lead times are restrainers. Reduce colour options or find cheaper printing to tip the balance.',
-    relatedCards: ['business-4', 'people-1', 'T15', 'A36', 'A28'],
+    relatedCards: ['business-4', 'P1', 'T15', 'A36', 'A28'],
     tags: ['force field analysis', 'Lewin', 'change management', 'driving forces', 'restraining forces'],
   },
   {
@@ -3007,7 +3007,7 @@ export const CARDS: PMOCard[] = [
     ],
     proTip: "No single best style — shifting your style fosters team progression. The goal is to move people toward Delegating over time.",
     example: "New hires need a more Directing style initially, transitioning to Coaching, then Supporting, and finally Delegating as they gain confidence.",
-    relatedCards: ['people-2', 'people-3', 'A44', 'A2', 'A73'],
+    relatedCards: ['P2', 'P3', 'A44', 'A2', 'A73'],
     tags: ['situational leadership', 'Hersey', 'Blanchard', 'leadership style', 'team development'],
   },
   {
@@ -3049,7 +3049,7 @@ export const CARDS: PMOCard[] = [
     ],
     proTip: 'A mismatch in any part of the chain disrupts motivation. Check all three links, not just the reward.',
     example: 'If staff believe that no matter how hard they try the sponsor will not notice, their Expectancy is low — address this by making contributions visible.',
-    relatedCards: ['people-2', 'people-3', 'A67', 'A71'],
+    relatedCards: ['P2', 'P3', 'A67', 'A71'],
     tags: ['Vroom', 'expectancy theory', 'motivation', 'rewards', 'performance'],
   },
   {
@@ -3152,7 +3152,7 @@ export const CARDS: PMOCard[] = [
     ],
     proTip: 'TRIZ patterns often reveal innovative solutions you would not consider otherwise — the 40 principles are a powerful creative trigger.',
     example: 'Needing a pen that is easy to inject but stable across all climates might lead to a TRIZ principle about modular tension or self-regulation.',
-    relatedCards: ['process-7', 'people-6', 'A18', 'A23'],
+    relatedCards: ['PR7', 'P6', 'A18', 'A23'],
     tags: ['TRIZ', 'inventive problem solving', 'design', 'contradiction', 'innovation'],
   },
   {
@@ -3173,7 +3173,7 @@ export const CARDS: PMOCard[] = [
     ],
     proTip: 'A thorough closeout prevents confusion for follow-up work or maintenance teams. Do not skip it under time pressure.',
     example: 'After launching a new product feature, gather final sign-offs, complete financials, note all lessons learned, and officially close the project.',
-    relatedCards: ['phase-closure', 'process-17', 'A58', 'A25', 'A26'],
+    relatedCards: ['phase-closure', 'PR17', 'A58', 'A25', 'A26'],
     tags: ['project closeout', 'closure', 'sign-off', 'handover', 'archiving'],
   },
   {
@@ -3194,7 +3194,7 @@ export const CARDS: PMOCard[] = [
     ],
     proTip: "Use a baseline story as a reference so new stories are estimated relative to a known complexity level — this anchors the team's judgement.",
     example: '"Create new brand banner" might be 2 points, while "Revamp entire campaign site" could be 8 points.',
-    relatedCards: ['process-6', 'people-3', 'M2', 'T17', 'A35'],
+    relatedCards: ['PR6', 'P3', 'M2', 'T17', 'A35'],
     tags: ['story points', 'estimation', 'Agile', 'planning poker', 'velocity'],
   },
   {
@@ -3215,7 +3215,7 @@ export const CARDS: PMOCard[] = [
     ],
     proTip: 'Pair NPS with an open-ended question for deeper insights. A score alone tells you the "what" — the open question tells you the "why."',
     example: "If your product's NPS is 15, you have more promoters than detractors, but significant dissatisfaction remains. Focus on common detractor complaints.",
-    relatedCards: ['business-2', 'process-4', 'T11', 'A26'],
+    relatedCards: ['business-2', 'PR4', 'T11', 'A26'],
     tags: ['NPS', 'Net Promoter Score', 'customer satisfaction', 'loyalty', 'measurement'],
   },
   {
@@ -3236,7 +3236,7 @@ export const CARDS: PMOCard[] = [
     ],
     proTip: 'Document each assumption or rationale so if confusion resurfaces, you can see why certain estimates were made.',
     example: 'For a novel marketing tech integration, a developer, marketer, and compliance lead each estimate time separately. They see outliers, debate them, and repeat until reaching accurate group consensus.',
-    relatedCards: ['process-6', 'people-9', 'T12', 'A17'],
+    relatedCards: ['PR6', 'P9', 'T12', 'A17'],
     tags: ['Wideband Delphi', 'estimation', 'expert consensus', 'planning', 'Delphi'],
   },
   {
@@ -3320,12 +3320,12 @@ export const CARDS: PMOCard[] = [
     ],
     proTip: 'Print the benefits map on A3 and put it on the wall of every project meeting. When debates about scope arise, point to the map and ask: which benefit does this serve? It cuts through politics faster than any governance process.',
     example: 'A hospital IT team replacing its patient records system defines value as a 20% reduction in nurse documentation time and zero critical data-entry errors within 90 days of launch. Every feature decision is evaluated against these two metrics, cutting three originally planned modules that added complexity without contributing to either measure.',
-    relatedCards: ['process-1', 'business-2', 'A14', 'A22'],
+    relatedCards: ['PR1', 'business-2', 'A14', 'A22'],
     tags: ['Strategy', 'Benefits', 'Value', 'Performance Domain'],
   },
 
   {
-    id: 'people-16',
+    id: 'P16',
     code: 'P16',
     title: 'Stakeholder Performance Domain',
     deckId: 'people',
@@ -3342,12 +3342,12 @@ export const CARDS: PMOCard[] = [
     ],
     proTip: 'Track stakeholder sentiment informally — a quick 1-5 rating after each key meeting. A trend from 4 to 2 over three weeks is a warning signal worth acting on before it becomes a formal escalation.',
     example: 'A government digital transformation programme initially maps 12 stakeholders. By month three, the team has identified 34 stakeholders across six departments. The PM uses a dynamic engagement register updated fortnightly, catching a newly appointed director who was unaware of the project and had the authority to block procurement approvals.',
-    relatedCards: ['process-4', 'T14', 'people-9', 'people-13'],
+    relatedCards: ['PR4', 'T14', 'P9', 'P13'],
     tags: ['Stakeholders', 'Engagement', 'People', 'Performance Domain'],
   },
 
   {
-    id: 'people-17',
+    id: 'P17',
     code: 'P17',
     title: 'Team Performance Domain',
     deckId: 'people',
@@ -3364,7 +3364,7 @@ export const CARDS: PMOCard[] = [
     ],
     proTip: 'Run a team health check every four weeks using a simple red/amber/green survey across five dimensions: clarity, autonomy, support, growth, and fun. The results will surface issues before they become crises.',
     example: 'A newly formed product team of eight engineers, two designers, and a PM from three different companies runs a two-day team charter workshop. They define their communication norms, decision rights, and conflict resolution approach. Six months later, their retrospective scores are consistently higher than the organisation average, and voluntary attrition is zero.',
-    relatedCards: ['people-1', 'people-2', 'people-6', 'A37', 'A38'],
+    relatedCards: ['P1', 'P2', 'P6', 'A37', 'A38'],
     tags: ['Team', 'Leadership', 'Culture', 'Performance Domain'],
   },
 
@@ -3386,12 +3386,12 @@ export const CARDS: PMOCard[] = [
     ],
     proTip: 'Use the Stacey Matrix to plot your project on two axes: requirements clarity and technical certainty. Projects in the complex or chaotic zones almost always benefit from agile or adaptive approaches, regardless of organisational preference.',
     example: 'A financial services firm is running two simultaneous projects: a regulatory reporting system (clear requirements, fixed deadline, audit trail required) and a new customer onboarding experience (unclear user needs, competitive pressure to iterate). The PMO assigns waterfall to the first and Scrum to the second, rather than forcing both into the same methodology.',
-    relatedCards: ['M1', 'M2', 'M4', 'process-13', 'A86'],
+    relatedCards: ['M1', 'M2', 'M4', 'PR13', 'A86'],
     tags: ['Methodology', 'Lifecycle', 'Planning', 'Performance Domain'],
   },
 
   {
-    id: 'process-18',
+    id: 'PR18',
     code: 'PR18',
     title: 'Planning Performance Domain',
     deckId: 'process',
@@ -3408,12 +3408,12 @@ export const CARDS: PMOCard[] = [
     ],
     proTip: 'The planning horizon rule: plan the next two weeks in hours, the next two months in days, and the next six months in weeks. Any more granularity beyond two weeks is usually wasted effort on a dynamic project.',
     example: 'A software team abandons their 200-line Gantt chart after two sprints when 60% of tasks have shifted. They switch to a three-level planning model: a quarterly OKR roadmap, a two-week sprint plan, and a daily standup. Planning time drops from four hours per week to 45 minutes, and delivery predictability improves.',
-    relatedCards: ['process-5', 'process-6', 'A14', 'A22', 'T1'],
+    relatedCards: ['PR5', 'PR6', 'A14', 'A22', 'T1'],
     tags: ['Planning', 'Agile', 'Adaptive', 'Performance Domain'],
   },
 
   {
-    id: 'process-19',
+    id: 'PR19',
     code: 'PR19',
     title: 'Delivery Performance Domain',
     deckId: 'process',
@@ -3430,12 +3430,12 @@ export const CARDS: PMOCard[] = [
     ],
     proTip: 'Replace your weekly status report with a value delivery dashboard showing three metrics: features delivered vs planned, customer satisfaction score, and defect escape rate. These three numbers tell the real story of project health.',
     example: 'An e-commerce platform team shifts from measuring sprint velocity (story points completed) to measuring business value delivered (revenue-generating features live, conversion rate improvement). In three months, they reduce their backlog by 40% by eliminating low-value features that were consuming velocity without delivering business outcomes.',
-    relatedCards: ['process-7', 'process-8', 'A14', 'A47'],
+    relatedCards: ['PR7', 'PR8', 'A14', 'A47'],
     tags: ['Delivery', 'Quality', 'Value', 'Performance Domain'],
   },
 
   {
-    id: 'process-20',
+    id: 'PR20',
     code: 'PR20',
     title: 'Measurement Performance Domain',
     deckId: 'process',
@@ -3452,12 +3452,12 @@ export const CARDS: PMOCard[] = [
     ],
     proTip: 'Limit your core project dashboard to five metrics. More than five and people stop reading it. Choose one metric each for: schedule health, budget health, quality, stakeholder satisfaction, and team wellbeing.',
     example: 'A construction project reports green on schedule and budget for six months, then suddenly requests a three-month extension. A post-mortem reveals that the weekly status report tracked 47 metrics but none measured subcontractor delivery risk. The PMO redesigns the dashboard to include a subcontractor performance index as a leading indicator.',
-    relatedCards: ['T3', 'process-5', 'A14', 'A23'],
+    relatedCards: ['T3', 'PR5', 'A14', 'A23'],
     tags: ['Metrics', 'Performance', 'Data', 'Performance Domain'],
   },
 
   {
-    id: 'process-21',
+    id: 'PR21',
     code: 'PR21',
     title: 'Uncertainty Performance Domain',
     deckId: 'process',
@@ -3474,7 +3474,7 @@ export const CARDS: PMOCard[] = [
     ],
     proTip: 'Run a pre-mortem at the start of every major phase: ask the team to imagine it is six months from now and the project has failed spectacularly. What happened? This exercise surfaces risks that people are too polite to raise in normal planning sessions.',
     example: 'A pharmaceutical company launching a new drug in three markets uses scenario planning to model four futures: regulatory approval in all markets, approval in two, approval in one, and no approval. Each scenario has a pre-defined response plan. When approval is delayed in one market, the team activates their pre-planned pivot within 48 hours rather than spending three weeks in crisis mode.',
-    relatedCards: ['process-3', 'T6', 'A33', 'A34'],
+    relatedCards: ['PR3', 'T6', 'A33', 'A34'],
     tags: ['Risk', 'Uncertainty', 'Resilience', 'Performance Domain'],
   },
 
@@ -3496,7 +3496,7 @@ export const CARDS: PMOCard[] = [
     ],
     proTip: 'Rotate the retrospective facilitator role among team members. When the PM always facilitates, team members self-censor. A peer facilitator creates a safer environment for honest feedback about the PM\'s own behaviours.',
     example: 'A Scrum team notices that their sprint reviews are consistently rushed because integration testing always takes longer than estimated. In their retrospective, they identify the root cause: integration tests are written after development, not before. They commit to test-first development for the next sprint. Within two sprints, integration testing time drops by 35%.',
-    relatedCards: ['M5', 'A22', 'A13', 'people-1'],
+    relatedCards: ['M5', 'A22', 'A13', 'P1'],
     tags: ['Agile', 'Scrum', 'Continuous Improvement', 'Team'],
   },
 
@@ -3518,12 +3518,12 @@ export const CARDS: PMOCard[] = [
     ],
     proTip: 'Start with a minimal DoD (3-5 criteria) and grow it over time. A DoD that is too ambitious at the start becomes a source of frustration rather than quality. Add one new criterion per retrospective as the team builds the habit.',
     example: 'A fintech startup\'s initial DoD has four items: code reviewed by a peer, unit tests written and passing, feature tested in staging, and product owner sign-off. After six sprints, they add: security scan passed, performance benchmark met, and rollback procedure documented. Their production incident rate drops by 60% over the following quarter.',
-    relatedCards: ['M5', 'A85', 'A82', 'process-8'],
+    relatedCards: ['M5', 'A85', 'A82', 'PR8'],
     tags: ['Agile', 'Scrum', 'Quality', 'Definition of Done'],
   },
 
   {
-    id: 'people-18',
+    id: 'P18',
     code: 'P18',
     title: 'Servant Leadership',
     deckId: 'people',
@@ -3540,7 +3540,7 @@ export const CARDS: PMOCard[] = [
     ],
     proTip: 'Track your impediment resolution time. If blockers are sitting unresolved for more than three days, you are not serving your team effectively. Make impediment removal your first task each morning before any other work.',
     example: 'A senior PM joins a struggling agile team that has missed three consecutive sprint goals. Rather than imposing a recovery plan, she spends the first week in listening mode: one-on-ones with each team member, attending standups without speaking, and reviewing the impediment log. She identifies that two engineers are blocked by an unresponsive external vendor. She escalates to the vendor\'s account manager and resolves the blocker in 48 hours. The next sprint is the team\'s first successful one in two months.',
-    relatedCards: ['people-2', 'people-4', 'A12', 'A42'],
+    relatedCards: ['P2', 'P4', 'A12', 'A42'],
     tags: ['Agile', 'Leadership', 'Servant Leadership', 'Performance Domain'],
   },
 
@@ -3584,7 +3584,7 @@ export const CARDS: PMOCard[] = [
     ],
     proTip: 'Treat AI as a junior analyst, not an oracle. The most effective PMs use AI to generate options and first drafts, then apply their own judgment to refine and decide. The PM who blindly trusts AI output is as dangerous as the one who refuses to use it at all.',
     example: 'A programme manager overseeing a 200-person digital transformation uses an AI scheduling tool to analyse 18 months of sprint velocity data. The AI identifies that velocity drops 23% in the two weeks following major releases — a pattern invisible in manual reporting. The PM builds release buffer weeks into the programme plan, eliminating three consecutive deadline misses.',
-    relatedCards: ['T22', 'T23', 'A88', 'process-3', 'T19'],
+    relatedCards: ['T22', 'T23', 'A88', 'PR3', 'T19'],
     tags: ['AI', 'Machine Learning', 'Automation', 'PMBOK 8', 'Technology'],
   },
 
@@ -3607,7 +3607,7 @@ export const CARDS: PMOCard[] = [
     ],
     proTip: 'The most actionable predictive analytics output is not a number — it is a trigger. Define in advance: "If the model predicts a >15% schedule overrun, we convene a recovery workshop within 48 hours." Without pre-defined response triggers, predictive outputs become interesting data that nobody acts on.',
     example: 'A construction firm implements a predictive analytics model trained on 50 previous infrastructure projects. When applied to a new highway project, the model flags in week 8 that the current productivity rate predicts a 6-week delay at completion — 4 months before the delay would become visible in traditional EVM. The PM accelerates procurement of a critical subcontractor, recovering 4 of the 6 weeks.',
-    relatedCards: ['T21', 'T9', 'A47', 'process-3', 'T22'],
+    relatedCards: ['T21', 'T9', 'A47', 'PR3', 'T22'],
     tags: ['Analytics', 'Forecasting', 'Risk', 'EVM', 'PMBOK 8', 'Data'],
   },
 
@@ -3630,7 +3630,7 @@ export const CARDS: PMOCard[] = [
     ],
     proTip: 'Automate the reporting, not the thinking. The biggest risk of PM automation is that it creates the illusion of control — beautiful automated dashboards that nobody reads critically. Automation should free up time for deeper stakeholder conversations and strategic thinking, not replace them.',
     example: 'A PMO at a global bank implements Power Automate to generate weekly project status reports from Jira and SharePoint data. The automation saves each of 12 PMs 3 hours per week — 36 hours of PM time per week redirected from report writing to stakeholder engagement. Project sponsor satisfaction scores increase by 18% in the following quarter.',
-    relatedCards: ['T21', 'T19', 'T20', 'process-11', 'A88'],
+    relatedCards: ['T21', 'T19', 'T20', 'PR11', 'A88'],
     tags: ['Automation', 'RPA', 'Workflow', 'PMBOK 8', 'Technology', 'Efficiency'],
   },
 
@@ -3653,7 +3653,7 @@ export const CARDS: PMOCard[] = [
     ],
     proTip: 'The Project Canvas is most valuable as a conversation tool, not a document. The discussions that happen while filling it in — especially disagreements about scope boundaries and success criteria — are more valuable than the finished canvas. If the team completes it without any debate, they are probably not being honest about the hard questions.',
     example: 'A retail chain\'s IT team uses a Project Canvas to kick off a new loyalty programme platform. In the 90-minute workshop, the team discovers that the marketing director and the CTO have fundamentally different definitions of "success" — marketing wants 500,000 sign-ups in year one; IT wants zero system downtime. The canvas forces this misalignment into the open two weeks before development starts, saving months of rework.',
-    relatedCards: ['T7', 'T3', 'process-6', 'process-1', 'A29'],
+    relatedCards: ['T7', 'T3', 'PR6', 'PR1', 'A29'],
     tags: ['Planning', 'Initiation', 'PMBOK 8', 'Visual', 'Charter', 'Alignment'],
   },
 
@@ -3676,7 +3676,7 @@ export const CARDS: PMOCard[] = [
     ],
     proTip: 'Drag is not just a scheduling curiosity — it is a prioritisation tool. When you have a limited compression budget, drag tells you exactly where each dollar of acceleration investment will have the greatest return. Always calculate drag before deciding where to crash.',
     example: 'A software project has a critical path of 120 days. Drag analysis reveals that the User Acceptance Testing activity has 18 days of drag — the highest on the critical path. By investing in parallel UAT environments and additional testers, the PM reduces UAT duration from 25 to 7 days, cutting the project duration by 18 days and delivering 3 weeks early.',
-    relatedCards: ['T18', 'T26', 'T4', 'process-5', 'A17'],
+    relatedCards: ['T18', 'T26', 'T4', 'PR5', 'A17'],
     tags: ['Schedule', 'Critical Path', 'PMBOK 8', 'Compression', 'Planning'],
   },
 
@@ -3699,7 +3699,7 @@ export const CARDS: PMOCard[] = [
     ],
     proTip: 'Drag cost is the language that turns schedule conversations from technical debates into business decisions. When you can show a sponsor that Activity X has a drag cost of £180,000 and can be compressed for £40,000 in additional resources, the decision becomes obvious. Always translate schedule metrics into financial terms when seeking sponsor support.',
     example: 'A pharmaceutical company\'s drug approval project has a drag cost of £85,000 per day (based on lost market exclusivity revenue). Drag analysis identifies that the clinical data compilation activity has 12 days of drag. Hiring two additional data analysts at £15,000 total eliminates the drag, generating a net benefit of £1,005,000. The sponsor approves the investment within 24 hours.',
-    relatedCards: ['T25', 'T18', 'T9', 'process-4', 'A17'],
+    relatedCards: ['T25', 'T18', 'T9', 'PR4', 'A17'],
     tags: ['Schedule', 'Cost', 'PMBOK 8', 'ROI', 'Critical Path', 'Finance'],
   },
 
@@ -3722,7 +3722,7 @@ export const CARDS: PMOCard[] = [
     ],
     proTip: 'The most common reason in-progress postmortems fail is that they become blame sessions rather than learning sessions. Set the psychological safety ground rules explicitly at the start: this is a blameless review of systems and processes, not an evaluation of individuals. Name the norm before you need it.',
     example: 'A major ERP implementation reaches its 6-month milestone having consumed 65% of the budget but completed only 40% of the scope. Rather than waiting for the end-of-project review, the PMO conducts an in-progress postmortem. The session reveals that the requirements definition process was fundamentally flawed — stakeholders were signing off on requirements they did not fully understand. The remaining 60% of the project is restructured with co-design workshops, ultimately delivering within the revised budget.',
-    relatedCards: ['A82', 'A83', 'process-11', 'T24', 'A15'],
+    relatedCards: ['A82', 'A83', 'PR11', 'T24', 'A15'],
     tags: ['Retrospective', 'Learning', 'PMBOK 8', 'Quality', 'Continuous Improvement'],
   },
 
@@ -3745,7 +3745,7 @@ export const CARDS: PMOCard[] = [
     ],
     proTip: 'The most valuable customer feedback is behavioural, not verbal. Watch what users do with your prototype, not just what they say about it. Users will often tell you "it\'s great" while simultaneously struggling to complete a basic task. Observation beats self-reporting every time.',
     example: 'A healthcare app team conducts fortnightly user tests with 5 patients throughout a 6-month development cycle. In week 10, a test reveals that elderly users cannot read the medication dosage text — a font size issue that would have affected 40% of the target audience. The fix takes 2 hours. Discovered at launch, it would have required a full redesign and re-approval cycle.',
-    relatedCards: ['A57', 'A58', 'M2', 'process-7', 'T24'],
+    relatedCards: ['A57', 'A58', 'M2', 'PR7', 'T24'],
     tags: ['User Research', 'Validation', 'PMBOK 8', 'Agile', 'UX', 'Requirements'],
   },
 
@@ -3768,7 +3768,7 @@ export const CARDS: PMOCard[] = [
     ],
     proTip: 'Always document your analogy explicitly: "This estimate is based on Project X (2022), adjusted +15% for scope and -10% for team experience." An undocumented analogous estimate is just a guess. The documentation also creates an audit trail that improves future estimates.',
     example: 'A PM is asked to estimate a new CRM implementation. A similar CRM project completed 18 months ago took 9 months and cost £450,000. The new project has 30% more users and a tighter integration requirement. The PM applies a 35% uplift, producing an estimate of 12 months and £607,500 — which proves accurate to within 8% at project completion.',
-    relatedCards: ['T30', 'T31', 'T4', 'process-4', 'A17'],
+    relatedCards: ['T30', 'T31', 'T4', 'PR4', 'A17'],
     tags: ['Estimating', 'Planning', 'Cost', 'Schedule', 'PMBOK 8'],
   },
 
@@ -3791,7 +3791,7 @@ export const CARDS: PMOCard[] = [
     ],
     proTip: 'The single biggest source of error in bottom-up estimates is the omission of integration and coordination work. When you sum up all the individual work packages, add 10–15% for the "glue work" — meetings, reviews, rework, and handoffs that are not captured in any individual work package but consume significant time.',
     example: 'A construction PM uses bottom-up estimating for a £2.3M office fit-out. The WBS identifies 340 work packages across 8 trades. Each trade supervisor estimates their own packages. The rolled-up estimate is £2.1M — 9% under the client\'s budget. The PM adds a 10% contingency reserve (£210,000), producing a final estimate of £2.31M that comes in at £2.28M at completion.',
-    relatedCards: ['T3', 'T29', 'T31', 'process-4', 'T4'],
+    relatedCards: ['T3', 'T29', 'T31', 'PR4', 'T4'],
     tags: ['Estimating', 'Planning', 'WBS', 'Cost', 'PMBOK 8', 'Accuracy'],
   },
 
@@ -3814,7 +3814,7 @@ export const CARDS: PMOCard[] = [
     ],
     proTip: 'Parametric estimates are only as good as the unit rate data behind them. Before applying a unit rate, verify that the historical projects it is based on are genuinely comparable — same technology, same team skill level, same quality standards. A unit rate from a 2015 project may be significantly wrong for a 2025 project due to technology changes.',
     example: 'A software development firm uses a parametric model based on function point analysis. Historical data from 30 projects shows an average of 6.5 hours per function point with a standard deviation of 1.2 hours. A new project is scoped at 850 function points. The estimate is 5,525 hours (±10%), which proves accurate to within 7% at completion.',
-    relatedCards: ['T29', 'T30', 'T4', 'process-4', 'A17'],
+    relatedCards: ['T29', 'T30', 'T4', 'PR4', 'A17'],
     tags: ['Estimating', 'Planning', 'Cost', 'Schedule', 'PMBOK 8', 'Statistical'],
   },
 
@@ -3837,7 +3837,7 @@ export const CARDS: PMOCard[] = [
     ],
     proTip: 'Most organisations dramatically underestimate their Cost of Non-Conformance because they only count direct rework costs. The hidden costs — management time spent on escalations, customer relationship damage, team morale impact, and opportunity cost of delayed delivery — are typically 3–5x the direct rework cost. Make these visible when building the case for quality investment.',
     example: 'A medical device manufacturer analyses CoQ for a new product line. Prevention costs (design reviews, process validation) are £180,000. Appraisal costs (testing, inspections) are £95,000. Internal failure costs (rework, scrap) are £340,000. External failure costs (warranty, complaints) are £520,000. The analysis shows that a £50,000 investment in improved process validation could eliminate 60% of internal failures — a £204,000 saving.',
-    relatedCards: ['process-8', 'A83', 'T33', 'A14', 'process-3'],
+    relatedCards: ['PR8', 'A83', 'T33', 'A14', 'PR3'],
     tags: ['Quality', 'Cost', 'PMBOK 8', 'Prevention', 'Conformance', 'Finance'],
   },
 
@@ -3860,7 +3860,7 @@ export const CARDS: PMOCard[] = [
     ],
     proTip: 'The most common misuse of control charts is treating every point outside the control limits as a crisis. Control limits are set at ±3 sigma, meaning approximately 0.3% of points will fall outside them by chance alone. Before escalating, check whether the out-of-control signal is part of a pattern or an isolated point — isolated points often have assignable causes that are quickly resolved.',
     example: 'A software testing team uses a control chart to monitor weekly defect escape rates (defects found in production vs. total defects). After 6 months of stable data (UCL: 8%, LCL: 2%), a new release shows a defect escape rate of 15% — well outside the UCL. The control chart triggers an immediate root cause investigation, which reveals a gap in the regression test suite. The gap is closed before the next release.',
-    relatedCards: ['T32', 'A83', 'process-8', 'A14', 'A3'],
+    relatedCards: ['T32', 'A83', 'PR8', 'A14', 'A3'],
     tags: ['Quality', 'Statistical', 'PMBOK 8', 'Six Sigma', 'Process Control', 'Monitoring'],
   },
 
@@ -3883,7 +3883,7 @@ export const CARDS: PMOCard[] = [
     ],
     proTip: 'Fast-tracking is free but not cheap — the rework risk is real. Before fast-tracking, ask: "What happens to Activity B if Activity A changes after B has started?" If the answer is "significant rework," the risk cost of fast-tracking may exceed the cost of crashing. Always quantify the rework risk before choosing fast-tracking over crashing.',
     example: 'A product launch is 3 weeks behind schedule due to a supplier delay. The PM evaluates compression options. Crashing the testing phase costs £25,000 per week saved. Fast-tracking the packaging design to overlap with testing saves 2 weeks at zero direct cost but creates a 30% risk of packaging rework (estimated cost: £18,000). The PM fast-tracks packaging (expected cost: £5,400) and crashes testing for 1 week (£25,000), recovering 3 weeks for £30,400 — versus £75,000 for pure crashing.',
-    relatedCards: ['T18', 'T25', 'T4', 'process-5', 'A17'],
+    relatedCards: ['T18', 'T25', 'T4', 'PR5', 'A17'],
     tags: ['Schedule', 'Compression', 'PMBOK 8', 'Crashing', 'Fast-Tracking', 'Recovery'],
   },
 
@@ -3975,7 +3975,7 @@ export const CARDS: PMOCard[] = [
     ],
     proTip: 'The most important step in MCDA is the weighting discussion, not the scoring. Different stakeholders will assign very different weights to the same criteria — and those differences reveal the real strategic priorities and tensions. Facilitate the weighting discussion explicitly before scoring, and document the rationale for agreed weights.',
     example: 'A PMO evaluates 4 project management software platforms using MCDA. Criteria: ease of use (30%), integration capability (25%), cost (20%), vendor support (15%), and reporting capability (10%). Platform B scores highest overall (78/100) despite not being the cheapest option. The weighted analysis shows that its superior integration capability (scored 5/5 on a 25%-weighted criterion) outweighs its higher cost.',
-    relatedCards: ['A16', 'T24', 'process-13', 'A47', 'A27'],
+    relatedCards: ['A16', 'T24', 'PR13', 'A47', 'A27'],
     tags: ['Decision-Making', 'PMBOK 8', 'Procurement', 'Scoring', 'Analysis'],
   },
 
@@ -3998,7 +3998,7 @@ export const CARDS: PMOCard[] = [
     ],
     proTip: 'TCPI is the most honest metric in EVM because it quantifies the gap between where you are and where you need to be. A TCPI of 1.35 means you need to be 35% more efficient on remaining work than you have been — which is almost never achievable without a fundamental change in approach. Use TCPI to have the hard conversation about budget revision early, not late.',
     example: 'A project has BAC = £500,000, EV = £200,000, and AC = £280,000. CPI = 0.71 (spending £1.41 for every £1 of value). TCPI to BAC = (500,000 − 200,000) ÷ (500,000 − 280,000) = 300,000 ÷ 220,000 = 1.36. The project would need to be 36% more efficient on remaining work — clearly unrealistic. The PM uses this analysis to justify a revised EAC of £700,000 to the sponsor.',
-    relatedCards: ['T9', 'process-4', 'A17', 'T26', 'T32'],
+    relatedCards: ['T9', 'PR4', 'A17', 'T26', 'T32'],
     tags: ['EVM', 'Cost', 'PMBOK 8', 'Performance', 'Forecasting', 'Budget'],
   },
 
@@ -4021,7 +4021,7 @@ export const CARDS: PMOCard[] = [
     ],
     proTip: 'The most common benchmarking mistake is comparing your worst performance to the benchmark\'s best. Most benchmarks report median or average performance, not best-in-class. Before concluding you have a gap, verify what percentile the benchmark represents. Aiming for the 90th percentile when you are at the 40th is a very different improvement challenge than aiming for the median.',
     example: 'A PMO benchmarks its schedule performance against the PMI Pulse of the Profession survey, which reports that 57% of projects meet their original schedule. The PMO\'s internal data shows only 38% of projects meet schedule. The 19-percentage-point gap triggers a root cause analysis, which identifies inadequate risk management and optimistic estimating as the primary causes. Targeted improvements close the gap to 51% within 18 months.',
-    relatedCards: ['T32', 'T33', 'process-8', 'A83', 'T27'],
+    relatedCards: ['T32', 'T33', 'PR8', 'A83', 'T27'],
     tags: ['Quality', 'Process Improvement', 'PMBOK 8', 'Performance', 'Standards'],
   },
 
@@ -4044,7 +4044,7 @@ export const CARDS: PMOCard[] = [
     ],
     proTip: 'The most valuable prompt list category is usually the one the team wants to skip. Teams are naturally drawn to technical risks (they are comfortable discussing them) and naturally avoid political and organisational risks (they feel sensitive). Explicitly allocate equal time to each category, and consider having an external facilitator lead the political and organisational risk discussion.',
     example: 'A government IT project team uses a PESTLE prompt list in their risk workshop. The Political category surfaces a risk that had not been raised: an upcoming election could change the policy priorities that justify the project. This risk, rated High probability/High impact, leads to the creation of a political risk response plan and a benefits realisation framework that demonstrates value independent of the current policy direction.',
-    relatedCards: ['T11', 'A47', 'process-3', 'BE05', 'A48'],
+    relatedCards: ['T11', 'A47', 'PR3', 'BE05', 'A48'],
     tags: ['Risk', 'PMBOK 8', 'Identification', 'PESTLE', 'Checklist', 'Planning'],
   },
 
@@ -4068,7 +4068,7 @@ export const CARDS: PMOCard[] = [
     ],
     proTip: 'The most commonly overlooked cost in make-or-buy analysis is the cost of ongoing maintenance and evolution. A component that is cheaper to build than to buy may be significantly more expensive to maintain over a 5-year horizon. Always extend the analysis to a 3–5 year total cost of ownership, not just the initial build or purchase cost.',
     example: 'A logistics company evaluates whether to build a custom route optimisation algorithm or buy a SaaS solution. Build cost: £380,000 (development) + £45,000/year (maintenance). Buy cost: £60,000/year (SaaS licence) + £25,000 (integration). Over 5 years: Build = £605,000; Buy = £325,000. However, the build option creates a proprietary algorithm that could become a competitive differentiator. The analysis recommends buying for now, with a review at year 3 if the market differentiator case strengthens.',
-    relatedCards: ['process-10', 'A27', 'T38', 'process-4', 'A16'],
+    relatedCards: ['PR10', 'A27', 'T38', 'PR4', 'A16'],
     tags: ['Procurement', 'Decision-Making', 'PMBOK 8', 'Cost', 'Strategy', 'Build-vs-Buy'],
   },
 
@@ -4091,7 +4091,7 @@ export const CARDS: PMOCard[] = [
     ],
     proTip: 'The ROI of AR/VR in project management is highest when it replaces a decision that would otherwise require physical travel or a costly physical mock-up. A VR design review that saves 3 rounds of physical prototype iteration can pay for the entire VR investment on a single project. Calculate the cost of the decisions it replaces, not just the cost of the technology.',
     example: 'A hospital construction project uses VR to conduct a design review with clinical staff before finalising the operating theatre layout. During the VR walkthrough, a senior surgeon identifies that the equipment positioning would require her to turn her back to the patient during a critical procedure — a safety issue invisible in 2D drawings. The design change costs £8,000 to implement at design stage; the same change during construction would have cost £180,000.',
-    relatedCards: ['T21', 'T23', 'A88', 'process-7', 'T19'],
+    relatedCards: ['T21', 'T23', 'A88', 'PR7', 'T19'],
     tags: ['Technology', 'PMBOK 8', 'Innovation', 'Visualisation', 'AR', 'VR', 'Collaboration'],
   },
 
@@ -4114,7 +4114,7 @@ export const CARDS: PMOCard[] = [
     ],
     proTip: 'The most commonly neglected principle in practice is Principle 5 (Integrate Sustainability). Most project teams interpret sustainability as an environmental compliance checkbox rather than a genuine design consideration. Challenge your team to ask: "How does this project create or destroy social and environmental value?" The answer often reveals risks and opportunities that traditional project analysis misses.',
     example: 'A global retailer uses the PMBOK 8 principles to evaluate a supply chain optimisation project. Principle 5 (Sustainability) prompts the team to assess the carbon impact of the proposed logistics changes. The analysis reveals that the most cost-efficient route option increases carbon emissions by 12%. The team redesigns the solution to achieve 90% of the cost saving with a 3% emissions reduction — a better outcome that the principles framework surfaced.',
-    relatedCards: ['A89', 'M8', 'M9', 'process-13', 'A12'],
+    relatedCards: ['A89', 'M8', 'M9', 'PR13', 'A12'],
     tags: ['PMBOK 8', 'Principles', 'Governance', 'Sustainability', 'Leadership', 'Framework'],
   },
 
@@ -4137,7 +4137,7 @@ export const CARDS: PMOCard[] = [
     ],
     proTip: 'The most effective way to make sustainability real in a project is to put it in the business case, not the risk register. When sustainability is framed as a risk to be mitigated, it becomes a compliance exercise. When it is framed as a value driver — reducing energy costs, attracting ESG-conscious investors, building brand reputation — it becomes a strategic priority that sponsors actively support.',
     example: 'A data centre construction project sets a carbon target of 30% below industry average. The project team integrates sustainability into procurement (requiring suppliers to provide carbon data), design (specifying energy-efficient cooling systems), and construction (mandating waste segregation and recycling). At project closure, the actual carbon footprint is 34% below industry average — exceeding the target and generating a £2.1M annual energy cost saving for the client.',
-    relatedCards: ['A88', 'process-10', 'BE05', 'A12', 'A89'],
+    relatedCards: ['A88', 'PR10', 'BE05', 'A12', 'A89'],
     tags: ['PMBOK 8', 'Sustainability', 'ESG', 'Governance', 'Environment', 'Social'],
   },
 
@@ -4160,7 +4160,7 @@ export const CARDS: PMOCard[] = [
     ],
     proTip: 'The most overlooked VRIO criterion is Organisation (the O). Many organisations build valuable, rare, and inimitable capabilities through projects, then fail to realise their value because the organisational structure, incentives, and processes are not aligned to exploit them. Before closing a capability-building project, explicitly assess whether the organisation is structured to use what has been built.',
     example: 'A financial services firm uses VRIO to evaluate a proposed AI-powered credit risk model. Value: high (reduces default rates by 15%). Rarity: moderate (3 competitors have similar models). Imitability: high (the model is trained on 10 years of proprietary customer data that competitors cannot access). Organisation: initially low (the data science team is siloed from credit operations). The VRIO analysis triggers an organisational redesign to embed data scientists within credit teams — unlocking the model\'s full value.',
-    relatedCards: ['A88', 'A89', 'BE05', 'A27', 'process-13'],
+    relatedCards: ['A88', 'A89', 'BE05', 'A27', 'PR13'],
     tags: ['Strategy', 'PMBOK 8', 'Competitive Advantage', 'Resources', 'VRIO', 'Business Case'],
   },
 
@@ -4229,13 +4229,13 @@ export const CARDS: PMOCard[] = [
     ],
     proTip: 'COCOMO is only as good as the size estimate it is based on. The most common error is applying COCOMO to a vague requirements document and treating the output as a precise estimate. Always document the assumptions behind the size estimate and express the COCOMO output as a range (±30% for early estimates) rather than a point estimate.',
     example: 'A government agency uses COCOMO II to estimate a new benefits management system. Function point analysis yields 1,200 function points (approximately 120 KSLOC). With Semi-detached project type constants and cost driver adjustments for a moderately experienced team, COCOMO estimates 480 person-months of effort and a 24-month duration with a team of 20. The actual project completes in 26 months with 510 person-months — within the ±15% confidence range.',
-    relatedCards: ['T31', 'T29', 'T30', 'process-4', 'A17'],
+    relatedCards: ['T31', 'T29', 'T30', 'PR4', 'A17'],
     tags: ['Estimating', 'Software', 'PMBOK 8', 'Parametric', 'Cost', 'Planning'],
   },
 
   // ── P19: Organisational Cultural Intelligence ──────────────────────────────
   {
-    id: 'people-19',
+    id: 'P19',
     code: 'P19',
     title: 'Organisational Cultural Intelligence',
     deckId: 'people',
@@ -4253,13 +4253,13 @@ export const CARDS: PMOCard[] = [
     ],
     proTip: 'The most dangerous cultural assumption in project management is that your own cultural default is "normal" and everyone else is "different." High-CQ project managers approach every cultural interaction with genuine curiosity rather than judgment. Ask "how does this team prefer to work?" rather than "why don\'t they work like us?"',
     example: 'A European PM leads a project team with members from Germany, India, and Japan. She notices that Indian and Japanese team members rarely raise concerns in group meetings, while German members are very direct. Using CQ strategy, she introduces one-on-one check-ins before each team meeting to surface concerns privately, and creates a written "concerns log" that allows asynchronous input. Team engagement scores increase by 34%, and three critical risks are identified that had not been raised in group sessions.',
-    relatedCards: ['people-1', 'people-14', 'people-11', 'A42', 'A44'],
+    relatedCards: ['P1', 'P14', 'P11', 'A42', 'A44'],
     tags: ['People', 'Culture', 'PMBOK 8', 'Leadership', 'Diversity', 'Global Teams'],
   },
 
   // ── P20: Green Human Resource Management ──────────────────────────────────
   {
-    id: 'people-20',
+    id: 'P20',
     code: 'P20',
     title: 'Green Human Resource Management',
     deckId: 'people',
@@ -4277,13 +4277,13 @@ export const CARDS: PMOCard[] = [
     ],
     proTip: 'Green HRM fails when it is imposed as a compliance requirement rather than embedded as a genuine team value. The most effective approach is to involve the team in setting their own sustainability targets — people are far more committed to goals they have helped define. Start with one or two highly visible, achievable sustainability actions (e.g., eliminating single-use plastics from the project office) to build momentum before tackling harder targets.',
     example: 'A major infrastructure project implements Green HRM practices across a 150-person project team. Sustainability KPIs are added to all team member objectives. A green travel policy reduces project-related flights by 40% (replaced by video conferencing). A sustainable procurement requirement eliminates single-use plastics from site. At project closure, the team\'s carbon footprint is 28% below the baseline — and team engagement scores are 12% higher than comparable projects without Green HRM, suggesting that sustainability purpose enhances team motivation.',
-    relatedCards: ['A89', 'A88', 'people-3', 'people-5', 'process-10'],
+    relatedCards: ['A89', 'A88', 'P3', 'P5', 'PR10'],
     tags: ['People', 'Sustainability', 'PMBOK 8', 'ESG', 'HR', 'Environment', 'Green'],
   },
 
   // ── P21: Storytelling in Project Management ────────────────────────────────
   {
-    id: 'people-21',
+    id: 'P21',
     code: 'P21',
     title: 'Storytelling in Project Management',
     deckId: 'people',
@@ -4301,7 +4301,7 @@ export const CARDS: PMOCard[] = [
     ],
     proTip: 'The most powerful project stories are about failure and recovery, not success. Stakeholders are naturally sceptical of success stories (they assume they are being sold to). Stories about a problem the team encountered, how they responded, and what they learned build far more credibility and trust than polished success narratives. Vulnerability in storytelling is a leadership strength, not a weakness.',
     example: 'A programme director uses storytelling to communicate a major scope change to 300 affected employees. Rather than presenting a slide deck of changes, she tells the story of a specific customer — "Maria, a 67-year-old pensioner who has been calling our helpline every week for three years trying to understand her benefits statement." The story makes the abstract programme objective (simplify the benefits statement) personal and urgent. Employee engagement with the change programme increases by 45% compared to the previous communications approach.',
-    relatedCards: ['people-9', 'people-17', 'process-11', 'A44', 'A42'],
+    relatedCards: ['P9', 'P17', 'PR11', 'A44', 'A42'],
     tags: ['People', 'Communication', 'PMBOK 8', 'Leadership', 'Change Management', 'Narrative'],
   },
 ];

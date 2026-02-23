@@ -75,8 +75,8 @@ export const LEARNING_JOURNEYS: LearningJourney[] = [
         color: '#D97706',
         steps: [
           { cardId: 'phase-execution', rationale: 'Understand what execution really means — it\'s more than just doing the work.' },
-          { cardId: 'process-2', rationale: 'Keep stakeholders informed with a structured communication approach.' },
-          { cardId: 'process-10', rationale: 'Handle change requests without letting scope creep derail you.' },
+          { cardId: 'PR2', rationale: 'Keep stakeholders informed with a structured communication approach.' },
+          { cardId: 'PR10', rationale: 'Handle change requests without letting scope creep derail you.' },
           { cardId: 'T7', rationale: 'When things get tight, use MoSCoW to prioritise what must be delivered.', milestone: 'Delivery Confident' },
         ],
       },
@@ -212,7 +212,7 @@ export const LEARNING_JOURNEYS: LearningJourney[] = [
         color: '#0284C7',
         steps: [
           { cardId: 'A20', rationale: 'Implement integrated change control to govern all programme changes.' },
-          { cardId: 'process-14', rationale: 'Design and maintain appropriate oversight and decision-making structures.' },
+          { cardId: 'PR14', rationale: 'Design and maintain appropriate oversight and decision-making structures.' },
           { cardId: 'A89', rationale: 'Embed ESG and sustainability considerations into programme governance.' },
           { cardId: 'business-1', rationale: 'Ensure your programme meets all regulatory and legal requirements.' },
           { cardId: 'business-2', rationale: 'Keep the entire programme focused on delivering measurable business value.', milestone: '🎯 PMO Leader' },
@@ -277,9 +277,9 @@ export const LEARNING_JOURNEYS: LearningJourney[] = [
         description: 'Lead diverse teams, embed sustainability, and communicate with impact.',
         color: '#059669',
         steps: [
-          { cardId: 'people-19', rationale: 'Develop cultural intelligence to lead effectively across diverse and international teams.' },
-          { cardId: 'people-20', rationale: 'Integrate green HRM practices to embed sustainability into team culture.' },
-          { cardId: 'people-21', rationale: 'Use storytelling to communicate vision, build buy-in, and inspire action.' },
+          { cardId: 'P19', rationale: 'Develop cultural intelligence to lead effectively across diverse and international teams.' },
+          { cardId: 'P20', rationale: 'Integrate green HRM practices to embed sustainability into team culture.' },
+          { cardId: 'P21', rationale: 'Use storytelling to communicate vision, build buy-in, and inspire action.' },
           { cardId: 'A89', rationale: 'Embed ESG considerations into your project planning and reporting.' },
           { cardId: 'A90', rationale: 'Apply the VRIO framework to assess which capabilities to build or outsource.', milestone: '🌟 PMBOK 8 Certified' },
         ],

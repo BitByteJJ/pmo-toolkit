@@ -12,8 +12,8 @@
  *   phase-setup, phase-execution, phase-closure  (Phases deck)
  *   AG1, AG2, AG3                                (Agile/methodology archetypes)
  *   M1–M4                                        (Methodologies)
- *   people-1 … people-14                         (People domain)
- *   process-1 … process-17                       (Process domain)
+ *   P1 … P14                         (People domain)
+ *   PR1 … PR17                       (Process domain)
  *   business-1 … business-4                      (Business domain)
  *   T1–T43                                       (Tools deck)
  *   A1–A93                                       (Advanced Techniques deck)
@@ -106,12 +106,6 @@ export const DECISION_QUESTIONS: DecisionQuestion[] = [
         description: 'Predictive analytics, automation, sustainability, and PMBOK 8 tools',
         nextQuestionId: 'q-pmbok8',
       },
-      {
-        id: 'a-pmbok8',
-        label: 'I want to explore AI, data, or modern PM techniques',
-        description: 'Predictive analytics, automation, sustainability, and PMBOK 8 tools',
-        nextQuestionId: 'q-pmbok8',
-      },
     ],
   },
 
@@ -143,13 +137,13 @@ export const DECISION_QUESTIONS: DecisionQuestion[] = [
         id: 'a-new-team',
         label: 'I need to work with a team but I\'ve never led one before',
         description: 'Roles, responsibilities, and getting people working together',
-        recommendations: ['people-6', 'A38', 'T3', 'A2'],
+        recommendations: ['P6', 'A38', 'T3', 'A2'],
       },
       {
         id: 'a-new-sponsor',
         label: 'I need to get buy-in from my manager or senior leaders',
         description: 'Presenting your project and getting support',
-        recommendations: ['T5', 'T8', 'A66', 'people-9'],
+        recommendations: ['T5', 'T8', 'A66', 'P9'],
       },
     ],
   },
@@ -164,13 +158,13 @@ export const DECISION_QUESTIONS: DecisionQuestion[] = [
         id: 'a-plan-schedule',
         label: 'I don\'t know how to create a realistic timeline',
         description: 'Working out what happens when, and in what order',
-        recommendations: ['T1', 'A17', 'A29', 'process-6'],
+        recommendations: ['T1', 'A17', 'A29', 'PR6'],
       },
       {
         id: 'a-plan-scope',
         label: 'I\'m not clear on what\'s in and out of scope',
         description: 'Defining boundaries and managing requests for more work',
-        recommendations: ['T2', 'T3', 'A62', 'process-8'],
+        recommendations: ['T2', 'T3', 'A62', 'PR8'],
       },
       {
         id: 'a-plan-estimate',
@@ -182,13 +176,13 @@ export const DECISION_QUESTIONS: DecisionQuestion[] = [
         id: 'a-plan-budget',
         label: 'My project is going over budget and I\'m not sure how to fix it',
         description: 'Tracking spend and getting finances back under control',
-        recommendations: ['T4', 'T1', 'process-5', 'process-9'],
+        recommendations: ['T4', 'T1', 'PR5', 'PR9'],
       },
       {
         id: 'a-plan-resource',
         label: 'I don\'t have the right people or enough capacity',
         description: 'Working out who does what and managing workloads',
-        recommendations: ['T3', 'A38', 'people-2', 'process-9'],
+        recommendations: ['T3', 'A38', 'P2', 'PR9'],
       },
     ],
   },
@@ -203,37 +197,37 @@ export const DECISION_QUESTIONS: DecisionQuestion[] = [
         id: 'a-people-conflict',
         label: 'There\'s tension or conflict in my team',
         description: 'Disagreements, difficult personalities, or a team that isn\'t gelling',
-        recommendations: ['people-1', 'A43', 'A39', 'A42'],
+        recommendations: ['P1', 'A43', 'A39', 'A42'],
       },
       {
         id: 'a-people-engage',
         label: 'Key people aren\'t engaged or are pushing back on the project',
         description: 'Getting support from stakeholders who are resistant or disinterested',
-        recommendations: ['people-9', 'T5', 'T6', 'A66'],
+        recommendations: ['P9', 'T5', 'T6', 'A66'],
       },
       {
         id: 'a-people-team',
         label: 'I\'m building a new team or the team isn\'t working well together yet',
         description: 'Getting people aligned, clear on roles, and working as a unit',
-        recommendations: ['people-6', 'A38', 'A2', 'people-3'],
+        recommendations: ['P6', 'A38', 'A2', 'P3'],
       },
       {
         id: 'a-people-lead',
         label: 'I\'m not sure how to lead or manage the people on my project',
         description: 'When to step in, when to delegate, and how to get the best from people',
-        recommendations: ['A44', 'A67', 'people-4', 'A45'],
+        recommendations: ['A44', 'A67', 'P4', 'A45'],
       },
       {
         id: 'a-people-motivate',
         label: 'My team seems disengaged or low on energy',
         description: 'Morale is low, people are going through the motions, or enthusiasm has dropped',
-        recommendations: ['A56', 'A42', 'A60', 'people-3'],
+        recommendations: ['A56', 'A42', 'A60', 'P3'],
       },
       {
         id: 'a-people-negotiate',
         label: 'I need to reach an agreement with someone who has different priorities',
         description: 'Negotiating with suppliers, sponsors, or other teams',
-        recommendations: ['people-8', 'T6', 'A52', 'people-9'],
+        recommendations: ['P8', 'T6', 'A52', 'P9'],
       },
     ],
   },
@@ -254,25 +248,25 @@ export const DECISION_QUESTIONS: DecisionQuestion[] = [
         id: 'a-risk-assess',
         label: 'I have a list of risks but don\'t know which ones to focus on',
         description: 'Working out which risks are most serious and need attention first',
-        recommendations: ['T7', 'A57', 'A31', 'process-3'],
+        recommendations: ['T7', 'A57', 'A31', 'PR3'],
       },
       {
         id: 'a-risk-respond',
         label: 'I know the risks — I need a plan to deal with them',
         description: 'Building responses, backup plans, and contingencies',
-        recommendations: ['T7', 'process-3', 'A47', 'process-9'],
+        recommendations: ['T7', 'PR3', 'A47', 'PR9'],
       },
       {
         id: 'a-risk-issue',
         label: 'Something has already gone wrong and I need to fix it',
         description: 'An active problem, crisis, or issue that needs resolving now',
-        recommendations: ['A41', 'A46', 'people-7', 'process-15'],
+        recommendations: ['A41', 'A46', 'P7', 'PR15'],
       },
       {
         id: 'a-risk-compliance',
         label: 'I need to meet regulatory or audit requirements',
         description: 'Compliance, documentation trails, or external oversight',
-        recommendations: ['A65', 'A62', 'T7', 'process-14'],
+        recommendations: ['A65', 'A62', 'T7', 'PR14'],
       },
     ],
   },
@@ -287,19 +281,19 @@ export const DECISION_QUESTIONS: DecisionQuestion[] = [
         id: 'a-del-track',
         label: 'I\'m not sure if we\'re on track or how to show progress to others',
         description: 'Reporting, dashboards, and keeping stakeholders informed',
-        recommendations: ['T4', 'A61', 'T1', 'process-5'],
+        recommendations: ['T4', 'A61', 'T1', 'PR5'],
       },
       {
         id: 'a-del-quality',
         label: 'The work being delivered isn\'t meeting the standard expected',
         description: 'Quality problems, errors, or rework',
-        recommendations: ['A40', 'A41', 'A46', 'process-7'],
+        recommendations: ['A40', 'A41', 'A46', 'PR7'],
       },
       {
         id: 'a-del-change',
         label: 'People keep asking for more things and the scope keeps growing',
         description: 'Managing new requests and keeping the project focused',
-        recommendations: ['T2', 'process-8', 'T7', 'A64'],
+        recommendations: ['T2', 'PR8', 'T7', 'A64'],
       },
       {
         id: 'a-del-agile',
@@ -311,13 +305,13 @@ export const DECISION_QUESTIONS: DecisionQuestion[] = [
         id: 'a-del-bottleneck',
         label: 'Work keeps getting stuck or slowing down at certain points',
         description: 'Bottlenecks, blockers, and things that stop the team moving forward',
-        recommendations: ['M3', 'A47', 'people-7', 'A34'],
+        recommendations: ['M3', 'A47', 'P7', 'A34'],
       },
       {
         id: 'a-del-comms',
         label: 'The team isn\'t communicating well or meetings feel unproductive',
         description: 'Information sharing, alignment, and collaboration',
-        recommendations: ['T6', 'A61', 'A59', 'people-10'],
+        recommendations: ['T6', 'A61', 'A59', 'P10'],
       },
     ],
   },
@@ -350,13 +344,13 @@ export const DECISION_QUESTIONS: DecisionQuestion[] = [
         id: 'a-strat-governance',
         label: 'I need to set up clearer rules for who decides what',
         description: 'Accountability, escalation, and oversight structures',
-        recommendations: ['A64', 'A52', 'T3', 'process-14'],
+        recommendations: ['A64', 'A52', 'T3', 'PR14'],
       },
       {
         id: 'a-strat-benefits',
         label: 'I need to show that the project actually delivered value',
         description: 'Measuring outcomes and proving the investment was worthwhile',
-        recommendations: ['business-1', 'T8', 'A81', 'process-17'],
+        recommendations: ['business-1', 'T8', 'A81', 'PR17'],
       },
     ],
   },
@@ -449,25 +443,25 @@ export const DECISION_QUESTIONS: DecisionQuestion[] = [
         id: 'a-close-lessons',
         label: 'I want to capture what we learned so we don\'t repeat the same mistakes',
         description: 'Reflecting on what went well, what didn\'t, and why',
-        recommendations: ['A58', 'phase-closure', 'A40', 'process-17'],
+        recommendations: ['A58', 'phase-closure', 'A40', 'PR17'],
       },
       {
         id: 'a-close-handover',
         label: 'I need to hand the project over to the people who will run it day-to-day',
         description: 'Transition, documentation, and making sure nothing gets lost',
-        recommendations: ['A79', 'phase-closure', 'A63', 'process-16'],
+        recommendations: ['A79', 'phase-closure', 'A63', 'PR16'],
       },
       {
         id: 'a-close-benefits',
         label: 'I need to show whether the project actually achieved what it set out to do',
         description: 'Measuring outcomes and proving the value delivered',
-        recommendations: ['business-1', 'A81', 'T8', 'process-17'],
+        recommendations: ['business-1', 'A81', 'T8', 'PR17'],
       },
       {
         id: 'a-close-celebrate',
         label: 'I want to recognise the team\'s effort and close on a positive note',
         description: 'Celebrating success and giving people proper closure',
-        recommendations: ['phase-closure', 'A58', 'people-3', 'A60'],
+        recommendations: ['phase-closure', 'A58', 'P3', 'A60'],
       },
     ],
   },
@@ -511,7 +505,7 @@ export const DECISION_QUESTIONS: DecisionQuestion[] = [
         id: 'a-pmbok8-sustainability',
         label: 'I need to address sustainability or ESG in my project',
         description: 'Environmental, social, and governance considerations',
-        recommendations: ['A89', 'people-20', 'A90', 'business-4'],
+        recommendations: ['A89', 'P20', 'A90', 'business-4'],
       },
     ],
   },
@@ -531,61 +525,61 @@ export const RESULT_HEADLINES: Record<string, { headline: string; rationale: str
     { headline: 'First Steps for a New Project', rationale: 'These tools help you kick off a project the right way — defining what you\'re doing, who\'s involved, and how you\'ll communicate.' },
   'AG1,AG2,AG3,M4':
     { headline: 'Choosing Your Delivery Approach', rationale: 'These frameworks help you assess your project\'s context and choose between Agile, Waterfall, or a hybrid approach.' },
-  'people-6,A38,T3,A2':
+  'P6,A38,T3,A2':
     { headline: 'Building and Leading Your First Team', rationale: 'These tools help you clarify roles, get people working together, and understand what makes a team effective.' },
-  'T5,T8,A66,people-9':
+  'T5,T8,A66,P9':
     { headline: 'Getting Buy-In and Support', rationale: 'These techniques help you understand your stakeholders, communicate your project\'s value, and build the support you need to succeed.' },
 
   // ── Planning ───────────────────────────────────────────────────────────────
-  'T1,A17,A29,process-6':
+  'T1,A17,A29,PR6':
     { headline: 'Building a Realistic Timeline', rationale: 'These tools help you plan a schedule that accounts for dependencies, critical tasks, and realistic estimates — so you can commit to dates with confidence.' },
-  'T2,T3,A62,process-8':
+  'T2,T3,A62,PR8':
     { headline: 'Defining and Protecting Scope', rationale: 'Use these to be crystal clear about what the project will and won\'t deliver, and to manage requests for additional work formally.' },
   'A17,A80,A82,T4':
     { headline: 'Estimating Time and Cost', rationale: 'These techniques range from expert judgement to data-driven sizing, helping you produce estimates that are honest and defensible.' },
-  'T4,T1,process-5,process-9':
+  'T4,T1,PR5,PR9':
     { headline: 'Getting the Budget Back on Track', rationale: 'These tools help you understand where the money is going, forecast final costs, and take corrective action before it\'s too late.' },
-  'T3,A38,people-2,process-9':
+  'T3,A38,P2,PR9':
     { headline: 'Sorting Out Roles and Capacity', rationale: 'Clarify who does what, balance workloads fairly, and make sure the right people are assigned to the right tasks.' },
 
   // ── People ─────────────────────────────────────────────────────────────────
-  'people-1,A43,A39,A42':
+  'P1,A43,A39,A42':
     { headline: 'Resolving Team Conflict', rationale: 'These frameworks help you understand the source of tension, choose the right approach to resolve it, and rebuild trust within the team.' },
-  'people-9,T5,T6,A66':
+  'P9,T5,T6,A66':
     { headline: 'Engaging Difficult Stakeholders', rationale: 'Map who matters, understand their concerns, and use structured techniques to build genuine support for your project.' },
-  'people-6,A38,A2,people-3':
+  'P6,A38,A2,P3':
     { headline: 'Getting Your Team Working Well Together', rationale: 'Build a cohesive, high-performing team from day one using these evidence-based models for team development and role clarity.' },
-  'A44,A67,people-4,A45':
+  'A44,A67,P4,A45':
     { headline: 'Leading and Delegating Effectively', rationale: 'Adapt your leadership style to the situation, know when to step in and when to step back, and empower your team to do their best work.' },
-  'A56,A42,A60,people-3':
+  'A56,A42,A60,P3':
     { headline: 'Rebuilding Team Motivation', rationale: 'Understand what drives your team members individually and create the conditions for sustained engagement and high performance.' },
-  'people-8,T6,A52,people-9':
+  'P8,T6,A52,P9':
     { headline: 'Reaching Agreements with Others', rationale: 'Structure your negotiations, understand the other side\'s interests, and reach durable agreements with vendors, sponsors, and partners.' },
 
   // ── Risk ───────────────────────────────────────────────────────────────────
   'T7,A32,A53,A51':
     { headline: 'Spotting Problems Before They Happen', rationale: 'Use structured brainstorming, environmental scanning, and sense-making to uncover risks you haven\'t thought of yet.' },
-  'T7,A57,A31,process-3':
+  'T7,A57,A31,PR3':
     { headline: 'Deciding Which Risks to Focus On', rationale: 'Score and rank your risks so you can focus your energy where it will make the most difference.' },
-  'T7,process-3,A47,process-9':
+  'T7,PR3,A47,PR9':
     { headline: 'Planning How to Handle Risks', rationale: 'Build contingency plans and mitigation strategies before risks turn into real problems.' },
-  'A41,A46,people-7,process-15':
+  'A41,A46,P7,PR15':
     { headline: 'Fixing Something That\'s Already Gone Wrong', rationale: 'Structured problem-solving tools to diagnose root causes, resolve active issues, and prevent recurrence.' },
-  'A65,A62,T7,process-14':
+  'A65,A62,T7,PR14':
     { headline: 'Meeting Compliance and Audit Requirements', rationale: 'Ensure traceability, close compliance gaps, and satisfy regulatory or external oversight requirements.' },
 
   // ── Delivery ───────────────────────────────────────────────────────────────
-  'T4,A61,T1,process-5':
+  'T4,A61,T1,PR5':
     { headline: 'Showing Progress and Keeping People Informed', rationale: 'Visualise project health, communicate status clearly, and give stakeholders the confidence that things are under control.' },
-  'A40,A41,A46,process-7':
+  'A40,A41,A46,PR7':
     { headline: 'Improving Quality and Reducing Errors', rationale: 'Embed quality into how you work and use structured problem-solving to find and fix the root causes of defects.' },
-  'T2,process-8,T7,A64':
+  'T2,PR8,T7,A64':
     { headline: 'Managing Scope and Change Requests', rationale: 'Handle requests for additional work formally, assess their impact, and keep your project focused on what was agreed.' },
   'M2,A35,A80,A58':
     { headline: 'Running Better Sprints and Agile Ceremonies', rationale: 'Improve how you plan, estimate, and review work in short cycles — and build a culture of continuous improvement.' },
-  'M3,A47,people-7,A34':
+  'M3,A47,P7,A34':
     { headline: 'Removing Bottlenecks and Getting Work Flowing', rationale: 'Identify where work is getting stuck, remove the constraints, and restore momentum to your team.' },
-  'T6,A61,A59,people-10':
+  'T6,A61,A59,P10':
     { headline: 'Improving How the Team Communicates', rationale: 'Make information flow better, run more productive meetings, and keep distributed or cross-functional teams aligned.' },
 
   // ── Strategy ───────────────────────────────────────────────────────────────
@@ -595,9 +589,9 @@ export const RESULT_HEADLINES: Record<string, { headline: string; rationale: str
     { headline: 'Prioritising Projects and Deciding What to Fund', rationale: 'Evaluate and rank projects objectively so you can make defensible decisions about where to invest time and money.' },
   'A52,A53,A50,AG3':
     { headline: 'Making a Difficult Decision', rationale: 'Navigate ambiguity and competing options with structured frameworks that bring clarity to complex choices.' },
-  'A64,A52,T3,process-14':
+  'A64,A52,T3,PR14':
     { headline: 'Setting Up Clear Accountability and Oversight', rationale: 'Establish who decides what, how decisions get escalated, and how the project is governed without creating bureaucracy.' },
-  'business-1,T8,A81,process-17':
+  'business-1,T8,A81,PR17':
     { headline: 'Proving the Project Delivered Value', rationale: 'Track and demonstrate the outcomes your project was funded to deliver — turning outputs into measurable benefits.' },
 
   // ── Change ─────────────────────────────────────────────────────────────────
@@ -625,13 +619,13 @@ export const RESULT_HEADLINES: Record<string, { headline: string; rationale: str
     { headline: 'Choosing the Right Approach for Your Project', rationale: 'Use these structured tools to assess your context and make an informed choice about how to run your project.' },
 
   // ── Closure ────────────────────────────────────────────────────────────────
-  'A58,phase-closure,A40,process-17':
+  'A58,phase-closure,A40,PR17':
     { headline: 'Capturing Lessons and Improving for Next Time', rationale: 'Reflect on what worked and what didn\'t before institutional memory fades — so the next project starts smarter.' },
-  'A79,phase-closure,A63,process-16':
+  'A79,phase-closure,A63,PR16':
     { headline: 'Handing Over Smoothly', rationale: 'Ensure a clean transition to the people who will run things day-to-day, with nothing falling through the cracks.' },
-  'business-1,A81,T8,process-17':
+  'business-1,A81,T8,PR17':
     { headline: 'Showing Whether the Project Delivered What It Promised', rationale: 'Measure outcomes against the original goals and demonstrate the value the project created.' },
-  'phase-closure,A58,people-3,A60':
+  'phase-closure,A58,P3,A60':
     { headline: 'Celebrating the Team and Closing Well', rationale: 'Acknowledge contributions, celebrate success, and give the team a proper sense of closure and recognition.' },
   // ── PMBOK 8 / AI & Technology ──────────────────────────────────────────────
   'T21,T22,T23,A91':
@@ -644,7 +638,7 @@ export const RESULT_HEADLINES: Record<string, { headline: string; rationale: str
     { headline: 'Agile Metrics and Sprint Performance Tracking', rationale: 'Monitor team velocity, track progress against total scope with burnup charts, run effective sprint reviews, and use control charts to detect when performance is drifting.' },
   'T29,T30,T31,A93':
     { headline: 'Accurate Cost and Effort Estimation', rationale: 'Build reliable estimates using analogous, parametric, and bottom-up approaches — and apply algorithmic modelling for software projects with COCOMO.' },
-  'A89,people-20,A90,business-4':
+  'A89,P20,A90,business-4':
     { headline: 'Embedding Sustainability and ESG into Your Project', rationale: 'Integrate environmental, social, and governance considerations into project planning and team culture — and use the VRIO framework to assess which sustainability capabilities to build.' },
 };
 

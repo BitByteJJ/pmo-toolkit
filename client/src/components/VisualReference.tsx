@@ -2299,7 +2299,7 @@ export function SharedUnderstandingDiagram() {
     { label: 'NORMS & CULTURE', y: 155, w: 90, c: DIM },
   ];
   return (
-    <DiagramWrapper label="SHARED UNDERSTANDING PYRAMID // people-10">
+    <DiagramWrapper label="SHARED UNDERSTANDING PYRAMID // P10">
       <svg viewBox={`0 0 ${W} ${H}`} className="w-full" style={{ display: 'block' }}>
         <GridBg w={W} h={H} />
         {layers.map((l, i) => {
@@ -2402,7 +2402,7 @@ export function VirtualTeamDiagram() {
   ];
   const overlap = [{ x: 100, y: 60, label: 'OVERLAP\nZONE' }];
   return (
-    <DiagramWrapper label="VIRTUAL TEAM COLLABORATION // people-11">
+    <DiagramWrapper label="VIRTUAL TEAM COLLABORATION // P11">
       <svg viewBox={`0 0 ${W} ${H}`} className="w-full" style={{ display: 'block' }}>
         <GridBg w={W} h={H} />
         {zones.map((z, i) => (
@@ -2433,7 +2433,7 @@ export function EmotionalIntelligenceDiagram() {
     { label: 'RELATIONSHIP MGMT', sub: 'Influence others', x: cx + 10, y: cy + 10, c: LINE3 },
   ];
   return (
-    <DiagramWrapper label="EMOTIONAL INTELLIGENCE MODEL // people-14">
+    <DiagramWrapper label="EMOTIONAL INTELLIGENCE MODEL // P14">
       <svg viewBox={`0 0 ${W} ${H}`} className="w-full" style={{ display: 'block' }}>
         <GridBg w={W} h={H} />
         <line x1={cx} y1={15} x2={cx} y2={H-15} stroke={DIM} strokeWidth="1" opacity="0.5" />
@@ -4467,7 +4467,7 @@ export function IssueLogDiagram() {
     { id: 'I5', title: 'Comms breakdown', priority: 'P3', status: 'RESOLVED', c: LINE2 },
   ];
   return (
-    <DiagramWrapper label="ISSUE LOG // process-15">
+    <DiagramWrapper label="ISSUE LOG // PR15">
       <svg viewBox={`0 0 ${W} ${H}`} className="w-full" style={{ display: 'block' }}>
         <GridBg w={W} h={H} />
         {['ID','ISSUE','PRI','STATUS'].map((h, i) => (
@@ -8694,39 +8694,39 @@ export function getVisualReference(cardId: string): React.ReactElement | null {
   if (cardId === 'AG3') return <ArchetypeChoosingPathDiagram />;
 
   // ── People Domain ──────────────────────────────────────────────────────────
-  if (cardId === 'people-1') return <ConflictModeDiagram />;       // Manage Conflict
-  if (cardId === 'people-2') return <LeadershipGridDiagram />;     // Lead a Team
-  if (cardId === 'people-3') return <TeamPerformanceDiagram />;    // Support Team Performance
-  if (cardId === 'people-4') return <EmpowermentDiagram />;        // Empower Team Members
-  if (cardId === 'people-5') return <TrainingNeedsMatrixDiagram />; // Ensure Adequate Training
-  if (cardId === 'people-6') return <TeamFormingDiagram />;        // Build a Team
-  if (cardId === 'people-7') return <ImpedimentLogDiagram />;      // Address & Remove Impediments
-  if (cardId === 'people-8') return <NegotiationZoneDiagram />;    // Negotiate Project Agreements
-  if (cardId === 'people-9') return <StakeholderEngagementDiagram />; // Collaborate with Stakeholders
-  if (cardId === 'people-10') return <SharedUnderstandingDiagram />; // Build Shared Understanding
-  if (cardId === 'people-11') return <VirtualTeamDiagram />;       // Engage Virtual Teams
-  if (cardId === 'people-12') return <GroundRulesDiagram />;       // Define Team Ground Rules
-  if (cardId === 'people-13') return <MentoringDiagram />;         // Mentor Stakeholders
-  if (cardId === 'people-14') return <EmotionalIntelligenceDiagram />; // Promote Team EI
+  if (cardId === 'P1') return <ConflictModeDiagram />;       // Manage Conflict
+  if (cardId === 'P2') return <LeadershipGridDiagram />;     // Lead a Team
+  if (cardId === 'P3') return <TeamPerformanceDiagram />;    // Support Team Performance
+  if (cardId === 'P4') return <EmpowermentDiagram />;        // Empower Team Members
+  if (cardId === 'P5') return <TrainingNeedsMatrixDiagram />; // Ensure Adequate Training
+  if (cardId === 'P6') return <TeamFormingDiagram />;        // Build a Team
+  if (cardId === 'P7') return <ImpedimentLogDiagram />;      // Address & Remove Impediments
+  if (cardId === 'P8') return <NegotiationZoneDiagram />;    // Negotiate Project Agreements
+  if (cardId === 'P9') return <StakeholderEngagementDiagram />; // Collaborate with Stakeholders
+  if (cardId === 'P10') return <SharedUnderstandingDiagram />; // Build Shared Understanding
+  if (cardId === 'P11') return <VirtualTeamDiagram />;       // Engage Virtual Teams
+  if (cardId === 'P12') return <GroundRulesDiagram />;       // Define Team Ground Rules
+  if (cardId === 'P13') return <MentoringDiagram />;         // Mentor Stakeholders
+  if (cardId === 'P14') return <EmotionalIntelligenceDiagram />; // Promote Team EI
 
   // ── Process Domain ─────────────────────────────────────────────────────────
-  if (cardId === 'process-1') return <ExecutionUrgencyDiagram />;  // Execute with Urgency
-  if (cardId === 'process-2') return <CommsPlanDiagram />;         // Manage Communications
-  if (cardId === 'process-3') return <RiskManagementDiagram />;    // Assess & Manage Risks
-  if (cardId === 'process-4') return <StakeholderRegisterDiagram />; // Engage Stakeholders
-  if (cardId === 'process-5') return <BudgetSCurveDiagram />;      // Plan & Manage Budget
-  if (cardId === 'process-6') return <ScheduleBaselineDiagram />;  // Plan & Manage Schedule
-  if (cardId === 'process-7') return <QualityGatesDiagram />;      // Plan & Manage Quality
-  if (cardId === 'process-8') return <ScopeManagementDiagram />;   // Plan & Manage Scope
-  if (cardId === 'process-9') return <IntegratedPlanDiagram />;    // Integrate Project Planning
-  if (cardId === 'process-10') return <ChangeControlDiagram />;    // Manage Project Changes
-  if (cardId === 'process-11') return <ProcurementDiagram />;      // Plan & Manage Procurement
-  if (cardId === 'process-12') return <ArtifactsDiagram />;        // Manage Project Artifacts
-  if (cardId === 'process-13') return <MethodologySelectionDiagram />; // Determine Methodology
-  if (cardId === 'process-14') return <GovernanceFrameworkDiagram />; // Establish Governance
-  if (cardId === 'process-15') return <IssueLogDiagram />;         // Manage Project Issues
-  if (cardId === 'process-16') return <KnowledgeTransferDiagram />; // Ensure Knowledge Transfer
-  if (cardId === 'process-17') return <ProjectClosureDiagram />;   // Plan Project Closure
+  if (cardId === 'PR1') return <ExecutionUrgencyDiagram />;  // Execute with Urgency
+  if (cardId === 'PR2') return <CommsPlanDiagram />;         // Manage Communications
+  if (cardId === 'PR3') return <RiskManagementDiagram />;    // Assess & Manage Risks
+  if (cardId === 'PR4') return <StakeholderRegisterDiagram />; // Engage Stakeholders
+  if (cardId === 'PR5') return <BudgetSCurveDiagram />;      // Plan & Manage Budget
+  if (cardId === 'PR6') return <ScheduleBaselineDiagram />;  // Plan & Manage Schedule
+  if (cardId === 'PR7') return <QualityGatesDiagram />;      // Plan & Manage Quality
+  if (cardId === 'PR8') return <ScopeManagementDiagram />;   // Plan & Manage Scope
+  if (cardId === 'PR9') return <IntegratedPlanDiagram />;    // Integrate Project Planning
+  if (cardId === 'PR10') return <ChangeControlDiagram />;    // Manage Project Changes
+  if (cardId === 'PR11') return <ProcurementDiagram />;      // Plan & Manage Procurement
+  if (cardId === 'PR12') return <ArtifactsDiagram />;        // Manage Project Artifacts
+  if (cardId === 'PR13') return <MethodologySelectionDiagram />; // Determine Methodology
+  if (cardId === 'PR14') return <GovernanceFrameworkDiagram />; // Establish Governance
+  if (cardId === 'PR15') return <IssueLogDiagram />;         // Manage Project Issues
+  if (cardId === 'PR16') return <KnowledgeTransferDiagram />; // Ensure Knowledge Transfer
+  if (cardId === 'PR17') return <ProjectClosureDiagram />;   // Plan Project Closure
 
   // ── Business Environment Domain ────────────────────────────────────────────
   if (cardId === 'business-1') return <ComplianceFrameworkDiagram />; // Plan & Manage Compliance

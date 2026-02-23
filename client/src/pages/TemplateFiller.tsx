@@ -1,6 +1,6 @@
 // PMO Toolkit Navigator — Template Filler
 // Fillable, interactive template form with dynamic rows, rich fields, and download engine.
-import { useState, useMemo, useRef, useCallback } from 'react';
+import { useState, useMemo, useRef, useCallback, useEffect } from 'react';
 import { useParams, useLocation } from 'wouter';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
@@ -506,6 +506,36 @@ function parseProseSections(content: string): ProseField[] {
   return fields;
 }
 
+// ─── localStorage helpers ─────────────────────────────────────────────────────
+const STORAGE_VERSION = 'v1';
+function storageKey(cardId: string) {
+  return `pmo-template-${STORAGE_VERSION}-${cardId}`;
+}
+interface SavedFormData {
+  projectName: string;
+  projectOwner: string;
+  projectDate: string;
+  version: string;
+  sectionStates: SectionState[];
+  savedAt: number;
+}
+function loadSavedData(cardId: string): SavedFormData | null {
+  try {
+    const raw = localStorage.getItem(storageKey(cardId));
+    if (!raw) return null;
+    return JSON.parse(raw) as SavedFormData;
+  } catch {
+    return null;
+  }
+}
+function saveData(cardId: string, data: SavedFormData) {
+  try {
+    localStorage.setItem(storageKey(cardId), JSON.stringify(data));
+  } catch {
+    // Storage quota exceeded — silently ignore
+  }
+}
+
 // ─── Main Component ───────────────────────────────────────────────────────────
 export default function TemplateFiller() {
   const { cardId } = useParams<{ cardId: string }>();
@@ -519,16 +549,33 @@ export default function TemplateFiller() {
     return DECK_THEME[card.deckId] || DECK_THEME.tools;
   }, [card]);
 
-  // Form state: one SectionState per section
-  const [sectionStates, setSectionStates] = useState<SectionState[]>(() =>
-    (template?.sections || []).map(() => ({ fields: {} }))
-  );
+  // Load saved data on mount (keyed by cardId)
+  const savedData = useMemo(() => cardId ? loadSavedData(cardId) : null, [cardId]);
 
-  // Header fields
-  const [projectName, setProjectName] = useState('');
-  const [projectOwner, setProjectOwner] = useState('');
-  const [projectDate, setProjectDate] = useState('');
-  const [version, setVersion] = useState('1.0');
+  // Form state: one SectionState per section — restored from localStorage if available
+  const [sectionStates, setSectionStates] = useState<SectionState[]>(() => {
+    if (savedData?.sectionStates?.length) return savedData.sectionStates;
+    return (template?.sections || []).map(() => ({ fields: {} }));
+  });
+
+  // Header fields — restored from localStorage if available
+  const [projectName, setProjectName] = useState(savedData?.projectName ?? '');
+  const [projectOwner, setProjectOwner] = useState(savedData?.projectOwner ?? '');
+  const [projectDate, setProjectDate] = useState(savedData?.projectDate ?? '');
+  const [version, setVersion] = useState(savedData?.version ?? '1.0');
+  const [hasSavedData, setHasSavedData] = useState(() => !!savedData);
+
+  // Auto-save to localStorage whenever form state changes (debounced 800ms)
+  const saveTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  useEffect(() => {
+    if (!cardId) return;
+    if (saveTimerRef.current) clearTimeout(saveTimerRef.current);
+    saveTimerRef.current = setTimeout(() => {
+      saveData(cardId, { projectName, projectOwner, projectDate, version, sectionStates, savedAt: Date.now() });
+      setHasSavedData(true);
+    }, 800);
+    return () => { if (saveTimerRef.current) clearTimeout(saveTimerRef.current); };
+  }, [cardId, projectName, projectOwner, projectDate, version, sectionStates]);
 
   const [isDownloading, setIsDownloading] = useState(false);
   const [downloadType, setDownloadType] = useState<'pdf' | 'docx' | null>(null);
@@ -550,6 +597,10 @@ export default function TemplateFiller() {
     setProjectOwner('');
     setProjectDate('');
     setVersion('1.0');
+    if (cardId) {
+      try { localStorage.removeItem(storageKey(cardId)); } catch { /* ignore */ }
+    }
+    setHasSavedData(false);
   };
 
   const handleDownload = async (type: 'pdf' | 'docx') => {
@@ -640,6 +691,11 @@ export default function TemplateFiller() {
             <h1 className="text-sm font-bold text-white truncate" style={{ fontFamily: 'Sora, sans-serif' }}>
               {template.title}
             </h1>
+            {hasSavedData && (
+              <span className="text-[9px] text-white/60 flex items-center gap-0.5 mt-0.5">
+                <Save size={8} /> Auto-saved
+              </span>
+            )}
           </div>
           {/* Download button */}
           <div className="relative">

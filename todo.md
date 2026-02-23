@@ -227,3 +227,13 @@
 - [x] Add "Browse Templates" CTA to Home page
 - [x] Fix PDF table data not rendering (initial table state resolved from template content on download)
 - [x] Run validation and save checkpoint
+
+## Post-Template-Library Improvements — Feb 2026
+
+- [x] Wire 32 PMBOK 8 cards into AI Tool Finder card catalogue (aiSuggest.ts) — 99 missing cards added, total 233
+- [x] Wire 32 PMBOK 8 cards into Decision Helper (decisionData.ts) — duplicate answer ID fixed
+- [x] Wire 32 PMBOK 8 cards into Learning Journey game (journeyData.ts) — T27/T28/T38/T39/T42 added to relevant lessons
+- [x] Add localStorage persistence to Template Filler (auto-save 800ms debounce, restore on mount, auto-saved indicator, clear on reset)
+- [x] Fix card re-IDs: people-N → P{N}, process-N → PR{N} across 14 files (815 replacements, 0 TS errors)
+- [x] Fix hardcoded card counts — verified 198 is accurate and consistent
+- [x] Fix BottomNav placement — lg:hidden added; TopNav upgraded with full desktop horizontal nav (11 links)

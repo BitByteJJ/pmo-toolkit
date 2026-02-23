@@ -33,39 +33,39 @@ export const CARD_LEVELS: Record<string, DifficultyLevel> = {
   'M4': 'intermediate',  // Hybrid — requires understanding of both
 
   // ── People Domain ─────────────────────────────────────────────────────────
-  'people-1':  'intermediate', // Manage Conflict
-  'people-2':  'intermediate', // Plan & Manage Resources
-  'people-3':  'beginner',     // Develop Team
-  'people-4':  'intermediate', // Empower Team Members
-  'people-5':  'intermediate', // Ensure Team Members/Stakeholders are adequately trained
-  'people-6':  'beginner',     // Build Shared Understanding
-  'people-7':  'intermediate', // Remove Impediments
-  'people-8':  'intermediate', // Negotiate Project Agreements
-  'people-9':  'beginner',     // Engage and Support Virtual Teams
-  'people-10': 'beginner',     // Collaborate with Stakeholders
-  'people-11': 'intermediate', // Build Relationships
-  'people-12': 'intermediate', // Mentor Relevant Stakeholders
-  'people-13': 'advanced',     // Support Diversity and Inclusion
-  'people-14': 'intermediate', // Assess and Manage Stakeholders
+  'P1':  'intermediate', // Manage Conflict
+  'P2':  'intermediate', // Plan & Manage Resources
+  'P3':  'beginner',     // Develop Team
+  'P4':  'intermediate', // Empower Team Members
+  'P5':  'intermediate', // Ensure Team Members/Stakeholders are adequately trained
+  'P6':  'beginner',     // Build Shared Understanding
+  'P7':  'intermediate', // Remove Impediments
+  'P8':  'intermediate', // Negotiate Project Agreements
+  'P9':  'beginner',     // Engage and Support Virtual Teams
+  'P10': 'beginner',     // Collaborate with Stakeholders
+  'P11': 'intermediate', // Build Relationships
+  'P12': 'intermediate', // Mentor Relevant Stakeholders
+  'P13': 'advanced',     // Support Diversity and Inclusion
+  'P14': 'intermediate', // Assess and Manage Stakeholders
 
   // ── Process Domain ────────────────────────────────────────────────────────
-  'process-1':  'intermediate', // Execute with Urgency
-  'process-2':  'beginner',     // Manage Communications
-  'process-3':  'intermediate', // Assess & Manage Risks
-  'process-4':  'beginner',     // Engage Stakeholders
-  'process-5':  'intermediate', // Plan & Manage Budget
-  'process-6':  'intermediate', // Plan & Manage Schedule
-  'process-7':  'intermediate', // Plan & Manage Quality
-  'process-8':  'intermediate', // Plan & Manage Scope
-  'process-9':  'advanced',     // Integrate Project Planning
-  'process-10': 'intermediate', // Manage Project Changes
-  'process-11': 'advanced',     // Plan & Manage Procurement
-  'process-12': 'intermediate', // Manage Project Artifacts
-  'process-13': 'intermediate', // Determine Methodology
-  'process-14': 'advanced',     // Establish Governance
-  'process-15': 'intermediate', // Manage Project Issues
-  'process-16': 'intermediate', // Ensure Knowledge Transfer
-  'process-17': 'intermediate', // Plan Project Closure
+  'PR1':  'intermediate', // Execute with Urgency
+  'PR2':  'beginner',     // Manage Communications
+  'PR3':  'intermediate', // Assess & Manage Risks
+  'PR4':  'beginner',     // Engage Stakeholders
+  'PR5':  'intermediate', // Plan & Manage Budget
+  'PR6':  'intermediate', // Plan & Manage Schedule
+  'PR7':  'intermediate', // Plan & Manage Quality
+  'PR8':  'intermediate', // Plan & Manage Scope
+  'PR9':  'advanced',     // Integrate Project Planning
+  'PR10': 'intermediate', // Manage Project Changes
+  'PR11': 'advanced',     // Plan & Manage Procurement
+  'PR12': 'intermediate', // Manage Project Artifacts
+  'PR13': 'intermediate', // Determine Methodology
+  'PR14': 'advanced',     // Establish Governance
+  'PR15': 'intermediate', // Manage Project Issues
+  'PR16': 'intermediate', // Ensure Knowledge Transfer
+  'PR17': 'intermediate', // Plan Project Closure
 
   // ── Business Environment ──────────────────────────────────────────────────
   'business-1': 'intermediate', // Benefits Realisation

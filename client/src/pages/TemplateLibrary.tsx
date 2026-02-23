@@ -66,10 +66,10 @@ const RECOMMENDATION_MAP: Record<string, Record<string, string[]>> = {
     any:       ['T6', 'T7', 'A47', 'A48', 'PR06', 'T8', 'A64'],
   },
   people: {
-    waterfall: ['T5', 'T16', 'people-1', 'people-2', 'people-3', 'people-8', 'people-9'],
-    agile:     ['T5', 'people-1', 'people-2', 'people-4', 'people-6', 'people-14', 'people-18'],
-    hybrid:    ['T5', 'T16', 'people-1', 'people-2', 'people-3', 'people-9', 'people-14'],
-    any:       ['T5', 'T16', 'people-1', 'people-2', 'people-3', 'people-6', 'people-9'],
+    waterfall: ['T5', 'T16', 'P1', 'P2', 'P3', 'P8', 'P9'],
+    agile:     ['T5', 'P1', 'P2', 'P4', 'P6', 'P14', 'P18'],
+    hybrid:    ['T5', 'T16', 'P1', 'P2', 'P3', 'P9', 'P14'],
+    any:       ['T5', 'T16', 'P1', 'P2', 'P3', 'P6', 'P9'],
   },
   closure: {
     waterfall: ['phase-closure', 'PR16', 'A58', 'T13', 'business-5'],
