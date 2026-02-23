@@ -44,6 +44,9 @@ function TitleCard({
         backgroundColor: '#0f1c30',
       }}
     >
+      {/* ── Dark navy base so screen-blend illustration glows on dark, not grey ── */}
+      <div className="absolute inset-0" style={{ backgroundColor: '#0f1c30', zIndex: 0 }} />
+
       {/* ── Full-height illustration as the card background ── */}
       <img
         src={intro.coverImage}
@@ -53,8 +56,11 @@ function TitleCard({
           display: 'block',
           width: '100%',
           height: 'auto',
+          position: 'relative',
+          zIndex: 1,
           mixBlendMode: 'screen',
-          opacity: 0.4,
+          opacity: 0.9,
+          filter: 'invert(1) grayscale(1) brightness(1.15) contrast(1.2)',
         }}
       />
 
@@ -95,11 +101,11 @@ function HowToStartCard({
     <div
       className="rounded-2xl overflow-hidden"
       style={{
-        background: 'rgba(15,28,48,0.75)',
-        backdropFilter: 'blur(20px) saturate(1.5)',
-        WebkitBackdropFilter: 'blur(12px)',
-        border: `1.5px solid ${deck.color}35`,
-        boxShadow: `0 4px 20px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.06)`,
+        background: 'rgba(255,255,255,0.04)',
+        backdropFilter: 'blur(32px) saturate(1.8)',
+        WebkitBackdropFilter: 'blur(32px) saturate(1.8)',
+        border: `1px solid rgba(255,255,255,0.10)`,
+        boxShadow: `0 4px 24px rgba(0,0,0,0.35), inset 0 1px 0 rgba(255,255,255,0.10), inset 0 0 0 1px ${deck.color}18`,
       }}
     >
       <button
@@ -109,7 +115,7 @@ function HowToStartCard({
         <div className="flex items-center gap-2.5">
           <div
             className="w-7 h-7 rounded-xl flex items-center justify-center"
-            style={{ backgroundColor: deck.color + '25', border: `1px solid ${deck.color}40` }}
+            style={{ backgroundColor: deck.color + '25', border: `1px solid ${deck.color}50` }}
           >
             <Lightbulb size={13} style={{ color: deck.color }} />
           </div>
@@ -171,11 +177,11 @@ function SystemCard({
     <div
       className="rounded-2xl overflow-hidden"
       style={{
-        background: 'rgba(15,28,48,0.75)',
-        backdropFilter: 'blur(20px) saturate(1.5)',
-        WebkitBackdropFilter: 'blur(12px)',
-        border: `1.5px solid ${deck.color}35`,
-        boxShadow: `0 4px 20px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.06)`,
+        background: 'rgba(255,255,255,0.04)',
+        backdropFilter: 'blur(32px) saturate(1.8)',
+        WebkitBackdropFilter: 'blur(32px) saturate(1.8)',
+        border: `1px solid rgba(255,255,255,0.10)`,
+        boxShadow: `0 4px 24px rgba(0,0,0,0.35), inset 0 1px 0 rgba(255,255,255,0.10), inset 0 0 0 1px ${deck.color}18`,
       }}
     >
       <button
@@ -185,7 +191,7 @@ function SystemCard({
         <div className="flex items-center gap-2.5">
           <div
             className="w-7 h-7 rounded-xl flex items-center justify-center"
-            style={{ backgroundColor: deck.color + '25', border: `1px solid ${deck.color}40` }}
+            style={{ backgroundColor: deck.color + '25', border: `1px solid ${deck.color}50` }}
           >
             <Compass size={13} style={{ color: deck.color }} />
           </div>
@@ -256,11 +262,11 @@ function CategoriesCard({
     <div
       className="rounded-2xl overflow-hidden"
       style={{
-        background: 'rgba(15,28,48,0.75)',
-        backdropFilter: 'blur(20px) saturate(1.5)',
-        WebkitBackdropFilter: 'blur(12px)',
-        border: `1.5px solid ${activeCategory ? deck.color + '70' : deck.color + '35'}`,
-        boxShadow: `0 4px 20px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.06)`,
+        background: 'rgba(255,255,255,0.04)',
+        backdropFilter: 'blur(32px) saturate(1.8)',
+        WebkitBackdropFilter: 'blur(32px) saturate(1.8)',
+        border: `1px solid ${activeCategory ? deck.color + '60' : 'rgba(255,255,255,0.10)'}`,
+        boxShadow: `0 4px 24px rgba(0,0,0,0.35), inset 0 1px 0 rgba(255,255,255,0.10), inset 0 0 0 1px ${deck.color}18`,
         transition: 'border-color 0.2s',
       }}
     >
@@ -422,42 +428,44 @@ function CardListItem({
       >
         {/* ── Illustration — fades from transparent (left) to bold (right) ── */}
         {illustration && (
-          <div className="absolute inset-0 pointer-events-none">
-            {/* Illustration: right-anchored, masked with a left-to-right fade so it
-                appears faint at the left edge and full-strength at the right */}
-            <div
-              className="absolute"
+          <div className="absolute inset-0 pointer-events-none" style={{ overflow: 'hidden' }}>
+            {/* Illustration: invert() flips white-bg sketch to dark-bg, then screen blend makes black transparent leaving glowing lines */}
+            <img
+              src={illustration}
+              alt=""
+              aria-hidden="true"
               style={{
-                right: '-8px',
+                position: 'absolute',
+                right: '-4px',
                 top: '50%',
                 transform: 'translateY(-50%)',
                 height: '160%',
-                width: '52%',
-                /* Mask: transparent on the left, opaque on the right */
-                WebkitMaskImage: 'linear-gradient(to right, transparent 0%, rgba(0,0,0,0.25) 30%, rgba(0,0,0,0.75) 65%, rgba(0,0,0,1) 100%)',
-                maskImage: 'linear-gradient(to right, transparent 0%, rgba(0,0,0,0.25) 30%, rgba(0,0,0,0.75) 65%, rgba(0,0,0,1) 100%)',
+                width: 'auto',
+                maxWidth: '58%',
+                objectFit: 'contain',
+                objectPosition: 'center right',
+                mixBlendMode: 'screen',
+                opacity: 1,
+                filter: 'invert(1) grayscale(1) brightness(1.7) contrast(1.25)',
+                /* Mask: transparent on left, fully opaque on right */
+                WebkitMaskImage: 'linear-gradient(to right, transparent 0%, black 42%)',
+                maskImage: 'linear-gradient(to right, transparent 0%, black 42%)',
               }}
-            >
-              <img
-                src={illustration}
-                alt=""
-                aria-hidden="true"
-                className="w-full h-full"
-                style={{
-                  objectFit: 'contain',
-                  objectPosition: 'center right',
-                  mixBlendMode: 'screen',
-                  opacity: 0.82,
-                }}
-              />
-            </div>
-            {/* Text-side gradient: solid dark on the left, fades to transparent on the right
-                so the illustration shows through while keeping text fully readable */}
+            />
+            {/* Deck-colour tint overlay on the illustration area — adds vibrancy */}
+            <div
+              className="absolute inset-0"
+              style={{
+                background: `linear-gradient(to left, ${deck.color}28 0%, transparent 55%)`,
+                mixBlendMode: 'normal',
+              }}
+            />
+            {/* Text-side overlay: solid dark on left, fades to transparent on right */}
             <div
               className="absolute inset-0"
               style={{
                 background:
-                  'linear-gradient(to right, rgba(10,22,40,1) 0%, rgba(10,22,40,0.97) 30%, rgba(10,22,40,0.82) 50%, rgba(10,22,40,0.35) 70%, transparent 100%)',
+                  'linear-gradient(to right, #0a1628 0%, #0a1628 30%, rgba(10,22,40,0.82) 50%, rgba(10,22,40,0.2) 72%, transparent 100%)',
               }}
             />
           </div>
