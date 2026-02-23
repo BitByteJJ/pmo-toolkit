@@ -374,3 +374,17 @@
 - [ ] Fix HowItWasBuilt: fix unreadable text-indigo-700 stat values
 - [ ] Fix HowItWasBuilt: fix amber disclaimer text-amber-700
 - [x] Fix CardDetail notes: brighten textarea text and placeholder
+
+## Round 7 Fixes
+- [ ] CardDetail flip card: replace deck.bgColor with #0f1c30, fix #1a1a1a title, remove mixBlendMode multiply
+- [ ] DeckView card thumbnails: replace deck.bgColor with rgba(15,28,48,0.8)
+- [ ] OnboardingTour step tiles: align bg to rgba(15,28,48,0.8)
+- [ ] VideoGuide text: fix unreadable text colours
+- [ ] TemplateFiller: reduce size of Download PDF, Download Word, Reset buttons
+
+## Round 7 Fixes — Feb 23 2026 (Session continuation)
+- [x] CardDetail deckBgColor: replaced deck.bgColor with #0f1c30 (VideoGuide data prop)
+- [x] VideoGuide narration box: replaced white bg + text-gray-600 with #0f1c30 bg + text-slate-300
+- [x] TemplateFiller: reduced Download PDF, Download Word, Reset buttons (py-3→py-1.5, text-sm→text-xs, rounded-xl→rounded-lg, smaller icons)
+- [x] OnboardingTour TOUR_STEPS bg values confirmed already using rgba(color, 0.12) — no change needed
+- [x] All 49 tests passing, TypeScript 0 errors

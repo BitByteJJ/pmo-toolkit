@@ -828,32 +828,32 @@ export default function TemplateFiller() {
           <div className="flex gap-2 max-w-lg mx-auto">
             <button
               onClick={handleReset}
-              className="flex items-center gap-1.5 px-4 py-3 rounded-xl text-sm font-semibold bg-card shadow-md border border-white/15 text-slate-300 hover:bg-white/10 transition-colors"
+              className="flex items-center gap-1 px-3 py-1.5 rounded-lg text-xs font-semibold bg-card shadow-md border border-white/15 text-slate-300 hover:bg-white/10 transition-colors"
             >
-              <RotateCcw size={14} /> Reset
+              <RotateCcw size={12} /> Reset
             </button>
             <button
               onClick={() => handleDownload('pdf')}
               disabled={isDownloading}
-              className="flex-1 flex items-center justify-center gap-2 py-3 rounded-xl text-sm font-bold text-white shadow-md transition-all"
-              style={{ background: `linear-gradient(135deg, ${theme.color}, ${theme.color}cc)`, boxShadow: `0 4px 16px ${theme.color}40` }}
+              className="flex-1 flex items-center justify-center gap-1.5 py-1.5 rounded-lg text-xs font-bold text-white shadow-md transition-all"
+              style={{ background: `linear-gradient(135deg, ${theme.color}, ${theme.color}cc)`, boxShadow: `0 3px 10px ${theme.color}40` }}
             >
               {isDownloading && downloadType === 'pdf' ? (
-                <><div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" /> Generating PDF…</>
+                <><div className="w-3 h-3 border-2 border-white border-t-transparent rounded-full animate-spin" /> Generating…</>
               ) : (
-                <><FileDown size={16} /> Download PDF</>
+                <><FileDown size={13} /> Download PDF</>
               )}
             </button>
             <button
               onClick={() => handleDownload('docx')}
               disabled={isDownloading}
-              className="flex-1 flex items-center justify-center gap-2 py-3 rounded-xl text-sm font-bold text-white shadow-md transition-all"
-              style={{ background: 'linear-gradient(135deg, #2563eb, #3b82f6)', boxShadow: '0 4px 16px rgba(37,99,235,0.35)' }}
+              className="flex-1 flex items-center justify-center gap-1.5 py-1.5 rounded-lg text-xs font-bold text-white shadow-md transition-all"
+              style={{ background: 'linear-gradient(135deg, #2563eb, #3b82f6)', boxShadow: '0 3px 10px rgba(37,99,235,0.35)' }}
             >
               {isDownloading && downloadType === 'docx' ? (
-                <><div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" /> Generating Word…</>
+                <><div className="w-3 h-3 border-2 border-white border-t-transparent rounded-full animate-spin" /> Generating…</>
               ) : (
-                <><FileText size={16} /> Download Word</>
+                <><FileText size={13} /> Download Word</>
               )}
             </button>
           </div>

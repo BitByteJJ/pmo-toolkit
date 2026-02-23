@@ -1221,7 +1221,7 @@ export default function CardDetail() {
                       cardId: card.id,
                       cardTitle: card.title,
                       deckColor: deck?.color ?? '#0284C7',
-                      deckBgColor: deck?.bgColor ?? 'rgba(56,189,248,0.14)',
+                      deckBgColor: '#0f1c30',
                       scenes: videoGuideScenes,
                     }}
                   />

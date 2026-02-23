@@ -60,7 +60,7 @@ function TitleScene({ scene, color, bgColor }: { scene: VideoScene; color: strin
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.6 }}
-          className="text-sm text-gray-600 max-w-xs leading-relaxed"
+          className="text-sm text-slate-300 max-w-xs leading-relaxed"
         >
           {scene.leftText}
         </motion.p>
@@ -311,7 +311,7 @@ function SummaryScene({ scene, color, bgColor }: { scene: VideoScene; color: str
             style={{ backgroundColor: color + '12' }}
           >
             <span className="text-sm font-bold shrink-0" style={{ color }}>0{i + 1}</span>
-            <span className="text-sm text-gray-700 leading-snug">{pt}</span>
+            <span className="text-sm text-slate-200 leading-snug">{pt}</span>
           </motion.div>
         ))}
       </div>
@@ -849,10 +849,10 @@ export function VideoGuide({ data }: VideoGuideProps) {
                   <Play size={24} fill="white" />
                 )}
               </motion.button>
-              <p className="text-sm font-semibold text-gray-700">
+              <p className="text-sm font-semibold text-slate-100">
                 {isWarmingUp ? 'Preparing audio…' : 'Play Video Guide'}
               </p>
-              <p className="text-xs text-slate-400 mt-1">
+              <p className="text-xs text-slate-300 mt-1">
                 {totalScenes} scenes · ~{Math.round(scenes.reduce((s, sc) => s + getSceneDuration(sc), 0) / 1000 / 60)} min
               </p>
             </motion.div>
@@ -918,7 +918,7 @@ export function VideoGuide({ data }: VideoGuideProps) {
             </button>
           </div>
 
-          <div className="text-[11px] font-semibold text-slate-400 flex-1 text-center px-2 truncate tracking-tight">
+          <div className="text-[11px] font-semibold text-slate-300 flex-1 text-center px-2 truncate tracking-tight">
             {currentScene.heading || cardTitle}
           </div>
 
@@ -964,7 +964,7 @@ export function VideoGuide({ data }: VideoGuideProps) {
       </div>
 
       {/* Narration text */}
-      <div className="rounded-2xl p-4 text-xs text-gray-600 leading-relaxed" style={{ backgroundColor: 'white', boxShadow: '0 1px 4px rgba(0,0,0,0.06), 0 0 0 1px rgba(0,0,0,0.04)' }}>
+      <div className="rounded-2xl p-4 text-xs text-slate-300 leading-relaxed" style={{ backgroundColor: '#0f1c30', border: '1px solid rgba(255,255,255,0.08)' }}>
         <span className="font-semibold text-slate-400 text-[10px] uppercase tracking-wide block mb-1">Narration</span>
         {currentScene.narration}
       </div>
