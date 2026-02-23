@@ -587,6 +587,7 @@ export default function JourneyPage() {
     <>
     {showWizard && <JourneySetupWizard onComplete={handleWizardComplete} />}
     <div className="min-h-screen pt-12 pb-28" style={{ background: '#0a1628' }}>
+      <div style={{ maxWidth: '480px', margin: '0 auto' }}>
       {/* Header */}
       <div
         className="sticky top-12 z-40 px-4"
@@ -739,6 +740,7 @@ export default function JourneyPage() {
             Complete all 35 days to earn the PM Master title
           </p>
         </motion.div>
+      </div>
       </div>
     </div>
     </>
