@@ -3619,12 +3619,12 @@ export const JOURNEY_LESSONS: JourneyLesson[] = [
     description: 'Connect project decisions to business strategy and the external environment.',
     icon: '🌐',
     unit: 'mastery',
-    cardRefs: ['business-1', 'business-2', 'business-3', 'business-4', 'business-5'],
+    cardRefs: ['BE01', 'BE02', 'BE03', 'BE04', 'BE05'],
     questions: [
       {
         id: 'q-d29-1',
         type: 'mcq',
-        prompt: 'PESTLE Analysis (business-3) examines which six external factors?',
+        prompt: 'PESTLE Analysis (BE03) examines which six external factors?',
         options: [
           'People, Environment, Strategy, Technology, Legal, Economics',
           'Political, Economic, Social, Technological, Legal, Environmental',
@@ -3632,8 +3632,8 @@ export const JOURNEY_LESSONS: JourneyLesson[] = [
           'Planning, Estimation, Scheduling, Tracking, Launch, Evaluation',
         ],
         correctIndex: 1,
-        explanation: 'PESTLE (business-3) examines: Political (government policy, regulation), Economic (inflation, interest rates), Social (demographics, culture), Technological (innovation, disruption), Legal (legislation, compliance), Environmental (sustainability, climate). It maps the external forces that can impact your project.',
-        cardRefs: ['business-3'],
+        explanation: 'PESTLE (BE03) examines: Political (government policy, regulation), Economic (inflation, interest rates), Social (demographics, culture), Technological (innovation, disruption), Legal (legislation, compliance), Environmental (sustainability, climate). It maps the external forces that can impact your project.',
+        cardRefs: ['BE03'],
         xp: 10,
       },
       {
@@ -3642,19 +3642,19 @@ export const JOURNEY_LESSONS: JourneyLesson[] = [
         prompt: 'Your project\'s business case was approved 18 months ago. The market has changed significantly — a new regulation has been introduced and a major competitor has exited the market. What should you do?',
         options: [
           'Continue as planned — the business case was approved',
-          'Review and update the business case to reflect the changed environment, using PESTLE (business-3) and SWOT (A32)',
+          'Review and update the business case to reflect the changed environment, using PESTLE (BE03) and SWOT (A32)',
           'Escalate to the board and request a project cancellation',
           'Ignore the external changes — they are outside the PM\'s control',
         ],
         correctIndex: 1,
-        explanation: 'Business cases are not static documents. When the external environment changes significantly, the PM must reassess the business case using PESTLE (business-3) and SWOT (A32). A new regulation may create an opportunity (first-mover compliance advantage) or a threat (additional cost). A competitor exit may increase the market opportunity.',
-        cardRefs: ['business-3', 'A32'],
+        explanation: 'Business cases are not static documents. When the external environment changes significantly, the PM must reassess the business case using PESTLE (BE03) and SWOT (A32). A new regulation may create an opportunity (first-mover compliance advantage) or a threat (additional cost). A competitor exit may increase the market opportunity.',
+        cardRefs: ['BE03', 'A32'],
         xp: 10,
       },
       {
         id: 'q-d29-3',
         type: 'mcq',
-        prompt: 'Porter\'s Five Forces (business-4) is used to:',
+        prompt: 'Porter\'s Five Forces (BE04) is used to:',
         options: [
           'Assess the internal capabilities of the project team',
           'Analyse the competitive forces shaping the industry and market position',
@@ -3662,8 +3662,8 @@ export const JOURNEY_LESSONS: JourneyLesson[] = [
           'Evaluate the five key stakeholder groups',
         ],
         correctIndex: 1,
-        explanation: 'Porter\'s Five Forces (business-4) analyses: Competitive Rivalry, Threat of New Entrants, Threat of Substitutes, Bargaining Power of Buyers, and Bargaining Power of Suppliers. It helps the PM understand the competitive landscape and ensure the project\'s outputs are strategically positioned.',
-        cardRefs: ['business-4'],
+        explanation: 'Porter\'s Five Forces (BE04) analyses: Competitive Rivalry, Threat of New Entrants, Threat of Substitutes, Bargaining Power of Buyers, and Bargaining Power of Suppliers. It helps the PM understand the competitive landscape and ensure the project\'s outputs are strategically positioned.',
+        cardRefs: ['BE04'],
         xp: 10,
       },
       {
@@ -3673,7 +3673,7 @@ export const JOURNEY_LESSONS: JourneyLesson[] = [
         options: ['True', 'False'],
         correctIndex: 0,
         explanation: 'True. The business case is a living document — it should be reviewed at each phase gate and updated when significant changes occur (market shifts, regulatory changes, cost overruns, scope changes). If the business case no longer holds, the PM has a responsibility to escalate — continuing a project with an invalid business case wastes resources.',
-        cardRefs: ['business-1', 'business-2'],
+        cardRefs: ['BE01', 'BE02'],
         xp: 10,
       },
       {
@@ -3687,8 +3687,8 @@ export const JOURNEY_LESSONS: JourneyLesson[] = [
           'Payback Period = Total Benefits ÷ Total Costs',
         ],
         correctIndex: 1,
-        explanation: 'Payback Period = Initial Investment ÷ Annual Net Cash Flow. For example, if the project costs £500k and generates £125k net cash flow per year, the payback period is 4 years. This is a key metric in the business case (business-1) — it tells investors how long before they recover their investment.',
-        cardRefs: ['business-1', 'business-2'],
+        explanation: 'Payback Period = Initial Investment ÷ Annual Net Cash Flow. For example, if the project costs £500k and generates £125k net cash flow per year, the payback period is 4 years. This is a key metric in the business case (BE01) — it tells investors how long before they recover their investment.',
+        cardRefs: ['BE01', 'BE02'],
         xp: 10,
       },
       {
@@ -3702,8 +3702,8 @@ export const JOURNEY_LESSONS: JourneyLesson[] = [
           'Ignore the regulation, as project scope is fixed and external factors are not the PM\'s responsibility.',
         ],
         correctIndex: 2,
-        explanation: 'Project Managers must continuously monitor the business environment and assess how external changes, like new regulations, impact the project\'s strategic alignment and viability. This requires stakeholder consultation to determine the best course of action. (business-1, business-3)',
-        cardRefs: ['business-1', 'business-3'],
+        explanation: 'Project Managers must continuously monitor the business environment and assess how external changes, like new regulations, impact the project\'s strategic alignment and viability. This requires stakeholder consultation to determine the best course of action. (BE01, BE03)',
+        cardRefs: ['BE01', 'BE03'],
         xp: 10,
       },
       {
@@ -3717,8 +3717,8 @@ export const JOURNEY_LESSONS: JourneyLesson[] = [
           'To simplify the project\'s risk management plan.',
         ],
         correctIndex: 2,
-        explanation: 'Aligning project objectives with organizational strategy is crucial to ensure that the project\'s outcomes contribute directly to the company\'s overall goals and provide measurable business value. (business-1, business-2)',
-        cardRefs: ['business-1', 'business-2'],
+        explanation: 'Aligning project objectives with organizational strategy is crucial to ensure that the project\'s outcomes contribute directly to the company\'s overall goals and provide measurable business value. (BE01, BE02)',
+        cardRefs: ['BE01', 'BE02'],
         xp: 10,
       },
       {
@@ -3730,8 +3730,8 @@ export const JOURNEY_LESSONS: JourneyLesson[] = [
           'False',
         ],
         correctIndex: 1,
-        explanation: 'False. While meeting scope, time, and cost constraints is important, true project success is also measured by its alignment with and contribution to the organization\'s strategic objectives and the business value it delivers. (business-1, business-5)',
-        cardRefs: ['business-1', 'business-5'],
+        explanation: 'False. While meeting scope, time, and cost constraints is important, true project success is also measured by its alignment with and contribution to the organization\'s strategic objectives and the business value it delivers. (BE01, BE05)',
+        cardRefs: ['BE01', 'BE05'],
         xp: 10,
       }
     ],

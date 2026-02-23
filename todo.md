@@ -426,3 +426,8 @@
 - [x] Fix category pill text readability (near-invisible against dark bg)
 - [x] Apply frosted glass styling to How to Start section
 - [x] Apply frosted glass styling to Categories section
+
+## Business Environment Deep Dives — Feb 23 2026
+
+- [x] Audit deepDiveData for BE01–BE05 and add any missing entries
+- [x] Rename stale business-1/2/3/4/5 keys to BE01–BE05 across deepDiveData, cardLevels, decisionData, glossaryData, journeyData, VisualReference, TemplateLibrary

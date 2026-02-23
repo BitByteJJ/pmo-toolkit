@@ -8729,10 +8729,10 @@ export function getVisualReference(cardId: string): React.ReactElement | null {
   if (cardId === 'PR17') return <ProjectClosureDiagram />;   // Plan Project Closure
 
   // ── Business Environment Domain ────────────────────────────────────────────
-  if (cardId === 'business-1') return <ComplianceFrameworkDiagram />; // Plan & Manage Compliance
-  if (cardId === 'business-2') return <BenefitsMapDiagram />;      // Evaluate & Deliver Benefits
-  if (cardId === 'business-3') return <PESTLEDiagram />;           // Address External Changes
-  if (cardId === 'business-4') return <ChangeReadinessDiagram />;  // Support Organisational Change
+  if (cardId === 'BE01') return <ComplianceFrameworkDiagram />; // Plan & Manage Compliance
+  if (cardId === 'BE02') return <BenefitsMapDiagram />;      // Evaluate & Deliver Benefits
+  if (cardId === 'BE03') return <PESTLEDiagram />;           // Address External Changes
+  if (cardId === 'BE04') return <ChangeReadinessDiagram />;  // Support Organisational Change
 
   // ── Advanced Techniques ────────────────────────────────────────────────────
   // People & Negotiation

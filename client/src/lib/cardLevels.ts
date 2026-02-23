@@ -68,10 +68,10 @@ export const CARD_LEVELS: Record<string, DifficultyLevel> = {
   'PR17': 'intermediate', // Plan Project Closure
 
   // ── Business Environment ──────────────────────────────────────────────────
-  'business-1': 'intermediate', // Benefits Realisation
-  'business-2': 'advanced',     // Compliance
-  'business-3': 'advanced',     // Organisational Change
-  'business-4': 'intermediate', // External Business Environment
+  'BE01': 'intermediate', // Benefits Realisation
+  'BE02': 'advanced',     // Compliance
+  'BE03': 'advanced',     // Organisational Change
+  'BE04': 'intermediate', // External Business Environment
 
   // ── Tools Deck ────────────────────────────────────────────────────────────
   'T1':  'beginner',     // Gantt Chart

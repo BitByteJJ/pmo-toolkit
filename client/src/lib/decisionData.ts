@@ -14,7 +14,7 @@
  *   M1–M4                                        (Methodologies)
  *   P1 … P14                         (People domain)
  *   PR1 … PR17                       (Process domain)
- *   business-1 … business-4                      (Business domain)
+ *   BE01 … BE04                      (Business domain)
  *   T1–T43                                       (Tools deck)
  *   A1–A93                                       (Advanced Techniques deck)
  */
@@ -326,7 +326,7 @@ export const DECISION_QUESTIONS: DecisionQuestion[] = [
         id: 'a-strat-business-case',
         label: 'I need to convince people the project is worth doing',
         description: 'Building a case, showing the value, and getting sign-off',
-        recommendations: ['T8', 'A75', 'A32', 'business-1'],
+        recommendations: ['T8', 'A75', 'A32', 'BE01'],
       },
       {
         id: 'a-strat-portfolio',
@@ -350,7 +350,7 @@ export const DECISION_QUESTIONS: DecisionQuestion[] = [
         id: 'a-strat-benefits',
         label: 'I need to show that the project actually delivered value',
         description: 'Measuring outcomes and proving the investment was worthwhile',
-        recommendations: ['business-1', 'T8', 'A81', 'PR17'],
+        recommendations: ['BE01', 'T8', 'A81', 'PR17'],
       },
     ],
   },
@@ -455,7 +455,7 @@ export const DECISION_QUESTIONS: DecisionQuestion[] = [
         id: 'a-close-benefits',
         label: 'I need to show whether the project actually achieved what it set out to do',
         description: 'Measuring outcomes and proving the value delivered',
-        recommendations: ['business-1', 'A81', 'T8', 'PR17'],
+        recommendations: ['BE01', 'A81', 'T8', 'PR17'],
       },
       {
         id: 'a-close-celebrate',
@@ -505,7 +505,7 @@ export const DECISION_QUESTIONS: DecisionQuestion[] = [
         id: 'a-pmbok8-sustainability',
         label: 'I need to address sustainability or ESG in my project',
         description: 'Environmental, social, and governance considerations',
-        recommendations: ['A89', 'P20', 'A90', 'business-4'],
+        recommendations: ['A89', 'P20', 'A90', 'BE04'],
       },
     ],
   },
@@ -583,7 +583,7 @@ export const RESULT_HEADLINES: Record<string, { headline: string; rationale: str
     { headline: 'Improving How the Team Communicates', rationale: 'Make information flow better, run more productive meetings, and keep distributed or cross-functional teams aligned.' },
 
   // ── Strategy ───────────────────────────────────────────────────────────────
-  'T8,A75,A32,business-1':
+  'T8,A75,A32,BE01':
     { headline: 'Making the Case for Your Project', rationale: 'Build a compelling argument for why the project is worth doing, quantify the benefits, and secure the approval you need.' },
   'A75,A33,A31,T8':
     { headline: 'Prioritising Projects and Deciding What to Fund', rationale: 'Evaluate and rank projects objectively so you can make defensible decisions about where to invest time and money.' },
@@ -591,7 +591,7 @@ export const RESULT_HEADLINES: Record<string, { headline: string; rationale: str
     { headline: 'Making a Difficult Decision', rationale: 'Navigate ambiguity and competing options with structured frameworks that bring clarity to complex choices.' },
   'A64,A52,T3,PR14':
     { headline: 'Setting Up Clear Accountability and Oversight', rationale: 'Establish who decides what, how decisions get escalated, and how the project is governed without creating bureaucracy.' },
-  'business-1,T8,A81,PR17':
+  'BE01,T8,A81,PR17':
     { headline: 'Proving the Project Delivered Value', rationale: 'Track and demonstrate the outcomes your project was funded to deliver — turning outputs into measurable benefits.' },
 
   // ── Change ─────────────────────────────────────────────────────────────────
@@ -623,7 +623,7 @@ export const RESULT_HEADLINES: Record<string, { headline: string; rationale: str
     { headline: 'Capturing Lessons and Improving for Next Time', rationale: 'Reflect on what worked and what didn\'t before institutional memory fades — so the next project starts smarter.' },
   'A79,phase-closure,A63,PR16':
     { headline: 'Handing Over Smoothly', rationale: 'Ensure a clean transition to the people who will run things day-to-day, with nothing falling through the cracks.' },
-  'business-1,A81,T8,PR17':
+  'BE01,A81,T8,PR17':
     { headline: 'Showing Whether the Project Delivered What It Promised', rationale: 'Measure outcomes against the original goals and demonstrate the value the project created.' },
   'phase-closure,A58,P3,A60':
     { headline: 'Celebrating the Team and Closing Well', rationale: 'Acknowledge contributions, celebrate success, and give the team a proper sense of closure and recognition.' },
@@ -638,7 +638,7 @@ export const RESULT_HEADLINES: Record<string, { headline: string; rationale: str
     { headline: 'Agile Metrics and Sprint Performance Tracking', rationale: 'Monitor team velocity, track progress against total scope with burnup charts, run effective sprint reviews, and use control charts to detect when performance is drifting.' },
   'T29,T30,T31,A93':
     { headline: 'Accurate Cost and Effort Estimation', rationale: 'Build reliable estimates using analogous, parametric, and bottom-up approaches — and apply algorithmic modelling for software projects with COCOMO.' },
-  'A89,P20,A90,business-4':
+  'A89,P20,A90,BE04':
     { headline: 'Embedding Sustainability and ESG into Your Project', rationale: 'Integrate environmental, social, and governance considerations into project planning and team culture — and use the VRIO framework to assess which sustainability capabilities to build.' },
 };
 
