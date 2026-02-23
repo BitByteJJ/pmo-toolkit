@@ -616,8 +616,8 @@ export default function LessonPage() {
         </div>
       </div>
 
-      {/* Question area */}
-      <div className="flex-1 px-4 py-6 overflow-y-auto">
+      {/* Question area — pb-32 ensures content isn't hidden behind the sticky Continue bar + BottomNav */}
+      <div className="flex-1 px-4 py-6 pb-32 overflow-y-auto">
         <AnimatePresence mode="wait">
           {displayQuestion && (
             <motion.div
@@ -643,8 +643,9 @@ export default function LessonPage() {
             initial={{ opacity: 0, y: 24 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: 24 }}
-            className="sticky bottom-0 px-4 pb-6 pt-3"
+            className="sticky bottom-0 px-4 pt-3"
             style={{
+              paddingBottom: 'calc(1.5rem + env(safe-area-inset-bottom, 0px) + 64px)',
               background: 'rgba(10,22,40,0.97)',
               backdropFilter: 'blur(12px)',
               borderTop: '1px solid rgba(255,255,255,0.07)',

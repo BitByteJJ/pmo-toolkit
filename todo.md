@@ -401,3 +401,7 @@
 ## Journey Winding Road — Feb 23 2026
 
 - [x] Replace straight connector line with winding SVG road/trail connecting day nodes in a fluid, game-map style (dashed road with curves, node positions matched to road waypoints)
+
+## LessonPage Continue Button Fix — Feb 23 2026
+
+- [x] Fix Continue button hidden behind BottomNav — add pb-24 to scroll area and raise sticky button bar above nav
