@@ -420,3 +420,9 @@
 
 - [ ] Audit all 198 cards for missing illustration URLs (especially Business Environment deck)
 - [ ] Fix any missing illustration URLs across all decks
+
+## DeckView Frosted Sections — Feb 23 2026
+
+- [x] Fix category pill text readability (near-invisible against dark bg)
+- [x] Apply frosted glass styling to How to Start section
+- [x] Apply frosted glass styling to Categories section

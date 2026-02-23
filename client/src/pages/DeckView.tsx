@@ -93,8 +93,14 @@ function HowToStartCard({
   const [expanded, setExpanded] = useState(false);
   return (
     <div
-      className="rounded-2xl overflow-hidden bg-card"
-      style={{ boxShadow: '0 2px 8px rgba(0,0,0,0.06)', border: `1.5px solid ${deck.color}20` }}
+      className="rounded-2xl overflow-hidden"
+      style={{
+        background: 'rgba(15,28,48,0.75)',
+        backdropFilter: 'blur(12px)',
+        WebkitBackdropFilter: 'blur(12px)',
+        border: `1.5px solid ${deck.color}35`,
+        boxShadow: `0 4px 20px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.06)`,
+      }}
     >
       <button
         onClick={() => setExpanded(e => !e)}
@@ -103,11 +109,11 @@ function HowToStartCard({
         <div className="flex items-center gap-2.5">
           <div
             className="w-7 h-7 rounded-xl flex items-center justify-center"
-            style={{ backgroundColor: deck.color + '20' }}
+            style={{ backgroundColor: deck.color + '25', border: `1px solid ${deck.color}40` }}
           >
             <Lightbulb size={13} style={{ color: deck.color }} />
           </div>
-          <span className="text-sm font-bold text-slate-200">How to start</span>
+          <span className="text-sm font-bold text-white">How to start</span>
         </div>
         {expanded ? (
           <ChevronUp size={15} className="text-slate-300" />
@@ -163,8 +169,14 @@ function SystemCard({
   if (!intro.systemNodes || intro.systemNodes.length === 0) return null;
   return (
     <div
-      className="rounded-2xl overflow-hidden bg-card"
-      style={{ boxShadow: '0 2px 8px rgba(0,0,0,0.06)', border: `1.5px solid ${deck.color}20` }}
+      className="rounded-2xl overflow-hidden"
+      style={{
+        background: 'rgba(15,28,48,0.75)',
+        backdropFilter: 'blur(12px)',
+        WebkitBackdropFilter: 'blur(12px)',
+        border: `1.5px solid ${deck.color}35`,
+        boxShadow: `0 4px 20px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.06)`,
+      }}
     >
       <button
         onClick={() => setExpanded(e => !e)}
@@ -173,11 +185,11 @@ function SystemCard({
         <div className="flex items-center gap-2.5">
           <div
             className="w-7 h-7 rounded-xl flex items-center justify-center"
-            style={{ backgroundColor: deck.color + '20' }}
+            style={{ backgroundColor: deck.color + '25', border: `1px solid ${deck.color}40` }}
           >
             <Compass size={13} style={{ color: deck.color }} />
           </div>
-          <span className="text-sm font-bold text-slate-200">Decision guide</span>
+          <span className="text-sm font-bold text-white">Decision guide</span>
         </div>
         {expanded ? (
           <ChevronUp size={15} className="text-slate-300" />
@@ -242,10 +254,13 @@ function CategoriesCard({
 
   return (
     <div
-      className="rounded-2xl overflow-hidden bg-card"
+      className="rounded-2xl overflow-hidden"
       style={{
-        boxShadow: '0 2px 8px rgba(0,0,0,0.06)',
-        border: `1.5px solid ${activeCategory ? deck.color + '60' : deck.color + '20'}`,
+        background: 'rgba(15,28,48,0.75)',
+        backdropFilter: 'blur(12px)',
+        WebkitBackdropFilter: 'blur(12px)',
+        border: `1.5px solid ${activeCategory ? deck.color + '70' : deck.color + '35'}`,
+        boxShadow: `0 4px 20px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.06)`,
         transition: 'border-color 0.2s',
       }}
     >
@@ -261,7 +276,7 @@ function CategoriesCard({
           >
             <Layers size={13} style={{ color: deck.color }} />
           </div>
-          <span className="text-sm font-bold text-slate-200">Categories</span>
+          <span className="text-sm font-bold text-white">Categories</span>
           {/* Active badge shown in header */}
           {activeCategory && (
             <span
@@ -297,8 +312,9 @@ function CategoriesCard({
                   onClick={() => onCategorySelect(null)}
                   className="flex items-center gap-1 text-[11px] font-bold px-2.5 py-1 rounded-full transition-all"
                   style={{
-                    backgroundColor: activeCategory === null ? deck.color : deck.color + '15',
-                    color: activeCategory === null ? '#fff' : deck.color,
+                    backgroundColor: activeCategory === null ? deck.color : 'rgba(255,255,255,0.12)',
+                    color: '#fff',
+                    border: activeCategory === null ? 'none' : '1px solid rgba(255,255,255,0.22)',
                   }}
                 >
                   All cards
@@ -312,8 +328,9 @@ function CategoriesCard({
                       onClick={() => onCategorySelect(isActive ? null : cat.name)}
                       className="flex items-center gap-1.5 text-[11px] font-semibold px-2.5 py-1 rounded-full transition-all active:scale-95"
                       style={{
-                        backgroundColor: isActive ? cat.color : cat.color + '20',
-                        color: isActive ? '#fff' : cat.color,
+                        backgroundColor: isActive ? cat.color : 'rgba(255,255,255,0.10)',
+                        color: '#fff',
+                        border: isActive ? 'none' : '1px solid rgba(255,255,255,0.20)',
                         boxShadow: isActive ? `0 2px 8px ${cat.color}50` : 'none',
                         transform: isActive ? 'scale(1.03)' : 'scale(1)',
                       }}
