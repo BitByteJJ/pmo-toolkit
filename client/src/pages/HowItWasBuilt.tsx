@@ -338,8 +338,16 @@ export default function HowItWasBuilt() {
           </div>
 
           <p className="text-[13px] text-indigo-200 leading-relaxed opacity-80">
-            The full technical documentation for StratAlign — the tech stack, AI prompts, and build process. 
-            Source code will be available on GitHub soon.
+            The full technical documentation for StratAlign — the tech stack, AI prompts, and build process.
+            Source code on GitHub:{' '}
+            <a
+              href="https://github.com/BitByteJJ/pmo-toolkit"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-violet-300 hover:text-violet-200 underline underline-offset-2 transition-colors"
+            >
+              github.com/BitByteJJ/pmo-toolkit
+            </a>
           </p>
 
 
