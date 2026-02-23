@@ -237,3 +237,14 @@
 - [x] Fix card re-IDs: people-N → P{N}, process-N → PR{N} across 14 files (815 replacements, 0 TS errors)
 - [x] Fix hardcoded card counts — verified 198 is accurate and consistent
 - [x] Fix BottomNav placement — lg:hidden added; TopNav upgraded with full desktop horizontal nav (11 links)
+
+## Template Generator Audit & Fixes — Feb 2026
+
+- [x] Audit PDF generator: formatting, layout, table rendering, section spacing, page breaks
+- [x] Audit Word generator: formatting, table rendering, section spacing, missing footer
+- [x] Fix Word document footer (copyright statement + Page X of Y field codes confirmed in XML)
+- [x] Fix Word document formatting: heading styles, table column widths, checklist rendering, border properties
+- [x] Fix PDF formatting: landscape for 5+ column tables, smart column widths, text wrapping, checklist checkboxes
+- [x] Fix PDF Unicode: sanitize block chars (Gantt bars) to [####] ASCII, strip markdown bold/italic, preserve em dash
+- [x] Test both generators: RACI Matrix (6 cols, landscape), Gantt Chart (14 cols, landscape), Word footer verified
+- [x] Save checkpoint after fixes

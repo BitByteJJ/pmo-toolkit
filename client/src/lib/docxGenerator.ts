@@ -3,7 +3,7 @@
 import {
   Document, Packer, Paragraph, TextRun, Table, TableRow, TableCell,
   HeadingLevel, AlignmentType, WidthType, BorderStyle, ShadingType,
-  Header, Footer, PageNumber, NumberFormat, convertInchesToTwip,
+  Header, Footer, PageNumber, convertInchesToTwip, TabStopType, TabStopPosition,
 } from 'docx';
 import { saveAs } from 'file-saver';
 import { CardTemplate } from './templateData';
@@ -118,35 +118,90 @@ function getFieldValues(state: { fields: Record<string, FieldValue> }, sectionIn
   return fieldValues.join('\n');
 }
 
+/** Compute smart column widths — first column wider for labels/names */
+function computeColWidths(headers: string[], totalDxa: number): number[] {
+  const n = headers.length;
+  if (n === 0) return [];
+  if (n === 1) return [totalDxa];
+  // Give first column 30% more if it looks like a label column
+  const firstIsLabel = /^(task|activity|name|role|item|risk|action|deliverable|milestone|stakeholder|requirement|issue|assumption|constraint|dependency)/i.test(headers[0]);
+  if (firstIsLabel && n >= 2) {
+    const firstW = Math.floor(totalDxa * 0.32);
+    const rest = Math.floor((totalDxa - firstW) / (n - 1));
+    return [firstW, ...Array(n - 1).fill(rest)];
+  }
+  return Array(n).fill(Math.floor(totalDxa / n));
+}
+
 function buildTableSection(headers: string[], rows: TableRowData[], accentColor: string): Table {
-  const colCount = headers.length;
-  const colWidth = Math.floor(9000 / colCount);
+  const totalDxa = 8640; // ~6 inches in DXA (1 inch = 1440 DXA)
+  const colWidths = computeColWidths(headers, totalDxa);
+  const accentHex = hexToDocxColor(accentColor);
+  const lightHex = lightenHex(accentColor);
+
+  const noBorder = { style: BorderStyle.NONE, size: 0, color: 'FFFFFF' };
+  const thinBorder = { style: BorderStyle.SINGLE, size: 4, color: 'E2E8F0' };
 
   const headerRow = new TableRow({
-    children: headers.map(h => new TableCell({
+    tableHeader: true,
+    children: headers.map((h, i) => new TableCell({
       children: [new Paragraph({
-        children: [new TextRun({ text: h, bold: true, color: hexToDocxColor(accentColor), size: 18 })],
+        children: [new TextRun({ text: h, bold: true, color: accentHex, size: 18 })],
+        spacing: { before: 60, after: 60 },
       })],
-      shading: { type: ShadingType.SOLID, color: lightenHex(accentColor), fill: lightenHex(accentColor) },
-      width: { size: colWidth, type: WidthType.DXA },
+      shading: { type: ShadingType.SOLID, color: lightHex, fill: lightHex },
+      width: { size: colWidths[i], type: WidthType.DXA },
+      margins: { top: 60, bottom: 60, left: 100, right: 100 },
+      borders: {
+        top: noBorder, bottom: thinBorder,
+        left: i === 0 ? noBorder : thinBorder,
+        right: noBorder,
+      },
     })),
   });
 
   const dataRows = rows.map((row, ri) => new TableRow({
-    children: headers.map(h => new TableCell({
-      children: [new Paragraph({
-        children: [new TextRun({ text: row.cells[h] || '', size: 18 })],
-      })],
-      shading: ri % 2 === 0
-        ? { type: ShadingType.SOLID, color: 'FFFFFF', fill: 'FFFFFF' }
-        : { type: ShadingType.SOLID, color: 'F8FAFC', fill: 'F8FAFC' },
-      width: { size: colWidth, type: WidthType.DXA },
-    })),
+    children: headers.map((h, i) => {
+      const cellText = row.cells[h] || '';
+      return new TableCell({
+        children: [new Paragraph({
+          children: [new TextRun({ text: cellText, size: 18, color: '1E293B' })],
+          spacing: { before: 60, after: 60 },
+        })],
+        shading: ri % 2 === 0
+          ? { type: ShadingType.SOLID, color: 'FFFFFF', fill: 'FFFFFF' }
+          : { type: ShadingType.SOLID, color: 'F8FAFC', fill: 'F8FAFC' },
+        width: { size: colWidths[i], type: WidthType.DXA },
+        margins: { top: 60, bottom: 60, left: 100, right: 100 },
+        borders: {
+          top: noBorder, bottom: thinBorder,
+          left: i === 0 ? noBorder : thinBorder,
+          right: noBorder,
+        },
+      });
+    }),
   }));
 
   return new Table({
     rows: [headerRow, ...dataRows],
-    width: { size: 9000, type: WidthType.DXA },
+    width: { size: totalDxa, type: WidthType.DXA },
+  });
+}
+
+function buildSectionHeading(num: number, heading: string, accentColor: string): Paragraph {
+  const accentHex = hexToDocxColor(accentColor);
+  const lightHex = lightenHex(accentColor);
+  return new Paragraph({
+    children: [
+      new TextRun({ text: `${num}. `, bold: true, color: accentHex, size: 20 }),
+      new TextRun({ text: heading, bold: true, color: '1E293B', size: 20 }),
+    ],
+    spacing: { before: 240, after: 80 },
+    border: {
+      bottom: { style: BorderStyle.SINGLE, size: 6, color: accentHex },
+    },
+    shading: { type: ShadingType.SOLID, color: lightHex, fill: lightHex },
+    indent: { left: 100, right: 100 },
   });
 }
 
@@ -157,95 +212,88 @@ export async function generateTemplateDocx(params: {
   formData: FormData;
 }): Promise<void> {
   const { card, template, theme, formData } = params;
-  const accentColor = hexToDocxColor(theme.color);
-  const lightColor = lightenHex(theme.color);
+  const accentHex = hexToDocxColor(theme.color);
+  const lightHex = lightenHex(theme.color);
 
   const children: (Paragraph | Table)[] = [];
 
-  // ── Title ─────────────────────────────────────────────────────────────────
+  // ── Title block ────────────────────────────────────────────────────────────
   children.push(new Paragraph({
     children: [
-      new TextRun({ text: `${card.id} — `, bold: true, color: accentColor, size: 28 }),
-      new TextRun({ text: template.title, bold: true, color: accentColor, size: 28 }),
+      new TextRun({ text: card.id, bold: true, color: accentHex, size: 20 }),
+      new TextRun({ text: '  ·  ', color: 'AAAAAA', size: 20 }),
+      new TextRun({ text: theme.title.toUpperCase(), color: accentHex, size: 16 }),
     ],
-    spacing: { after: 120 },
+    spacing: { before: 0, after: 80 },
   }));
 
-  // Deck label
   children.push(new Paragraph({
-    children: [new TextRun({ text: theme.title.toUpperCase(), color: accentColor, size: 16, bold: true })],
-    spacing: { after: 200 },
+    children: [
+      new TextRun({ text: template.title, bold: true, color: '0F172A', size: 36 }),
+    ],
+    spacing: { after: 60 },
+    border: { bottom: { style: BorderStyle.SINGLE, size: 12, color: accentHex } },
   }));
 
-  // ── Metadata table ────────────────────────────────────────────────────────
+  children.push(new Paragraph({ spacing: { after: 120 } }));
+
+  // ── Metadata table ─────────────────────────────────────────────────────────
+  const metaBorder = { style: BorderStyle.NONE, size: 0, color: 'FFFFFF' };
   children.push(new Table({
     rows: [
       new TableRow({
         children: [
-          new TableCell({
-            children: [
-              new Paragraph({ children: [new TextRun({ text: 'PROJECT / ORGANISATION', bold: true, size: 14, color: accentColor })] }),
-              new Paragraph({ children: [new TextRun({ text: formData.projectName || '—', size: 18 })] }),
-            ],
-            shading: { type: ShadingType.SOLID, color: lightColor, fill: lightColor },
-            width: { size: 3000, type: WidthType.DXA },
-          }),
-          new TableCell({
-            children: [
-              new Paragraph({ children: [new TextRun({ text: 'PREPARED BY', bold: true, size: 14, color: accentColor })] }),
-              new Paragraph({ children: [new TextRun({ text: formData.projectOwner || '—', size: 18 })] }),
-            ],
-            shading: { type: ShadingType.SOLID, color: lightColor, fill: lightColor },
-            width: { size: 2000, type: WidthType.DXA },
-          }),
-          new TableCell({
-            children: [
-              new Paragraph({ children: [new TextRun({ text: 'DATE', bold: true, size: 14, color: accentColor })] }),
-              new Paragraph({ children: [new TextRun({ text: formData.projectDate || '—', size: 18 })] }),
-            ],
-            shading: { type: ShadingType.SOLID, color: lightColor, fill: lightColor },
-            width: { size: 2000, type: WidthType.DXA },
-          }),
-          new TableCell({
-            children: [
-              new Paragraph({ children: [new TextRun({ text: 'VERSION', bold: true, size: 14, color: accentColor })] }),
-              new Paragraph({ children: [new TextRun({ text: formData.version || '1.0', size: 18 })] }),
-            ],
-            shading: { type: ShadingType.SOLID, color: lightColor, fill: lightColor },
-            width: { size: 2000, type: WidthType.DXA },
-          }),
-        ],
+          ['PROJECT / ORGANISATION', formData.projectName || '—'],
+          ['PREPARED BY', formData.projectOwner || '—'],
+          ['DATE', formData.projectDate || '—'],
+          ['VERSION', formData.version || '1.0'],
+        ].map(([label, value]) => new TableCell({
+          children: [
+            new Paragraph({
+              children: [new TextRun({ text: label, bold: true, size: 14, color: accentHex })],
+              spacing: { before: 60, after: 30 },
+            }),
+            new Paragraph({
+              children: [new TextRun({ text: value, size: 18, color: '1E293B' })],
+              spacing: { after: 60 },
+            }),
+          ],
+          shading: { type: ShadingType.SOLID, color: lightHex, fill: lightHex },
+          width: { size: 2160, type: WidthType.DXA },
+          margins: { top: 60, bottom: 60, left: 120, right: 120 },
+          borders: {
+            top: metaBorder, bottom: metaBorder,
+            left: metaBorder, right: { style: BorderStyle.SINGLE, size: 4, color: 'FFFFFF' },
+          },
+        })),
       }),
     ],
-    width: { size: 9000, type: WidthType.DXA },
+    width: { size: 8640, type: WidthType.DXA },
+    borders: {
+      top: metaBorder, bottom: metaBorder, left: metaBorder, right: metaBorder,
+    },
   }));
 
-  children.push(new Paragraph({ spacing: { after: 200 } }));
+  children.push(new Paragraph({ spacing: { after: 160 } }));
 
-  // ── Description ───────────────────────────────────────────────────────────
+  // ── Description ────────────────────────────────────────────────────────────
   children.push(new Paragraph({
-    children: [new TextRun({ text: template.description, italics: true, color: '555555', size: 18 })],
-    spacing: { after: 300 },
+    children: [new TextRun({ text: template.description, italics: true, color: '475569', size: 18 })],
+    spacing: { after: 240 },
   }));
 
-  // ── Sections ──────────────────────────────────────────────────────────────
+  // ── Sections ───────────────────────────────────────────────────────────────
   for (let si = 0; si < formData.sections.length; si++) {
     const section = formData.sections[si];
     const rawValue = getFieldValues(section.state, si, section.originalContent);
 
     // Section heading
-    children.push(new Paragraph({
-      children: [
-        new TextRun({ text: `${si + 1}. ${section.heading}`, bold: true, color: 'FFFFFF', size: 20 }),
-      ],
-      shading: { type: ShadingType.SOLID, color: accentColor, fill: accentColor },
-      spacing: { before: 200, after: 100 },
-    }));
+    children.push(buildSectionHeading(si + 1, section.heading, theme.color));
 
     if (!rawValue) {
       children.push(new Paragraph({
-        children: [new TextRun({ text: '(not filled)', italics: true, color: '999999', size: 18 })],
-        spacing: { after: 100 },
+        children: [new TextRun({ text: '(not filled)', italics: true, color: '94A3B8', size: 18 })],
+        spacing: { after: 120 },
       }));
       continue;
     }
@@ -255,57 +303,73 @@ export async function generateTemplateDocx(params: {
 
     if (parsed?.type === 'table' && parsed.headers && parsed.rows) {
       children.push(buildTableSection(parsed.headers, parsed.rows, theme.color));
-      children.push(new Paragraph({ spacing: { after: 150 } }));
+      children.push(new Paragraph({ spacing: { after: 200 } }));
 
     } else if (parsed?.type === 'checklist' && parsed.items) {
       for (const item of parsed.items) {
+        const checkChar = item.checked ? '\u2611' : '\u2610'; // ☑ or ☐
         children.push(new Paragraph({
           children: [
-            new TextRun({ text: item.checked ? '☑ ' : '☐ ', size: 18, color: item.checked ? accentColor : '444444' }),
-            new TextRun({ text: item.text, size: 18, strike: item.checked, color: item.checked ? '888888' : '1e293b' }),
+            new TextRun({
+              text: `${checkChar}  `,
+              size: 20,
+              color: item.checked ? accentHex : '64748B',
+            }),
+            new TextRun({
+              text: item.text,
+              size: 18,
+              strike: item.checked,
+              color: item.checked ? '94A3B8' : '1E293B',
+            }),
           ],
-          spacing: { after: 60 },
+          spacing: { after: 80 },
+          indent: { left: 100 },
         }));
       }
-      children.push(new Paragraph({ spacing: { after: 100 } }));
+      children.push(new Paragraph({ spacing: { after: 120 } }));
 
     } else {
-      // Plain text — split into lines
+      // Plain text — render label: value pairs
       const lines = rawValue.split('\n');
       for (const line of lines) {
         if (!line.trim()) continue;
         const colonIdx = line.indexOf(':');
-        if (colonIdx > 0 && colonIdx < 40) {
+        if (colonIdx > 0 && colonIdx < 50) {
           const label = line.slice(0, colonIdx).trim();
           const value = line.slice(colonIdx + 1).trim();
           children.push(new Paragraph({
             children: [
-              new TextRun({ text: `${label}: `, bold: true, size: 18, color: accentColor }),
-              new TextRun({ text: value, size: 18 }),
+              new TextRun({ text: `${label}:  `, bold: true, size: 18, color: accentHex }),
+              new TextRun({ text: value, size: 18, color: '1E293B' }),
             ],
             spacing: { after: 80 },
+            indent: { left: 100 },
           }));
         } else {
           children.push(new Paragraph({
-            children: [new TextRun({ text: line, size: 18 })],
+            children: [new TextRun({ text: line, size: 18, color: '1E293B' })],
             spacing: { after: 80 },
+            indent: { left: 100 },
           }));
         }
       }
-      children.push(new Paragraph({ spacing: { after: 100 } }));
+      children.push(new Paragraph({ spacing: { after: 120 } }));
     }
   }
 
-  // ── Document ──────────────────────────────────────────────────────────────
+  // ── Build document ─────────────────────────────────────────────────────────
   const doc = new Document({
+    creator: 'StratAlign — PMO Toolkit Navigator',
+    title: template.title,
+    description: template.description,
     sections: [{
       properties: {
         page: {
           margin: {
-            top: convertInchesToTwip(1),
-            bottom: convertInchesToTwip(1),
-            left: convertInchesToTwip(1),
-            right: convertInchesToTwip(1),
+            top: convertInchesToTwip(1.0),
+            bottom: convertInchesToTwip(1.1),
+            left: convertInchesToTwip(1.0),
+            right: convertInchesToTwip(1.0),
           },
         },
       },
@@ -314,9 +378,12 @@ export async function generateTemplateDocx(params: {
           children: [
             new Paragraph({
               children: [
-                new TextRun({ text: `PMO Toolkit Navigator — ${template.title}`, bold: true, color: accentColor, size: 18 }),
+                new TextRun({ text: 'PMO Toolkit Navigator', bold: true, color: accentHex, size: 18 }),
+                new TextRun({ text: '  ·  ', color: 'AAAAAA', size: 18 }),
+                new TextRun({ text: template.title, color: '475569', size: 18 }),
               ],
-              border: { bottom: { style: BorderStyle.SINGLE, size: 6, color: accentColor } },
+              border: { bottom: { style: BorderStyle.SINGLE, size: 6, color: accentHex } },
+              spacing: { after: 60 },
             }),
           ],
         }),
@@ -326,13 +393,15 @@ export async function generateTemplateDocx(params: {
           children: [
             new Paragraph({
               children: [
-                new TextRun({ text: COPYRIGHT_STATEMENT + '   |   Page ', size: 14, color: '888888' }),
-                new TextRun({ children: [PageNumber.CURRENT], size: 14, color: '888888' }),
-                new TextRun({ text: ' of ', size: 14, color: '888888' }),
-                new TextRun({ children: [PageNumber.TOTAL_PAGES], size: 14, color: '888888' }),
+                new TextRun({ text: COPYRIGHT_STATEMENT, size: 14, color: '94A3B8' }),
+                new TextRun({ text: '   |   Page ', size: 14, color: '94A3B8' }),
+                new TextRun({ children: [PageNumber.CURRENT], size: 14, color: '64748B' }),
+                new TextRun({ text: ' of ', size: 14, color: '94A3B8' }),
+                new TextRun({ children: [PageNumber.TOTAL_PAGES], size: 14, color: '64748B' }),
               ],
               alignment: AlignmentType.CENTER,
-              border: { top: { style: BorderStyle.SINGLE, size: 4, color: 'DDDDDD' } },
+              border: { top: { style: BorderStyle.SINGLE, size: 4, color: 'E2E8F0' } },
+              spacing: { before: 60 },
             }),
           ],
         }),
