@@ -356,3 +356,7 @@
 - [x] Unify Home page background: single deep navy linear-gradient(135deg, #0a1628 0%, #0f2040 100%) matching TemplateLibrary
 - [x] Fix Home hero base layer: aligned to same navy so hero blends seamlessly into page body
 - [x] Fix Home hero overlay gradients: updated left-side and bottom-fade colours to match #0a1628
+
+## Home Page Desktop Layout & ContinueCard Fix — Feb 23 2026
+- [x] Add lg:two-column layout to Home page (hero left, feature grid right on desktop)
+- [x] Fix ContinueCard background to blend with unified navy (#0a1628)

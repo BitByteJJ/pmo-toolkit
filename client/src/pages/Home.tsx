@@ -136,8 +136,9 @@ function ContinueCard() {
         onClick={() => navigate(`/card/${card.id}`)}
         className="w-full flex items-center gap-3 px-4 py-3 rounded-2xl text-left relative overflow-hidden"
         style={{
-          background: 'linear-gradient(135deg, #1e1b4b 0%, #1e3a5f 100%)',
-          boxShadow: '0 4px 20px rgba(99,102,241,0.25), 0 2px 8px rgba(0,0,0,0.15)',
+          background: 'rgba(15,32,64,0.75)',
+          boxShadow: '0 4px 20px rgba(99,102,241,0.18), 0 2px 8px rgba(0,0,0,0.25), 0 0 0 1px rgba(99,102,241,0.25)',
+          backdropFilter: 'blur(12px)',
         }}
       >
         {/* Shimmer overlay */}
@@ -250,7 +251,7 @@ export default function Home() {
       {/* ── Hero ── */}
       <div
         ref={heroRef}
-        className="relative overflow-hidden"
+        className="relative overflow-hidden lg:max-w-none"
         style={{ minHeight: '240px' }}
       >
         {/* Dark base layer — same navy as page bg so hero blends seamlessly */}
@@ -310,7 +311,7 @@ export default function Home() {
         </div>
 
         {/* Hero content */}
-        <div className="relative z-10 px-5 pt-12 pb-6">
+        <div className="relative z-10 px-5 pt-12 pb-6 lg:px-10 lg:pt-16 lg:pb-10">
           <motion.div
             initial={{ opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
@@ -347,31 +348,35 @@ export default function Home() {
         </div>
       </div>
 
-      {/* ── Continue where you left off ── */}
-      <ContinueCard />
-
-       {/* ── Daily Challenge ── */}
-      <div className="px-4 pt-4">
-        <DailyChallenge darkMode />
-      </div>
-      {/* ── Feature grid ── */}
-      <div className="px-4 pt-5 pb-28">
-        <div className="flex items-center justify-between mb-3">
-          <p
-            className="text-[10px] font-extrabold tracking-widest uppercase"
-            style={{ color: 'rgba(148,163,184,0.6)', fontFamily: 'Inter, sans-serif' }}
-          >
-            Explore
-          </p>
-          <TourButton />
+      {/* ── Desktop two-column wrapper ── */}
+      <div className="lg:flex lg:items-start lg:gap-8 lg:px-8 lg:pt-6 lg:pb-28">
+        {/* ── LEFT COLUMN (desktop): continue card + daily challenge ── */}
+        <div className="lg:w-80 lg:shrink-0 lg:sticky lg:top-6">
+          {/* ── Continue where you left off ── */}
+          <ContinueCard />
+          {/* ── Daily Challenge ── */}
+          <div className="px-4 pt-4 lg:px-0 lg:mt-4">
+            <DailyChallenge darkMode />
+          </div>
         </div>
-        <div className="grid grid-cols-2 gap-3">
-          {FEATURE_TILES.map((tile, i) => (
-            <FeatureTile key={tile.path} tile={tile} index={i} />
-          ))}
+        {/* ── RIGHT COLUMN (desktop) / full-width (mobile): feature grid ── */}
+        <div className="px-4 pt-5 pb-28 lg:flex-1 lg:px-0 lg:pt-0 lg:pb-0">
+          <div className="flex items-center justify-between mb-3">
+            <p
+              className="text-[10px] font-extrabold tracking-widest uppercase"
+              style={{ color: 'rgba(148,163,184,0.6)', fontFamily: 'Inter, sans-serif' }}
+            >
+              Explore
+            </p>
+            <TourButton />
+          </div>
+          <div className="grid grid-cols-2 lg:grid-cols-3 gap-3">
+            {FEATURE_TILES.map((tile, i) => (
+              <FeatureTile key={tile.path} tile={tile} index={i} />
+            ))}
+          </div>
         </div>
       </div>
-
       <BottomNav />
     </div>
   );
