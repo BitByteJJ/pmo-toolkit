@@ -376,6 +376,155 @@ function StatsStrip() {
   );
 }
 
+// ─── WINDING ROAD SVG ────────────────────────────────────────────────────────
+/**
+ * Renders a winding SVG road connecting day nodes.
+ * positions: array of 'left' | 'center' | 'right' for each node.
+ * nodeCount: how many nodes.
+ * accent: unit accent colour.
+ */
+function WindingRoad({
+  positions,
+  nodeCount,
+  accent,
+  completedCount,
+}: {
+  positions: Array<'left' | 'center' | 'right'>;
+  nodeCount: number;
+  accent: string;
+  completedCount: number;
+}) {
+  // Layout constants (must match DayNode layout)
+  const CARD_WIDTH = 320;   // approximate card inner width in px
+  const NODE_SIZE = 72;     // node diameter
+  const ROW_HEIGHT = 96;    // space-y-10 = 40px + node 72px ≈ 96px effective row height
+  const PAD_TOP = 24;       // py-6 top padding
+  const LEFT_X = 52;        // ml-8 = 32px + half node
+  const CENTER_X = CARD_WIDTH / 2;
+  const RIGHT_X = CARD_WIDTH - 52;
+
+  const xForPos = (pos: 'left' | 'center' | 'right') =>
+    pos === 'left' ? LEFT_X : pos === 'right' ? RIGHT_X : CENTER_X;
+
+  // Build waypoints — centre of each node
+  const points: { x: number; y: number }[] = positions.slice(0, nodeCount).map((pos, i) => ({
+    x: xForPos(pos),
+    y: PAD_TOP + NODE_SIZE / 2 + i * ROW_HEIGHT,
+  }));
+
+  const totalHeight = PAD_TOP + NODE_SIZE / 2 + (nodeCount - 1) * ROW_HEIGHT + NODE_SIZE / 2 + PAD_TOP;
+
+  if (points.length < 2) return null;
+
+  // Build smooth cubic bezier path through all waypoints
+  const buildPath = (pts: { x: number; y: number }[]) => {
+    let d = `M ${pts[0].x} ${pts[0].y}`;
+    for (let i = 0; i < pts.length - 1; i++) {
+      const p0 = pts[i];
+      const p1 = pts[i + 1];
+      const midY = (p0.y + p1.y) / 2;
+      // Control points: pull horizontally toward the midpoint then curve to destination
+      const cp1x = p0.x;
+      const cp1y = midY;
+      const cp2x = p1.x;
+      const cp2y = midY;
+      d += ` C ${cp1x} ${cp1y}, ${cp2x} ${cp2y}, ${p1.x} ${p1.y}`;
+    }
+    return d;
+  };
+
+  const pathD = buildPath(points);
+
+  // How far along the path is completed (fraction 0–1)
+  const completedFraction = nodeCount > 1 ? Math.min(1, completedCount / (nodeCount - 1)) : 0;
+
+  return (
+    <svg
+      className="absolute inset-0 pointer-events-none"
+      width="100%"
+      height={totalHeight}
+      viewBox={`0 0 ${CARD_WIDTH} ${totalHeight}`}
+      preserveAspectRatio="none"
+      style={{ zIndex: 0 }}
+    >
+      <defs>
+        {/* Glow filter */}
+        <filter id={`road-glow-${accent.replace('#','')}`} x="-30%" y="-10%" width="160%" height="120%">
+          <feGaussianBlur stdDeviation="3" result="blur" />
+          <feComposite in="SourceGraphic" in2="blur" operator="over" />
+        </filter>
+        {/* Completed gradient */}
+        <linearGradient id={`road-done-${accent.replace('#','')}`} x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stopColor={accent} stopOpacity="0.9" />
+          <stop offset="100%" stopColor={accent} stopOpacity="0.5" />
+        </linearGradient>
+      </defs>
+
+      {/* ── Base road track (thick, dark) ── */}
+      <path
+        d={pathD}
+        fill="none"
+        stroke="rgba(15,28,48,0.95)"
+        strokeWidth="22"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+
+      {/* ── Road kerb / edge (unit colour, low opacity) ── */}
+      <path
+        d={pathD}
+        fill="none"
+        stroke={accent}
+        strokeWidth="22"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        strokeOpacity="0.18"
+      />
+
+      {/* ── Completed section (bright accent) ── */}
+      {completedFraction > 0 && (
+        <path
+          d={pathD}
+          fill="none"
+          stroke={`url(#road-done-${accent.replace('#','')})`}
+          strokeWidth="14"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          strokeDasharray={`${completedFraction * 2000} 2000`}
+          filter={`url(#road-glow-${accent.replace('#','')})`}
+          strokeOpacity="0.75"
+        />
+      )}
+
+      {/* ── Upcoming section (faint dashed road markings) ── */}
+      <path
+        d={pathD}
+        fill="none"
+        stroke="rgba(255,255,255,0.12)"
+        strokeWidth="3"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        strokeDasharray="8 14"
+      />
+
+      {/* ── Centre dashes on completed section (white) ── */}
+      {completedFraction > 0 && (
+        <path
+          d={pathD}
+          fill="none"
+          stroke="rgba(255,255,255,0.55)"
+          strokeWidth="2.5"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          strokeDasharray={`${completedFraction * 2000} 2000`}
+          strokeDashoffset="0"
+          style={{ mixBlendMode: 'overlay' }}
+        />
+      )}
+    </svg>
+  );
+}
+
 // ─── UNIT PATH CARD ───────────────────────────────────────────────────────────
 function UnitPathCard({ children, unitId }: { children: React.ReactNode; unitId: string }) {
   const colors = UNIT_COLORS[unitId] ?? UNIT_COLORS.foundations;
@@ -534,13 +683,12 @@ export default function JourneyPage() {
               {/* Day nodes in card container */}
               <UnitPathCard unitId={unit.id}>
                 <div className="relative space-y-10 py-2">
-                  {/* Connector line */}
-                  <div
-                    className="absolute left-1/2 top-0 bottom-0 w-px -translate-x-1/2"
-                    style={{
-                      background: `linear-gradient(to bottom, transparent, ${colors.accent}30 15%, ${colors.accent}20 85%, transparent)`,
-                      zIndex: 0,
-                    }}
+                  {/* Winding road SVG */}
+                  <WindingRoad
+                    positions={lessons.map((_, i) => NODE_POSITIONS[(unitIndex * 5 + i) % NODE_POSITIONS.length])}
+                    nodeCount={lessons.length}
+                    accent={colors.accent}
+                    completedCount={completedCount}
                   />
 
                   {lessons.map((lesson, i) => {

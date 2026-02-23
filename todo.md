@@ -397,3 +397,7 @@
 - [x] LessonPage: upgrade no-hearts screen (richer layout, animated heart, countdown styling)
 - [x] EarnHeartPage: fix light-mode header (rose-100 bg → dark navy), fix card study modal header (deck.bgColor → dark navy), fix "Studied!" confirmation (bg-emerald-50 → dark)
 - [x] JourneySetupWizard: fix option buttons (light #fafaf8 bg → dark navy, border #e7e5e4 → rgba white), fix step dots inactive color (#e7e5e4 → rgba white)
+
+## Journey Winding Road — Feb 23 2026
+
+- [x] Replace straight connector line with winding SVG road/trail connecting day nodes in a fluid, game-map style (dashed road with curves, node positions matched to road waypoints)
