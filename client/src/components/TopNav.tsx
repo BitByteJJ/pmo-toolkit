@@ -107,20 +107,31 @@ export default function TopNav({ accentColor = '#475569' }: TopNavProps) {
   };
 
   // ── Decks dropdown panel ─────────────────────────────────────────────────
-  const DecksPanel = () => (
+  // On mobile: fixed to viewport centre; on desktop: absolute right-aligned
+  const DecksPanel = ({ desktop = false }: { desktop?: boolean }) => (
     <motion.div
-      initial={{ opacity: 0, y: -6, scale: 0.97 }}
+      initial={{ opacity: 0, y: desktop ? -6 : 6, scale: 0.97 }}
       animate={{ opacity: 1, y: 0, scale: 1 }}
-      exit={{ opacity: 0, y: -6, scale: 0.97 }}
+      exit={{ opacity: 0, y: desktop ? -6 : 6, scale: 0.97 }}
       transition={{ duration: 0.15, ease: [0.22, 1, 0.36, 1] }}
-      className="absolute right-0 top-full mt-2 w-64 rounded-2xl overflow-hidden"
-      style={{
+      className={desktop ? 'absolute right-0 top-full mt-2 w-64 rounded-2xl overflow-hidden' : 'fixed w-72 rounded-2xl overflow-hidden'}
+      style={desktop ? {
         background: 'rgba(255,255,255,0.98)',
         backdropFilter: 'blur(20px)',
         WebkitBackdropFilter: 'blur(20px)',
         boxShadow: '0 16px 40px rgba(0,0,0,0.12), 0 4px 12px rgba(0,0,0,0.07)',
         border: '1px solid rgba(0,0,0,0.07)',
         transformOrigin: 'top right',
+        zIndex: 60,
+      } : {
+        top: '56px',
+        left: '50%',
+        transform: 'translateX(-50%)',
+        background: 'rgba(255,255,255,0.98)',
+        backdropFilter: 'blur(20px)',
+        WebkitBackdropFilter: 'blur(20px)',
+        boxShadow: '0 16px 40px rgba(0,0,0,0.12), 0 4px 12px rgba(0,0,0,0.07)',
+        border: '1px solid rgba(0,0,0,0.07)',
         zIndex: 60,
       }}
     >
@@ -270,7 +281,7 @@ export default function TopNav({ accentColor = '#475569' }: TopNavProps) {
                 <ChevronDown size={12} strokeWidth={2.5} />
               </motion.div>
             </button>
-            <AnimatePresence>{openDropdown === 'decks' && <DecksPanel />}</AnimatePresence>
+            <AnimatePresence>{openDropdown === 'decks' && <DecksPanel desktop={false} />}</AnimatePresence>
           </div>
 
           {/* Bookmarks button (mobile) */}
@@ -377,7 +388,7 @@ export default function TopNav({ accentColor = '#475569' }: TopNavProps) {
                 }}
               />
             </button>
-            <AnimatePresence>{openDropdown === 'decks' && <DecksPanel />}</AnimatePresence>
+            <AnimatePresence>{openDropdown === 'decks' && <DecksPanel desktop={true} />}</AnimatePresence>
           </div>
 
           {/* Bookmarks button (desktop) */}
