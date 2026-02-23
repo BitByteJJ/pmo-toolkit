@@ -41,7 +41,7 @@ export default function SearchPage() {
         className="pb-3 sticky top-12 z-30"
         style={{
           paddingTop: '12px',
-          background: 'rgba(19,24,42,0.96)',
+          background: 'rgba(8,14,32,0.94)',
           backdropFilter: 'blur(20px) saturate(1.4)',
           WebkitBackdropFilter: 'blur(20px) saturate(1.4)',
           borderBottom: '1.5px solid rgba(0,0,0,0.06)',

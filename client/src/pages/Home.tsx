@@ -65,7 +65,7 @@ function FeatureTile({ tile, index }: { tile: typeof FEATURE_TILES[0]; index: nu
       style={{
         background: bg,
         boxShadow: `0 4px 20px ${color}30, 0 2px 8px rgba(0,0,0,0.25), 0 0 0 1px ${color}25`,
-        backdropFilter: 'blur(12px)',
+        backdropFilter: 'blur(20px) saturate(1.5)',
         transition: 'box-shadow 0.2s ease',
       }}
     >
@@ -137,7 +137,7 @@ function ContinueCard() {
         style={{
           background: 'rgba(15,32,64,0.75)',
           boxShadow: '0 4px 20px rgba(99,102,241,0.18), 0 2px 8px rgba(0,0,0,0.25), 0 0 0 1px rgba(99,102,241,0.25)',
-          backdropFilter: 'blur(12px)',
+          backdropFilter: 'blur(20px) saturate(1.5)',
         }}
       >
         {/* Shimmer overlay */}

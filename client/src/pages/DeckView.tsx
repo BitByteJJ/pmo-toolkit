@@ -96,7 +96,7 @@ function HowToStartCard({
       className="rounded-2xl overflow-hidden"
       style={{
         background: 'rgba(15,28,48,0.75)',
-        backdropFilter: 'blur(12px)',
+        backdropFilter: 'blur(20px) saturate(1.5)',
         WebkitBackdropFilter: 'blur(12px)',
         border: `1.5px solid ${deck.color}35`,
         boxShadow: `0 4px 20px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.06)`,
@@ -172,7 +172,7 @@ function SystemCard({
       className="rounded-2xl overflow-hidden"
       style={{
         background: 'rgba(15,28,48,0.75)',
-        backdropFilter: 'blur(12px)',
+        backdropFilter: 'blur(20px) saturate(1.5)',
         WebkitBackdropFilter: 'blur(12px)',
         border: `1.5px solid ${deck.color}35`,
         boxShadow: `0 4px 20px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.06)`,
@@ -257,7 +257,7 @@ function CategoriesCard({
       className="rounded-2xl overflow-hidden"
       style={{
         background: 'rgba(15,28,48,0.75)',
-        backdropFilter: 'blur(12px)',
+        backdropFilter: 'blur(20px) saturate(1.5)',
         WebkitBackdropFilter: 'blur(12px)',
         border: `1.5px solid ${activeCategory ? deck.color + '70' : deck.color + '35'}`,
         boxShadow: `0 4px 20px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.06)`,
@@ -420,32 +420,44 @@ function CardListItem({
         tabIndex={0}
         onKeyDown={e => e.key === 'Enter' && onNavigate()}
       >
-        {/* ── Illustration — more visible, right-anchored ── */}
+        {/* ── Illustration — fades from transparent (left) to bold (right) ── */}
         {illustration && (
           <div className="absolute inset-0 pointer-events-none">
-            <img
-              src={illustration}
-              alt=""
-              aria-hidden="true"
+            {/* Illustration: right-anchored, masked with a left-to-right fade so it
+                appears faint at the left edge and full-strength at the right */}
+            <div
               className="absolute"
               style={{
                 right: '-8px',
                 top: '50%',
                 transform: 'translateY(-50%)',
                 height: '160%',
-                width: 'auto',
-                maxWidth: '52%',
-                objectFit: 'contain',
-                mixBlendMode: 'screen',
-                opacity: 0.65,
+                width: '52%',
+                /* Mask: transparent on the left, opaque on the right */
+                WebkitMaskImage: 'linear-gradient(to right, transparent 0%, rgba(0,0,0,0.25) 30%, rgba(0,0,0,0.75) 65%, rgba(0,0,0,1) 100%)',
+                maskImage: 'linear-gradient(to right, transparent 0%, rgba(0,0,0,0.25) 30%, rgba(0,0,0,0.75) 65%, rgba(0,0,0,1) 100%)',
               }}
-            />
-            {/* Frosted gradient — covers left 55% solidly, then fades */}
+            >
+              <img
+                src={illustration}
+                alt=""
+                aria-hidden="true"
+                className="w-full h-full"
+                style={{
+                  objectFit: 'contain',
+                  objectPosition: 'center right',
+                  mixBlendMode: 'screen',
+                  opacity: 0.82,
+                }}
+              />
+            </div>
+            {/* Text-side gradient: solid dark on the left, fades to transparent on the right
+                so the illustration shows through while keeping text fully readable */}
             <div
               className="absolute inset-0"
               style={{
                 background:
-                  'linear-gradient(to right, rgba(10,22,40,0.98) 38%, rgba(10,22,40,0.92) 52%, rgba(10,22,40,0.6) 68%, rgba(10,22,40,0.15) 85%, transparent 100%)',
+                  'linear-gradient(to right, rgba(10,22,40,1) 0%, rgba(10,22,40,0.97) 30%, rgba(10,22,40,0.82) 50%, rgba(10,22,40,0.35) 70%, transparent 100%)',
               }}
             />
           </div>
@@ -484,7 +496,7 @@ function CardListItem({
               className="inline-flex items-center gap-1.5 mb-1 px-2 py-0.5 rounded-full"
               style={{
                 background: 'rgba(10,22,40,0.75)',
-                backdropFilter: 'blur(12px)',
+                backdropFilter: 'blur(20px) saturate(1.5)',
                 WebkitBackdropFilter: 'blur(12px)',
                 border: `1px solid ${deck.color}20`,
               }}

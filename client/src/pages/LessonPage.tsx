@@ -588,7 +588,7 @@ export default function LessonPage() {
         className="sticky top-11 z-40 px-4 py-3"
         style={{
           background: 'rgba(10,22,40,0.97)',
-          backdropFilter: 'blur(16px)',
+          backdropFilter: 'blur(24px) saturate(1.6)',
           borderBottom: '1px solid rgba(255,255,255,0.07)',
         }}
       >

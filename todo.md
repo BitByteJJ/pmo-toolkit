@@ -439,3 +439,8 @@
 ## Roadmap Tab Visual Upgrade — Feb 23 2026
 
 - [x] Apply frosted glass and richer active states to Roadmap page tabs
+
+## Card Illustration Gradient & Frosted Matte — Feb 23 2026
+
+- [x] DeckView card rows: illustration fades from transparent (left) to bold (right); text container fades from solid (left) to transparent (right)
+- [x] Deepen frosted glass matte (higher backdrop-blur, darker bg tint) across all major panels app-wide

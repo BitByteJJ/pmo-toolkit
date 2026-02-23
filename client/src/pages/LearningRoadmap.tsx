@@ -352,7 +352,7 @@ function JourneyRoadmap({ journey }: { journey: LearningJourney }) {
         className="rounded-2xl p-4 relative overflow-hidden"
         style={{
           background: `linear-gradient(135deg, ${journey.color}18, ${journey.color}08)`,
-          backdropFilter: 'blur(12px)',
+          backdropFilter: 'blur(20px) saturate(1.5)',
           WebkitBackdropFilter: 'blur(12px)',
           border: `1.5px solid ${journey.color}30`,
           boxShadow: `inset 0 1px 0 ${journey.color}20`,

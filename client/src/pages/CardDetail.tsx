@@ -686,7 +686,7 @@ export default function CardDetail() {
       </AnimatePresence>
 
       {/* ── Tab Bar ── */}
-      <div className="sticky top-12 z-30 border-b" style={{ background: 'rgba(19,24,42,0.96)', backdropFilter: 'blur(16px)', WebkitBackdropFilter: 'blur(16px)', borderColor: 'rgba(0,0,0,0.06)' }}>
+      <div className="sticky top-12 z-30 border-b" style={{ background: 'rgba(8,14,32,0.94)', backdropFilter: 'blur(24px) saturate(1.6)', WebkitBackdropFilter: 'blur(16px)', borderColor: 'rgba(0,0,0,0.06)' }}>
         <div className="max-w-2xl mx-auto px-4">
           <div className="flex gap-1 pt-2 pb-0 overflow-x-auto scrollbar-none">
             {(['overview', ...(template ? ['template'] : []), ...(caseStudy ? ['case-study'] : []), 'deep-dive', 'video-guide'] as ('overview' | 'template' | 'case-study' | 'deep-dive' | 'video-guide')[]).map(tab => (
