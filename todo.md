@@ -415,3 +415,8 @@
 ## BottomNav Global Fix — Feb 23 2026
 
 - [x] Fix BottomNav disappearing on screens wider than 1024px — removed lg:hidden, moved to App.tsx as GlobalBottomNav, removed per-page imports
+
+## Illustration Audit — Feb 23 2026
+
+- [ ] Audit all 198 cards for missing illustration URLs (especially Business Environment deck)
+- [ ] Fix any missing illustration URLs across all decks
