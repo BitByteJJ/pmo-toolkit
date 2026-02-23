@@ -49,6 +49,7 @@ const TOOLS = [
     icon: Sparkles,
     items: [
       { name: 'Manus Built-in LLM API', desc: 'Powers AI Tool Finder recommendations and content generation' },
+      { name: 'Google Cloud Text-to-Speech', desc: 'AI-powered audio narration for card deep dives — converts written content to natural-sounding speech via the Google TTS API' },
       { name: 'jsPDF', desc: 'Client-side PDF generation with landscape support' },
       { name: 'docx (npm)', desc: 'Word document generation with footers and tables' },
       { name: 'Whisper API', desc: 'Voice transcription (available for future features)' },
@@ -218,7 +219,7 @@ const PROCESS_STEPS = [
   {
     step: '05',
     title: 'UI Development',
-    desc: 'Built the React app with a mobile-first design. Key decisions: dark navy home screen, frosted glass nav bars, physical card-deck aesthetic for deck covers, and a Duolingo-inspired Learning Journey game.',
+    desc: 'Built the React app with a mobile-first design. Key decisions: dark navy home screen, frosted glass nav bars, physical card-deck aesthetic for deck covers, and a Duolingo-inspired Learning Journey game. Animations throughout — card flips, spring physics on deck hovers, staggered list entrances, and progress bar fills — are all powered by Framer Motion.',
     color: '#8b5cf6',
   },
   {
@@ -230,7 +231,7 @@ const PROCESS_STEPS = [
   {
     step: '07',
     title: 'AI Integration',
-    desc: 'Wired the Manus LLM API to power the AI Tool Finder. The system prompt includes a compact 233-card catalogue and returns ranked recommendations with specific reasons. Responses are cached in localStorage.',
+    desc: 'Wired the Manus LLM API to power the AI Tool Finder. The system prompt includes a compact 198-card catalogue and returns ranked recommendations with specific reasons. Responses are cached in localStorage. Google Cloud Text-to-Speech (TTS) was integrated to generate audio narrations for card deep dives — each card\'s content is sent to the Google TTS API and the resulting audio is streamed directly in the browser.',
     color: '#ef4444',
   },
   {
@@ -353,14 +354,7 @@ export default function HowItWasBuilt() {
             Source code will be available on GitHub soon.
           </p>
 
-          {/* Credit */}
-          <div className="mt-4 flex items-center gap-2 px-3 py-2 rounded-xl bg-white/10">
-            <span className="text-lg">💜</span>
-            <p className="text-[11px] text-indigo-200">
-              <span className="font-bold text-white">For Sonia</span> — yes love, here's the documentation! 
-              Built by Jackson Joy · February 2026
-            </p>
-          </div>
+
         </div>
       </div>
 
@@ -397,7 +391,7 @@ export default function HowItWasBuilt() {
         {activeTab === 'process' && (
           <div className="pt-5 space-y-4">
             <p className="text-[12px] text-stone-500 leading-relaxed">
-              StratAlign was built over several weeks using an AI-assisted development workflow. 
+              StratAlign was built over several days using an AI-assisted development workflow. 
               Here's the end-to-end process from content architecture to deployment.
             </p>
             {PROCESS_STEPS.map((step, i) => (
