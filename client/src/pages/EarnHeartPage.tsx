@@ -178,7 +178,7 @@ export default function EarnHeartPage() {
   };
 
   return (
-    <div className="min-h-screen pt-11 pb-24" style={{ backgroundColor: 'rgba(220,38,38,0.12)' }}>
+    <div className="min-h-screen pt-11 pb-24" style={{ background: '#0a1628' }}>
       {/* Header */}
       <div
         className="sticky top-11 z-40 px-4 py-3"

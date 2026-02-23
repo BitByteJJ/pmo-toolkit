@@ -253,7 +253,7 @@ export default function CardDetail() {
 
   if (!card) {
     return (
-      <div className="min-h-screen flex flex-col items-center justify-center pb-24">
+      <div className="min-h-screen flex flex-col items-center justify-center pb-24" style={{ background: '#0a1628' }}>
         <div className="text-center px-8">
           <p className="text-slate-400 text-sm mb-4">Card not found</p>
           <button
@@ -410,7 +410,7 @@ export default function CardDetail() {
   }
 
   return (
-    <div className="min-h-screen pt-12 pb-24 overflow-x-hidden">
+    <div className="min-h-screen pt-12 pb-24 overflow-x-hidden" style={{ background: '#0a1628' }}>
 
       {/* Completion celebration overlay */}
       <AnimatePresence>

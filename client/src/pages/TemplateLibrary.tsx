@@ -161,7 +161,7 @@ export default function TemplateLibrary() {
   };
 
   return (
-    <div className="min-h-screen pt-12 pb-28" style={{ background: 'linear-gradient(135deg, #0a1628 0%, #0f2040 100%)' }}>
+    <div className="min-h-screen pt-12 pb-28" style={{ background: '#0a1628' }}>
       {/* Header — top-12 keeps it below the fixed 48px TopNav */}
       <div className="sticky top-12 z-40"
         style={{ background: 'rgba(10,22,40,0.92)', backdropFilter: 'blur(16px)', borderBottom: '1px solid rgba(255,255,255,0.07)' }}>

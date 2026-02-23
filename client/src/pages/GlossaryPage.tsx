@@ -517,7 +517,7 @@ export default function GlossaryPage() {
   }
 
   return (
-    <div className="min-h-screen pt-12 pb-24">
+    <div className="min-h-screen pt-12 pb-24" style={{ background: '#0a1628' }}>
       {/* Sticky header */}
       <div
         className="sticky top-12 z-30 border-b"

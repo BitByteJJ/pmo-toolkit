@@ -17,7 +17,7 @@ export default function BookmarksPage() {
     .filter(Boolean) as NonNullable<ReturnType<typeof getCardById>>[];
 
   return (
-    <div className="min-h-screen pt-12 pb-24">
+    <div className="min-h-screen pt-12 pb-24" style={{ background: '#0a1628' }}>
       {/* Header */}
       <div className="border-b pt-4 pb-4" style={{ background: 'rgba(19,24,42,0.96)', backdropFilter: 'blur(20px) saturate(1.4)', WebkitBackdropFilter: 'blur(20px) saturate(1.4)', borderColor: 'rgba(0,0,0,0.06)' }}>
         <div className="max-w-2xl mx-auto px-4">

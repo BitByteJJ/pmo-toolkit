@@ -443,7 +443,7 @@ export default function DecisionHelper() {
   }, []);
 
   return (
-    <div className="min-h-screen pt-12 pb-32">
+    <div className="min-h-screen pt-12 pb-32" style={{ background: '#0a1628' }}>
       {/* Header */}
       <div className="sticky top-12 z-20 border-b" style={{ background: 'rgba(19,24,42,0.96)', backdropFilter: 'blur(20px) saturate(1.4)', WebkitBackdropFilter: 'blur(20px) saturate(1.4)', borderColor: 'rgba(0,0,0,0.06)' }}>
         <div className="max-w-2xl mx-auto px-4 pt-4 pb-3 flex items-center gap-3">

@@ -215,8 +215,7 @@ function LessonCompleteScreen({
     <motion.div
       initial={{ opacity: 0, scale: 0.95 }}
       animate={{ opacity: 1, scale: 1 }}
-      className="min-h-screen flex flex-col items-center justify-center px-6 pb-12"
-      style={{ backgroundColor: 'var(--background)' }}
+      className="min-h-screen flex flex-col items-center justify-center px-6 pb-12" style={{ background: '#0a1628' }}
     >
       {/* Trophy / star animation */}
       <motion.div
@@ -296,8 +295,7 @@ function NoHeartsScreen({ onEarnHeart, onGoBack }: { onEarnHeart: () => void; on
     <motion.div
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
-      className="min-h-screen flex flex-col items-center justify-center px-6 pb-12"
-      style={{ backgroundColor: 'var(--background)' }}
+      className="min-h-screen flex flex-col items-center justify-center px-6 pb-12" style={{ background: '#0a1628' }}
     >
       <motion.div
         initial={{ scale: 0 }}
@@ -462,7 +460,7 @@ export default function LessonPage() {
   // ── Guard: lesson not found ──────────────────────────────────────────────
   if (!lessonWithRandomQ) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
+      <div className="min-h-screen flex items-center justify-center" style={{ background: '#0a1628' }}>
         <p className="text-slate-400">Lesson not found</p>
       </div>
     );
@@ -504,7 +502,7 @@ export default function LessonPage() {
   // feedback panel with the Continue button.
   if (!state.activeSession || (!currentQuestion && !pendingContinue)) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
+      <div className="min-h-screen flex items-center justify-center" style={{ background: '#0a1628' }}>
         <div className="text-center px-6">
           <p className="text-slate-400 mb-4">Loading lesson...</p>
         </div>
@@ -521,7 +519,7 @@ export default function LessonPage() {
 
   return (
     <>
-    <div className="min-h-screen pt-11 flex flex-col" style={{ backgroundColor: 'var(--background)' }}>
+    <div className="min-h-screen pt-11 flex flex-col" style={{ background: '#0a1628' }}>
       {/* Header */}
       <div
         className="sticky top-11 z-40 px-4 py-3"

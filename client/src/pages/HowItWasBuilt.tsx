@@ -316,7 +316,7 @@ export default function HowItWasBuilt() {
   ] as const;
 
   return (
-    <div className="min-h-screen bg-card pb-24">
+    <div className="min-h-screen pb-24" style={{ background: '#0a1628' }}>
       {/* Header */}
       <div
         className="pt-12 pb-6 px-4"

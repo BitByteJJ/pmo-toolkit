@@ -255,7 +255,7 @@ export default function DecksPage() {
   const { badges, totalBadges } = useMasteryBadges();
   const maxBadges = DECKS.length * 2;
   return (
-    <div className="min-h-screen pb-24">
+    <div className="min-h-screen pb-24" style={{ background: '#0a1628' }}>
       <div className="pt-12">
         <div className="max-w-5xl mx-auto px-4 pt-6 pb-4">
           <h1 className="text-2xl font-black text-slate-100 mb-1" style={{ fontFamily: 'Sora, sans-serif' }}>

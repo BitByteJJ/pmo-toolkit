@@ -214,14 +214,9 @@ export default function Home() {
   const [scrollY, setScrollY] = useState(0);
 
   useEffect(() => {
-    const container = document.querySelector('.app-shell') as HTMLElement | null;
-    const el = container ?? window;
-    const onScroll = () => {
-      const y = container ? container.scrollTop : window.scrollY;
-      setScrollY(y);
-    };
-    el.addEventListener('scroll', onScroll, { passive: true });
-    return () => el.removeEventListener('scroll', onScroll);
+    const onScroll = () => setScrollY(window.scrollY);
+    window.addEventListener('scroll', onScroll, { passive: true });
+    return () => window.removeEventListener('scroll', onScroll);
   }, []);
 
   // Quick stats
@@ -238,7 +233,7 @@ export default function Home() {
   const parallaxOffset = scrollY * 0.4;
 
   return (
-    <div className="app-shell min-h-screen" style={{ background: '#0a1628' }}>
+    <div className="min-h-screen" style={{ background: '#0a1628' }}>
 
       {/* ── Hero ── */}
       <div
@@ -340,33 +335,27 @@ export default function Home() {
         </div>
       </div>
 
-      {/* ── Desktop two-column wrapper ── */}
-      <div className="lg:flex lg:items-start lg:gap-8 lg:px-8 lg:pt-6 lg:pb-28">
-        {/* ── LEFT COLUMN (desktop): continue card + daily challenge ── */}
-        <div className="lg:w-80 lg:shrink-0 lg:sticky lg:top-6">
-          {/* ── Continue where you left off ── */}
-          <ContinueCard />
-          {/* ── Daily Challenge ── */}
-          <div className="px-4 pt-4 lg:px-0 lg:mt-4">
-            <DailyChallenge darkMode />
-          </div>
+      {/* ── Continue where you left off ── */}
+      <ContinueCard />
+      {/* ── Daily Challenge ── */}
+      <div className="px-4 pt-4">
+        <DailyChallenge darkMode />
+      </div>
+      {/* ── Feature grid ── */}
+      <div className="px-4 pt-5 pb-28">
+        <div className="flex items-center justify-between mb-3">
+          <p
+            className="text-[10px] font-extrabold tracking-widest uppercase"
+            style={{ color: 'rgba(148,163,184,0.6)', fontFamily: 'Inter, sans-serif' }}
+          >
+            Explore
+          </p>
+          <TourButton />
         </div>
-        {/* ── RIGHT COLUMN (desktop) / full-width (mobile): feature grid ── */}
-        <div className="px-4 pt-5 pb-28 lg:flex-1 lg:px-0 lg:pt-0 lg:pb-0">
-          <div className="flex items-center justify-between mb-3">
-            <p
-              className="text-[10px] font-extrabold tracking-widest uppercase"
-              style={{ color: 'rgba(148,163,184,0.6)', fontFamily: 'Inter, sans-serif' }}
-            >
-              Explore
-            </p>
-            <TourButton />
-          </div>
-          <div className="grid grid-cols-2 lg:grid-cols-3 gap-3">
-            {FEATURE_TILES.map((tile, i) => (
-              <FeatureTile key={tile.path} tile={tile} index={i} />
-            ))}
-          </div>
+        <div className="grid grid-cols-2 gap-3">
+          {FEATURE_TILES.map((tile, i) => (
+            <FeatureTile key={tile.path} tile={tile} index={i} />
+          ))}
         </div>
       </div>
       <BottomNav />

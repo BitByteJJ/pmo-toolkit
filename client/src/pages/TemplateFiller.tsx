@@ -676,7 +676,7 @@ export default function TemplateFiller() {
   }
 
   return (
-    <div className="min-h-screen pt-12 pb-32" style={{ background: 'var(--background)' }}>
+    <div className="min-h-screen pt-12 pb-32" style={{ background: '#0a1628' }}>
       {/* Sticky header — top-12 keeps it below the fixed 48px TopNav */}
       <div className="sticky top-12 z-40 px-4 py-3"
         style={{ background: theme.color, boxShadow: `0 2px 16px ${theme.color}40` }}>

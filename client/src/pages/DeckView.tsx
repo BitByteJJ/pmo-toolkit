@@ -561,7 +561,7 @@ export default function DeckView() {
 
   if (!deck) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
+      <div className="min-h-screen flex items-center justify-center" style={{ background: '#0a1628' }}>
         <div className="text-center">
           <p className="text-slate-400 mb-4">Deck not found</p>
           <button onClick={() => navigate('/')} className="text-blue-600 font-medium">
@@ -573,7 +573,7 @@ export default function DeckView() {
   }
 
   return (
-    <div className="min-h-screen pt-12 pb-24">
+    <div className="min-h-screen pt-12 pb-24" style={{ background: '#0a1628' }}>
       {/* Sprint Mode overlay */}
       <AnimatePresence>
         {sprintMode && (

@@ -308,14 +308,14 @@ export default function QuizPage() {
 
   if (!deck || !quiz) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
+      <div className="min-h-screen flex items-center justify-center" style={{ background: '#0a1628' }}>
         <p className="text-slate-400">No quiz available for this deck yet.</p>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen pt-12 pb-8">
+    <div className="min-h-screen pt-12 pb-8" style={{ background: '#0a1628' }}>
       {/* Header */}
       <div
         className="sticky top-12 z-40 px-4"
