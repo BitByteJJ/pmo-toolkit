@@ -367,20 +367,44 @@ function CardListItem({
   const illustration = getCardIllustration(card.id);
 
   return (
-    <motion.div variants={itemVariants}>
+    // Outer wrapper has overflow-visible so the bookmark badge can float outside
+    <motion.div variants={itemVariants} className="relative">
+      {/* ── Floating bookmark badge (outside the card) ── */}
+      <button
+        onClick={e => {
+          e.stopPropagation();
+          toggleBookmark(card.id);
+        }}
+        className="absolute -top-2 -right-2 z-20 w-8 h-8 rounded-full flex items-center justify-center transition-all hover:scale-110 active:scale-90"
+        style={{
+          background: bookmarked ? deck.color : 'rgba(15,28,48,0.9)',
+          border: `1.5px solid ${bookmarked ? deck.color : deck.color + '40'}`,
+          boxShadow: bookmarked ? `0 2px 12px ${deck.color}60` : '0 2px 8px rgba(0,0,0,0.4)',
+          backdropFilter: 'blur(8px)',
+        }}
+        title={bookmarked ? 'Remove bookmark' : 'Bookmark this card'}
+      >
+        {bookmarked
+          ? <BookmarkCheck size={14} style={{ color: '#fff' }} />
+          : <Bookmark size={14} style={{ color: deck.color }} />}
+      </button>
+
+      {/* ── Card body ── */}
       <div
-        className="relative overflow-hidden cursor-pointer"
+        className="relative cursor-pointer"
         style={{
           borderRadius: '18px',
-          boxShadow: `0 3px 14px ${deck.color}1A, 0 1px 4px rgba(0,0,0,0.055), 0 0 0 1px ${read ? deck.color + '40' : deck.color + '18'}`,
+          overflow: 'hidden',
+          boxShadow: `0 3px 18px ${deck.color}22, 0 1px 4px rgba(0,0,0,0.12), 0 0 0 1px ${read ? deck.color + '50' : deck.color + '20'}`,
           minHeight: '88px',
-          backgroundColor: '#0f1c30',
+          backgroundColor: '#0a1628',
         }}
         onClick={onNavigate}
         role="button"
         tabIndex={0}
         onKeyDown={e => e.key === 'Enter' && onNavigate()}
       >
+        {/* ── Illustration — more visible, right-anchored ── */}
         {illustration && (
           <div className="absolute inset-0 pointer-events-none">
             <img
@@ -389,58 +413,86 @@ function CardListItem({
               aria-hidden="true"
               className="absolute"
               style={{
-                right: '-4px',
+                right: '-8px',
                 top: '50%',
                 transform: 'translateY(-50%)',
-                height: '140%',
+                height: '160%',
                 width: 'auto',
-                maxWidth: '48%',
+                maxWidth: '52%',
                 objectFit: 'contain',
                 mixBlendMode: 'screen',
-                opacity: 0.35,
+                opacity: 0.65,
               }}
             />
+            {/* Frosted gradient — covers left 55% solidly, then fades */}
             <div
               className="absolute inset-0"
               style={{
                 background:
-                  'linear-gradient(to right, #0f1c30 42%, rgba(15,28,48,0.85) 60%, rgba(15,28,48,0.5) 78%, transparent 100%)',
+                  'linear-gradient(to right, rgba(10,22,40,0.98) 38%, rgba(10,22,40,0.92) 52%, rgba(10,22,40,0.6) 68%, rgba(10,22,40,0.15) 85%, transparent 100%)',
               }}
             />
           </div>
         )}
 
-        <div className="relative z-10 flex items-center gap-3 px-4 py-3 pr-2">
+        {/* ── Frosted glass header strip ── */}
+        <div
+          className="absolute top-0 left-0 right-0 pointer-events-none"
+          style={{
+            height: '52px',
+            background: `linear-gradient(to bottom, ${deck.color}14 0%, transparent 100%)`,
+            backdropFilter: 'blur(0px)',
+          }}
+        />
+
+        {/* ── Content ── */}
+        <div className="relative z-10 flex items-center gap-3 px-4 py-3 pr-10">
+          {/* Number / read badge */}
           <div
             className="w-8 h-8 rounded-xl flex items-center justify-center text-xs font-black flex-shrink-0 transition-colors"
-            style={{ backgroundColor: read ? deck.color : `${deck.color}22`, color: read ? '#fff' : deck.color }}
+            style={{
+              background: read
+                ? `linear-gradient(135deg, ${deck.color}cc, ${deck.color})`
+                : `${deck.color}18`,
+              color: read ? '#fff' : deck.color,
+              border: `1px solid ${read ? 'transparent' : deck.color + '30'}`,
+              boxShadow: read ? `0 2px 8px ${deck.color}50` : 'none',
+            }}
           >
             {read ? <CheckCircle2 size={14} /> : index + 1}
           </div>
 
           <div className="flex-1 min-w-0">
-            <div className="flex items-center gap-1.5 mb-0.5">
+            {/* Meta row — frosted pill background for readability */}
+            <div
+              className="inline-flex items-center gap-1.5 mb-1 px-2 py-0.5 rounded-full"
+              style={{
+                background: 'rgba(10,22,40,0.75)',
+                backdropFilter: 'blur(12px)',
+                WebkitBackdropFilter: 'blur(12px)',
+                border: `1px solid ${deck.color}20`,
+              }}
+            >
               <span
-                className="text-[9px] font-mono font-bold px-1.5 py-0.5 rounded-md"
-                style={{ backgroundColor: deck.color + '25', color: deck.color }}
+                className="text-[9px] font-mono font-black"
+                style={{ color: deck.color }}
               >
                 {card.code}
               </span>
+              <span className="text-[8px] text-slate-500">·</span>
               <span
                 className="text-[9px] font-medium capitalize"
-                style={{ color: deck.color, opacity: 0.65 }}
-            >
-              {card.type.replace('-', ' ')}
+                style={{ color: deck.color, opacity: 0.7 }}
+              >
+                {card.type.replace('-', ' ')}
               </span>
               {read && (
-                <span className="text-[9px] font-bold" style={{ color: deck.color }}>
-                  ✓
-                </span>
+                <span className="text-[9px] font-bold" style={{ color: deck.color }}>✓</span>
               )}
               {CARDS_WITH_CASE_STUDIES.has(card.id) && (
                 <span
                   className="flex items-center gap-0.5 text-[8px] font-bold px-1 py-0.5 rounded-md"
-                  style={{ backgroundColor: '#0284C720', color: '#0284C7' }}
+                  style={{ backgroundColor: '#0284C720', color: '#38bdf8' }}
                   title="Has case study"
                 >
                   <BookOpen size={8} />
@@ -448,34 +500,31 @@ function CardListItem({
                 </span>
               )}
             </div>
+
+            {/* Title — frosted text background */}
             <h3
               className="text-sm font-bold leading-tight"
-              style={{ color: deck.textColor }}
+              style={{
+                color: '#f1f5f9',
+                textShadow: '0 1px 6px rgba(10,22,40,0.9), 0 0 12px rgba(10,22,40,0.7)',
+              }}
             >
               {card.title}
             </h3>
             <p
               className="text-[11px] mt-0.5 line-clamp-1 leading-relaxed"
-              style={{ color: deck.textColor, opacity: 0.85 }}
+              style={{
+                color: '#94a3b8',
+                textShadow: '0 1px 4px rgba(10,22,40,0.8)',
+              }}
             >
               {card.tagline}
             </p>
           </div>
-
-          <button
-            onClick={e => {
-              e.stopPropagation();
-              toggleBookmark(card.id);
-            }}
-            className="p-2 rounded-xl flex-shrink-0 transition-transform hover:scale-110 active:scale-90"
-            style={{ color: bookmarked ? deck.color : deck.color + '55' }}
-            title={bookmarked ? 'Remove bookmark' : 'Bookmark this card'}
-          >
-            {bookmarked ? <BookmarkCheck size={16} /> : <Bookmark size={16} />}
-          </button>
         </div>
 
-        <div className="h-0.5 w-full" style={{ backgroundColor: `${deck.color}40` }} />
+        {/* Bottom accent line */}
+        <div className="h-0.5 w-full" style={{ backgroundColor: `${deck.color}50` }} />
       </div>
     </motion.div>
   );

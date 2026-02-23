@@ -405,3 +405,9 @@
 ## LessonPage Continue Button Fix — Feb 23 2026
 
 - [x] Fix Continue button hidden behind BottomNav — add pb-24 to scroll area and raise sticky button bar above nav
+
+## Deck Card List Visual Upgrade — Feb 23 2026
+
+- [x] Frosted glass meta pill on each card row for readability
+- [x] Illustrations more visible (opacity 0.65, larger 160% height, screen blend)
+- [x] Bookmark badge floats outside card boundary as a circular pill button
