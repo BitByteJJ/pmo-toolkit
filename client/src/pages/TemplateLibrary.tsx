@@ -160,9 +160,9 @@ export default function TemplateLibrary() {
   };
 
   return (
-    <div className="min-h-screen pb-28" style={{ background: 'linear-gradient(135deg, #0a1628 0%, #0f2040 100%)' }}>
-      {/* Header */}
-      <div className="sticky top-0 z-40 px-4 py-3 flex items-center gap-3"
+    <div className="min-h-screen pt-12 pb-28" style={{ background: 'linear-gradient(135deg, #0a1628 0%, #0f2040 100%)' }}>
+      {/* Header — top-12 keeps it below the fixed 48px TopNav */}
+      <div className="sticky top-12 z-40 px-4 py-3 flex items-center gap-3"
         style={{ background: 'rgba(10,22,40,0.92)', backdropFilter: 'blur(16px)', borderBottom: '1px solid rgba(255,255,255,0.07)' }}>
         <button onClick={() => navigate('/')} className="p-1.5 rounded-lg hover:bg-white/10 transition-colors">
           <ArrowLeft size={18} className="text-slate-300" />

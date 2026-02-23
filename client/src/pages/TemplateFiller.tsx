@@ -675,9 +675,9 @@ export default function TemplateFiller() {
   }
 
   return (
-    <div className="min-h-screen pb-32" style={{ background: '#f8fafc' }}>
-      {/* Sticky header */}
-      <div className="sticky top-0 z-40 px-4 py-3"
+    <div className="min-h-screen pt-12 pb-32" style={{ background: '#f8fafc' }}>
+      {/* Sticky header — top-12 keeps it below the fixed 48px TopNav */}
+      <div className="sticky top-12 z-40 px-4 py-3"
         style={{ background: theme.color, boxShadow: `0 2px 16px ${theme.color}40` }}>
         <div className="flex items-center gap-3">
           <button onClick={() => navigate('/templates')} className="p-1.5 rounded-lg bg-white/20 hover:bg-white/30 transition-colors">

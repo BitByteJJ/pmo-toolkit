@@ -258,3 +258,7 @@
 - [x] Mini-Apps dropdown accessible on all pages that show TopNav (all except Home, Journey, Decision, Quiz)
 - [x] Home page hides TopNav intentionally (has its own full-screen hero header)
 - [x] Tested: Mini-Apps dropdown opens correctly on /templates page, all 7 items visible and clickable
+
+## Bug Fixes — Feb 23 2026
+
+- [x] Fix Template Filler header being cut off by TopNav bar — added pt-12 to outer wrapper and top-12 to sticky header in both TemplateFiller.tsx and TemplateLibrary.tsx
