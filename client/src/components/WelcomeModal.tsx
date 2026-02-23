@@ -11,11 +11,13 @@ import { useState, useEffect } from 'react';
 import { useLocation } from 'wouter';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Sparkles, Layers, ArrowRight, X } from 'lucide-react';
+import { useTheme } from '@/contexts/ThemeContext';
 
 const STORAGE_KEY = 'pmo-welcome-seen';
 const TOUR_KEY = 'stratalign_onboarding_done';
 
 export default function WelcomeModal() {
+  const { isDark } = useTheme();
   const [visible, setVisible] = useState(false);
   const [, navigate] = useLocation();
 
@@ -59,7 +61,7 @@ export default function WelcomeModal() {
             transition={{ type: 'spring', stiffness: 320, damping: 28 }}
             className="w-full max-w-sm rounded-3xl overflow-hidden"
             style={{
-              background: '#0f1c30',
+              background: isDark ? '#0f1c30' : '#ffffff',
               boxShadow: '0 24px 64px rgba(0,0,0,0.6), 0 4px 16px rgba(0,0,0,0.4), 0 0 0 1px rgba(255,255,255,0.08)',
             }}
             onClick={e => e.stopPropagation()}

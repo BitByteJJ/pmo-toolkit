@@ -8,6 +8,7 @@ import { ChevronDown, MapPin, Trophy, Zap, CheckCircle2, Circle, Lock, ArrowRigh
 import { LEARNING_JOURNEYS, type JourneyLevel, type LearningJourney } from '@/lib/learningJourneys';
 import { getCardById } from '@/lib/pmoData';
 import { useCardProgress } from '@/hooks/useCardProgress';
+import { useTheme } from '@/contexts/ThemeContext';
 
 // ─── Level Selector Card ──────────────────────────────────────────────────────
 
@@ -434,7 +435,7 @@ function JourneyRoadmap({ journey }: { journey: LearningJourney }) {
               >
                 {section.title}
               </div>
-              <div className="text-[10px] text-slate-400 leading-tight mt-0.5">
+              <div className="text-[10px] text-muted-foreground leading-tight mt-0.5">
                 {section.description}
               </div>
             </div>
@@ -503,6 +504,7 @@ function JourneyRoadmap({ journey }: { journey: LearningJourney }) {
 
 export default function LearningRoadmap() {
   const [selectedLevel, setSelectedLevel] = useState<JourneyLevel | null>(null);
+  const { isDark } = useTheme();
   const selectedJourney = selectedLevel
     ? LEARNING_JOURNEYS.find(j => j.level === selectedLevel)
     : null;
@@ -510,13 +512,13 @@ export default function LearningRoadmap() {
   return (
     <div
       className="min-h-screen pt-12 pb-28"
-      style={{ background: '#0a1628' }}
+      style={{ background: isDark ? '#0a1628' : '#f1f5f9' }}
     >
       {/* Sticky header */}
       <div
         className="sticky top-12 z-20 px-4"
         style={{
-          background: 'rgba(10,22,40,0.92)',
+          background: isDark ? 'rgba(10,22,40,0.92)' : 'rgba(241,245,249,0.92)',
           backdropFilter: 'blur(20px) saturate(1.4)',
           WebkitBackdropFilter: 'blur(20px) saturate(1.4)',
           borderBottom: '1px solid rgba(255,255,255,0.07)',
@@ -531,7 +533,7 @@ export default function LearningRoadmap() {
             >
               Learning Roadmap
             </h1>
-            <p className="text-[11px] text-slate-400 font-medium">
+            <p className="text-[11px] text-muted-foreground font-medium">
               Curated paths for every stage of your PM career
             </p>
           </div>
@@ -550,7 +552,7 @@ export default function LearningRoadmap() {
       <div className="max-w-lg mx-auto px-4 pt-5">
         {/* Level selector */}
         <div className="space-y-3 mb-6">
-          <p className="text-[10px] font-black text-slate-400 uppercase tracking-[0.12em] px-1">
+          <p className="text-[10px] font-black text-muted-foreground uppercase tracking-[0.12em] px-1">
             Choose your level
           </p>
           {LEARNING_JOURNEYS.map(journey => (
@@ -576,7 +578,7 @@ export default function LearningRoadmap() {
               transition={{ duration: 0.28 }}
             >
               <div className="mb-4 px-1">
-                <p className="text-[12px] text-slate-400 leading-relaxed">
+                <p className="text-[12px] text-muted-foreground leading-relaxed">
                   {selectedJourney.description}
                 </p>
               </div>
@@ -592,7 +594,7 @@ export default function LearningRoadmap() {
             className="text-center py-10"
           >
             <div className="text-5xl mb-3">🗺️</div>
-            <p className="text-[13px] text-slate-400 font-medium">
+            <p className="text-[13px] text-muted-foreground font-medium">
               Select a level above to see your personalised roadmap
             </p>
           </motion.div>

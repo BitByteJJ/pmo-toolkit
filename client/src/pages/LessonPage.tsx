@@ -20,6 +20,7 @@ import {
 import { useJourney, MAX_HEARTS } from '@/contexts/JourneyContext';
 import { JOURNEY_LESSONS, getLessonByDay } from '@/lib/journeyData';
 import { CARDS, getCardById } from '@/lib/pmoData';
+import { useTheme } from '@/contexts/ThemeContext';
 
 // ─── PROGRESS BAR ─────────────────────────────────────────────────────────────
 function ProgressBar({ current, total }: { current: number; total: number }) {
@@ -160,7 +161,7 @@ function QuestionCard({
             >
               {String.fromCharCode(65 + i)}
             </span>
-            <span className="text-[13px] text-slate-200 leading-relaxed font-medium">{option}</span>
+            <span className="text-[13px] text-foreground leading-relaxed font-medium">{option}</span>
             {answerState !== 'unanswered' && i === question.correctIndex && (
               <CheckCircle2 size={16} className="text-emerald-400 ml-auto shrink-0" />
             )}
@@ -198,7 +199,7 @@ function QuestionCard({
                 >
                   {answerState === 'correct' ? `Correct! +${question.xp} XP` : "Not quite — here's why:"}
                 </p>
-                <p className="text-[12px] text-slate-300 leading-relaxed">{question.explanation}</p>
+                <p className="text-[12px] text-foreground leading-relaxed">{question.explanation}</p>
                 {question.cardRefs && question.cardRefs.length > 0 && (
                   <div className="flex flex-wrap gap-1 mt-2">
                     {question.cardRefs.map(ref => (
@@ -237,6 +238,7 @@ function LessonCompleteScreen({
   xpEarned: number;
   onContinue: () => void;
 }) {
+  const { isDark } = useTheme();
   const accuracy = totalCount > 0 ? Math.round((correctCount / totalCount) * 100) : 0;
   const isPerfect = correctCount === totalCount;
 
@@ -245,7 +247,7 @@ function LessonCompleteScreen({
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       className="min-h-screen flex flex-col items-center justify-center px-6 pb-12"
-      style={{ background: 'radial-gradient(ellipse at top, rgba(99,102,241,0.12) 0%, #0a1628 60%)' }}
+      style={{ background: isDark ? 'radial-gradient(ellipse at top, rgba(99,102,241,0.12) 0%, #0a1628 60%)' : 'radial-gradient(ellipse at top, rgba(99,102,241,0.08) 0%, #f1f5f9 60%)' }}
     >
       {/* Floating particles */}
       {isPerfect && (
@@ -301,7 +303,7 @@ function LessonCompleteScreen({
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 0.3 }}
-        className="text-sm text-slate-400 text-center mb-8"
+        className="text-sm text-muted-foreground text-center mb-8"
       >
         Day {day} — {title}
       </motion.p>
@@ -330,7 +332,7 @@ function LessonCompleteScreen({
             >
               {value}
             </div>
-            <div className="text-[9px] font-semibold text-slate-400">{label}</div>
+            <div className="text-[9px] font-semibold text-muted-foreground">{label}</div>
           </div>
         ))}
       </motion.div>
@@ -361,13 +363,14 @@ function LessonCompleteScreen({
 
 // ─── NO HEARTS SCREEN ─────────────────────────────────────────────────────────
 function NoHeartsScreen({ onEarnHeart, onGoBack }: { onEarnHeart: () => void; onGoBack: () => void }) {
+  const { isDark } = useTheme();
   const { heartsRefillCountdown } = useJourney();
   return (
     <motion.div
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       className="min-h-screen flex flex-col items-center justify-center px-6 pb-12"
-      style={{ background: 'radial-gradient(ellipse at top, rgba(220,38,38,0.1) 0%, #0a1628 60%)' }}
+      style={{ background: isDark ? 'radial-gradient(ellipse at top, rgba(220,38,38,0.1) 0%, #0a1628 60%)' : 'radial-gradient(ellipse at top, rgba(220,38,38,0.06) 0%, #f1f5f9 60%)' }}
     >
       <motion.div
         initial={{ scale: 0 }}
@@ -389,14 +392,14 @@ function NoHeartsScreen({ onEarnHeart, onGoBack }: { onEarnHeart: () => void; on
       >
         Out of Hearts
       </h2>
-      <p className="text-sm text-slate-400 text-center mb-1">
+      <p className="text-sm text-muted-foreground text-center mb-1">
         You've used all 3 hearts for today.
       </p>
       <div
         className="flex items-center gap-2 px-4 py-2 rounded-2xl mb-8"
         style={{ background: 'rgba(220,38,38,0.1)', border: '1px solid rgba(220,38,38,0.2)' }}
       >
-        <span className="text-sm text-slate-300">Hearts refill in:</span>
+        <span className="text-sm text-foreground">Hearts refill in:</span>
         <span className="text-sm font-bold text-rose-300">{heartsRefillCountdown}</span>
       </div>
 
@@ -414,7 +417,7 @@ function NoHeartsScreen({ onEarnHeart, onGoBack }: { onEarnHeart: () => void; on
         </button>
         <button
           onClick={onGoBack}
-          className="w-full py-3 rounded-2xl font-semibold text-slate-300 text-sm transition-all active:scale-95"
+          className="w-full py-3 rounded-2xl font-semibold text-foreground text-sm transition-all active:scale-95"
           style={{ background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.1)' }}
         >
           Back to Journey Map
@@ -439,6 +442,7 @@ const QUESTIONS_PER_SESSION = 5;
 export default function LessonPage() {
   const params = useParams<{ day: string }>();
   const [, navigate] = useLocation();
+  const { isDark } = useTheme();
   const day = parseInt(params.day ?? '1', 10);
   const lesson = getLessonByDay(day);
 
@@ -536,8 +540,8 @@ export default function LessonPage() {
 
   if (!lessonWithRandomQ) {
     return (
-      <div className="min-h-screen flex items-center justify-center" style={{ background: '#0a1628' }}>
-        <p className="text-slate-400">Lesson not found</p>
+      <div className="min-h-screen flex items-center justify-center" style={{ background: isDark ? '#0a1628' : '#f1f5f9' }}>
+        <p className="text-muted-foreground">Lesson not found</p>
       </div>
     );
   }
@@ -567,9 +571,9 @@ export default function LessonPage() {
 
   if (!state.activeSession || (!currentQuestion && !pendingContinue)) {
     return (
-      <div className="min-h-screen flex items-center justify-center" style={{ background: '#0a1628' }}>
+      <div className="min-h-screen flex items-center justify-center" style={{ background: isDark ? '#0a1628' : '#f1f5f9' }}>
         <div className="text-center px-6">
-          <p className="text-slate-400 mb-4">Loading lesson...</p>
+          <p className="text-muted-foreground mb-4">Loading lesson...</p>
         </div>
       </div>
     );
@@ -582,12 +586,12 @@ export default function LessonPage() {
 
   return (
     <>
-    <div className="min-h-screen pt-11 flex flex-col" style={{ background: '#0a1628' }}>
+    <div className="min-h-screen pt-11 flex flex-col" style={{ background: isDark ? '#0a1628' : '#f1f5f9' }}>
       {/* Header */}
       <div
         className="sticky top-11 z-40 px-4 py-3"
         style={{
-          background: 'rgba(10,22,40,0.97)',
+          background: isDark ? 'rgba(10,22,40,0.97)' : 'rgba(241,245,249,0.97)',
           backdropFilter: 'blur(24px) saturate(1.6)',
           borderBottom: '1px solid rgba(255,255,255,0.07)',
         }}
@@ -597,13 +601,13 @@ export default function LessonPage() {
             onClick={handleAbandon}
             className="w-8 h-8 flex items-center justify-center rounded-xl hover:bg-white/10 transition-colors shrink-0"
           >
-            <X size={18} className="text-slate-400" />
+            <X size={18} className="text-muted-foreground" />
           </button>
           <ProgressBar current={displayIndex} total={totalQuestions} />
           <HeartsDisplay hearts={state.hearts} />
         </div>
         <div className="mt-1.5 flex items-center justify-between">
-          <span className="text-[10px] font-semibold text-slate-400">
+          <span className="text-[10px] font-semibold text-muted-foreground">
             Day {day} — {lessonWithRandomQ.title}
           </span>
           <span

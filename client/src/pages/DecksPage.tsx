@@ -8,6 +8,7 @@ import { ArrowRight, Trophy, Star } from 'lucide-react';
 import { DECKS, getCardsByDeck } from '@/lib/pmoData';
 import { useCardProgress } from '@/hooks/useCardProgress';
 import { useMasteryBadges } from '@/hooks/useMasteryBadges';
+import { useTheme } from '@/contexts/ThemeContext';
 
 // Cover illustrations for each deck (same as Home.tsx)
 const DECK_COVERS: Record<string, string> = {
@@ -25,6 +26,7 @@ const DECK_TILTS = [1.5, -1.2, 2.0, -0.8, 1.8, -1.5, 0.9, -2.2];
 
 function DeckCard({ deck, index }: { deck: typeof DECKS[0]; index: number }) {
   const [, navigate] = useLocation();
+  const { isDark } = useTheme();
   const { deckProgress, deckReadCount } = useCardProgress();
   const cards = getCardsByDeck(deck.id);
   const cardIds = cards.map(c => c.id);
@@ -76,7 +78,7 @@ function DeckCard({ deck, index }: { deck: typeof DECKS[0]; index: number }) {
           )}
           <div
             className="absolute inset-0"
-            style={{ background: `linear-gradient(to bottom, transparent 30%, rgba(10,22,40,0.8) 62%, rgba(10,22,40,0.95) 80%, #0a1628 100%)` }}
+            style={{ background: isDark ? `linear-gradient(to bottom, transparent 30%, rgba(10,22,40,0.8) 62%, rgba(10,22,40,0.95) 80%, #0a1628 100%)` : `linear-gradient(to bottom, transparent 30%, rgba(241,245,249,0.8) 62%, rgba(241,245,249,0.95) 80%, #f1f5f9 100%)` }}
           />
           <div className="absolute top-3 right-3 z-10">
             <div
@@ -147,7 +149,7 @@ function DeckCard({ deck, index }: { deck: typeof DECKS[0]; index: number }) {
 
         {/* ── MOBILE: original horizontal layout ── */}
         <div className="lg:hidden flex flex-col h-full">
-          <div className="absolute inset-0" style={{ backgroundColor: '#0f1c30' }} />
+          <div className="absolute inset-0" style={{ backgroundColor: isDark ? '#0f1c30' : '#ffffff' }} />
           {coverImg && (
             <div className="absolute inset-0 overflow-hidden pointer-events-none" style={{ zIndex: 1 }}>
               <img
@@ -169,7 +171,7 @@ function DeckCard({ deck, index }: { deck: typeof DECKS[0]; index: number }) {
               />
               <div
                 className="absolute inset-0"
-                style={{ background: `linear-gradient(to right, #0f1c30 38%, rgba(15,28,48,0.85) 58%, transparent 85%)` }}
+                style={{ background: isDark ? `linear-gradient(to right, #0f1c30 38%, rgba(15,28,48,0.85) 58%, transparent 85%)` : `linear-gradient(to right, #f8fafc 38%, rgba(248,250,252,0.85) 58%, transparent 85%)` }}
               />
             </div>
           )}
@@ -252,9 +254,10 @@ function DeckCard({ deck, index }: { deck: typeof DECKS[0]; index: number }) {
 
 export default function DecksPage() {
   const { badges, totalBadges } = useMasteryBadges();
+  const { isDark } = useTheme();
   const maxBadges = DECKS.length * 2;
   return (
-    <div className="min-h-screen pb-24" style={{ background: '#0a1628' }}>
+    <div className="min-h-screen pb-24" style={{ background: isDark ? '#0a1628' : '#f1f5f9' }}>
       <div className="pt-12">
         <div className="max-w-5xl mx-auto px-4 pt-6 pb-4">
           <h1 className="text-2xl font-black text-slate-100 mb-1" style={{ fontFamily: 'Sora, sans-serif' }}>
@@ -267,8 +270,8 @@ export default function DecksPage() {
               <Trophy size={16} className="text-amber-500" />
             </div>
             <div className="flex-1 min-w-0">
-              <p className="text-sm font-bold text-slate-200">Mastery Badges</p>
-              <p className="text-[11px] text-slate-300">{totalBadges} of {maxBadges} earned — read all cards or ace a quiz to unlock</p>
+              <p className="text-sm font-bold text-foreground">Mastery Badges</p>
+              <p className="text-[11px] text-foreground">{totalBadges} of {maxBadges} earned — read all cards or ace a quiz to unlock</p>
             </div>
             <div className="flex gap-1 flex-wrap justify-end">
               {DECKS.map(d => {

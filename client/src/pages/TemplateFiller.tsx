@@ -13,6 +13,7 @@ import { ALL_TEMPLATES, CardTemplate, TemplateSection } from '@/lib/templateData
 import { DECK_THEME, COPYRIGHT_STATEMENT } from '@/lib/templateFieldSchema';
 import { generateTemplatePDF } from '@/lib/pdfGenerator';
 import { generateTemplateDocx } from '@/lib/docxGenerator';
+import { useTheme } from '@/contexts/ThemeContext';
 
 // ─── Types ───────────────────────────────────────────────────────────────────
 interface TableRow {
@@ -241,7 +242,7 @@ function DynamicTable({
                   type="button"
                   onClick={() => removeRow(row.id)}
                   disabled={rows.length <= 1}
-                  className="p-1 rounded hover:bg-red-900/30 text-slate-300 hover:text-red-400 transition-colors disabled:opacity-30"
+                  className="p-1 rounded hover:bg-red-900/30 text-foreground hover:text-red-400 transition-colors disabled:opacity-30"
                 >
                   <Trash2 size={12} />
                 </button>
@@ -284,17 +285,17 @@ function DynamicChecklist({
           <button type="button" onClick={() => toggle(item.id)} className="mt-0.5 shrink-0">
             {item.checked
               ? <CheckSquare size={18} style={{ color: accentColor }} />
-              : <Square size={18} className="text-slate-300" />}
+              : <Square size={18} className="text-foreground" />}
           </button>
           <input
             type="text"
             value={item.text}
             onChange={e => updateText(item.id, e.target.value)}
             placeholder="Add checklist item…"
-            className="flex-1 text-sm border-b border-white/15 focus:border-blue-400 focus:outline-none py-0.5 bg-transparent text-slate-200"
+            className="flex-1 text-sm border-b border-white/15 focus:border-blue-400 focus:outline-none py-0.5 bg-transparent text-foreground"
             style={{ textDecoration: item.checked ? 'line-through' : 'none', opacity: item.checked ? 0.5 : 1 }}
           />
-          <button type="button" onClick={() => removeItem(item.id)} className="p-0.5 text-slate-300 hover:text-red-400 transition-colors shrink-0">
+          <button type="button" onClick={() => removeItem(item.id)} className="p-0.5 text-foreground hover:text-red-400 transition-colors shrink-0">
             <Trash2 size={12} />
           </button>
         </div>
@@ -412,7 +413,7 @@ function SectionForm({
                           </label>
                         )}
                         {field.hint && (
-                          <p className="text-[11px] text-slate-300 mb-1 leading-relaxed">{field.hint}</p>
+                          <p className="text-[11px] text-foreground mb-1 leading-relaxed">{field.hint}</p>
                         )}
                         {field.isDate ? (
                           <input
@@ -539,6 +540,7 @@ function saveData(cardId: string, data: SavedFormData) {
 // ─── Main Component ───────────────────────────────────────────────────────────
 export default function TemplateFiller() {
   const { cardId } = useParams<{ cardId: string }>();
+  const { isDark } = useTheme();
   const [, navigate] = useLocation();
 
   const card = useMemo(() => CARDS.find(c => c.id === cardId), [cardId]);
@@ -662,7 +664,7 @@ export default function TemplateFiller() {
 
   if (!card || !template) {
     return (
-      <div className="min-h-screen flex items-center justify-center" style={{ background: '#0a1628' }}>
+      <div className="min-h-screen flex items-center justify-center" style={{ background: isDark ? '#0a1628' : '#f1f5f9' }}>
         <div className="text-center">
           <AlertTriangle size={32} className="text-amber-400 mx-auto mb-3" />
           <p className="text-white font-semibold">Template not found</p>
@@ -675,7 +677,7 @@ export default function TemplateFiller() {
   }
 
   return (
-    <div className="min-h-screen pt-12 pb-32" style={{ background: '#0a1628' }}>
+    <div className="min-h-screen pt-12 pb-32" style={{ background: isDark ? '#0a1628' : '#f1f5f9' }}>
       {/* Sticky header — top-12 keeps it below the fixed 48px TopNav */}
       <div className="sticky top-12 z-40 px-4 py-3"
         style={{ background: theme.color, boxShadow: `0 2px 16px ${theme.color}40` }}>
@@ -721,13 +723,13 @@ export default function TemplateFiller() {
                 >
                   <button
                     onClick={() => handleDownload('pdf')}
-                    className="flex items-center gap-2 w-full px-4 py-3 text-sm font-semibold text-slate-200 hover:bg-white/10 transition-colors"
+                    className="flex items-center gap-2 w-full px-4 py-3 text-sm font-semibold text-foreground hover:bg-white/10 transition-colors"
                   >
                     <FileDown size={16} className="text-red-500" /> Download PDF
                   </button>
                   <button
                     onClick={() => handleDownload('docx')}
-                    className="flex items-center gap-2 w-full px-4 py-3 text-sm font-semibold text-slate-200 hover:bg-white/10 transition-colors border-t border-white/10"
+                    className="flex items-center gap-2 w-full px-4 py-3 text-sm font-semibold text-foreground hover:bg-white/10 transition-colors border-t border-white/10"
                   >
                     <FileText size={16} className="text-blue-500" /> Download Word
                   </button>
@@ -759,7 +761,7 @@ export default function TemplateFiller() {
           <div className="flex flex-col gap-3">
             {/* Row 1: Project / Organisation Name — full width */}
             <div>
-              <label className="block text-xs font-semibold text-slate-300 mb-1">Project / Organisation Name</label>
+              <label className="block text-xs font-semibold text-foreground mb-1">Project / Organisation Name</label>
               <input
                 type="text"
                 value={projectName}
@@ -771,7 +773,7 @@ export default function TemplateFiller() {
             {/* Row 2: Prepared By + Version side by side */}
             <div className="grid grid-cols-2 gap-3">
               <div>
-                <label className="block text-xs font-semibold text-slate-300 mb-1">Prepared By</label>
+                <label className="block text-xs font-semibold text-foreground mb-1">Prepared By</label>
                 <input
                   type="text"
                   value={projectOwner}
@@ -781,7 +783,7 @@ export default function TemplateFiller() {
                 />
               </div>
               <div>
-                <label className="block text-xs font-semibold text-slate-300 mb-1">Version</label>
+                <label className="block text-xs font-semibold text-foreground mb-1">Version</label>
                 <input
                   type="text"
                   value={version}
@@ -793,7 +795,7 @@ export default function TemplateFiller() {
             </div>
             {/* Row 3: Date — full width so the native date picker has room */}
             <div>
-              <label className="block text-xs font-semibold text-slate-300 mb-1">Date</label>
+              <label className="block text-xs font-semibold text-foreground mb-1">Date</label>
               <input
                 type="date"
                 value={projectDate}
@@ -827,7 +829,7 @@ export default function TemplateFiller() {
           <div className="flex gap-2 max-w-lg mx-auto">
             <button
               onClick={handleReset}
-              className="flex items-center gap-1 px-3 py-1.5 rounded-lg text-xs font-semibold bg-card shadow-md border border-white/15 text-slate-300 hover:bg-white/10 transition-colors"
+              className="flex items-center gap-1 px-3 py-1.5 rounded-lg text-xs font-semibold bg-card shadow-md border border-white/15 text-foreground hover:bg-white/10 transition-colors"
             >
               <RotateCcw size={12} /> Reset
             </button>
@@ -860,7 +862,7 @@ export default function TemplateFiller() {
 
         {/* Copyright notice */}
         <div className="mt-6 px-2 pb-4">
-          <p className="text-[10px] text-slate-300 text-center leading-relaxed">{COPYRIGHT_STATEMENT}</p>
+          <p className="text-[10px] text-foreground text-center leading-relaxed">{COPYRIGHT_STATEMENT}</p>
         </div>
       </div>
     </div>

@@ -10,6 +10,7 @@ import {
   Map, Route, Compass, Search, X, ArrowRight, ArrowLeft,
   ChevronRight, Zap,
 } from 'lucide-react';
+import { useTheme } from '@/contexts/ThemeContext';
 
 const STORAGE_KEY = 'stratalign_onboarding_done';
 
@@ -122,7 +123,9 @@ interface OnboardingTourProps {
   onDismiss?: () => void;
 }
 
-export default function OnboardingTour({ onDismiss }: OnboardingTourProps) {
+export default function OnboardingTour({
+  onDismiss }: OnboardingTourProps) {
+  const { isDark } = useTheme();
   const [, navigate] = useLocation();
   const [phase, setPhase] = useState<'map' | 'tour'>('map');
   const [stepIndex, setStepIndex] = useState(0);
@@ -185,7 +188,7 @@ export default function OnboardingTour({ onDismiss }: OnboardingTourProps) {
           style={{
             maxWidth: '480px',
             maxHeight: '90vh',
-            background: '#0f1c30',
+            background: isDark ? '#0f1c30' : '#ffffff',
             boxShadow: '0 -8px 40px rgba(0,0,0,0.55), 0 0 0 1px rgba(255,255,255,0.07)',
           }}
         >

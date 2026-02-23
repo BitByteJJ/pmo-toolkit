@@ -8,6 +8,7 @@ import { Search, X, Bookmark, BookmarkCheck } from 'lucide-react';
 import { searchCards, getDeckById, DECKS, getCardsByDeck } from '@/lib/pmoData';
 import { useBookmarks } from '@/contexts/BookmarksContext';
 import { getCardLevel, LEVEL_LABELS, LEVEL_COLORS, DifficultyLevel } from '@/lib/cardLevels';
+import { useTheme } from '@/contexts/ThemeContext';
 
 const DECK_FILTERS = [
   { id: 'all', label: 'All' },
@@ -16,6 +17,7 @@ const DECK_FILTERS = [
 
 export default function SearchPage() {
   const [, navigate] = useLocation();
+  const { isDark } = useTheme();
   const [query, setQuery] = useState('');
   const [activeDeck, setActiveDeck] = useState('all');
   const [activeLevel, setActiveLevel] = useState<DifficultyLevel | null>(null);
@@ -35,41 +37,41 @@ export default function SearchPage() {
   const popularSearches = ['RACI', 'risk', 'stakeholder', 'Agile', 'SWOT', 'communication', 'change', 'Kanban'];
 
   return (
-    <div className="min-h-screen pt-12 pb-24" style={{ background: '#0a1628' }}>
+    <div className="min-h-screen pt-12 pb-24" style={{ background: isDark ? '#0a1628' : '#f1f5f9' }}>
       {/* Header — sticky below TopNav */}
       <div
         className="pb-3 sticky top-12 z-30"
         style={{
           paddingTop: '12px',
-          background: 'rgba(8,14,32,0.94)',
+          background: isDark ? 'rgba(8,14,32,0.94)' : 'rgba(241,245,249,0.96)',
           backdropFilter: 'blur(20px) saturate(1.4)',
           WebkitBackdropFilter: 'blur(20px) saturate(1.4)',
-          borderBottom: '1.5px solid rgba(0,0,0,0.06)',
+          borderBottom: isDark ? '1.5px solid rgba(255,255,255,0.06)' : '1.5px solid rgba(0,0,0,0.08)',
         }}
       >
         <div className="max-w-2xl mx-auto px-4">
         <h1
-          className="text-xl font-bold text-slate-100 mb-3"
+          className="text-xl font-bold text-foreground mb-3"
           style={{ fontFamily: 'Sora, sans-serif' }}
         >
           Search
         </h1>
         {/* Search input */}
         <div className="relative">
-          <Search size={15} className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-300" />
+          <Search size={15} className="absolute left-3 top-1/2 -translate-y-1/2 text-foreground" />
           <input
             type="text"
             value={query}
             onChange={e => setQuery(e.target.value)}
             placeholder="Search tools, techniques, frameworks…"
-            className="w-full bg-card rounded-xl pl-9 pr-9 py-2.5 text-sm text-slate-200 placeholder:text-slate-300 outline-none transition-all"
+            className="w-full bg-card rounded-xl pl-9 pr-9 py-2.5 text-sm text-foreground placeholder:text-foreground outline-none transition-all"
             style={{ boxShadow: '0 2px 8px rgba(0,0,0,0.07), 0 0 0 1px rgba(0,0,0,0.05)' }}
             autoFocus
           />
           {query && (
             <button
               onClick={() => setQuery('')}
-              className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-300 hover:text-slate-300 transition-colors"
+              className="absolute right-3 top-1/2 -translate-y-1/2 text-foreground hover:text-foreground transition-colors"
             >
               <X size={13} />
             </button>
@@ -110,7 +112,7 @@ export default function SearchPage() {
                 style={
                   isActive
                     ? { backgroundColor: deck?.color ?? '#1C1917', color: '#fff' }
-                    : { backgroundColor: '#162035', color: '#94a3b8' }
+                    : { backgroundColor: isDark ? '#162035' : '#e2e8f0', color: '#94a3b8' }
                 }
               >
                 {f.label}
@@ -130,7 +132,7 @@ export default function SearchPage() {
             className="space-y-5"
           >
             <div>
-              <h2 className="text-[10px] font-bold text-slate-300 uppercase tracking-widest mb-2.5">
+              <h2 className="text-[10px] font-bold text-foreground uppercase tracking-widest mb-2.5">
                 Popular Searches
               </h2>
               <div className="flex flex-wrap gap-2">
@@ -138,7 +140,7 @@ export default function SearchPage() {
                   <button
                     key={s}
                     onClick={() => setQuery(s)}
-                    className="text-xs px-3 py-1.5 bg-card rounded-xl text-slate-300 font-medium hover:shadow-md transition-all active:scale-95"
+                    className="text-xs px-3 py-1.5 bg-card rounded-xl text-foreground font-medium hover:shadow-md transition-all active:scale-95"
                     style={{ boxShadow: '0 1px 3px rgba(0,0,0,0.06)' }}
                   >
                     {s}
@@ -148,7 +150,7 @@ export default function SearchPage() {
             </div>
 
             <div>
-              <h2 className="text-[10px] font-bold text-slate-300 uppercase tracking-widest mb-2.5">
+              <h2 className="text-[10px] font-bold text-foreground uppercase tracking-widest mb-2.5">
                 Browse by Deck
               </h2>
               <div className="space-y-2">
@@ -180,7 +182,7 @@ export default function SearchPage() {
         {/* Results */}
         {query && (
           <div>
-            <p className="text-[11px] text-slate-300 font-semibold mb-3">
+            <p className="text-[11px] text-foreground font-semibold mb-3">
               {results.length} result{results.length !== 1 ? 's' : ''} for "{query}"
             </p>
             <AnimatePresence>
@@ -190,8 +192,8 @@ export default function SearchPage() {
                   animate={{ opacity: 1 }}
                   className="text-center py-12"
                 >
-                  <p className="text-slate-300 text-sm">No cards match your search.</p>
-                  <p className="text-slate-400 text-xs mt-1">Try different keywords or browse by deck.</p>
+                  <p className="text-foreground text-sm">No cards match your search.</p>
+                  <p className="text-muted-foreground text-xs mt-1">Try different keywords or browse by deck.</p>
                 </motion.div>
               ) : (
                 <motion.div
@@ -229,10 +231,10 @@ export default function SearchPage() {
                                   >
                                     {card.code}
                                   </span>
-                                  <span className="text-[9px] text-slate-300 font-medium capitalize">{card.type}</span>
+                                  <span className="text-[9px] text-foreground font-medium capitalize">{card.type}</span>
                                 </div>
-                                <h3 className="text-sm font-semibold text-slate-200 leading-tight">{card.title}</h3>
-                                <p className="text-[11px] text-slate-300 mt-1 line-clamp-2 leading-relaxed">{card.tagline}</p>
+                                <h3 className="text-sm font-semibold text-foreground leading-tight">{card.title}</h3>
+                                <p className="text-[11px] text-foreground mt-1 line-clamp-2 leading-relaxed">{card.tagline}</p>
                               </div>
                               <button
                                 onClick={e => { e.stopPropagation(); toggleBookmark(card.id); }}
@@ -241,7 +243,7 @@ export default function SearchPage() {
                                 {bookmarked ? (
                                   <BookmarkCheck size={15} className="text-rose-500" />
                                 ) : (
-                                  <Bookmark size={15} className="text-slate-400" />
+                                  <Bookmark size={15} className="text-muted-foreground" />
                                 )}
                               </button>
                             </div>

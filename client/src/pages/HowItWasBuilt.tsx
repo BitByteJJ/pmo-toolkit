@@ -10,6 +10,7 @@ import {
   Copy, Check,
 } from 'lucide-react';
 import { useLocation } from 'wouter';
+import { useTheme } from '@/contexts/ThemeContext';
 
 // ── Data ─────────────────────────────────────────────────────────────────────
 
@@ -271,8 +272,8 @@ function PromptCard({ title, prompt }: { title: string; prompt: string }) {
         onClick={() => setExpanded(e => !e)}
         className="w-full flex items-center justify-between px-4 py-3 text-left hover:bg-card/5 transition-colors"
       >
-        <span className="text-[13px] font-semibold text-slate-200">{title}</span>
-        {expanded ? <ChevronUp size={14} strokeWidth={2} className="text-slate-300 shrink-0" /> : <ChevronDown size={14} strokeWidth={2} className="text-slate-300 shrink-0" />}
+        <span className="text-[13px] font-semibold text-foreground">{title}</span>
+        {expanded ? <ChevronUp size={14} strokeWidth={2} className="text-foreground shrink-0" /> : <ChevronDown size={14} strokeWidth={2} className="text-foreground shrink-0" />}
       </button>
       <AnimatePresence>
         {expanded && (
@@ -285,11 +286,11 @@ function PromptCard({ title, prompt }: { title: string; prompt: string }) {
           >
             <div className="px-4 pb-4">
               <div className="flex items-center justify-between mb-2">
-                <span className="text-[10px] font-mono text-slate-300 uppercase tracking-widest">Prompt</span>
+                <span className="text-[10px] font-mono text-foreground uppercase tracking-widest">Prompt</span>
                 <CopyButton text={prompt} />
               </div>
               <pre
-                className="text-[11.5px] leading-relaxed text-slate-300 whitespace-pre-wrap font-mono bg-card/5 rounded-lg p-3 border border-white/8"
+                className="text-[11.5px] leading-relaxed text-foreground whitespace-pre-wrap font-mono bg-card/5 rounded-lg p-3 border border-white/8"
                 style={{ fontFamily: 'JetBrains Mono, monospace' }}
               >
                 {prompt}
@@ -306,6 +307,7 @@ function PromptCard({ title, prompt }: { title: string; prompt: string }) {
 
 export default function HowItWasBuilt() {
   const [, navigate] = useLocation();
+  const { isDark } = useTheme();
   const [activeTab, setActiveTab] = useState<'process' | 'tools' | 'prompts'>('process');
 
   const tabs = [
@@ -315,11 +317,11 @@ export default function HowItWasBuilt() {
   ] as const;
 
   return (
-    <div className="min-h-screen pb-24" style={{ background: '#0a1628' }}>
+    <div className="min-h-screen pb-24" style={{ background: isDark ? '#0a1628' : '#f1f5f9' }}>
       {/* Header */}
       <div
         className="pt-12 pb-6 px-4"
-        style={{ background: 'linear-gradient(135deg, #1e1b4b 0%, #312e81 50%, #1e1b4b 100%)' }}
+        style={{ background: isDark ? 'linear-gradient(135deg, #1e1b4b 0%, #312e81 50%, #1e1b4b 100%)' : 'linear-gradient(135deg, #ede9fe 0%, #ddd6fe 50%, #ede9fe 100%)' }}
       >
         <div style={{ maxWidth: '480px', margin: '0 auto' }}>
           <div className="flex items-center gap-3 mb-3">
@@ -386,7 +388,7 @@ export default function HowItWasBuilt() {
         {/* ── PROCESS TAB ─────────────────────────────────────────────────── */}
         {activeTab === 'process' && (
           <div className="pt-5 space-y-4">
-            <p className="text-[12px] text-slate-300 leading-relaxed">
+            <p className="text-[12px] text-foreground leading-relaxed">
               StratAlign was built over several days using an AI-assisted development workflow. 
               Here's the end-to-end process from content architecture to deployment.
             </p>
@@ -406,7 +408,7 @@ export default function HowItWasBuilt() {
                 </div>
                 <div className="flex-1 pb-4 border-b border-white/8 last:border-0">
                   <h3 className="text-[14px] font-bold text-slate-100 mb-1">{step.title}</h3>
-                  <p className="text-[12px] text-slate-300 leading-relaxed">{step.desc}</p>
+                  <p className="text-[12px] text-foreground leading-relaxed">{step.desc}</p>
                 </div>
               </motion.div>
             ))}
@@ -426,7 +428,7 @@ export default function HowItWasBuilt() {
                   { label: 'Vitest tests', value: '41' },
                 ].map(stat => (
                   <div key={stat.label} className="flex items-center justify-between">
-                    <span className="text-[11px] text-slate-300">{stat.label}</span>
+                    <span className="text-[11px] text-foreground">{stat.label}</span>
                     <span className="text-[13px] font-black" style={{ color: '#a5b4fc' }}>{stat.value}</span>
                   </div>
                 ))}
@@ -452,7 +454,7 @@ export default function HowItWasBuilt() {
                   >
                     <section.icon size={14} strokeWidth={1.8} style={{ color: section.color }} />
                   </div>
-                  <h3 className="text-[13px] font-bold text-slate-200">{section.category}</h3>
+                  <h3 className="text-[13px] font-bold text-foreground">{section.category}</h3>
                 </div>
                 <div className="space-y-2">
                   {section.items.map(item => (
@@ -466,8 +468,8 @@ export default function HowItWasBuilt() {
                         style={{ backgroundColor: section.color }}
                       />
                       <div>
-                        <div className="text-[12.5px] font-semibold text-slate-200">{item.name}</div>
-                        <div className="text-[11px] text-slate-300 mt-0.5">{item.desc}</div>
+                        <div className="text-[12.5px] font-semibold text-foreground">{item.name}</div>
+                        <div className="text-[11px] text-foreground mt-0.5">{item.desc}</div>
                       </div>
                     </div>
                   ))}
@@ -477,10 +479,10 @@ export default function HowItWasBuilt() {
 
             {/* GitHub CTA */}
             <div className="rounded-2xl p-4 border border-white/10 flex items-center gap-3">
-              <Github size={20} strokeWidth={1.8} className="text-slate-300 shrink-0" />
+              <Github size={20} strokeWidth={1.8} className="text-foreground shrink-0" />
               <div className="flex-1">
-                <div className="text-[13px] font-bold text-slate-200">Source Code</div>
-                <div className="text-[11px] text-slate-300 mt-0.5">
+                <div className="text-[13px] font-bold text-foreground">Source Code</div>
+                <div className="text-[11px] text-foreground mt-0.5">
                   GitHub repository:{' '}
                   <a
                     href="https://github.com/BitByteJJ/pmo-toolkit"
@@ -499,7 +501,7 @@ export default function HowItWasBuilt() {
         {/* ── PROMPTS TAB ─────────────────────────────────────────────────── */}
         {activeTab === 'prompts' && (
           <div className="pt-5 space-y-6">
-            <p className="text-[12px] text-slate-300 leading-relaxed">
+            <p className="text-[12px] text-foreground leading-relaxed">
               These are the AI prompts used to generate the content in StratAlign. 
               Copy and adapt them for your own PM content projects. 
               Variables in {'{CURLY_BRACES}'} should be replaced with your specific values.
@@ -513,7 +515,7 @@ export default function HowItWasBuilt() {
               >
                 <div className="flex items-center gap-2 mb-3">
                   <section.icon size={14} strokeWidth={1.8} style={{ color: section.color }} />
-                  <h3 className="text-[13px] font-bold text-slate-200">{section.category}</h3>
+                  <h3 className="text-[13px] font-bold text-foreground">{section.category}</h3>
                 </div>
                 <div className="space-y-2">
                   {section.prompts.map(p => (

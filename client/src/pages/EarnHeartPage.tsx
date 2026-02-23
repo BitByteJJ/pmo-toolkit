@@ -15,6 +15,7 @@ import {
 } from 'lucide-react';
 import { useJourney, TOPICS_TO_EARN_HEART, MAX_HEARTS } from '@/contexts/JourneyContext';
 import { CARDS, DECKS, getDeckById } from '@/lib/pmoData';
+import { useTheme } from '@/contexts/ThemeContext';
 
 // ─── CARD STUDY MODAL ─────────────────────────────────────────────────────────
 function CardStudyModal({
@@ -29,6 +30,7 @@ function CardStudyModal({
   alreadyStudied: boolean;
 }) {
   const deck = getDeckById(card.deckId);
+  const { isDark } = useTheme();
   const [confirmed, setConfirmed] = useState(false);
 
   const handleMarkStudied = () => {
@@ -52,14 +54,14 @@ function CardStudyModal({
         exit={{ y: '100%' }}
         transition={{ type: 'spring', stiffness: 380, damping: 32 }}
         className="w-full max-w-lg rounded-t-3xl overflow-hidden"
-        style={{ backgroundColor: '#0f1c30', maxHeight: '88vh', overflowY: 'auto', border: '1px solid rgba(255,255,255,0.08)' }}
+        style={{ backgroundColor: isDark ? '#0f1c30' : '#ffffff', maxHeight: '88vh', overflowY: 'auto', border: isDark ? '1px solid rgba(255,255,255,0.08)' : '1px solid rgba(0,0,0,0.1)' }}
         onClick={e => e.stopPropagation()}
       >
         {/* Card header — dark navy with accent colour strip */}
         <div
           className="px-5 pt-5 pb-4 relative"
           style={{
-            background: `linear-gradient(135deg, rgba(15,28,48,0.95), rgba(15,28,48,0.85))`,
+            background: isDark ? `linear-gradient(135deg, rgba(15,28,48,0.95), rgba(15,28,48,0.85))` : `linear-gradient(135deg, ${(deck?.color ?? '#4f46e5')}12, ${(deck?.color ?? '#4f46e5')}08)`,
             borderBottom: `2px solid ${deck?.color ?? '#4f46e5'}40`,
           }}
         >
@@ -73,7 +75,7 @@ function CardStudyModal({
             className="absolute top-4 right-4 w-8 h-8 rounded-full flex items-center justify-center hover:bg-white/10 transition-colors"
             style={{ background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.1)' }}
           >
-            <X size={14} className="text-slate-300" />
+            <X size={14} className="text-foreground" />
           </button>
           <div
             className="text-[9px] font-mono font-bold px-2 py-0.5 rounded-md inline-block mb-2"
@@ -87,13 +89,13 @@ function CardStudyModal({
           >
             {card.title}
           </h3>
-          <p className="text-[11px] mt-1 text-slate-400">
+          <p className="text-[11px] mt-1 text-muted-foreground">
             {card.tagline}
           </p>
           {/* Deck label */}
           <div className="flex items-center gap-1.5 mt-2">
             <div className="w-2 h-2 rounded-full" style={{ backgroundColor: deck?.color ?? '#888' }} />
-            <span className="text-[9px] font-semibold text-slate-400">{deck?.title}</span>
+            <span className="text-[9px] font-semibold text-muted-foreground">{deck?.title}</span>
           </div>
         </div>
 
@@ -101,19 +103,19 @@ function CardStudyModal({
         <div className="px-5 py-4 space-y-4">
           {card.whatItIs && (
             <div>
-              <p className="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-1.5">What It Is</p>
-              <p className="text-sm text-slate-300 leading-relaxed">{card.whatItIs}</p>
+              <p className="text-[10px] font-black uppercase tracking-widest text-muted-foreground mb-1.5">What It Is</p>
+              <p className="text-sm text-foreground leading-relaxed">{card.whatItIs}</p>
             </div>
           )}
           {card.whenToUse && (
             <div>
-              <p className="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-1.5">When to Use</p>
-              <p className="text-sm text-slate-300 leading-relaxed">{card.whenToUse}</p>
+              <p className="text-[10px] font-black uppercase tracking-widest text-muted-foreground mb-1.5">When to Use</p>
+              <p className="text-sm text-foreground leading-relaxed">{card.whenToUse}</p>
             </div>
           )}
           {card.steps && card.steps.length > 0 && (
             <div>
-              <p className="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-2">Key Steps</p>
+              <p className="text-[10px] font-black uppercase tracking-widest text-muted-foreground mb-2">Key Steps</p>
               <ol className="space-y-2">
                 {card.steps.map((step, i) => (
                   <li key={i} className="flex items-start gap-2.5">
@@ -123,7 +125,7 @@ function CardStudyModal({
                     >
                       {i + 1}
                     </span>
-                    <span className="text-sm text-slate-300 leading-relaxed">{step}</span>
+                    <span className="text-sm text-foreground leading-relaxed">{step}</span>
                   </li>
                 ))}
               </ol>
@@ -140,7 +142,7 @@ function CardStudyModal({
               <p className="text-[9px] font-black uppercase tracking-widest mb-1.5" style={{ color: deck?.color ?? '#818cf8' }}>
                 Pro Tip
               </p>
-              <p className="text-[12px] text-slate-300 leading-relaxed">{card.proTip}</p>
+              <p className="text-[12px] text-foreground leading-relaxed">{card.proTip}</p>
             </div>
           )}
         </div>
@@ -177,6 +179,7 @@ function CardStudyModal({
 // ─── MAIN PAGE ────────────────────────────────────────────────────────────────
 export default function EarnHeartPage() {
   const [, navigate] = useLocation();
+  const { isDark } = useTheme();
   const { state, studyTopicForHeart, topicsStudiedForHeart } = useJourney();
   const [selectedCard, setSelectedCard] = useState<typeof CARDS[0] | null>(null);
 
@@ -197,14 +200,14 @@ export default function EarnHeartPage() {
   };
 
   return (
-    <div className="min-h-screen pt-11 pb-24" style={{ background: '#0a1628' }}>
+    <div className="min-h-screen pt-11 pb-24" style={{ background: isDark ? '#0a1628' : '#f1f5f9' }}>
       {/* Header — dark navy, rose accent */}
       <div
-        className="sticky top-11 z-40 px-4 py-3"
+          className="sticky top-11 z-40 px-4 py-3"
         style={{
-          background: 'rgba(10,22,40,0.97)',
+          background: isDark ? 'rgba(10,22,40,0.97)' : 'rgba(241,245,249,0.97)',
           backdropFilter: 'blur(24px) saturate(1.6)',
-          borderBottom: '1px solid rgba(255,255,255,0.07)',
+          borderBottom: isDark ? '1px solid rgba(255,255,255,0.07)' : '1px solid rgba(0,0,0,0.08)',
         }}
       >
         <div className="flex items-center gap-3">
@@ -212,16 +215,16 @@ export default function EarnHeartPage() {
             onClick={() => navigate('/journey')}
             className="w-8 h-8 flex items-center justify-center rounded-xl hover:bg-white/10 transition-colors"
           >
-            <ArrowLeft size={18} className="text-slate-300" />
+            <ArrowLeft size={18} className="text-foreground" />
           </button>
           <div className="flex-1">
             <div className="flex items-center gap-1.5">
               <Heart size={13} className="text-rose-400 fill-rose-400" />
-              <h1 className="text-base font-black text-white" style={{ fontFamily: 'Sora, sans-serif' }}>
+              <h1 className="text-base font-black text-foreground" style={{ fontFamily: 'Sora, sans-serif' }}>
                 Earn a Heart
               </h1>
             </div>
-            <p className="text-[10px] text-slate-400">Study {TOPICS_TO_EARN_HEART} topics to earn 1 heart</p>
+            <p className="text-[10px] text-muted-foreground">Study {TOPICS_TO_EARN_HEART} topics to earn 1 heart</p>
           </div>
           {/* Current hearts */}
           <div className="flex items-center gap-1">
@@ -229,7 +232,7 @@ export default function EarnHeartPage() {
               <Heart
                 key={i}
                 size={16}
-                className={i < currentHearts ? 'text-rose-400 fill-rose-400' : 'text-slate-600 fill-slate-700'}
+                className={i < currentHearts ? 'text-rose-400 fill-rose-400' : isDark ? 'text-slate-600 fill-slate-700' : 'text-slate-300 fill-slate-200'}
               />
             ))}
           </div>
@@ -247,7 +250,7 @@ export default function EarnHeartPage() {
           }}
         >
           <div className="flex items-center justify-between mb-3">
-            <p className="text-sm font-bold text-slate-200">Progress to next heart</p>
+            <p className="text-sm font-bold text-foreground">Progress to next heart</p>
             <span
               className="text-sm font-black px-2 py-0.5 rounded-full"
               style={{ background: 'rgba(220,38,38,0.15)', color: '#f87171', border: '1px solid rgba(220,38,38,0.25)' }}
@@ -275,7 +278,7 @@ export default function EarnHeartPage() {
             ))}
           </div>
           {progressInBatch === 0 && (
-            <p className="text-[11px] text-slate-400 mt-2">
+            <p className="text-[11px] text-muted-foreground mt-2">
               Open any card below and tap "Mark as Studied" to count it.
             </p>
           )}
@@ -298,7 +301,7 @@ export default function EarnHeartPage() {
         <div>
           <div className="flex items-center gap-2 mb-3">
             <Sparkles size={12} className="text-violet-400" />
-            <p className="text-[11px] font-black uppercase tracking-widest text-slate-400">
+            <p className="text-[11px] font-black uppercase tracking-widest text-muted-foreground">
               Topics to Study
             </p>
           </div>
@@ -319,10 +322,10 @@ export default function EarnHeartPage() {
                   style={{
                     background: isStudied
                       ? 'rgba(16,185,129,0.06)'
-                      : 'rgba(255,255,255,0.04)',
+                      : isDark ? 'rgba(255,255,255,0.04)' : 'rgba(0,0,0,0.03)',
                     border: isStudied
                       ? '1px solid rgba(16,185,129,0.2)'
-                      : '1px solid rgba(255,255,255,0.07)',
+                      : isDark ? '1px solid rgba(255,255,255,0.07)' : '1px solid rgba(0,0,0,0.08)',
                     opacity: isStudied ? 0.75 : 1,
                   }}
                 >
@@ -339,17 +342,17 @@ export default function EarnHeartPage() {
                       >
                         {card.code}
                       </span>
-                      <span className="text-[9px] text-slate-500">{deck?.title}</span>
+                      <span className="text-[9px] text-muted-foreground">{deck?.title}</span>
                     </div>
-                    <p className="text-sm font-bold text-slate-200 truncate" style={{ fontFamily: 'Sora, sans-serif' }}>
+                    <p className="text-sm font-bold text-foreground truncate" style={{ fontFamily: 'Sora, sans-serif' }}>
                       {card.title}
                     </p>
-                    <p className="text-[10px] text-slate-400 truncate">{card.tagline}</p>
+                    <p className="text-[10px] text-muted-foreground truncate">{card.tagline}</p>
                   </div>
                   {isStudied ? (
                     <CheckCircle2 size={18} className="text-emerald-400 shrink-0" />
                   ) : (
-                    <ChevronRight size={16} className="text-slate-500 shrink-0" />
+                    <ChevronRight size={16} className="text-muted-foreground shrink-0" />
                   )}
                 </motion.button>
               );
@@ -360,8 +363,8 @@ export default function EarnHeartPage() {
         {/* Back to journey */}
         <button
           onClick={() => navigate('/journey')}
-          className="w-full py-3 rounded-2xl font-semibold text-slate-300 text-sm transition-all active:scale-95"
-          style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.08)' }}
+          className="w-full py-3 rounded-2xl font-semibold text-foreground text-sm transition-all active:scale-95"
+          style={{ background: isDark ? 'rgba(255,255,255,0.05)' : 'rgba(0,0,0,0.04)', border: isDark ? '1px solid rgba(255,255,255,0.08)' : '1px solid rgba(0,0,0,0.08)' }}
         >
           Back to Journey Map
         </button>

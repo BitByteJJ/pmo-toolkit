@@ -9,6 +9,7 @@ import {
 } from 'lucide-react';
 import { getAllCaseStudies, type CaseStudy } from '@/lib/caseStudiesData';
 import { DECKS, getDeckById } from '@/lib/pmoData';
+import { useTheme } from '@/contexts/ThemeContext';
 
 // ─── Helpers ──────────────────────────────────────────────────────────────────
 
@@ -53,13 +54,13 @@ function CaseStudyCard({ cs, onClick }: { cs: CaseStudy; onClick: () => void }) 
               {deck?.title ?? 'Techniques'}
             </div>
             <h3
-              className="text-[14px] font-bold text-slate-200 leading-tight"
+              className="text-[14px] font-bold text-foreground leading-tight"
               style={{ fontFamily: 'Sora, sans-serif' }}
             >
               {cs.projectName}
             </h3>
           </div>
-          <ChevronRight size={14} className="text-slate-400 shrink-0 mt-1" />
+          <ChevronRight size={14} className="text-muted-foreground shrink-0 mt-1" />
         </div>
 
         {/* Fictional badge */}
@@ -71,16 +72,16 @@ function CaseStudyCard({ cs, onClick }: { cs: CaseStudy; onClick: () => void }) 
         )}
         {/* Meta row */}
         <div className="flex flex-wrap gap-x-3 gap-y-1 mb-3">
-          <span className="flex items-center gap-1 text-[11px] font-semibold text-slate-300">
+          <span className="flex items-center gap-1 text-[11px] font-semibold text-foreground">
             <Building2 size={10} style={{ color: deck?.color }} />
             {cs.organisation}
           </span>
-          <span className="text-slate-400">·</span>
-          <span className="text-[11px] text-slate-300">{cs.industry}</span>
+          <span className="text-muted-foreground">·</span>
+          <span className="text-[11px] text-foreground">{cs.industry}</span>
           {cs.timeframe && (
             <>
-              <span className="text-slate-400">·</span>
-              <span className="flex items-center gap-1 text-[11px] text-slate-300">
+              <span className="text-muted-foreground">·</span>
+              <span className="flex items-center gap-1 text-[11px] text-foreground">
                 <Clock size={9} />
                 {cs.timeframe}
               </span>
@@ -89,7 +90,7 @@ function CaseStudyCard({ cs, onClick }: { cs: CaseStudy; onClick: () => void }) 
         </div>
 
         {/* Challenge snippet */}
-        <p className="text-[12px] text-slate-300 leading-relaxed line-clamp-2">
+        <p className="text-[12px] text-foreground leading-relaxed line-clamp-2">
           {cs.challenge}
         </p>
       </div>
@@ -101,6 +102,7 @@ function CaseStudyCard({ cs, onClick }: { cs: CaseStudy; onClick: () => void }) 
 
 export default function CaseStudiesPage() {
   const [, navigate] = useLocation();
+  const { isDark } = useTheme();
   const allStudies = useMemo(() => getAllCaseStudies(), []);
   const industries = useMemo(() => getUniqueIndustries(allStudies), [allStudies]);
 
@@ -145,9 +147,9 @@ export default function CaseStudiesPage() {
   const activeFilterCount = (selectedDeck ? 1 : 0) + (selectedIndustry ? 1 : 0);
 
   return (
-    <div className="min-h-screen pt-12 pb-24" style={{ background: '#0a1628' }}>
+    <div className="min-h-screen pt-12 pb-24" style={{ background: isDark ? '#0a1628' : '#f1f5f9' }}>
       {/* Header */}
-      <div className="sticky top-12 z-30 border-b" style={{ background: 'rgba(8,14,32,0.94)', backdropFilter: 'blur(20px) saturate(1.4)', WebkitBackdropFilter: 'blur(20px) saturate(1.4)', borderColor: 'rgba(0,0,0,0.06)' }}>
+      <div className="sticky top-12 z-30 border-b" style={{ background: isDark ? 'rgba(8,14,32,0.94)' : 'rgba(248,250,252,0.94)', backdropFilter: 'blur(20px) saturate(1.4)', WebkitBackdropFilter: 'blur(20px) saturate(1.4)', borderColor: 'rgba(0,0,0,0.06)' }}>
         <div className="max-w-2xl mx-auto px-4 pt-4 pb-3">
           <div className="flex items-center justify-between mb-3">
             <div>
@@ -157,7 +159,7 @@ export default function CaseStudiesPage() {
               >
                 Case Studies
               </h1>
-              <p className="text-[11px] text-slate-300 font-semibold mt-0.5">
+              <p className="text-[11px] text-foreground font-semibold mt-0.5">
                 {filtered.length} of {allStudies.length} examples · {allStudies.filter(s => !s.fictional).length} real-world, {allStudies.filter(s => s.fictional).length} illustrative
               </p>
             </div>
@@ -184,19 +186,19 @@ export default function CaseStudiesPage() {
 
           {/* Search bar */}
           <div className="relative">
-            <Search size={13} className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-300" />
+            <Search size={13} className="absolute left-3 top-1/2 -translate-y-1/2 text-foreground" />
             <input
               type="text"
               placeholder="Search organisations, projects, industries…"
               value={searchQuery}
               onChange={e => setSearchQuery(e.target.value)}
-              className="w-full pl-8 pr-8 py-2.5 rounded-xl bg-card text-[12px] text-slate-300 placeholder-slate-500 outline-none"
+              className="w-full pl-8 pr-8 py-2.5 rounded-xl bg-card text-[12px] text-foreground placeholder-slate-500 outline-none"
               style={{ boxShadow: '0 2px 8px rgba(0,0,0,0.07), 0 0 0 1px rgba(0,0,0,0.05)' }}
             />
             {searchQuery && (
               <button
                 onClick={() => setSearchQuery('')}
-                className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-300 hover:text-slate-300"
+                className="absolute right-3 top-1/2 -translate-y-1/2 text-foreground hover:text-foreground"
               >
                 <X size={12} />
               </button>
@@ -217,7 +219,7 @@ export default function CaseStudiesPage() {
               <div className="max-w-2xl mx-auto px-4 py-3 space-y-3">
                 {/* Deck filter */}
                 <div>
-                  <p className="text-[9px] font-bold text-slate-300 uppercase tracking-widest mb-1.5">Deck</p>
+                  <p className="text-[9px] font-bold text-foreground uppercase tracking-widest mb-1.5">Deck</p>
                   <div className="flex flex-wrap gap-1.5">
                     {DECKS.map(deck => (
                       <button
@@ -237,7 +239,7 @@ export default function CaseStudiesPage() {
 
                 {/* Industry filter */}
                 <div>
-                  <p className="text-[9px] font-bold text-slate-300 uppercase tracking-widest mb-1.5">Industry</p>
+                  <p className="text-[9px] font-bold text-foreground uppercase tracking-widest mb-1.5">Industry</p>
                   <div className="flex flex-wrap gap-1.5">
                     {industries.map(ind => (
                       <button
@@ -259,7 +261,7 @@ export default function CaseStudiesPage() {
                 {activeFilterCount > 0 && (
                   <button
                     onClick={() => { setSelectedDeck(null); setSelectedIndustry(null); }}
-                    className="text-[10px] font-bold text-slate-300 underline"
+                    className="text-[10px] font-bold text-foreground underline"
                   >
                     Clear all filters
                   </button>
@@ -274,11 +276,11 @@ export default function CaseStudiesPage() {
       <div className="max-w-2xl mx-auto px-4 pt-4 space-y-3">
         {filtered.length === 0 ? (
           <div className="text-center py-16">
-            <BookOpen size={32} className="mx-auto text-slate-400 mb-3" />
-            <p className="text-sm font-semibold text-slate-300">No case studies match your filters</p>
+            <BookOpen size={32} className="mx-auto text-muted-foreground mb-3" />
+            <p className="text-sm font-semibold text-foreground">No case studies match your filters</p>
             <button
               onClick={() => { setSearchQuery(''); setSelectedDeck(null); setSelectedIndustry(null); }}
-              className="mt-2 text-[11px] font-bold text-slate-300 underline"
+              className="mt-2 text-[11px] font-bold text-foreground underline"
             >
               Clear filters
             </button>

@@ -10,6 +10,7 @@ import {
 import { CARDS, DECKS } from '@/lib/pmoData';
 import { DECK_THEME } from '@/lib/templateFieldSchema';
 import { ALL_TEMPLATES, CardTemplate } from '@/lib/templateData';
+import { useTheme } from '@/contexts/ThemeContext';
 
 // ─── AI Question Flow ────────────────────────────────────────────────────────
 interface Question {
@@ -97,6 +98,7 @@ const RECOMMENDATION_MAP: Record<string, Record<string, string[]>> = {
 // ─── Main Component ──────────────────────────────────────────────────────────
 export default function TemplateLibrary() {
   const [, navigate] = useLocation();
+  const { isDark } = useTheme();
   const [step, setStep] = useState<'intro' | 'q1' | 'q2' | 'results' | 'browse'>('intro');
   const [answers, setAnswers] = useState<Record<string, string>>({});
   const [searchQuery, setSearchQuery] = useState('');
@@ -160,13 +162,13 @@ export default function TemplateLibrary() {
   };
 
   return (
-    <div className="min-h-screen pt-12 pb-28" style={{ background: '#0a1628' }}>
+    <div className="min-h-screen pt-12 pb-28" style={{ background: isDark ? '#0a1628' : '#f1f5f9' }}>
       {/* Header — top-12 keeps it below the fixed 48px TopNav */}
       <div className="sticky top-12 z-40"
-        style={{ background: 'rgba(10,22,40,0.92)', backdropFilter: 'blur(16px)', borderBottom: '1px solid rgba(255,255,255,0.07)' }}>
+        style={{ background: isDark ? 'rgba(10,22,40,0.92)' : 'rgba(241,245,249,0.92)', backdropFilter: 'blur(16px)', borderBottom: isDark ? '1px solid rgba(255,255,255,0.07)' : '1px solid rgba(0,0,0,0.08)' }}>
         <div className="flex items-center gap-3 px-4 py-3" style={{ maxWidth: '480px', margin: '0 auto' }}>
         <button onClick={() => navigate('/')} className="p-1.5 rounded-lg hover:bg-card/10 transition-colors">
-          <ArrowLeft size={18} className="text-slate-300" />
+          <ArrowLeft size={18} className="text-foreground" />
         </button>
         <div className="flex items-center gap-2">
           <div className="w-8 h-8 rounded-xl flex items-center justify-center" style={{ background: 'linear-gradient(135deg, #0284C7, #0ea5e9)' }}>
@@ -174,12 +176,12 @@ export default function TemplateLibrary() {
           </div>
           <div>
             <h1 className="text-base font-bold text-white" style={{ fontFamily: 'Sora, sans-serif' }}>Template Library</h1>
-            <p className="text-[10px] text-slate-300">{allTemplates.length} fillable templates</p>
+            <p className="text-[10px] text-foreground">{allTemplates.length} fillable templates</p>
           </div>
         </div>
         <div className="ml-auto flex gap-2">
           {step !== 'intro' && (
-            <button onClick={reset} className="flex items-center gap-1 text-xs text-slate-300 hover:text-white transition-colors px-2 py-1 rounded-lg hover:bg-card/10">
+            <button onClick={reset} className="flex items-center gap-1 text-xs text-foreground hover:text-white transition-colors px-2 py-1 rounded-lg hover:bg-card/10">
               <X size={12} /> Reset
             </button>
           )}
@@ -226,7 +228,7 @@ export default function TemplateLibrary() {
                   <div key={f.label} className="rounded-xl p-3 text-center" style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.08)' }}>
                     <div className="text-2xl mb-1">{f.icon}</div>
                     <div className="text-xs font-bold text-white mb-0.5">{f.label}</div>
-                    <div className="text-[10px] text-slate-300 leading-tight">{f.sub}</div>
+                    <div className="text-[10px] text-foreground leading-tight">{f.sub}</div>
                   </div>
                 ))}
               </div>
@@ -245,7 +247,7 @@ export default function TemplateLibrary() {
                 </motion.button>
                 <button
                   onClick={() => setStep('browse')}
-                  className="w-full py-3 rounded-2xl font-semibold text-slate-300 flex items-center justify-center gap-2"
+                  className="w-full py-3 rounded-2xl font-semibold text-foreground flex items-center justify-center gap-2"
                   style={{ background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.10)' }}
                 >
                   <LayoutGrid size={16} />
@@ -255,7 +257,7 @@ export default function TemplateLibrary() {
 
               {/* Deck quick-links */}
               <div className="mt-5">
-                <p className="text-xs text-slate-300 mb-3 font-semibold uppercase tracking-wider">Browse by Deck</p>
+                <p className="text-xs text-foreground mb-3 font-semibold uppercase tracking-wider">Browse by Deck</p>
                 <div className="grid grid-cols-2 gap-2">
                   {DECKS.map(deck => {
                     const theme = DECK_THEME[deck.id];
@@ -273,7 +275,7 @@ export default function TemplateLibrary() {
                         </div>
                         <div className="min-w-0">
                           <div className="text-xs font-bold truncate" style={{ color: theme.color }}>{deck.title}</div>
-                          <div className="text-[10px] text-slate-300">{count} templates</div>
+                          <div className="text-[10px] text-foreground">{count} templates</div>
                         </div>
                       </motion.button>
                     );
@@ -314,7 +316,7 @@ export default function TemplateLibrary() {
                 <CheckCircle2 size={20} className="text-emerald-400" />
                 <div>
                   <h2 className="text-base font-bold text-white" style={{ fontFamily: 'Sora, sans-serif' }}>Recommended Templates</h2>
-                  <p className="text-xs text-slate-300">{recommendedIds.length} templates matched your situation</p>
+                  <p className="text-xs text-foreground">{recommendedIds.length} templates matched your situation</p>
                 </div>
               </div>
               <div className="flex flex-col gap-3 mb-5">
@@ -337,7 +339,7 @@ export default function TemplateLibrary() {
               </div>
               <button
                 onClick={() => setStep('browse')}
-                className="w-full py-3 rounded-xl text-sm font-semibold text-slate-300 flex items-center justify-center gap-2"
+                className="w-full py-3 rounded-xl text-sm font-semibold text-foreground flex items-center justify-center gap-2"
                 style={{ background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.10)' }}
               >
                 <LayoutGrid size={14} /> Browse All Templates
@@ -350,7 +352,7 @@ export default function TemplateLibrary() {
             <motion.div key="browse" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -20 }}>
               {/* Search */}
               <div className="relative mb-4">
-                <Search size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" />
+                <Search size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground" />
                 <input
                   type="text"
                   placeholder="Search templates…"
@@ -361,7 +363,7 @@ export default function TemplateLibrary() {
                 />
                 {searchQuery && (
                   <button onClick={() => setSearchQuery('')} className="absolute right-3 top-1/2 -translate-y-1/2">
-                    <X size={14} className="text-slate-400" />
+                    <X size={14} className="text-muted-foreground" />
                   </button>
                 )}
               </div>
@@ -396,7 +398,7 @@ export default function TemplateLibrary() {
               </div>
 
               {/* Results count */}
-              <p className="text-xs text-slate-300 mb-3">
+              <p className="text-xs text-foreground mb-3">
                 {filteredTemplates.length} template{filteredTemplates.length !== 1 ? 's' : ''}
                 {activeDeck !== 'all' ? ` in ${DECKS.find(d => d.id === activeDeck)?.title}` : ''}
                 {searchQuery ? ` matching "${searchQuery}"` : ''}
@@ -421,7 +423,7 @@ export default function TemplateLibrary() {
                 {filteredTemplates.length === 0 && (
                   <div className="text-center py-12">
                     <FileText size={32} className="text-slate-600 mx-auto mb-3" />
-                    <p className="text-slate-300 text-sm">No templates found</p>
+                    <p className="text-foreground text-sm">No templates found</p>
                     <button onClick={() => { setSearchQuery(''); setActiveDeck('all'); }} className="text-blue-400 text-xs mt-2 underline">Clear filters</button>
                   </div>
                 )}
@@ -449,9 +451,9 @@ function QuestionCard({
     <div>
       <div className="flex items-center gap-2 mb-4">
         <button onClick={onBack} className="p-1.5 rounded-lg hover:bg-card/10 transition-colors">
-          <ArrowLeft size={16} className="text-slate-300" />
+          <ArrowLeft size={16} className="text-foreground" />
         </button>
-        <span className="text-xs text-slate-400 font-semibold">{stepLabel}</span>
+        <span className="text-xs text-muted-foreground font-semibold">{stepLabel}</span>
       </div>
       <div className="rounded-2xl p-5 mb-4" style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.08)' }}>
         <div className="flex items-center gap-2 mb-1">
@@ -472,8 +474,8 @@ function QuestionCard({
             style={{ background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.09)' }}
           >
             {opt.icon && <span className="text-xl shrink-0">{opt.icon}</span>}
-            <span className="text-sm font-semibold text-slate-200">{opt.label}</span>
-            <ChevronRight size={14} className="text-slate-400 ml-auto shrink-0" />
+            <span className="text-sm font-semibold text-foreground">{opt.label}</span>
+            <ChevronRight size={14} className="text-muted-foreground ml-auto shrink-0" />
           </motion.button>
         ))}
       </div>
@@ -520,14 +522,14 @@ function TemplateCard({
         <h3 className="text-sm font-bold text-white leading-snug mb-0.5" style={{ fontFamily: 'Sora, sans-serif' }}>
           {template.title}
         </h3>
-        <p className="text-[11px] text-slate-300 leading-relaxed line-clamp-2">{template.description}</p>
+        <p className="text-[11px] text-foreground leading-relaxed line-clamp-2">{template.description}</p>
         <div className="flex items-center gap-3 mt-2">
-          <span className="text-[10px] text-slate-400">{template.sections.length} sections</span>
-          <span className="text-[10px] text-slate-400">•</span>
-          <span className="text-[10px] text-slate-400">PDF + Word download</span>
+          <span className="text-[10px] text-muted-foreground">{template.sections.length} sections</span>
+          <span className="text-[10px] text-muted-foreground">•</span>
+          <span className="text-[10px] text-muted-foreground">PDF + Word download</span>
         </div>
       </div>
-      <ChevronRight size={16} className="text-slate-400 shrink-0 mt-1" />
+      <ChevronRight size={16} className="text-muted-foreground shrink-0 mt-1" />
     </motion.button>
   );
 }

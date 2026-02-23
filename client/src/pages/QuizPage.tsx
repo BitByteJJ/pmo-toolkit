@@ -12,6 +12,7 @@ import { getDeckById } from '@/lib/pmoData';
 import { getQuizForDeck } from '@/lib/quizData';
 import type { JourneyQuestion } from '@/lib/journeyData';
 import { useMasteryBadges } from '@/hooks/useMasteryBadges';
+import { useTheme } from '@/contexts/ThemeContext';
 
 // ─── PROGRESS BAR ─────────────────────────────────────────────────────────────
 function ProgressBar({ current, total, color }: { current: number; total: number; color: string }) {
@@ -83,7 +84,7 @@ function QuestionCard({
         >
           {question.type === 'truefalse' ? 'TRUE / FALSE' : question.type === 'scenario' ? 'SCENARIO' : 'MULTIPLE CHOICE'}
         </span>
-        <span className="text-[10px] text-slate-300 font-medium">
+        <span className="text-[10px] text-foreground font-medium">
           Question {questionNumber} of {total}
         </span>
       </div>
@@ -122,7 +123,7 @@ function QuestionCard({
             >
               {String.fromCharCode(65 + i)}
             </span>
-            <span className="text-[13px] font-medium text-slate-300 leading-snug">{opt}</span>
+            <span className="text-[13px] font-medium text-foreground leading-snug">{opt}</span>
             {answerState !== 'unanswered' && i === question.correctIndex && (
               <CheckCircle2 size={16} className="ml-auto text-emerald-500 shrink-0" />
             )}
@@ -147,7 +148,7 @@ function QuestionCard({
                 ? <CheckCircle2 size={16} className="text-emerald-400 shrink-0 mt-0.5" />
                 : <XCircle size={16} className="text-amber-400 shrink-0 mt-0.5" />
               }
-              <p className="text-[12px] leading-relaxed text-slate-300">{question.explanation}</p>
+              <p className="text-[12px] leading-relaxed text-foreground">{question.explanation}</p>
             </div>
           </motion.div>
         )}
@@ -202,7 +203,7 @@ function ResultsScreen({
         <p className="text-2xl font-black text-slate-100 mb-1" style={{ fontFamily: 'Sora, sans-serif' }}>
           {grade}
         </p>
-        <p className="text-sm text-slate-300">
+        <p className="text-sm text-foreground">
           You scored <strong>{score} out of {total}</strong> on the {deck?.title} quiz
         </p>
       </div>
@@ -228,12 +229,12 @@ function ResultsScreen({
       )}
 
       {pct < 100 && pct >= 60 && (
-        <p className="text-[12px] text-slate-300 max-w-xs">
+        <p className="text-[12px] text-foreground max-w-xs">
           Review the cards you got wrong and try again to earn the mastery badge.
         </p>
       )}
       {pct < 60 && (
-        <p className="text-[12px] text-slate-300 max-w-xs">
+        <p className="text-[12px] text-foreground max-w-xs">
           Study the {deck?.title} deck cards and come back when you're ready to try again.
         </p>
       )}
@@ -249,7 +250,7 @@ function ResultsScreen({
         </button>
         <button
           onClick={onExit}
-          className="flex items-center justify-center gap-2 w-full py-3 rounded-2xl font-bold text-slate-300 text-sm bg-card/10"
+          className="flex items-center justify-center gap-2 w-full py-3 rounded-2xl font-bold text-foreground text-sm bg-card/10"
         >
           <ArrowLeft size={16} />
           Back to Deck
@@ -262,6 +263,7 @@ function ResultsScreen({
 // ─── MAIN PAGE ────────────────────────────────────────────────────────────────
 export default function QuizPage() {
   const { deckId } = useParams<{ deckId: string }>();
+  const { isDark } = useTheme();
   const [, navigate] = useLocation();
   const deck = getDeckById(deckId);
   const quiz = getQuizForDeck(deckId);
@@ -308,19 +310,19 @@ export default function QuizPage() {
 
   if (!deck || !quiz) {
     return (
-      <div className="min-h-screen flex items-center justify-center" style={{ background: '#0a1628' }}>
-        <p className="text-slate-300">No quiz available for this deck yet.</p>
+      <div className="min-h-screen flex items-center justify-center" style={{ background: isDark ? '#0a1628' : '#f1f5f9' }}>
+        <p className="text-foreground">No quiz available for this deck yet.</p>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen pt-12 pb-8" style={{ background: '#0a1628' }}>
+    <div className="min-h-screen pt-12 pb-8" style={{ background: isDark ? '#0a1628' : '#f1f5f9' }}>
       {/* Header */}
       <div
         className="sticky top-12 z-40 px-4"
         style={{
-          background: 'rgba(8,14,32,0.94)',
+          background: isDark ? 'rgba(8,14,32,0.94)' : 'rgba(248,250,252,0.94)',
           backdropFilter: 'blur(20px) saturate(1.4)',
           WebkitBackdropFilter: 'blur(20px) saturate(1.4)',
           borderBottom: '1.5px solid rgba(0,0,0,0.06)',
@@ -331,12 +333,12 @@ export default function QuizPage() {
             onClick={() => navigate(`/deck/${deckId}`)}
             className="w-8 h-8 flex items-center justify-center rounded-xl hover:bg-card/10 transition-colors shrink-0"
           >
-            <X size={18} className="text-slate-300" />
+            <X size={18} className="text-foreground" />
           </button>
           {!finished && (
             <>
               <ProgressBar current={currentIndex} total={questions.length} color={deck.color} />
-              <span className="text-[11px] font-bold text-slate-300 shrink-0">
+              <span className="text-[11px] font-bold text-foreground shrink-0">
                 {currentIndex}/{questions.length}
               </span>
             </>

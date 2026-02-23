@@ -452,3 +452,24 @@
 - [ ] Add theme toggle button to top navigation bar
 - [ ] Update hardcoded dark colours across all pages to use CSS theme variables
 - [x] Light/dark theme toggle (Sun/Moon button in TopNav, persisted to localStorage)
+
+## Light Mode Readability Audit — Feb 2026
+
+- [ ] Fix CardDetail page light mode readability
+- [ ] Fix SearchPage light mode readability
+- [ ] Fix BookmarksPage light mode readability
+- [ ] Fix DecksPage light mode readability
+- [ ] Fix AiSuggest page light mode readability
+- [ ] Fix DecisionHelper page light mode readability
+- [ ] Fix GlossaryPage light mode readability
+- [ ] Fix CaseStudiesPage light mode readability
+- [ ] Fix LearningRoadmap page light mode readability
+- [ ] Fix TemplateLibrary page light mode readability
+- [ ] Fix TemplateFiller page light mode readability
+- [ ] Fix JourneyPage light mode readability
+- [ ] Fix LessonPage light mode readability
+- [ ] Fix QuizPage light mode readability
+- [ ] Fix WelcomeModal light mode readability
+- [ ] Fix OnboardingTour light mode readability
+- [ ] Fix SprintMode (DeckView) light mode readability
+- [ ] Fix HowItWasBuilt page light mode readability

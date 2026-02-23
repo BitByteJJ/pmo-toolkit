@@ -13,6 +13,7 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ChevronRight, ArrowLeft, Sparkles } from 'lucide-react';
+import { useTheme } from '@/contexts/ThemeContext';
 
 export const JOURNEY_PROFILE_KEY = 'pmo-journey-profile';
 
@@ -118,6 +119,8 @@ export default function JourneySetupWizard({ onComplete }: Props) {
     if (step > 0) setStep(s => s - 1);
   }
 
+  const { isDark } = useTheme();
+
   return (
     <div
       className="fixed inset-0 z-[200] flex items-end sm:items-center justify-center px-4 pb-6 sm:pb-0"
@@ -129,9 +132,9 @@ export default function JourneySetupWizard({ onComplete }: Props) {
         transition={{ type: 'spring', stiffness: 300, damping: 28 }}
         className="w-full max-w-sm rounded-3xl overflow-hidden"
         style={{
-          background: '#0f1c30',
-          border: '1px solid rgba(255,255,255,0.1)',
-          boxShadow: '0 32px 80px rgba(0,0,0,0.5), 0 4px 16px rgba(0,0,0,0.3)',
+          background: isDark ? '#0f1c30' : '#ffffff',
+          border: isDark ? '1px solid rgba(255,255,255,0.1)' : '1px solid rgba(0,0,0,0.1)',
+          boxShadow: isDark ? '0 32px 80px rgba(0,0,0,0.5), 0 4px 16px rgba(0,0,0,0.3)' : '0 32px 80px rgba(0,0,0,0.15), 0 4px 16px rgba(0,0,0,0.08)',
         }}
       >
         {/* Top gradient accent bar */}
@@ -183,12 +186,12 @@ export default function JourneySetupWizard({ onComplete }: Props) {
               transition={{ duration: 0.2 }}
             >
               <h2
-                className="text-lg font-black text-white leading-tight mb-1.5"
+                className="text-lg font-black leading-tight mb-1.5 text-foreground"
                 style={{ fontFamily: 'Sora, sans-serif' }}
               >
                 {q.question}
               </h2>
-              <p className="text-[12px] text-slate-400 mb-4 leading-relaxed">{q.subtitle}</p>
+              <p className="text-[12px] text-muted-foreground mb-4 leading-relaxed">{q.subtitle}</p>
 
               {/* Options */}
               <div className="space-y-2">
@@ -202,14 +205,15 @@ export default function JourneySetupWizard({ onComplete }: Props) {
                       style={{
                         background: isSelected
                           ? 'linear-gradient(135deg, rgba(124,58,237,0.2), rgba(37,99,235,0.15))'
-                          : 'rgba(255,255,255,0.04)',
+                          : isDark ? 'rgba(255,255,255,0.04)' : 'rgba(0,0,0,0.03)',
                         border: isSelected
                           ? '1.5px solid rgba(124,58,237,0.5)'
-                          : '1.5px solid rgba(255,255,255,0.08)',
+                          : isDark ? '1.5px solid rgba(255,255,255,0.08)' : '1.5px solid rgba(0,0,0,0.1)',
+                        color: isDark ? '#e2e8f0' : '#1e293b',
                       }}
                     >
                       <span className="text-xl shrink-0">{opt.emoji}</span>
-                      <span className="text-sm font-semibold text-slate-200 leading-tight flex-1">
+                      <span className="text-sm font-semibold leading-tight flex-1 text-foreground">
                         {opt.label}
                       </span>
                       <ChevronRight
@@ -225,7 +229,7 @@ export default function JourneySetupWizard({ onComplete }: Props) {
           </AnimatePresence>
 
           {/* Step counter */}
-          <p className="text-[10px] text-slate-500 text-center mt-4">
+          <p className="text-[10px] text-muted-foreground text-center mt-4">
             Question {step + 1} of {totalSteps}
           </p>
         </div>

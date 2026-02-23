@@ -6,9 +6,11 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Bookmark, BookmarkX, ArrowRight } from 'lucide-react';
 import { getCardById, getDeckById } from '@/lib/pmoData';
 import { useBookmarks } from '@/contexts/BookmarksContext';
+import { useTheme } from '@/contexts/ThemeContext';
 
 export default function BookmarksPage() {
   const [, navigate] = useLocation();
+  const { isDark } = useTheme();
   const { bookmarks, toggleBookmark, clearBookmarks } = useBookmarks();
 
   const savedCards = bookmarks
@@ -16,9 +18,9 @@ export default function BookmarksPage() {
     .filter(Boolean) as NonNullable<ReturnType<typeof getCardById>>[];
 
   return (
-    <div className="min-h-screen pt-12 pb-24" style={{ background: '#0a1628' }}>
+    <div className="min-h-screen pt-12 pb-24" style={{ background: isDark ? '#0a1628' : '#f1f5f9' }}>
       {/* Header */}
-      <div className="border-b pt-4 pb-4" style={{ background: 'rgba(8,14,32,0.94)', backdropFilter: 'blur(20px) saturate(1.4)', WebkitBackdropFilter: 'blur(20px) saturate(1.4)', borderColor: 'rgba(0,0,0,0.06)' }}>
+      <div className="border-b pt-4 pb-4" style={{ background: isDark ? 'rgba(8,14,32,0.94)' : 'rgba(248,250,252,0.94)', backdropFilter: 'blur(20px) saturate(1.4)', WebkitBackdropFilter: 'blur(20px) saturate(1.4)', borderColor: 'rgba(0,0,0,0.06)' }}>
         <div className="max-w-2xl mx-auto px-4">
           <div className="flex items-center justify-between">
             <div>
@@ -28,7 +30,7 @@ export default function BookmarksPage() {
               >
                 Saved Cards
               </h1>
-              <p className="text-[11px] text-slate-300 font-medium mt-0.5">
+              <p className="text-[11px] text-foreground font-medium mt-0.5">
                 {savedCards.length} card{savedCards.length !== 1 ? 's' : ''} saved
               </p>
             </div>
@@ -52,15 +54,15 @@ export default function BookmarksPage() {
             className="flex flex-col items-center justify-center py-20 text-center"
           >
             <div className="w-16 h-16 rounded-2xl bg-white/10 flex items-center justify-center mb-4">
-              <Bookmark size={26} className="text-slate-400" />
+              <Bookmark size={26} className="text-muted-foreground" />
             </div>
-            <h2 className="text-base font-semibold text-slate-300 mb-1">No saved cards yet</h2>
-            <p className="text-sm text-slate-300 max-w-xs leading-relaxed">
+            <h2 className="text-base font-semibold text-foreground mb-1">No saved cards yet</h2>
+            <p className="text-sm text-foreground max-w-xs leading-relaxed">
               Tap the bookmark icon on any card to save it here for quick reference.
             </p>
             <button
               onClick={() => navigate('/')}
-              className="mt-6 flex items-center gap-1.5 text-sm font-semibold text-slate-300 bg-card rounded-xl px-4 py-2.5 transition-all hover:shadow-md"
+              className="mt-6 flex items-center gap-1.5 text-sm font-semibold text-foreground bg-card rounded-xl px-4 py-2.5 transition-all hover:shadow-md"
               style={{ boxShadow: '0 1px 3px rgba(0,0,0,0.08)' }}
             >
               Browse decks
@@ -103,10 +105,10 @@ export default function BookmarksPage() {
                             >
                               {card.code}
                             </span>
-                            <span className="text-[9px] text-slate-300 font-medium capitalize">{card.type}</span>
+                            <span className="text-[9px] text-foreground font-medium capitalize">{card.type}</span>
                           </div>
-                          <h3 className="text-sm font-semibold text-slate-200 leading-tight">{card.title}</h3>
-                          <p className="text-[11px] text-slate-300 mt-1 line-clamp-2 leading-relaxed">{card.tagline}</p>
+                          <h3 className="text-sm font-semibold text-foreground leading-tight">{card.title}</h3>
+                          <p className="text-[11px] text-foreground mt-1 line-clamp-2 leading-relaxed">{card.tagline}</p>
                         </button>
                         <button
                           onClick={() => toggleBookmark(card.id)}

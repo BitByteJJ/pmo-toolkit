@@ -21,6 +21,7 @@ import {
   type DecisionAnswer,
 } from '@/lib/decisionData';
 import { CARDS, DECKS, getCardById } from '@/lib/pmoData';
+import { useTheme } from '@/contexts/ThemeContext';
 
 // ─────────────────────────────────────────────────────────────────────────────
 // Types
@@ -68,17 +69,17 @@ function RecommendedCard({ cardId, index }: { cardId: string; index: number }) {
 
           <div className="flex-1 min-w-0">
             <h3
-              className="text-sm font-bold text-slate-200 leading-tight mb-0.5"
+              className="text-sm font-bold text-foreground leading-tight mb-0.5"
               style={{ fontFamily: 'Sora, sans-serif' }}
             >
               {card.title}
             </h3>
-            <p className="text-[11px] text-slate-300 leading-relaxed line-clamp-2">
+            <p className="text-[11px] text-foreground leading-relaxed line-clamp-2">
               {card.tagline}
             </p>
           </div>
 
-          <ChevronRight size={14} className="shrink-0 mt-1 text-slate-400" />
+          <ChevronRight size={14} className="shrink-0 mt-1 text-muted-foreground" />
         </div>
 
         {/* Deck label */}
@@ -108,6 +109,7 @@ function ResultsScreen({
   onBack: () => void;
 }) {
   const [, navigate] = useLocation();
+  const { isDark } = useTheme();
   const meta = getResultMeta(cardIds);
 
   // Build a readable answer trail
@@ -149,7 +151,7 @@ function ResultsScreen({
           {trail.map((label, i) => (
             <span
               key={i}
-              className="text-[10px] font-semibold px-2.5 py-1 rounded-full bg-card/10 text-slate-300"
+              className="text-[10px] font-semibold px-2.5 py-1 rounded-full bg-card/10 text-foreground"
             >
               {label}
             </span>
@@ -159,7 +161,7 @@ function ResultsScreen({
 
       {/* Recommended cards */}
       <div>
-        <p className="text-[10px] font-black text-slate-300 uppercase tracking-[0.12em] mb-3">
+        <p className="text-[10px] font-black text-foreground uppercase tracking-[0.12em] mb-3">
           {cardIds.length} Recommended {cardIds.length === 1 ? 'Tool' : 'Tools'}
         </p>
         <div className="flex flex-col gap-3">
@@ -173,7 +175,7 @@ function ResultsScreen({
       <div className="flex gap-3 pt-2">
         <button
           onClick={onBack}
-          className="flex-1 flex items-center justify-center gap-2 rounded-2xl py-3 text-sm font-bold text-slate-300 bg-card/10"
+          className="flex-1 flex items-center justify-center gap-2 rounded-2xl py-3 text-sm font-bold text-foreground bg-card/10"
         >
           <ArrowLeft size={14} />
           Back
@@ -181,7 +183,7 @@ function ResultsScreen({
         <button
           onClick={onRestart}
           className="flex-1 flex items-center justify-center gap-2 rounded-2xl py-3 text-sm font-bold text-white"
-          style={{ background: 'linear-gradient(135deg, #1e3a5f 0%, #2d5a8e 100%)' }}
+          style={{ background: isDark ? 'linear-gradient(135deg, #1e3a5f 0%, #2d5a8e 100%)' : 'linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%)' }}
         >
           <RotateCcw size={14} />
           Start Over
@@ -210,6 +212,7 @@ function QuestionScreen({
   stepIndex: number;
   totalSteps: number;
 }) {
+  const { isDark } = useTheme();
   if (!question) return null;
 
   const progress = totalSteps > 1 ? (stepIndex / (totalSteps - 1)) * 100 : 0;
@@ -226,17 +229,17 @@ function QuestionScreen({
       {/* Progress bar */}
       <div>
         <div className="flex items-center justify-between mb-2">
-          <span className="text-[10px] font-bold text-slate-300 uppercase tracking-widest">
+          <span className="text-[10px] font-bold text-foreground uppercase tracking-widest">
             Step {stepIndex + 1}
           </span>
-          <span className="text-[10px] font-semibold text-slate-300">
+          <span className="text-[10px] font-semibold text-foreground">
             {Math.round(progress)}% complete
           </span>
         </div>
         <div className="h-1.5 rounded-full bg-card/10 overflow-hidden">
           <motion.div
             className="h-full rounded-full"
-            style={{ background: 'linear-gradient(90deg, #1e3a5f 0%, #2d5a8e 100%)' }}
+            style={{ background: isDark ? 'linear-gradient(90deg, #1e3a5f 0%, #2d5a8e 100%)' : 'linear-gradient(90deg, #dbeafe 0%, #bfdbfe 100%)' }}
             initial={{ width: 0 }}
             animate={{ width: `${Math.max(progress, 4)}%` }}
             transition={{ duration: 0.5, ease: 'easeOut' }}
@@ -253,7 +256,7 @@ function QuestionScreen({
           {question.question}
         </h2>
         {question.hint && (
-          <p className="text-[12px] text-slate-300 font-medium">{question.hint}</p>
+          <p className="text-[12px] text-foreground font-medium">{question.hint}</p>
         )}
       </div>
 
@@ -277,21 +280,21 @@ function QuestionScreen({
           >
             <div className="flex items-center gap-3">
               <div
-                className="w-6 h-6 rounded-full border-2 border-white/10 flex items-center justify-center shrink-0 text-[11px] font-bold text-slate-300"
+                className="w-6 h-6 rounded-full border-2 border-white/10 flex items-center justify-center shrink-0 text-[11px] font-bold text-foreground"
               >
                 {String.fromCharCode(65 + i)}
               </div>
               <div className="flex-1 min-w-0">
-                <p className="text-sm font-bold text-slate-200 leading-tight">
+                <p className="text-sm font-bold text-foreground leading-tight">
                   {answer.label}
                 </p>
                 {answer.description && (
-                  <p className="text-[11px] text-slate-300 mt-0.5 leading-relaxed">
+                  <p className="text-[11px] text-foreground mt-0.5 leading-relaxed">
                     {answer.description}
                   </p>
                 )}
               </div>
-              <ArrowRight size={14} className="shrink-0 text-slate-400" />
+              <ArrowRight size={14} className="shrink-0 text-muted-foreground" />
             </div>
           </motion.button>
         ))}
@@ -301,7 +304,7 @@ function QuestionScreen({
       {canGoBack && (
         <button
           onClick={onBack}
-          className="flex items-center gap-2 text-[12px] font-semibold text-slate-300 mt-1 self-start"
+          className="flex items-center gap-2 text-[12px] font-semibold text-foreground mt-1 self-start"
         >
           <ArrowLeft size={13} />
           Previous question
@@ -316,6 +319,7 @@ function QuestionScreen({
 // ─────────────────────────────────────────────────────────────────────────────
 
 function StartScreen({ onStart }: { onStart: () => void }) {
+  const { isDark } = useTheme();
   const totalCards = CARDS.length;
 
   return (
@@ -345,7 +349,7 @@ function StartScreen({ onStart }: { onStart: () => void }) {
 
       {/* How it works */}
       <div className="rounded-2xl bg-card p-5" style={{ boxShadow: '0 1px 4px rgba(0,0,0,0.06)' }}>
-        <h2 className="text-[11px] font-black text-slate-300 uppercase tracking-[0.12em] mb-4">
+        <h2 className="text-[11px] font-black text-foreground uppercase tracking-[0.12em] mb-4">
           How it works
         </h2>
         <div className="flex flex-col gap-4">
@@ -357,13 +361,13 @@ function StartScreen({ onStart }: { onStart: () => void }) {
             <div key={step} className="flex gap-3">
               <div
                 className="w-7 h-7 rounded-full flex items-center justify-center shrink-0 text-[11px] font-black text-white mt-0.5"
-                style={{ background: 'linear-gradient(135deg, #1e3a5f 0%, #2d5a8e 100%)' }}
+                style={{ background: isDark ? 'linear-gradient(135deg, #1e3a5f 0%, #2d5a8e 100%)' : 'linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%)' }}
               >
                 {step}
               </div>
               <div>
-                <p className="text-sm font-bold text-slate-200">{title}</p>
-                <p className="text-[11px] text-slate-300 leading-relaxed mt-0.5">{desc}</p>
+                <p className="text-sm font-bold text-foreground">{title}</p>
+                <p className="text-[11px] text-foreground leading-relaxed mt-0.5">{desc}</p>
               </div>
             </div>
           ))}
@@ -374,7 +378,7 @@ function StartScreen({ onStart }: { onStart: () => void }) {
       <motion.button
         onClick={onStart}
         className="w-full rounded-2xl py-4 text-sm font-black text-white flex items-center justify-center gap-2"
-        style={{ background: 'linear-gradient(135deg, #1e3a5f 0%, #2d5a8e 100%)', boxShadow: '0 4px 16px rgba(30,58,95,0.25)' }}
+        style={{ background: isDark ? 'linear-gradient(135deg, #1e3a5f 0%, #2d5a8e 100%)' : 'linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%)', boxShadow: '0 4px 16px rgba(30,58,95,0.25)' }}
         whileHover={{ scale: 1.02 }}
         whileTap={{ scale: 0.97 }}
       >
@@ -393,6 +397,7 @@ type Screen = 'start' | 'question' | 'results';
 
 export default function DecisionHelper() {
   const [, navigate] = useLocation();
+  const { isDark } = useTheme();
   const [screen, setScreen] = useState<Screen>('start');
   const [currentQuestionId, setCurrentQuestionId] = useState('q-start');
   const [history, setHistory] = useState<HistoryEntry[]>([]);
@@ -442,16 +447,16 @@ export default function DecisionHelper() {
   }, []);
 
   return (
-    <div className="min-h-screen pt-12 pb-32" style={{ background: '#0a1628' }}>
+    <div className="min-h-screen pt-12 pb-32" style={{ background: isDark ? '#0a1628' : '#f1f5f9' }}>
       {/* Header */}
-      <div className="sticky top-12 z-20 border-b" style={{ background: 'rgba(8,14,32,0.94)', backdropFilter: 'blur(20px) saturate(1.4)', WebkitBackdropFilter: 'blur(20px) saturate(1.4)', borderColor: 'rgba(0,0,0,0.06)' }}>
+      <div className="sticky top-12 z-20 border-b" style={{ background: isDark ? 'rgba(8,14,32,0.94)' : 'rgba(241,245,249,0.96)', backdropFilter: 'blur(20px) saturate(1.4)', WebkitBackdropFilter: 'blur(20px) saturate(1.4)', borderColor: isDark ? 'rgba(255,255,255,0.06)' : 'rgba(0,0,0,0.08)' }}>
         <div className="max-w-2xl mx-auto px-4 pt-4 pb-3 flex items-center gap-3">
           <button
             onClick={() => navigate('/')}
             className="w-8 h-8 rounded-xl bg-card flex items-center justify-center"
             style={{ boxShadow: '0 1px 3px rgba(0,0,0,0.08)' }}
           >
-            <ArrowLeft size={15} className="text-slate-300" />
+            <ArrowLeft size={15} className="text-foreground" />
           </button>
           <div className="flex items-center gap-2">
             <Compass size={16} style={{ color: '#1e3a5f' }} />

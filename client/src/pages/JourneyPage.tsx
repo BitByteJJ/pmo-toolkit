@@ -21,6 +21,7 @@ import { useJourney, MAX_HEARTS, TOPICS_TO_EARN_HEART } from '@/contexts/Journey
 import { JOURNEY_LESSONS, JOURNEY_UNITS, getLevelForXP, getNextLevel } from '@/lib/journeyData';
 import { useState, useEffect } from 'react';
 import JourneySetupWizard, { JOURNEY_PROFILE_KEY, getPersonalisedTip, type JourneyProfile } from '@/components/JourneySetupWizard';
+import { useTheme } from '@/contexts/ThemeContext';
 
 // ─── HEARTS DISPLAY ───────────────────────────────────────────────────────────
 function HeartsBar() {
@@ -69,7 +70,7 @@ function XPBar() {
               transition={{ duration: 0.6, ease: 'easeOut' }}
             />
           </div>
-          <span className="text-[10px] text-slate-300 shrink-0 font-semibold">{state.totalXP} XP</span>
+          <span className="text-[10px] text-foreground shrink-0 font-semibold">{state.totalXP} XP</span>
         </div>
       )}
       {!nextLevel && (
@@ -249,7 +250,7 @@ function DayNode({
         }}
       >
         {locked ? (
-          <Lock size={18} className="text-slate-500" />
+          <Lock size={18} className="text-muted-foreground" />
         ) : completed ? (
           <CheckCircle2 size={26} className="text-white" strokeWidth={2.5} />
         ) : active ? (
@@ -368,7 +369,7 @@ function StatsStrip() {
           >
             {value}
           </div>
-          <div className="text-[9px] font-semibold text-slate-300">{label}</div>
+          <div className="text-[9px] font-semibold text-foreground">{label}</div>
         </motion.div>
       ))}
     </div>
@@ -526,14 +527,15 @@ function WindingRoad({
 
 // ─── UNIT PATH CARD ───────────────────────────────────────────────────────────
 function UnitPathCard({ children, unitId }: { children: React.ReactNode; unitId: string }) {
+  const { isDark } = useTheme();
   const colors = UNIT_COLORS[unitId] ?? UNIT_COLORS.foundations;
   return (
     <div
       className="mx-4 rounded-2xl overflow-hidden"
       style={{
-        background: 'rgba(10,22,40,0.6)',
-        border: '1px solid rgba(255,255,255,0.06)',
-        boxShadow: '0 4px 20px rgba(0,0,0,0.35)',
+        background: isDark ? 'rgba(10,22,40,0.6)' : 'rgba(255,255,255,0.85)',
+        border: isDark ? '1px solid rgba(255,255,255,0.06)' : '1px solid rgba(0,0,0,0.08)',
+        boxShadow: isDark ? '0 4px 20px rgba(0,0,0,0.35)' : '0 4px 20px rgba(0,0,0,0.08)',
         backdropFilter: 'blur(4px)',
       }}
     >
@@ -554,6 +556,7 @@ const NODE_POSITIONS: Array<'left' | 'center' | 'right'> = [
 
 export default function JourneyPage() {
   const [, navigate] = useLocation();
+  const { isDark } = useTheme();
   const [showWizard, setShowWizard] = useState(false);
   const [profile, setProfile] = useState<JourneyProfile | null>(null);
   const [showTip, setShowTip] = useState(false);
@@ -586,16 +589,16 @@ export default function JourneyPage() {
   return (
     <>
     {showWizard && <JourneySetupWizard onComplete={handleWizardComplete} />}
-    <div className="min-h-screen pt-12 pb-28" style={{ background: '#0a1628' }}>
+    <div className="min-h-screen pt-12 pb-28" style={{ background: isDark ? '#0a1628' : '#f1f5f9' }}>
       <div style={{ maxWidth: '480px', margin: '0 auto' }}>
       {/* Header */}
       <div
         className="sticky top-12 z-40 px-4"
         style={{
-          background: 'rgba(10,22,40,0.96)',
+          background: isDark ? 'rgba(10,22,40,0.96)' : 'rgba(241,245,249,0.96)',
           backdropFilter: 'blur(20px) saturate(1.4)',
           WebkitBackdropFilter: 'blur(20px) saturate(1.4)',
-          borderBottom: '1px solid rgba(255,255,255,0.07)',
+          borderBottom: isDark ? '1px solid rgba(255,255,255,0.07)' : '1px solid rgba(0,0,0,0.08)',
         }}
       >
         <div className="flex items-center justify-between py-3">
@@ -603,7 +606,7 @@ export default function JourneyPage() {
             onClick={() => navigate('/')}
             className="w-8 h-8 flex items-center justify-center rounded-xl hover:bg-white/10 transition-colors"
           >
-            <ArrowLeft size={18} className="text-slate-300" />
+            <ArrowLeft size={18} className="text-foreground" />
           </button>
           <div className="flex items-center gap-2">
             <Sparkles size={14} className="text-violet-400" />
@@ -645,13 +648,13 @@ export default function JourneyPage() {
               className="absolute top-3 right-3 p-1 rounded-full hover:bg-white/10 transition-colors"
               aria-label="Dismiss"
             >
-              <X size={12} className="text-slate-400" />
+              <X size={12} className="text-muted-foreground" />
             </button>
             <div className="flex items-start gap-3">
               <span className="text-xl shrink-0">✨</span>
               <div className="pr-4">
                 <p className="text-[11px] font-bold text-violet-300 mb-1">Your personalised path</p>
-                <p className="text-[11px] text-slate-300 leading-relaxed">{getPersonalisedTip(profile)}</p>
+                <p className="text-[11px] text-foreground leading-relaxed">{getPersonalisedTip(profile)}</p>
               </div>
             </div>
           </motion.div>

@@ -29,6 +29,7 @@ import { deepDiveData } from '@/lib/deepDiveData';
 import { VideoGuide } from '@/components/VideoGuide';
 import { generateCardPDF } from '@/lib/cardPdfExport';
 import { useMasteryBadges } from '@/hooks/useMasteryBadges';
+import { useTheme } from '@/contexts/ThemeContext';
 
 // ─── Sub-components ───────────────────────────────────────────────────────────
 
@@ -50,7 +51,7 @@ function Section({ icon: Icon, title, children, color }: {
         >
           <Icon size={12} style={{ color }} />
         </div>
-        <h3 className="text-[10px] font-black text-slate-400 uppercase tracking-[0.1em]">{title}</h3>
+        <h3 className="text-[10px] font-black text-muted-foreground uppercase tracking-[0.1em]">{title}</h3>
       </div>
       {children}
     </div>
@@ -65,6 +66,7 @@ function RelatedCardChip({ related, onNavigate }: {
   const [open, setOpen] = useState(false);
   const relDeck = getDeckById(related.deckId);
   const ref = useRef<HTMLDivElement>(null);
+  const { isDark } = useTheme();
 
   useEffect(() => {
     function handleOutside(e: MouseEvent) {
@@ -83,11 +85,10 @@ function RelatedCardChip({ related, onNavigate }: {
           backgroundColor: relDeck?.color ? relDeck.color + '18' : '#0f1c30',
           boxShadow: '0 1px 2px rgba(0,0,0,0.06)',
         }}
-      >
-        <span className="text-[9px] font-mono font-bold" style={{ color: relDeck?.color }}>
+      >        <span className="text-[10px] font-mono font-bold" style={{ color: relDeck?.color }}>
           {related.code}
         </span>
-        <span className="text-[10px] text-slate-400 max-w-[90px] truncate">{related.title}</span>
+        <span className="text-[10px] text-muted-foreground max-w-[90px] truncate">{related.title}</span>
       </button>
 
       <AnimatePresence>
@@ -99,7 +100,7 @@ function RelatedCardChip({ related, onNavigate }: {
             transition={{ duration: 0.15 }}
             className="absolute bottom-full left-0 mb-2 w-64 rounded-2xl overflow-hidden z-50"
             style={{
-              background: 'rgba(20,24,42,0.98)',
+              background: isDark ? 'rgba(20,24,42,0.98)' : 'rgba(255,255,255,0.98)',
               boxShadow: '0 8px 28px rgba(0,0,0,0.14), 0 2px 8px rgba(0,0,0,0.08)',
               border: `1.5px solid ${relDeck?.color ?? '#e5e7eb'}30`,
             }}
@@ -114,12 +115,12 @@ function RelatedCardChip({ related, onNavigate }: {
                 >
                   {related.code}
                 </span>
-                <span className="text-[10px] text-slate-400 capitalize">{related.type}</span>
+                      <span className="text-[10px] text-muted-foreground capitalize">{related.type}</span>
               </div>
-              <p className="text-[13px] font-bold text-slate-200 leading-tight mb-1" style={{ fontFamily: 'Sora, sans-serif' }}>
+              <p className="text-[13px] font-bold text-foreground leading-tight mb-1" style={{ fontFamily: 'Sora, sans-serif' }}>
                 {related.title}
               </p>
-              <p className="text-[11px] text-slate-400 leading-relaxed mb-3">{related.tagline}</p>
+              <p className="text-[11px] text-muted-foreground leading-relaxed mb-3">{related.tagline}</p>
               <button
                 onClick={() => { setOpen(false); onNavigate(); }}
                 className="w-full text-center text-[11px] font-bold py-1.5 rounded-xl transition-all hover:opacity-90 active:scale-95"
@@ -140,6 +141,7 @@ function CompletionCelebration({ deck, onDismiss }: {
   deck: NonNullable<ReturnType<typeof getDeckById>>;
   onDismiss: () => void;
 }) {
+  const { isDark } = useTheme();
   return (
     <motion.div
       initial={{ opacity: 0 }}
@@ -155,7 +157,7 @@ function CompletionCelebration({ deck, onDismiss }: {
         exit={{ scale: 0.8, y: 30 }}
         transition={{ type: 'spring', stiffness: 300, damping: 22 }}
         className="rounded-3xl p-8 text-center max-w-xs w-full"
-        style={{ backgroundColor: '#0f1c30', border: `2px solid ${deck.color}` }}
+        style={{ backgroundColor: isDark ? '#0f1c30' : '#ffffff', border: `2px solid ${deck.color}` }}
         onClick={e => e.stopPropagation()}
       >
         <div className="text-5xl mb-3">🎉</div>
@@ -193,6 +195,7 @@ export default function CardDetail() {
   const { getNote, setNote, hasNote } = useCardNotes();
   const { awardBadge } = useMasteryBadges();
 
+  const { isDark } = useTheme();
   const cardId = params?.cardId ?? '';
   const card = getCardById(cardId);
 
@@ -252,9 +255,9 @@ export default function CardDetail() {
 
   if (!card) {
     return (
-      <div className="min-h-screen flex flex-col items-center justify-center pb-24" style={{ background: '#0a1628' }}>
+      <div className="min-h-screen flex flex-col items-center justify-center pb-24" style={{ background: isDark ? '#0a1628' : '#f8fafc' }}>
         <div className="text-center px-8">
-          <p className="text-slate-400 text-sm mb-4">Card not found</p>
+          <p className="text-muted-foreground text-sm mb-4">Card not found</p>
           <button
             onClick={() => navigate('/')}
             className="text-sm font-semibold text-slate-300 bg-card rounded-xl px-4 py-2 shadow-sm"
@@ -408,7 +411,7 @@ export default function CardDetail() {
   }
 
   return (
-    <div className="min-h-screen pt-12 pb-24 overflow-x-hidden" style={{ background: '#0a1628' }}>
+    <div className="min-h-screen pt-12 pb-24 overflow-x-hidden" style={{ background: isDark ? '#0a1628' : '#f1f5f9' }}>
 
       {/* Completion celebration overlay */}
       <AnimatePresence>
@@ -440,7 +443,7 @@ export default function CardDetail() {
               <div className="flex items-center justify-between mb-3">
                 <div className="flex items-center gap-2">
                   <StickyNote size={15} style={{ color: deck?.color }} />
-                  <span className="text-sm font-bold text-slate-200">My Notes</span>
+                  <span className="text-sm font-bold text-foreground">My Notes</span>
                   <span
                     className="text-[9px] font-mono font-bold px-1.5 py-0.5 rounded-md"
                     style={{ backgroundColor: deck?.color ? deck.color + '22' : 'rgba(255,255,255,0.08)', color: deck?.color ?? '#94a3b8' }}
@@ -448,7 +451,7 @@ export default function CardDetail() {
                     {card.code}
                   </span>
                 </div>
-                <button onClick={() => setShowNotes(false)} className="p-1 rounded-lg hover:bg-white/10">
+                <button onClick={() => setShowNotes(false)} className="p-1 rounded-lg" style={{ backgroundColor: 'transparent' }} onMouseEnter={e => (e.currentTarget.style.backgroundColor = isDark ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.06)')} onMouseLeave={e => (e.currentTarget.style.backgroundColor = 'transparent')}>
                   <X size={15} className="text-slate-400" />
                 </button>
               </div>
@@ -456,7 +459,7 @@ export default function CardDetail() {
                 value={noteText}
                 onChange={e => setNoteText(e.target.value)}
                 placeholder="Jot down how you applied this technique, key insights, or reminders…"
-                className="w-full h-36 text-sm text-slate-100 leading-relaxed resize-none rounded-xl border border-white/10 p-3 focus:outline-none focus:border-white/30 placeholder:text-slate-400 bg-white/5"
+                className="w-full h-36 text-sm text-foreground leading-relaxed resize-none rounded-xl p-3 focus:outline-none placeholder:text-muted-foreground" style={{ backgroundColor: isDark ? 'rgba(255,255,255,0.05)' : 'rgba(0,0,0,0.04)', border: isDark ? '1px solid rgba(255,255,255,0.1)' : '1px solid rgba(0,0,0,0.12)' }}
                 autoFocus
               />
               <div className="flex gap-2 mt-3">
@@ -470,7 +473,7 @@ export default function CardDetail() {
                 {noteText.trim() !== getNote(card.id) && (
                   <button
                     onClick={() => { setNoteText(getNote(card.id)); setShowNotes(false); }}
-                    className="px-4 py-2.5 rounded-xl text-sm font-semibold text-slate-400 bg-white/10 hover:bg-white/15 transition-all"
+                    className="px-4 py-2.5 rounded-xl text-sm font-semibold text-muted-foreground transition-all" style={{ backgroundColor: isDark ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.06)' }}
                   >
                     Cancel
                   </button>
@@ -492,7 +495,7 @@ export default function CardDetail() {
       >
         <div
           className="relative overflow-hidden"
-          style={{ backgroundColor: '#0f1c30', minHeight: getCardIllustration(card.id) ? '260px' : 'auto' }}
+          style={{ backgroundColor: isDark ? '#0f1c30' : deck?.bgColor ?? '#f8fafc', minHeight: getCardIllustration(card.id) ? '260px' : 'auto' }}
         >
         {/* Desktop centering wrapper */}
         <div className="max-w-2xl mx-auto relative" style={{ minHeight: 'inherit' }}>
@@ -519,13 +522,15 @@ export default function CardDetail() {
               <div
                 className="absolute inset-0"
                 style={{
-                  background: `linear-gradient(to right, #0f1c30 28%, #0f1c3099 50%, transparent 80%)`,
+                  background: isDark ? `linear-gradient(to right, #0f1c30 28%, #0f1c3099 50%, transparent 80%)` : `linear-gradient(to right, ${deck?.bgColor ?? '#f8fafc'} 28%, ${deck?.bgColor ?? '#f8fafc'}99 50%, transparent 80%)`,
+
                 }}
               />
               <div
                 className="absolute inset-x-0 bottom-0 h-8"
                 style={{
-                  background: `linear-gradient(to bottom, transparent, #0f1c30CC)`,
+                  background: isDark ? `linear-gradient(to bottom, transparent, #0f1c30CC)` : `linear-gradient(to bottom, transparent, ${deck?.bgColor ?? '#f8fafc'}CC)`,
+
                 }}
               />
             </div>
@@ -686,7 +691,7 @@ export default function CardDetail() {
       </AnimatePresence>
 
       {/* ── Tab Bar ── */}
-      <div className="sticky top-12 z-30 border-b" style={{ background: 'rgba(8,14,32,0.94)', backdropFilter: 'blur(24px) saturate(1.6)', WebkitBackdropFilter: 'blur(16px)', borderColor: 'rgba(0,0,0,0.06)' }}>
+      <div className="sticky top-12 z-30 border-b" style={{ background: isDark ? 'rgba(8,14,32,0.94)' : 'rgba(248,250,252,0.94)', backdropFilter: 'blur(24px) saturate(1.6)', WebkitBackdropFilter: 'blur(16px)', borderColor: isDark ? 'rgba(255,255,255,0.06)' : 'rgba(0,0,0,0.08)' }}>
         <div className="max-w-2xl mx-auto px-4">
           <div className="flex gap-1 pt-2 pb-0 overflow-x-auto scrollbar-none">
             {(['overview', ...(template ? ['template'] : []), ...(caseStudy ? ['case-study'] : []), 'deep-dive', 'video-guide'] as ('overview' | 'template' | 'case-study' | 'deep-dive' | 'video-guide')[]).map(tab => (
@@ -694,9 +699,7 @@ export default function CardDetail() {
                 key={tab}
                 onClick={() => setActiveTab(tab)}
                 className="relative flex items-center gap-1.5 px-3 py-2.5 text-[11px] font-bold capitalize transition-all whitespace-nowrap"
-                style={{
-                  color: activeTab === tab ? (deck?.color ?? '#0284C7') : '#a8a29e',
-                }}
+                style={{ color: activeTab === tab ? (deck?.color ?? '#0284C7') : isDark ? '#a8a29e' : '#64748b' }}
               >
                 {tab === 'template' && <FileText size={11} />}
                 {tab === 'case-study' && <BookOpen size={11} />}
@@ -751,10 +754,10 @@ export default function CardDetail() {
                           <FileText size={12} style={{ color: deck?.color }} />
                           <span className="text-[9px] font-bold uppercase tracking-widest" style={{ color: deck?.color }}>Working Template</span>
                         </div>
-                        <h2 className="text-[14px] font-bold text-slate-200 leading-tight mb-1" style={{ fontFamily: 'Sora, sans-serif' }}>
+                        <h2 className="text-[14px] font-bold text-foreground leading-tight mb-1" style={{ fontFamily: 'Sora, sans-serif' }}>
                           {template.title}
                         </h2>
-                        <p className="text-[11px] text-slate-300 leading-relaxed">{template.description}</p>
+                        <p className="text-[11px] text-muted-foreground leading-relaxed">{template.description}</p>
                       </div>
                     </div>
                     {/* Action buttons */}
@@ -797,7 +800,7 @@ export default function CardDetail() {
                           className="w-1.5 h-1.5 rounded-full shrink-0"
                           style={{ backgroundColor: deck?.color ?? '#0284C7' }}
                         />
-                        <span className="text-[10px] font-bold text-slate-300 uppercase tracking-wider">{section.heading}</span>
+                        <span className="text-[10px] font-bold text-muted-foreground uppercase tracking-wider">{section.heading}</span>
                       </div>
                       <div className="p-4 overflow-x-auto">
                         <MarkdownTemplateRenderer
@@ -848,21 +851,21 @@ export default function CardDetail() {
                 <div className="text-[9px] font-bold uppercase tracking-widest mb-0.5" style={{ color: deck?.color }}>
                   My Note
                 </div>
-                <p className="text-[11px] text-slate-300 leading-relaxed line-clamp-2">{getNote(card.id)}</p>
+                <p className="text-[11px] text-muted-foreground leading-relaxed line-clamp-2">{getNote(card.id)}</p>
               </div>
-              <span className="text-[10px] text-slate-300 shrink-0">Edit</span>
+              <span className="text-[10px] text-muted-foreground shrink-0">Edit</span>
             </button>
           )}
 
           {/* What it is */}
           <Section icon={Info} title="What it is" color={deck?.color ?? '#6B7280'}>
-            <p className="text-sm text-slate-300 leading-relaxed">{card.whatItIs}</p>
+            <p className="text-sm text-foreground leading-relaxed">{card.whatItIs}</p>
           </Section>
 
           {/* When to use */}
           {card.whenToUse && (
             <Section icon={Tag} title="When to use" color={deck?.color ?? '#6B7280'}>
-              <p className="text-sm text-slate-300 leading-relaxed">{card.whenToUse}</p>
+              <p className="text-sm text-foreground leading-relaxed">{card.whenToUse}</p>
             </Section>
           )}
 
@@ -878,7 +881,7 @@ export default function CardDetail() {
                     >
                       {i + 1}
                     </span>
-                    <span className="text-sm text-slate-300 leading-relaxed">{step}</span>
+                    <span className="text-sm text-foreground leading-relaxed">{step}</span>
                   </li>
                 ))}
               </ol>
@@ -900,7 +903,7 @@ export default function CardDetail() {
                   <span className="text-[9px] font-bold uppercase tracking-widest" style={{ color: deck?.color }}>
                     Pro Tip
                   </span>
-                  <p className="text-sm text-slate-300 leading-relaxed mt-0.5">{card.proTip}</p>
+                  <p className="text-sm text-foreground leading-relaxed mt-0.5">{card.proTip}</p>
                 </div>
               </div>
             </div>
@@ -919,7 +922,7 @@ export default function CardDetail() {
                   >
                     <Cpu size={11} style={{ color: deck?.color ?? '#6B7280' }} />
                   </div>
-                  <h3 className="text-[10px] font-bold text-slate-300 uppercase tracking-wider">Visual Reference</h3>
+                  <h3 className="text-[10px] font-bold text-muted-foreground uppercase tracking-wider">Visual Reference</h3>
                 </div>
                 {diagram}
               </div>
@@ -929,7 +932,7 @@ export default function CardDetail() {
           {/* Example */}
           {card.example && (
             <Section icon={Sparkles} title="Example" color={deck?.color ?? '#6B7280'}>
-              <p className="text-sm text-slate-200 leading-relaxed italic">{card.example}</p>
+              <p className="text-sm text-foreground leading-relaxed italic">{card.example}</p>
             </Section>
           )}
 
@@ -939,7 +942,7 @@ export default function CardDetail() {
               {card.tags.map(tag => (
                 <span
                   key={tag}
-                  className="text-[10px] font-medium px-2 py-0.5 rounded-full bg-white/10 text-slate-400"
+                  className="text-[10px] font-medium px-2 py-0.5 rounded-full text-muted-foreground" style={{ backgroundColor: isDark ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.06)' }}
                 >
                   #{tag}
                 </span>
@@ -952,7 +955,7 @@ export default function CardDetail() {
             <div className="pb-2">
               <div className="flex items-center gap-2 mb-2.5">
                 <Link2 size={11} className="text-slate-400" />
-                <span className="text-[10px] font-bold text-slate-300 uppercase tracking-wider">
+                <span className="text-[10px] font-bold text-muted-foreground uppercase tracking-wider">
                   Related Cards
                 </span>
                 <span className="text-[9px] text-slate-400 font-medium">(tap to preview)</span>
@@ -979,8 +982,8 @@ export default function CardDetail() {
               >
                 <ChevronLeft size={15} className="text-slate-400 shrink-0" />
                 <div className="text-left min-w-0">
-                  <div className="text-[9px] text-slate-300 font-bold uppercase tracking-wide">Prev</div>
-                  <div className="text-[11px] font-semibold text-slate-300 truncate">{prevCard.title}</div>
+                  <div className="text-[9px] text-muted-foreground font-bold uppercase tracking-wide">Prev</div>
+                  <div className="text-[11px] font-semibold text-foreground truncate">{prevCard.title}</div>
                 </div>
               </button>
             ) : (
@@ -993,8 +996,8 @@ export default function CardDetail() {
                 style={{ boxShadow: '0 1px 3px rgba(0,0,0,0.06)' }}
               >
                 <div className="text-right min-w-0">
-                  <div className="text-[9px] text-slate-300 font-bold uppercase tracking-wide">Next</div>
-                  <div className="text-[11px] font-semibold text-slate-300 truncate">{nextCard.title}</div>
+                  <div className="text-[9px] text-muted-foreground font-bold uppercase tracking-wide">Next</div>
+                  <div className="text-[11px] font-semibold text-foreground truncate">{nextCard.title}</div>
                 </div>
                 <ChevronRight size={15} className="text-slate-400 shrink-0" />
               </button>
@@ -1037,7 +1040,7 @@ export default function CardDetail() {
 
           {/* General disclaimer */}
           <div className="pb-2">
-            <p className="text-[9px] text-slate-300 leading-relaxed text-center px-2">
+            <p className="text-[9px] text-muted-foreground leading-relaxed text-center px-2">
               {GENERAL_DISCLAIMER}
             </p>
           </div>
@@ -1077,13 +1080,13 @@ export default function CardDetail() {
                   >
                     <BookMarked size={11} style={{ color: deck?.color ?? '#475569' }} />
                   </div>
-                  <h3 className="text-[10px] font-bold text-slate-300 uppercase tracking-wider">Glossary Terms</h3>
+                  <h3 className="text-[10px] font-bold text-muted-foreground uppercase tracking-wider">Glossary Terms</h3>
                 </div>
                 <div className="space-y-2">
                   {glossaryTerms.map(term => (
-                    <div key={term.id} className="rounded-xl p-3" style={{ backgroundColor: 'rgba(255,255,255,0.06)' }}>
-                      <p className="text-[12px] font-bold text-slate-200 mb-0.5" style={{ fontFamily: 'Sora, sans-serif' }}>{term.term}</p>
-                      <p className="text-[11px] text-slate-300 leading-relaxed">{term.definition}</p>
+                    <div key={term.id} className="rounded-xl p-3" style={{ backgroundColor: isDark ? 'rgba(255,255,255,0.06)' : 'rgba(0,0,0,0.04)' }}>
+                      <p className="text-[12px] font-bold text-foreground mb-0.5" style={{ fontFamily: 'Sora, sans-serif' }}>{term.term}</p>
+                      <p className="text-[11px] text-muted-foreground leading-relaxed">{term.definition}</p>
                     </div>
                   ))}
                 </div>
@@ -1102,7 +1105,7 @@ export default function CardDetail() {
                 if (!dd) {
                   return (
                     <div className="rounded-2xl p-6 text-center" style={{ backgroundColor: (deck?.color ?? '#0284C7') + '08', border: `1px solid ${deck?.color ?? '#0284C7'}20` }}>
-                      <p className="text-[12px] text-slate-300">Deep Dive content coming soon for this card.</p>
+                      <p className="text-[12px] text-muted-foreground">Deep Dive content coming soon for this card.</p>
                     </div>
                   );
                 }
@@ -1115,7 +1118,7 @@ export default function CardDetail() {
                       </div>
                       <div>
                         <div className="text-[9px] font-bold uppercase tracking-widest mb-0.5" style={{ color: deck?.color }}>Deep Dive</div>
-                        <h3 className="text-sm font-bold text-slate-200 leading-none" style={{ fontFamily: 'Sora, sans-serif' }}>{card.title}</h3>
+                        <h2 className="text-sm font-bold text-foreground leading-none" style={{ fontFamily: 'Sora, sans-serif' }}>{card.title}</h2>
                       </div>
                     </div>
 
@@ -1132,7 +1135,7 @@ export default function CardDetail() {
                         <div
                           key={key}
                           className="rounded-2xl overflow-hidden transition-all"
-                          style={{ backgroundColor: isOpen ? bg : 'rgba(255,255,255,0.04)', boxShadow: isOpen ? `0 2px 12px ${accent}15` : 'none', border: isOpen ? `1.5px solid ${accent}25` : '1.5px solid rgba(255,255,255,0.06)' }}
+                          style={{ backgroundColor: isOpen ? bg : (isDark ? 'rgba(255,255,255,0.04)' : 'rgba(0,0,0,0.03)'), boxShadow: isOpen ? `0 2px 12px ${accent}15` : 'none', border: isOpen ? `1.5px solid ${accent}25` : `1.5px solid ${isDark ? 'rgba(255,255,255,0.06)' : 'rgba(0,0,0,0.08)'}` }}
                         >
                           <button
                             onClick={() => setDeepDiveOpenSection(isOpen ? null : key)}
@@ -1142,7 +1145,7 @@ export default function CardDetail() {
                               <div className="w-7 h-7 rounded-xl flex items-center justify-center shrink-0" style={{ backgroundColor: accent + (isOpen ? '22' : '14') }}>
                                 <Icon size={13} style={{ color: accent }} />
                               </div>
-                              <span className="text-[12px] font-bold" style={{ color: isOpen ? accent : '#94a3b8' }}>{label}</span>
+                              <span className="text-[12px] font-bold" style={{ color: isOpen ? accent : isDark ? '#94a3b8' : '#64748b' }}>{label}</span>
                             </div>
                             <ChevronRight
                               size={14}
@@ -1153,7 +1156,7 @@ export default function CardDetail() {
                           {isOpen && (
                             <div className="px-4 pb-4">
                               <div className="h-px mb-3" style={{ backgroundColor: accent + '20' }} />
-                              <p className="text-[13px] leading-[1.75] text-slate-200">{dd[key]}</p>
+                              <p className="text-[13px] leading-[1.75] text-foreground">{dd[key]}</p>
                             </div>
                           )}
                         </div>
@@ -1180,10 +1183,10 @@ export default function CardDetail() {
                       </div>
                       <div>
                         <div className="text-[9px] font-bold uppercase tracking-widest" style={{ color: deck?.color }}>Video Guide</div>
-                        <h3 className="text-sm font-bold text-slate-200 leading-tight" style={{ fontFamily: 'Sora, sans-serif' }}>{card.title}</h3>
+                        <h3 className="text-sm font-bold text-foreground leading-tight" style={{ fontFamily: 'Sora, sans-serif' }}>{card.title}</h3>
                       </div>
                     </div>
-                    <p className="text-[12px] text-slate-300 leading-relaxed">
+                    <p className="text-[12px] text-muted-foreground leading-relaxed">
                       An animated motion graphics guide with narration — covering the core concept, how it works, a real-world example, and when to use it.
                     </p>
                   </div>
@@ -1201,7 +1204,7 @@ export default function CardDetail() {
               {videoGuideLoading && (
                 <div className="flex flex-col items-center justify-center py-12 gap-3">
                   <svg className="animate-spin" width={24} height={24} viewBox="0 0 24 24" fill="none" stroke={deck?.color ?? '#0284C7'} strokeWidth={2.5}><circle cx="12" cy="12" r="10" strokeOpacity={0.25}/><path d="M12 2a10 10 0 0 1 10 10" /></svg>
-                  <p className="text-[12px] text-slate-300 font-medium">Generating your video guide…</p>
+                  <p className="text-[12px] text-muted-foreground font-medium">Generating your video guide…</p>
                 </div>
               )}
 
@@ -1219,7 +1222,7 @@ export default function CardDetail() {
                       cardId: card.id,
                       cardTitle: card.title,
                       deckColor: deck?.color ?? '#0284C7',
-                      deckBgColor: '#0f1c30',
+                      deckBgColor: isDark ? '#0f1c30' : '#f8fafc',
                       scenes: videoGuideScenes,
                     }}
                   />
@@ -1261,7 +1264,7 @@ export default function CardDetail() {
                   ) : (
                     <div className="text-[9px] font-bold uppercase tracking-widest" style={{ color: deck?.color }}>Real-World Case Study</div>
                   )}
-                    <h3 className="text-sm font-bold text-slate-200 leading-tight" style={{ fontFamily: 'Sora, sans-serif' }}>{caseStudy.projectName}</h3>
+                    <h3 className="text-sm font-bold text-foreground leading-tight" style={{ fontFamily: 'Sora, sans-serif' }}>{caseStudy.projectName}</h3>
                   </div>
                 </div>
                 {/* Meta row */}
@@ -1271,7 +1274,7 @@ export default function CardDetail() {
                     {caseStudy.organisation}
                   </span>
                   <span className="text-slate-400">·</span>
-                  <span className="text-[10px] font-semibold text-slate-300">{caseStudy.industry}</span>
+                  <span className="text-[10px] font-semibold text-foreground">{caseStudy.industry}</span>
                   {caseStudy.timeframe && (
                     <>
                       <span className="text-slate-400">·</span>
@@ -1299,9 +1302,9 @@ export default function CardDetail() {
                   <div className="w-5 h-5 rounded-md flex items-center justify-center shrink-0" style={{ backgroundColor: '#EF444420' }}>
                     <Zap size={11} className="text-red-500" />
                   </div>
-                  <h4 className="text-[10px] font-bold text-slate-300 uppercase tracking-wider">The Challenge</h4>
+                  <h4 className="text-[10px] font-bold text-muted-foreground uppercase tracking-wider">The Challenge</h4>
                 </div>
-                <p className="text-[13px] text-slate-300 leading-relaxed">{caseStudy.challenge}</p>
+                <p className="text-[13px] text-foreground leading-relaxed">{caseStudy.challenge}</p>
               </div>
 
               {/* Approach */}
@@ -1310,9 +1313,9 @@ export default function CardDetail() {
                   <div className="w-5 h-5 rounded-md flex items-center justify-center shrink-0" style={{ backgroundColor: (deck?.color ?? '#0284C7') + '20' }}>
                     <ListChecks size={11} style={{ color: deck?.color }} />
                   </div>
-                  <h4 className="text-[10px] font-bold text-slate-300 uppercase tracking-wider">How They Applied It</h4>
+                  <h4 className="text-[10px] font-bold text-muted-foreground uppercase tracking-wider">How They Applied It</h4>
                 </div>
-                <p className="text-[13px] text-slate-300 leading-relaxed">{caseStudy.approach}</p>
+                <p className="text-[13px] text-foreground leading-relaxed">{caseStudy.approach}</p>
               </div>
 
               {/* Outcome */}
@@ -1355,7 +1358,7 @@ export default function CardDetail() {
                       >
                         {i + 1}
                       </div>
-                      <p className="text-[12px] text-slate-400 leading-relaxed flex-1">{lesson}</p>
+                        <p className="text-[12px] text-muted-foreground leading-relaxed flex-1">{lesson}</p>
                     </div>
                   ))}
                 </div>
@@ -1363,7 +1366,7 @@ export default function CardDetail() {
 
               {/* Disclaimer */}
               <div className="pb-2">
-                <p className="text-[9px] text-slate-300 leading-relaxed text-center px-2">
+                <p className="text-[9px] text-muted-foreground leading-relaxed text-center px-2">
                   Case studies are illustrative summaries based on publicly available information. Details may be simplified for educational purposes.
                 </p>
               </div>
