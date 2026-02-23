@@ -57,20 +57,20 @@ export default function SearchPage() {
         </h1>
         {/* Search input */}
         <div className="relative">
-          <Search size={15} className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" />
+          <Search size={15} className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-300" />
           <input
             type="text"
             value={query}
             onChange={e => setQuery(e.target.value)}
             placeholder="Search tools, techniques, frameworks…"
-            className="w-full bg-card rounded-xl pl-9 pr-9 py-2.5 text-sm text-slate-200 placeholder:text-slate-400 outline-none transition-all"
+            className="w-full bg-card rounded-xl pl-9 pr-9 py-2.5 text-sm text-slate-200 placeholder:text-slate-300 outline-none transition-all"
             style={{ boxShadow: '0 2px 8px rgba(0,0,0,0.07), 0 0 0 1px rgba(0,0,0,0.05)' }}
             autoFocus
           />
           {query && (
             <button
               onClick={() => setQuery('')}
-              className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-400 transition-colors"
+              className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-300 hover:text-slate-300 transition-colors"
             >
               <X size={13} />
             </button>
@@ -131,7 +131,7 @@ export default function SearchPage() {
             className="space-y-5"
           >
             <div>
-              <h2 className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-2.5">
+              <h2 className="text-[10px] font-bold text-slate-300 uppercase tracking-widest mb-2.5">
                 Popular Searches
               </h2>
               <div className="flex flex-wrap gap-2">
@@ -139,7 +139,7 @@ export default function SearchPage() {
                   <button
                     key={s}
                     onClick={() => setQuery(s)}
-                    className="text-xs px-3 py-1.5 bg-card rounded-xl text-slate-400 font-medium hover:shadow-md transition-all active:scale-95"
+                    className="text-xs px-3 py-1.5 bg-card rounded-xl text-slate-300 font-medium hover:shadow-md transition-all active:scale-95"
                     style={{ boxShadow: '0 1px 3px rgba(0,0,0,0.06)' }}
                   >
                     {s}
@@ -149,7 +149,7 @@ export default function SearchPage() {
             </div>
 
             <div>
-              <h2 className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-2.5">
+              <h2 className="text-[10px] font-bold text-slate-300 uppercase tracking-widest mb-2.5">
                 Browse by Deck
               </h2>
               <div className="space-y-2">
@@ -181,7 +181,7 @@ export default function SearchPage() {
         {/* Results */}
         {query && (
           <div>
-            <p className="text-[11px] text-slate-400 font-semibold mb-3">
+            <p className="text-[11px] text-slate-300 font-semibold mb-3">
               {results.length} result{results.length !== 1 ? 's' : ''} for "{query}"
             </p>
             <AnimatePresence>
@@ -191,8 +191,8 @@ export default function SearchPage() {
                   animate={{ opacity: 1 }}
                   className="text-center py-12"
                 >
-                  <p className="text-slate-400 text-sm">No cards match your search.</p>
-                  <p className="text-slate-500 text-xs mt-1">Try different keywords or browse by deck.</p>
+                  <p className="text-slate-300 text-sm">No cards match your search.</p>
+                  <p className="text-slate-400 text-xs mt-1">Try different keywords or browse by deck.</p>
                 </motion.div>
               ) : (
                 <motion.div
@@ -230,10 +230,10 @@ export default function SearchPage() {
                                   >
                                     {card.code}
                                   </span>
-                                  <span className="text-[9px] text-slate-400 font-medium capitalize">{card.type}</span>
+                                  <span className="text-[9px] text-slate-300 font-medium capitalize">{card.type}</span>
                                 </div>
                                 <h3 className="text-sm font-semibold text-slate-200 leading-tight">{card.title}</h3>
-                                <p className="text-[11px] text-slate-400 mt-1 line-clamp-2 leading-relaxed">{card.tagline}</p>
+                                <p className="text-[11px] text-slate-300 mt-1 line-clamp-2 leading-relaxed">{card.tagline}</p>
                               </div>
                               <button
                                 onClick={e => { e.stopPropagation(); toggleBookmark(card.id); }}
@@ -242,7 +242,7 @@ export default function SearchPage() {
                                 {bookmarked ? (
                                   <BookmarkCheck size={15} className="text-rose-500" />
                                 ) : (
-                                  <Bookmark size={15} className="text-slate-500" />
+                                  <Bookmark size={15} className="text-slate-400" />
                                 )}
                               </button>
                             </div>

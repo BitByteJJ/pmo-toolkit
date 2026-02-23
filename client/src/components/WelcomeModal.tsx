@@ -73,7 +73,7 @@ export default function WelcomeModal() {
               className="absolute top-4 right-4 p-1.5 rounded-full hover:bg-white/10 transition-colors"
               aria-label="Close"
             >
-              <X size={14} className="text-slate-400" />
+              <X size={14} className="text-slate-300" />
             </button>
 
             <div className="px-6 pt-6 pb-7">
@@ -92,7 +92,7 @@ export default function WelcomeModal() {
               >
                 Welcome to StratAlign
               </h2>
-              <p className="text-sm text-slate-400 leading-relaxed mb-5">
+              <p className="text-sm text-slate-300 leading-relaxed mb-5">
                 198 project management tools, techniques, and frameworks — all in one place.
                 Not sure where to start? Let us point you in the right direction.
               </p>
@@ -122,17 +122,17 @@ export default function WelcomeModal() {
                   style={{ border: '1.5px solid rgba(255,255,255,0.12)', background: 'rgba(255,255,255,0.04)' }}
                 >
                   <div className="w-8 h-8 rounded-xl bg-white/10 flex items-center justify-center shrink-0">
-                    <Layers size={16} className="text-slate-400" />
+                    <Layers size={16} className="text-slate-300" />
                   </div>
                   <div className="flex-1">
                     <p className="text-sm font-bold text-slate-300 leading-tight">I'll explore on my own</p>
-                    <p className="text-[11px] text-slate-400 mt-0.5">Browse all 8 decks and 198 cards</p>
+                    <p className="text-[11px] text-slate-300 mt-0.5">Browse all 8 decks and 198 cards</p>
                   </div>
                 </button>
               </div>
 
               {/* Footnote */}
-              <p className="text-[10px] text-slate-500 text-center mt-4">
+              <p className="text-[10px] text-slate-400 text-center mt-4">
                 You won't see this again — it's a one-time welcome.
               </p>
             </div>

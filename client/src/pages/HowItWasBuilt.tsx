@@ -273,7 +273,7 @@ function PromptCard({ title, prompt }: { title: string; prompt: string }) {
         className="w-full flex items-center justify-between px-4 py-3 text-left hover:bg-card/5 transition-colors"
       >
         <span className="text-[13px] font-semibold text-slate-200">{title}</span>
-        {expanded ? <ChevronUp size={14} strokeWidth={2} className="text-slate-400 shrink-0" /> : <ChevronDown size={14} strokeWidth={2} className="text-slate-400 shrink-0" />}
+        {expanded ? <ChevronUp size={14} strokeWidth={2} className="text-slate-300 shrink-0" /> : <ChevronDown size={14} strokeWidth={2} className="text-slate-300 shrink-0" />}
       </button>
       <AnimatePresence>
         {expanded && (
@@ -286,7 +286,7 @@ function PromptCard({ title, prompt }: { title: string; prompt: string }) {
           >
             <div className="px-4 pb-4">
               <div className="flex items-center justify-between mb-2">
-                <span className="text-[10px] font-mono text-slate-400 uppercase tracking-widest">Prompt</span>
+                <span className="text-[10px] font-mono text-slate-300 uppercase tracking-widest">Prompt</span>
                 <CopyButton text={prompt} />
               </div>
               <pre
@@ -379,7 +379,7 @@ export default function HowItWasBuilt() {
         {/* ── PROCESS TAB ─────────────────────────────────────────────────── */}
         {activeTab === 'process' && (
           <div className="pt-5 space-y-4">
-            <p className="text-[12px] text-slate-400 leading-relaxed">
+            <p className="text-[12px] text-slate-300 leading-relaxed">
               StratAlign was built over several days using an AI-assisted development workflow. 
               Here's the end-to-end process from content architecture to deployment.
             </p>
@@ -399,7 +399,7 @@ export default function HowItWasBuilt() {
                 </div>
                 <div className="flex-1 pb-4 border-b border-white/8 last:border-0">
                   <h3 className="text-[14px] font-bold text-slate-100 mb-1">{step.title}</h3>
-                  <p className="text-[12px] text-slate-400 leading-relaxed">{step.desc}</p>
+                  <p className="text-[12px] text-slate-300 leading-relaxed">{step.desc}</p>
                 </div>
               </motion.div>
             ))}
@@ -419,7 +419,7 @@ export default function HowItWasBuilt() {
                   { label: 'Vitest tests', value: '41' },
                 ].map(stat => (
                   <div key={stat.label} className="flex items-center justify-between">
-                    <span className="text-[11px] text-slate-400">{stat.label}</span>
+                    <span className="text-[11px] text-slate-300">{stat.label}</span>
                     <span className="text-[13px] font-black" style={{ color: '#a5b4fc' }}>{stat.value}</span>
                   </div>
                 ))}
@@ -460,7 +460,7 @@ export default function HowItWasBuilt() {
                       />
                       <div>
                         <div className="text-[12.5px] font-semibold text-slate-200">{item.name}</div>
-                        <div className="text-[11px] text-slate-400 mt-0.5">{item.desc}</div>
+                        <div className="text-[11px] text-slate-300 mt-0.5">{item.desc}</div>
                       </div>
                     </div>
                   ))}
@@ -470,10 +470,10 @@ export default function HowItWasBuilt() {
 
             {/* GitHub CTA */}
             <div className="rounded-2xl p-4 border border-white/10 flex items-center gap-3">
-              <Github size={20} strokeWidth={1.8} className="text-slate-400 shrink-0" />
+              <Github size={20} strokeWidth={1.8} className="text-slate-300 shrink-0" />
               <div className="flex-1">
                 <div className="text-[13px] font-bold text-slate-200">Source Code</div>
-                <div className="text-[11px] text-slate-400 mt-0.5">
+                <div className="text-[11px] text-slate-300 mt-0.5">
                   GitHub repository:{' '}
                   <a
                     href="https://github.com/BitByteJJ/pmo-toolkit"
@@ -492,7 +492,7 @@ export default function HowItWasBuilt() {
         {/* ── PROMPTS TAB ─────────────────────────────────────────────────── */}
         {activeTab === 'prompts' && (
           <div className="pt-5 space-y-6">
-            <p className="text-[12px] text-slate-400 leading-relaxed">
+            <p className="text-[12px] text-slate-300 leading-relaxed">
               These are the AI prompts used to generate the content in StratAlign. 
               Copy and adapt them for your own PM content projects. 
               Variables in {'{CURLY_BRACES}'} should be replaced with your specific values.

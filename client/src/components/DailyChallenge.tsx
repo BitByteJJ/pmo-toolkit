@@ -194,14 +194,14 @@ export default function DailyChallenge({ darkMode = false }: { darkMode?: boolea
                     if (answerState !== 'unanswered') {
                       if (i === question.correctIndex) style = 'border-2 border-emerald-400 bg-emerald-500/20 text-emerald-200';
                       else if (i === selected && answerState === 'wrong') style = 'border-2 border-red-400 bg-red-500/20 text-red-200';
-                      else style = 'border border-white/5 text-slate-500 opacity-40';
+                      else style = 'border border-white/5 text-slate-400 opacity-40';
                     }
                   } else {
                     style = 'border border-white/10 text-slate-300';
                     if (answerState !== 'unanswered') {
                       if (i === question.correctIndex) style = 'border-2 border-emerald-500 bg-emerald-50 text-slate-300';
-                      else if (i === selected && answerState === 'wrong') style = 'border-2 border-red-400 bg-red-50 text-slate-400';
-                      else style = 'border border-white/10 text-slate-400 opacity-50';
+                      else if (i === selected && answerState === 'wrong') style = 'border-2 border-red-400 bg-red-50 text-slate-300';
+                      else style = 'border border-white/10 text-slate-300 opacity-50';
                     }
                   }
                   const hoverClass = answerState === 'unanswered' && !alreadyDone

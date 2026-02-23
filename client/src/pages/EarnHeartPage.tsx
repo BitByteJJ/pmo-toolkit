@@ -64,7 +64,7 @@ function CardStudyModal({
             onClick={onClose}
             className="absolute top-4 right-4 w-8 h-8 rounded-full bg-black/10 flex items-center justify-center"
           >
-            <X size={14} className="text-slate-400" />
+            <X size={14} className="text-slate-300" />
           </button>
           <div
             className="text-[9px] font-mono font-bold px-2 py-0.5 rounded-md inline-block mb-2"
@@ -89,19 +89,19 @@ function CardStudyModal({
         <div className="px-5 py-4 space-y-4">
           {card.whatItIs && (
             <div>
-              <p className="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-1">What It Is</p>
+              <p className="text-[10px] font-black uppercase tracking-widest text-slate-300 mb-1">What It Is</p>
               <p className="text-sm text-slate-300 leading-relaxed">{card.whatItIs}</p>
             </div>
           )}
           {card.whenToUse && (
             <div>
-              <p className="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-1">When to Use</p>
+              <p className="text-[10px] font-black uppercase tracking-widest text-slate-300 mb-1">When to Use</p>
               <p className="text-sm text-slate-300 leading-relaxed">{card.whenToUse}</p>
             </div>
           )}
           {card.steps && card.steps.length > 0 && (
             <div>
-              <p className="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-2">Key Steps</p>
+              <p className="text-[10px] font-black uppercase tracking-widest text-slate-300 mb-2">Key Steps</p>
               <ol className="space-y-1.5">
                 {card.steps.map((step, i) => (
                   <li key={i} className="flex items-start gap-2">
@@ -207,7 +207,7 @@ export default function EarnHeartPage() {
               <Heart
                 key={i}
                 size={16}
-                className={i < currentHearts ? 'text-rose-500 fill-rose-500' : 'text-slate-500 fill-slate-700'}
+                className={i < currentHearts ? 'text-rose-500 fill-rose-500' : 'text-slate-400 fill-slate-700'}
               />
             ))}
           </div>
@@ -241,7 +241,7 @@ export default function EarnHeartPage() {
             ))}
           </div>
           {progressInBatch === 0 && (
-            <p className="text-[11px] text-slate-400 mt-2">
+            <p className="text-[11px] text-slate-300 mt-2">
               Open any card below and tap "Mark as Studied" to count it.
             </p>
           )}
@@ -261,7 +261,7 @@ export default function EarnHeartPage() {
 
         {/* Instruction */}
         <div>
-          <p className="text-[11px] font-black uppercase tracking-widest text-slate-400 mb-3">
+          <p className="text-[11px] font-black uppercase tracking-widest text-slate-300 mb-3">
             Topics to Study
           </p>
           <div className="space-y-2.5">
@@ -296,17 +296,17 @@ export default function EarnHeartPage() {
                       >
                         {card.code}
                       </span>
-                      <span className="text-[9px] text-slate-400">{deck?.title}</span>
+                      <span className="text-[9px] text-slate-300">{deck?.title}</span>
                     </div>
                     <p className="text-sm font-bold text-slate-200 truncate" style={{ fontFamily: 'Sora, sans-serif' }}>
                       {card.title}
                     </p>
-                    <p className="text-[10px] text-slate-400 truncate">{card.tagline}</p>
+                    <p className="text-[10px] text-slate-300 truncate">{card.tagline}</p>
                   </div>
                   {isStudied ? (
                     <CheckCircle2 size={18} className="text-emerald-500 shrink-0" />
                   ) : (
-                    <ChevronRight size={16} className="text-slate-500 shrink-0" />
+                    <ChevronRight size={16} className="text-slate-400 shrink-0" />
                   )}
                 </motion.button>
               );
@@ -317,7 +317,7 @@ export default function EarnHeartPage() {
         {/* Back to journey */}
         <button
           onClick={() => navigate('/journey')}
-          className="w-full py-3 rounded-2xl font-semibold text-slate-400 text-sm bg-card/10 hover:bg-card/15 active:scale-95 transition-all"
+          className="w-full py-3 rounded-2xl font-semibold text-slate-300 text-sm bg-card/10 hover:bg-card/15 active:scale-95 transition-all"
         >
           Back to Journey Map
         </button>

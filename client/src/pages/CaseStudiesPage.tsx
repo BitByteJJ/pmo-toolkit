@@ -60,7 +60,7 @@ function CaseStudyCard({ cs, onClick }: { cs: CaseStudy; onClick: () => void }) 
               {cs.projectName}
             </h3>
           </div>
-          <ChevronRight size={14} className="text-slate-500 shrink-0 mt-1" />
+          <ChevronRight size={14} className="text-slate-400 shrink-0 mt-1" />
         </div>
 
         {/* Fictional badge */}
@@ -72,16 +72,16 @@ function CaseStudyCard({ cs, onClick }: { cs: CaseStudy; onClick: () => void }) 
         )}
         {/* Meta row */}
         <div className="flex flex-wrap gap-x-3 gap-y-1 mb-3">
-          <span className="flex items-center gap-1 text-[11px] font-semibold text-slate-400">
+          <span className="flex items-center gap-1 text-[11px] font-semibold text-slate-300">
             <Building2 size={10} style={{ color: deck?.color }} />
             {cs.organisation}
           </span>
-          <span className="text-slate-500">·</span>
-          <span className="text-[11px] text-slate-400">{cs.industry}</span>
+          <span className="text-slate-400">·</span>
+          <span className="text-[11px] text-slate-300">{cs.industry}</span>
           {cs.timeframe && (
             <>
-              <span className="text-slate-500">·</span>
-              <span className="flex items-center gap-1 text-[11px] text-slate-400">
+              <span className="text-slate-400">·</span>
+              <span className="flex items-center gap-1 text-[11px] text-slate-300">
                 <Clock size={9} />
                 {cs.timeframe}
               </span>
@@ -90,7 +90,7 @@ function CaseStudyCard({ cs, onClick }: { cs: CaseStudy; onClick: () => void }) 
         </div>
 
         {/* Challenge snippet */}
-        <p className="text-[12px] text-slate-400 leading-relaxed line-clamp-2">
+        <p className="text-[12px] text-slate-300 leading-relaxed line-clamp-2">
           {cs.challenge}
         </p>
       </div>
@@ -158,7 +158,7 @@ export default function CaseStudiesPage() {
               >
                 Case Studies
               </h1>
-              <p className="text-[11px] text-slate-400 font-semibold mt-0.5">
+              <p className="text-[11px] text-slate-300 font-semibold mt-0.5">
                 {filtered.length} of {allStudies.length} examples · {allStudies.filter(s => !s.fictional).length} real-world, {allStudies.filter(s => s.fictional).length} illustrative
               </p>
             </div>
@@ -185,7 +185,7 @@ export default function CaseStudiesPage() {
 
           {/* Search bar */}
           <div className="relative">
-            <Search size={13} className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" />
+            <Search size={13} className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-300" />
             <input
               type="text"
               placeholder="Search organisations, projects, industries…"
@@ -197,7 +197,7 @@ export default function CaseStudiesPage() {
             {searchQuery && (
               <button
                 onClick={() => setSearchQuery('')}
-                className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-400"
+                className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-300 hover:text-slate-300"
               >
                 <X size={12} />
               </button>
@@ -218,7 +218,7 @@ export default function CaseStudiesPage() {
               <div className="max-w-2xl mx-auto px-4 py-3 space-y-3">
                 {/* Deck filter */}
                 <div>
-                  <p className="text-[9px] font-bold text-slate-400 uppercase tracking-widest mb-1.5">Deck</p>
+                  <p className="text-[9px] font-bold text-slate-300 uppercase tracking-widest mb-1.5">Deck</p>
                   <div className="flex flex-wrap gap-1.5">
                     {DECKS.map(deck => (
                       <button
@@ -238,7 +238,7 @@ export default function CaseStudiesPage() {
 
                 {/* Industry filter */}
                 <div>
-                  <p className="text-[9px] font-bold text-slate-400 uppercase tracking-widest mb-1.5">Industry</p>
+                  <p className="text-[9px] font-bold text-slate-300 uppercase tracking-widest mb-1.5">Industry</p>
                   <div className="flex flex-wrap gap-1.5">
                     {industries.map(ind => (
                       <button
@@ -260,7 +260,7 @@ export default function CaseStudiesPage() {
                 {activeFilterCount > 0 && (
                   <button
                     onClick={() => { setSelectedDeck(null); setSelectedIndustry(null); }}
-                    className="text-[10px] font-bold text-slate-400 underline"
+                    className="text-[10px] font-bold text-slate-300 underline"
                   >
                     Clear all filters
                   </button>
@@ -275,11 +275,11 @@ export default function CaseStudiesPage() {
       <div className="max-w-2xl mx-auto px-4 pt-4 space-y-3">
         {filtered.length === 0 ? (
           <div className="text-center py-16">
-            <BookOpen size={32} className="mx-auto text-slate-500 mb-3" />
-            <p className="text-sm font-semibold text-slate-400">No case studies match your filters</p>
+            <BookOpen size={32} className="mx-auto text-slate-400 mb-3" />
+            <p className="text-sm font-semibold text-slate-300">No case studies match your filters</p>
             <button
               onClick={() => { setSearchQuery(''); setSelectedDeck(null); setSelectedIndustry(null); }}
-              className="mt-2 text-[11px] font-bold text-slate-400 underline"
+              className="mt-2 text-[11px] font-bold text-slate-300 underline"
             >
               Clear filters
             </button>

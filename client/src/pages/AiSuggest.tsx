@@ -78,7 +78,7 @@ function RecommendationCard({ rec, index }: { rec: Recommendation; index: number
                 {rec.code}
               </span>
               {deck && (
-                <span className="text-[10px] text-slate-400 font-medium truncate">
+                <span className="text-[10px] text-slate-300 font-medium truncate">
                   {deck.title}
                 </span>
               )}
@@ -93,7 +93,7 @@ function RecommendationCard({ rec, index }: { rec: Recommendation; index: number
             </h3>
 
             {/* Tagline */}
-            <p className="text-xs text-slate-400 mb-2 leading-relaxed">
+            <p className="text-xs text-slate-300 mb-2 leading-relaxed">
               {rec.tagline}
             </p>
 
@@ -108,7 +108,7 @@ function RecommendationCard({ rec, index }: { rec: Recommendation; index: number
           </div>
 
           {/* Arrow */}
-          <ChevronRight size={16} className="shrink-0 text-slate-500 mt-1" />
+          <ChevronRight size={16} className="shrink-0 text-slate-400 mt-1" />
         </div>
       </div>
     </motion.button>
@@ -180,7 +180,7 @@ function LoadingState({ problem }: { problem: string }) {
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -4 }}
                 transition={{ duration: 0.3 }}
-                className="text-xs text-slate-400"
+                className="text-xs text-slate-300"
               >
                 {THINKING_MESSAGES[msgIndex]}
               </motion.p>
@@ -197,7 +197,7 @@ function LoadingState({ problem }: { problem: string }) {
             transition={{ duration: 0.3, ease: 'easeOut' }}
           />
         </div>
-        <p className="text-[10px] text-slate-400 mt-1.5 text-right">{progress}%</p>
+        <p className="text-[10px] text-slate-300 mt-1.5 text-right">{progress}%</p>
       </div>
 
       {/* Skeleton cards */}
@@ -303,7 +303,7 @@ export default function AiSuggest() {
               AI Tool Finder
             </h1>
           </div>
-          <p className="text-xs text-slate-400 leading-relaxed">
+          <p className="text-xs text-slate-300 leading-relaxed">
             Describe your project challenge and get personalised recommendations from 198 PMO tools, techniques, and frameworks.
           </p>
         </div>
@@ -352,7 +352,7 @@ export default function AiSuggest() {
                   autoFocus
                 />
                 <div className="flex items-center justify-between px-4 pb-3">
-                  <span className="text-[10px] text-slate-400">⌘↵ to submit</span>
+                  <span className="text-[10px] text-slate-300">⌘↵ to submit</span>
                   <button
                     onClick={() => handleSubmit()}
                     disabled={!problem.trim() || loading}
@@ -369,7 +369,7 @@ export default function AiSuggest() {
               <div>
                 <div className="flex items-center gap-1.5 mb-2.5">
                   <Lightbulb size={12} className="text-amber-500" />
-                  <span className="text-[11px] font-semibold text-slate-400 uppercase tracking-wider">Try an example</span>
+                  <span className="text-[11px] font-semibold text-slate-300 uppercase tracking-wider">Try an example</span>
                 </div>
                 <div className="space-y-2">
                   {EXAMPLE_PROMPTS.map((prompt, i) => (
@@ -379,10 +379,10 @@ export default function AiSuggest() {
                       animate={{ opacity: 1, x: 0 }}
                       transition={{ duration: 0.25, delay: i * 0.05 }}
                       onClick={() => handleExampleClick(prompt)}
-                      className="w-full text-left px-3.5 py-2.5 rounded-xl bg-card text-xs text-slate-400 hover:text-slate-100 transition-all flex items-center gap-2 group"
+                      className="w-full text-left px-3.5 py-2.5 rounded-xl bg-card text-xs text-slate-300 hover:text-slate-100 transition-all flex items-center gap-2 group"
                       style={{ boxShadow: '0 1px 3px rgba(0,0,0,0.06)', border: '1px solid rgba(0,0,0,0.05)' }}
                     >
-                      <ArrowRight size={12} className="shrink-0 text-slate-500 group-hover:text-indigo-400 transition-colors" />
+                      <ArrowRight size={12} className="shrink-0 text-slate-400 group-hover:text-indigo-400 transition-colors" />
                       <span className="leading-relaxed">{prompt}</span>
                     </motion.button>
                   ))}
@@ -468,7 +468,7 @@ export default function AiSuggest() {
 
               {/* Recommendation cards */}
               <div className="flex items-center gap-1.5 mb-3 px-1">
-                <span className="text-[11px] font-semibold text-slate-400 uppercase tracking-wider">
+                <span className="text-[11px] font-semibold text-slate-300 uppercase tracking-wider">
                   {result.recommendations.length} recommended tools
                 </span>
               </div>
@@ -482,7 +482,7 @@ export default function AiSuggest() {
               {/* Reset button */}
               <button
                 onClick={handleReset}
-                className="w-full flex items-center justify-center gap-2 py-3.5 rounded-2xl text-sm font-bold text-slate-400 bg-card transition-all hover:bg-card/5"
+                className="w-full flex items-center justify-center gap-2 py-3.5 rounded-2xl text-sm font-bold text-slate-300 bg-card transition-all hover:bg-card/5"
                 style={{ boxShadow: '0 1px 4px rgba(0,0,0,0.06)', border: '1px solid rgba(0,0,0,0.07)' }}
               >
                 <RotateCcw size={14} />

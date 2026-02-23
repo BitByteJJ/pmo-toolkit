@@ -29,7 +29,7 @@ export default function BookmarksPage() {
               >
                 Saved Cards
               </h1>
-              <p className="text-[11px] text-slate-400 font-medium mt-0.5">
+              <p className="text-[11px] text-slate-300 font-medium mt-0.5">
                 {savedCards.length} card{savedCards.length !== 1 ? 's' : ''} saved
               </p>
             </div>
@@ -53,10 +53,10 @@ export default function BookmarksPage() {
             className="flex flex-col items-center justify-center py-20 text-center"
           >
             <div className="w-16 h-16 rounded-2xl bg-white/10 flex items-center justify-center mb-4">
-              <Bookmark size={26} className="text-slate-500" />
+              <Bookmark size={26} className="text-slate-400" />
             </div>
-            <h2 className="text-base font-semibold text-slate-400 mb-1">No saved cards yet</h2>
-            <p className="text-sm text-slate-400 max-w-xs leading-relaxed">
+            <h2 className="text-base font-semibold text-slate-300 mb-1">No saved cards yet</h2>
+            <p className="text-sm text-slate-300 max-w-xs leading-relaxed">
               Tap the bookmark icon on any card to save it here for quick reference.
             </p>
             <button
@@ -104,10 +104,10 @@ export default function BookmarksPage() {
                             >
                               {card.code}
                             </span>
-                            <span className="text-[9px] text-slate-400 font-medium capitalize">{card.type}</span>
+                            <span className="text-[9px] text-slate-300 font-medium capitalize">{card.type}</span>
                           </div>
                           <h3 className="text-sm font-semibold text-slate-200 leading-tight">{card.title}</h3>
-                          <p className="text-[11px] text-slate-400 mt-1 line-clamp-2 leading-relaxed">{card.tagline}</p>
+                          <p className="text-[11px] text-slate-300 mt-1 line-clamp-2 leading-relaxed">{card.tagline}</p>
                         </button>
                         <button
                           onClick={() => toggleBookmark(card.id)}

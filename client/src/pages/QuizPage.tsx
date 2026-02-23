@@ -83,7 +83,7 @@ function QuestionCard({
         >
           {question.type === 'truefalse' ? 'TRUE / FALSE' : question.type === 'scenario' ? 'SCENARIO' : 'MULTIPLE CHOICE'}
         </span>
-        <span className="text-[10px] text-slate-400 font-medium">
+        <span className="text-[10px] text-slate-300 font-medium">
           Question {questionNumber} of {total}
         </span>
       </div>
@@ -202,7 +202,7 @@ function ResultsScreen({
         <p className="text-2xl font-black text-slate-100 mb-1" style={{ fontFamily: 'Sora, sans-serif' }}>
           {grade}
         </p>
-        <p className="text-sm text-slate-400">
+        <p className="text-sm text-slate-300">
           You scored <strong>{score} out of {total}</strong> on the {deck?.title} quiz
         </p>
       </div>
@@ -228,12 +228,12 @@ function ResultsScreen({
       )}
 
       {pct < 100 && pct >= 60 && (
-        <p className="text-[12px] text-slate-400 max-w-xs">
+        <p className="text-[12px] text-slate-300 max-w-xs">
           Review the cards you got wrong and try again to earn the mastery badge.
         </p>
       )}
       {pct < 60 && (
-        <p className="text-[12px] text-slate-400 max-w-xs">
+        <p className="text-[12px] text-slate-300 max-w-xs">
           Study the {deck?.title} deck cards and come back when you're ready to try again.
         </p>
       )}
@@ -309,7 +309,7 @@ export default function QuizPage() {
   if (!deck || !quiz) {
     return (
       <div className="min-h-screen flex items-center justify-center" style={{ background: '#0a1628' }}>
-        <p className="text-slate-400">No quiz available for this deck yet.</p>
+        <p className="text-slate-300">No quiz available for this deck yet.</p>
       </div>
     );
   }
@@ -331,12 +331,12 @@ export default function QuizPage() {
             onClick={() => navigate(`/deck/${deckId}`)}
             className="w-8 h-8 flex items-center justify-center rounded-xl hover:bg-card/10 transition-colors shrink-0"
           >
-            <X size={18} className="text-slate-400" />
+            <X size={18} className="text-slate-300" />
           </button>
           {!finished && (
             <>
               <ProgressBar current={currentIndex} total={questions.length} color={deck.color} />
-              <span className="text-[11px] font-bold text-slate-400 shrink-0">
+              <span className="text-[11px] font-bold text-slate-300 shrink-0">
                 {currentIndex}/{questions.length}
               </span>
             </>

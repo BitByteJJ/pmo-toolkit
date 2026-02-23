@@ -118,7 +118,7 @@ function DeckCard({ deck, index }: { deck: typeof DECKS[0]; index: number }) {
             {readCount > 0 && (
               <div className="mb-2">
                 <div className="flex items-center justify-between mb-0.5">
-                  <span className="text-[9px] font-semibold" style={{ color: deck.textColor, opacity: 0.55 }}>
+                  <span className="text-[9px] font-semibold" style={{ color: deck.textColor, opacity: 0.85 }}>
                     {readCount} / {cards.length} read
                   </span>
                   <span className="text-[9px] font-bold" style={{ color: deck.color }}>
@@ -219,7 +219,7 @@ function DeckCard({ deck, index }: { deck: typeof DECKS[0]; index: number }) {
             {readCount > 0 && (
               <div className="mb-2">
                 <div className="flex items-center justify-between mb-0.5">
-                  <span className="text-[9px] font-semibold" style={{ color: deck.textColor, opacity: 0.55 }}>
+                  <span className="text-[9px] font-semibold" style={{ color: deck.textColor, opacity: 0.85 }}>
                     {readCount} / {cards.length} read
                   </span>
                   <span className="text-[9px] font-bold" style={{ color: deck.color }}>
@@ -269,7 +269,7 @@ export default function DecksPage() {
             </div>
             <div className="flex-1 min-w-0">
               <p className="text-sm font-bold text-slate-200">Mastery Badges</p>
-              <p className="text-[11px] text-slate-400">{totalBadges} of {maxBadges} earned — read all cards or ace a quiz to unlock</p>
+              <p className="text-[11px] text-slate-300">{totalBadges} of {maxBadges} earned — read all cards or ace a quiz to unlock</p>
             </div>
             <div className="flex gap-1 flex-wrap justify-end">
               {DECKS.map(d => {

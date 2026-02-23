@@ -91,7 +91,7 @@ function FeatureTile({ tile, index }: { tile: typeof FEATURE_TILES[0]; index: nu
         <p className="text-[12px] font-bold leading-tight" style={{ color: textColor, fontFamily: 'Sora, sans-serif' }}>
           {label}
         </p>
-        <p className="text-[10px] leading-snug mt-0.5" style={{ color: textColor, opacity: 0.55 }}>
+        <p className="text-[10px] leading-snug mt-0.5" style={{ color: textColor, opacity: 0.8 }}>
           {sub}
         </p>
       </div>

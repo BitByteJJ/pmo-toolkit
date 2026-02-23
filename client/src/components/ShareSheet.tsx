@@ -123,17 +123,17 @@ export default function ShareSheet({ open, onClose, url, title, tagline }: Share
             {/* Header */}
             <div className="flex items-start justify-between mb-5">
               <div className="flex-1 min-w-0 pr-3">
-                <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-0.5">Share</p>
+                <p className="text-[10px] font-bold text-slate-300 uppercase tracking-widest mb-0.5">Share</p>
                 <h3 className="text-sm font-bold text-slate-200 leading-tight truncate">{title}</h3>
                 {tagline && (
-                  <p className="text-[11px] text-slate-400 mt-0.5 line-clamp-1">{tagline}</p>
+                  <p className="text-[11px] text-slate-300 mt-0.5 line-clamp-1">{tagline}</p>
                 )}
               </div>
               <button
                 onClick={onClose}
                 className="shrink-0 w-7 h-7 rounded-full bg-white/10 flex items-center justify-center hover:bg-white/15 transition-colors"
               >
-                <X size={13} className="text-slate-400" />
+                <X size={13} className="text-slate-300" />
               </button>
             </div>
 
@@ -151,7 +151,7 @@ export default function ShareSheet({ open, onClose, url, title, tagline }: Share
                   >
                     {p.icon}
                   </div>
-                  <span className="text-[9px] font-semibold text-slate-400 text-center leading-tight">{p.name}</span>
+                  <span className="text-[9px] font-semibold text-slate-300 text-center leading-tight">{p.name}</span>
                 </button>
               ))}
             </div>
@@ -164,12 +164,12 @@ export default function ShareSheet({ open, onClose, url, title, tagline }: Share
               <div className="w-9 h-9 rounded-xl bg-white/15 flex items-center justify-center shrink-0">
                 {copied
                   ? <Check size={15} className="text-emerald-500" />
-                  : <Link2 size={15} className="text-slate-400" />
+                  : <Link2 size={15} className="text-slate-300" />
                 }
               </div>
               <div className="flex-1 min-w-0">
                 <p className="text-xs font-semibold text-slate-300">{copied ? 'Link copied!' : 'Copy link'}</p>
-                <p className="text-[10px] text-slate-400 truncate">{url}</p>
+                <p className="text-[10px] text-slate-300 truncate">{url}</p>
               </div>
             </div>
 
@@ -177,7 +177,7 @@ export default function ShareSheet({ open, onClose, url, title, tagline }: Share
             {typeof navigator !== 'undefined' && 'share' in navigator && (
               <button
                 onClick={handleNativeShare}
-                className="w-full mt-3 py-2.5 rounded-2xl text-xs font-bold text-slate-400 bg-white/10 hover:bg-white/15 transition-colors"
+                className="w-full mt-3 py-2.5 rounded-2xl text-xs font-bold text-slate-300 bg-white/10 hover:bg-white/15 transition-colors"
               >
                 More options…
               </button>

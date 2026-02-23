@@ -413,7 +413,7 @@ function SectionForm({
                           </label>
                         )}
                         {field.hint && (
-                          <p className="text-[11px] text-slate-400 mb-1 leading-relaxed">{field.hint}</p>
+                          <p className="text-[11px] text-slate-300 mb-1 leading-relaxed">{field.hint}</p>
                         )}
                         {field.isDate ? (
                           <input
@@ -760,7 +760,7 @@ export default function TemplateFiller() {
           <div className="flex flex-col gap-3">
             {/* Row 1: Project / Organisation Name — full width */}
             <div>
-              <label className="block text-xs font-semibold text-slate-400 mb-1">Project / Organisation Name</label>
+              <label className="block text-xs font-semibold text-slate-300 mb-1">Project / Organisation Name</label>
               <input
                 type="text"
                 value={projectName}
@@ -772,7 +772,7 @@ export default function TemplateFiller() {
             {/* Row 2: Prepared By + Version side by side */}
             <div className="grid grid-cols-2 gap-3">
               <div>
-                <label className="block text-xs font-semibold text-slate-400 mb-1">Prepared By</label>
+                <label className="block text-xs font-semibold text-slate-300 mb-1">Prepared By</label>
                 <input
                   type="text"
                   value={projectOwner}
@@ -782,7 +782,7 @@ export default function TemplateFiller() {
                 />
               </div>
               <div>
-                <label className="block text-xs font-semibold text-slate-400 mb-1">Version</label>
+                <label className="block text-xs font-semibold text-slate-300 mb-1">Version</label>
                 <input
                   type="text"
                   value={version}
@@ -794,7 +794,7 @@ export default function TemplateFiller() {
             </div>
             {/* Row 3: Date — full width so the native date picker has room */}
             <div>
-              <label className="block text-xs font-semibold text-slate-400 mb-1">Date</label>
+              <label className="block text-xs font-semibold text-slate-300 mb-1">Date</label>
               <input
                 type="date"
                 value={projectDate}
@@ -861,7 +861,7 @@ export default function TemplateFiller() {
 
         {/* Copyright notice */}
         <div className="mt-6 px-2 pb-4">
-          <p className="text-[10px] text-slate-400 text-center leading-relaxed">{COPYRIGHT_STATEMENT}</p>
+          <p className="text-[10px] text-slate-300 text-center leading-relaxed">{COPYRIGHT_STATEMENT}</p>
         </div>
       </div>
       <BottomNav />

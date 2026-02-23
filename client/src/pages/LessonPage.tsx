@@ -46,7 +46,7 @@ function HeartsDisplay({ hearts }: { hearts: number }) {
         >
           <Heart
             size={18}
-            className={i < hearts ? 'text-rose-500 fill-rose-500' : 'text-slate-500 fill-slate-700'}
+            className={i < hearts ? 'text-rose-500 fill-rose-500' : 'text-slate-400 fill-slate-700'}
           />
         </motion.div>
       ))}
@@ -107,7 +107,7 @@ function QuestionCard({
         >
           {typeLabel[question.type] ?? question.type}
         </span>
-        <span className="text-[9px] font-semibold text-slate-400">+{question.xp} XP</span>
+        <span className="text-[9px] font-semibold text-slate-300">+{question.xp} XP</span>
       </div>
 
       {/* Prompt */}
@@ -133,7 +133,7 @@ function QuestionCard({
                   ? 'border-emerald-500 bg-emerald-500 text-white'
                   : answerState !== 'unanswered' && i === selected && i !== question.correctIndex
                   ? 'border-rose-500 bg-rose-500 text-white'
-                  : 'border-white/15 text-slate-400'
+                  : 'border-white/15 text-slate-300'
               }`}
             >
               {String.fromCharCode(65 + i)}
@@ -170,13 +170,13 @@ function QuestionCard({
                 >
                   {answerState === 'correct' ? 'Correct! +' + question.xp + ' XP' : 'Not quite — here\'s why:'}
                 </p>
-                <p className="text-[11px] text-slate-400 leading-relaxed">{question.explanation}</p>
+                <p className="text-[11px] text-slate-300 leading-relaxed">{question.explanation}</p>
                 {question.cardRefs && question.cardRefs.length > 0 && (
                   <div className="flex flex-wrap gap-1 mt-2">
                     {question.cardRefs.map(ref => (
                       <span
                         key={ref}
-                        className="text-[9px] font-bold px-1.5 py-0.5 rounded-md bg-white/15 text-slate-400"
+                        className="text-[9px] font-bold px-1.5 py-0.5 rounded-md bg-white/15 text-slate-300"
                       >
                         {ref}
                       </span>
@@ -246,7 +246,7 @@ function LessonCompleteScreen({
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 0.3 }}
-        className="text-sm text-slate-400 text-center mb-8"
+        className="text-sm text-slate-300 text-center mb-8"
       >
         Day {day} — {title}
       </motion.p>
@@ -266,7 +266,7 @@ function LessonCompleteScreen({
           <div key={label} className="rounded-2xl p-3 text-center" style={{ backgroundColor: bg }}>
             <Icon size={16} className="mx-auto mb-1" style={{ color }} />
             <div className="text-lg font-black" style={{ color, fontFamily: 'Sora, sans-serif' }}>{value}</div>
-            <div className="text-[9px] font-semibold text-slate-400">{label}</div>
+            <div className="text-[9px] font-semibold text-slate-300">{label}</div>
           </div>
         ))}
       </motion.div>
@@ -326,7 +326,7 @@ function NoHeartsScreen({ onEarnHeart, onGoBack }: { onEarnHeart: () => void; on
         </button>
         <button
           onClick={onGoBack}
-          className="w-full py-3 rounded-2xl font-semibold text-slate-400 text-sm bg-white/10 hover:bg-white/15 active:scale-95 transition-all"
+          className="w-full py-3 rounded-2xl font-semibold text-slate-300 text-sm bg-white/10 hover:bg-white/15 active:scale-95 transition-all"
         >
           Back to Journey Map
         </button>
@@ -461,7 +461,7 @@ export default function LessonPage() {
   if (!lessonWithRandomQ) {
     return (
       <div className="min-h-screen flex items-center justify-center" style={{ background: '#0a1628' }}>
-        <p className="text-slate-400">Lesson not found</p>
+        <p className="text-slate-300">Lesson not found</p>
       </div>
     );
   }
@@ -504,7 +504,7 @@ export default function LessonPage() {
     return (
       <div className="min-h-screen flex items-center justify-center" style={{ background: '#0a1628' }}>
         <div className="text-center px-6">
-          <p className="text-slate-400 mb-4">Loading lesson...</p>
+          <p className="text-slate-300 mb-4">Loading lesson...</p>
         </div>
       </div>
     );
@@ -534,16 +534,16 @@ export default function LessonPage() {
             onClick={handleAbandon}
             className="w-8 h-8 flex items-center justify-center rounded-xl hover:bg-white/15 transition-colors shrink-0"
           >
-            <X size={18} className="text-slate-400" />
+            <X size={18} className="text-slate-300" />
           </button>
           <ProgressBar current={displayIndex} total={totalQuestions} />
           <HeartsDisplay hearts={state.hearts} />
         </div>
         <div className="mt-1.5 flex items-center justify-between">
-          <span className="text-[10px] font-semibold text-slate-400">
+          <span className="text-[10px] font-semibold text-slate-300">
             Day {day} — {lessonWithRandomQ.title}
           </span>
-          <span className="text-[10px] font-bold text-slate-400">
+          <span className="text-[10px] font-bold text-slate-300">
             {displayIndex + 1} / {totalQuestions}
           </span>
         </div>

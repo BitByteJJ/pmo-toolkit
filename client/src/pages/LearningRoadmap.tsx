@@ -132,7 +132,7 @@ function RoadmapStep({
             </div>
           ) : isLocked ? (
             <div className="w-9 h-9 rounded-full flex items-center justify-center bg-card/10">
-              <Lock size={14} className="text-slate-500" />
+              <Lock size={14} className="text-slate-400" />
             </div>
           ) : (
             <div
@@ -289,7 +289,7 @@ function JourneyRoadmap({ journey }: { journey: LearningJourney }) {
               <div className="text-[11px] font-black text-slate-200" style={{ fontFamily: 'Sora, sans-serif' }}>
                 {section.title}
               </div>
-              <div className="text-[10px] text-slate-400">{section.description}</div>
+              <div className="text-[10px] text-slate-300">{section.description}</div>
             </div>
           </div>
 
@@ -356,18 +356,18 @@ export default function LearningRoadmap() {
             >
               Learning Roadmap
             </h1>
-            <p className="text-[11px] text-slate-400 font-medium">
+            <p className="text-[11px] text-slate-300 font-medium">
               Curated paths for every stage of your PM career
             </p>
           </div>
-          <Zap size={20} className="text-slate-500" />
+          <Zap size={20} className="text-slate-400" />
         </div>
       </div>
 
       <div className="max-w-2xl mx-auto px-4 pt-4">
         {/* Level selector */}
         <div className="space-y-3 mb-6">
-          <p className="text-[11px] font-bold text-slate-400 uppercase tracking-wider px-1">
+          <p className="text-[11px] font-bold text-slate-300 uppercase tracking-wider px-1">
             Choose your level
           </p>
           {LEARNING_JOURNEYS.map(journey => (
@@ -394,7 +394,7 @@ export default function LearningRoadmap() {
             >
               {/* Journey description */}
               <div className="mb-5 px-1">
-                <p className="text-[13px] text-slate-400 leading-relaxed">
+                <p className="text-[13px] text-slate-300 leading-relaxed">
                   {selectedJourney.description}
                 </p>
               </div>
@@ -407,7 +407,7 @@ export default function LearningRoadmap() {
         {!selectedLevel && (
           <div className="text-center py-8">
             <div className="text-4xl mb-3">🗺️</div>
-            <p className="text-[13px] text-slate-400 font-medium">
+            <p className="text-[13px] text-slate-300 font-medium">
               Select a level above to see your personalised roadmap
             </p>
           </div>

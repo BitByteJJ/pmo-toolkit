@@ -198,13 +198,13 @@ export default function OnboardingTour({ onDismiss }: OnboardingTourProps) {
                   <h2 className="text-[18px] font-black text-white" style={{ fontFamily: 'Sora, sans-serif' }}>
                     Welcome to StratAlign
                   </h2>
-                  <p className="text-[12px] text-slate-400 mt-0.5">
+                  <p className="text-[12px] text-slate-300 mt-0.5">
                     198 PM tools · 8 decks · Tap any area to explore
                   </p>
                 </div>
                 <button
                   onClick={dismiss}
-                  className="w-7 h-7 rounded-full flex items-center justify-center bg-white/10 text-slate-400 hover:bg-white/15 transition-colors shrink-0 mt-0.5"
+                  className="w-7 h-7 rounded-full flex items-center justify-center bg-white/10 text-slate-300 hover:bg-white/15 transition-colors shrink-0 mt-0.5"
                   aria-label="Skip tour"
                 >
                   <X size={14} strokeWidth={2.5} />
@@ -229,7 +229,7 @@ export default function OnboardingTour({ onDismiss }: OnboardingTourProps) {
                       </div>
                       <div>
                         <div className="text-[11px] font-bold text-slate-200 leading-tight">{item.label}</div>
-                        <div className="text-[9px] text-slate-400 mt-0.5 leading-tight">{item.sub}</div>
+                        <div className="text-[9px] text-slate-300 mt-0.5 leading-tight">{item.sub}</div>
                       </div>
                     </button>
                   ))}
@@ -249,7 +249,7 @@ export default function OnboardingTour({ onDismiss }: OnboardingTourProps) {
                 </button>
                 <button
                   onClick={dismiss}
-                  className="w-full py-2.5 rounded-2xl text-[13px] font-semibold text-slate-400 hover:text-slate-300 hover:bg-white/5 transition-colors"
+                  className="w-full py-2.5 rounded-2xl text-[13px] font-semibold text-slate-300 hover:text-slate-300 hover:bg-white/5 transition-colors"
                 >
                   Skip — I'll explore on my own
                 </button>
@@ -289,7 +289,7 @@ export default function OnboardingTour({ onDismiss }: OnboardingTourProps) {
                   </div>
 
                   {/* Step counter */}
-                  <div className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-1">
+                  <div className="text-[10px] font-bold text-slate-300 uppercase tracking-widest mb-1">
                     Step {stepIndex + 1} of {TOUR_STEPS.length}
                   </div>
 
@@ -303,7 +303,7 @@ export default function OnboardingTour({ onDismiss }: OnboardingTourProps) {
                   <p className="text-[12px] font-semibold mb-3" style={{ color: currentStep.color }}>
                     {currentStep.subtitle}
                   </p>
-                  <p className="text-[13.5px] text-slate-400 leading-relaxed">
+                  <p className="text-[13.5px] text-slate-300 leading-relaxed">
                     {currentStep.body}
                   </p>
                 </motion.div>
@@ -314,7 +314,7 @@ export default function OnboardingTour({ onDismiss }: OnboardingTourProps) {
                 {stepIndex > 0 && (
                   <button
                     onClick={prevStep}
-                    className="flex items-center justify-center w-10 h-10 rounded-xl bg-white/10 text-slate-400 hover:bg-white/15 transition-colors shrink-0"
+                    className="flex items-center justify-center w-10 h-10 rounded-xl bg-white/10 text-slate-300 hover:bg-white/15 transition-colors shrink-0"
                     aria-label="Previous step"
                   >
                     <ArrowLeft size={18} strokeWidth={2.5} />
@@ -333,7 +333,7 @@ export default function OnboardingTour({ onDismiss }: OnboardingTourProps) {
                 {!isLastStep && (
                   <button
                     onClick={dismiss}
-                    className="text-[11px] font-semibold text-slate-400 hover:text-slate-400 transition-colors whitespace-nowrap shrink-0"
+                    className="text-[11px] font-semibold text-slate-300 hover:text-slate-300 transition-colors whitespace-nowrap shrink-0"
                   >
                     Skip tour
                   </button>

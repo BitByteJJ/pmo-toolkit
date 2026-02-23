@@ -122,7 +122,7 @@ export default function TopNav({ accentColor = '#818cf8' }: TopNavProps) {
       }}
     >
       <div className="px-3.5 pt-3 pb-1.5">
-        <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Mini-Apps</p>
+        <p className="text-[10px] font-bold text-slate-300 uppercase tracking-widest">Mini-Apps</p>
       </div>
       <div className="pb-2">
         {MINI_APPS.map((app, i) => {
@@ -150,7 +150,7 @@ export default function TopNav({ accentColor = '#818cf8' }: TopNavProps) {
                 >
                   {app.label}
                 </div>
-                <div className="text-[10px] text-slate-400 mt-0.5 leading-tight line-clamp-1">{app.desc}</div>
+                <div className="text-[10px] text-slate-300 mt-0.5 leading-tight line-clamp-1">{app.desc}</div>
               </div>
               {active && (
                 <span

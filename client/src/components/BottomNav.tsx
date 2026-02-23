@@ -116,7 +116,7 @@ export default function BottomNav() {
             }}
           >
             <div className="px-3.5 pt-3 pb-1.5">
-              <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Jump to deck</p>
+              <p className="text-[10px] font-bold text-slate-300 uppercase tracking-widest">Jump to deck</p>
             </div>
             <div className="pb-2 max-h-72 overflow-y-auto">
               {DECKS.map((deck, i) => (
@@ -132,7 +132,7 @@ export default function BottomNav() {
                   <span className="text-base leading-none shrink-0">{deck.icon}</span>
                   <div className="flex-1 min-w-0">
                     <div className="text-[12.5px] font-semibold text-slate-100 truncate leading-tight">{deck.title}</div>
-                    <div className="text-[9.5px] text-slate-400 font-mono mt-0.5">{deck.subtitle}</div>
+                    <div className="text-[9.5px] text-slate-300 font-mono mt-0.5">{deck.subtitle}</div>
                   </div>
                   <span
                     className="text-[9px] font-bold px-1.5 py-0.5 rounded-full shrink-0"

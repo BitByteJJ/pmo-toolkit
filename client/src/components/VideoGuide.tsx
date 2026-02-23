@@ -852,7 +852,7 @@ export function VideoGuide({ data }: VideoGuideProps) {
               <p className="text-sm font-semibold text-gray-700">
                 {isWarmingUp ? 'Preparing audio…' : 'Play Video Guide'}
               </p>
-              <p className="text-xs text-gray-500 mt-1">
+              <p className="text-xs text-slate-400 mt-1">
                 {totalScenes} scenes · ~{Math.round(scenes.reduce((s, sc) => s + getSceneDuration(sc), 0) / 1000 / 60)} min
               </p>
             </motion.div>
@@ -918,7 +918,7 @@ export function VideoGuide({ data }: VideoGuideProps) {
             </button>
           </div>
 
-          <div className="text-[11px] font-semibold text-gray-500 flex-1 text-center px-2 truncate tracking-tight">
+          <div className="text-[11px] font-semibold text-slate-400 flex-1 text-center px-2 truncate tracking-tight">
             {currentScene.heading || cardTitle}
           </div>
 
@@ -965,7 +965,7 @@ export function VideoGuide({ data }: VideoGuideProps) {
 
       {/* Narration text */}
       <div className="rounded-2xl p-4 text-xs text-gray-600 leading-relaxed" style={{ backgroundColor: 'white', boxShadow: '0 1px 4px rgba(0,0,0,0.06), 0 0 0 1px rgba(0,0,0,0.04)' }}>
-        <span className="font-semibold text-gray-500 text-[10px] uppercase tracking-wide block mb-1">Narration</span>
+        <span className="font-semibold text-slate-400 text-[10px] uppercase tracking-wide block mb-1">Narration</span>
         {currentScene.narration}
       </div>
 

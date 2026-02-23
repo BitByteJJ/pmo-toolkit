@@ -74,12 +74,12 @@ function RecommendedCard({ cardId, index }: { cardId: string; index: number }) {
             >
               {card.title}
             </h3>
-            <p className="text-[11px] text-slate-400 leading-relaxed line-clamp-2">
+            <p className="text-[11px] text-slate-300 leading-relaxed line-clamp-2">
               {card.tagline}
             </p>
           </div>
 
-          <ChevronRight size={14} className="shrink-0 mt-1 text-slate-500" />
+          <ChevronRight size={14} className="shrink-0 mt-1 text-slate-400" />
         </div>
 
         {/* Deck label */}
@@ -150,7 +150,7 @@ function ResultsScreen({
           {trail.map((label, i) => (
             <span
               key={i}
-              className="text-[10px] font-semibold px-2.5 py-1 rounded-full bg-card/10 text-slate-400"
+              className="text-[10px] font-semibold px-2.5 py-1 rounded-full bg-card/10 text-slate-300"
             >
               {label}
             </span>
@@ -160,7 +160,7 @@ function ResultsScreen({
 
       {/* Recommended cards */}
       <div>
-        <p className="text-[10px] font-black text-slate-400 uppercase tracking-[0.12em] mb-3">
+        <p className="text-[10px] font-black text-slate-300 uppercase tracking-[0.12em] mb-3">
           {cardIds.length} Recommended {cardIds.length === 1 ? 'Tool' : 'Tools'}
         </p>
         <div className="flex flex-col gap-3">
@@ -174,7 +174,7 @@ function ResultsScreen({
       <div className="flex gap-3 pt-2">
         <button
           onClick={onBack}
-          className="flex-1 flex items-center justify-center gap-2 rounded-2xl py-3 text-sm font-bold text-slate-400 bg-card/10"
+          className="flex-1 flex items-center justify-center gap-2 rounded-2xl py-3 text-sm font-bold text-slate-300 bg-card/10"
         >
           <ArrowLeft size={14} />
           Back
@@ -227,10 +227,10 @@ function QuestionScreen({
       {/* Progress bar */}
       <div>
         <div className="flex items-center justify-between mb-2">
-          <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">
+          <span className="text-[10px] font-bold text-slate-300 uppercase tracking-widest">
             Step {stepIndex + 1}
           </span>
-          <span className="text-[10px] font-semibold text-slate-400">
+          <span className="text-[10px] font-semibold text-slate-300">
             {Math.round(progress)}% complete
           </span>
         </div>
@@ -254,7 +254,7 @@ function QuestionScreen({
           {question.question}
         </h2>
         {question.hint && (
-          <p className="text-[12px] text-slate-400 font-medium">{question.hint}</p>
+          <p className="text-[12px] text-slate-300 font-medium">{question.hint}</p>
         )}
       </div>
 
@@ -278,7 +278,7 @@ function QuestionScreen({
           >
             <div className="flex items-center gap-3">
               <div
-                className="w-6 h-6 rounded-full border-2 border-white/10 flex items-center justify-center shrink-0 text-[11px] font-bold text-slate-400"
+                className="w-6 h-6 rounded-full border-2 border-white/10 flex items-center justify-center shrink-0 text-[11px] font-bold text-slate-300"
               >
                 {String.fromCharCode(65 + i)}
               </div>
@@ -287,12 +287,12 @@ function QuestionScreen({
                   {answer.label}
                 </p>
                 {answer.description && (
-                  <p className="text-[11px] text-slate-400 mt-0.5 leading-relaxed">
+                  <p className="text-[11px] text-slate-300 mt-0.5 leading-relaxed">
                     {answer.description}
                   </p>
                 )}
               </div>
-              <ArrowRight size={14} className="shrink-0 text-slate-500" />
+              <ArrowRight size={14} className="shrink-0 text-slate-400" />
             </div>
           </motion.button>
         ))}
@@ -302,7 +302,7 @@ function QuestionScreen({
       {canGoBack && (
         <button
           onClick={onBack}
-          className="flex items-center gap-2 text-[12px] font-semibold text-slate-400 mt-1 self-start"
+          className="flex items-center gap-2 text-[12px] font-semibold text-slate-300 mt-1 self-start"
         >
           <ArrowLeft size={13} />
           Previous question
@@ -346,7 +346,7 @@ function StartScreen({ onStart }: { onStart: () => void }) {
 
       {/* How it works */}
       <div className="rounded-2xl bg-card p-5" style={{ boxShadow: '0 1px 4px rgba(0,0,0,0.06)' }}>
-        <h2 className="text-[11px] font-black text-slate-400 uppercase tracking-[0.12em] mb-4">
+        <h2 className="text-[11px] font-black text-slate-300 uppercase tracking-[0.12em] mb-4">
           How it works
         </h2>
         <div className="flex flex-col gap-4">
@@ -364,7 +364,7 @@ function StartScreen({ onStart }: { onStart: () => void }) {
               </div>
               <div>
                 <p className="text-sm font-bold text-slate-200">{title}</p>
-                <p className="text-[11px] text-slate-400 leading-relaxed mt-0.5">{desc}</p>
+                <p className="text-[11px] text-slate-300 leading-relaxed mt-0.5">{desc}</p>
               </div>
             </div>
           ))}
@@ -452,7 +452,7 @@ export default function DecisionHelper() {
             className="w-8 h-8 rounded-xl bg-card flex items-center justify-center"
             style={{ boxShadow: '0 1px 3px rgba(0,0,0,0.08)' }}
           >
-            <ArrowLeft size={15} className="text-slate-400" />
+            <ArrowLeft size={15} className="text-slate-300" />
           </button>
           <div className="flex items-center gap-2">
             <Compass size={16} style={{ color: '#1e3a5f' }} />

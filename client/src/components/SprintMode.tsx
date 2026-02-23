@@ -172,7 +172,7 @@ export default function SprintMode({ deckId, startIndex = 0, onClose }: SprintMo
                       >
                         {card.title}
                       </h2>
-                      <p className="text-sm text-slate-400 leading-relaxed text-center mb-4">{card.tagline}</p>
+                      <p className="text-sm text-slate-300 leading-relaxed text-center mb-4">{card.tagline}</p>
 
                       {/* Card illustration */}
                       {getCardIllustration(card.id) && (
@@ -255,7 +255,7 @@ export default function SprintMode({ deckId, startIndex = 0, onClose }: SprintMo
                           <div className="text-[9px] font-black uppercase tracking-widest mb-1" style={{ color: deck.color }}>
                             Pro Tip
                           </div>
-                          <p className="text-[11px] text-slate-400 leading-relaxed">{card.proTip}</p>
+                          <p className="text-[11px] text-slate-300 leading-relaxed">{card.proTip}</p>
                         </div>
                       )}
                     </div>

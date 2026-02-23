@@ -35,7 +35,7 @@ function HeartsBar() {
         />
       ))}
       {state.hearts === 0 && heartsRefillCountdown && (
-        <span className="text-[10px] font-bold text-slate-400 ml-1">{heartsRefillCountdown}</span>
+        <span className="text-[10px] font-bold text-slate-300 ml-1">{heartsRefillCountdown}</span>
       )}
     </div>
   );
@@ -60,7 +60,7 @@ function XPBar() {
               transition={{ duration: 0.6, ease: 'easeOut' }}
             />
           </div>
-          <span className="text-[10px] text-slate-400 shrink-0">{state.totalXP} XP</span>
+          <span className="text-[10px] text-slate-300 shrink-0">{state.totalXP} XP</span>
         </div>
       )}
       {!nextLevel && (
@@ -205,7 +205,7 @@ function DayNode({
         }}
       >
         {locked ? (
-          <Lock size={20} className="text-slate-500" />
+          <Lock size={20} className="text-slate-400" />
         ) : completed ? (
           <CheckCircle2 size={24} className="text-white fill-white" />
         ) : active ? (
@@ -214,7 +214,7 @@ function DayNode({
           <span className="text-xl">{lesson.icon}</span>
         )}
         <span
-          className={`text-[9px] font-bold mt-0.5 ${locked ? 'text-slate-500' : 'text-white'}`}
+          className={`text-[9px] font-bold mt-0.5 ${locked ? 'text-slate-400' : 'text-white'}`}
         >
           Day {lesson.day}
         </span>
@@ -223,7 +223,7 @@ function DayNode({
       {/* Tooltip label */}
       {!locked && (
         <div className="absolute -bottom-7 left-1/2 -translate-x-1/2 whitespace-nowrap">
-          <span className="text-[9px] font-semibold text-slate-400 text-center block max-w-[80px] truncate">
+          <span className="text-[9px] font-semibold text-slate-300 text-center block max-w-[80px] truncate">
             {lesson.title}
           </span>
         </div>
@@ -301,7 +301,7 @@ function StatsStrip() {
         >
           <Icon size={16} className="mx-auto mb-1" style={{ color }} />
           <div className="text-base font-black" style={{ color, fontFamily: 'Sora, sans-serif' }}>{value}</div>
-          <div className="text-[9px] font-semibold text-slate-400">{label}</div>
+          <div className="text-[9px] font-semibold text-slate-300">{label}</div>
         </div>
       ))}
     </div>
@@ -420,7 +420,7 @@ export default function JourneyPage() {
               className="absolute top-3 right-3 p-1 rounded-full hover:bg-card/10 transition-colors"
               aria-label="Dismiss"
             >
-              <X size={12} className="text-slate-400" />
+              <X size={12} className="text-slate-300" />
             </button>
             <div className="flex items-start gap-3">
               <span className="text-xl shrink-0">✨</span>

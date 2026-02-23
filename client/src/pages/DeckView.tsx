@@ -111,9 +111,9 @@ function HowToStartCard({
           <span className="text-sm font-bold text-slate-200">How to start</span>
         </div>
         {expanded ? (
-          <ChevronUp size={15} className="text-slate-400" />
+          <ChevronUp size={15} className="text-slate-300" />
         ) : (
-          <ChevronDown size={15} className="text-slate-400" />
+          <ChevronDown size={15} className="text-slate-300" />
         )}
       </button>
       <AnimatePresence>
@@ -137,7 +137,7 @@ function HowToStartCard({
                   <div>
                     <p className="text-sm font-semibold text-slate-300">{item.title}</p>
                     {item.steps.map((s, j) => (
-                      <p key={j} className="text-[11px] text-slate-400 leading-relaxed mt-0.5">
+                      <p key={j} className="text-[11px] text-slate-300 leading-relaxed mt-0.5">
                         {s}
                       </p>
                     ))}
@@ -181,9 +181,9 @@ function SystemCard({
           <span className="text-sm font-bold text-slate-200">Decision guide</span>
         </div>
         {expanded ? (
-          <ChevronUp size={15} className="text-slate-400" />
+          <ChevronUp size={15} className="text-slate-300" />
         ) : (
-          <ChevronDown size={15} className="text-slate-400" />
+          <ChevronDown size={15} className="text-slate-300" />
         )}
       </button>
       <AnimatePresence>
@@ -207,9 +207,9 @@ function SystemCard({
                   <div>
                     <p className="text-sm font-semibold text-slate-300">{node.question}</p>
                     {node.yesNext && (
-                      <p className="text-[11px] text-slate-400 mt-0.5">→ Yes: {node.yesNext}</p>
+                      <p className="text-[11px] text-slate-300 mt-0.5">→ Yes: {node.yesNext}</p>
                     )}
-                    <p className="text-[11px] text-slate-400 mt-0.5">
+                    <p className="text-[11px] text-slate-300 mt-0.5">
                       {node.noIcon} {node.noCategory}
                     </p>
                   </div>
@@ -274,9 +274,9 @@ function CategoriesCard({
           )}
         </div>
         {isOpen ? (
-          <ChevronUp size={15} className="text-slate-400" />
+          <ChevronUp size={15} className="text-slate-300" />
         ) : (
-          <ChevronDown size={15} className="text-slate-400" />
+          <ChevronDown size={15} className="text-slate-300" />
         )}
       </button>
 
@@ -332,7 +332,7 @@ function CategoriesCard({
                 (() => {
                   const cat = intro.categories.find(c => c.name === activeCategory);
                   return cat ? (
-                    <p className="text-[11px] text-slate-400 leading-relaxed">
+                    <p className="text-[11px] text-slate-300 leading-relaxed">
                       <span className="font-semibold" style={{ color: cat.color }}>
                         {cat.icon} {cat.name}:
                       </span>{' '}
@@ -456,7 +456,7 @@ function CardListItem({
             </h3>
             <p
               className="text-[11px] mt-0.5 line-clamp-1 leading-relaxed"
-              style={{ color: deck.textColor, opacity: 0.55 }}
+              style={{ color: deck.textColor, opacity: 0.85 }}
             >
               {card.tagline}
             </p>
@@ -563,7 +563,7 @@ export default function DeckView() {
     return (
       <div className="min-h-screen flex items-center justify-center" style={{ background: '#0a1628' }}>
         <div className="text-center">
-          <p className="text-slate-400 mb-4">Deck not found</p>
+          <p className="text-slate-300 mb-4">Deck not found</p>
           <button onClick={() => navigate('/')} className="text-blue-600 font-medium">
             Go home
           </button>
@@ -834,7 +834,7 @@ export default function DeckView() {
               className="text-center py-10 rounded-2xl"
               style={{ backgroundColor: deck.color + '08' }}
             >
-              <p className="text-sm font-semibold text-slate-400">No cards match this filter.</p>
+              <p className="text-sm font-semibold text-slate-300">No cards match this filter.</p>
               <button
                 onClick={clearFilter}
                 className="mt-2 text-xs font-bold"
