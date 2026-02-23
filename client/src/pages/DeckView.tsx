@@ -20,6 +20,7 @@ import { useCardProgress } from '@/hooks/useCardProgress';
 import SprintMode from '@/components/SprintMode';
 import { CARDS_WITH_CASE_STUDIES } from '@/lib/caseStudiesData';
 import { BookOpen } from 'lucide-react';
+import { useTheme } from '@/contexts/ThemeContext';
 
 const itemVariants = {
   hidden: { opacity: 0, y: 12 },
@@ -30,24 +31,29 @@ const itemVariants = {
 function TitleCard({
   deck,
   intro,
+  isDark,
 }: {
   deck: NonNullable<ReturnType<typeof getDeckById>>;
   intro: NonNullable<ReturnType<typeof getDeckIntro>>;
+  isDark: boolean;
 }) {
+  const cardBg = isDark ? '#0f1c30' : '#ffffff';
   return (
     <div
       className="relative w-full overflow-hidden"
       style={{
         borderRadius: '20px',
-        boxShadow: '0 12px 40px rgba(0,0,0,0.5), 0 4px 12px rgba(0,0,0,0.3)',
+        boxShadow: isDark
+          ? '0 12px 40px rgba(0,0,0,0.5), 0 4px 12px rgba(0,0,0,0.3)'
+          : '0 8px 32px rgba(0,0,0,0.10), 0 2px 8px rgba(0,0,0,0.06)',
         border: `2px solid ${deck.color}50`,
-        backgroundColor: '#0f1c30',
+        backgroundColor: cardBg,
       }}
     >
-      {/* ── Dark navy base so screen-blend illustration glows on dark, not grey ── */}
-      <div className="absolute inset-0" style={{ backgroundColor: '#0f1c30', zIndex: 0 }} />
+      {/* Base layer */}
+      <div className="absolute inset-0" style={{ backgroundColor: cardBg, zIndex: 0 }} />
 
-      {/* ── Full-height illustration as the card background ── */}
+      {/* Full-height illustration */}
       <img
         src={intro.coverImage}
         alt={deck.title}
@@ -58,17 +64,21 @@ function TitleCard({
           height: 'auto',
           position: 'relative',
           zIndex: 1,
-          mixBlendMode: 'screen',
-          opacity: 0.9,
-          filter: 'invert(1) grayscale(1) brightness(1.15) contrast(1.2)',
+          mixBlendMode: isDark ? 'screen' : 'multiply',
+          opacity: isDark ? 0.9 : 0.75,
+          filter: isDark
+            ? 'invert(1) grayscale(1) brightness(1.15) contrast(1.2)'
+            : 'grayscale(1) brightness(0.9) contrast(1.1)',
         }}
       />
 
-      {/* ── Text overlay at the top ── */}
+      {/* Text overlay at the top */}
       <div
         className="absolute inset-x-0 top-0 z-10 px-6 pt-5 pb-16 text-center"
         style={{
-          background: `linear-gradient(to bottom, #0f1c30 0%, #0f1c30CC 50%, transparent 100%)`,
+          background: isDark
+            ? `linear-gradient(to bottom, #0f1c30 0%, #0f1c30CC 50%, transparent 100%)`
+            : `linear-gradient(to bottom, ${deck.color}18 0%, rgba(255,255,255,0.85) 50%, transparent 100%)`,
         }}
       >
         <p className="text-sm font-bold uppercase tracking-widest mb-3" style={{ color: deck.color }}>
@@ -76,11 +86,11 @@ function TitleCard({
         </p>
         <h1
           className="text-4xl font-black leading-tight tracking-tight"
-          style={{ color: deck.textColor, fontFamily: "'Sora', sans-serif", letterSpacing: '-0.02em' }}
+          style={{ color: isDark ? deck.textColor : deck.color, fontFamily: "'Sora', sans-serif", letterSpacing: '-0.02em' }}
         >
           {deck.title}
         </h1>
-        <p className="text-sm mt-3 leading-relaxed" style={{ color: deck.textColor, opacity: 0.75 }}>
+        <p className="text-sm mt-3 leading-relaxed" style={{ color: isDark ? deck.textColor : '#475569', opacity: 0.85 }}>
           {intro.tagline}
         </p>
       </div>
@@ -88,26 +98,36 @@ function TitleCard({
   );
 }
 
+// ─── Shared accordion card style ──────────────────────────────────────────────
+function accordionStyle(isDark: boolean, deckColor: string) {
+  return {
+    background: isDark ? 'rgba(255,255,255,0.04)' : 'rgba(255,255,255,0.85)',
+    backdropFilter: 'blur(32px) saturate(1.8)',
+    WebkitBackdropFilter: 'blur(32px) saturate(1.8)',
+    border: isDark ? `1px solid rgba(255,255,255,0.10)` : `1px solid rgba(0,0,0,0.08)`,
+    boxShadow: isDark
+      ? `0 4px 24px rgba(0,0,0,0.35), inset 0 1px 0 rgba(255,255,255,0.10), inset 0 0 0 1px ${deckColor}18`
+      : `0 2px 12px rgba(0,0,0,0.06), inset 0 0 0 1px ${deckColor}18`,
+  };
+}
+
 // ─── How To Start Card ─────────────────────────────────────────────────────────
 function HowToStartCard({
   deck,
   intro,
+  isDark,
 }: {
   deck: NonNullable<ReturnType<typeof getDeckById>>;
   intro: NonNullable<ReturnType<typeof getDeckIntro>>;
+  isDark: boolean;
 }) {
   const [expanded, setExpanded] = useState(false);
+  const textPrimary = isDark ? '#cbd5e1' : '#334155';
+  const textSecondary = isDark ? '#94a3b8' : '#64748b';
+  const headerTitle = isDark ? '#ffffff' : '#0f172a';
+  const chevronColor = isDark ? '#94a3b8' : '#64748b';
   return (
-    <div
-      className="rounded-2xl overflow-hidden"
-      style={{
-        background: 'rgba(255,255,255,0.04)',
-        backdropFilter: 'blur(32px) saturate(1.8)',
-        WebkitBackdropFilter: 'blur(32px) saturate(1.8)',
-        border: `1px solid rgba(255,255,255,0.10)`,
-        boxShadow: `0 4px 24px rgba(0,0,0,0.35), inset 0 1px 0 rgba(255,255,255,0.10), inset 0 0 0 1px ${deck.color}18`,
-      }}
-    >
+    <div className="rounded-2xl overflow-hidden" style={accordionStyle(isDark, deck.color)}>
       <button
         onClick={() => setExpanded(e => !e)}
         className="w-full flex items-center justify-between px-4 py-3.5"
@@ -119,12 +139,12 @@ function HowToStartCard({
           >
             <Lightbulb size={13} style={{ color: deck.color }} />
           </div>
-          <span className="text-sm font-bold text-white">How to start</span>
+          <span className="text-sm font-bold" style={{ color: headerTitle }}>How to start</span>
         </div>
         {expanded ? (
-          <ChevronUp size={15} className="text-slate-300" />
+          <ChevronUp size={15} style={{ color: chevronColor }} />
         ) : (
-          <ChevronDown size={15} className="text-slate-300" />
+          <ChevronDown size={15} style={{ color: chevronColor }} />
         )}
       </button>
       <AnimatePresence>
@@ -146,9 +166,9 @@ function HowToStartCard({
                     {i + 1}
                   </span>
                   <div>
-                    <p className="text-sm font-semibold text-slate-300">{item.title}</p>
+                    <p className="text-sm font-semibold" style={{ color: textPrimary }}>{item.title}</p>
                     {item.steps.map((s, j) => (
-                      <p key={j} className="text-[11px] text-slate-300 leading-relaxed mt-0.5">
+                      <p key={j} className="text-[11px] leading-relaxed mt-0.5" style={{ color: textSecondary }}>
                         {s}
                       </p>
                     ))}
@@ -167,23 +187,20 @@ function HowToStartCard({
 function SystemCard({
   deck,
   intro,
+  isDark,
 }: {
   deck: NonNullable<ReturnType<typeof getDeckById>>;
   intro: NonNullable<ReturnType<typeof getDeckIntro>>;
+  isDark: boolean;
 }) {
   const [expanded, setExpanded] = useState(false);
   if (!intro.systemNodes || intro.systemNodes.length === 0) return null;
+  const textPrimary = isDark ? '#cbd5e1' : '#334155';
+  const textSecondary = isDark ? '#94a3b8' : '#64748b';
+  const headerTitle = isDark ? '#ffffff' : '#0f172a';
+  const chevronColor = isDark ? '#94a3b8' : '#64748b';
   return (
-    <div
-      className="rounded-2xl overflow-hidden"
-      style={{
-        background: 'rgba(255,255,255,0.04)',
-        backdropFilter: 'blur(32px) saturate(1.8)',
-        WebkitBackdropFilter: 'blur(32px) saturate(1.8)',
-        border: `1px solid rgba(255,255,255,0.10)`,
-        boxShadow: `0 4px 24px rgba(0,0,0,0.35), inset 0 1px 0 rgba(255,255,255,0.10), inset 0 0 0 1px ${deck.color}18`,
-      }}
-    >
+    <div className="rounded-2xl overflow-hidden" style={accordionStyle(isDark, deck.color)}>
       <button
         onClick={() => setExpanded(e => !e)}
         className="w-full flex items-center justify-between px-4 py-3.5"
@@ -195,12 +212,12 @@ function SystemCard({
           >
             <Compass size={13} style={{ color: deck.color }} />
           </div>
-          <span className="text-sm font-bold text-white">Decision guide</span>
+          <span className="text-sm font-bold" style={{ color: headerTitle }}>Decision guide</span>
         </div>
         {expanded ? (
-          <ChevronUp size={15} className="text-slate-300" />
+          <ChevronUp size={15} style={{ color: chevronColor }} />
         ) : (
-          <ChevronDown size={15} className="text-slate-300" />
+          <ChevronDown size={15} style={{ color: chevronColor }} />
         )}
       </button>
       <AnimatePresence>
@@ -222,11 +239,11 @@ function SystemCard({
                     {i + 1}
                   </span>
                   <div>
-                    <p className="text-sm font-semibold text-slate-300">{node.question}</p>
+                    <p className="text-sm font-semibold" style={{ color: textPrimary }}>{node.question}</p>
                     {node.yesNext && (
-                      <p className="text-[11px] text-slate-300 mt-0.5">→ Yes: {node.yesNext}</p>
+                      <p className="text-[11px] mt-0.5" style={{ color: textSecondary }}>→ Yes: {node.yesNext}</p>
                     )}
-                    <p className="text-[11px] text-slate-300 mt-0.5">
+                    <p className="text-[11px] mt-0.5" style={{ color: textSecondary }}>
                       {node.noIcon} {node.noCategory}
                     </p>
                   </div>
@@ -246,31 +263,31 @@ function CategoriesCard({
   intro,
   activeCategory,
   onCategorySelect,
+  isDark,
 }: {
   deck: NonNullable<ReturnType<typeof getDeckById>>;
   intro: NonNullable<ReturnType<typeof getDeckIntro>>;
   activeCategory: string | null;
   onCategorySelect: (name: string | null) => void;
+  isDark: boolean;
 }) {
   const [manualExpanded, setManualExpanded] = useState(false);
   if (!intro.categories || intro.categories.length === 0) return null;
 
-  // Auto-open when a category is active so the active pill is always visible
   const isOpen = manualExpanded || activeCategory !== null;
+  const headerTitle = isDark ? '#ffffff' : '#0f172a';
+  const chevronColor = isDark ? '#94a3b8' : '#64748b';
+  const textSecondary = isDark ? '#94a3b8' : '#64748b';
 
   return (
     <div
       className="rounded-2xl overflow-hidden"
       style={{
-        background: 'rgba(255,255,255,0.04)',
-        backdropFilter: 'blur(32px) saturate(1.8)',
-        WebkitBackdropFilter: 'blur(32px) saturate(1.8)',
-        border: `1px solid ${activeCategory ? deck.color + '60' : 'rgba(255,255,255,0.10)'}`,
-        boxShadow: `0 4px 24px rgba(0,0,0,0.35), inset 0 1px 0 rgba(255,255,255,0.10), inset 0 0 0 1px ${deck.color}18`,
+        ...accordionStyle(isDark, deck.color),
+        border: `1px solid ${activeCategory ? deck.color + '60' : (isDark ? 'rgba(255,255,255,0.10)' : 'rgba(0,0,0,0.08)')}`,
         transition: 'border-color 0.2s',
       }}
     >
-      {/* Header row */}
       <button
         onClick={() => setManualExpanded(e => !e)}
         className="w-full flex items-center justify-between px-4 py-3.5"
@@ -282,8 +299,7 @@ function CategoriesCard({
           >
             <Layers size={13} style={{ color: deck.color }} />
           </div>
-          <span className="text-sm font-bold text-white">Categories</span>
-          {/* Active badge shown in header */}
+          <span className="text-sm font-bold" style={{ color: headerTitle }}>Categories</span>
           {activeCategory && (
             <span
               className="text-[9px] font-bold px-2 py-0.5 rounded-full"
@@ -294,13 +310,12 @@ function CategoriesCard({
           )}
         </div>
         {isOpen ? (
-          <ChevronUp size={15} className="text-slate-300" />
+          <ChevronUp size={15} style={{ color: chevronColor }} />
         ) : (
-          <ChevronDown size={15} className="text-slate-300" />
+          <ChevronDown size={15} style={{ color: chevronColor }} />
         )}
       </button>
 
-      {/* Expandable body */}
       <AnimatePresence>
         {isOpen && (
           <motion.div
@@ -311,16 +326,14 @@ function CategoriesCard({
             className="overflow-hidden"
           >
             <div className="px-4 pb-4">
-              {/* Pill row */}
               <div className="flex flex-wrap gap-2 mb-3">
-                {/* "All" clear pill */}
                 <button
                   onClick={() => onCategorySelect(null)}
                   className="flex items-center gap-1 text-[11px] font-bold px-2.5 py-1 rounded-full transition-all"
                   style={{
-                    backgroundColor: activeCategory === null ? deck.color : 'rgba(255,255,255,0.12)',
-                    color: '#fff',
-                    border: activeCategory === null ? 'none' : '1px solid rgba(255,255,255,0.22)',
+                    backgroundColor: activeCategory === null ? deck.color : (isDark ? 'rgba(255,255,255,0.12)' : 'rgba(0,0,0,0.07)'),
+                    color: activeCategory === null ? '#fff' : (isDark ? '#e2e8f0' : '#334155'),
+                    border: activeCategory === null ? 'none' : `1px solid ${isDark ? 'rgba(255,255,255,0.22)' : 'rgba(0,0,0,0.12)'}`,
                   }}
                 >
                   All cards
@@ -334,9 +347,9 @@ function CategoriesCard({
                       onClick={() => onCategorySelect(isActive ? null : cat.name)}
                       className="flex items-center gap-1.5 text-[11px] font-semibold px-2.5 py-1 rounded-full transition-all active:scale-95"
                       style={{
-                        backgroundColor: isActive ? cat.color : 'rgba(255,255,255,0.10)',
-                        color: '#fff',
-                        border: isActive ? 'none' : '1px solid rgba(255,255,255,0.20)',
+                        backgroundColor: isActive ? cat.color : (isDark ? 'rgba(255,255,255,0.10)' : 'rgba(0,0,0,0.06)'),
+                        color: isActive ? '#fff' : (isDark ? '#e2e8f0' : '#334155'),
+                        border: isActive ? 'none' : `1px solid ${isDark ? 'rgba(255,255,255,0.20)' : 'rgba(0,0,0,0.10)'}`,
                         boxShadow: isActive ? `0 2px 8px ${cat.color}50` : 'none',
                         transform: isActive ? 'scale(1.03)' : 'scale(1)',
                       }}
@@ -349,12 +362,11 @@ function CategoriesCard({
                 })}
               </div>
 
-              {/* Description of the active category */}
               {activeCategory &&
                 (() => {
                   const cat = intro.categories.find(c => c.name === activeCategory);
                   return cat ? (
-                    <p className="text-[11px] text-slate-300 leading-relaxed">
+                    <p className="text-[11px] leading-relaxed" style={{ color: textSecondary }}>
                       <span className="font-semibold" style={{ color: cat.color }}>
                         {cat.icon} {cat.name}:
                       </span>{' '}
@@ -376,11 +388,13 @@ function CardListItem({
   deck,
   index,
   onNavigate,
+  isDark,
 }: {
   card: ReturnType<typeof getCardsByDeck>[0];
   deck: NonNullable<ReturnType<typeof getDeckById>>;
   index: number;
   onNavigate: () => void;
+  isDark: boolean;
 }) {
   const { isBookmarked, toggleBookmark } = useBookmarks();
   const { isRead } = useCardProgress();
@@ -388,10 +402,16 @@ function CardListItem({
   const read = isRead(card.id);
   const illustration = getCardIllustration(card.id);
 
+  const cardBg = isDark ? '#0a1628' : '#ffffff';
+  const titleColor = isDark ? '#f1f5f9' : '#0f172a';
+  const taglineColor = isDark ? '#94a3b8' : '#64748b';
+  const metaPillBg = isDark ? 'rgba(10,22,40,0.75)' : 'rgba(255,255,255,0.9)';
+  const textShadow = isDark ? '0 1px 6px rgba(10,22,40,0.9), 0 0 12px rgba(10,22,40,0.7)' : 'none';
+  const bookmarkBg = isDark ? 'rgba(15,28,48,0.9)' : 'rgba(255,255,255,0.95)';
+
   return (
-    // Outer wrapper has overflow-visible so the bookmark badge can float outside
     <motion.div variants={itemVariants} className="relative">
-      {/* ── Floating bookmark badge (outside the card) ── */}
+      {/* Floating bookmark badge */}
       <button
         onClick={e => {
           e.stopPropagation();
@@ -399,9 +419,9 @@ function CardListItem({
         }}
         className="absolute -top-2 -right-2 z-20 w-8 h-8 rounded-full flex items-center justify-center transition-all hover:scale-110 active:scale-90"
         style={{
-          background: bookmarked ? deck.color : 'rgba(15,28,48,0.9)',
+          background: bookmarked ? deck.color : bookmarkBg,
           border: `1.5px solid ${bookmarked ? deck.color : deck.color + '40'}`,
-          boxShadow: bookmarked ? `0 2px 12px ${deck.color}60` : '0 2px 8px rgba(0,0,0,0.4)',
+          boxShadow: bookmarked ? `0 2px 12px ${deck.color}60` : '0 2px 8px rgba(0,0,0,0.15)',
           backdropFilter: 'blur(8px)',
         }}
         title={bookmarked ? 'Remove bookmark' : 'Bookmark this card'}
@@ -411,25 +431,26 @@ function CardListItem({
           : <Bookmark size={14} style={{ color: deck.color }} />}
       </button>
 
-      {/* ── Card body ── */}
+      {/* Card body */}
       <div
         className="relative cursor-pointer"
         style={{
           borderRadius: '18px',
           overflow: 'hidden',
-          boxShadow: `0 3px 18px ${deck.color}22, 0 1px 4px rgba(0,0,0,0.12), 0 0 0 1px ${read ? deck.color + '50' : deck.color + '20'}`,
+          boxShadow: isDark
+            ? `0 3px 18px ${deck.color}22, 0 1px 4px rgba(0,0,0,0.12), 0 0 0 1px ${read ? deck.color + '50' : deck.color + '20'}`
+            : `0 2px 12px rgba(0,0,0,0.06), 0 1px 4px rgba(0,0,0,0.04), 0 0 0 1px ${read ? deck.color + '50' : deck.color + '20'}`,
           minHeight: '88px',
-          backgroundColor: '#0a1628',
+          backgroundColor: cardBg,
         }}
         onClick={onNavigate}
         role="button"
         tabIndex={0}
         onKeyDown={e => e.key === 'Enter' && onNavigate()}
       >
-        {/* ── Illustration — fades from transparent (left) to bold (right) ── */}
+        {/* Illustration */}
         {illustration && (
           <div className="absolute inset-0 pointer-events-none" style={{ overflow: 'hidden' }}>
-            {/* Illustration: invert() flips white-bg sketch to dark-bg, then screen blend makes black transparent leaving glowing lines */}
             <img
               src={illustration}
               alt=""
@@ -444,15 +465,16 @@ function CardListItem({
                 maxWidth: '58%',
                 objectFit: 'contain',
                 objectPosition: 'center right',
-                mixBlendMode: 'screen',
-                opacity: 1,
-                filter: 'invert(1) grayscale(1) brightness(1.7) contrast(1.25)',
-                /* Mask: transparent on left, fully opaque on right */
+                mixBlendMode: isDark ? 'screen' : 'multiply',
+                opacity: isDark ? 1 : 0.55,
+                filter: isDark
+                  ? 'invert(1) grayscale(1) brightness(1.7) contrast(1.25)'
+                  : 'grayscale(1) brightness(0.85) contrast(1.1)',
                 WebkitMaskImage: 'linear-gradient(to right, transparent 0%, black 42%)',
                 maskImage: 'linear-gradient(to right, transparent 0%, black 42%)',
               }}
             />
-            {/* Deck-colour tint overlay on the illustration area — adds vibrancy */}
+            {/* Deck-colour tint overlay */}
             <div
               className="absolute inset-0"
               style={{
@@ -460,28 +482,28 @@ function CardListItem({
                 mixBlendMode: 'normal',
               }}
             />
-            {/* Text-side overlay: solid dark on left, fades to transparent on right */}
+            {/* Text-side overlay */}
             <div
               className="absolute inset-0"
               style={{
-                background:
-                  'linear-gradient(to right, #0a1628 0%, #0a1628 30%, rgba(10,22,40,0.82) 50%, rgba(10,22,40,0.2) 72%, transparent 100%)',
+                background: isDark
+                  ? 'linear-gradient(to right, #0a1628 0%, #0a1628 30%, rgba(10,22,40,0.82) 50%, rgba(10,22,40,0.2) 72%, transparent 100%)'
+                  : 'linear-gradient(to right, #ffffff 0%, #ffffff 30%, rgba(255,255,255,0.82) 50%, rgba(255,255,255,0.2) 72%, transparent 100%)',
               }}
             />
           </div>
         )}
 
-        {/* ── Frosted glass header strip ── */}
+        {/* Frosted glass header strip */}
         <div
           className="absolute top-0 left-0 right-0 pointer-events-none"
           style={{
             height: '52px',
             background: `linear-gradient(to bottom, ${deck.color}14 0%, transparent 100%)`,
-            backdropFilter: 'blur(0px)',
           }}
         />
 
-        {/* ── Content ── */}
+        {/* Content */}
         <div className="relative z-10 flex items-center gap-3 px-4 py-3 pr-10">
           {/* Number / read badge */}
           <div
@@ -499,27 +521,21 @@ function CardListItem({
           </div>
 
           <div className="flex-1 min-w-0">
-            {/* Meta row — frosted pill background for readability */}
+            {/* Meta row */}
             <div
               className="inline-flex items-center gap-1.5 mb-1 px-2 py-0.5 rounded-full"
               style={{
-                background: 'rgba(10,22,40,0.75)',
+                background: metaPillBg,
                 backdropFilter: 'blur(20px) saturate(1.5)',
                 WebkitBackdropFilter: 'blur(12px)',
                 border: `1px solid ${deck.color}20`,
               }}
             >
-              <span
-                className="text-[9px] font-mono font-black"
-                style={{ color: deck.color }}
-              >
+              <span className="text-[9px] font-mono font-black" style={{ color: deck.color }}>
                 {card.code}
               </span>
-              <span className="text-[8px] text-slate-500">·</span>
-              <span
-                className="text-[9px] font-medium capitalize"
-                style={{ color: deck.color, opacity: 0.7 }}
-              >
+              <span className="text-[8px]" style={{ color: isDark ? '#64748b' : '#94a3b8' }}>·</span>
+              <span className="text-[9px] font-medium capitalize" style={{ color: deck.color, opacity: 0.7 }}>
                 {card.type.replace('-', ' ')}
               </span>
               {read && (
@@ -537,22 +553,16 @@ function CardListItem({
               )}
             </div>
 
-            {/* Title — frosted text background */}
+            {/* Title */}
             <h3
               className="text-sm font-bold leading-tight"
-              style={{
-                color: '#f1f5f9',
-                textShadow: '0 1px 6px rgba(10,22,40,0.9), 0 0 12px rgba(10,22,40,0.7)',
-              }}
+              style={{ color: titleColor, textShadow }}
             >
               {card.title}
             </h3>
             <p
               className="text-[11px] mt-0.5 line-clamp-1 leading-relaxed"
-              style={{
-                color: '#94a3b8',
-                textShadow: '0 1px 4px rgba(10,22,40,0.8)',
-              }}
+              style={{ color: taglineColor, textShadow: isDark ? '0 1px 4px rgba(10,22,40,0.8)' : 'none' }}
             >
               {card.tagline}
             </p>
@@ -575,6 +585,8 @@ export default function DeckView() {
   const intro = getDeckIntro(deckId);
   const allCards = getCardsByDeck(deckId);
   const { deckReadCount, deckProgress } = useCardProgress();
+  const { theme } = useTheme();
+  const isDark = theme === 'dark';
 
   const [sprintMode, setSprintMode] = useState(false);
   const [activeCategory, setActiveCategory] = useState<string | null>(null);
@@ -583,27 +595,22 @@ export default function DeckView() {
   const [showFilters, setShowFilters] = useState(false);
   const [activeLevel, setActiveLevel] = useState<DifficultyLevel | null>(null);
 
-  // Ref used to scroll to the card list after a category is selected
   const cardListRef = useRef<HTMLDivElement>(null);
 
-  // All unique tags across cards in this deck (for the advanced tag filter panel)
   const allTags = useMemo(() => {
     const tags = new Set<string>();
     allCards.forEach(c => c.tags?.forEach(t => tags.add(t)));
     return Array.from(tags).sort();
   }, [allCards]);
 
-  // Resolve the filterTags for the active category
   const activeCategoryTags = useMemo(() => {
     if (!activeCategory || !intro) return null;
     const cat = intro.categories.find(c => c.name === activeCategory);
     return cat?.filterTags ?? null;
   }, [activeCategory, intro]);
 
-  // Filter + sort
   const cards = useMemo(() => {
     let result = [...allCards];
-    // Category filter takes precedence over individual tag filter
     if (activeCategoryTags && activeCategoryTags.length > 0) {
       result = result.filter(c => c.tags?.some(t => activeCategoryTags.includes(t)));
     } else if (activeTag) {
@@ -618,7 +625,6 @@ export default function DeckView() {
   const pct = Math.round(deckProgress(allCards.map(c => c.id)) * 100);
   const isFiltered = activeCategory !== null || activeTag !== null || activeLevel !== null;
 
-  // Select a category: clear individual tag filter, scroll to card list
   const handleCategorySelect = useCallback((name: string | null) => {
     setActiveCategory(name);
     setActiveTag(null);
@@ -629,7 +635,6 @@ export default function DeckView() {
     }
   }, []);
 
-  // Select an individual tag: clear category filter
   const handleTagSelect = useCallback((tag: string | null) => {
     setActiveTag(tag);
     setActiveCategory(null);
@@ -644,11 +649,16 @@ export default function DeckView() {
     setActiveLevel(null);
   }, []);
 
+  const pageBg = isDark ? '#0a1628' : '#f0f4f8';
+  const subHeaderBg = isDark ? 'rgba(10,22,40,0.88)' : 'rgba(248,250,252,0.95)';
+  const deckTitleColor = isDark ? '#e2e8f0' : '#0f172a';
+  const emptyTextColor = isDark ? '#94a3b8' : '#64748b';
+
   if (!deck) {
     return (
-      <div className="min-h-screen flex items-center justify-center" style={{ background: '#0a1628' }}>
+      <div className="min-h-screen flex items-center justify-center" style={{ background: pageBg }}>
         <div className="text-center">
-          <p className="text-slate-300 mb-4">Deck not found</p>
+          <p className="mb-4" style={{ color: emptyTextColor }}>Deck not found</p>
           <button onClick={() => navigate('/')} className="text-blue-600 font-medium">
             Go home
           </button>
@@ -658,7 +668,7 @@ export default function DeckView() {
   }
 
   return (
-    <div className="min-h-screen pt-12 pb-24" style={{ background: '#0a1628' }}>
+    <div className="min-h-screen pt-12 pb-24" style={{ background: pageBg }}>
       {/* Sprint Mode overlay */}
       <AnimatePresence>
         {sprintMode && (
@@ -670,17 +680,19 @@ export default function DeckView() {
       <div
         className="sticky top-12 z-30 py-2"
         style={{
-          background: 'rgba(10,22,40,0.88)',
+          background: subHeaderBg,
           backdropFilter: 'blur(20px) saturate(1.4)',
           WebkitBackdropFilter: 'blur(20px) saturate(1.4)',
           borderBottom: `1.5px solid ${deck.color}50`,
-          boxShadow: `0 2px 16px rgba(0,0,0,0.3), 0 1px 0 ${deck.color}20`,
+          boxShadow: isDark
+            ? `0 2px 16px rgba(0,0,0,0.3), 0 1px 0 ${deck.color}20`
+            : `0 2px 12px rgba(0,0,0,0.06), 0 1px 0 ${deck.color}20`,
         }}
       >
         <div className="max-w-2xl mx-auto px-4 flex items-center justify-between w-full">
           <div className="flex items-center gap-2">
             <span className="text-lg leading-none">{deck.icon}</span>
-            <span className="text-sm font-bold" style={{ color: '#e2e8f0' }}>
+            <span className="text-sm font-bold" style={{ color: deckTitleColor }}>
               {deck.title}
             </span>
           </div>
@@ -724,51 +736,32 @@ export default function DeckView() {
 
       {/* Page content */}
       <div className="px-4 pt-4 space-y-4 max-w-2xl mx-auto">
-        {/* Title Card */}
         {intro && (
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.4 }}
-          >
-            <TitleCard deck={deck} intro={intro} />
+          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.4 }}>
+            <TitleCard deck={deck} intro={intro} isDark={isDark} />
           </motion.div>
         )}
 
-        {/* How To Start */}
         {intro && (
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.4, delay: 0.1 }}
-          >
-            <HowToStartCard deck={deck} intro={intro} />
+          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.4, delay: 0.1 }}>
+            <HowToStartCard deck={deck} intro={intro} isDark={isDark} />
           </motion.div>
         )}
 
-        {/* Decision guide */}
         {intro?.systemNodes && intro.systemNodes.length > 0 && (
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.4, delay: 0.15 }}
-          >
-            <SystemCard deck={deck} intro={intro} />
+          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.4, delay: 0.15 }}>
+            <SystemCard deck={deck} intro={intro} isDark={isDark} />
           </motion.div>
         )}
 
-        {/* Categories — now filters the card list */}
         {intro && (
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.4, delay: 0.2 }}
-          >
+          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.4, delay: 0.2 }}>
             <CategoriesCard
               deck={deck}
               intro={intro}
               activeCategory={activeCategory}
               onCategorySelect={handleCategorySelect}
+              isDark={isDark}
             />
           </motion.div>
         )}
@@ -862,7 +855,8 @@ export default function DeckView() {
               );
             })}
           </div>
-          {/* Advanced tag filter pills (opened via Filter button) */}
+
+          {/* Advanced tag filter pills */}
           <AnimatePresence>
             {showFilters && allTags.length > 0 && (
               <motion.div
@@ -919,7 +913,7 @@ export default function DeckView() {
               className="text-center py-10 rounded-2xl"
               style={{ backgroundColor: deck.color + '08' }}
             >
-              <p className="text-sm font-semibold text-slate-300">No cards match this filter.</p>
+              <p className="text-sm font-semibold" style={{ color: emptyTextColor }}>No cards match this filter.</p>
               <button
                 onClick={clearFilter}
                 className="mt-2 text-xs font-bold"
@@ -936,12 +930,12 @@ export default function DeckView() {
                 deck={deck}
                 index={index}
                 onNavigate={() => navigate(`/card/${card.id}`)}
+                isDark={isDark}
               />
             ))
           )}
         </motion.div>
       </div>
-
     </div>
   );
 }

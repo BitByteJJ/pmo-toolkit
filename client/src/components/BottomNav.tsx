@@ -7,6 +7,7 @@ import { useLocation } from 'wouter';
 import { Home, Sparkles, FileText, Search, LayoutGrid, ChevronUp } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { DECKS } from '@/lib/pmoData';
+import { useTheme } from '@/contexts/ThemeContext';
 
 // Side tabs (not the centre Decks button)
 const SIDE_TABS = [
@@ -21,6 +22,8 @@ export default function BottomNav() {
   const [location, navigate] = useLocation();
   const [decksOpen, setDecksOpen] = useState(false);
   const decksRef = useRef<HTMLDivElement>(null);
+  const { theme } = useTheme();
+  const isDark = theme === 'dark';
 
   // Close on outside click
   useEffect(() => {
@@ -39,6 +42,21 @@ export default function BottomNav() {
 
   const isDecksActive = location.startsWith('/deck');
 
+  // Theme-aware colours
+  const navBg = isDark ? 'rgba(10,22,40,0.92)' : 'rgba(248,250,252,0.95)';
+  const navBorder = isDark ? 'rgba(255,255,255,0.07)' : 'rgba(0,0,0,0.07)';
+  const activeIconColor = isDark ? '#e2e8f0' : '#0f172a';
+  const inactiveIconColor = isDark ? 'rgba(148,163,184,0.55)' : 'rgba(100,116,139,0.6)';
+  const activePillBg = isDark ? 'rgba(255,255,255,0.10)' : 'rgba(0,0,0,0.07)';
+  const dropdownBg = isDark ? 'rgba(20,24,42,0.98)' : 'rgba(255,255,255,0.98)';
+  const dropdownBorder = isDark ? 'rgba(255,255,255,0.08)' : 'rgba(0,0,0,0.08)';
+  const dropdownShadow = isDark
+    ? '0 -8px 32px rgba(0,0,0,0.5), 0 4px 12px rgba(0,0,0,0.3)'
+    : '0 -8px 32px rgba(0,0,0,0.12), 0 4px 12px rgba(0,0,0,0.08)';
+  const deckTitleColor = isDark ? '#e2e8f0' : '#1e293b';
+  const deckSubtitleColor = isDark ? '#94a3b8' : '#64748b';
+  const deckLabelColor = isDark ? '#94a3b8' : '#64748b';
+
   // Render one of the 4 side tabs
   const SideTab = ({ path, icon: Icon, label }: { path: string; icon: typeof Home; label: string }) => {
     const active = isActive(path);
@@ -53,7 +71,7 @@ export default function BottomNav() {
           <motion.div
             layoutId="nav-pill"
             className="absolute inset-x-1 inset-y-0 rounded-xl"
-            style={{ backgroundColor: 'rgba(255,255,255,0.10)' }}
+            style={{ backgroundColor: activePillBg }}
             transition={{ type: 'spring', stiffness: 500, damping: 40 }}
           />
         )}
@@ -62,7 +80,7 @@ export default function BottomNav() {
             size={20}
             strokeWidth={active ? 2.4 : 1.7}
             style={{
-              color: active ? '#e2e8f0' : 'rgba(148,163,184,0.55)',
+              color: active ? activeIconColor : inactiveIconColor,
               transition: 'stroke-width 0.15s ease, color 0.15s ease',
             }}
           />
@@ -71,7 +89,7 @@ export default function BottomNav() {
           className="relative z-10 leading-none font-semibold"
           style={{
             fontSize: '9px',
-            color: active ? '#e2e8f0' : 'rgba(148,163,184,0.55)',
+            color: active ? activeIconColor : inactiveIconColor,
             transition: 'color 0.15s ease',
           }}
         >
@@ -85,11 +103,11 @@ export default function BottomNav() {
     <nav
       className="fixed bottom-0 left-0 right-0 z-50"
       style={{
-        background: 'rgba(10,22,40,0.88)',
+        background: navBg,
         backdropFilter: 'blur(24px) saturate(1.5)',
         WebkitBackdropFilter: 'blur(24px) saturate(1.5)',
-        borderTop: '1px solid rgba(255,255,255,0.07)',
-        boxShadow: '0 -4px 24px rgba(0,0,0,0.35)',
+        borderTop: `1px solid ${navBorder}`,
+        boxShadow: isDark ? '0 -4px 24px rgba(0,0,0,0.35)' : '0 -4px 24px rgba(0,0,0,0.06)',
       }}
     >
       {/* Decks upward dropdown panel — fixed to viewport centre */}
@@ -107,16 +125,21 @@ export default function BottomNav() {
               bottom: 'calc(env(safe-area-inset-bottom, 0px) + 64px)',
               left: 'calc(50vw - 144px)',
               transform: 'none',
-              background: 'rgba(20,24,42,0.98)',
+              background: dropdownBg,
               backdropFilter: 'blur(20px)',
               WebkitBackdropFilter: 'blur(20px)',
-              boxShadow: '0 -8px 32px rgba(0,0,0,0.5), 0 4px 12px rgba(0,0,0,0.3)',
-              border: '1px solid rgba(255,255,255,0.08)',
+              boxShadow: dropdownShadow,
+              border: `1px solid ${dropdownBorder}`,
               zIndex: 60,
             }}
           >
             <div className="px-3.5 pt-3 pb-1.5">
-              <p className="text-[10px] font-bold text-slate-300 uppercase tracking-widest">Jump to deck</p>
+              <p
+                className="text-[10px] font-bold uppercase tracking-widest"
+                style={{ color: deckLabelColor }}
+              >
+                Jump to deck
+              </p>
             </div>
             <div className="pb-2 max-h-72 overflow-y-auto">
               {DECKS.map((deck, i) => (
@@ -126,13 +149,25 @@ export default function BottomNav() {
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ delay: i * 0.025 }}
                   onClick={() => { setDecksOpen(false); navigate(`/deck/${deck.id}`); }}
-                  className="w-full flex items-center gap-2.5 px-3.5 py-2.5 text-left transition-colors hover:bg-white/5 active:bg-card/10"
+                  className="w-full flex items-center gap-2.5 px-3.5 py-2.5 text-left transition-colors"
+                  onMouseEnter={e => { (e.currentTarget as HTMLButtonElement).style.backgroundColor = isDark ? 'rgba(255,255,255,0.04)' : 'rgba(0,0,0,0.04)'; }}
+                  onMouseLeave={e => { (e.currentTarget as HTMLButtonElement).style.backgroundColor = ''; }}
                 >
                   <span className="w-2.5 h-2.5 rounded-full shrink-0" style={{ backgroundColor: deck.color }} />
                   <span className="text-base leading-none shrink-0">{deck.icon}</span>
                   <div className="flex-1 min-w-0">
-                    <div className="text-[12.5px] font-semibold text-slate-100 truncate leading-tight">{deck.title}</div>
-                    <div className="text-[9.5px] text-slate-300 font-mono mt-0.5">{deck.subtitle}</div>
+                    <div
+                      className="text-[12.5px] font-semibold truncate leading-tight"
+                      style={{ color: deckTitleColor }}
+                    >
+                      {deck.title}
+                    </div>
+                    <div
+                      className="text-[9.5px] font-mono mt-0.5"
+                      style={{ color: deckSubtitleColor }}
+                    >
+                      {deck.subtitle}
+                    </div>
                   </div>
                   <span
                     className="text-[9px] font-bold px-1.5 py-0.5 rounded-full shrink-0"
@@ -173,7 +208,7 @@ export default function BottomNav() {
               <motion.div
                 layoutId="nav-pill"
                 className="absolute inset-x-1 inset-y-0 rounded-xl"
-                style={{ backgroundColor: 'rgba(255,255,255,0.10)' }}
+                style={{ backgroundColor: activePillBg }}
                 transition={{ type: 'spring', stiffness: 500, damping: 40 }}
               />
             )}
@@ -182,7 +217,7 @@ export default function BottomNav() {
                 size={20}
                 strokeWidth={(decksOpen || isDecksActive) ? 2.4 : 1.7}
                 style={{
-                  color: (decksOpen || isDecksActive) ? '#e2e8f0' : 'rgba(148,163,184,0.55)',
+                  color: (decksOpen || isDecksActive) ? activeIconColor : inactiveIconColor,
                   transition: 'color 0.15s ease',
                 }}
               />
@@ -194,7 +229,7 @@ export default function BottomNav() {
                   size={11}
                   strokeWidth={2.5}
                   style={{
-                    color: (decksOpen || isDecksActive) ? '#e2e8f0' : 'rgba(148,163,184,0.4)',
+                    color: (decksOpen || isDecksActive) ? activeIconColor : inactiveIconColor,
                   }}
                 />
               </motion.div>
@@ -203,7 +238,7 @@ export default function BottomNav() {
               className="relative z-10 leading-none font-semibold"
               style={{
                 fontSize: '9px',
-                color: (decksOpen || isDecksActive) ? '#e2e8f0' : 'rgba(148,163,184,0.55)',
+                color: (decksOpen || isDecksActive) ? activeIconColor : inactiveIconColor,
                 transition: 'color 0.15s ease',
               }}
             >

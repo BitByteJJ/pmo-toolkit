@@ -52,10 +52,9 @@ function GlobalBottomNav() {
   return <BottomNav />;
 }
 
-// Show TopNav on all pages except home and quiz
+// Show TopNav on all pages except quiz
 function GlobalTopNav() {
   const [location] = useLocation();
-  if (location === '/') return null;
   if (location.startsWith('/quiz')) return null;
 
   // Derive accent colour from current route
@@ -131,7 +130,7 @@ function AppInner() {
 function App() {
   return (
     <ErrorBoundary>
-      <ThemeProvider defaultTheme="dark">
+      <ThemeProvider defaultTheme="dark" switchable={true}>
         <JourneyProvider>
         <BookmarksProvider>
           <TooltipProvider>

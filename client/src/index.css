@@ -48,6 +48,22 @@
 
 /* ── LIGHT theme (fallback) ── */
 :root {
+  /* App-specific semantic tokens */
+  --app-bg: #f0f4f8;
+  --app-surface: #ffffff;
+  --app-surface-2: #f8fafc;
+  --app-nav-bg: rgba(248, 250, 252, 0.92);
+  --app-card-bg: #ffffff;
+  --app-card-border: rgba(0, 0, 0, 0.08);
+  --app-text-primary: #0f172a;
+  --app-text-secondary: #475569;
+  --app-text-muted: #94a3b8;
+  --app-glass-bg: rgba(255, 255, 255, 0.75);
+  --app-glass-border: rgba(0, 0, 0, 0.08);
+  --app-float-bg: rgba(248, 250, 252, 0.95);
+  --app-float-border: rgba(0, 0, 0, 0.07);
+  --app-scrollbar: rgba(0, 0, 0, 0.18);
+  --app-scrollbar-hover: rgba(0, 0, 0, 0.30);
   --radius: 0.875rem;
 
   --background: oklch(0.955 0.007 72);
@@ -94,6 +110,22 @@
 
 /* ── DARK theme ── */
 .dark {
+  /* App-specific semantic tokens */
+  --app-bg: #0a1628;
+  --app-surface: #0f1c30;
+  --app-surface-2: #111e33;
+  --app-nav-bg: rgba(8, 14, 32, 0.94);
+  --app-card-bg: #0a1628;
+  --app-card-border: rgba(255, 255, 255, 0.08);
+  --app-text-primary: #f1f5f9;
+  --app-text-secondary: #94a3b8;
+  --app-text-muted: #64748b;
+  --app-glass-bg: rgba(10, 18, 38, 0.82);
+  --app-glass-border: rgba(255, 255, 255, 0.09);
+  --app-float-bg: rgba(8, 14, 32, 0.94);
+  --app-float-border: rgba(255, 255, 255, 0.07);
+  --app-scrollbar: rgba(255, 255, 255, 0.18);
+  --app-scrollbar-hover: rgba(255, 255, 255, 0.32);
   --background: oklch(0.10 0.040 258);      /* deep navy #0a1628 — matches TemplateLibrary */
   --foreground: oklch(0.93 0.006 72);       /* warm off-white */
   --card: oklch(0.15 0.040 258);            /* card surface — navy lifted */
@@ -143,7 +175,7 @@
 
   html,
   body {
-    background-color: #0a1628 !important;
+    background-color: var(--app-bg) !important;
   }
 
   body {
@@ -222,22 +254,22 @@
     border: 1px solid var(--border);
   }
 
-  /* Premium frosted glass surface — matte dark ice */
+  /* Premium frosted glass surface — adapts to theme */
   .glass-surface {
-    background: rgba(10, 18, 38, 0.82);
+    background: var(--app-glass-bg);
     backdrop-filter: blur(28px) saturate(1.6);
     -webkit-backdrop-filter: blur(28px) saturate(1.6);
-    border: 1px solid rgba(255, 255, 255, 0.09);
-    box-shadow: inset 0 1px 0 rgba(255,255,255,0.06), 0 4px 20px rgba(0,0,0,0.35);
+    border: 1px solid var(--app-glass-border);
+    box-shadow: inset 0 1px 0 rgba(255,255,255,0.06), 0 4px 20px rgba(0,0,0,0.15);
   }
 
-  /* Elevated float surface (nav bars, dropdowns) — deeper matte */
+  /* Elevated float surface (nav bars, dropdowns) — adapts to theme */
   .float-surface {
-    background: rgba(8, 14, 32, 0.94);
+    background: var(--app-float-bg);
     backdrop-filter: blur(32px) saturate(1.8);
     -webkit-backdrop-filter: blur(32px) saturate(1.8);
-    border-bottom: 1px solid rgba(255, 255, 255, 0.07);
-    box-shadow: 0 1px 0 rgba(255,255,255,0.05) inset, 0 4px 24px rgba(0,0,0,0.4);
+    border-bottom: 1px solid var(--app-float-border);
+    box-shadow: 0 1px 0 rgba(255,255,255,0.05) inset, 0 4px 24px rgba(0,0,0,0.15);
   }
 
   /* Section label — premium small caps style */
@@ -293,7 +325,7 @@
 
 /* Firefox */
 * {
-  scrollbar-color: rgba(255, 255, 255, 0.18) transparent;
+  scrollbar-color: var(--app-scrollbar, rgba(255,255,255,0.18)) transparent;
   scrollbar-width: thin;
 }
 
@@ -308,12 +340,12 @@
 }
 
 ::-webkit-scrollbar-thumb {
-  background: rgba(255, 255, 255, 0.18);
+  background: var(--app-scrollbar, rgba(255,255,255,0.18));
   border-radius: 9999px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: rgba(255, 255, 255, 0.32);
+  background: var(--app-scrollbar-hover, rgba(255,255,255,0.32));
 }
 
 ::-webkit-scrollbar-corner {

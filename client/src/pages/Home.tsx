@@ -16,13 +16,14 @@ import { useCardProgress } from '@/hooks/useCardProgress';
 import { useJourney } from '@/contexts/JourneyContext';
 import { JOURNEY_LESSONS } from '@/lib/journeyData';
 import DailyChallenge from '@/components/DailyChallenge';
+import { useTheme } from '@/contexts/ThemeContext';
 
 const HERO_IMG = 'https://private-us-east-1.manuscdn.com/sessionFile/wGRSygz6Vjmbiu3SMWngYA/sandbox/8jjxsB34pPKxphOQiFs3Lq-img-1_1771664268000_na1fn_aG9tZS1oZXJvLWlsbHVzdHJhdGlvbg.png?x-oss-process=image/resize,w_1920,h_1920/format,webp/quality,q_80&Expires=1798761600&Policy=eyJTdGF0ZW1lbnQiOlt7IlJlc291cmNlIjoiaHR0cHM6Ly9wcml2YXRlLXVzLWVhc3QtMS5tYW51c2Nkbi5jb20vc2Vzc2lvbkZpbGUvd0dSU3lnejZWam1iaXUzU01XbmdZQS9zYW5kYm94LzhqanhzQjM0cFBLeHBoT1FpRnMzTHEtaW1nLTFfMTc3MTY2NDI2ODAwMF9uYTFmbl9hRzl0WlMxb1pYSnZMV2xzYkhWemRISmhkR2x2YmcucG5nP3gtb3NzLXByb2Nlc3M9aW1hZ2UvcmVzaXplLHdfMTkyMCxoXzE5MjAvZm9ybWF0LHdlYnAvcXVhbGl0eSxxXzgwIiwiQ29uZGl0aW9uIjp7IkRhdGVMZXNzVGhhbiI6eyJBV1M6RXBvY2hUaW1lIjoxNzk4NzYxNjAwfX19XX0_&Key-Pair-Id=K2HSFNDJXOU9YS&Signature=S4o3nchQdvzrXjUzaEmILHtCFu3pQr8MJpBH6Vvsi3RozJHomZIlRLfeUaXF5eJgP~rOqh8WXVwSJysXS95gf7QCOlA4MTjVZoGtUUBSGKOCK68-X7QS6NNnpM0OMV1Ce3T6e-XJitV2r2ErD5-LvTGahuVXBqv9fy52lSsonVrGXHbs9zcV3M7ZrkaZy2ZVyoL1MNkLv4srxJia9Sdi2R0np11He-mXIiX4vBuQfFXTXVCyS717hslV5omlIwCxEm37whyzscAz9IHG29-6bviv8gQn09Is7qp5DxrCId89EM2kCQfoMp6CSsAHTddeIM3eHbREOv3gQRyEZs8OUA__';
 
 // localStorage key for last-viewed card
 const LAST_CARD_KEY = 'pmo_last_card';
 
-// ─── Feature tiles — dark glass style ────────────────────────────────────────
+// ─── Feature tiles ────────────────────────────────────────────────────────────
 const FEATURE_TILES = [
   { path: '/decks',        icon: LayoutGrid,  label: 'Card Decks',       sub: '8 decks · 198 cards',       color: '#60A5FA', bg: 'rgba(96,165,250,0.10)',  textColor: '#BAE6FD' },
   { path: '/journey',      icon: Map,         label: 'Learning Journey',  sub: '35-day guided path',         color: '#A78BFA', bg: 'rgba(167,139,250,0.10)', textColor: '#DDD6FE' },
@@ -38,20 +39,24 @@ const FEATURE_TILES = [
 ];
 
 // ─── Stat pill ─────────────────────────────────────────────────────────────────
-function StatPill({ icon: Icon, value, label, color }: { icon: React.ElementType; value: string | number; label: string; color: string }) {
+function StatPill({ icon: Icon, value, label, color, isDark }: { icon: React.ElementType; value: string | number; label: string; color: string; isDark: boolean }) {
   return (
     <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-full" style={{ background: color + '18' }}>
       <Icon size={13} style={{ color }} />
       <span className="text-[11px] font-bold" style={{ color }}>{value}</span>
-      <span className="text-[10px] font-medium" style={{ color: 'rgba(148,163,184,0.7)' }}>{label}</span>
+      <span className="text-[10px] font-medium" style={{ color: isDark ? 'rgba(148,163,184,0.7)' : 'rgba(71,85,105,0.7)' }}>{label}</span>
     </div>
   );
 }
 
-// ─── Feature tile — deck-card style with bounce shadow ─────────────────────────
-function FeatureTile({ tile, index }: { tile: typeof FEATURE_TILES[0]; index: number }) {
+// ─── Feature tile ─────────────────────────────────────────────────────────────
+function FeatureTile({ tile, index, isDark }: { tile: typeof FEATURE_TILES[0]; index: number; isDark: boolean }) {
   const [, navigate] = useLocation();
   const { icon: Icon, label, sub, color, bg, textColor, path } = tile;
+
+  // In light mode, use a slightly more opaque bg and darker text
+  const tileBg = isDark ? bg : bg.replace('0.10', '0.12');
+  const tileTextColor = isDark ? textColor : color; // use the accent colour directly in light mode for legibility
 
   return (
     <motion.button
@@ -63,39 +68,32 @@ function FeatureTile({ tile, index }: { tile: typeof FEATURE_TILES[0]; index: nu
       onClick={() => navigate(path)}
       className="relative flex flex-col items-start gap-2 p-3.5 rounded-2xl text-left w-full overflow-hidden"
       style={{
-        background: bg,
-        boxShadow: `0 4px 20px ${color}30, 0 2px 8px rgba(0,0,0,0.25), 0 0 0 1px ${color}25`,
+        background: tileBg,
+        boxShadow: isDark
+          ? `0 4px 20px ${color}30, 0 2px 8px rgba(0,0,0,0.25), 0 0 0 1px ${color}25`
+          : `0 4px 20px ${color}20, 0 2px 8px rgba(0,0,0,0.06), 0 0 0 1px ${color}20`,
         backdropFilter: 'blur(20px) saturate(1.5)',
         transition: 'box-shadow 0.2s ease',
       }}
     >
-      {/* Subtle card-stack shadow layers (like deck cards) */}
       <div
         className="absolute inset-0 rounded-2xl pointer-events-none"
-        style={{
-          background: `linear-gradient(135deg, ${color}08 0%, transparent 60%)`,
-        }}
+        style={{ background: `linear-gradient(135deg, ${color}08 0%, transparent 60%)` }}
       />
-
-      {/* Icon circle */}
       <div
         className="w-9 h-9 rounded-xl flex items-center justify-center shrink-0 relative z-10"
         style={{ background: color + '22' }}
       >
         <Icon size={18} style={{ color }} strokeWidth={2} />
       </div>
-
-      {/* Text */}
       <div className="relative z-10">
-        <p className="text-[12px] font-bold leading-tight" style={{ color: textColor, fontFamily: 'Sora, sans-serif' }}>
+        <p className="text-[12px] font-bold leading-tight" style={{ color: tileTextColor, fontFamily: 'Sora, sans-serif' }}>
           {label}
         </p>
-        <p className="text-[10px] leading-snug mt-0.5" style={{ color: textColor, opacity: 0.8 }}>
+        <p className="text-[10px] leading-snug mt-0.5" style={{ color: tileTextColor, opacity: isDark ? 0.8 : 0.75 }}>
           {sub}
         </p>
       </div>
-
-      {/* Bottom accent bar (like deck cards) */}
       <div
         className="absolute bottom-0 left-0 right-0 h-[3px] rounded-b-2xl"
         style={{ background: color, opacity: 0.6 }}
@@ -105,7 +103,7 @@ function FeatureTile({ tile, index }: { tile: typeof FEATURE_TILES[0]; index: nu
 }
 
 // ─── Continue card ─────────────────────────────────────────────────────────────
-function ContinueCard() {
+function ContinueCard({ isDark }: { isDark: boolean }) {
   const [, navigate] = useLocation();
   const [lastCardId, setLastCardId] = useState<string | null>(null);
 
@@ -116,10 +114,8 @@ function ContinueCard() {
   }, []);
 
   if (!lastCardId) return null;
-
   const card = CARDS.find(c => c.id === lastCardId);
   if (!card) return null;
-
   const deck = DECKS.find(d => d.id === card.deckId);
 
   return (
@@ -135,42 +131,40 @@ function ContinueCard() {
         onClick={() => navigate(`/card/${card.id}`)}
         className="w-full flex items-center gap-3 px-4 py-3 rounded-2xl text-left relative overflow-hidden"
         style={{
-          background: 'rgba(15,32,64,0.75)',
-          boxShadow: '0 4px 20px rgba(99,102,241,0.18), 0 2px 8px rgba(0,0,0,0.25), 0 0 0 1px rgba(99,102,241,0.25)',
+          background: isDark ? 'rgba(15,32,64,0.75)' : 'rgba(239,246,255,0.9)',
+          boxShadow: isDark
+            ? '0 4px 20px rgba(99,102,241,0.18), 0 2px 8px rgba(0,0,0,0.25), 0 0 0 1px rgba(99,102,241,0.25)'
+            : '0 4px 20px rgba(99,102,241,0.10), 0 2px 8px rgba(0,0,0,0.06), 0 0 0 1px rgba(99,102,241,0.20)',
           backdropFilter: 'blur(20px) saturate(1.5)',
         }}
       >
-        {/* Shimmer overlay */}
         <div
           className="absolute inset-0 pointer-events-none"
-          style={{
-            background: 'linear-gradient(105deg, transparent 40%, rgba(255,255,255,0.04) 50%, transparent 60%)',
-          }}
+          style={{ background: 'linear-gradient(105deg, transparent 40%, rgba(255,255,255,0.04) 50%, transparent 60%)' }}
         />
-
-        {/* Icon */}
         <div
           className="w-10 h-10 rounded-xl flex items-center justify-center shrink-0 text-lg"
-          style={{ background: 'rgba(255,255,255,0.1)' }}
+          style={{ background: isDark ? 'rgba(255,255,255,0.1)' : 'rgba(99,102,241,0.1)' }}
         >
           {deck?.icon ?? '📋'}
         </div>
-
-        {/* Text */}
         <div className="flex-1 min-w-0">
-          <p className="text-[10px] font-mono font-bold tracking-widest text-blue-300 uppercase mb-0.5">
+          <p className="text-[10px] font-mono font-bold tracking-widest uppercase mb-0.5" style={{ color: '#6366f1' }}>
             Continue where you left off
           </p>
-          <p className="text-[13px] font-bold text-white leading-tight truncate" style={{ fontFamily: 'Sora, sans-serif' }}>
+          <p
+            className="text-[13px] font-bold leading-tight truncate"
+            style={{ fontFamily: 'Sora, sans-serif', color: isDark ? '#ffffff' : '#1e293b' }}
+          >
             {card.title}
           </p>
           {deck && (
-            <p className="text-[10px] text-blue-200 opacity-70 mt-0.5">{deck.title}</p>
+            <p className="text-[10px] mt-0.5" style={{ color: isDark ? 'rgba(147,197,253,0.7)' : '#6366f1', opacity: 0.8 }}>
+              {deck.title}
+            </p>
           )}
         </div>
-
-        {/* Arrow */}
-        <ArrowRight size={16} className="text-blue-300 shrink-0" />
+        <ArrowRight size={16} style={{ color: '#6366f1' }} className="shrink-0" />
       </motion.button>
     </motion.div>
   );
@@ -178,9 +172,8 @@ function ContinueCard() {
 
 // ─── Tour button ─────────────────────────────────────────────────────────────
 function TourButton() {
-  const [, navigate] = useLocation();
-  const { showTour, resetTour } = useOnboardingTour();
   const [localShow, setLocalShow] = useState(false);
+  const { resetTour } = useOnboardingTour();
 
   const handleClick = () => {
     resetTour();
@@ -207,6 +200,8 @@ export default function Home() {
   const { bookmarks } = useBookmarks();
   const { deckProgress } = useCardProgress();
   const { state: journeyState } = useJourney();
+  const { theme } = useTheme();
+  const isDark = theme === 'dark';
 
   // Parallax scroll state
   const heroRef = useRef<HTMLDivElement>(null);
@@ -231,8 +226,20 @@ export default function Home() {
   // Parallax offset: illustration moves at 40% of scroll speed
   const parallaxOffset = scrollY * 0.4;
 
+  // Theme-aware hero colours
+  const heroBg = isDark ? '#0a1628' : '#f0f4f8';
+  const heroGradientLeft = isDark
+    ? 'linear-gradient(to right, #0a1628 32%, rgba(10,22,40,0.85) 55%, rgba(10,22,40,0.30) 75%, transparent 100%)'
+    : 'linear-gradient(to right, #f0f4f8 32%, rgba(240,244,248,0.85) 55%, rgba(240,244,248,0.30) 75%, transparent 100%)';
+  const heroBottomFade = isDark
+    ? 'linear-gradient(to bottom, transparent, #0a1628)'
+    : 'linear-gradient(to bottom, transparent, #f0f4f8)';
+  const heroTaglineColor = isDark ? '#93c5fd' : '#6366f1';
+  const heroTitleColor = isDark ? '#ffffff' : '#0f172a';
+  const heroSubColor = isDark ? 'rgba(191,219,254,0.8)' : 'rgba(71,85,105,0.85)';
+
   return (
-    <div className="min-h-screen" style={{ background: '#0a1628' }}>
+    <div className="min-h-screen" style={{ background: heroBg }}>
 
       {/* ── Hero ── */}
       <div
@@ -240,15 +247,12 @@ export default function Home() {
         className="relative overflow-hidden lg:max-w-none"
         style={{ minHeight: '240px' }}
       >
-        {/* Dark base layer — same as page bg, no separation */}
-        <div
-          className="absolute inset-0"
-          style={{ background: '#0a1628' }}
-        />
+        {/* Base layer */}
+        <div className="absolute inset-0" style={{ background: heroBg }} />
 
-        {/* Background illustration — parallax, blue-purple tinted */}
+        {/* Background illustration */}
         <div className="absolute inset-0 overflow-hidden">
-          {/* Soft radial glow behind illustration */}
+          {/* Soft radial glow */}
           <div
             className="absolute"
             style={{
@@ -258,11 +262,13 @@ export default function Home() {
               width: '72%',
               aspectRatio: '1 / 1',
               borderRadius: '50%',
-              background: 'radial-gradient(circle, rgba(139,92,246,0.18) 0%, rgba(59,130,246,0.10) 50%, transparent 80%)',
+              background: isDark
+                ? 'radial-gradient(circle, rgba(139,92,246,0.18) 0%, rgba(59,130,246,0.10) 50%, transparent 80%)'
+                : 'radial-gradient(circle, rgba(139,92,246,0.10) 0%, rgba(99,102,241,0.06) 50%, transparent 80%)',
             }}
           />
 
-          {/* Illustration with parallax + blue-purple tint */}
+          {/* Illustration with parallax */}
           <img
             src={HERO_IMG}
             alt=""
@@ -276,24 +282,17 @@ export default function Home() {
               width: 'auto',
               maxWidth: '72%',
               objectFit: 'contain',
-              opacity: 0.52,
-              // Invert white bg → dark, then tint blue-purple, add glow
-              filter: 'invert(1) brightness(2.2) saturate(0.7) hue-rotate(200deg) drop-shadow(0 0 32px rgba(139,92,246,0.45))',
+              opacity: isDark ? 0.52 : 0.35,
+              filter: isDark
+                ? 'invert(1) brightness(2.2) saturate(0.7) hue-rotate(200deg) drop-shadow(0 0 32px rgba(139,92,246,0.45))'
+                : 'invert(1) brightness(0) saturate(0) hue-rotate(200deg) drop-shadow(0 0 20px rgba(99,102,241,0.20))',
             }}
           />
 
-          {/* Left-side gradient so text stays readable */}
-          <div
-            className="absolute inset-0"
-            style={{
-              background: 'linear-gradient(to right, #0a1628 32%, rgba(10,22,40,0.85) 55%, rgba(10,22,40,0.30) 75%, transparent 100%)',
-            }}
-          />
-          {/* Bottom fade for smooth transition */}
-          <div
-            className="absolute bottom-0 left-0 right-0 h-20"
-            style={{ background: 'linear-gradient(to bottom, transparent, #0a1628)' }}
-          />
+          {/* Left-side gradient */}
+          <div className="absolute inset-0" style={{ background: heroGradientLeft }} />
+          {/* Bottom fade */}
+          <div className="absolute bottom-0 left-0 right-0 h-20" style={{ background: heroBottomFade }} />
         </div>
 
         {/* Hero content */}
@@ -303,16 +302,19 @@ export default function Home() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
           >
-            <p className="text-[10px] font-mono font-bold tracking-widest text-blue-300 uppercase mb-1.5">
+            <p
+              className="text-[10px] font-mono font-bold tracking-widest uppercase mb-1.5"
+              style={{ color: heroTaglineColor }}
+            >
               StratAlign
             </p>
             <h1
-              className="text-[26px] font-extrabold text-white leading-tight mb-2"
-              style={{ fontFamily: 'Sora, sans-serif', letterSpacing: '-0.03em' }}
+              className="text-[26px] font-extrabold leading-tight mb-2"
+              style={{ fontFamily: 'Sora, sans-serif', letterSpacing: '-0.03em', color: heroTitleColor }}
             >
               Your PM Toolkit
             </h1>
-            <p className="text-[13px] text-blue-100 leading-relaxed opacity-80 max-w-xs">
+            <p className="text-[13px] leading-relaxed opacity-80 max-w-xs" style={{ color: heroSubColor }}>
               {totalCards} tools, techniques &amp; frameworks — all in one place.
             </p>
           </motion.div>
@@ -324,11 +326,11 @@ export default function Home() {
             transition={{ duration: 0.45, delay: 0.15 }}
             className="flex flex-wrap gap-2 mt-4"
           >
-            <StatPill icon={LayoutGrid} value={totalDecks} label="decks" color="#60A5FA" />
-            <StatPill icon={Zap} value={totalRead} label="read" color="#34D399" />
-            <StatPill icon={Bookmark} value={bookmarks.length} label="saved" color="#F87171" />
+            <StatPill icon={LayoutGrid} value={totalDecks} label="decks" color="#60A5FA" isDark={isDark} />
+            <StatPill icon={Zap} value={totalRead} label="read" color="#34D399" isDark={isDark} />
+            <StatPill icon={Bookmark} value={bookmarks.length} label="saved" color="#F87171" isDark={isDark} />
             {currentDay > 0 && (
-              <StatPill icon={Flame} value={`Day ${currentDay}/${totalDays}`} label="journey" color="#FBBF24" />
+              <StatPill icon={Flame} value={`Day ${currentDay}/${totalDays}`} label="journey" color="#FBBF24" isDark={isDark} />
             )}
           </motion.div>
         </div>
@@ -336,18 +338,20 @@ export default function Home() {
 
       {/* ── Continue where you left off ── */}
       <div style={{ maxWidth: '480px', margin: '0 auto' }}>
-        <ContinueCard />
+        <ContinueCard isDark={isDark} />
       </div>
+
       {/* ── Daily Challenge ── */}
       <div className="px-4 pt-4" style={{ maxWidth: '480px', margin: '0 auto' }}>
-        <DailyChallenge darkMode />
+        <DailyChallenge darkMode={isDark} />
       </div>
+
       {/* ── Feature grid ── */}
       <div className="px-4 pt-5 pb-28" style={{ maxWidth: '480px', margin: '0 auto' }}>
         <div className="flex items-center justify-between mb-3">
           <p
             className="text-[10px] font-extrabold tracking-widest uppercase"
-            style={{ color: 'rgba(148,163,184,0.6)', fontFamily: 'Inter, sans-serif' }}
+            style={{ color: isDark ? 'rgba(148,163,184,0.6)' : 'rgba(71,85,105,0.6)', fontFamily: 'Inter, sans-serif' }}
           >
             Explore
           </p>
@@ -355,7 +359,7 @@ export default function Home() {
         </div>
         <div className="grid grid-cols-2 gap-3">
           {FEATURE_TILES.map((tile, i) => (
-            <FeatureTile key={tile.path} tile={tile} index={i} />
+            <FeatureTile key={tile.path} tile={tile} index={i} isDark={isDark} />
           ))}
         </div>
       </div>

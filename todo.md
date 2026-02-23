@@ -444,3 +444,11 @@
 
 - [x] DeckView card rows: illustration fades from transparent (left) to bold (right); text container fades from solid (left) to transparent (right)
 - [x] Deepen frosted glass matte (higher backdrop-blur, darker bg tint) across all major panels app-wide
+
+## Light/Dark Theme Toggle — Feb 2026
+
+- [ ] Create ThemeContext with localStorage persistence
+- [ ] Define light mode CSS variable set in index.css
+- [ ] Add theme toggle button to top navigation bar
+- [ ] Update hardcoded dark colours across all pages to use CSS theme variables
+- [x] Light/dark theme toggle (Sun/Moon button in TopNav, persisted to localStorage)
