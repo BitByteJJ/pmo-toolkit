@@ -2,7 +2,7 @@
 // Fixed to bottom of viewport, full-width, 9 tabs evenly distributed
 
 import { useLocation } from 'wouter';
-import { Home, LayoutGrid, Sparkles, Search, Bookmark, Route, Map, BookOpen, BookMarked, Heart } from 'lucide-react';
+import { Home, LayoutGrid, Sparkles, Search, Bookmark, Route, Map, BookOpen, BookMarked, Heart, FileText } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { useBookmarks } from '@/contexts/BookmarksContext';
 import { useJourney, MAX_HEARTS } from '@/contexts/JourneyContext';
@@ -17,6 +17,7 @@ const tabs = [
   { path: '/case-studies', icon: BookOpen,    label: 'Cases'    },
   { path: '/search',       icon: Search,      label: 'Search'   },
   { path: '/bookmarks',    icon: Bookmark,    label: 'Saved'    },
+  { path: '/templates',    icon: FileText,    label: 'Templates' },
 ];
 
 export default function BottomNav() {

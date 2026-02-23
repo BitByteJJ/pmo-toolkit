@@ -6,7 +6,7 @@ import { useLocation } from 'wouter';
 import { motion } from 'framer-motion';
 import {
   LayoutGrid, Sparkles, Search, Bookmark, Route, Map,
-  BookOpen, BookMarked, Compass, Zap, Flame, ArrowRight,
+  BookOpen, BookMarked, Compass, Zap, Flame, ArrowRight, FileText,
 } from 'lucide-react';
 import BottomNav from '@/components/BottomNav';
 import { CARDS, DECKS } from '@/lib/pmoData';
@@ -32,6 +32,7 @@ const FEATURE_TILES = [
   { path: '/search',       icon: Search,      label: 'Search',            sub: 'Find any tool fast',         color: '#94A3B8', bg: 'rgba(148,163,184,0.10)', textColor: '#CBD5E1' },
   { path: '/bookmarks',    icon: Bookmark,    label: 'Saved Cards',       sub: 'Your reading list',          color: '#F87171', bg: 'rgba(248,113,113,0.10)', textColor: '#FECACA' },
   { path: '/decision',     icon: Compass,     label: 'Decision Helper',   sub: 'Find the right tool',        color: '#86EFAC', bg: 'rgba(134,239,172,0.10)', textColor: '#BBF7D0' },
+  { path: '/templates',    icon: FileText,    label: 'Template Library',  sub: '198 fillable templates',     color: '#FB923C', bg: 'rgba(251,146,60,0.10)',  textColor: '#FED7AA' },
 ];
 
 // ─── Stat pill ─────────────────────────────────────────────────────────────────

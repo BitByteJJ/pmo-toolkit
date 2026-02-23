@@ -214,3 +214,16 @@
 - [ ] Wire 32 new PMBOK 8 cards into Decision Helper (decisionData.ts)
 - [ ] Wire 32 new PMBOK 8 cards into Learning Roadmap paths (roadmapData.ts)
 - [ ] Wire 32 new PMBOK 8 cards into Learning Journey game (journeyData.ts)
+
+## Template Library Feature — Feb 2026
+
+- [x] Design fillable template field schema (templateFieldSchema.ts)
+- [x] Build TemplateLibrary landing page with AI question flow and card grid
+- [x] Build TemplateFiller page — rich fields, dynamic rows, deck colour theming
+- [x] Implement PDF download with branding, card colour, tool name, copyright
+- [x] Implement Word (.docx) download with matching formatting
+- [x] Wire Template Library into sidebar nav and Home page
+- [x] Add Templates nav item to DashboardLayout sidebar
+- [x] Add "Browse Templates" CTA to Home page
+- [x] Fix PDF table data not rendering (initial table state resolved from template content on download)
+- [x] Run validation and save checkpoint

@@ -24,6 +24,8 @@ import LearningRoadmap from './pages/LearningRoadmap';
 import QuizPage from './pages/QuizPage';
 import CaseStudiesPage from './pages/CaseStudiesPage';
 import GlossaryPage from './pages/GlossaryPage';
+import TemplateLibrary from './pages/TemplateLibrary';
+import TemplateFiller from './pages/TemplateFiller';
 import WelcomeModal from './components/WelcomeModal';
 import { BookmarksProvider } from './contexts/BookmarksContext';
 import { JourneyProvider } from './contexts/JourneyContext';
@@ -95,6 +97,8 @@ function Router() {
         <Route path="/quiz/:deckId" component={QuizPage} />
         <Route path="/case-studies" component={CaseStudiesPage} />
         <Route path="/glossary" component={GlossaryPage} />
+        <Route path="/templates" component={TemplateLibrary} />
+        <Route path="/templates/:cardId" component={TemplateFiller} />
         <Route path="/404" component={NotFound} />
         <Route component={NotFound} />
       </Switch>
