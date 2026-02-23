@@ -298,7 +298,7 @@ export default function Home() {
         </div>
 
         {/* Hero content */}
-        <div className="relative z-10 px-5 pt-12 pb-6 lg:px-10 lg:pt-16 lg:pb-10">
+        <div className="relative z-10 px-5 pt-12 pb-6" style={{ maxWidth: '480px', margin: '0 auto' }}>
           <motion.div
             initial={{ opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
@@ -336,13 +336,15 @@ export default function Home() {
       </div>
 
       {/* ── Continue where you left off ── */}
-      <ContinueCard />
+      <div style={{ maxWidth: '480px', margin: '0 auto' }}>
+        <ContinueCard />
+      </div>
       {/* ── Daily Challenge ── */}
-      <div className="px-4 pt-4">
+      <div className="px-4 pt-4" style={{ maxWidth: '480px', margin: '0 auto' }}>
         <DailyChallenge darkMode />
       </div>
       {/* ── Feature grid ── */}
-      <div className="px-4 pt-5 pb-28">
+      <div className="px-4 pt-5 pb-28" style={{ maxWidth: '480px', margin: '0 auto' }}>
         <div className="flex items-center justify-between mb-3">
           <p
             className="text-[10px] font-extrabold tracking-widest uppercase"
