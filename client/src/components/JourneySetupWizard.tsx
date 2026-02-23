@@ -129,7 +129,7 @@ export default function JourneySetupWizard({ onComplete }: Props) {
         transition={{ type: 'spring', stiffness: 300, damping: 28 }}
         className="w-full max-w-sm rounded-3xl overflow-hidden"
         style={{
-          background: '#ffffff',
+          background: '#0f1c30',
           boxShadow: '0 32px 80px rgba(0,0,0,0.25), 0 4px 16px rgba(0,0,0,0.1)',
         }}
       >

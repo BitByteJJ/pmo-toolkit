@@ -320,7 +320,7 @@ function GlossaryChecker() {
                   <span
                     key={t}
                     className="text-[11px] font-semibold px-2.5 py-1 rounded-full"
-                    style={{ backgroundColor: '#fef2f2', color: '#e11d48' }}
+                    style={{ backgroundColor: 'rgba(225,29,72,0.18)', color: '#fda4af' }}
                   >
                     {t}
                   </span>

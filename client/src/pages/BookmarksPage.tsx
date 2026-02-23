@@ -36,7 +36,7 @@ export default function BookmarksPage() {
             {savedCards.length > 0 && (
               <button
                 onClick={clearBookmarks}
-                className="text-xs text-rose-400 font-semibold hover:text-rose-600 transition-colors px-2 py-1 rounded-lg hover:bg-rose-50"
+                className="text-xs text-rose-400 font-semibold hover:text-rose-600 transition-colors px-2 py-1 rounded-lg hover:bg-rose-900/20"
               >
                 Clear all
               </button>
@@ -111,7 +111,7 @@ export default function BookmarksPage() {
                         </button>
                         <button
                           onClick={() => toggleBookmark(card.id)}
-                          className="shrink-0 p-2 rounded-xl hover:bg-rose-50 transition-colors ml-1"
+                          className="shrink-0 p-2 rounded-xl hover:bg-rose-900/20 transition-colors ml-1"
                         >
                           <BookmarkX size={15} className="text-rose-400" />
                         </button>

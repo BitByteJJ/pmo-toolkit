@@ -67,7 +67,7 @@ function CaseStudyCard({ cs, onClick }: { cs: CaseStudy; onClick: () => void }) 
         {cs.fictional && (
           <div className="flex items-center gap-1 mb-2">
             <span className="text-[8px] font-bold uppercase tracking-widest text-amber-600">Fictional</span>
-            <span className="text-[8px] font-semibold bg-amber-50 text-amber-700 border border-amber-200 px-1.5 py-0.5 rounded-full">Illustrative Example</span>
+            <span className="text-[8px] font-semibold bg-amber-900/20 text-amber-300 border border-amber-500/30 px-1.5 py-0.5 rounded-full">Illustrative Example</span>
           </div>
         )}
         {/* Meta row */}

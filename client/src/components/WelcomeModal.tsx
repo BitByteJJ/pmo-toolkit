@@ -59,8 +59,8 @@ export default function WelcomeModal() {
             transition={{ type: 'spring', stiffness: 320, damping: 28 }}
             className="w-full max-w-sm rounded-3xl overflow-hidden"
             style={{
-              background: '#ffffff',
-              boxShadow: '0 24px 64px rgba(0,0,0,0.22), 0 4px 16px rgba(0,0,0,0.1)',
+              background: '#0f1c30',
+              boxShadow: '0 24px 64px rgba(0,0,0,0.6), 0 4px 16px rgba(0,0,0,0.4), 0 0 0 1px rgba(255,255,255,0.08)',
             }}
             onClick={e => e.stopPropagation()}
           >
@@ -119,7 +119,7 @@ export default function WelcomeModal() {
                 <button
                   onClick={dismiss}
                   className="w-full flex items-center gap-3 rounded-2xl px-4 py-3 text-left transition-all hover:bg-white/5 active:scale-[0.98]"
-                  style={{ border: '1.5px solid #e7e5e4' }}
+                  style={{ border: '1.5px solid rgba(255,255,255,0.12)', background: 'rgba(255,255,255,0.04)' }}
                 >
                   <div className="w-8 h-8 rounded-xl bg-white/10 flex items-center justify-center shrink-0">
                     <Layers size={16} className="text-slate-400" />

@@ -111,7 +111,7 @@ export default function SearchPage() {
                 style={
                   isActive
                     ? { backgroundColor: deck?.color ?? '#1C1917', color: '#fff' }
-                    : { backgroundColor: '#F5F5F4', color: '#78716C' }
+                    : { backgroundColor: '#162035', color: '#94a3b8' }
                 }
               >
                 {f.label}

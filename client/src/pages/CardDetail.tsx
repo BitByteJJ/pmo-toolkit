@@ -81,7 +81,7 @@ function RelatedCardChip({ related, onNavigate }: {
         onClick={() => setOpen(v => !v)}
         className="flex items-center gap-1.5 rounded-xl px-2.5 py-1.5 transition-all hover:opacity-80 active:scale-95"
         style={{
-          backgroundColor: relDeck?.bgColor ?? '#F1F5F9',
+          backgroundColor: relDeck?.color ? relDeck.color + '18' : '#0f1c30',
           boxShadow: '0 1px 2px rgba(0,0,0,0.06)',
         }}
       >
@@ -111,7 +111,7 @@ function RelatedCardChip({ related, onNavigate }: {
               <div className="flex items-center gap-2 mb-1.5">
                 <span
                   className="text-[10px] font-mono font-bold px-1.5 py-0.5 rounded-md"
-                  style={{ backgroundColor: relDeck?.bgColor, color: relDeck?.color }}
+                  style={{ backgroundColor: relDeck?.color ? relDeck.color + '22' : 'rgba(255,255,255,0.08)', color: relDeck?.color ?? '#94a3b8' }}
                 >
                   {related.code}
                 </span>
@@ -156,7 +156,7 @@ function CompletionCelebration({ deck, onDismiss }: {
         exit={{ scale: 0.8, y: 30 }}
         transition={{ type: 'spring', stiffness: 300, damping: 22 }}
         className="rounded-3xl p-8 text-center max-w-xs w-full"
-        style={{ backgroundColor: deck.bgColor, border: `2px solid ${deck.color}` }}
+        style={{ backgroundColor: '#0f1c30', border: `2px solid ${deck.color}` }}
         onClick={e => e.stopPropagation()}
       >
         <div className="text-5xl mb-3">🎉</div>
@@ -445,7 +445,7 @@ export default function CardDetail() {
                   <span className="text-sm font-bold text-slate-200">My Notes</span>
                   <span
                     className="text-[9px] font-mono font-bold px-1.5 py-0.5 rounded-md"
-                    style={{ backgroundColor: deck?.bgColor, color: deck?.color }}
+                    style={{ backgroundColor: deck?.color ? deck.color + '22' : 'rgba(255,255,255,0.08)', color: deck?.color ?? '#94a3b8' }}
                   >
                     {card.code}
                   </span>
@@ -494,7 +494,7 @@ export default function CardDetail() {
       >
         <div
           className="relative overflow-hidden"
-          style={{ backgroundColor: deck?.bgColor ?? '#F8F8F6', minHeight: getCardIllustration(card.id) ? '260px' : 'auto' }}
+          style={{ backgroundColor: '#0f1c30', minHeight: getCardIllustration(card.id) ? '260px' : 'auto' }}
         >
         {/* Desktop centering wrapper */}
         <div className="max-w-2xl mx-auto relative" style={{ minHeight: 'inherit' }}>
@@ -513,21 +513,21 @@ export default function CardDetail() {
                   maxWidth: '280px',
                   height: 'auto',
                   objectFit: 'contain',
-                  mixBlendMode: 'multiply',
-                  opacity: 0.92,
+                  mixBlendMode: 'screen',
+                  opacity: 0.55,
                 }}
                 loading="eager"
               />
               <div
                 className="absolute inset-0"
                 style={{
-                  background: `linear-gradient(to right, ${deck?.bgColor ?? '#F8F8F6'} 28%, ${deck?.bgColor ?? '#F8F8F6'}99 50%, transparent 80%)`,
+                  background: `linear-gradient(to right, #0f1c30 28%, #0f1c3099 50%, transparent 80%)`,
                 }}
               />
               <div
                 className="absolute inset-x-0 bottom-0 h-8"
                 style={{
-                  background: `linear-gradient(to bottom, transparent, ${deck?.bgColor ?? '#F8F8F6'}CC)`,
+                  background: `linear-gradient(to bottom, transparent, #0f1c30CC)`,
                 }}
               />
             </div>
@@ -625,7 +625,7 @@ export default function CardDetail() {
               {copyrightNotices.length > 0 && (
                 <span
                   className="text-[9px] font-semibold px-2 py-0.5 rounded-full flex items-center gap-1"
-                  style={{ backgroundColor: '#FEF3C7', color: '#92400E' }}
+                  style={{ backgroundColor: 'rgba(251,191,36,0.15)', color: '#fde68a' }}
                 >
                   <ShieldCheck size={9} />
                   Proprietary
@@ -813,7 +813,7 @@ export default function CardDetail() {
                   {/* Usage tip */}
                   <div
                     className="rounded-2xl p-3.5 flex items-start gap-2.5"
-                    style={{ backgroundColor: '#FEF3C7', border: '1px solid #FDE68A' }}
+                    style={{ backgroundColor: 'rgba(251,191,36,0.12)', border: '1px solid rgba(251,191,36,0.30)' }}
                   >
                     <Lightbulb size={13} className="shrink-0 mt-0.5 text-amber-600" />
                     <p className="text-[11px] text-amber-800 leading-relaxed">
@@ -1009,11 +1009,11 @@ export default function CardDetail() {
           {copyrightNotices.length > 0 && (
             <div
               className="rounded-2xl p-4 space-y-3"
-              style={{ backgroundColor: '#FFFBEB', border: '1px solid #FDE68A' }}
+              style={{ backgroundColor: 'rgba(245,158,11,0.12)', border: '1px solid rgba(245,158,11,0.3)' }}
             >
               <div className="flex items-center gap-2 mb-1">
-                <ShieldCheck size={13} className="text-amber-600 shrink-0" />
-                <span className="text-[10px] font-bold text-amber-700 uppercase tracking-wider">
+                <ShieldCheck size={13} className="text-amber-400 shrink-0" />
+                <span className="text-[10px] font-bold text-amber-300 uppercase tracking-wider">
                   Intellectual Property Notice
                 </span>
               </div>
@@ -1123,18 +1123,18 @@ export default function CardDetail() {
 
                     {/* Accordion sections */}
                     {([
-                      { key: 'coreConcept' as const, label: 'Core Concept', icon: Lightbulb, accent: '#0284C7', bg: '#EFF6FF' },
-                      { key: 'howItWorks' as const, label: 'How It Works', icon: ListChecks, accent: '#059669', bg: '#ECFDF5' },
-                      { key: 'realWorldExample' as const, label: 'Real-World Example', icon: Sparkles, accent: '#D97706', bg: '#FFFBEB' },
-                      { key: 'commonMistakes' as const, label: 'Common Mistakes', icon: Zap, accent: '#DC2626', bg: '#FEF2F2' },
-                      { key: 'whenNotToUse' as const, label: 'When NOT to Use', icon: ShieldCheck, accent: '#7C3AED', bg: '#F5F3FF' },
+                      { key: 'coreConcept' as const, label: 'Core Concept', icon: Lightbulb, accent: '#38bdf8', bg: 'rgba(56,189,248,0.10)' },
+                      { key: 'howItWorks' as const, label: 'How It Works', icon: ListChecks, accent: '#34d399', bg: 'rgba(52,211,153,0.10)' },
+                      { key: 'realWorldExample' as const, label: 'Real-World Example', icon: Sparkles, accent: '#fbbf24', bg: 'rgba(251,191,36,0.10)' },
+                      { key: 'commonMistakes' as const, label: 'Common Mistakes', icon: Zap, accent: '#f87171', bg: 'rgba(248,113,113,0.10)' },
+                      { key: 'whenNotToUse' as const, label: 'When NOT to Use', icon: ShieldCheck, accent: '#a78bfa', bg: 'rgba(167,139,250,0.10)' },
                     ]).map(({ key, label, icon: Icon, accent, bg }) => {
                       const isOpen = deepDiveOpenSection === key;
                       return (
                         <div
                           key={key}
                           className="rounded-2xl overflow-hidden transition-all"
-                          style={{ backgroundColor: isOpen ? bg : '#FFFFFF', boxShadow: isOpen ? `0 2px 12px ${accent}15` : '0 1px 3px rgba(0,0,0,0.04)', border: isOpen ? `1.5px solid ${accent}25` : '1.5px solid transparent' }}
+                          style={{ backgroundColor: isOpen ? bg : 'rgba(255,255,255,0.04)', boxShadow: isOpen ? `0 2px 12px ${accent}15` : 'none', border: isOpen ? `1.5px solid ${accent}25` : '1.5px solid rgba(255,255,255,0.06)' }}
                         >
                           <button
                             onClick={() => setDeepDiveOpenSection(isOpen ? null : key)}
@@ -1144,12 +1144,12 @@ export default function CardDetail() {
                               <div className="w-7 h-7 rounded-xl flex items-center justify-center shrink-0" style={{ backgroundColor: accent + (isOpen ? '22' : '14') }}>
                                 <Icon size={13} style={{ color: accent }} />
                               </div>
-                              <span className="text-[12px] font-bold" style={{ color: isOpen ? accent : '#44403C' }}>{label}</span>
+                              <span className="text-[12px] font-bold" style={{ color: isOpen ? accent : '#94a3b8' }}>{label}</span>
                             </div>
                             <ChevronRight
                               size={14}
                               className="transition-transform shrink-0"
-                              style={{ color: isOpen ? accent : '#D6D3D1', transform: isOpen ? 'rotate(90deg)' : 'rotate(0deg)' }}
+                              style={{ color: isOpen ? accent : '#475569', transform: isOpen ? 'rotate(90deg)' : 'rotate(0deg)' }}
                             />
                           </button>
                           {isOpen && (
@@ -1208,8 +1208,8 @@ export default function CardDetail() {
               )}
 
               {videoGuideError && (
-                <div className="rounded-2xl p-4 bg-red-50 border border-red-100">
-                  <p className="text-[12px] text-red-600 mb-2">{videoGuideError}</p>
+                <div className="rounded-2xl p-4 border" style={{ backgroundColor: 'rgba(248,113,113,0.10)', borderColor: 'rgba(248,113,113,0.30)' }}>
+                  <p className="text-[12px] text-red-300 mb-2">{videoGuideError}</p>
                   <button onClick={fetchVideoGuide} className="text-[11px] font-bold" style={{ color: deck?.color }}>Try again</button>
                 </div>
               )}
@@ -1221,7 +1221,7 @@ export default function CardDetail() {
                       cardId: card.id,
                       cardTitle: card.title,
                       deckColor: deck?.color ?? '#0284C7',
-                      deckBgColor: deck?.bgColor ?? '#EFF6FF',
+                      deckBgColor: deck?.bgColor ?? 'rgba(56,189,248,0.14)',
                       scenes: videoGuideScenes,
                     }}
                   />

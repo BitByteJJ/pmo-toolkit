@@ -77,7 +77,7 @@ function DeckCard({ deck, index }: { deck: typeof DECKS[0]; index: number }) {
           )}
           <div
             className="absolute inset-0"
-            style={{ background: `linear-gradient(to bottom, transparent 30%, ${deck.bgColor}CC 62%, ${deck.bgColor}F5 80%, ${deck.bgColor} 100%)` }}
+            style={{ background: `linear-gradient(to bottom, transparent 30%, rgba(10,22,40,0.8) 62%, rgba(10,22,40,0.95) 80%, #0a1628 100%)` }}
           />
           <div className="absolute top-3 right-3 z-10">
             <div
@@ -148,7 +148,7 @@ function DeckCard({ deck, index }: { deck: typeof DECKS[0]; index: number }) {
 
         {/* ── MOBILE: original horizontal layout ── */}
         <div className="lg:hidden flex flex-col h-full">
-          <div className="absolute inset-0" style={{ backgroundColor: deck.bgColor }} />
+          <div className="absolute inset-0" style={{ backgroundColor: '#0f1c30' }} />
           {coverImg && (
             <div className="absolute inset-0 overflow-hidden pointer-events-none" style={{ zIndex: 1 }}>
               <img
@@ -164,13 +164,13 @@ function DeckCard({ deck, index }: { deck: typeof DECKS[0]; index: number }) {
                   width: 'auto',
                   maxWidth: '55%',
                   objectFit: 'contain',
-                  mixBlendMode: 'multiply',
-                  opacity: 0.88,
+                  mixBlendMode: 'screen',
+                  opacity: 0.35,
                 }}
               />
               <div
                 className="absolute inset-0"
-                style={{ background: `linear-gradient(to right, ${deck.bgColor} 38%, ${deck.bgColor}CC 58%, transparent 85%)` }}
+                style={{ background: `linear-gradient(to right, #0f1c30 38%, rgba(15,28,48,0.85) 58%, transparent 85%)` }}
               />
             </div>
           )}
@@ -264,7 +264,7 @@ export default function DecksPage() {
 
           {/* Mastery Badge Summary */}
           <div className="flex items-center gap-3 mb-6 p-3 rounded-2xl bg-card" style={{ boxShadow: '0 2px 10px rgba(0,0,0,0.055), 0 1px 3px rgba(0,0,0,0.04), 0 0 0 1px rgba(0,0,0,0.04)' }}>
-            <div className="w-9 h-9 rounded-xl flex items-center justify-center" style={{ backgroundColor: '#FEF3C7' }}>
+            <div className="w-9 h-9 rounded-xl flex items-center justify-center" style={{ backgroundColor: 'rgba(245,158,11,0.18)' }}>
               <Trophy size={16} className="text-amber-500" />
             </div>
             <div className="flex-1 min-w-0">
@@ -277,7 +277,7 @@ export default function DecksPage() {
                 const hasBoth = deckBadges.length >= 2;
                 const hasOne = deckBadges.length === 1;
                 return (
-                  <div key={d.id} title={`${d.title}${hasBoth ? ' — Mastered!' : hasOne ? ' — 1 badge' : ''}`} className="w-6 h-6 rounded-full flex items-center justify-center" style={{ backgroundColor: hasBoth ? d.color : hasOne ? d.color + '50' : '#e7e5e4' }}>
+                  <div key={d.id} title={`${d.title}${hasBoth ? ' — Mastered!' : hasOne ? ' — 1 badge' : ''}`} className="w-6 h-6 rounded-full flex items-center justify-center" style={{ backgroundColor: hasBoth ? d.color : hasOne ? d.color + '50' : 'rgba(255,255,255,0.08)' }}>
                     {(hasBoth || hasOne) && <Star size={10} className={hasBoth ? 'text-white' : ''} style={hasOne && !hasBoth ? { color: d.color } : {}} />}
                   </div>
                 );

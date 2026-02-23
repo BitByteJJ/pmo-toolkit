@@ -40,9 +40,9 @@ function TitleCard({
       className="relative w-full overflow-hidden"
       style={{
         borderRadius: '20px',
-        boxShadow: '0 12px 40px rgba(0,0,0,0.15), 0 4px 12px rgba(0,0,0,0.08)',
-        border: `3px solid ${deck.color}`,
-        backgroundColor: deck.bgColor,
+        boxShadow: '0 12px 40px rgba(0,0,0,0.5), 0 4px 12px rgba(0,0,0,0.3)',
+        border: `2px solid ${deck.color}50`,
+        backgroundColor: '#0f1c30',
       }}
     >
       {/* ── Full-height illustration as the card background ── */}
@@ -54,7 +54,8 @@ function TitleCard({
           display: 'block',
           width: '100%',
           height: 'auto',
-          mixBlendMode: 'multiply',
+          mixBlendMode: 'screen',
+          opacity: 0.4,
         }}
       />
 
@@ -62,7 +63,7 @@ function TitleCard({
       <div
         className="absolute inset-x-0 top-0 z-10 px-6 pt-5 pb-16 text-center"
         style={{
-          background: `linear-gradient(to bottom, ${deck.bgColor} 0%, ${deck.bgColor}CC 50%, transparent 100%)`,
+          background: `linear-gradient(to bottom, #0f1c30 0%, #0f1c30CC 50%, transparent 100%)`,
         }}
       >
         <p className="text-sm font-bold uppercase tracking-widest mb-3" style={{ color: deck.color }}>
@@ -373,7 +374,7 @@ function CardListItem({
           borderRadius: '18px',
           boxShadow: `0 3px 14px ${deck.color}1A, 0 1px 4px rgba(0,0,0,0.055), 0 0 0 1px ${read ? deck.color + '40' : deck.color + '18'}`,
           minHeight: '88px',
-          backgroundColor: '#ffffff',
+          backgroundColor: '#0f1c30',
         }}
         onClick={onNavigate}
         role="button"
@@ -395,15 +396,15 @@ function CardListItem({
                 width: 'auto',
                 maxWidth: '48%',
                 objectFit: 'contain',
-                mixBlendMode: 'multiply',
-                opacity: 0.9,
+                mixBlendMode: 'screen',
+                opacity: 0.35,
               }}
             />
             <div
               className="absolute inset-0"
               style={{
                 background:
-                  'linear-gradient(to right, #ffffff 42%, rgba(255,255,255,0.85) 60%, rgba(255,255,255,0.5) 78%, transparent 100%)',
+                  'linear-gradient(to right, #0f1c30 42%, rgba(15,28,48,0.85) 60%, rgba(15,28,48,0.5) 78%, transparent 100%)',
               }}
             />
           </div>
@@ -421,15 +422,15 @@ function CardListItem({
             <div className="flex items-center gap-1.5 mb-0.5">
               <span
                 className="text-[9px] font-mono font-bold px-1.5 py-0.5 rounded-md"
-                style={{ backgroundColor: deck.color + '25', color: deck.textColor }}
+                style={{ backgroundColor: deck.color + '25', color: deck.color }}
               >
                 {card.code}
               </span>
               <span
                 className="text-[9px] font-medium capitalize"
-                style={{ color: deck.textColor, opacity: 0.55 }}
-              >
-                {card.type.replace('-', ' ')}
+                style={{ color: deck.color, opacity: 0.65 }}
+            >
+              {card.type.replace('-', ' ')}
               </span>
               {read && (
                 <span className="text-[9px] font-bold" style={{ color: deck.color }}>
@@ -449,7 +450,7 @@ function CardListItem({
             </div>
             <h3
               className="text-sm font-bold leading-tight"
-              style={{ color: deck.textColor, opacity: read ? 0.6 : 1 }}
+              style={{ color: deck.textColor }}
             >
               {card.title}
             </h3>
@@ -628,7 +629,7 @@ export default function DeckView() {
             </button>
             <span
               className="text-xs font-bold px-3 py-1 rounded-full"
-              style={{ backgroundColor: deck.bgColor, color: deck.textColor }}
+              style={{ backgroundColor: deck.color + '22', color: deck.color }}
             >
               {deck.cardCount}
             </span>

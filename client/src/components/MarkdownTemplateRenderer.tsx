@@ -129,7 +129,7 @@ function TableRenderer({ text, accentColor }: { text: string; accentColor: strin
             <tr
               key={ri}
               className="border-b transition-colors hover:bg-white/5"
-              style={{ borderColor: '#F3F4F6', backgroundColor: ri % 2 === 0 ? '#FFFFFF' : '#FAFAFA' }}
+              style={{ borderColor: 'rgba(255,255,255,0.08)', backgroundColor: ri % 2 === 0 ? 'rgba(255,255,255,0.04)' : 'rgba(255,255,255,0.02)' }}
             >
               {row.map((cell, ci) => (
                 <td key={ci} className="px-3 py-2 text-slate-400 align-top leading-relaxed">

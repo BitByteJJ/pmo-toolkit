@@ -107,7 +107,7 @@ function BulletRevealScene({ scene, color, bgColor }: { scene: VideoScene; color
               className="w-2 h-2 rounded-full mt-1.5 shrink-0"
               style={{ backgroundColor: color }}
             />
-            <span className="text-sm text-gray-700 leading-relaxed">{bullet}</span>
+            <span className="text-sm text-slate-300 leading-relaxed">{bullet}</span>
           </motion.div>
         ))}
       </div>
@@ -131,7 +131,7 @@ function QuoteScene({ scene, color, bgColor }: { scene: VideoScene; color: strin
         initial={{ opacity: 0, y: 16 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6, delay: 0.2 }}
-        className="text-base font-medium text-center leading-relaxed text-gray-800 italic max-w-xs"
+        className="text-base font-medium text-center leading-relaxed text-slate-300 italic max-w-xs"
       >
         {scene.quote}
       </motion.p>
@@ -160,7 +160,7 @@ function SplitScene({ scene, color, bgColor }: { scene: VideoScene; color: strin
             {scene.heading}
           </h2>
         )}
-        <p className="text-sm text-gray-700 leading-relaxed">{scene.leftText}</p>
+        <p className="text-sm text-slate-300 leading-relaxed">{scene.leftText}</p>
       </motion.div>
       <motion.div
         initial={{ opacity: 0, scale: 0.6 }}

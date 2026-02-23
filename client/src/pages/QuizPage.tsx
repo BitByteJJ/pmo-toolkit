@@ -61,8 +61,8 @@ function QuestionCard({
         ? 'border-2 bg-card/10'
         : 'border border-white/10 hover:border-white/15 hover:bg-card/5 cursor-pointer';
     }
-    if (index === question.correctIndex) return 'border-2 border-emerald-500 bg-emerald-50';
-    if (index === selected && answerState === 'wrong') return 'border-2 border-red-400 bg-red-50';
+    if (index === question.correctIndex) return 'border-2 border-emerald-500 bg-emerald-900/20';
+    if (index === selected && answerState === 'wrong') return 'border-2 border-red-400 bg-red-900/20';
     return 'border border-white/10 opacity-50';
   };
 
@@ -139,12 +139,13 @@ function QuestionCard({
           <motion.div
             initial={{ opacity: 0, y: 8 }}
             animate={{ opacity: 1, y: 0 }}
-            className={`rounded-2xl p-4 ${answerState === 'correct' ? 'bg-emerald-50 border border-emerald-200' : 'bg-amber-50 border border-amber-200'}`}
+            className={`rounded-2xl p-4 ${answerState === 'correct' ? 'border border-emerald-500/30' : 'border border-amber-500/30'}`}
+            style={{ backgroundColor: answerState === 'correct' ? 'rgba(52,211,153,0.10)' : 'rgba(251,191,36,0.10)' }}
           >
             <div className="flex items-start gap-2">
               {answerState === 'correct'
-                ? <CheckCircle2 size={16} className="text-emerald-600 shrink-0 mt-0.5" />
-                : <XCircle size={16} className="text-amber-600 shrink-0 mt-0.5" />
+                ? <CheckCircle2 size={16} className="text-emerald-400 shrink-0 mt-0.5" />
+                : <XCircle size={16} className="text-amber-400 shrink-0 mt-0.5" />
               }
               <p className="text-[12px] leading-relaxed text-slate-300">{question.explanation}</p>
             </div>
@@ -212,13 +213,13 @@ function ResultsScreen({
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.3 }}
           className="rounded-2xl p-4 w-full"
-          style={{ backgroundColor: '#FFFBEB', border: '1.5px solid #FDE68A' }}
+          style={{ backgroundColor: 'rgba(251,191,36,0.12)', border: '1.5px solid rgba(251,191,36,0.35)' }}
         >
           <div className="flex items-center gap-3">
             <Star size={20} className="text-amber-500 fill-amber-400 shrink-0" />
             <div className="text-left">
-              <p className="text-sm font-bold text-amber-800">Mastery Badge Earned!</p>
-              <p className="text-[11px] text-amber-600 mt-0.5">
+              <p className="text-sm font-bold text-amber-300">Mastery Badge Earned!</p>
+              <p className="text-[11px] text-amber-400 mt-0.5">
                 You've mastered the {deck?.title} deck with a perfect score.
               </p>
             </div>

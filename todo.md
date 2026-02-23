@@ -312,3 +312,31 @@
 - [x] Unify background to deep navy (#0a1628) across all pages via CSS --background variable
 - [x] Fix template card ID display (business-1 -> BE01, BE02, BE03, BE04, BE05 now consistent)
 - [x] Fix deck colour dot alignment on template cards - replaced with icon badge
+
+## Full Dark Navy Cohesion Audit — Feb 23 2026 (Session 6)
+- [ ] Audit all pages for light-mode remnants and inconsistent backgrounds
+- [ ] Fix Home page desktop layout and card deck backgrounds for navy mode
+- [ ] Fix TopNav desktop dropdown and mobile menu for navy mode
+- [ ] Fix WelcomeModal white background
+- [ ] Fix GlossaryPage term cards and quiz option buttons
+- [ ] Fix CardDetail page backgrounds and tab bar
+- [ ] Fix DeckPage card list backgrounds
+- [ ] Fix JourneyPage unit/day node backgrounds
+- [ ] Fix LessonPage question cards and completion screens
+- [ ] Fix QuizPage option cards
+- [ ] Fix CaseStudiesPage card backgrounds
+- [ ] Fix BookmarksPage card backgrounds
+- [ ] Fix DecisionHelper, AiSuggest, VideoGuide, LearningRoadmap, DailyChallenge backgrounds
+
+## Dark Navy Cohesion Pass Complete — Feb 23 2026 (Session 6 resolved)
+- [x] CardDetail deep-dive accordion: replaced light bg values (#EFF6FF etc.) with rgba dark equivalents
+- [x] CardDetail video guide error state: replaced bg-red-50 with dark rgba
+- [x] QuizPage answer options: replaced bg-emerald-50/bg-red-50 with dark rgba equivalents
+- [x] QuizPage explanation box: replaced bg-emerald-50/bg-amber-50 with dark rgba equivalents
+- [x] QuizPage mastery badge text: replaced text-amber-800/text-amber-600 with text-amber-300/text-amber-400
+- [x] BookmarksPage: replaced bg-rose-50 and border-rose-200 with dark equivalents
+- [x] EarnHeartPage: replaced bg-rose-50 and border-rose-200 with dark equivalents
+- [x] CaseStudiesPage: replaced bg-amber-50 badge with dark equivalent
+- [x] HowItWasBuilt: replaced bg-amber-50 panel with dark equivalent
+- [x] OnboardingTour: replaced all light bg values (#ECFDF5, #FEF3C7, #F0F9FF, #F5F3FF, #FDF2F8, #FFF1F2, #F8FAFC) with rgba dark equivalents
+- [x] All 49 tests passing after changes

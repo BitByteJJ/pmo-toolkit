@@ -42,7 +42,7 @@ function RecommendationCard({ rec, index }: { rec: Recommendation; index: number
   const card = getCardById(rec.cardId);
   const deck = card ? DECKS.find(d => d.id === card.deckId) : null;
   const accentColor = deck?.color ?? '#475569';
-  const bgColor = deck?.bgColor ?? '#F8FAFC';
+  const bgColor = deck ? (deck.color + '18') : 'rgba(255,255,255,0.06)';
 
   return (
     <motion.button
@@ -73,7 +73,7 @@ function RecommendationCard({ rec, index }: { rec: Recommendation; index: number
             <div className="flex items-center gap-2 mb-1">
               <span
                 className="text-[10px] font-mono font-bold px-1.5 py-0.5 rounded-md"
-                style={{ backgroundColor: bgColor, color: accentColor }}
+                style={{ backgroundColor: deck ? (accentColor + '20') : 'rgba(255,255,255,0.06)', color: accentColor }}
               >
                 {rec.code}
               </span>
@@ -100,7 +100,7 @@ function RecommendationCard({ rec, index }: { rec: Recommendation; index: number
             {/* AI reason */}
             <div
               className="rounded-xl p-3 text-xs leading-relaxed"
-              style={{ backgroundColor: bgColor, color: deck?.textColor ?? '#374151' }}
+              style={{ backgroundColor: bgColor, color: deck?.textColor ?? '#94a3b8' }}
             >
               <span className="font-semibold" style={{ color: accentColor }}>Why this helps: </span>
               {rec.reason}
@@ -327,7 +327,7 @@ export default function AiSuggest() {
                   src="https://files.manuscdn.com/user_upload_by_module/session_file/310419663029097403/wYAdBnNHDXPbyggk.png"
                   alt="AI Tool Finder"
                   className="w-48 h-auto"
-                  style={{ mixBlendMode: 'multiply', opacity: 0.85 }}
+                  style={{ mixBlendMode: 'screen', opacity: 0.4 }}
                 />
               </div>
 
@@ -414,13 +414,14 @@ export default function AiSuggest() {
               initial={{ opacity: 0, y: 8 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0 }}
-              className="rounded-2xl p-4 mb-4 bg-rose-50 border border-rose-200"
+              className="rounded-2xl p-4 mb-4 border"
+              style={{ backgroundColor: 'rgba(244,63,94,0.12)', borderColor: 'rgba(244,63,94,0.3)' }}
             >
-              <p className="text-sm font-semibold text-rose-700 mb-1">Something went wrong</p>
-              <p className="text-xs text-rose-600 mb-3">{error}</p>
+              <p className="text-sm font-semibold text-rose-300 mb-1">Something went wrong</p>
+              <p className="text-xs text-rose-300 mb-3">{error}</p>
               <button
                 onClick={handleReset}
-                className="flex items-center gap-1.5 text-xs font-semibold text-rose-600 hover:text-rose-800"
+                className="flex items-center gap-1.5 text-xs font-semibold text-rose-300 hover:text-rose-100"
               >
                 <RotateCcw size={12} />
                 Try again
@@ -454,7 +455,7 @@ export default function AiSuggest() {
                 transition={{ duration: 0.35 }}
                 className="rounded-2xl p-4 mb-5"
                 style={{
-                  background: 'linear-gradient(135deg, #EEF2FF 0%, #F5F3FF 100%)',
+                  background: 'linear-gradient(135deg, rgba(99,102,241,0.15) 0%, rgba(139,92,246,0.10) 100%)',
                   border: '1px solid rgba(99,102,241,0.15)',
                 }}
               >

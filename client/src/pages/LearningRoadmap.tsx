@@ -28,7 +28,7 @@ function LevelCard({
       onClick={onSelect}
       className="relative w-full text-left rounded-2xl p-4 transition-all overflow-hidden"
       style={{
-        backgroundColor: selected ? journey.color : journey.bgColor,
+        backgroundColor: selected ? journey.color : 'rgba(255,255,255,0.04)',
         border: `2px solid ${selected ? journey.color : journey.color + '30'}`,
         boxShadow: selected ? `0 4px 16px ${journey.color}30` : '0 1px 3px rgba(0,0,0,0.05)',
       }}
@@ -51,7 +51,7 @@ function LevelCard({
             className="text-[15px] font-black leading-tight mb-1"
             style={{
               fontFamily: 'Sora, sans-serif',
-              color: selected ? '#fff' : journey.textColor,
+              color: selected ? '#fff' : '#e2e8f0',
             }}
           >
             {journey.title}
@@ -64,8 +64,8 @@ function LevelCard({
               {journey.sections.reduce((sum, s) => sum + s.steps.length, 0)} cards
             </span>
             <span
-              className="text-[10px] font-semibold"
-              style={{ color: selected ? 'rgba(255,255,255,0.7)' : journey.textColor, opacity: 0.6 }}
+              className="text-[10px] font-semibold opacity-60"
+              style={{ color: selected ? 'rgba(255,255,255,0.7)' : '#94a3b8' }}
             >
               ~{journey.totalWeeks} weeks
             </span>
@@ -114,7 +114,7 @@ function RoadmapStep({
         <div
           className="absolute left-[19px] top-[40px] w-0.5 bottom-0"
           style={{
-            backgroundColor: isRead ? journey.color + '40' : '#E7E5E4',
+            backgroundColor: isRead ? journey.color + '40' : 'rgba(255,255,255,0.10)',
             height: 'calc(100% - 8px)',
           }}
         />
@@ -137,7 +137,7 @@ function RoadmapStep({
           ) : (
             <div
               className="w-9 h-9 rounded-full flex items-center justify-center border-2"
-              style={{ borderColor: journey.color, backgroundColor: journey.bgColor }}
+              style={{ borderColor: journey.color, backgroundColor: 'rgba(255,255,255,0.04)' }}
             >
               <Circle size={10} style={{ color: journey.color }} />
             </div>
@@ -151,8 +151,8 @@ function RoadmapStep({
           onClick={() => !isLocked && onNavigate(step.cardId)}
           className="flex-1 text-left rounded-2xl p-3 transition-all"
           style={{
-            backgroundColor: isRead ? journey.color + '08' : isLocked ? '#FAFAF8' : '#fff',
-            border: `1.5px solid ${isRead ? journey.color + '25' : isLocked ? '#E7E5E4' : '#F5F5F4'}`,
+            backgroundColor: isRead ? journey.color + '08' : isLocked ? '#162035' : '#0f1c30',
+            border: `1.5px solid ${isRead ? journey.color + '25' : isLocked ? 'rgba(255,255,255,0.08)' : 'rgba(255,255,255,0.10)'}`,
             boxShadow: isLocked ? 'none' : '0 1px 3px rgba(0,0,0,0.04)',
             opacity: isLocked ? 0.5 : 1,
             cursor: isLocked ? 'default' : 'pointer',
@@ -184,21 +184,21 @@ function RoadmapStep({
                   {card.code ?? card.id.toUpperCase()}
                 </span>
                 {isRead && (
-                  <span className="text-[9px] font-bold text-emerald-600">✓ Read</span>
+                  <span className="text-[9px] font-bold text-emerald-400">✓ Read</span>
                 )}
               </div>
               <h4
                 className="text-[13px] font-bold leading-tight mb-1"
                 style={{
                   fontFamily: 'Sora, sans-serif',
-                  color: isLocked ? '#A8A29E' : '#1C1917',
+                  color: isLocked ? '#64748b' : '#e2e8f0',
                 }}
               >
                 {card.title}
               </h4>
               <p
                 className="text-[11px] leading-relaxed"
-                style={{ color: isLocked ? '#D6D3D1' : '#78716C' }}
+                style={{ color: isLocked ? '#475569' : '#94a3b8' }}
               >
                 {step.rationale}
               </p>
@@ -227,7 +227,6 @@ function JourneyRoadmap({ journey }: { journey: LearningJourney }) {
   const progressPct = Math.round((completedSteps / totalSteps) * 100);
 
   // Determine locked steps: a step is locked if the previous step hasn't been read
-  // (only lock steps after the first unread one)
   let foundUnread = false;
   const lockedSet = new Set<string>();
   for (const step of allSteps) {
@@ -252,7 +251,7 @@ function JourneyRoadmap({ journey }: { journey: LearningJourney }) {
               <div className="text-[9px] font-bold uppercase tracking-widest" style={{ color: journey.color }}>
                 Your Progress
               </div>
-              <div className="text-[13px] font-black" style={{ fontFamily: 'Sora, sans-serif', color: journey.textColor }}>
+              <div className="text-[13px] font-black text-slate-100" style={{ fontFamily: 'Sora, sans-serif' }}>
                 {completedSteps} of {totalSteps} cards read
               </div>
             </div>
@@ -347,7 +346,7 @@ export default function LearningRoadmap() {
       {/* Header */}
       <div
         className="sticky top-12 z-20 px-4"
-        style={{ background: 'rgba(19,24,42,0.96)', backdropFilter: 'blur(20px) saturate(1.4)', WebkitBackdropFilter: 'blur(20px) saturate(1.4)', borderBottom: '1.5px solid rgba(0,0,0,0.06)' }}
+        style={{ background: 'rgba(10,22,40,0.96)', backdropFilter: 'blur(20px) saturate(1.4)', WebkitBackdropFilter: 'blur(20px) saturate(1.4)', borderBottom: '1.5px solid rgba(255,255,255,0.06)' }}
       >
         <div className="max-w-2xl mx-auto py-3 flex items-center justify-between">
           <div>

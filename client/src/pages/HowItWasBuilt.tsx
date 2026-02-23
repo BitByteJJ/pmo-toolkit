@@ -256,7 +256,7 @@ function CopyButton({ text }: { text: string }) {
     <button
       onClick={handleCopy}
       className="flex items-center gap-1 px-2.5 py-1 rounded-lg text-[10px] font-bold transition-all hover:opacity-80"
-      style={{ background: copied ? '#ECFDF5' : '#F1F5F9', color: copied ? '#10b981' : '#64748b' }}
+      style={{ background: copied ? 'rgba(16,185,129,0.18)' : 'rgba(255,255,255,0.07)', color: copied ? '#6ee7b7' : '#94a3b8' }}
     >
       {copied ? <Check size={11} strokeWidth={2.5} /> : <Copy size={11} strokeWidth={2} />}
       {copied ? 'Copied!' : 'Copy'}
@@ -509,7 +509,7 @@ export default function HowItWasBuilt() {
             ))}
 
             {/* Disclaimer */}
-            <div className="rounded-xl bg-amber-50 border border-amber-100 p-3.5">
+            <div className="rounded-xl bg-amber-900/20 border border-amber-500/30 p-3.5">
               <p className="text-[11px] text-amber-700 leading-relaxed">
                 <span className="font-bold">Note:</span> AI-generated content was reviewed and edited for accuracy before inclusion. 
                 All case studies reference publicly documented events. Deep dives and glossary entries 

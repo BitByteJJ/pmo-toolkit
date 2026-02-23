@@ -52,7 +52,7 @@ function CardStudyModal({
         exit={{ y: '100%' }}
         transition={{ type: 'spring', stiffness: 400, damping: 35 }}
         className="w-full max-w-lg rounded-t-3xl overflow-hidden"
-        style={{ backgroundColor: '#fff', maxHeight: '85vh', overflowY: 'auto' }}
+        style={{ backgroundColor: '#0f1c30', maxHeight: '85vh', overflowY: 'auto' }}
         onClick={e => e.stopPropagation()}
       >
         {/* Card header */}
@@ -249,7 +249,7 @@ export default function EarnHeartPage() {
             <motion.div
               initial={{ opacity: 0, y: 4 }}
               animate={{ opacity: 1, y: 0 }}
-              className="mt-3 flex items-center gap-2 p-2 rounded-xl bg-rose-50 border border-rose-200"
+              className="mt-3 flex items-center gap-2 p-2 rounded-xl bg-rose-900/20 border border-rose-500/30"
             >
               <Heart size={16} className="text-rose-500 fill-rose-500" />
               <p className="text-[11px] font-bold text-rose-700">

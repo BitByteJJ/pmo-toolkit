@@ -270,7 +270,7 @@ export default function DailyChallenge({ darkMode = false }: { darkMode?: boolea
                 <div
                   className="rounded-xl p-3 text-center"
                   style={{
-                    background: darkMode ? 'rgba(255,255,255,0.05)' : '#f8fafc',
+                    background: 'rgba(255,255,255,0.05)',
                     border: darkMode ? '1px solid rgba(255,255,255,0.08)' : '1px solid #e7e5e4',
                   }}
                 >
