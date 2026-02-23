@@ -26,7 +26,9 @@ import CaseStudiesPage from './pages/CaseStudiesPage';
 import GlossaryPage from './pages/GlossaryPage';
 import TemplateLibrary from './pages/TemplateLibrary';
 import TemplateFiller from './pages/TemplateFiller';
+import HowItWasBuilt from './pages/HowItWasBuilt';
 import WelcomeModal from './components/WelcomeModal';
+import OnboardingTour, { useOnboardingTour } from './components/OnboardingTour';
 import { BookmarksProvider } from './contexts/BookmarksContext';
 import { JourneyProvider } from './contexts/JourneyContext';
 import TopNav from './components/TopNav';
@@ -99,9 +101,21 @@ function Router() {
         <Route path="/glossary" component={GlossaryPage} />
         <Route path="/templates" component={TemplateLibrary} />
         <Route path="/templates/:cardId" component={TemplateFiller} />
+        <Route path="/how-it-was-built" component={HowItWasBuilt} />
         <Route path="/404" component={NotFound} />
         <Route component={NotFound} />
       </Switch>
+    </>
+  );
+}
+
+function AppInner() {
+  const { showTour, dismissTour } = useOnboardingTour();
+  return (
+    <>
+      <WelcomeModal />
+      {showTour && <OnboardingTour onDismiss={dismissTour} />}
+      <Router />
     </>
   );
 }
@@ -114,8 +128,7 @@ function App() {
         <BookmarksProvider>
           <TooltipProvider>
             <Toaster />
-            <WelcomeModal />
-            <Router />
+            <AppInner />
           </TooltipProvider>
         </BookmarksProvider>
         </JourneyProvider>

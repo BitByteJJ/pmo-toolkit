@@ -270,3 +270,17 @@
 - [x] Move Decks to centre slot of BottomNav (as a dropdown with upward panel, ChevronUp indicator)
 - [x] Remove Saved/Bookmarks from BottomNav (moved to TopNav)
 - [x] Add Bookmarks button to TopNav next to Mini-Apps (both mobile icon + desktop Saved label with badge)
+
+## New Features — Feb 23 2026 (Session 3)
+
+- [x] Remove Decks dropdown from TopNav (keep only in BottomNav centre)
+- [x] Build first-time visitor onboarding tour with navigation map (Take Tour / Skip)
+- [x] Verify case studies for factual accuracy and apply corrections
+- [x] Build "How It Was Built" documentation page (prompt library + tools used)
+
+## New Features — Feb 23 2026 (Session 3)
+
+- [x] Remove Decks dropdown from TopNav (keep only in BottomNav centre)
+- [x] Build first-time visitor onboarding tour with navigation map (Take Tour / Skip)
+- [x] Verify case studies for factual accuracy and apply corrections
+- [x] Build "How It Was Built" documentation page (prompt library + tools used)

@@ -178,7 +178,7 @@ const CASE_STUDIES: CaseStudy[] = [
     projectName: 'Google Chrome Launch (2008)',
     challenge: 'Launching a new browser involved dozens of teams: engineering, security, UX, legal, marketing, and localisation. Without clear ownership, decisions were being made by the wrong people and critical tasks were falling through the cracks.',
     approach: 'Google used a RACI Matrix to define roles across all workstreams. Each major deliverable — rendering engine, extension API, security model, marketing campaign — had a single Accountable owner, clear Responsible parties, and defined Consulted and Informed stakeholders. The matrix was reviewed weekly and updated as the team grew.',
-    outcome: 'Chrome launched on schedule in September 2008 and within two years became the world\'s most-used browser. Post-launch reviews credited the clear ownership model with enabling fast decision-making and preventing the "design by committee" problem that had plagued earlier browser projects.',
+    outcome: 'Chrome launched on schedule in September 2008 and by late 2011 had overtaken Internet Explorer to become the world\'s most-used browser — within roughly three years of launch. Post-launch reviews credited the clear ownership model with enabling fast decision-making and preventing the "design by committee" problem that had plagued earlier browser projects.',
     lessonsLearned: [
       'There must be exactly one Accountable person per deliverable — shared accountability means no accountability.',
       'RACI matrices become stale quickly on fast-moving projects; schedule regular reviews.',
@@ -368,7 +368,7 @@ const CASE_STUDIES: CaseStudy[] = [
       'Shared outcomes (not shared processes) are the most powerful alignment mechanism.',
       'In crisis situations, stakeholders are more willing to collaborate — use that window to establish lasting norms.',
     ],
-    timeframe: 'December 2020 – March 2021 (first phase)',
+    timeframe: 'December 2020 – April 2021 (first-dose priority phase)',
     teamSize: '80,000+ vaccination staff across all partners',
   },
 
@@ -402,7 +402,7 @@ const CASE_STUDIES: CaseStudy[] = [
     projectName: 'Sydney Opera House Construction',
     challenge: 'The Sydney Opera House is the most famous example of budget overrun in construction history. The original estimate was AUD $7 million; the final cost was AUD $102 million. Understanding what went wrong is as instructive as any success story.',
     approach: 'The original budget was prepared before the design was complete, a fundamental error in budget planning. As the iconic shell roof design was developed, costs escalated dramatically. There was no formal change control process, no contingency reserve, and no mechanism to re-baseline the budget when scope changed significantly.',
-    outcome: 'The Opera House was completed in 1973, ten years late and 1,400% over budget. It is now one of the most visited buildings in the world and a UNESCO World Heritage Site. The project became a global case study in the consequences of inadequate budget planning and scope management.',
+    outcome: 'The Opera House was completed in 1973, ten years late and approximately 1,357% over budget (original estimate AUD $7M, final cost AUD $102M). It is now one of Australia\'s most visited landmarks and a UNESCO World Heritage Site. The project became a global case study in the consequences of inadequate budget planning and scope management.',
     lessonsLearned: [
       'Never finalise a budget before the design is sufficiently developed — parametric estimates on incomplete designs are unreliable.',
       'Contingency reserves must be sized to the uncertainty in the estimate, not to what is politically acceptable.',

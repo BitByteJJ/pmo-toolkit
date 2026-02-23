@@ -13,6 +13,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Sparkles, Layers, ArrowRight, X } from 'lucide-react';
 
 const STORAGE_KEY = 'pmo-welcome-seen';
+const TOUR_KEY = 'stratalign_onboarding_done';
 
 export default function WelcomeModal() {
   const [visible, setVisible] = useState(false);
@@ -29,11 +30,13 @@ export default function WelcomeModal() {
 
   function dismiss() {
     localStorage.setItem(STORAGE_KEY, '1');
+    localStorage.setItem(TOUR_KEY, 'true'); // prevent tour from stacking
     setVisible(false);
   }
 
   function goToAIFinder() {
     localStorage.setItem(STORAGE_KEY, '1');
+    localStorage.setItem(TOUR_KEY, 'true');
     setVisible(false);
     navigate('/ai-suggest');
   }

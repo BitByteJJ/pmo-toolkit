@@ -1,6 +1,7 @@
 // PMO Toolkit Navigator — Top Navigation Bar
-// Mobile: frosted glass bar with wordmark + Decks dropdown + Mini-Apps dropdown
-// Desktop (lg+): wordmark + primary nav links + Decks dropdown + Mini-Apps dropdown
+// Mobile: frosted glass bar with wordmark + Bookmarks + Mini-Apps dropdown
+// Desktop (lg+): wordmark + primary nav links + Bookmarks + Mini-Apps dropdown
+// Decks navigation lives exclusively in the BottomNav centre slot
 
 import { useState, useRef, useEffect } from 'react';
 import { useLocation } from 'wouter';
@@ -10,7 +11,6 @@ import {
   Map, Route, Grid3X3,
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { DECKS } from '@/lib/pmoData';
 import { useBookmarks } from '@/contexts/BookmarksContext';
 
 interface TopNavProps {
@@ -77,21 +77,19 @@ const MINI_APPS = [
   },
 ];
 
-type DropdownType = 'decks' | 'apps' | null;
+type DropdownType = 'apps' | null;
 
 export default function TopNav({ accentColor = '#475569' }: TopNavProps) {
   const [location, navigate] = useLocation();
   const [openDropdown, setOpenDropdown] = useState<DropdownType>(null);
-  const decksRef = useRef<HTMLDivElement>(null);
   const appsRef = useRef<HTMLDivElement>(null);
   const { bookmarks } = useBookmarks();
 
   useEffect(() => {
     function handleOutside(e: MouseEvent) {
       const target = e.target as Node;
-      const clickedDecks = decksRef.current?.contains(target);
       const clickedApps = appsRef.current?.contains(target);
-      if (!clickedDecks && !clickedApps) setOpenDropdown(null);
+      if (!clickedApps) setOpenDropdown(null);
     }
     if (openDropdown) document.addEventListener('mousedown', handleOutside);
     return () => document.removeEventListener('mousedown', handleOutside);
@@ -102,69 +100,8 @@ export default function TopNav({ accentColor = '#475569' }: TopNavProps) {
 
   const isActive = (path: string) => {
     if (path === '/') return location === '/';
-    if (path === '/decks') return location.startsWith('/deck') || location === '/decks';
     return location.startsWith(path);
   };
-
-  // ── Decks dropdown panel ─────────────────────────────────────────────────
-  // On mobile: fixed to viewport centre; on desktop: absolute right-aligned
-  const DecksPanel = ({ desktop = false }: { desktop?: boolean }) => (
-    <motion.div
-      initial={{ opacity: 0, y: desktop ? -6 : 6, scale: 0.97 }}
-      animate={{ opacity: 1, y: 0, scale: 1 }}
-      exit={{ opacity: 0, y: desktop ? -6 : 6, scale: 0.97 }}
-      transition={{ duration: 0.15, ease: [0.22, 1, 0.36, 1] }}
-      className={desktop ? 'absolute right-0 top-full mt-2 w-64 rounded-2xl overflow-hidden' : 'fixed w-72 rounded-2xl overflow-hidden'}
-      style={desktop ? {
-        background: 'rgba(255,255,255,0.98)',
-        backdropFilter: 'blur(20px)',
-        WebkitBackdropFilter: 'blur(20px)',
-        boxShadow: '0 16px 40px rgba(0,0,0,0.12), 0 4px 12px rgba(0,0,0,0.07)',
-        border: '1px solid rgba(0,0,0,0.07)',
-        transformOrigin: 'top right',
-        zIndex: 60,
-      } : {
-        top: '56px',
-        left: '50%',
-        transform: 'translateX(-50%)',
-        background: 'rgba(255,255,255,0.98)',
-        backdropFilter: 'blur(20px)',
-        WebkitBackdropFilter: 'blur(20px)',
-        boxShadow: '0 16px 40px rgba(0,0,0,0.12), 0 4px 12px rgba(0,0,0,0.07)',
-        border: '1px solid rgba(0,0,0,0.07)',
-        zIndex: 60,
-      }}
-    >
-      <div className="px-3.5 pt-3 pb-1.5">
-        <p className="text-[10px] font-bold text-stone-400 uppercase tracking-widest">Jump to deck</p>
-      </div>
-      <div className="pb-2">
-        {DECKS.map((deck, i) => (
-          <motion.button
-            key={deck.id}
-            initial={{ opacity: 0, x: -8 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ delay: i * 0.03 }}
-            onClick={() => { setOpenDropdown(null); navigate(`/deck/${deck.id}`); }}
-            className="w-full flex items-center gap-2.5 px-3.5 py-2.5 text-left transition-colors hover:bg-stone-50/80 active:bg-stone-100"
-          >
-            <span className="w-2.5 h-2.5 rounded-full shrink-0" style={{ backgroundColor: deck.color }} />
-            <span className="text-base leading-none shrink-0">{deck.icon}</span>
-            <div className="flex-1 min-w-0">
-              <div className="text-[12.5px] font-semibold text-stone-800 truncate leading-tight">{deck.title}</div>
-              <div className="text-[9.5px] text-stone-400 font-mono mt-0.5">{deck.subtitle}</div>
-            </div>
-            <span
-              className="text-[9px] font-bold px-1.5 py-0.5 rounded-full shrink-0"
-              style={{ backgroundColor: deck.color + '18', color: deck.color }}
-            >
-              {deck.cardCount}
-            </span>
-          </motion.button>
-        ))}
-      </div>
-    </motion.div>
-  );
 
   // ── Mini-Apps dropdown panel ──────────────────────────────────────────────
   const AppsPanel = () => (
@@ -265,25 +202,8 @@ export default function TopNav({ accentColor = '#475569' }: TopNavProps) {
           </span>
         </button>
 
-        {/* Right side: Decks + Mini-Apps buttons */}
+        {/* Right side: Bookmarks + Mini-Apps */}
         <div className="flex items-center gap-1">
-          {/* Decks dropdown */}
-          <div className="relative" ref={decksRef}>
-            <button
-              onClick={() => toggle('decks')}
-              className="flex items-center gap-1 rounded-xl px-2.5 py-1.5 transition-all hover:bg-black/5 active:scale-95"
-              style={{ color: accentColor }}
-              aria-label="Jump to a deck"
-              aria-expanded={openDropdown === 'decks'}
-            >
-              <span className="text-[12px] font-bold">Decks</span>
-              <motion.div animate={{ rotate: openDropdown === 'decks' ? 180 : 0 }} transition={{ duration: 0.18 }}>
-                <ChevronDown size={12} strokeWidth={2.5} />
-              </motion.div>
-            </button>
-            <AnimatePresence>{openDropdown === 'decks' && <DecksPanel desktop={false} />}</AnimatePresence>
-          </div>
-
           {/* Bookmarks button (mobile) */}
           <button
             onClick={() => navigate('/bookmarks')}
@@ -367,35 +287,16 @@ export default function TopNav({ accentColor = '#475569' }: TopNavProps) {
           })}
         </div>
 
-        {/* Right side: Decks + Bookmarks + Mini-Apps dropdowns */}
+        {/* Right side: Bookmarks + Mini-Apps */}
         <div className="flex items-center gap-1 shrink-0">
-          {/* Decks dropdown */}
-          <div className="relative" ref={decksRef}>
-            <button
-              onClick={() => toggle('decks')}
-              className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-[12px] font-bold transition-all hover:bg-black/5"
-              style={{ color: accentColor }}
-              aria-expanded={openDropdown === 'decks'}
-            >
-              <LayoutGrid size={13} strokeWidth={2} />
-              Decks
-              <ChevronDown
-                size={12}
-                strokeWidth={2.5}
-                style={{
-                  transform: openDropdown === 'decks' ? 'rotate(180deg)' : 'rotate(0deg)',
-                  transition: 'transform 0.2s',
-                }}
-              />
-            </button>
-            <AnimatePresence>{openDropdown === 'decks' && <DecksPanel desktop={true} />}</AnimatePresence>
-          </div>
-
           {/* Bookmarks button (desktop) */}
           <button
             onClick={() => navigate('/bookmarks')}
             className="relative flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-[12px] font-semibold transition-all hover:bg-black/5"
-            style={{ color: location === '/bookmarks' ? accentColor : '#64748b', backgroundColor: location === '/bookmarks' ? accentColor + '12' : 'transparent' }}
+            style={{
+              color: location === '/bookmarks' ? accentColor : '#64748b',
+              backgroundColor: location === '/bookmarks' ? accentColor + '12' : 'transparent',
+            }}
           >
             <Bookmark size={13} strokeWidth={location === '/bookmarks' ? 2.4 : 1.8} />
             Saved

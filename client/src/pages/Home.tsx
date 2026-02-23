@@ -6,8 +6,10 @@ import { useLocation } from 'wouter';
 import { motion } from 'framer-motion';
 import {
   LayoutGrid, Sparkles, Search, Bookmark, Route, Map,
-  BookOpen, BookMarked, Compass, Zap, Flame, ArrowRight, FileText,
+  BookOpen, BookMarked, Compass, Zap, Flame, ArrowRight, FileText, Code2,
 } from 'lucide-react';
+import { useOnboardingTour } from '@/components/OnboardingTour';
+import OnboardingTour from '@/components/OnboardingTour';
 import BottomNav from '@/components/BottomNav';
 import { CARDS, DECKS } from '@/lib/pmoData';
 import { useBookmarks } from '@/contexts/BookmarksContext';
@@ -33,6 +35,7 @@ const FEATURE_TILES = [
   { path: '/bookmarks',    icon: Bookmark,    label: 'Saved Cards',       sub: 'Your reading list',          color: '#F87171', bg: 'rgba(248,113,113,0.10)', textColor: '#FECACA' },
   { path: '/decision',     icon: Compass,     label: 'Decision Helper',   sub: 'Find the right tool',        color: '#86EFAC', bg: 'rgba(134,239,172,0.10)', textColor: '#BBF7D0' },
   { path: '/templates',    icon: FileText,    label: 'Template Library',  sub: '198 fillable templates',     color: '#FB923C', bg: 'rgba(251,146,60,0.10)',  textColor: '#FED7AA' },
+  { path: '/how-it-was-built', icon: Code2,  label: 'How It Was Built',  sub: 'Prompts, tools & process',   color: '#A78BFA', bg: 'rgba(167,139,250,0.10)', textColor: '#DDD6FE' },
 ];
 
 // ─── Stat pill ─────────────────────────────────────────────────────────────────
@@ -170,6 +173,32 @@ function ContinueCard() {
         <ArrowRight size={16} className="text-blue-300 shrink-0" />
       </motion.button>
     </motion.div>
+  );
+}
+
+// ─── Tour button ─────────────────────────────────────────────────────────────
+function TourButton() {
+  const [, navigate] = useLocation();
+  const { showTour, resetTour } = useOnboardingTour();
+  const [localShow, setLocalShow] = useState(false);
+
+  const handleClick = () => {
+    resetTour();
+    setLocalShow(true);
+  };
+
+  return (
+    <>
+      <button
+        onClick={handleClick}
+        className="flex items-center gap-1 text-[10px] font-bold px-2.5 py-1 rounded-full transition-all hover:opacity-80 active:scale-95"
+        style={{ background: 'rgba(167,139,250,0.15)', color: '#A78BFA' }}
+      >
+        <Sparkles size={10} strokeWidth={2.5} />
+        Take the tour
+      </button>
+      {localShow && <OnboardingTour onDismiss={() => setLocalShow(false)} />}
+    </>
   );
 }
 
@@ -327,12 +356,15 @@ export default function Home() {
       </div>
       {/* ── Feature grid ── */}
       <div className="px-4 pt-5 pb-28">
-        <p
-          className="text-[10px] font-extrabold tracking-widest uppercase mb-3"
-          style={{ color: 'rgba(148,163,184,0.6)', fontFamily: 'Inter, sans-serif' }}
-        >
-          Explore
-        </p>
+        <div className="flex items-center justify-between mb-3">
+          <p
+            className="text-[10px] font-extrabold tracking-widest uppercase"
+            style={{ color: 'rgba(148,163,184,0.6)', fontFamily: 'Inter, sans-serif' }}
+          >
+            Explore
+          </p>
+          <TourButton />
+        </div>
         <div className="grid grid-cols-2 gap-3">
           {FEATURE_TILES.map((tile, i) => (
             <FeatureTile key={tile.path} tile={tile} index={i} />
