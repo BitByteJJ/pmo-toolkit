@@ -78,9 +78,9 @@ export default function SprintMode({ deckId, startIndex = 0, onClose }: SprintMo
           <div className="text-[11px] font-black uppercase tracking-widest" style={{ color: deck.color }}>
             Sprint Mode
           </div>
-          <div className="text-[10px] font-semibold" style={{ color: deck.textColor, opacity: 0.5 }}>
+          <span className="text-[10px] font-semibold" style={{ color: deck.textColor, opacity: 0.85 }}>
             {deck.title}
-          </div>
+          </span>
         </div>
         <div className="flex items-center gap-1.5">
           <span className="text-[10px] font-bold" style={{ color: deck.color }}>
@@ -101,7 +101,7 @@ export default function SprintMode({ deckId, startIndex = 0, onClose }: SprintMo
           />
         </div>
         <div className="flex justify-between mt-1">
-          <span className="text-[9px] font-medium" style={{ color: deck.textColor, opacity: 0.4 }}>
+          <span className="text-[9px] font-medium" style={{ color: deck.textColor, opacity: 0.8 }}>
             {index + 1} of {cards.length}
           </span>
           <span className="text-[9px] font-bold" style={{ color: deck.color }}>
@@ -146,7 +146,7 @@ export default function SprintMode({ deckId, startIndex = 0, onClose }: SprintMo
                     animate={{ opacity: 1, scale: 1 }}
                     exit={{ opacity: 0, scale: 0.96 }}
                     transition={{ duration: 0.22 }}
-                    className="absolute inset-0 flex flex-col p-6 bg-card"
+                    className="absolute inset-0 flex flex-col p-6" style={{ backgroundColor: '#0f1c30' }}
                   >
                     {/* Colour top bar */}
                     <div className="absolute top-0 left-0 right-0 h-2 rounded-t-3xl" style={{ backgroundColor: deck.color }} />
@@ -154,12 +154,12 @@ export default function SprintMode({ deckId, startIndex = 0, onClose }: SprintMo
                     <div className="flex items-start justify-between mt-3 mb-4">
                       <span
                         className="text-[10px] font-mono font-bold px-2 py-1 rounded-lg"
-                        style={{ backgroundColor: deck.bgColor, color: deck.color }}
+                        style={{ backgroundColor: 'rgba(255,255,255,0.08)', color: deck.color }}
                       >
                         {card.code}
                       </span>
                       {isRead(card.id) && (
-                        <span className="text-[9px] font-bold text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded-full">
+                        <span className="text-[9px] font-bold text-emerald-300 bg-emerald-900/40 px-2 py-0.5 rounded-full">
                           Read ✓
                         </span>
                       )}
@@ -168,7 +168,7 @@ export default function SprintMode({ deckId, startIndex = 0, onClose }: SprintMo
                     <div className="flex-1 flex flex-col justify-center items-center">
                       <h2
                         className="text-2xl font-black leading-tight mb-2 text-center"
-                        style={{ fontFamily: 'Sora, sans-serif', color: '#1a1a1a', letterSpacing: '-0.02em' }}
+                        style={{ fontFamily: 'Sora, sans-serif', color: '#f1f5f9', letterSpacing: '-0.02em' }}
                       >
                         {card.title}
                       </h2>
@@ -179,19 +179,19 @@ export default function SprintMode({ deckId, startIndex = 0, onClose }: SprintMo
                         <div className="relative w-36 h-36 mx-auto">
                           <div
                             className="absolute inset-0 rounded-full"
-                            style={{ backgroundColor: deck.bgColor }}
+                            style={{ backgroundColor: 'rgba(255,255,255,0.05)' }}
                           />
                           <img
                             src={getCardIllustration(card.id)!}
                             alt={card.title}
                             className="relative w-full h-full object-contain"
-                            style={{ opacity: 0.7, mixBlendMode: 'multiply' }}
+                            style={{ opacity: 0.85 }}
                           />
                           {/* Fade edges */}
                           <div
                             className="absolute inset-0 pointer-events-none"
                             style={{
-                              background: 'radial-gradient(circle, transparent 55%, white 90%)',
+                              background: 'radial-gradient(circle, transparent 55%, rgba(15,28,48,0.9) 90%)',
                             }}
                           />
                         </div>
@@ -200,8 +200,8 @@ export default function SprintMode({ deckId, startIndex = 0, onClose }: SprintMo
 
                     {/* Tap hint */}
                     <div className="flex items-center justify-center gap-1.5 mt-4">
-                      <RotateCcw size={11} style={{ color: deck.color, opacity: 0.5 }} />
-                      <span className="text-[10px] font-medium" style={{ color: deck.color, opacity: 0.6 }}>
+                      <RotateCcw size={11} style={{ color: deck.color, opacity: 0.8 }} />
+                      <span className="text-[10px] font-medium" style={{ color: deck.color, opacity: 0.85 }}>
                         tap to reveal
                       </span>
                     </div>
@@ -219,7 +219,7 @@ export default function SprintMode({ deckId, startIndex = 0, onClose }: SprintMo
                     exit={{ opacity: 0, scale: 0.96 }}
                     transition={{ duration: 0.22 }}
                     className="absolute inset-0 flex flex-col p-6"
-                    style={{ backgroundColor: deck.bgColor }}
+                    style={{ backgroundColor: '#0f1c30' }}
                   >
                     {/* Colour top bar */}
                     <div className="absolute top-0 left-0 right-0 h-2 rounded-t-3xl" style={{ backgroundColor: deck.color }} />
@@ -232,7 +232,7 @@ export default function SprintMode({ deckId, startIndex = 0, onClose }: SprintMo
                         {card.code} · {card.type}
                       </span>
                       {/* Flip back hint */}
-                      <div className="flex items-center gap-1" style={{ color: deck.color, opacity: 0.5 }}>
+                      <div className="flex items-center gap-1" style={{ color: deck.color, opacity: 0.85 }}>
                         <RotateCcw size={10} />
                         <span className="text-[9px] font-medium">tap to flip</span>
                       </div>
