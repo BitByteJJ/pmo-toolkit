@@ -270,7 +270,7 @@ function PromptCard({ title, prompt }: { title: string; prompt: string }) {
     <div className="rounded-xl border border-white/10 overflow-hidden">
       <button
         onClick={() => setExpanded(e => !e)}
-        className="w-full flex items-center justify-between px-4 py-3 text-left hover:bg-white/5 transition-colors"
+        className="w-full flex items-center justify-between px-4 py-3 text-left hover:bg-card/5 transition-colors"
       >
         <span className="text-[13px] font-semibold text-slate-200">{title}</span>
         {expanded ? <ChevronUp size={14} strokeWidth={2} className="text-slate-400 shrink-0" /> : <ChevronDown size={14} strokeWidth={2} className="text-slate-400 shrink-0" />}
@@ -290,7 +290,7 @@ function PromptCard({ title, prompt }: { title: string; prompt: string }) {
                 <CopyButton text={prompt} />
               </div>
               <pre
-                className="text-[11.5px] leading-relaxed text-slate-300 whitespace-pre-wrap font-mono bg-white/5 rounded-lg p-3 border border-white/8"
+                className="text-[11.5px] leading-relaxed text-slate-300 whitespace-pre-wrap font-mono bg-card/5 rounded-lg p-3 border border-white/8"
                 style={{ fontFamily: 'JetBrains Mono, monospace' }}
               >
                 {prompt}

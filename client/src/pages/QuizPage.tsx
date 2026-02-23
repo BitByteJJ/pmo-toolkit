@@ -17,7 +17,7 @@ import { useMasteryBadges } from '@/hooks/useMasteryBadges';
 function ProgressBar({ current, total, color }: { current: number; total: number; color: string }) {
   const pct = total > 0 ? Math.min(100, Math.round((current / total) * 100)) : 0;
   return (
-    <div className="h-2 rounded-full bg-white/15 overflow-hidden flex-1">
+    <div className="h-2 rounded-full bg-card/15 overflow-hidden flex-1">
       <motion.div
         className="h-full rounded-full"
         style={{ backgroundColor: color }}
@@ -58,8 +58,8 @@ function QuestionCard({
   const optionStyle = (index: number) => {
     if (answerState === 'unanswered') {
       return selected === index
-        ? 'border-2 bg-white/10'
-        : 'border border-white/10 hover:border-white/15 hover:bg-white/5 cursor-pointer';
+        ? 'border-2 bg-card/10'
+        : 'border border-white/10 hover:border-white/15 hover:bg-card/5 cursor-pointer';
     }
     if (index === question.correctIndex) return 'border-2 border-emerald-500 bg-emerald-50';
     if (index === selected && answerState === 'wrong') return 'border-2 border-red-400 bg-red-50';
@@ -248,7 +248,7 @@ function ResultsScreen({
         </button>
         <button
           onClick={onExit}
-          className="flex items-center justify-center gap-2 w-full py-3 rounded-2xl font-bold text-slate-300 text-sm bg-white/10"
+          className="flex items-center justify-center gap-2 w-full py-3 rounded-2xl font-bold text-slate-300 text-sm bg-card/10"
         >
           <ArrowLeft size={16} />
           Back to Deck
@@ -328,7 +328,7 @@ export default function QuizPage() {
         <div className="flex items-center gap-3 py-3">
           <button
             onClick={() => navigate(`/deck/${deckId}`)}
-            className="w-8 h-8 flex items-center justify-center rounded-xl hover:bg-white/10 transition-colors shrink-0"
+            className="w-8 h-8 flex items-center justify-center rounded-xl hover:bg-card/10 transition-colors shrink-0"
           >
             <X size={18} className="text-slate-400" />
           </button>

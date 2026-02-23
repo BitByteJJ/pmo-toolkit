@@ -8,6 +8,7 @@ import {
   LayoutGrid, Filter, CheckCircle2, Layers,
 } from 'lucide-react';
 import { CARDS, DECKS } from '@/lib/pmoData';
+import BottomNav from '@/components/BottomNav';
 import { DECK_THEME } from '@/lib/templateFieldSchema';
 import { ALL_TEMPLATES, CardTemplate } from '@/lib/templateData';
 
@@ -266,7 +267,7 @@ export default function TemplateLibrary() {
                         whileTap={{ scale: 0.97 }}
                         onClick={() => { setActiveDeck(deck.id); setStep('browse'); }}
                         className="flex items-center gap-2 p-3 rounded-xl text-left"
-                        style={{ background: theme.bg + '22', border: `1px solid ${theme.color}33` }}
+                        style={{ background: theme.bg, border: `1px solid ${theme.color}40` }}
                       >
                         <div className="w-7 h-7 rounded-lg flex items-center justify-center shrink-0" style={{ backgroundColor: theme.color + '22' }}>
                           <Layers size={14} style={{ color: theme.color }} />
@@ -431,6 +432,7 @@ export default function TemplateLibrary() {
 
         </AnimatePresence>
       </div>
+      <BottomNav />
     </div>
   );
 }

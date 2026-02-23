@@ -189,7 +189,7 @@ function LoadingState({ problem }: { problem: string }) {
         </div>
 
         {/* Progress bar */}
-        <div className="h-1.5 rounded-full bg-white/10 overflow-hidden">
+        <div className="h-1.5 rounded-full bg-card/10 overflow-hidden">
           <motion.div
             className="h-full rounded-full"
             style={{ background: 'linear-gradient(90deg, #6366F1, #8B5CF6)' }}
@@ -204,18 +204,18 @@ function LoadingState({ problem }: { problem: string }) {
       <div className="space-y-3">
         {[0, 1, 2, 3].map(i => (
           <div key={i} className="rounded-2xl overflow-hidden bg-card" style={{ boxShadow: '0 1px 4px rgba(0,0,0,0.06)' }}>
-            <div className="h-1 w-full bg-white/15 animate-pulse" />
+            <div className="h-1 w-full bg-card/15 animate-pulse" />
             <div className="p-4">
               <div className="flex items-start gap-3">
-                <div className="w-8 h-8 rounded-xl bg-white/15 animate-pulse shrink-0" style={{ animationDelay: `${i * 0.15}s` }} />
+                <div className="w-8 h-8 rounded-xl bg-card/15 animate-pulse shrink-0" style={{ animationDelay: `${i * 0.15}s` }} />
                 <div className="flex-1 space-y-2">
                   <div className="flex gap-2">
-                    <div className="h-4 w-10 rounded bg-white/15 animate-pulse" />
-                    <div className="h-4 w-20 rounded bg-white/10 animate-pulse" />
+                    <div className="h-4 w-10 rounded bg-card/15 animate-pulse" />
+                    <div className="h-4 w-20 rounded bg-card/10 animate-pulse" />
                   </div>
-                  <div className="h-5 w-3/4 rounded bg-white/15 animate-pulse" />
-                  <div className="h-3 w-full rounded bg-white/10 animate-pulse" />
-                  <div className="h-12 w-full rounded-xl bg-white/10 animate-pulse" />
+                  <div className="h-5 w-3/4 rounded bg-card/15 animate-pulse" />
+                  <div className="h-3 w-full rounded bg-card/10 animate-pulse" />
+                  <div className="h-12 w-full rounded-xl bg-card/10 animate-pulse" />
                 </div>
               </div>
             </div>
@@ -481,7 +481,7 @@ export default function AiSuggest() {
               {/* Reset button */}
               <button
                 onClick={handleReset}
-                className="w-full flex items-center justify-center gap-2 py-3.5 rounded-2xl text-sm font-bold text-slate-400 bg-card transition-all hover:bg-white/5"
+                className="w-full flex items-center justify-center gap-2 py-3.5 rounded-2xl text-sm font-bold text-slate-400 bg-card transition-all hover:bg-card/5"
                 style={{ boxShadow: '0 1px 4px rgba(0,0,0,0.06)', border: '1px solid rgba(0,0,0,0.07)' }}
               >
                 <RotateCcw size={14} />

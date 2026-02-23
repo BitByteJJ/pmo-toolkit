@@ -13,6 +13,7 @@ import { ALL_TEMPLATES, CardTemplate, TemplateSection } from '@/lib/templateData
 import { DECK_THEME, COPYRIGHT_STATEMENT } from '@/lib/templateFieldSchema';
 import { generateTemplatePDF } from '@/lib/pdfGenerator';
 import { generateTemplateDocx } from '@/lib/docxGenerator';
+import BottomNav from '@/components/BottomNav';
 
 // ─── Types ───────────────────────────────────────────────────────────────────
 interface TableRow {
@@ -103,7 +104,7 @@ function buildInitialRows(headers: string[], rows: string[][]): TableRow[] {
 // ─── RAG Status Picker ───────────────────────────────────────────────────────
 const RAG_OPTIONS = [
   { value: 'Green',  label: 'Green',  color: '#22c55e', bg: '#dcfce7' },
-  { value: 'Amber',  label: 'Amber',  color: '#f59e0b', bg: '#fef3c7' },
+  { value: 'Amber',  label: 'Amber',  color: '#f59e0b', bg: 'rgba(245,158,11,0.15)' },
   { value: 'Red',    label: 'Red',    color: '#ef4444', bg: '#fee2e2' },
   { value: 'Blue',   label: 'Blue',   color: '#3b82f6', bg: '#dbeafe' },
   { value: 'Grey',   label: 'N/A',    color: '#94a3b8', bg: '#f1f5f9' },
@@ -138,7 +139,7 @@ const PRIORITY_OPTIONS = ['High', 'Medium', 'Low'];
 function PriorityPicker({ value, onChange }: { value: string; onChange: (v: string) => void }) {
   const colors: Record<string, { bg: string; text: string }> = {
     High:   { bg: '#fee2e2', text: '#ef4444' },
-    Medium: { bg: '#fef3c7', text: '#f59e0b' },
+    Medium: { bg: 'rgba(245,158,11,0.15)', text: '#f59e0b' },
     Low:    { bg: '#dcfce7', text: '#22c55e' },
   };
   return (
@@ -199,18 +200,18 @@ function DynamicTable({
         </thead>
         <tbody>
           {rows.map((row, idx) => (
-            <tr key={row.id} className={idx % 2 === 0 ? 'bg-white' : 'bg-slate-50/50'}>
+            <tr key={row.id} className={idx % 2 === 0 ? 'bg-white/5' : 'bg-white/3'}>
               {headers.map(h => {
                 const colType = inferColumnType(h);
                 const val = row.cells[h] || '';
                 return (
-                  <td key={h} className="px-2 py-1.5 border-b border-slate-100 align-top">
+                  <td key={h} className="px-2 py-1.5 border-b border-white/8 align-top">
                     {colType === 'date' ? (
                       <input
                         type="date"
                         value={val}
                         onChange={e => updateCell(row.id, h, e.target.value)}
-                        className="w-full text-xs border border-slate-200 rounded-lg px-2 py-1 focus:outline-none focus:border-blue-400"
+                        className="w-full text-xs border border-white/15 bg-white/5 text-slate-100 rounded-lg px-2 py-1 focus:outline-none focus:border-blue-400"
                       />
                     ) : colType === 'rag' ? (
                       <RAGPicker value={val} onChange={v => updateCell(row.id, h, v)} />
@@ -222,7 +223,7 @@ function DynamicTable({
                         onChange={e => updateCell(row.id, h, e.target.value)}
                         rows={2}
                         placeholder={`Enter ${h.toLowerCase()}…`}
-                        className="w-full text-xs border border-slate-200 rounded-lg px-2 py-1 focus:outline-none focus:border-blue-400 resize-none min-w-[140px]"
+                        className="w-full text-xs border border-white/15 bg-white/5 text-slate-100 placeholder-slate-500 rounded-lg px-2 py-1 focus:outline-none focus:border-blue-400 resize-none min-w-[140px]"
                       />
                     ) : (
                       <input
@@ -230,18 +231,18 @@ function DynamicTable({
                         value={val}
                         onChange={e => updateCell(row.id, h, e.target.value)}
                         placeholder={`Enter ${h.toLowerCase()}…`}
-                        className="w-full text-xs border border-slate-200 rounded-lg px-2 py-1 focus:outline-none focus:border-blue-400 min-w-[100px]"
+                        className="w-full text-xs border border-white/15 bg-white/5 text-slate-100 placeholder-slate-500 rounded-lg px-2 py-1 focus:outline-none focus:border-blue-400 min-w-[100px]"
                       />
                     )}
                   </td>
                 );
               })}
-              <td className="px-1 py-1.5 border-b border-slate-100 align-middle">
+              <td className="px-1 py-1.5 border-b border-white/8 align-middle">
                 <button
                   type="button"
                   onClick={() => removeRow(row.id)}
                   disabled={rows.length <= 1}
-                  className="p-1 rounded hover:bg-red-50 text-slate-300 hover:text-red-400 transition-colors disabled:opacity-30"
+                  className="p-1 rounded hover:bg-red-900/30 text-slate-300 hover:text-red-400 transition-colors disabled:opacity-30"
                 >
                   <Trash2 size={12} />
                 </button>
@@ -291,8 +292,8 @@ function DynamicChecklist({
             value={item.text}
             onChange={e => updateText(item.id, e.target.value)}
             placeholder="Add checklist item…"
-            className="flex-1 text-sm border-b border-slate-200 focus:border-blue-400 focus:outline-none py-0.5 bg-transparent"
-            style={{ textDecoration: item.checked ? 'line-through' : 'none', color: item.checked ? '#94a3b8' : '#1e293b' }}
+            className="flex-1 text-sm border-b border-white/15 focus:border-blue-400 focus:outline-none py-0.5 bg-transparent text-slate-200"
+            style={{ textDecoration: item.checked ? 'line-through' : 'none', opacity: item.checked ? 0.5 : 1 }}
           />
           <button type="button" onClick={() => removeItem(item.id)} className="p-0.5 text-slate-300 hover:text-red-400 transition-colors shrink-0">
             <Trash2 size={12} />
@@ -354,7 +355,7 @@ function SectionForm({
   const textValue = (state.fields[textKey] as string) || '';
 
   return (
-    <div className="rounded-2xl overflow-hidden mb-4 bg-card shadow-sm border border-slate-100">
+    <div className="rounded-2xl overflow-hidden mb-4 bg-card shadow-sm border border-white/10">
       {/* Section header */}
       <button
         type="button"
@@ -419,7 +420,7 @@ function SectionForm({
                             type="date"
                             value={val}
                             onChange={e => updateField(fieldKey, e.target.value)}
-                            className="w-full text-sm border border-slate-200 rounded-xl px-3 py-2 focus:outline-none focus:border-blue-400"
+                            className="w-full text-sm border border-white/15 bg-white/5 text-slate-100 rounded-xl px-3 py-2 focus:outline-none focus:border-blue-400"
                           />
                         ) : field.isLong ? (
                           <textarea
@@ -427,7 +428,7 @@ function SectionForm({
                             onChange={e => updateField(fieldKey, e.target.value)}
                             rows={4}
                             placeholder={field.placeholder}
-                            className="w-full text-sm border border-slate-200 rounded-xl px-3 py-2 focus:outline-none focus:border-blue-400 resize-y"
+                            className="w-full text-sm border border-white/15 bg-white/5 text-slate-100 placeholder-slate-500 rounded-xl px-3 py-2 focus:outline-none focus:border-blue-400 resize-y"
                           />
                         ) : (
                           <input
@@ -435,7 +436,7 @@ function SectionForm({
                             value={val}
                             onChange={e => updateField(fieldKey, e.target.value)}
                             placeholder={field.placeholder}
-                            className="w-full text-sm border border-slate-200 rounded-xl px-3 py-2 focus:outline-none focus:border-blue-400"
+                            className="w-full text-sm border border-white/15 bg-white/5 text-slate-100 placeholder-slate-500 rounded-xl px-3 py-2 focus:outline-none focus:border-blue-400"
                           />
                         )}
                       </div>
@@ -675,7 +676,7 @@ export default function TemplateFiller() {
   }
 
   return (
-    <div className="min-h-screen pt-12 pb-32" style={{ background: '#f8fafc' }}>
+    <div className="min-h-screen pt-12 pb-32" style={{ background: 'var(--background)' }}>
       {/* Sticky header — top-12 keeps it below the fixed 48px TopNav */}
       <div className="sticky top-12 z-40 px-4 py-3"
         style={{ background: theme.color, boxShadow: `0 2px 16px ${theme.color}40` }}>
@@ -717,17 +718,17 @@ export default function TemplateFiller() {
                   initial={{ opacity: 0, scale: 0.95, y: -4 }}
                   animate={{ opacity: 1, scale: 1, y: 0 }}
                   exit={{ opacity: 0, scale: 0.95, y: -4 }}
-                  className="absolute right-0 top-full mt-1 bg-card rounded-xl shadow-xl border border-slate-100 overflow-hidden z-50 min-w-[160px]"
+                  className="absolute right-0 top-full mt-1 bg-card rounded-xl shadow-xl border border-white/10 overflow-hidden z-50 min-w-[160px]"
                 >
                   <button
                     onClick={() => handleDownload('pdf')}
-                    className="flex items-center gap-2 w-full px-4 py-3 text-sm font-semibold text-slate-700 hover:bg-slate-50 transition-colors"
+                    className="flex items-center gap-2 w-full px-4 py-3 text-sm font-semibold text-slate-200 hover:bg-white/10 transition-colors"
                   >
                     <FileDown size={16} className="text-red-500" /> Download PDF
                   </button>
                   <button
                     onClick={() => handleDownload('docx')}
-                    className="flex items-center gap-2 w-full px-4 py-3 text-sm font-semibold text-slate-700 hover:bg-slate-50 transition-colors border-t border-slate-100"
+                    className="flex items-center gap-2 w-full px-4 py-3 text-sm font-semibold text-slate-200 hover:bg-white/10 transition-colors border-t border-white/10"
                   >
                     <FileText size={16} className="text-blue-500" /> Download Word
                   </button>
@@ -752,53 +753,53 @@ export default function TemplateFiller() {
         </div>
 
         {/* Header fields */}
-        <div className="bg-card rounded-2xl shadow-sm border border-slate-100 p-4 mb-4">
+        <div className="bg-card rounded-2xl shadow-sm border border-white/10 p-4 mb-4">
           <h2 className="text-xs font-bold uppercase tracking-wider mb-3" style={{ color: theme.color }}>
             Document Header
           </h2>
           <div className="flex flex-col gap-3">
             {/* Row 1: Project / Organisation Name — full width */}
             <div>
-              <label className="block text-xs font-semibold text-slate-500 mb-1">Project / Organisation Name</label>
+              <label className="block text-xs font-semibold text-slate-400 mb-1">Project / Organisation Name</label>
               <input
                 type="text"
                 value={projectName}
                 onChange={e => setProjectName(e.target.value)}
                 placeholder="e.g. Digital Transformation Programme"
-                className="w-full text-sm border border-slate-200 rounded-xl px-3 py-2 focus:outline-none focus:border-blue-400"
+                className="w-full text-sm border border-white/15 bg-white/5 text-slate-100 placeholder-slate-500 rounded-xl px-3 py-2 focus:outline-none focus:border-blue-400"
               />
             </div>
             {/* Row 2: Prepared By + Version side by side */}
             <div className="grid grid-cols-2 gap-3">
               <div>
-                <label className="block text-xs font-semibold text-slate-500 mb-1">Prepared By</label>
+                <label className="block text-xs font-semibold text-slate-400 mb-1">Prepared By</label>
                 <input
                   type="text"
                   value={projectOwner}
                   onChange={e => setProjectOwner(e.target.value)}
                   placeholder="Your name"
-                  className="w-full text-sm border border-slate-200 rounded-xl px-3 py-2 focus:outline-none focus:border-blue-400"
+                  className="w-full text-sm border border-white/15 bg-white/5 text-slate-100 placeholder-slate-500 rounded-xl px-3 py-2 focus:outline-none focus:border-blue-400"
                 />
               </div>
               <div>
-                <label className="block text-xs font-semibold text-slate-500 mb-1">Version</label>
+                <label className="block text-xs font-semibold text-slate-400 mb-1">Version</label>
                 <input
                   type="text"
                   value={version}
                   onChange={e => setVersion(e.target.value)}
                   placeholder="1.0"
-                  className="w-full text-sm border border-slate-200 rounded-xl px-3 py-2 focus:outline-none focus:border-blue-400"
+                  className="w-full text-sm border border-white/15 bg-white/5 text-slate-100 placeholder-slate-500 rounded-xl px-3 py-2 focus:outline-none focus:border-blue-400"
                 />
               </div>
             </div>
             {/* Row 3: Date — full width so the native date picker has room */}
             <div>
-              <label className="block text-xs font-semibold text-slate-500 mb-1">Date</label>
+              <label className="block text-xs font-semibold text-slate-400 mb-1">Date</label>
               <input
                 type="date"
                 value={projectDate}
                 onChange={e => setProjectDate(e.target.value)}
-                className="w-full text-sm border border-slate-200 rounded-xl px-3 py-2 focus:outline-none focus:border-blue-400"
+                className="w-full text-sm border border-white/15 bg-white/5 text-slate-100 rounded-xl px-3 py-2 focus:outline-none focus:border-blue-400"
                 style={{ minWidth: 0, boxSizing: 'border-box' }}
               />
             </div>
@@ -827,7 +828,7 @@ export default function TemplateFiller() {
           <div className="flex gap-2 max-w-lg mx-auto">
             <button
               onClick={handleReset}
-              className="flex items-center gap-1.5 px-4 py-3 rounded-xl text-sm font-semibold bg-card shadow-md border border-slate-200 text-slate-600 hover:bg-slate-50 transition-colors"
+              className="flex items-center gap-1.5 px-4 py-3 rounded-xl text-sm font-semibold bg-card shadow-md border border-white/15 text-slate-300 hover:bg-white/10 transition-colors"
             >
               <RotateCcw size={14} /> Reset
             </button>
@@ -863,6 +864,7 @@ export default function TemplateFiller() {
           <p className="text-[10px] text-slate-400 text-center leading-relaxed">{COPYRIGHT_STATEMENT}</p>
         </div>
       </div>
+      <BottomNav />
     </div>
   );
 }

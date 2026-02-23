@@ -19,6 +19,7 @@ import {
 import { useJourney, MAX_HEARTS } from '@/contexts/JourneyContext';
 import { JOURNEY_LESSONS, getLessonByDay } from '@/lib/journeyData';
 import { CARDS, getCardById } from '@/lib/pmoData';
+import BottomNav from '@/components/BottomNav';
 
 // ─── PROGRESS BAR ─────────────────────────────────────────────────────────────
 function ProgressBar({ current, total }: { current: number; total: number }) {
@@ -30,10 +31,9 @@ function ProgressBar({ current, total }: { current: number; total: number }) {
         animate={{ width: `${pct}%` }}
         transition={{ duration: 0.4, ease: 'easeOut' }}
       />
-    </div>
+     </div>
   );
 }
-
 // ─── HEARTS DISPLAY ───────────────────────────────────────────────────────────
 function HeartsDisplay({ hearts }: { hearts: number }) {
   return (
@@ -78,16 +78,16 @@ function QuestionCard({
   const optionStyle = (index: number) => {
     if (answerState === 'unanswered') {
       return selected === index
-        ? 'border-blue-400 bg-blue-50'
-        : 'border-white/10 bg-white hover:border-white/15 hover:bg-white/5';
+        ? 'border-blue-400 bg-blue-900/30'
+        : 'border-white/10 bg-white/5 hover:border-white/15 hover:bg-white/10';
     }
     if (index === question.correctIndex) {
-      return 'border-emerald-400 bg-emerald-50';
+      return 'border-emerald-400 bg-emerald-900/30';
     }
     if (index === selected && selected !== question.correctIndex) {
-      return 'border-rose-400 bg-rose-50';
+      return 'border-rose-400 bg-rose-900/30';
     }
-    return 'border-white/10 bg-white opacity-50';
+    return 'border-white/10 bg-white/5 opacity-50';
   };
 
   const typeLabel: Record<string, string> = {
@@ -103,7 +103,7 @@ function QuestionCard({
       <div className="flex items-center gap-2">
         <span
           className="text-[9px] font-black uppercase tracking-widest px-2 py-0.5 rounded-full"
-          style={{ backgroundColor: '#EFF6FF', color: '#1D4ED8' }}
+          style={{ backgroundColor: 'rgba(59,130,246,0.15)', color: '#60a5fa' }}
         >
           {typeLabel[question.type] ?? question.type}
         </span>
@@ -152,8 +152,8 @@ function QuestionCard({
             exit={{ opacity: 0 }}
             className={`rounded-2xl p-4 ${
               answerState === 'correct'
-                ? 'bg-emerald-50 border border-emerald-200'
-                : 'bg-rose-50 border border-rose-200'
+                ? 'bg-emerald-900/30 border border-emerald-700'
+                : 'bg-rose-900/30 border border-rose-700'
             }`}
           >
             <div className="flex items-start gap-2">
@@ -165,7 +165,7 @@ function QuestionCard({
               <div>
                 <p
                   className={`text-[11px] font-bold mb-1 ${
-                    answerState === 'correct' ? 'text-emerald-700' : 'text-rose-700'
+                    answerState === 'correct' ? 'text-emerald-400' : 'text-rose-400'
                   }`}
                 >
                   {answerState === 'correct' ? 'Correct! +' + question.xp + ' XP' : 'Not quite — here\'s why:'}
@@ -216,7 +216,7 @@ function LessonCompleteScreen({
       initial={{ opacity: 0, scale: 0.95 }}
       animate={{ opacity: 1, scale: 1 }}
       className="min-h-screen flex flex-col items-center justify-center px-6 pb-12"
-      style={{ backgroundColor: isPerfect ? '#F0FDF4' : '#F5F3EE' }}
+      style={{ backgroundColor: 'var(--background)' }}
     >
       {/* Trophy / star animation */}
       <motion.div
@@ -224,7 +224,7 @@ function LessonCompleteScreen({
         animate={{ scale: 1, rotate: 0 }}
         transition={{ type: 'spring', stiffness: 300, damping: 20, delay: 0.1 }}
         className="w-24 h-24 rounded-full flex items-center justify-center mb-6"
-        style={{ backgroundColor: isPerfect ? '#DCFCE7' : '#FEF3C7' }}
+        style={{ backgroundColor: isPerfect ? 'rgba(16,185,129,0.15)' : 'rgba(234,179,8,0.15)' }}
       >
         {isPerfect ? (
           <Trophy size={44} className="text-emerald-500" />
@@ -237,7 +237,7 @@ function LessonCompleteScreen({
         initial={{ opacity: 0, y: 10 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.2 }}
-        className="text-2xl font-black text-slate-100 text-center mb-1"
+        className="text-2xl font-black text-white text-center mb-1"
         style={{ fontFamily: 'Sora, sans-serif' }}
       >
         {isPerfect ? 'Perfect Score!' : 'Lesson Complete!'}
@@ -297,25 +297,25 @@ function NoHeartsScreen({ onEarnHeart, onGoBack }: { onEarnHeart: () => void; on
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       className="min-h-screen flex flex-col items-center justify-center px-6 pb-12"
-      style={{ backgroundColor: '#FFF1F2' }}
+      style={{ backgroundColor: 'var(--background)' }}
     >
       <motion.div
         initial={{ scale: 0 }}
         animate={{ scale: 1 }}
         transition={{ type: 'spring', stiffness: 300, damping: 20 }}
-        className="w-24 h-24 rounded-full bg-rose-100 flex items-center justify-center mb-6"
+        className="w-24 h-24 rounded-full flex items-center justify-center mb-6" style={{ backgroundColor: "rgba(220,38,38,0.15)" }}
       >
         <Heart size={44} className="text-rose-500 fill-rose-400" />
       </motion.div>
 
-      <h2 className="text-2xl font-black text-rose-800 text-center mb-2" style={{ fontFamily: 'Sora, sans-serif' }}>
+      <h2 className="text-2xl font-black text-rose-400 text-center mb-2" style={{ fontFamily: 'Sora, sans-serif' }}>
         Out of Hearts
       </h2>
-      <p className="text-sm text-rose-600 text-center mb-2">
+      <p className="text-sm text-rose-300 text-center mb-2">
         You've used all 3 hearts for today.
       </p>
-      <p className="text-sm font-bold text-rose-700 text-center mb-8">
-        Hearts refill in: <span className="text-rose-900">{heartsRefillCountdown}</span>
+      <p className="text-sm font-bold text-rose-300 text-center mb-8">
+        Hearts refill in: <span className="text-rose-200">{heartsRefillCountdown}</span>
       </p>
 
       <div className="w-full max-w-xs space-y-3">
@@ -520,14 +520,15 @@ export default function LessonPage() {
   const displayQuestion = lessonWithRandomQ.questions[displayIndex];
 
   return (
-    <div className="min-h-screen pt-11 flex flex-col" style={{ backgroundColor: '#F5F3EE' }}>
+    <>
+    <div className="min-h-screen pt-11 flex flex-col" style={{ backgroundColor: 'var(--background)' }}>
       {/* Header */}
       <div
         className="sticky top-11 z-40 px-4 py-3"
         style={{
-          background: 'rgba(245,243,238,0.95)',
+          background: 'rgba(15,20,40,0.96)',
           backdropFilter: 'blur(12px)',
-          borderBottom: '1px solid rgba(0,0,0,0.06)',
+          borderBottom: '1px solid rgba(255,255,255,0.07)',
         }}
       >
         <div className="flex items-center gap-3">
@@ -579,7 +580,7 @@ export default function LessonPage() {
             exit={{ opacity: 0, y: 20 }}
             className="sticky bottom-0 px-4 pb-6 pt-3"
             style={{
-              background: 'rgba(245,243,238,0.95)',
+              background: 'rgba(15,20,40,0.96)',
               backdropFilter: 'blur(8px)',
               borderTop: '1px solid rgba(0,0,0,0.06)',
             }}
@@ -607,5 +608,7 @@ export default function LessonPage() {
         )}
       </AnimatePresence>
     </div>
+    <BottomNav />
+    </>
   );
 }

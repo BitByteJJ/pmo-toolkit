@@ -295,3 +295,15 @@
 - [x] Fix CardDetail: dark modal, dark sticky header, dark card surfaces
 - [x] Fix CaseStudiesPage, BookmarksPage, DecisionHelper, GlossaryPage, LessonPage, QuizPage, AiSuggest
 - [x] Fix VideoGuide and DailyChallenge component dark text colors
+
+## Dark Mode Pass 2 — Feb 23 2026 (Session 2)
+- [x] Add BottomNav to TemplateLibrary page
+- [x] Add BottomNav to TemplateFiller page
+- [x] Add BottomNav to EarnHeartPage, JourneyPage, LessonPage (were missing)
+- [x] Fix Glossary term card white backgrounds (#f5f3ee → rgba dark)
+- [x] Fix LessonPage complete/no-hearts screens (light bg → dark)
+- [x] Fix LessonPage question option selected states (bg-blue/emerald/rose-50 → dark)
+- [x] Fix LessonPage sticky header (warm bg → dark navy)
+- [x] Fix Browse by Deck tiles (theme.bg+'22' → theme.bg direct)
+- [x] Fix EarnHeartPage, QuizPage, DecisionHelper, AiSuggest, LearningRoadmap, HowItWasBuilt light bg remnants
+- [x] Fix TemplateFiller color picker and priority badge light backgrounds

@@ -14,6 +14,7 @@ import {
 } from 'lucide-react';
 import { useJourney, TOPICS_TO_EARN_HEART, MAX_HEARTS } from '@/contexts/JourneyContext';
 import { CARDS, DECKS, getDeckById } from '@/lib/pmoData';
+import BottomNav from '@/components/BottomNav';
 
 // ─── CARD STUDY MODAL ─────────────────────────────────────────────────────────
 function CardStudyModal({
@@ -57,7 +58,7 @@ function CardStudyModal({
         {/* Card header */}
         <div
           className="px-5 pt-5 pb-4 relative"
-          style={{ backgroundColor: deck?.bgColor ?? '#F5F3EE' }}
+          style={{ backgroundColor: deck?.bgColor ?? 'var(--background)' }}
         >
           <button
             onClick={onClose}
@@ -177,7 +178,7 @@ export default function EarnHeartPage() {
   };
 
   return (
-    <div className="min-h-screen pt-11 pb-24" style={{ backgroundColor: '#FFF1F2' }}>
+    <div className="min-h-screen pt-11 pb-24" style={{ backgroundColor: 'rgba(220,38,38,0.12)' }}>
       {/* Header */}
       <div
         className="sticky top-11 z-40 px-4 py-3"
@@ -316,7 +317,7 @@ export default function EarnHeartPage() {
         {/* Back to journey */}
         <button
           onClick={() => navigate('/journey')}
-          className="w-full py-3 rounded-2xl font-semibold text-slate-400 text-sm bg-white/10 hover:bg-white/15 active:scale-95 transition-all"
+          className="w-full py-3 rounded-2xl font-semibold text-slate-400 text-sm bg-card/10 hover:bg-card/15 active:scale-95 transition-all"
         >
           Back to Journey Map
         </button>
@@ -333,6 +334,7 @@ export default function EarnHeartPage() {
           />
         )}
       </AnimatePresence>
+      <BottomNav />
     </div>
   );
 }

@@ -36,7 +36,7 @@ function TermCard({ term, onCardClick }: { term: GlossaryTerm; onCardClick: (car
       exit={{ opacity: 0 }}
       transition={{ duration: 0.22 }}
       className="bg-card rounded-2xl overflow-hidden"
-      style={{ boxShadow: '0 2px 10px rgba(0,0,0,0.055), 0 1px 3px rgba(0,0,0,0.04), 0 0 0 1px rgba(0,0,0,0.03)' }}
+      style={{ boxShadow: '0 2px 10px rgba(0,0,0,0.3), 0 0 0 1px rgba(255,255,255,0.06)' }}
     >
       <div className="flex">
         <div className="w-1 shrink-0 rounded-l-2xl" style={{ backgroundColor: colors.border }} />
@@ -91,7 +91,7 @@ function TermCard({ term, onCardClick }: { term: GlossaryTerm; onCardClick: (car
                               onClick={() => onCardClick(cardId)}
                               className="flex items-center gap-1 px-2 py-1 rounded-lg text-[10px] font-bold transition-all hover:opacity-80 active:scale-95"
                               style={{
-                                backgroundColor: deck ? deck.color + '18' : '#f5f3ee',
+                                backgroundColor: deck ? deck.color + '18' : 'rgba(255,255,255,0.06)',
                                 color: deck ? deck.color : '#57534e',
                               }}
                             >
@@ -115,7 +115,7 @@ function TermCard({ term, onCardClick }: { term: GlossaryTerm; onCardClick: (car
                             <span
                               key={id}
                               className="text-[10px] font-semibold px-2 py-0.5 rounded-full"
-                              style={{ backgroundColor: '#f5f3ee', color: '#78716c' }}
+                              style={{ backgroundColor: 'rgba(255,255,255,0.06)', color: '#78716c' }}
                             >
                               {related.term}
                             </span>
@@ -257,7 +257,7 @@ function GlossaryChecker() {
               { icon: Zap, label: 'Pick the right term' },
               { icon: Trophy, label: 'Track your score' },
             ].map(({ icon: Icon, label }) => (
-              <div key={label} className="rounded-xl p-3" style={{ backgroundColor: '#f5f3ee' }}>
+              <div key={label} className="rounded-xl p-3" style={{ backgroundColor: 'rgba(255,255,255,0.06)' }}>
                 <Icon size={16} className="mx-auto mb-1.5 text-slate-400" />
                 <p className="text-[10px] font-semibold text-slate-400 leading-tight">{label}</p>
               </div>
@@ -295,7 +295,7 @@ function GlossaryChecker() {
           <div className="flex justify-center mb-6">
             <div className="relative w-24 h-24">
               <svg viewBox="0 0 100 100" className="w-full h-full -rotate-90">
-                <circle cx="50" cy="50" r="40" fill="none" stroke="#f5f3ee" strokeWidth="10" />
+                <circle cx="50" cy="50" r="40" fill="none" stroke="rgba(255,255,255,0.12)" strokeWidth="10" />
                 <circle
                   cx="50" cy="50" r="40" fill="none"
                   stroke={gradeColor} strokeWidth="10"
@@ -341,7 +341,7 @@ function GlossaryChecker() {
             <button
               onClick={() => setState('idle')}
               className="flex-1 py-3 rounded-2xl text-[13px] font-bold transition-all"
-              style={{ backgroundColor: '#f5f3ee', color: '#57534e' }}
+              style={{ backgroundColor: 'rgba(255,255,255,0.06)', color: '#57534e' }}
             >
               Change Settings
             </button>
@@ -416,20 +416,20 @@ function GlossaryChecker() {
           const isCorrect = idx === current.correctIndex;
           const revealed = state === 'answered';
 
-          let bg = '#ffffff';
-          let border = 'rgba(0,0,0,0.07)';
+          let bg = 'rgba(255,255,255,0.06)';
+          let border = 'rgba(255,255,255,0.12)';
           let textColor = '#e2e8f0';
           let icon = null;
 
           if (revealed) {
             if (isCorrect) {
-              bg = '#f0fdf4'; border = '#22c55e'; textColor = '#15803d';
+              bg = 'rgba(34,197,94,0.15)'; border = '#22c55e'; textColor = '#4ade80';
               icon = <CheckCircle2 size={16} className="shrink-0" style={{ color: '#22c55e' }} />;
             } else if (isSelected && !isCorrect) {
-              bg = '#fef2f2'; border = '#f87171'; textColor = '#b91c1c';
+              bg = 'rgba(248,113,113,0.15)'; border = '#f87171'; textColor = '#fca5a5';
               icon = <XCircle size={16} className="shrink-0" style={{ color: '#f87171' }} />;
             } else {
-              bg = '#fafaf9'; border = 'rgba(0,0,0,0.05)'; textColor = '#a8a29e';
+              bg = 'rgba(255,255,255,0.03)'; border = 'rgba(255,255,255,0.06)'; textColor = '#64748b';
             }
           }
 

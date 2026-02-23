@@ -150,7 +150,7 @@ function ResultsScreen({
           {trail.map((label, i) => (
             <span
               key={i}
-              className="text-[10px] font-semibold px-2.5 py-1 rounded-full bg-white/10 text-slate-400"
+              className="text-[10px] font-semibold px-2.5 py-1 rounded-full bg-card/10 text-slate-400"
             >
               {label}
             </span>
@@ -174,7 +174,7 @@ function ResultsScreen({
       <div className="flex gap-3 pt-2">
         <button
           onClick={onBack}
-          className="flex-1 flex items-center justify-center gap-2 rounded-2xl py-3 text-sm font-bold text-slate-400 bg-white/10"
+          className="flex-1 flex items-center justify-center gap-2 rounded-2xl py-3 text-sm font-bold text-slate-400 bg-card/10"
         >
           <ArrowLeft size={14} />
           Back
@@ -234,7 +234,7 @@ function QuestionScreen({
             {Math.round(progress)}% complete
           </span>
         </div>
-        <div className="h-1.5 rounded-full bg-white/10 overflow-hidden">
+        <div className="h-1.5 rounded-full bg-card/10 overflow-hidden">
           <motion.div
             className="h-full rounded-full"
             style={{ background: 'linear-gradient(90deg, #1e3a5f 0%, #2d5a8e 100%)' }}

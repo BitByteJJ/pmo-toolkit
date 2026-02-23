@@ -131,7 +131,7 @@ function RoadmapStep({
               <CheckCircle2 size={16} className="text-white" />
             </div>
           ) : isLocked ? (
-            <div className="w-9 h-9 rounded-full flex items-center justify-center bg-white/10">
+            <div className="w-9 h-9 rounded-full flex items-center justify-center bg-card/10">
               <Lock size={14} className="text-slate-500" />
             </div>
           ) : (

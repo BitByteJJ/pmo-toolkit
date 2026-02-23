@@ -58,14 +58,14 @@ export interface FillableTemplate {
 // Deck colour map (mirrors pmoData.ts DECKS)
 // ─────────────────────────────────────────────────────────────────────────────
 export const DECK_THEME: Record<string, { color: string; bg: string; text: string; title: string }> = {
-  phases:       { color: '#D97706', bg: '#FEF3C7', text: '#92400E', title: 'Project Phases' },
-  archetypes:   { color: '#0D9488', bg: '#CCFBF1', text: '#134E4A', title: 'Archetyping Guide' },
-  methodologies:{ color: '#4F46E5', bg: '#EEF2FF', text: '#312E81', title: 'Methodologies' },
-  people:       { color: '#E11D48', bg: '#FFE4E6', text: '#881337', title: 'People Domain' },
-  process:      { color: '#059669', bg: '#D1FAE5', text: '#064E3B', title: 'Process Domain' },
-  business:     { color: '#7C3AED', bg: '#EDE9FE', text: '#4C1D95', title: 'Business Environment' },
-  tools:        { color: '#0284C7', bg: '#E0F2FE', text: '#0C4A6E', title: 'Tools Deck' },
-  techniques:   { color: '#94a3b8', bg: '#1E293B', text: '#e2e8f0', title: 'Advanced Techniques' },
+  phases:       { color: '#FBBF24', bg: 'rgba(217,119,6,0.18)',  text: '#fde68a', title: 'Project Phases' },
+  archetypes:   { color: '#2DD4BF', bg: 'rgba(13,148,136,0.18)', text: '#99f6e4', title: 'Archetyping Guide' },
+  methodologies:{ color: '#818CF8', bg: 'rgba(79,70,229,0.18)',  text: '#c7d2fe', title: 'Methodologies' },
+  people:       { color: '#FB7185', bg: 'rgba(225,29,72,0.18)',  text: '#fecdd3', title: 'People Domain' },
+  process:      { color: '#34D399', bg: 'rgba(5,150,105,0.18)',  text: '#a7f3d0', title: 'Process Domain' },
+  business:     { color: '#A78BFA', bg: 'rgba(124,58,237,0.18)', text: '#ddd6fe', title: 'Business Environment' },
+  tools:        { color: '#38BDF8', bg: 'rgba(2,132,199,0.18)',  text: '#bae6fd', title: 'Tools Deck' },
+  techniques:   { color: '#94a3b8', bg: 'rgba(100,116,139,0.18)',text: '#e2e8f0', title: 'Advanced Techniques' },
 };
 
 // ─────────────────────────────────────────────────────────────────────────────

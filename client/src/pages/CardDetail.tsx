@@ -1083,7 +1083,7 @@ export default function CardDetail() {
                 </div>
                 <div className="space-y-2">
                   {glossaryTerms.map(term => (
-                    <div key={term.id} className="rounded-xl p-3" style={{ backgroundColor: '#f5f3ee' }}>
+                    <div key={term.id} className="rounded-xl p-3" style={{ backgroundColor: 'rgba(255,255,255,0.06)' }}>
                       <p className="text-[12px] font-bold text-slate-200 mb-0.5" style={{ fontFamily: 'Sora, sans-serif' }}>{term.term}</p>
                       <p className="text-[11px] text-slate-400 leading-relaxed">{term.definition}</p>
                     </div>
