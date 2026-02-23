@@ -283,3 +283,38 @@
     transform: scale(0.97);
   }
 }
+
+/* ─── Dark Scrollbar ─────────────────────────────────────────────────────────
+   Applies globally in Chrome, Edge, and other Chromium browsers (Windows
+   included). Firefox uses the standard scrollbar-color / scrollbar-width
+   properties. Both are set here so the experience is consistent everywhere.
+   ─────────────────────────────────────────────────────────────────────────── */
+
+/* Firefox */
+* {
+  scrollbar-color: rgba(255, 255, 255, 0.18) transparent;
+  scrollbar-width: thin;
+}
+
+/* Chrome / Edge / Safari / Opera */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.18);
+  border-radius: 9999px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.32);
+}
+
+::-webkit-scrollbar-corner {
+  background: transparent;
+}

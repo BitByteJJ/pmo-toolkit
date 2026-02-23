@@ -431,3 +431,7 @@
 
 - [x] Audit deepDiveData for BE01–BE05 and add any missing entries
 - [x] Rename stale business-1/2/3/4/5 keys to BE01–BE05 across deepDiveData, cardLevels, decisionData, glossaryData, journeyData, VisualReference, TemplateLibrary
+
+## Dark Scrollbar — Feb 23 2026
+
+- [x] Add dark custom scrollbar CSS for Chrome/Edge/Windows (webkit) and Firefox (scrollbar-color)
