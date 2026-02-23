@@ -4,7 +4,6 @@
 import { useLocation } from 'wouter';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Bookmark, BookmarkX, ArrowRight } from 'lucide-react';
-import BottomNav from '@/components/BottomNav';
 import { getCardById, getDeckById } from '@/lib/pmoData';
 import { useBookmarks } from '@/contexts/BookmarksContext';
 
@@ -125,7 +124,6 @@ export default function BookmarksPage() {
         )}
       </div>
 
-      <BottomNav />
     </div>
   );
 }

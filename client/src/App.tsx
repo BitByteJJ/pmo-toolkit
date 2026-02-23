@@ -32,6 +32,7 @@ import OnboardingTour, { useOnboardingTour } from './components/OnboardingTour';
 import { BookmarksProvider } from './contexts/BookmarksContext';
 import { JourneyProvider } from './contexts/JourneyContext';
 import TopNav from './components/TopNav';
+import BottomNav from './components/BottomNav';
 import { getDeckById, getCardById } from './lib/pmoData';
 
 // Scroll to top on every route change
@@ -43,7 +44,15 @@ function ScrollToTop() {
   return null;
 }
 
-  // Show TopNav on all pages except home and quiz
+  // Show BottomNav on all pages except quiz and lesson (lesson has its own sticky bar)
+function GlobalBottomNav() {
+  const [location] = useLocation();
+  if (location.startsWith('/quiz')) return null;
+  if (location.startsWith('/journey/lesson')) return null;
+  return <BottomNav />;
+}
+
+// Show TopNav on all pages except home and quiz
 function GlobalTopNav() {
   const [location] = useLocation();
   if (location === '/') return null;
@@ -81,6 +90,7 @@ function Router() {
     <>
       <ScrollToTop />
       <GlobalTopNav />
+      <GlobalBottomNav />
       <Switch>
         <Route path="/" component={Home} />
         <Route path="/deck/:deckId" component={DeckView} />

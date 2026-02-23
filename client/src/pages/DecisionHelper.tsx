@@ -21,7 +21,6 @@ import {
   type DecisionAnswer,
 } from '@/lib/decisionData';
 import { CARDS, DECKS, getCardById } from '@/lib/pmoData';
-import BottomNav from '@/components/BottomNav';
 
 // ─────────────────────────────────────────────────────────────────────────────
 // Types
@@ -501,7 +500,6 @@ export default function DecisionHelper() {
         </AnimatePresence>
       </div>
 
-      <BottomNav />
     </div>
   );
 }

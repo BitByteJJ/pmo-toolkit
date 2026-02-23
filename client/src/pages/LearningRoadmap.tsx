@@ -5,7 +5,6 @@ import { useState } from 'react';
 import { useLocation } from 'wouter';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ChevronRight, MapPin, Trophy, Zap, CheckCircle2, Circle, Lock, ArrowRight } from 'lucide-react';
-import BottomNav from '@/components/BottomNav';
 import { LEARNING_JOURNEYS, type JourneyLevel, type LearningJourney } from '@/lib/learningJourneys';
 import { getCardById } from '@/lib/pmoData';
 import { useCardProgress } from '@/hooks/useCardProgress';
@@ -414,7 +413,6 @@ export default function LearningRoadmap() {
         )}
       </div>
 
-      <BottomNav />
     </div>
   );
 }

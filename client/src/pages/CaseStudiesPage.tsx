@@ -7,7 +7,6 @@ import { motion, AnimatePresence } from 'framer-motion';
 import {
   BookOpen, Building2, Clock, Users, ChevronRight, Search, X, Filter,
 } from 'lucide-react';
-import BottomNav from '@/components/BottomNav';
 import { getAllCaseStudies, type CaseStudy } from '@/lib/caseStudiesData';
 import { DECKS, getDeckById } from '@/lib/pmoData';
 
@@ -297,7 +296,6 @@ export default function CaseStudiesPage() {
         )}
       </div>
 
-      <BottomNav />
     </div>
   );
 }

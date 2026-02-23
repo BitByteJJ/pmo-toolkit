@@ -15,7 +15,6 @@ import {
 } from 'lucide-react';
 import { useJourney, TOPICS_TO_EARN_HEART, MAX_HEARTS } from '@/contexts/JourneyContext';
 import { CARDS, DECKS, getDeckById } from '@/lib/pmoData';
-import BottomNav from '@/components/BottomNav';
 
 // ─── CARD STUDY MODAL ─────────────────────────────────────────────────────────
 function CardStudyModal({
@@ -379,7 +378,6 @@ export default function EarnHeartPage() {
           />
         )}
       </AnimatePresence>
-      <BottomNav />
     </div>
   );
 }

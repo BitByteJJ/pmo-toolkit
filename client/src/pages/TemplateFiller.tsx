@@ -13,7 +13,6 @@ import { ALL_TEMPLATES, CardTemplate, TemplateSection } from '@/lib/templateData
 import { DECK_THEME, COPYRIGHT_STATEMENT } from '@/lib/templateFieldSchema';
 import { generateTemplatePDF } from '@/lib/pdfGenerator';
 import { generateTemplateDocx } from '@/lib/docxGenerator';
-import BottomNav from '@/components/BottomNav';
 
 // ─── Types ───────────────────────────────────────────────────────────────────
 interface TableRow {
@@ -864,7 +863,6 @@ export default function TemplateFiller() {
           <p className="text-[10px] text-slate-300 text-center leading-relaxed">{COPYRIGHT_STATEMENT}</p>
         </div>
       </div>
-      <BottomNav />
     </div>
   );
 }

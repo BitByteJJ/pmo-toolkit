@@ -9,7 +9,6 @@ import {
   Search, X, BookMarked, ChevronRight, CheckCircle2, XCircle,
   Trophy, RotateCcw, Zap, Brain, BookOpen,
 } from 'lucide-react';
-import BottomNav from '@/components/BottomNav';
 import {
   GLOSSARY_TERMS,
   GLOSSARY_LETTERS,
@@ -700,7 +699,6 @@ export default function GlossaryPage() {
         )}
       </AnimatePresence>
 
-      <BottomNav />
     </div>
   );
 }

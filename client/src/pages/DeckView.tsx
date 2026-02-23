@@ -11,7 +11,6 @@ import {
   SlidersHorizontal, ArrowUpDown, X,
 } from 'lucide-react';
 import { useState, useMemo, useRef, useCallback } from 'react';
-import BottomNav from '@/components/BottomNav';
 import { getCardsByDeck, getDeckById } from '@/lib/pmoData';
 import { getCardLevel, LEVEL_LABELS, LEVEL_COLORS, DifficultyLevel } from '@/lib/cardLevels';
 import { getCardIllustration } from '@/lib/toolImages';
@@ -906,7 +905,6 @@ export default function DeckView() {
         </motion.div>
       </div>
 
-      <BottomNav />
     </div>
   );
 }

@@ -8,7 +8,6 @@ import {
   LayoutGrid, Filter, CheckCircle2, Layers,
 } from 'lucide-react';
 import { CARDS, DECKS } from '@/lib/pmoData';
-import BottomNav from '@/components/BottomNav';
 import { DECK_THEME } from '@/lib/templateFieldSchema';
 import { ALL_TEMPLATES, CardTemplate } from '@/lib/templateData';
 
@@ -432,7 +431,6 @@ export default function TemplateLibrary() {
 
         </AnimatePresence>
       </div>
-      <BottomNav />
     </div>
   );
 }

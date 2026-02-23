@@ -10,7 +10,6 @@ import {
   Copy, Check,
 } from 'lucide-react';
 import { useLocation } from 'wouter';
-import BottomNav from '@/components/BottomNav';
 
 // ── Data ─────────────────────────────────────────────────────────────────────
 
@@ -528,7 +527,6 @@ export default function HowItWasBuilt() {
         )}
       </div>
 
-      <BottomNav />
     </div>
   );
 }

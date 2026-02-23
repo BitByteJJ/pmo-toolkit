@@ -5,7 +5,6 @@
 import { useLocation } from 'wouter';
 import { motion } from 'framer-motion';
 import { ArrowRight, Trophy, Star } from 'lucide-react';
-import BottomNav from '@/components/BottomNav';
 import { DECKS, getCardsByDeck } from '@/lib/pmoData';
 import { useCardProgress } from '@/hooks/useCardProgress';
 import { useMasteryBadges } from '@/hooks/useMasteryBadges';
@@ -300,7 +299,6 @@ export default function DecksPage() {
           </div>
         </div>
       </div>
-      <BottomNav />
     </div>
   );
 }

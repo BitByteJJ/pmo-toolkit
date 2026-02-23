@@ -7,7 +7,6 @@ import { useLocation } from 'wouter';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Sparkles, ArrowRight, RotateCcw, Lightbulb, Send, ChevronRight } from 'lucide-react';
 import { DECKS, getCardById } from '@/lib/pmoData';
-import BottomNav from '@/components/BottomNav';
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
@@ -493,7 +492,6 @@ export default function AiSuggest() {
         </AnimatePresence>
       </div>
 
-      <BottomNav />
     </div>
   );
 }

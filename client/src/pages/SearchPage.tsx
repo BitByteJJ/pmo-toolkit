@@ -5,7 +5,6 @@ import { useState, useMemo } from 'react';
 import { useLocation } from 'wouter';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Search, X, Bookmark, BookmarkCheck } from 'lucide-react';
-import BottomNav from '@/components/BottomNav';
 import { searchCards, getDeckById, DECKS, getCardsByDeck } from '@/lib/pmoData';
 import { useBookmarks } from '@/contexts/BookmarksContext';
 import { getCardLevel, LEVEL_LABELS, LEVEL_COLORS, DifficultyLevel } from '@/lib/cardLevels';
@@ -258,7 +257,6 @@ export default function SearchPage() {
         )}
       </div>
 
-      <BottomNav />
     </div>
   );
 }

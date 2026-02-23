@@ -411,3 +411,7 @@
 - [x] Frosted glass meta pill on each card row for readability
 - [x] Illustrations more visible (opacity 0.65, larger 160% height, screen blend)
 - [x] Bookmark badge floats outside card boundary as a circular pill button
+
+## BottomNav Global Fix — Feb 23 2026
+
+- [x] Fix BottomNav disappearing on screens wider than 1024px — removed lg:hidden, moved to App.tsx as GlobalBottomNav, removed per-page imports

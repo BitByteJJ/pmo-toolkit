@@ -21,7 +21,6 @@ import { useJourney, MAX_HEARTS, TOPICS_TO_EARN_HEART } from '@/contexts/Journey
 import { JOURNEY_LESSONS, JOURNEY_UNITS, getLevelForXP, getNextLevel } from '@/lib/journeyData';
 import { useState, useEffect } from 'react';
 import JourneySetupWizard, { JOURNEY_PROFILE_KEY, getPersonalisedTip, type JourneyProfile } from '@/components/JourneySetupWizard';
-import BottomNav from '@/components/BottomNav';
 
 // ─── HEARTS DISPLAY ───────────────────────────────────────────────────────────
 function HeartsBar() {
@@ -742,7 +741,6 @@ export default function JourneyPage() {
         </motion.div>
       </div>
     </div>
-    <BottomNav />
     </>
   );
 }

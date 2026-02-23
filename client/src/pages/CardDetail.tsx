@@ -12,7 +12,6 @@ import {
   BookOpen, Building2, Clock, Users, Quote, BookMarked
 } from 'lucide-react';
 import { useState, useEffect, useRef, useCallback } from 'react';
-import BottomNav from '@/components/BottomNav';
 import { getCardById, getDeckById, getRelatedCards, getCardsByDeck } from '@/lib/pmoData';
 import { getCopyrightNotices, GENERAL_DISCLAIMER } from '@/lib/copyrightData';
 import { getCardIllustration } from '@/lib/toolImages';
@@ -263,7 +262,6 @@ export default function CardDetail() {
             Go home
           </button>
         </div>
-        <BottomNav />
       </div>
     );
   }
@@ -1375,7 +1373,6 @@ export default function CardDetail() {
         </motion.div>
       </AnimatePresence>
 
-      <BottomNav />
 
       {/* Social share sheet */}
       <ShareSheet

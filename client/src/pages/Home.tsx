@@ -10,7 +10,6 @@ import {
 } from 'lucide-react';
 import { useOnboardingTour } from '@/components/OnboardingTour';
 import OnboardingTour from '@/components/OnboardingTour';
-import BottomNav from '@/components/BottomNav';
 import { CARDS, DECKS } from '@/lib/pmoData';
 import { useBookmarks } from '@/contexts/BookmarksContext';
 import { useCardProgress } from '@/hooks/useCardProgress';
@@ -360,7 +359,6 @@ export default function Home() {
           ))}
         </div>
       </div>
-      <BottomNav />
     </div>
   );
 }

@@ -20,7 +20,6 @@ import {
 import { useJourney, MAX_HEARTS } from '@/contexts/JourneyContext';
 import { JOURNEY_LESSONS, getLessonByDay } from '@/lib/journeyData';
 import { CARDS, getCardById } from '@/lib/pmoData';
-import BottomNav from '@/components/BottomNav';
 
 // ─── PROGRESS BAR ─────────────────────────────────────────────────────────────
 function ProgressBar({ current, total }: { current: number; total: number }) {
@@ -680,7 +679,6 @@ export default function LessonPage() {
         )}
       </AnimatePresence>
     </div>
-    <BottomNav />
     </>
   );
 }
