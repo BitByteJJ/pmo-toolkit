@@ -435,3 +435,7 @@
 ## Dark Scrollbar — Feb 23 2026
 
 - [x] Add dark custom scrollbar CSS for Chrome/Edge/Windows (webkit) and Firefox (scrollbar-color)
+
+## Roadmap Tab Visual Upgrade — Feb 23 2026
+
+- [x] Apply frosted glass and richer active states to Roadmap page tabs
