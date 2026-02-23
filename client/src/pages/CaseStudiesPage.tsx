@@ -63,6 +63,13 @@ function CaseStudyCard({ cs, onClick }: { cs: CaseStudy; onClick: () => void }) 
           <ChevronRight size={14} className="text-stone-300 shrink-0 mt-1" />
         </div>
 
+        {/* Fictional badge */}
+        {cs.fictional && (
+          <div className="flex items-center gap-1 mb-2">
+            <span className="text-[8px] font-bold uppercase tracking-widest text-amber-600">Fictional</span>
+            <span className="text-[8px] font-semibold bg-amber-50 text-amber-700 border border-amber-200 px-1.5 py-0.5 rounded-full">Illustrative Example</span>
+          </div>
+        )}
         {/* Meta row */}
         <div className="flex flex-wrap gap-x-3 gap-y-1 mb-3">
           <span className="flex items-center gap-1 text-[11px] font-semibold text-stone-500">

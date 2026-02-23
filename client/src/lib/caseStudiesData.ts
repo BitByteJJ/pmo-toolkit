@@ -15,6 +15,7 @@ export interface CaseStudy {
   timeframe?: string;
   teamSize?: string;
   quote?: { text: string; attribution: string };
+  fictional?: boolean;
 }
 
 const CASE_STUDIES: CaseStudy[] = [
@@ -1823,6 +1824,7 @@ const CASE_STUDIES: CaseStudy[] = [
   {
     cardId: 'A4',
     organisation: `TechSolutions Inc.`,
+    fictional: true,
     industry: `Software Development`,
     projectName: `Agile Transformation Initiative`,
     challenge: `TechSolutions Inc. faced challenges with inconsistent decision-making authority across its agile development teams, leading to delays and confusion. Team members often felt disempowered, while project leads struggled with micromanagement tendencies.`,
@@ -1840,6 +1842,7 @@ const CASE_STUDIES: CaseStudy[] = [
   {
     cardId: 'A7',
     organisation: `Manufacturing Excellence Corp.`,
+    fictional: true,
     industry: `Automotive Manufacturing`,
     projectName: `Assembly Line Efficiency Improvement`,
     challenge: `Manufacturing Excellence Corp. was experiencing bottlenecks and inefficiencies in a critical assembly line, leading to increased production costs and missed delivery targets. Traditional, long-term improvement initiatives had failed to yield rapid, tangible results.`,
@@ -1925,6 +1928,7 @@ const CASE_STUDIES: CaseStudy[] = [
   {
     cardId: 'A8',
     organisation: `MediCorp Pharmaceuticals`,
+    fictional: true,
     industry: `Pharmaceuticals`,
     projectName: `Drug Licensing Agreement Negotiation`,
     challenge: `MediCorp Pharmaceuticals was in a critical negotiation to license a new drug compound from a smaller biotech firm. The challenge was to secure favorable terms while ensuring the biotech firm felt adequately compensated, avoiding a breakdown in negotiations that could lead to significant market delays.`,
@@ -1942,6 +1946,7 @@ const CASE_STUDIES: CaseStudy[] = [
   {
     cardId: 'A21',
     organisation: `Aurora Motors`,
+    fictional: true,
     industry: `Automotive`,
     projectName: `Next-Generation Electric Vehicle Battery Procurement`,
     challenge: `Aurora Motors faced significantly higher-than-expected quotes for battery packs for their new EV line, jeopardizing the project's profitability and market competitiveness. They needed a robust method to validate supplier pricing and identify potential cost savings.`,
@@ -1959,6 +1964,7 @@ const CASE_STUDIES: CaseStudy[] = [
   {
     cardId: 'A24',
     organisation: `TechSolutions Inc.`,
+    fictional: true,
     industry: `Software Services`,
     projectName: `Customer Support Knowledge Base Optimization`,
     challenge: `TechSolutions Inc. was experiencing escalating customer support costs and inconsistent service quality due to agents spending excessive time searching for solutions and recreating answers. Their existing knowledge base was disorganized and underutilized.`,
@@ -2010,6 +2016,7 @@ const CASE_STUDIES: CaseStudy[] = [
   {
     cardId: 'A41',
     organisation: `Precision Manufacturing Ltd.`,
+    fictional: true,
     industry: `Aerospace Manufacturing`,
     projectName: `Engine Component Defect Reduction`,
     challenge: `Precision Manufacturing Ltd. experienced recurring critical defects in a newly designed engine component, leading to costly rework, production delays, and potential safety concerns. The root cause remained elusive despite initial troubleshooting.`,
@@ -2282,6 +2289,7 @@ const CASE_STUDIES: CaseStudy[] = [
   {
     cardId: 'A70',
     organisation: `Global Logistics Inc.`,
+    fictional: true,
     industry: `Logistics and Supply Chain`,
     projectName: `Enterprise Resource Planning (ERP) System Upgrade`,
     challenge: `Global Logistics Inc. was undertaking a major upgrade of its legacy ERP system, a change that would affect nearly all departments and thousands of employees worldwide. The primary concern was the potential for significant operational disruption, employee resistance, and unforeseen costs due to inadequate preparation for the change.`,
@@ -2401,6 +2409,7 @@ const CASE_STUDIES: CaseStudy[] = [
   {
     cardId: 'AG3',
     organisation: `Urban Development Corp.`,
+    fictional: true,
     industry: `Real Estate Development`,
     projectName: `Smart City Infrastructure`,
     challenge: `Urban Development Corp. was initiating a complex 'Smart City Infrastructure' project, involving multiple stakeholders, diverse technical components, and long-term planning. They needed a robust framework to choose and adapt a project methodology that could handle both predictable construction phases and innovative technology integrations.`,
@@ -2418,6 +2427,7 @@ const CASE_STUDIES: CaseStudy[] = [
   {
     cardId: 'P13',
     organisation: `TechSolutions Inc.`,
+    fictional: true,
     industry: `Software Development`,
     projectName: `Cloud Migration Initiative`,
     challenge: `Key business stakeholders lacked understanding of agile development principles and cloud infrastructure, leading to resistance and unrealistic expectations for the migration project.`,
@@ -2503,6 +2513,7 @@ const CASE_STUDIES: CaseStudy[] = [
   {
     cardId: 'PR13',
     organisation: `FinTech Innovations Ltd.`,
+    fictional: true,
     industry: `Financial Technology`,
     projectName: `New Mobile Banking App Development`,
     challenge: `FinTech Innovations needed to develop a new mobile banking app quickly in a rapidly evolving market, but traditional waterfall methods were proving too slow and inflexible for their dynamic requirements.`,
@@ -2520,6 +2531,7 @@ const CASE_STUDIES: CaseStudy[] = [
   {
     cardId: 'PR17',
     organisation: `MediCorp Pharmaceuticals`,
+    fictional: true,
     industry: `Pharmaceutical Research`,
     projectName: `Clinical Trial Management System (CTMS) Implementation`,
     challenge: `MediCorp was implementing a new Clinical Trial Management System (CTMS) and needed a clear, systematic plan to ensure a smooth transition, data migration, and user adoption, minimizing disruption to ongoing trials.`,

@@ -1243,17 +1243,26 @@ export default function CardDetail() {
               {/* Header card */}
               <div
                 className="rounded-2xl p-4"
-                style={{ backgroundColor: (deck?.color ?? '#0284C7') + '10', border: `1.5px solid ${deck?.color ?? '#0284C7'}25` }}
+                style={caseStudy.fictional
+                  ? { backgroundColor: '#fef3c710', border: '1.5px solid #f59e0b40' }
+                  : { backgroundColor: (deck?.color ?? '#0284C7') + '10', border: `1.5px solid ${deck?.color ?? '#0284C7'}25` }}
               >
                 <div className="flex items-center gap-2 mb-3">
                   <div
                     className="w-8 h-8 rounded-xl flex items-center justify-center shrink-0"
-                    style={{ backgroundColor: deck?.color ?? '#0284C7' }}
+                    style={{ backgroundColor: caseStudy.fictional ? '#f59e0b' : (deck?.color ?? '#0284C7') }}
                   >
                     <BookOpen size={14} className="text-white" />
                   </div>
                   <div>
+                    {caseStudy.fictional ? (
+                    <div className="flex items-center gap-1">
+                      <span className="text-[9px] font-bold uppercase tracking-widest text-amber-600">Fictional Case Study</span>
+                      <span className="text-[8px] font-semibold bg-amber-100 text-amber-700 border border-amber-300 px-1.5 py-0.5 rounded-full">Illustrative</span>
+                    </div>
+                  ) : (
                     <div className="text-[9px] font-bold uppercase tracking-widest" style={{ color: deck?.color }}>Real-World Case Study</div>
+                  )}
                     <h3 className="text-sm font-bold text-stone-800 leading-tight" style={{ fontFamily: 'Sora, sans-serif' }}>{caseStudy.projectName}</h3>
                   </div>
                 </div>
