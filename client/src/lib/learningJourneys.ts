@@ -1,7 +1,7 @@
 // client/src/lib/learningJourneys.ts
 // Curated learning journey paths for three experience levels
 
-export type JourneyLevel = 'beginner' | 'intermediate' | 'advanced';
+export type JourneyLevel = 'beginner' | 'intermediate' | 'advanced' | 'pmbok8';
 
 export interface JourneyMilestone {
   /** Card ID from pmoData */
@@ -86,6 +86,7 @@ export const LEARNING_JOURNEYS: LearningJourney[] = [
         color: '#7C3AED',
         steps: [
           { cardId: 'phase-closure', rationale: 'Learn how to close a project properly — it\'s not just stopping work.' },
+          { cardId: 'T27', rationale: 'Run in-progress postmortems during the project — don\'t wait until the end to capture lessons.' },
           { cardId: 'A25', rationale: 'Run a post-implementation review to measure success and capture lessons.', milestone: '🎓 First Project Complete!' },
         ],
       },
@@ -124,6 +125,9 @@ export const LEARNING_JOURNEYS: LearningJourney[] = [
         steps: [
           { cardId: 'M2', rationale: 'Deepen your Agile understanding beyond the basics.' },
           { cardId: 'T17', rationale: 'Use burndown charts to track sprint progress and forecast completion.' },
+          { cardId: 'T35', rationale: 'Add burnup charts to your toolkit — they make scope changes visible alongside completed work.' },
+          { cardId: 'T36', rationale: 'Measure team velocity to forecast sprint capacity and predict release dates.' },
+          { cardId: 'T37', rationale: 'Run effective sprint reviews that generate genuine stakeholder feedback.' },
           { cardId: 'A33', rationale: 'Prioritise your backlog using WSJF — value per unit of effort.' },
           { cardId: 'M4', rationale: 'Learn when and how to blend Agile and Waterfall for complex programmes.', milestone: 'Agile Fluent' },
         ],
@@ -145,6 +149,9 @@ export const LEARNING_JOURNEYS: LearningJourney[] = [
         color: '#D97706',
         steps: [
           { cardId: 'T4', rationale: 'Use Earned Value Management to objectively measure project performance.' },
+          { cardId: 'T39', rationale: 'Calculate the TCPI — the efficiency you need to complete within budget.' },
+          { cardId: 'T22', rationale: 'Apply predictive analytics to forecast schedule and cost outcomes from historical data.' },
+          { cardId: 'T34', rationale: 'When the schedule slips, use compression techniques to recover without cutting scope.' },
           { cardId: 'A34', rationale: 'Map your value stream to find and eliminate waste in your delivery process.' },
           { cardId: 'A26', rationale: 'Ensure the benefits your project promised are actually being realised.', milestone: '🏆 Senior PM Ready' },
         ],
@@ -206,8 +213,75 @@ export const LEARNING_JOURNEYS: LearningJourney[] = [
         steps: [
           { cardId: 'A20', rationale: 'Implement integrated change control to govern all programme changes.' },
           { cardId: 'process-14', rationale: 'Design and maintain appropriate oversight and decision-making structures.' },
+          { cardId: 'A89', rationale: 'Embed ESG and sustainability considerations into programme governance.' },
           { cardId: 'business-1', rationale: 'Ensure your programme meets all regulatory and legal requirements.' },
           { cardId: 'business-2', rationale: 'Keep the entire programme focused on delivering measurable business value.', milestone: '🎯 PMO Leader' },
+        ],
+      },
+    ],
+  },
+
+  // ─────────────────────────────────────────────────────────────────────────
+  // PMBOK 8 — AI, modern tools, and next-generation PM practices
+  // ─────────────────────────────────────────────────────────────────────────
+  {
+    level: 'pmbok8',
+    title: 'PMBOK 8 Essentials',
+    subtitle: 'Modern & AI-Driven PM',
+    description: 'Master the new tools, techniques, and principles introduced in PMBOK 8 — from AI-powered forecasting and process automation to sustainability, cultural intelligence, and the Project Canvas. Designed for PMs who want to stay ahead of the profession.',
+    emoji: '🤖',
+    color: '#0EA5E9',
+    bgColor: '#F0F9FF',
+    textColor: '#0C4A6E',
+    totalWeeks: 8,
+    sections: [
+      {
+        title: 'Foundations of PMBOK 8',
+        description: 'Understand the new principles, structure, and key shifts in the eighth edition.',
+        color: '#0EA5E9',
+        steps: [
+          { cardId: 'A88', rationale: 'Start with the six core principles that underpin all of PMBOK 8.', milestone: 'PMBOK 8 Oriented' },
+          { cardId: 'T24', rationale: 'Use the Project Canvas — a new PMBOK 8 tool — to capture your project on a single page.' },
+          { cardId: 'T40', rationale: 'Apply benchmarking to validate your project estimates and performance targets.' },
+          { cardId: 'T41', rationale: 'Use prompt lists (PESTLE, TECOP) for comprehensive risk identification.' },
+        ],
+      },
+      {
+        title: 'AI and Intelligent Automation',
+        description: 'Harness AI, predictive analytics, and automation to work smarter.',
+        color: '#7C3AED',
+        steps: [
+          { cardId: 'T21', rationale: 'Understand how AI is reshaping project management — from scheduling to risk prediction.', milestone: 'AI Literacy' },
+          { cardId: 'T22', rationale: 'Apply predictive analytics to forecast project outcomes from historical data.' },
+          { cardId: 'T23', rationale: 'Automate repetitive PM tasks with RPA to free up time for high-value work.' },
+          { cardId: 'A91', rationale: 'Explore genetic algorithms for solving complex scheduling and optimisation problems.' },
+          { cardId: 'T43', rationale: 'Discover how AR and VR are being used for project visualisation and collaboration.', milestone: 'Tech-Forward PM' },
+        ],
+      },
+      {
+        title: 'Modern Estimation and Scheduling',
+        description: 'Build more accurate estimates and optimise your schedules with PMBOK 8 techniques.',
+        color: '#D97706',
+        steps: [
+          { cardId: 'T29', rationale: 'Use analogous estimating when detailed data is unavailable.' },
+          { cardId: 'T31', rationale: 'Apply parametric estimating for statistically grounded cost and duration estimates.' },
+          { cardId: 'T30', rationale: 'Build bottom-up estimates from the WBS for maximum accuracy.' },
+          { cardId: 'A93', rationale: 'Apply COCOMO for algorithmic software effort estimation.' },
+          { cardId: 'T25', rationale: 'Identify critical path drag — the activities slowing your project the most.' },
+          { cardId: 'T26', rationale: 'Quantify the cost of delay with Critical Path Drag Cost.' },
+          { cardId: 'T34', rationale: 'Compress the schedule using crashing and fast-tracking when needed.', milestone: 'Estimation Expert' },
+        ],
+      },
+      {
+        title: 'People, Culture, and Sustainability',
+        description: 'Lead diverse teams, embed sustainability, and communicate with impact.',
+        color: '#059669',
+        steps: [
+          { cardId: 'people-19', rationale: 'Develop cultural intelligence to lead effectively across diverse and international teams.' },
+          { cardId: 'people-20', rationale: 'Integrate green HRM practices to embed sustainability into team culture.' },
+          { cardId: 'people-21', rationale: 'Use storytelling to communicate vision, build buy-in, and inspire action.' },
+          { cardId: 'A89', rationale: 'Embed ESG considerations into your project planning and reporting.' },
+          { cardId: 'A90', rationale: 'Apply the VRIO framework to assess which capabilities to build or outsource.', milestone: '🌟 PMBOK 8 Certified' },
         ],
       },
     ],

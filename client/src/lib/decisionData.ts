@@ -3,7 +3,7 @@
  *
  * A branching questionnaire that guides anyone — from complete beginners to
  * experienced PMs — to the most relevant tools, techniques, and frameworks
- * from the 166-card library.
+ * from the 198-card library.
  *
  * Language principle: describe SITUATIONS and FEELINGS, not PM terminology.
  * A beginner should be able to answer every question without prior knowledge.
@@ -15,8 +15,8 @@
  *   people-1 … people-14                         (People domain)
  *   process-1 … process-17                       (Process domain)
  *   business-1 … business-4                      (Business domain)
- *   T1–T17                                       (Tools deck)
- *   A1–A82                                       (Advanced Techniques deck)
+ *   T1–T43                                       (Tools deck)
+ *   A1–A93                                       (Advanced Techniques deck)
  */
 
 export interface DecisionAnswer {
@@ -99,6 +99,18 @@ export const DECISION_QUESTIONS: DecisionQuestion[] = [
         label: 'My project is finishing and I need to wrap it up well',
         description: 'Closing down, handing over, or capturing what we learned',
         nextQuestionId: 'q-closure',
+      },
+      {
+        id: 'a-pmbok8',
+        label: 'I want to explore AI, data, or modern PM techniques',
+        description: 'Predictive analytics, automation, sustainability, and PMBOK 8 tools',
+        nextQuestionId: 'q-pmbok8',
+      },
+      {
+        id: 'a-pmbok8',
+        label: 'I want to explore AI, data, or modern PM techniques',
+        description: 'Predictive analytics, automation, sustainability, and PMBOK 8 tools',
+        nextQuestionId: 'q-pmbok8',
       },
     ],
   },
@@ -459,6 +471,50 @@ export const DECISION_QUESTIONS: DecisionQuestion[] = [
       },
     ],
   },
+  // ── PMBOK 8 / AI & Technology ─────────────────────────────────────────────
+  {
+    id: 'q-pmbok8',
+    question: 'What aspect of modern or technology-driven project management are you exploring?',
+    hint: 'These are newer tools and techniques introduced or formalised in PMBOK 8.',
+    answers: [
+      {
+        id: 'a-pmbok8-ai',
+        label: 'I want to use AI or data to make better project decisions',
+        description: 'Forecasting, automation, and intelligent analytics',
+        recommendations: ['T21', 'T22', 'T23', 'A91'],
+      },
+      {
+        id: 'a-pmbok8-canvas',
+        label: 'I need a quick one-page overview of my whole project',
+        description: 'Rapid alignment and visual project summary',
+        recommendations: ['T24', 'T5', 'phase-setup', 'A2'],
+      },
+      {
+        id: 'a-pmbok8-schedule',
+        label: 'I want to optimise my schedule and find where to compress time',
+        description: 'Critical path drag, schedule compression, and recovery',
+        recommendations: ['T25', 'T26', 'T34', 'T1'],
+      },
+      {
+        id: 'a-pmbok8-agile',
+        label: 'I need better Agile metrics and tracking tools',
+        description: 'Velocity, burnup charts, sprint reviews',
+        recommendations: ['T35', 'T36', 'T37', 'T33'],
+      },
+      {
+        id: 'a-pmbok8-estimate',
+        label: 'I need to estimate costs or effort more accurately',
+        description: 'Analogous, parametric, bottom-up, and algorithmic estimating',
+        recommendations: ['T29', 'T30', 'T31', 'A93'],
+      },
+      {
+        id: 'a-pmbok8-sustainability',
+        label: 'I need to address sustainability or ESG in my project',
+        description: 'Environmental, social, and governance considerations',
+        recommendations: ['A89', 'people-20', 'A90', 'business-4'],
+      },
+    ],
+  },
 ];
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -577,6 +633,19 @@ export const RESULT_HEADLINES: Record<string, { headline: string; rationale: str
     { headline: 'Showing Whether the Project Delivered What It Promised', rationale: 'Measure outcomes against the original goals and demonstrate the value the project created.' },
   'phase-closure,A58,people-3,A60':
     { headline: 'Celebrating the Team and Closing Well', rationale: 'Acknowledge contributions, celebrate success, and give the team a proper sense of closure and recognition.' },
+  // ── PMBOK 8 / AI & Technology ──────────────────────────────────────────────
+  'T21,T22,T23,A91':
+    { headline: 'AI and Intelligent Automation for Project Management', rationale: 'Harness artificial intelligence, predictive analytics, and robotic process automation to forecast outcomes, reduce manual work, and make smarter decisions.' },
+  'T24,T5,phase-setup,A2':
+    { headline: 'A One-Page Project Overview for Rapid Alignment', rationale: 'Use the Project Canvas alongside a Project Charter to give every stakeholder a clear, concise picture of what the project is, why it matters, and how it will be delivered.' },
+  'T25,T26,T34,T1':
+    { headline: 'Schedule Optimisation and Recovery', rationale: 'Identify which critical path activities are causing the most delay, quantify the cost of that delay, and apply compression techniques to get back on track.' },
+  'T35,T36,T37,T33':
+    { headline: 'Agile Metrics and Sprint Performance Tracking', rationale: 'Monitor team velocity, track progress against total scope with burnup charts, run effective sprint reviews, and use control charts to detect when performance is drifting.' },
+  'T29,T30,T31,A93':
+    { headline: 'Accurate Cost and Effort Estimation', rationale: 'Build reliable estimates using analogous, parametric, and bottom-up approaches — and apply algorithmic modelling for software projects with COCOMO.' },
+  'A89,people-20,A90,business-4':
+    { headline: 'Embedding Sustainability and ESG into Your Project', rationale: 'Integrate environmental, social, and governance considerations into project planning and team culture — and use the VRIO framework to assess which sustainability capabilities to build.' },
 };
 
 // ─────────────────────────────────────────────────────────────────────────────

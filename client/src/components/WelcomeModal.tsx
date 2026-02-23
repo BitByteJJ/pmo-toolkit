@@ -90,7 +90,7 @@ export default function WelcomeModal() {
                 Welcome to StratAlign
               </h2>
               <p className="text-sm text-stone-500 leading-relaxed mb-5">
-                166 project management tools, techniques, and frameworks — all in one place.
+                198 project management tools, techniques, and frameworks — all in one place.
                 Not sure where to start? Let us point you in the right direction.
               </p>
 
@@ -123,7 +123,7 @@ export default function WelcomeModal() {
                   </div>
                   <div className="flex-1">
                     <p className="text-sm font-bold text-stone-700 leading-tight">I'll explore on my own</p>
-                    <p className="text-[11px] text-stone-400 mt-0.5">Browse all 8 decks and 166 cards</p>
+                    <p className="text-[11px] text-stone-400 mt-0.5">Browse all 8 decks and 198 cards</p>
                   </div>
                 </button>
               </div>

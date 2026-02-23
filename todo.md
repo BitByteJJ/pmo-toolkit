@@ -205,3 +205,12 @@
 ## COCOMO Template Fix — Feb 2026
 
 - [x] Fix COCOMO template rendering issue in templateData.ts
+
+## Harmonisation & PMBOK 8 Wiring — Feb 2026
+
+- [ ] Fix all hardcoded card counts (welcome modal, deck subtitles, home page, explore button)
+- [ ] Fix glossary count references across the app
+- [ ] Wire 32 new PMBOK 8 cards into AI Tool Finder card catalogue (aiSuggest.ts)
+- [ ] Wire 32 new PMBOK 8 cards into Decision Helper (decisionData.ts)
+- [ ] Wire 32 new PMBOK 8 cards into Learning Roadmap paths (roadmapData.ts)
+- [ ] Wire 32 new PMBOK 8 cards into Learning Journey game (journeyData.ts)

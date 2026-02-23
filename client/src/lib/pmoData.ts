@@ -75,7 +75,7 @@ export const DECKS: Deck[] = [
     bgColor: '#FFE4E6',
     textColor: '#881337',
     icon: '👥',
-    cardCount: 18,
+    cardCount: 21,
     description: 'Lead teams, manage conflict, build shared understanding, and empower stakeholders.',
   },
   {
@@ -107,8 +107,8 @@ export const DECKS: Deck[] = [
     color: '#0284C7',
     bgColor: '#E0F2FE',
     textColor: '#0C4A6E',
-    icon: '🔧',
-    cardCount: 20,
+    icon: '🛠',
+    cardCount: 43,
     description: 'Practical tools — Gantt charts, Kanban boards, risk registers, and more.',
   },
   {
@@ -119,7 +119,7 @@ export const DECKS: Deck[] = [
     bgColor: '#F1F5F9',
     textColor: '#1E293B',
     icon: '🎯',
-    cardCount: 87,
+    cardCount: 93,
     description: 'Deep-dive techniques for negotiation, analysis, change management, and beyond.',
   },
 ];

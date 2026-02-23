@@ -23,11 +23,11 @@ const LAST_CARD_KEY = 'pmo_last_card';
 
 // ─── Feature tiles — dark glass style ────────────────────────────────────────
 const FEATURE_TILES = [
-  { path: '/decks',        icon: LayoutGrid,  label: 'Card Decks',       sub: '8 decks · 166 cards',       color: '#60A5FA', bg: 'rgba(96,165,250,0.10)',  textColor: '#BAE6FD' },
-  { path: '/journey',      icon: Map,         label: 'Learning Journey',  sub: '30-day guided path',         color: '#A78BFA', bg: 'rgba(167,139,250,0.10)', textColor: '#DDD6FE' },
+  { path: '/decks',        icon: LayoutGrid,  label: 'Card Decks',       sub: '8 decks · 198 cards',       color: '#60A5FA', bg: 'rgba(96,165,250,0.10)',  textColor: '#BAE6FD' },
+  { path: '/journey',      icon: Map,         label: 'Learning Journey',  sub: '35-day guided path',         color: '#A78BFA', bg: 'rgba(167,139,250,0.10)', textColor: '#DDD6FE' },
   { path: '/roadmap',      icon: Route,       label: 'Roadmap',           sub: 'Structured learning paths',  color: '#34D399', bg: 'rgba(52,211,153,0.10)',  textColor: '#A7F3D0' },
   { path: '/ai-suggest',   icon: Sparkles,    label: 'AI Tool Finder',    sub: 'Get personalised picks',     color: '#FBBF24', bg: 'rgba(251,191,36,0.10)',  textColor: '#FDE68A' },
-  { path: '/glossary',     icon: BookMarked,  label: 'Glossary',          sub: '125 PM terms + quiz',        color: '#F472B6', bg: 'rgba(244,114,182,0.10)', textColor: '#FBCFE8' },
+  { path: '/glossary',     icon: BookMarked,  label: 'Glossary',          sub: '158 PM terms + quiz',        color: '#F472B6', bg: 'rgba(244,114,182,0.10)', textColor: '#FBCFE8' },
   { path: '/case-studies', icon: BookOpen,    label: 'Case Studies',      sub: 'Real-world examples',        color: '#22D3EE', bg: 'rgba(34,211,238,0.10)',  textColor: '#A5F3FC' },
   { path: '/search',       icon: Search,      label: 'Search',            sub: 'Find any tool fast',         color: '#94A3B8', bg: 'rgba(148,163,184,0.10)', textColor: '#CBD5E1' },
   { path: '/bookmarks',    icon: Bookmark,    label: 'Saved Cards',       sub: 'Your reading list',          color: '#F87171', bg: 'rgba(248,113,113,0.10)', textColor: '#FECACA' },

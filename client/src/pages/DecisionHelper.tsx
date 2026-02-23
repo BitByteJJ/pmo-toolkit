@@ -2,7 +2,7 @@
  * PM Decision Helper
  *
  * A guided questionnaire that helps project managers navigate to the
- * most relevant tools, techniques, and frameworks from the 166-card library.
+ * most relevant tools, techniques, and frameworks from the 198-card library.
  *
  * Flow:
  *   Start → Question → Answer → (branch or results)

@@ -470,7 +470,7 @@ export default function JourneyPage() {
             PM Master Awaits
           </p>
           <p className="text-[11px] text-amber-600 mt-1">
-            Complete all 30 days to earn the PM Master title
+            Complete all 35 days to earn the PM Master title
           </p>
         </div>
       </div>
