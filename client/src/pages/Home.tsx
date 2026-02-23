@@ -239,15 +239,7 @@ export default function Home() {
 
   return (
     <div className="app-shell min-h-screen" style={{ background: '#0a1628' }}>
-      {/* Subtle dot-grid texture */}
-      <div
-        className="fixed inset-0 pointer-events-none"
-        style={{
-          backgroundImage: 'radial-gradient(circle, rgba(148,163,184,0.07) 1px, transparent 1px)',
-          backgroundSize: '28px 28px',
-          zIndex: 0,
-        }}
-      />
+
       {/* ── Hero ── */}
       <div
         ref={heroRef}

@@ -141,12 +141,13 @@
     @apply border-border outline-ring/50;
   }
 
-  html {
-    background-color: oklch(0.10 0.040 258);
+  html,
+  body {
+    background-color: #0a1628 !important;
   }
 
   body {
-    @apply bg-background text-foreground;
+    @apply text-foreground;
     font-family: 'Inter', system-ui, -apple-system, sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
