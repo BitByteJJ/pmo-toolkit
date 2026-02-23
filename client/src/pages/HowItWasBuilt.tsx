@@ -195,7 +195,7 @@ const PROCESS_STEPS = [
   {
     step: '01',
     title: 'Content Architecture',
-    desc: 'Defined the 8-deck structure based on the PMBOK framework and pip deck concept. Mapped 198 cards across Project Phases, Archetyping, Methodologies, People, Process, Business Environment, Tools, and Advanced Techniques.',
+    desc: 'Defined the 8-deck structure based on the PMBOK framework and flash card deck concept. Mapped 198 cards across Project Phases, Archetyping, Methodologies, People, Process, Business Environment, Tools, and Advanced Techniques. The Manus built-in LLM was used throughout to generate and refine all card content, with animations designed and iterated using AI-assisted prompts.',
     color: '#0284C7',
   },
   {
