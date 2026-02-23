@@ -170,17 +170,7 @@ export const CARD_ILLUSTRATIONS: Record<string, string> = {
   "A86": "https://files.manuscdn.com/user_upload_by_module/session_file/310419663029097403/BUQZnUXNXnwXicLl.png",
   "A87": "https://files.manuscdn.com/user_upload_by_module/session_file/310419663029097403/tSOnaBZxAaDxVlJy.png",
   "T20": "https://files.manuscdn.com/user_upload_by_module/session_file/310419663029097403/RrBKoxUIBoyvwfWa.png",
-};
-
-export const DECK_COVERS: Record<string, string> = {
-  "phases": "https://files.manuscdn.com/user_upload_by_module/session_file/310419663029097403/epNvaChDmInzjphr.png",
-  "archetypes": "https://files.manuscdn.com/user_upload_by_module/session_file/310419663029097403/UHlTjAHHMkQgHafH.png",
-  "methodologies": "https://files.manuscdn.com/user_upload_by_module/session_file/310419663029097403/bdAxarcmvXIHqVvw.png",
-  "people": "https://files.manuscdn.com/user_upload_by_module/session_file/310419663029097403/TOYDIIqTWyLFwfCY.png",
-  "process": "https://files.manuscdn.com/user_upload_by_module/session_file/310419663029097403/GrdQOwJjSnFKcKVn.png",
-  "business": "https://files.manuscdn.com/user_upload_by_module/session_file/310419663029097403/CbjqUzAWrljDJesJ.png",
-  "tools": "https://files.manuscdn.com/user_upload_by_module/session_file/310419663029097403/wYAdBnNHDXPbyggk.png",
-  "techniques": "https://files.manuscdn.com/user_upload_by_module/session_file/310419663029097403/nazJKMRPUyxDWRas.png",
+  // PMBOK 8 new card illustrations
   "T21": "https://files.manuscdn.com/user_upload_by_module/session_file/310419663029097403/ifYFYHNRTDiTHHrj.png",
   "T22": "https://files.manuscdn.com/user_upload_by_module/session_file/310419663029097403/dzMxgiowtLsMdVIL.png",
   "T23": "https://files.manuscdn.com/user_upload_by_module/session_file/310419663029097403/ZRrcReeVLtbFusil.png",
@@ -213,6 +203,17 @@ export const DECK_COVERS: Record<string, string> = {
   "people-19": "https://files.manuscdn.com/user_upload_by_module/session_file/310419663029097403/OEDKnksHMDiqWYCk.png",
   "people-20": "https://files.manuscdn.com/user_upload_by_module/session_file/310419663029097403/KnkGkDAQyzRFmHjn.png",
   "people-21": "https://files.manuscdn.com/user_upload_by_module/session_file/310419663029097403/aTouJuyizMHnnOeM.png",
+};
+
+export const DECK_COVERS: Record<string, string> = {
+  "phases": "https://files.manuscdn.com/user_upload_by_module/session_file/310419663029097403/epNvaChDmInzjphr.png",
+  "archetypes": "https://files.manuscdn.com/user_upload_by_module/session_file/310419663029097403/UHlTjAHHMkQgHafH.png",
+  "methodologies": "https://files.manuscdn.com/user_upload_by_module/session_file/310419663029097403/bdAxarcmvXIHqVvw.png",
+  "people": "https://files.manuscdn.com/user_upload_by_module/session_file/310419663029097403/TOYDIIqTWyLFwfCY.png",
+  "process": "https://files.manuscdn.com/user_upload_by_module/session_file/310419663029097403/GrdQOwJjSnFKcKVn.png",
+  "business": "https://files.manuscdn.com/user_upload_by_module/session_file/310419663029097403/CbjqUzAWrljDJesJ.png",
+  "tools": "https://files.manuscdn.com/user_upload_by_module/session_file/310419663029097403/wYAdBnNHDXPbyggk.png",
+  "techniques": "https://files.manuscdn.com/user_upload_by_module/session_file/310419663029097403/nazJKMRPUyxDWRas.png",
 };
 
 export function getCardIllustration(cardId: string): string | undefined {
