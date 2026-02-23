@@ -74,7 +74,7 @@ const TOOLS = [
     items: [
       { name: 'Manus Platform', desc: 'Hosting, CI/CD, secrets management, and analytics' },
       { name: 'localStorage', desc: 'Client-side persistence for progress, bookmarks, and auto-saved templates' },
-      { name: 'GitHub (private)', desc: 'Source code version control — public release coming soon' },
+      { name: 'GitHub', desc: 'Source code available at github.com/BitByteJJ/pmo-toolkit' },
     ],
   },
 ];
@@ -474,7 +474,15 @@ export default function HowItWasBuilt() {
               <div className="flex-1">
                 <div className="text-[13px] font-bold text-slate-200">Source Code</div>
                 <div className="text-[11px] text-slate-400 mt-0.5">
-                  GitHub repository coming soon — watch Jackson Joy's LinkedIn for the announcement.
+                  GitHub repository:{' '}
+                  <a
+                    href="https://github.com/BitByteJJ/pmo-toolkit"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-blue-400 underline hover:text-blue-300 transition-colors"
+                  >
+                    github.com/BitByteJJ/pmo-toolkit
+                  </a>
                 </div>
               </div>
             </div>
