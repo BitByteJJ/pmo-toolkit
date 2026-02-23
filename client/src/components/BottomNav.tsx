@@ -1,34 +1,26 @@
 // PMO Toolkit Navigator — Bottom Navigation
-// Fixed to bottom of viewport, full-width, 9 tabs evenly distributed
+// 5 essential tabs: Home, AI, Templates, Search, Saved
+// Secondary tools (Journey, Decision, Roadmap, Glossary, Cases, Decks) live in TopNav dropdowns
 
 import { useLocation } from 'wouter';
-import { Home, LayoutGrid, Sparkles, Search, Bookmark, Route, Map, BookOpen, BookMarked, Heart, FileText } from 'lucide-react';
+import { Home, Sparkles, FileText, Search, Bookmark } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { useBookmarks } from '@/contexts/BookmarksContext';
-import { useJourney, MAX_HEARTS } from '@/contexts/JourneyContext';
 
 const tabs = [
-  { path: '/',             icon: Home,        label: 'Home'     },
-  { path: '/decks',        icon: LayoutGrid,  label: 'Decks'    },
-  { path: '/journey',      icon: Map,         label: 'Journey'  },
-  { path: '/roadmap',      icon: Route,       label: 'Roadmap'  },
-  { path: '/ai-suggest',   icon: Sparkles,    label: 'AI'       },
-  { path: '/glossary',     icon: BookMarked,  label: 'Glossary' },
-  { path: '/case-studies', icon: BookOpen,    label: 'Cases'    },
-  { path: '/search',       icon: Search,      label: 'Search'   },
-  { path: '/bookmarks',    icon: Bookmark,    label: 'Saved'    },
-  { path: '/templates',    icon: FileText,    label: 'Templates' },
+  { path: '/',          icon: Home,      label: 'Home'      },
+  { path: '/ai-suggest',icon: Sparkles,  label: 'AI'        },
+  { path: '/templates', icon: FileText,  label: 'Templates' },
+  { path: '/search',    icon: Search,    label: 'Search'    },
+  { path: '/bookmarks', icon: Bookmark,  label: 'Saved'     },
 ];
 
 export default function BottomNav() {
   const [location, navigate] = useLocation();
   const { bookmarks } = useBookmarks();
-  const { state: journeyState } = useJourney();
-  const hearts = journeyState.hearts;
 
   const isActive = (path: string) => {
     if (path === '/') return location === '/';
-    if (path === '/decks') return location.startsWith('/deck') || location === '/decks';
     return location.startsWith(path);
   };
 
@@ -48,12 +40,13 @@ export default function BottomNav() {
         style={{
           paddingTop: '6px',
           paddingBottom: 'max(8px, env(safe-area-inset-bottom, 8px))',
+          maxWidth: '480px',
+          margin: '0 auto',
         }}
       >
         {tabs.map(({ path, icon: Icon, label }) => {
           const active = isActive(path);
           const isBookmarkTab = path === '/bookmarks';
-          const isJourneyTab = path === '/journey';
 
           return (
             <button
@@ -76,11 +69,11 @@ export default function BottomNav() {
               {/* Icon + badge */}
               <div className="relative z-10">
                 <Icon
-                  size={19}
+                  size={20}
                   strokeWidth={active ? 2.4 : 1.7}
                   style={{
-                  color: active ? '#e2e8f0' : 'rgba(148,163,184,0.55)',
-                  transition: 'stroke-width 0.15s ease, color 0.15s ease',
+                    color: active ? '#e2e8f0' : 'rgba(148,163,184,0.55)',
+                    transition: 'stroke-width 0.15s ease, color 0.15s ease',
                   }}
                 />
                 {isBookmarkTab && bookmarks.length > 0 && (
@@ -92,26 +85,11 @@ export default function BottomNav() {
                 )}
               </div>
 
-              {/* Hearts row — Journey tab only */}
-              {isJourneyTab && (
-                <div className="flex gap-0.5 z-10 relative" style={{ marginTop: '-1px' }}>
-                  {Array.from({ length: MAX_HEARTS }).map((_, i) => (
-                    <Heart
-                      key={i}
-                      size={6}
-                      fill={i < hearts ? '#ef4444' : 'none'}
-                      stroke={i < hearts ? '#ef4444' : '#ccc'}
-                      strokeWidth={1.5}
-                    />
-                  ))}
-                </div>
-              )}
-
               {/* Label */}
               <span
                 className="relative z-10 leading-none font-semibold"
                 style={{
-                  fontSize: '8px',
+                  fontSize: '9px',
                   color: active ? '#e2e8f0' : 'rgba(148,163,184,0.55)',
                   transition: 'color 0.15s ease',
                 }}

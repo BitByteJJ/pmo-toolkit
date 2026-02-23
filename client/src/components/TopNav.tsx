@@ -1,11 +1,13 @@
 // PMO Toolkit Navigator — Top Navigation Bar
-// Mobile: frosted glass bar with wordmark + deck dropdown
-// Desktop (lg+): full horizontal nav with all main sections
+// Mobile: frosted glass bar with wordmark + Decks dropdown + Mini-Apps dropdown
+// Desktop (lg+): wordmark + primary nav links + Decks dropdown + Mini-Apps dropdown
+
 import { useState, useRef, useEffect } from 'react';
 import { useLocation } from 'wouter';
 import {
-  Home, ChevronDown, LayoutGrid, Map, Route, Sparkles,
+  Home, ChevronDown, LayoutGrid, Sparkles,
   BookMarked, BookOpen, Search, Bookmark, FileText, Compass,
+  Map, Route, Grid3X3,
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { DECKS } from '@/lib/pmoData';
@@ -15,34 +17,87 @@ interface TopNavProps {
   bgColor?: string;
 }
 
-const NAV_LINKS = [
-  { path: '/',             icon: Home,       label: 'Home'       },
-  { path: '/decks',        icon: LayoutGrid, label: 'Decks'      },
-  { path: '/journey',      icon: Map,        label: 'Journey'    },
-  { path: '/roadmap',      icon: Route,      label: 'Roadmap'    },
-  { path: '/decision',     icon: Compass,    label: 'Decision'   },
-  { path: '/ai-suggest',   icon: Sparkles,   label: 'AI Suggest' },
-  { path: '/templates',    icon: FileText,   label: 'Templates'  },
-  { path: '/glossary',     icon: BookMarked, label: 'Glossary'   },
-  { path: '/case-studies', icon: BookOpen,   label: 'Cases'      },
-  { path: '/search',       icon: Search,     label: 'Search'     },
-  { path: '/bookmarks',    icon: Bookmark,   label: 'Saved'      },
+// Primary nav links shown on desktop (not in any dropdown)
+const PRIMARY_LINKS = [
+  { path: '/',          icon: Home,       label: 'Home'      },
+  { path: '/search',    icon: Search,     label: 'Search'    },
+  { path: '/bookmarks', icon: Bookmark,   label: 'Saved'     },
 ];
+
+// Mini-Apps: all the interactive tools
+const MINI_APPS = [
+  {
+    path: '/ai-suggest',
+    icon: Sparkles,
+    label: 'AI Tool Finder',
+    desc: 'Describe your challenge — AI picks the best tools',
+    color: '#6366f1',
+  },
+  {
+    path: '/decision',
+    icon: Compass,
+    label: 'Decision Helper',
+    desc: 'Answer 3 questions to find the right approach',
+    color: '#0ea5e9',
+  },
+  {
+    path: '/templates',
+    icon: FileText,
+    label: 'Template Library',
+    desc: '198 fillable templates — PDF & Word download',
+    color: '#10b981',
+  },
+  {
+    path: '/journey',
+    icon: Map,
+    label: 'Learning Journey',
+    desc: '35-day structured PM learning game',
+    color: '#f59e0b',
+  },
+  {
+    path: '/roadmap',
+    icon: Route,
+    label: 'Learning Roadmap',
+    desc: 'Beginner → Advanced curated study paths',
+    color: '#8b5cf6',
+  },
+  {
+    path: '/glossary',
+    icon: BookMarked,
+    label: 'Glossary',
+    desc: '120+ PM terms defined and linked to cards',
+    color: '#ec4899',
+  },
+  {
+    path: '/case-studies',
+    icon: BookOpen,
+    label: 'Case Studies',
+    desc: 'Real-world PM stories for every tool',
+    color: '#ef4444',
+  },
+];
+
+type DropdownType = 'decks' | 'apps' | null;
 
 export default function TopNav({ accentColor = '#475569' }: TopNavProps) {
   const [location, navigate] = useLocation();
-  const [open, setOpen] = useState(false);
-  const dropdownRef = useRef<HTMLDivElement>(null);
+  const [openDropdown, setOpenDropdown] = useState<DropdownType>(null);
+  const decksRef = useRef<HTMLDivElement>(null);
+  const appsRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     function handleOutside(e: MouseEvent) {
-      if (dropdownRef.current && !dropdownRef.current.contains(e.target as Node)) {
-        setOpen(false);
-      }
+      const target = e.target as Node;
+      const clickedDecks = decksRef.current?.contains(target);
+      const clickedApps = appsRef.current?.contains(target);
+      if (!clickedDecks && !clickedApps) setOpenDropdown(null);
     }
-    if (open) document.addEventListener('mousedown', handleOutside);
+    if (openDropdown) document.addEventListener('mousedown', handleOutside);
     return () => document.removeEventListener('mousedown', handleOutside);
-  }, [open]);
+  }, [openDropdown]);
+
+  const toggle = (which: DropdownType) =>
+    setOpenDropdown(prev => (prev === which ? null : which));
 
   const isActive = (path: string) => {
     if (path === '/') return location === '/';
@@ -50,35 +105,8 @@ export default function TopNav({ accentColor = '#475569' }: TopNavProps) {
     return location.startsWith(path);
   };
 
-  const DeckDropdownContent = () => (
-    <>
-      {DECKS.map((deck, i) => (
-        <motion.button
-          key={deck.id}
-          initial={{ opacity: 0, x: -8 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ delay: i * 0.03 }}
-          onClick={() => { setOpen(false); navigate(`/deck/${deck.id}`); }}
-          className="w-full flex items-center gap-2.5 px-3.5 py-2.5 text-left transition-colors hover:bg-stone-50/80 active:bg-stone-100"
-        >
-          <span className="w-2.5 h-2.5 rounded-full shrink-0" style={{ backgroundColor: deck.color }} />
-          <span className="text-base leading-none shrink-0">{deck.icon}</span>
-          <div className="flex-1 min-w-0">
-            <div className="text-[12.5px] font-semibold text-stone-800 truncate leading-tight">{deck.title}</div>
-            <div className="text-[9.5px] text-stone-400 font-mono mt-0.5">{deck.subtitle}</div>
-          </div>
-          <span
-            className="text-[9px] font-bold px-1.5 py-0.5 rounded-full shrink-0"
-            style={{ backgroundColor: deck.color + '18', color: deck.color }}
-          >
-            {deck.cardCount}
-          </span>
-        </motion.button>
-      ))}
-    </>
-  );
-
-  const dropdownPanel = (
+  // ── Decks dropdown panel ─────────────────────────────────────────────────
+  const DecksPanel = () => (
     <motion.div
       initial={{ opacity: 0, y: -6, scale: 0.97 }}
       animate={{ opacity: 1, y: 0, scale: 1 }}
@@ -92,13 +120,98 @@ export default function TopNav({ accentColor = '#475569' }: TopNavProps) {
         boxShadow: '0 16px 40px rgba(0,0,0,0.12), 0 4px 12px rgba(0,0,0,0.07)',
         border: '1px solid rgba(0,0,0,0.07)',
         transformOrigin: 'top right',
+        zIndex: 60,
       }}
     >
       <div className="px-3.5 pt-3 pb-1.5">
         <p className="text-[10px] font-bold text-stone-400 uppercase tracking-widest">Jump to deck</p>
       </div>
       <div className="pb-2">
-        <DeckDropdownContent />
+        {DECKS.map((deck, i) => (
+          <motion.button
+            key={deck.id}
+            initial={{ opacity: 0, x: -8 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ delay: i * 0.03 }}
+            onClick={() => { setOpenDropdown(null); navigate(`/deck/${deck.id}`); }}
+            className="w-full flex items-center gap-2.5 px-3.5 py-2.5 text-left transition-colors hover:bg-stone-50/80 active:bg-stone-100"
+          >
+            <span className="w-2.5 h-2.5 rounded-full shrink-0" style={{ backgroundColor: deck.color }} />
+            <span className="text-base leading-none shrink-0">{deck.icon}</span>
+            <div className="flex-1 min-w-0">
+              <div className="text-[12.5px] font-semibold text-stone-800 truncate leading-tight">{deck.title}</div>
+              <div className="text-[9.5px] text-stone-400 font-mono mt-0.5">{deck.subtitle}</div>
+            </div>
+            <span
+              className="text-[9px] font-bold px-1.5 py-0.5 rounded-full shrink-0"
+              style={{ backgroundColor: deck.color + '18', color: deck.color }}
+            >
+              {deck.cardCount}
+            </span>
+          </motion.button>
+        ))}
+      </div>
+    </motion.div>
+  );
+
+  // ── Mini-Apps dropdown panel ──────────────────────────────────────────────
+  const AppsPanel = () => (
+    <motion.div
+      initial={{ opacity: 0, y: -6, scale: 0.97 }}
+      animate={{ opacity: 1, y: 0, scale: 1 }}
+      exit={{ opacity: 0, y: -6, scale: 0.97 }}
+      transition={{ duration: 0.15, ease: [0.22, 1, 0.36, 1] }}
+      className="absolute right-0 top-full mt-2 w-72 rounded-2xl overflow-hidden"
+      style={{
+        background: 'rgba(255,255,255,0.98)',
+        backdropFilter: 'blur(20px)',
+        WebkitBackdropFilter: 'blur(20px)',
+        boxShadow: '0 16px 40px rgba(0,0,0,0.12), 0 4px 12px rgba(0,0,0,0.07)',
+        border: '1px solid rgba(0,0,0,0.07)',
+        transformOrigin: 'top right',
+        zIndex: 60,
+      }}
+    >
+      <div className="px-3.5 pt-3 pb-1.5">
+        <p className="text-[10px] font-bold text-stone-400 uppercase tracking-widest">Mini-Apps</p>
+      </div>
+      <div className="pb-2">
+        {MINI_APPS.map((app, i) => {
+          const active = isActive(app.path);
+          return (
+            <motion.button
+              key={app.path}
+              initial={{ opacity: 0, x: -8 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ delay: i * 0.03 }}
+              onClick={() => { setOpenDropdown(null); navigate(app.path); }}
+              className="w-full flex items-center gap-3 px-3.5 py-2.5 text-left transition-colors hover:bg-stone-50/80 active:bg-stone-100"
+              style={{ backgroundColor: active ? app.color + '0d' : undefined }}
+            >
+              <div
+                className="w-7 h-7 rounded-lg flex items-center justify-center shrink-0"
+                style={{ backgroundColor: app.color + '18' }}
+              >
+                <app.icon size={14} strokeWidth={2} style={{ color: app.color }} />
+              </div>
+              <div className="flex-1 min-w-0">
+                <div
+                  className="text-[12.5px] font-semibold leading-tight truncate"
+                  style={{ color: active ? app.color : '#1c1917' }}
+                >
+                  {app.label}
+                </div>
+                <div className="text-[10px] text-stone-400 mt-0.5 leading-tight line-clamp-1">{app.desc}</div>
+              </div>
+              {active && (
+                <span
+                  className="w-1.5 h-1.5 rounded-full shrink-0"
+                  style={{ backgroundColor: app.color }}
+                />
+              )}
+            </motion.button>
+          );
+        })}
       </div>
     </motion.div>
   );
@@ -116,65 +229,106 @@ export default function TopNav({ accentColor = '#475569' }: TopNavProps) {
       }}
     >
       {/* ── Mobile layout (< lg) ─────────────────────────────────────────── */}
-      <div className="lg:hidden px-4 h-full flex items-center justify-between relative" style={{ maxWidth: '480px', margin: '0 auto', width: '100%' }}>
+      <div
+        className="lg:hidden px-3 h-full flex items-center justify-between relative"
+        style={{ maxWidth: '480px', margin: '0 auto', width: '100%' }}
+      >
+        {/* Wordmark */}
         <button
           onClick={() => navigate('/')}
-          className="flex items-center gap-1.5 rounded-xl px-2.5 py-1.5 transition-all hover:bg-black/5 active:scale-95"
-          style={{ color: accentColor }}
+          className="flex items-center gap-1.5 rounded-xl px-2 py-1.5 transition-all hover:bg-black/5 active:scale-95 shrink-0"
           aria-label="Go to home"
         >
-          <Home size={15} strokeWidth={2.2} />
-          <span className="text-[12px] font-bold">Home</span>
-        </button>
-
-        <div className="absolute left-1/2 -translate-x-1/2 flex items-center gap-1.5 pointer-events-none select-none">
-          <div className="w-5 h-5 rounded-md flex items-center justify-center" style={{ background: `linear-gradient(135deg, ${accentColor}, ${accentColor}99)` }}>
+          <div
+            className="w-5 h-5 rounded-md flex items-center justify-center"
+            style={{ background: `linear-gradient(135deg, ${accentColor}, ${accentColor}99)` }}
+          >
             <LayoutGrid size={11} strokeWidth={2.5} color="white" />
           </div>
-          <span className="text-[13px] font-black tracking-tight" style={{ fontFamily: 'Sora, sans-serif', color: '#1a1a2e' }}>
+          <span
+            className="text-[13px] font-black tracking-tight"
+            style={{ fontFamily: 'Sora, sans-serif', color: '#1a1a2e' }}
+          >
             StratAlign
           </span>
-        </div>
+        </button>
 
-        <div className="relative" ref={dropdownRef}>
-          <button
-            onClick={() => setOpen(v => !v)}
-            className="flex items-center gap-1 rounded-xl px-2.5 py-1.5 transition-all hover:bg-black/5 active:scale-95"
-            style={{ color: accentColor }}
-            aria-label="Jump to a deck"
-            aria-expanded={open}
-          >
-            <span className="text-[12px] font-bold hidden sm:inline">Decks</span>
-            <motion.div animate={{ rotate: open ? 180 : 0 }} transition={{ duration: 0.18 }}>
-              <ChevronDown size={13} strokeWidth={2.5} />
-            </motion.div>
-          </button>
-          <AnimatePresence>{open && dropdownPanel}</AnimatePresence>
+        {/* Right side: Decks + Mini-Apps buttons */}
+        <div className="flex items-center gap-1">
+          {/* Decks dropdown */}
+          <div className="relative" ref={decksRef}>
+            <button
+              onClick={() => toggle('decks')}
+              className="flex items-center gap-1 rounded-xl px-2.5 py-1.5 transition-all hover:bg-black/5 active:scale-95"
+              style={{ color: accentColor }}
+              aria-label="Jump to a deck"
+              aria-expanded={openDropdown === 'decks'}
+            >
+              <span className="text-[12px] font-bold">Decks</span>
+              <motion.div animate={{ rotate: openDropdown === 'decks' ? 180 : 0 }} transition={{ duration: 0.18 }}>
+                <ChevronDown size={12} strokeWidth={2.5} />
+              </motion.div>
+            </button>
+            <AnimatePresence>{openDropdown === 'decks' && <DecksPanel />}</AnimatePresence>
+          </div>
+
+          {/* Mini-Apps dropdown */}
+          <div className="relative" ref={appsRef}>
+            <button
+              onClick={() => toggle('apps')}
+              className="flex items-center gap-1 rounded-xl px-2.5 py-1.5 transition-all hover:bg-black/5 active:scale-95"
+              style={{ color: accentColor }}
+              aria-label="Open mini-apps"
+              aria-expanded={openDropdown === 'apps'}
+            >
+              <Grid3X3 size={15} strokeWidth={2} />
+              <motion.div animate={{ rotate: openDropdown === 'apps' ? 180 : 0 }} transition={{ duration: 0.18 }}>
+                <ChevronDown size={12} strokeWidth={2.5} />
+              </motion.div>
+            </button>
+            <AnimatePresence>{openDropdown === 'apps' && <AppsPanel />}</AnimatePresence>
+          </div>
         </div>
       </div>
 
       {/* ── Desktop layout (lg+) ─────────────────────────────────────────── */}
-      <div className="hidden lg:flex items-center h-full px-6 gap-1" style={{ maxWidth: '1400px', margin: '0 auto', width: '100%' }}>
+      <div
+        className="hidden lg:flex items-center h-full px-6 gap-1"
+        style={{ maxWidth: '1400px', margin: '0 auto', width: '100%' }}
+      >
         {/* Wordmark */}
-        <button onClick={() => navigate('/')} className="flex items-center gap-2 mr-4 shrink-0" aria-label="Go to home">
-          <div className="w-6 h-6 rounded-lg flex items-center justify-center" style={{ background: `linear-gradient(135deg, ${accentColor}, ${accentColor}99)` }}>
+        <button
+          onClick={() => navigate('/')}
+          className="flex items-center gap-2 mr-4 shrink-0"
+          aria-label="Go to home"
+        >
+          <div
+            className="w-6 h-6 rounded-lg flex items-center justify-center"
+            style={{ background: `linear-gradient(135deg, ${accentColor}, ${accentColor}99)` }}
+          >
             <LayoutGrid size={13} strokeWidth={2.5} color="white" />
           </div>
-          <span className="text-[14px] font-black tracking-tight" style={{ fontFamily: 'Sora, sans-serif', color: '#1a1a2e' }}>
+          <span
+            className="text-[14px] font-black tracking-tight"
+            style={{ fontFamily: 'Sora, sans-serif', color: '#1a1a2e' }}
+          >
             StratAlign
           </span>
         </button>
 
-        {/* Nav links */}
-        <div className="flex items-center gap-0.5 flex-1 overflow-x-auto" style={{ scrollbarWidth: 'none' }}>
-          {NAV_LINKS.map(({ path, icon: Icon, label }) => {
+        {/* Primary nav links */}
+        <div className="flex items-center gap-0.5 flex-1">
+          {PRIMARY_LINKS.map(({ path, icon: Icon, label }) => {
             const active = isActive(path);
             return (
               <button
                 key={path}
                 onClick={() => navigate(path)}
                 className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-[12px] font-semibold whitespace-nowrap transition-all"
-                style={{ color: active ? accentColor : '#64748b', backgroundColor: active ? accentColor + '12' : 'transparent' }}
+                style={{
+                  color: active ? accentColor : '#64748b',
+                  backgroundColor: active ? accentColor + '12' : 'transparent',
+                }}
               >
                 <Icon size={13} strokeWidth={active ? 2.4 : 1.8} />
                 {label}
@@ -183,17 +337,51 @@ export default function TopNav({ accentColor = '#475569' }: TopNavProps) {
           })}
         </div>
 
-        {/* Deck quick-jump (desktop) */}
-        <div className="relative shrink-0 ml-2" ref={dropdownRef}>
-          <button
-            onClick={() => setOpen(v => !v)}
-            className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-[12px] font-bold transition-all hover:bg-black/5"
-            style={{ color: accentColor }}
-          >
-            <ChevronDown size={13} strokeWidth={2.5} style={{ transform: open ? 'rotate(180deg)' : 'rotate(0deg)', transition: 'transform 0.2s' }} />
-            Decks
-          </button>
-          <AnimatePresence>{open && dropdownPanel}</AnimatePresence>
+        {/* Right side: Decks + Mini-Apps dropdowns */}
+        <div className="flex items-center gap-1 shrink-0">
+          {/* Decks dropdown */}
+          <div className="relative" ref={decksRef}>
+            <button
+              onClick={() => toggle('decks')}
+              className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-[12px] font-bold transition-all hover:bg-black/5"
+              style={{ color: accentColor }}
+              aria-expanded={openDropdown === 'decks'}
+            >
+              <LayoutGrid size={13} strokeWidth={2} />
+              Decks
+              <ChevronDown
+                size={12}
+                strokeWidth={2.5}
+                style={{
+                  transform: openDropdown === 'decks' ? 'rotate(180deg)' : 'rotate(0deg)',
+                  transition: 'transform 0.2s',
+                }}
+              />
+            </button>
+            <AnimatePresence>{openDropdown === 'decks' && <DecksPanel />}</AnimatePresence>
+          </div>
+
+          {/* Mini-Apps dropdown */}
+          <div className="relative" ref={appsRef}>
+            <button
+              onClick={() => toggle('apps')}
+              className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-[12px] font-bold transition-all hover:bg-black/5"
+              style={{ color: accentColor }}
+              aria-expanded={openDropdown === 'apps'}
+            >
+              <Grid3X3 size={13} strokeWidth={2} />
+              Mini-Apps
+              <ChevronDown
+                size={12}
+                strokeWidth={2.5}
+                style={{
+                  transform: openDropdown === 'apps' ? 'rotate(180deg)' : 'rotate(0deg)',
+                  transition: 'transform 0.2s',
+                }}
+              />
+            </button>
+            <AnimatePresence>{openDropdown === 'apps' && <AppsPanel />}</AnimatePresence>
+          </div>
         </div>
       </div>
     </div>

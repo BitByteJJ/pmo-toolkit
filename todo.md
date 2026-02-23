@@ -248,3 +248,13 @@
 - [x] Fix PDF Unicode: sanitize block chars (Gantt bars) to [####] ASCII, strip markdown bold/italic, preserve em dash
 - [x] Test both generators: RACI Matrix (6 cols, landscape), Gantt Chart (14 cols, landscape), Word footer verified
 - [x] Save checkpoint after fixes
+
+## Navigation Streamlining — Feb 2026
+
+- [x] Reduce BottomNav to 5 essential tabs: Home, AI, Templates, Search, Saved
+- [x] Move Journey, Roadmap, Glossary, Case Studies, Decision Helper out of BottomNav
+- [x] Add Mini-Apps dropdown to TopNav alongside existing Decks dropdown
+- [x] Mini-Apps dropdown: AI Tool Finder, Decision Helper, Template Library, Learning Journey, Learning Roadmap, Glossary, Case Studies (7 items with icons + descriptions)
+- [x] Mini-Apps dropdown accessible on all pages that show TopNav (all except Home, Journey, Decision, Quiz)
+- [x] Home page hides TopNav intentionally (has its own full-screen hero header)
+- [x] Tested: Mini-Apps dropdown opens correctly on /templates page, all 7 items visible and clickable
