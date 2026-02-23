@@ -1,7 +1,7 @@
 // PMO Toolkit Navigator — Daily Lesson Flow
 // Design: Full-screen immersive question flow with progress bar, hearts, answer feedback
 
-import { useEffect, useState, useCallback } from 'react';
+import { useEffect, useState, useCallback, useMemo, useRef } from 'react';
 import { useLocation, useParams } from 'wouter';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
@@ -338,11 +338,39 @@ function NoHeartsScreen({ onEarnHeart, onGoBack }: { onEarnHeart: () => void; on
 }
 
 // ─── MAIN LESSON PAGE ─────────────────────────────────────────────────────────
+// Shuffle array using Fisher-Yates
+function shuffleArray<T>(arr: T[]): T[] {
+  const a = [...arr];
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+
+const QUESTIONS_PER_SESSION = 5;
+
 export default function LessonPage() {
   const params = useParams<{ day: string }>();
   const [, navigate] = useLocation();
   const day = parseInt(params.day ?? '1', 10);
   const lesson = getLessonByDay(day);
+
+  // Randomise question pool once per mount — pick QUESTIONS_PER_SESSION from the full pool
+  const sessionSeedRef = useRef(Date.now());
+  const sessionQuestions = useMemo(() => {
+    if (!lesson) return [];
+    const pool = lesson.questions;
+    if (pool.length <= QUESTIONS_PER_SESSION) return shuffleArray(pool);
+    return shuffleArray(pool).slice(0, QUESTIONS_PER_SESSION);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [lesson?.id, sessionSeedRef.current]);
+
+  // Wrap lesson with randomised questions for use throughout this component
+  const lessonWithRandomQ = useMemo(
+    () => lesson ? { ...lesson, questions: sessionQuestions } : null,
+    [lesson, sessionQuestions]
+  );
 
   const {
     state,
@@ -363,7 +391,7 @@ export default function LessonPage() {
 
   // Start lesson on mount if not already active
   useEffect(() => {
-    if (!lesson) return;
+    if (!lessonWithRandomQ) return;
     if (isDayLocked(day)) {
       navigate('/journey');
       return;
@@ -374,8 +402,8 @@ export default function LessonPage() {
     // doesn't get stuck on "Loading lesson..."
     if (
       state.activeSession &&
-      state.activeSession.lessonId === lesson.id &&
-      state.activeSession.questionIndex >= lesson.questions.length
+      state.activeSession.lessonId === lessonWithRandomQ.id &&
+      state.activeSession.questionIndex >= lessonWithRandomQ.questions.length
     ) {
       setShowCompleteScreen(true);
       completeLesson();
@@ -383,9 +411,9 @@ export default function LessonPage() {
     }
 
     // If no active session for this lesson, start one
-    if (!state.activeSession || state.activeSession.lessonId !== lesson.id) {
+    if (!state.activeSession || state.activeSession.lessonId !== lessonWithRandomQ.id) {
       if (state.hearts > 0) {
-        startLesson(lesson.id, day);
+        startLesson(lessonWithRandomQ.id, day);
       } else {
         // No hearts and no active session — abandon any stale session for a
         // different lesson so the no-hearts screen shows correctly
@@ -394,7 +422,7 @@ export default function LessonPage() {
         }
       }
     }
-  }, [lesson, day]); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [lessonWithRandomQ, day]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const handleAnswer = useCallback(
     (selectedIndex: number, correct: boolean) => {
@@ -407,9 +435,9 @@ export default function LessonPage() {
   );
 
   const handleContinue = useCallback(() => {
-    if (!lesson || !state.activeSession) return;
+    if (!lessonWithRandomQ || !state.activeSession) return;
     const nextIndex = state.activeSession.questionIndex;
-    const isLastQuestion = nextIndex >= lesson.questions.length;
+    const isLastQuestion = nextIndex >= lessonWithRandomQ.questions.length;
 
     setPendingContinue(false);
     setLastAnswerCorrect(null);
@@ -420,7 +448,7 @@ export default function LessonPage() {
       setShowCompleteScreen(true);
       completeLesson();
     }
-  }, [lesson, state.activeSession, completeLesson]);
+  }, [lessonWithRandomQ, state.activeSession, completeLesson]);
 
   const handleAbandon = useCallback(() => {
     abandonLesson();
@@ -432,7 +460,7 @@ export default function LessonPage() {
   }, [navigate]);
 
   // ── Guard: lesson not found ──────────────────────────────────────────────
-  if (!lesson) {
+  if (!lessonWithRandomQ) {
     return (
       <div className="min-h-screen flex items-center justify-center">
         <p className="text-stone-500">Lesson not found</p>
@@ -445,13 +473,13 @@ export default function LessonPage() {
   // (currentQuestion becomes null) BEFORE completeLesson clears activeSession.
   // Checking showCompleteScreen first prevents the "Loading lesson..." flash.
   if (showCompleteScreen) {
-    const session = state.completedSessions[lesson.id];
+    const session = state.completedSessions[lessonWithRandomQ.id];
     return (
       <LessonCompleteScreen
         day={day}
-        title={lesson.title}
+        title={lessonWithRandomQ.title}
         correctCount={session?.correctCount ?? 0}
-        totalCount={lesson.questions.length}
+        totalCount={lessonWithRandomQ.questions.length}
         xpEarned={session?.xpEarned ?? 0}
         onContinue={handleCompleteFinish}
       />
@@ -485,11 +513,11 @@ export default function LessonPage() {
   }
 
   const questionIndex = state.activeSession.questionIndex;
-  const totalQuestions = lesson.questions.length;
+  const totalQuestions = lessonWithRandomQ.questions.length;
   // The current question to display is the one BEFORE the index advances
   // (index advances after answer, so we show index - 1 if pendingContinue)
   const displayIndex = pendingContinue ? questionIndex - 1 : questionIndex;
-  const displayQuestion = lesson.questions[displayIndex];
+  const displayQuestion = lessonWithRandomQ.questions[displayIndex];
 
   return (
     <div className="min-h-screen pt-11 flex flex-col" style={{ backgroundColor: '#F5F3EE' }}>
@@ -514,7 +542,7 @@ export default function LessonPage() {
         </div>
         <div className="mt-1.5 flex items-center justify-between">
           <span className="text-[10px] font-semibold text-stone-400">
-            Day {day} — {lesson.title}
+            Day {day} — {lessonWithRandomQ.title}
           </span>
           <span className="text-[10px] font-bold text-stone-500">
             {displayIndex + 1} / {totalQuestions}

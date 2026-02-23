@@ -70,13 +70,16 @@ function XPBar() {
 }
 
 // ─── UNIT BANNER ─────────────────────────────────────────────────────────────
-const UNIT_COLORS: Record<string, { bg: string; text: string; border: string; glow: string }> = {
-  foundations:  { bg: '#1D4ED8', text: '#ffffff', border: '#1e40af', glow: '#3b82f640' },
-  planning:     { bg: '#15803D', text: '#ffffff', border: '#166534', glow: '#22c55e40' },
-  people:       { bg: '#C2410C', text: '#ffffff', border: '#9a3412', glow: '#f9731640' },
-  execution:    { bg: '#7E22CE', text: '#ffffff', border: '#6b21a8', glow: '#a855f740' },
-  techniques:   { bg: '#B45309', text: '#ffffff', border: '#92400e', glow: '#f59e0b40' },
-  mastery:      { bg: '#BE123C', text: '#ffffff', border: '#9f1239', glow: '#f4436640' },
+const UNIT_COLORS: Record<string, { bg: string; text: string; border: string; glow: string; illustration?: string }> = {
+  foundations:  { bg: '#1D4ED8', text: '#ffffff', border: '#1e40af', glow: '#3b82f640', illustration: 'https://files.manuscdn.com/user_upload_by_module/session_file/310419663029097403/rOjEbQiDtukRSnet.png' },
+  planning:     { bg: '#15803D', text: '#ffffff', border: '#166534', glow: '#22c55e40', illustration: 'https://files.manuscdn.com/user_upload_by_module/session_file/310419663029097403/fEZPPadAzXObENLK.png' },
+  people:       { bg: '#C2410C', text: '#ffffff', border: '#9a3412', glow: '#f9731640', illustration: 'https://files.manuscdn.com/user_upload_by_module/session_file/310419663029097403/zcdgtcTFqFCMoYIx.png' },
+  process:      { bg: '#15803D', text: '#ffffff', border: '#166534', glow: '#22c55e40', illustration: 'https://files.manuscdn.com/user_upload_by_module/session_file/310419663029097403/fEZPPadAzXObENLK.png' },
+  tools:        { bg: '#0284C7', text: '#ffffff', border: '#0369a1', glow: '#38bdf840', illustration: 'https://files.manuscdn.com/user_upload_by_module/session_file/310419663029097403/bPrcpHnbGHoOuJTN.png' },
+  execution:    { bg: '#7E22CE', text: '#ffffff', border: '#6b21a8', glow: '#a855f740', illustration: 'https://files.manuscdn.com/user_upload_by_module/session_file/310419663029097403/sDrgfSuxIpnenvQq.png' },
+  techniques:   { bg: '#475569', text: '#ffffff', border: '#334155', glow: '#64748b40', illustration: 'https://files.manuscdn.com/user_upload_by_module/session_file/310419663029097403/sDrgfSuxIpnenvQq.png' },
+  mastery:      { bg: '#7C3AED', text: '#ffffff', border: '#6d28d9', glow: '#8b5cf640', illustration: 'https://files.manuscdn.com/user_upload_by_module/session_file/310419663029097403/eZTKJXYdmRUtjOiv.png' },
+  pmbok8:       { bg: '#0EA5E9', text: '#ffffff', border: '#0284c7', glow: '#38bdf840', illustration: 'https://files.manuscdn.com/user_upload_by_module/session_file/310419663029097403/NOWpfCiNuAJFXvlX.png' },
 };
 
 function UnitBanner({ unitId, title, description, icon, unitNumber }: {
@@ -89,34 +92,48 @@ function UnitBanner({ unitId, title, description, icon, unitNumber }: {
   const colors = UNIT_COLORS[unitId] ?? UNIT_COLORS.foundations;
   return (
     <div
-      className="rounded-2xl px-5 py-4 flex items-center gap-4 mx-4 my-3 relative overflow-hidden"
+      className="rounded-2xl mx-4 my-3 relative overflow-hidden"
       style={{
         backgroundColor: colors.bg,
         border: `1.5px solid ${colors.border}`,
         boxShadow: `0 4px 20px ${colors.glow}, 0 1px 4px rgba(0,0,0,0.15)`,
+        minHeight: colors.illustration ? '120px' : undefined,
       }}
     >
-      {/* Background pattern */}
-      <div
-        className="absolute inset-0 opacity-10"
-        style={{
-          backgroundImage: 'radial-gradient(circle at 80% 50%, white 0%, transparent 60%)',
-        }}
-      />
-      <div
-        className="w-12 h-12 rounded-2xl flex items-center justify-center text-2xl shrink-0 relative"
-        style={{ backgroundColor: 'rgba(255,255,255,0.2)' }}
-      >
-        {icon}
-      </div>
-      <div className="relative">
-        <div className="text-[9px] font-black uppercase tracking-widest opacity-70" style={{ color: colors.text }}>
-          Unit {unitNumber}
+      {/* Illustration background — right-anchored, fades left */}
+      {colors.illustration && (
+        <>
+          <img
+            src={colors.illustration}
+            alt=""
+            aria-hidden="true"
+            className="absolute inset-0 w-full h-full object-cover"
+            style={{ objectPosition: 'center right', opacity: 0.22 }}
+          />
+          {/* Gradient overlay so text stays readable */}
+          <div
+            className="absolute inset-0"
+            style={{ background: `linear-gradient(to right, ${colors.bg}F5 30%, ${colors.bg}CC 55%, ${colors.bg}55 85%, transparent 100%)` }}
+          />
+        </>
+      )}
+      {/* Content */}
+      <div className="relative flex items-center gap-4 px-5 py-4">
+        <div
+          className="w-12 h-12 rounded-2xl flex items-center justify-center text-2xl shrink-0"
+          style={{ backgroundColor: 'rgba(255,255,255,0.2)' }}
+        >
+          {icon}
         </div>
-        <div className="text-[15px] font-black leading-tight" style={{ fontFamily: 'Sora, sans-serif', color: colors.text }}>
-          {title}
+        <div>
+          <div className="text-[9px] font-black uppercase tracking-widest opacity-70" style={{ color: colors.text }}>
+            Unit {unitNumber}
+          </div>
+          <div className="text-[15px] font-black leading-tight" style={{ fontFamily: 'Sora, sans-serif', color: colors.text }}>
+            {title}
+          </div>
+          <div className="text-[11px] mt-0.5 opacity-80" style={{ color: colors.text }}>{description}</div>
         </div>
-        <div className="text-[11px] mt-0.5 opacity-80" style={{ color: colors.text }}>{description}</div>
       </div>
     </div>
   );
