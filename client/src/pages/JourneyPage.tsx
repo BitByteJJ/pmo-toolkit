@@ -15,6 +15,7 @@ import {
   BookOpen,
   ArrowLeft,
   X,
+  Sparkles,
 } from 'lucide-react';
 import { useJourney, MAX_HEARTS, TOPICS_TO_EARN_HEART } from '@/contexts/JourneyContext';
 import { JOURNEY_LESSONS, JOURNEY_UNITS, getLevelForXP, getNextLevel } from '@/lib/journeyData';
@@ -28,14 +29,19 @@ function HeartsBar() {
   return (
     <div className="flex items-center gap-1.5">
       {Array.from({ length: MAX_HEARTS }).map((_, i) => (
-        <Heart
+        <motion.div
           key={i}
-          size={16}
-          className={i < state.hearts ? 'text-rose-500 fill-rose-500' : 'text-slate-600 fill-slate-700'}
-        />
+          animate={i === state.hearts - 1 ? { scale: [1, 1.2, 1] } : {}}
+          transition={{ duration: 0.4 }}
+        >
+          <Heart
+            size={17}
+            className={i < state.hearts ? 'text-rose-400 fill-rose-400' : 'text-slate-600 fill-slate-700'}
+          />
+        </motion.div>
       ))}
       {state.hearts === 0 && heartsRefillCountdown && (
-        <span className="text-[10px] font-bold text-slate-300 ml-1">{heartsRefillCountdown}</span>
+        <span className="text-[10px] font-bold text-rose-300 ml-1 bg-rose-500/15 px-1.5 py-0.5 rounded-full">{heartsRefillCountdown}</span>
       )}
     </div>
   );
@@ -46,62 +52,70 @@ function XPBar() {
   const { state, level, nextLevel, xpProgressPercent } = useJourney();
   return (
     <div className="flex items-center gap-2 min-w-0">
-      <div className="flex items-center gap-1">
-        <Star size={13} className="text-amber-500 fill-amber-400 shrink-0" />
-        <span className="text-[11px] font-bold text-slate-200">{level.title}</span>
+      <div
+        className="flex items-center gap-1.5 px-2 py-0.5 rounded-full"
+        style={{ background: 'rgba(251,191,36,0.12)', border: '1px solid rgba(251,191,36,0.2)' }}
+      >
+        <Star size={11} className="text-amber-400 fill-amber-400 shrink-0" />
+        <span className="text-[10px] font-bold text-amber-300">{level.title}</span>
       </div>
       {nextLevel && (
-        <div className="flex items-center gap-1.5 min-w-0">
-          <div className="w-20 h-1.5 rounded-full bg-slate-700 overflow-hidden">
+        <div className="flex items-center gap-1.5 min-w-0 flex-1">
+          <div className="flex-1 h-1.5 rounded-full overflow-hidden" style={{ background: 'rgba(255,255,255,0.08)' }}>
             <motion.div
-              className="h-full rounded-full bg-amber-400"
+              className="h-full rounded-full"
+              style={{ background: 'linear-gradient(90deg, #f59e0b, #fbbf24)' }}
               initial={{ width: 0 }}
               animate={{ width: `${xpProgressPercent}%` }}
               transition={{ duration: 0.6, ease: 'easeOut' }}
             />
           </div>
-          <span className="text-[10px] text-slate-300 shrink-0">{state.totalXP} XP</span>
+          <span className="text-[10px] text-slate-300 shrink-0 font-semibold">{state.totalXP} XP</span>
         </div>
       )}
       {!nextLevel && (
-        <span className="text-[10px] font-bold text-amber-400">MAX</span>
+        <span className="text-[10px] font-bold text-amber-400 bg-amber-400/10 px-2 py-0.5 rounded-full">MAX LEVEL</span>
       )}
     </div>
   );
 }
 
 // ─── UNIT BANNER ─────────────────────────────────────────────────────────────
-const UNIT_COLORS: Record<string, { bg: string; text: string; border: string; glow: string; illustration?: string }> = {
-  foundations:  { bg: '#1D4ED8', text: '#ffffff', border: '#1e40af', glow: '#3b82f640', illustration: 'https://files.manuscdn.com/user_upload_by_module/session_file/310419663029097403/rOjEbQiDtukRSnet.png' },
-  planning:     { bg: '#15803D', text: '#ffffff', border: '#166534', glow: '#22c55e40', illustration: 'https://files.manuscdn.com/user_upload_by_module/session_file/310419663029097403/fEZPPadAzXObENLK.png' },
-  people:       { bg: '#C2410C', text: '#ffffff', border: '#9a3412', glow: '#f9731640', illustration: 'https://files.manuscdn.com/user_upload_by_module/session_file/310419663029097403/zcdgtcTFqFCMoYIx.png' },
-  process:      { bg: '#15803D', text: '#ffffff', border: '#166534', glow: '#22c55e40', illustration: 'https://files.manuscdn.com/user_upload_by_module/session_file/310419663029097403/fEZPPadAzXObENLK.png' },
-  tools:        { bg: '#0284C7', text: '#ffffff', border: '#0369a1', glow: '#38bdf840', illustration: 'https://files.manuscdn.com/user_upload_by_module/session_file/310419663029097403/bPrcpHnbGHoOuJTN.png' },
-  execution:    { bg: '#7E22CE', text: '#ffffff', border: '#6b21a8', glow: '#a855f740', illustration: 'https://files.manuscdn.com/user_upload_by_module/session_file/310419663029097403/sDrgfSuxIpnenvQq.png' },
-  techniques:   { bg: '#475569', text: '#ffffff', border: '#334155', glow: '#64748b40', illustration: 'https://files.manuscdn.com/user_upload_by_module/session_file/310419663029097403/sDrgfSuxIpnenvQq.png' },
-  mastery:      { bg: '#7C3AED', text: '#ffffff', border: '#6d28d9', glow: '#8b5cf640', illustration: 'https://files.manuscdn.com/user_upload_by_module/session_file/310419663029097403/eZTKJXYdmRUtjOiv.png' },
-  pmbok8:       { bg: '#0EA5E9', text: '#ffffff', border: '#0284c7', glow: '#38bdf840', illustration: 'https://files.manuscdn.com/user_upload_by_module/session_file/310419663029097403/NOWpfCiNuAJFXvlX.png' },
+const UNIT_COLORS: Record<string, { bg: string; accent: string; glow: string; illustration?: string }> = {
+  foundations:  { bg: 'linear-gradient(135deg, #1e3a8a 0%, #1d4ed8 100%)', accent: '#60a5fa', glow: '#3b82f640', illustration: 'https://files.manuscdn.com/user_upload_by_module/session_file/310419663029097403/rOjEbQiDtukRSnet.png' },
+  planning:     { bg: 'linear-gradient(135deg, #14532d 0%, #15803d 100%)', accent: '#4ade80', glow: '#22c55e40', illustration: 'https://files.manuscdn.com/user_upload_by_module/session_file/310419663029097403/fEZPPadAzXObENLK.png' },
+  people:       { bg: 'linear-gradient(135deg, #7c2d12 0%, #c2410c 100%)', accent: '#fb923c', glow: '#f9731640', illustration: 'https://files.manuscdn.com/user_upload_by_module/session_file/310419663029097403/zcdgtcTFqFCMoYIx.png' },
+  process:      { bg: 'linear-gradient(135deg, #14532d 0%, #15803d 100%)', accent: '#4ade80', glow: '#22c55e40', illustration: 'https://files.manuscdn.com/user_upload_by_module/session_file/310419663029097403/fEZPPadAzXObENLK.png' },
+  tools:        { bg: 'linear-gradient(135deg, #0c4a6e 0%, #0284c7 100%)', accent: '#38bdf8', glow: '#38bdf840', illustration: 'https://files.manuscdn.com/user_upload_by_module/session_file/310419663029097403/bPrcpHnbGHoOuJTN.png' },
+  execution:    { bg: 'linear-gradient(135deg, #4c1d95 0%, #7e22ce 100%)', accent: '#c084fc', glow: '#a855f740', illustration: 'https://files.manuscdn.com/user_upload_by_module/session_file/310419663029097403/sDrgfSuxIpnenvQq.png' },
+  techniques:   { bg: 'linear-gradient(135deg, #1e293b 0%, #475569 100%)', accent: '#94a3b8', glow: '#64748b40', illustration: 'https://files.manuscdn.com/user_upload_by_module/session_file/310419663029097403/sDrgfSuxIpnenvQq.png' },
+  mastery:      { bg: 'linear-gradient(135deg, #3b0764 0%, #7c3aed 100%)', accent: '#a78bfa', glow: '#8b5cf640', illustration: 'https://files.manuscdn.com/user_upload_by_module/session_file/310419663029097403/eZTKJXYdmRUtjOiv.png' },
+  pmbok8:       { bg: 'linear-gradient(135deg, #0c4a6e 0%, #0ea5e9 100%)', accent: '#7dd3fc', glow: '#38bdf840', illustration: 'https://files.manuscdn.com/user_upload_by_module/session_file/310419663029097403/NOWpfCiNuAJFXvlX.png' },
 };
 
-function UnitBanner({ unitId, title, description, icon, unitNumber }: {
+function UnitBanner({ unitId, title, description, icon, unitNumber, lessonCount, completedCount }: {
   unitId: string;
   title: string;
   description: string;
   icon: string;
   unitNumber: number;
+  lessonCount: number;
+  completedCount: number;
 }) {
   const colors = UNIT_COLORS[unitId] ?? UNIT_COLORS.foundations;
+  const pct = lessonCount > 0 ? Math.round((completedCount / lessonCount) * 100) : 0;
+  const isComplete = completedCount === lessonCount;
+
   return (
     <div
       className="rounded-2xl mx-4 my-3 relative overflow-hidden"
       style={{
-        backgroundColor: colors.bg,
-        border: `1.5px solid ${colors.border}`,
-        boxShadow: `0 4px 20px ${colors.glow}, 0 1px 4px rgba(0,0,0,0.3)`,
-        minHeight: colors.illustration ? '120px' : undefined,
+        background: colors.bg,
+        boxShadow: `0 8px 32px ${colors.glow}, 0 2px 8px rgba(0,0,0,0.4)`,
+        minHeight: '110px',
       }}
     >
-      {/* Illustration background — right-anchored, fades left */}
+      {/* Illustration background */}
       {colors.illustration && (
         <>
           <img
@@ -109,31 +123,55 @@ function UnitBanner({ unitId, title, description, icon, unitNumber }: {
             alt=""
             aria-hidden="true"
             className="absolute inset-0 w-full h-full object-cover"
-            style={{ objectPosition: 'center right', opacity: 0.22 }}
+            style={{ objectPosition: 'center right', opacity: 0.18 }}
           />
-          {/* Gradient overlay so text stays readable */}
           <div
             className="absolute inset-0"
-            style={{ background: `linear-gradient(to right, ${colors.bg}F5 30%, ${colors.bg}CC 55%, ${colors.bg}55 85%, transparent 100%)` }}
+            style={{ background: 'linear-gradient(to right, rgba(0,0,0,0.55) 30%, rgba(0,0,0,0.25) 60%, transparent 100%)' }}
           />
         </>
       )}
+
+      {/* Completion badge */}
+      {isComplete && (
+        <div
+          className="absolute top-3 right-3 flex items-center gap-1 px-2 py-0.5 rounded-full text-[9px] font-bold text-white"
+          style={{ background: 'rgba(16,185,129,0.85)', backdropFilter: 'blur(4px)' }}
+        >
+          <CheckCircle2 size={9} />
+          Complete
+        </div>
+      )}
+
       {/* Content */}
       <div className="relative flex items-center gap-4 px-5 py-4">
         <div
-          className="w-12 h-12 rounded-2xl flex items-center justify-center text-2xl shrink-0"
-          style={{ backgroundColor: 'rgba(255,255,255,0.2)' }}
+          className="w-14 h-14 rounded-2xl flex items-center justify-center text-2xl shrink-0"
+          style={{ background: 'rgba(255,255,255,0.15)', backdropFilter: 'blur(4px)', border: '1px solid rgba(255,255,255,0.2)' }}
         >
           {icon}
         </div>
-        <div>
-          <div className="text-[9px] font-black uppercase tracking-widest opacity-70" style={{ color: colors.text }}>
+        <div className="flex-1 min-w-0">
+          <div className="text-[9px] font-black uppercase tracking-widest text-white/60 mb-0.5">
             Unit {unitNumber}
           </div>
-          <div className="text-[15px] font-black leading-tight" style={{ fontFamily: 'Sora, sans-serif', color: colors.text }}>
+          <div className="text-[16px] font-black leading-tight text-white mb-0.5" style={{ fontFamily: 'Sora, sans-serif' }}>
             {title}
           </div>
-          <div className="text-[11px] mt-0.5 opacity-80" style={{ color: colors.text }}>{description}</div>
+          <div className="text-[11px] text-white/75 mb-2">{description}</div>
+          {/* Progress bar */}
+          <div className="flex items-center gap-2">
+            <div className="flex-1 h-1 rounded-full overflow-hidden" style={{ background: 'rgba(255,255,255,0.15)' }}>
+              <motion.div
+                className="h-full rounded-full"
+                style={{ background: colors.accent }}
+                initial={{ width: 0 }}
+                animate={{ width: `${pct}%` }}
+                transition={{ duration: 0.7, ease: 'easeOut' }}
+              />
+            </div>
+            <span className="text-[9px] font-bold text-white/70 shrink-0">{completedCount}/{lessonCount}</span>
+          </div>
         </div>
       </div>
     </div>
@@ -144,18 +182,20 @@ function UnitBanner({ unitId, title, description, icon, unitNumber }: {
 function DayNode({
   lesson,
   position,
+  unitAccent,
 }: {
   lesson: typeof JOURNEY_LESSONS[0];
   position: 'left' | 'center' | 'right';
+  unitAccent: string;
 }) {
   const [, navigate] = useLocation();
-  const { isDayCompleted, isDayLocked, canStartLesson, state } = useJourney();
+  const { isDayCompleted, isDayLocked, state } = useJourney();
   const completed = isDayCompleted(lesson.day);
   const locked = isDayLocked(lesson.day);
   const active = lesson.day === state.highestDayUnlocked && !completed;
 
   const positionClass =
-    position === 'left' ? 'ml-10' : position === 'right' ? 'mr-10 ml-auto' : 'mx-auto';
+    position === 'left' ? 'ml-8' : position === 'right' ? 'mr-8 ml-auto' : 'mx-auto';
 
   const handleTap = () => {
     if (locked) return;
@@ -165,65 +205,74 @@ function DayNode({
   return (
     <motion.div
       className={`relative ${positionClass} w-fit`}
-      initial={{ opacity: 0, scale: 0.8 }}
+      initial={{ opacity: 0, scale: 0.7 }}
       animate={{ opacity: 1, scale: 1 }}
-      transition={{ duration: 0.3 }}
+      transition={{ duration: 0.35, type: 'spring', stiffness: 280, damping: 22 }}
     >
-      {/* Active glow ring */}
+      {/* Active pulse ring */}
       {active && (
         <motion.div
-          className="absolute inset-0 rounded-full"
-          animate={{ scale: [1, 1.2, 1] }}
-          transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut' }}
-          style={{ backgroundColor: '#3B82F6', opacity: 0.3 }}
+          className="absolute -inset-2 rounded-full"
+          animate={{ scale: [1, 1.25, 1], opacity: [0.4, 0.15, 0.4] }}
+          transition={{ duration: 2.2, repeat: Infinity, ease: 'easeInOut' }}
+          style={{ backgroundColor: unitAccent }}
         />
       )}
 
       <button
         onClick={handleTap}
         disabled={locked}
-        className={`relative w-[68px] h-[68px] rounded-full flex flex-col items-center justify-center transition-all duration-200 ${
-          locked
-            ? 'cursor-not-allowed'
-            : 'active:scale-95'
+        className={`relative w-[72px] h-[72px] rounded-full flex flex-col items-center justify-center transition-all duration-200 ${
+          locked ? 'cursor-not-allowed' : 'active:scale-90 hover:scale-105'
         }`}
         style={{
-          backgroundColor: locked
-            ? '#2d3748'
+          background: locked
+            ? 'rgba(30,40,60,0.8)'
             : completed
-            ? '#10b981'
+            ? `linear-gradient(135deg, #059669, #10b981)`
             : active
-            ? '#3b82f6'
-            : '#4a5568',
+            ? `linear-gradient(135deg, ${unitAccent}cc, ${unitAccent})`
+            : 'rgba(30,45,70,0.9)',
+          border: locked
+            ? '2px solid rgba(255,255,255,0.06)'
+            : completed
+            ? '2px solid rgba(16,185,129,0.5)'
+            : active
+            ? `2px solid ${unitAccent}`
+            : '2px solid rgba(255,255,255,0.12)',
           boxShadow: locked
             ? 'none'
             : completed
-            ? '0 4px 14px rgba(16,185,129,0.45), 0 2px 4px rgba(0,0,0,0.3)'
+            ? '0 4px 20px rgba(16,185,129,0.4), 0 2px 6px rgba(0,0,0,0.4)'
             : active
-            ? '0 4px 16px rgba(59,130,246,0.5), 0 2px 4px rgba(0,0,0,0.3), 0 0 0 4px rgba(59,130,246,0.2)'
-            : '0 2px 8px rgba(0,0,0,0.3)',
+            ? `0 4px 24px ${unitAccent}60, 0 2px 8px rgba(0,0,0,0.4), 0 0 0 4px ${unitAccent}20`
+            : '0 2px 10px rgba(0,0,0,0.35)',
         }}
       >
         {locked ? (
-          <Lock size={20} className="text-slate-400" />
+          <Lock size={18} className="text-slate-500" />
         ) : completed ? (
-          <CheckCircle2 size={24} className="text-white fill-white" />
+          <CheckCircle2 size={26} className="text-white" strokeWidth={2.5} />
         ) : active ? (
-          <PlayCircle size={24} className="text-white" />
+          <PlayCircle size={26} className="text-white" strokeWidth={2} />
         ) : (
-          <span className="text-xl">{lesson.icon}</span>
+          <span className="text-[22px] leading-none">{lesson.icon}</span>
         )}
         <span
-          className={`text-[9px] font-bold mt-0.5 ${locked ? 'text-slate-400' : 'text-white'}`}
+          className="text-[8px] font-bold mt-0.5"
+          style={{ color: locked ? '#475569' : 'rgba(255,255,255,0.85)' }}
         >
           Day {lesson.day}
         </span>
       </button>
 
-      {/* Tooltip label */}
+      {/* Label below node */}
       {!locked && (
-        <div className="absolute -bottom-7 left-1/2 -translate-x-1/2 whitespace-nowrap">
-          <span className="text-[9px] font-semibold text-slate-300 text-center block max-w-[80px] truncate">
+        <div className="absolute -bottom-6 left-1/2 -translate-x-1/2 whitespace-nowrap">
+          <span
+            className="text-[8px] font-semibold text-center block max-w-[84px] truncate"
+            style={{ color: completed ? '#34d399' : active ? unitAccent : '#94a3b8' }}
+          >
             {lesson.title}
           </span>
         </div>
@@ -242,32 +291,41 @@ function NoHeartsBanner() {
     <motion.div
       initial={{ opacity: 0, y: -10 }}
       animate={{ opacity: 1, y: 0 }}
-      className="mx-4 mb-3 rounded-2xl p-4"
-      style={{ backgroundColor: 'rgba(220,38,38,0.12)', border: '1.5px solid rgba(220,38,38,0.3)' }}
+      className="mx-4 mb-3 rounded-2xl p-4 relative overflow-hidden"
+      style={{
+        background: 'linear-gradient(135deg, rgba(220,38,38,0.12), rgba(190,18,60,0.08))',
+        border: '1.5px solid rgba(220,38,38,0.3)',
+        boxShadow: '0 4px 20px rgba(220,38,38,0.1)',
+      }}
     >
       <div className="flex items-start gap-3">
-        <div className="w-10 h-10 rounded-full flex items-center justify-center shrink-0" style={{ backgroundColor: 'rgba(220,38,38,0.2)' }}>
+        <div
+          className="w-10 h-10 rounded-2xl flex items-center justify-center shrink-0"
+          style={{ background: 'rgba(220,38,38,0.2)', border: '1px solid rgba(220,38,38,0.3)' }}
+        >
           <Heart size={18} className="text-rose-400 fill-rose-400" />
         </div>
         <div className="flex-1 min-w-0">
-          <p className="text-sm font-bold text-rose-400">Out of hearts!</p>
-          <p className="text-[11px] text-rose-300 mt-0.5">
-            Hearts refill in <strong>{heartsRefillCountdown}</strong>, or study 5 topics to earn one back.
+          <p className="text-[12px] font-bold text-rose-300 mb-0.5">Out of hearts</p>
+          <p className="text-[11px] text-rose-300/80">
+            Refills in <strong className="text-rose-200">{heartsRefillCountdown}</strong>, or study topics to earn one back.
           </p>
           <div className="mt-2 flex items-center gap-2">
-            <div className="flex-1 h-1.5 rounded-full overflow-hidden" style={{ backgroundColor: 'rgba(220,38,38,0.2)' }}>
-              <div
-                className="h-full rounded-full bg-rose-400 transition-all duration-500"
-                style={{ width: `${(topicsStudiedForHeart / TOPICS_TO_EARN_HEART) * 100}%` }}
+            <div className="flex-1 h-1.5 rounded-full overflow-hidden" style={{ background: 'rgba(220,38,38,0.2)' }}>
+              <motion.div
+                className="h-full rounded-full"
+                style={{ background: 'linear-gradient(90deg, #f43f5e, #fb7185)' }}
+                animate={{ width: `${(topicsStudiedForHeart / TOPICS_TO_EARN_HEART) * 100}%` }}
+                transition={{ duration: 0.5 }}
               />
             </div>
-            <span className="text-[10px] font-bold text-rose-400">
+            <span className="text-[10px] font-bold text-rose-400 shrink-0">
               {topicsStudiedForHeart}/{TOPICS_TO_EARN_HEART}
             </span>
           </div>
           <button
             onClick={() => navigate('/journey/earn-heart')}
-            className="mt-2 text-[11px] font-bold text-rose-400 underline underline-offset-2"
+            className="mt-2 text-[11px] font-bold text-rose-300 underline underline-offset-2 hover:text-rose-200 transition-colors"
           >
             Study topics to earn a heart →
           </button>
@@ -283,47 +341,57 @@ function StatsStrip() {
   const completedCount = Object.values(state.completedSessions).filter(s => s.completed).length;
   const totalDays = JOURNEY_LESSONS.length;
 
+  const stats = [
+    { icon: Flame, value: state.currentStreak, label: 'Day streak', color: '#f97316', glow: 'rgba(249,115,22,0.25)', bg: 'rgba(249,115,22,0.1)', border: 'rgba(249,115,22,0.2)' },
+    { icon: Zap, value: state.totalXP, label: 'Total XP', color: '#eab308', glow: 'rgba(234,179,8,0.25)', bg: 'rgba(234,179,8,0.1)', border: 'rgba(234,179,8,0.2)' },
+    { icon: BookOpen, value: `${completedCount}/${totalDays}`, label: 'Days done', color: '#60a5fa', glow: 'rgba(96,165,250,0.2)', bg: 'rgba(96,165,250,0.08)', border: 'rgba(96,165,250,0.18)' },
+  ];
+
   return (
-    <div className="grid grid-cols-3 gap-2 mx-4 mb-4">
-      {[
-        { icon: Flame, value: state.currentStreak, label: 'Day streak', color: '#F97316', shadow: '0 2px 8px rgba(249,115,22,0.2)' },
-        { icon: Zap, value: state.totalXP, label: 'Total XP', color: '#EAB308', shadow: '0 2px 8px rgba(234,179,8,0.2)' },
-        { icon: BookOpen, value: `${completedCount}/${totalDays}`, label: 'Days done', color: '#60A5FA', shadow: '0 2px 8px rgba(59,130,246,0.2)' },
-      ].map(({ icon: Icon, value, label, color, shadow }) => (
-        <div
+    <div className="grid grid-cols-3 gap-2.5 mx-4 mb-4">
+      {stats.map(({ icon: Icon, value, label, color, glow, bg, border }) => (
+        <motion.div
           key={label}
-          className="rounded-2xl p-3 text-center"
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.4 }}
+          className="rounded-2xl p-3 text-center relative overflow-hidden"
           style={{
-            backgroundColor: 'rgba(255,255,255,0.05)',
-            border: '1px solid rgba(255,255,255,0.08)',
-            boxShadow: shadow,
+            background: bg,
+            border: `1px solid ${border}`,
+            boxShadow: `0 4px 16px ${glow}`,
           }}
         >
-          <Icon size={16} className="mx-auto mb-1" style={{ color }} />
-          <div className="text-base font-black" style={{ color, fontFamily: 'Sora, sans-serif' }}>{value}</div>
+          <Icon size={18} className="mx-auto mb-1" style={{ color }} />
+          <div
+            className="text-lg font-black"
+            style={{ color, fontFamily: 'Sora, sans-serif', textShadow: `0 0 12px ${color}60` }}
+          >
+            {value}
+          </div>
           <div className="text-[9px] font-semibold text-slate-300">{label}</div>
-        </div>
+        </motion.div>
       ))}
     </div>
   );
 }
 
 // ─── UNIT PATH CARD ───────────────────────────────────────────────────────────
-// Wraps each unit's day nodes in a card-like container for visual lift
 function UnitPathCard({ children, unitId }: { children: React.ReactNode; unitId: string }) {
   const colors = UNIT_COLORS[unitId] ?? UNIT_COLORS.foundations;
   return (
     <div
       className="mx-4 rounded-2xl overflow-hidden"
       style={{
-        backgroundColor: 'rgba(255,255,255,0.04)',
-        border: '1px solid rgba(255,255,255,0.07)',
-        boxShadow: '0 2px 12px rgba(0,0,0,0.3), 0 1px 3px rgba(0,0,0,0.2)',
+        background: 'rgba(10,22,40,0.6)',
+        border: '1px solid rgba(255,255,255,0.06)',
+        boxShadow: '0 4px 20px rgba(0,0,0,0.35)',
+        backdropFilter: 'blur(4px)',
       }}
     >
       {/* Top accent line */}
-      <div className="h-1 w-full" style={{ backgroundColor: colors.bg }} />
-      <div className="py-4">
+      <div className="h-0.5 w-full" style={{ background: colors.accent, opacity: 0.5 }} />
+      <div className="py-6">
         {children}
       </div>
     </div>
@@ -341,6 +409,7 @@ export default function JourneyPage() {
   const [showWizard, setShowWizard] = useState(false);
   const [profile, setProfile] = useState<JourneyProfile | null>(null);
   const [showTip, setShowTip] = useState(false);
+  const { isDayCompleted } = useJourney();
 
   useEffect(() => {
     const saved = localStorage.getItem(JOURNEY_PROFILE_KEY);
@@ -374,34 +443,37 @@ export default function JourneyPage() {
       <div
         className="sticky top-12 z-40 px-4"
         style={{
-          background: 'rgba(19,24,42,0.96)',
+          background: 'rgba(10,22,40,0.96)',
           backdropFilter: 'blur(20px) saturate(1.4)',
           WebkitBackdropFilter: 'blur(20px) saturate(1.4)',
-          borderBottom: '1.5px solid rgba(255,255,255,0.07)',
+          borderBottom: '1px solid rgba(255,255,255,0.07)',
         }}
       >
         <div className="flex items-center justify-between py-3">
           <button
             onClick={() => navigate('/')}
-            className="w-8 h-8 flex items-center justify-center rounded-xl hover:bg-card/10 transition-colors"
+            className="w-8 h-8 flex items-center justify-center rounded-xl hover:bg-white/10 transition-colors"
           >
             <ArrowLeft size={18} className="text-slate-300" />
           </button>
-          <h1
-            className="text-base font-black text-white"
-            style={{ fontFamily: 'Sora, sans-serif' }}
-          >
-            PM Journey
-          </h1>
+          <div className="flex items-center gap-2">
+            <Sparkles size={14} className="text-violet-400" />
+            <h1
+              className="text-base font-black text-white"
+              style={{ fontFamily: 'Sora, sans-serif' }}
+            >
+              PM Journey
+            </h1>
+          </div>
           <HeartsBar />
         </div>
-        <div className="pb-2">
+        <div className="pb-2.5">
           <XPBar />
         </div>
       </div>
 
       {/* Stats */}
-      <div className="pt-4">
+      <div className="pt-5">
         <StatsStrip />
       </div>
 
@@ -411,21 +483,25 @@ export default function JourneyPage() {
           <motion.div
             initial={{ opacity: 0, y: -8 }}
             animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0 }}
+            exit={{ opacity: 0, scale: 0.96 }}
             className="mx-4 mt-1 mb-3 rounded-2xl p-4 relative"
-            style={{ background: 'linear-gradient(135deg, rgba(124,58,237,0.15), rgba(37,99,235,0.10))', border: '1.5px solid rgba(124,58,237,0.3)' }}
+            style={{
+              background: 'linear-gradient(135deg, rgba(124,58,237,0.15), rgba(37,99,235,0.10))',
+              border: '1.5px solid rgba(124,58,237,0.3)',
+              boxShadow: '0 4px 20px rgba(124,58,237,0.1)',
+            }}
           >
             <button
               onClick={() => setShowTip(false)}
-              className="absolute top-3 right-3 p-1 rounded-full hover:bg-card/10 transition-colors"
+              className="absolute top-3 right-3 p-1 rounded-full hover:bg-white/10 transition-colors"
               aria-label="Dismiss"
             >
-              <X size={12} className="text-slate-300" />
+              <X size={12} className="text-slate-400" />
             </button>
             <div className="flex items-start gap-3">
               <span className="text-xl shrink-0">✨</span>
               <div className="pr-4">
-                <p className="text-[11px] font-bold text-violet-400 mb-1">Your personalised path</p>
+                <p className="text-[11px] font-bold text-violet-300 mb-1">Your personalised path</p>
                 <p className="text-[11px] text-slate-300 leading-relaxed">{getPersonalisedTip(profile)}</p>
               </div>
             </div>
@@ -438,64 +514,84 @@ export default function JourneyPage() {
 
       {/* Journey Map — each unit is a card */}
       <div className="space-y-4 pb-4">
-        {unitGroups.map(({ unit, lessons }, unitIndex) => (
-          <div key={unit.id}>
-            {/* Unit Banner */}
-            <UnitBanner
-              unitId={unit.id}
-              title={unit.title}
-              description={unit.description}
-              icon={unit.icon}
-              unitNumber={unitIndex + 1}
-            />
+        {unitGroups.map(({ unit, lessons }, unitIndex) => {
+          const colors = UNIT_COLORS[unit.id] ?? UNIT_COLORS.foundations;
+          const completedCount = lessons.filter(l => isDayCompleted(l.day)).length;
 
-            {/* Day nodes in card container */}
-            <UnitPathCard unitId={unit.id}>
-              <div className="relative space-y-8 py-2">
-                {/* Connector line */}
-                <div
-                  className="absolute left-1/2 top-0 bottom-0 w-0.5 -translate-x-1/2"
-                  style={{ backgroundColor: 'rgba(255,255,255,0.12)', zIndex: 0 }}
-                />
+          return (
+            <div key={unit.id}>
+              {/* Unit Banner */}
+              <UnitBanner
+                unitId={unit.id}
+                title={unit.title}
+                description={unit.description}
+                icon={unit.icon}
+                unitNumber={unitIndex + 1}
+                lessonCount={lessons.length}
+                completedCount={completedCount}
+              />
 
-                {lessons.map((lesson, i) => {
-                  const posIndex = (unitIndex * 5 + i) % NODE_POSITIONS.length;
-                  return (
-                    <div key={lesson.id} className="relative z-10">
-                      <DayNode
-                        lesson={lesson}
-                        position={NODE_POSITIONS[posIndex]}
-                      />
-                    </div>
-                  );
-                })}
-              </div>
-            </UnitPathCard>
-          </div>
-        ))}
+              {/* Day nodes in card container */}
+              <UnitPathCard unitId={unit.id}>
+                <div className="relative space-y-10 py-2">
+                  {/* Connector line */}
+                  <div
+                    className="absolute left-1/2 top-0 bottom-0 w-px -translate-x-1/2"
+                    style={{
+                      background: `linear-gradient(to bottom, transparent, ${colors.accent}30 15%, ${colors.accent}20 85%, transparent)`,
+                      zIndex: 0,
+                    }}
+                  />
+
+                  {lessons.map((lesson, i) => {
+                    const posIndex = (unitIndex * 5 + i) % NODE_POSITIONS.length;
+                    return (
+                      <div key={lesson.id} className="relative z-10">
+                        <DayNode
+                          lesson={lesson}
+                          position={NODE_POSITIONS[posIndex]}
+                          unitAccent={colors.accent}
+                        />
+                      </div>
+                    );
+                  })}
+                </div>
+              </UnitPathCard>
+            </div>
+          );
+        })}
 
         {/* Journey complete trophy */}
-        <div
-          className="mx-4 mt-2 rounded-2xl p-5 text-center"
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.3 }}
+          className="mx-4 mt-2 rounded-2xl p-6 text-center relative overflow-hidden"
           style={{
-            background: 'linear-gradient(135deg, rgba(251,191,36,0.12), rgba(245,158,11,0.08))',
-            border: '1.5px solid rgba(251,191,36,0.25)',
-            boxShadow: '0 4px 16px rgba(234,179,8,0.15), 0 1px 4px rgba(0,0,0,0.2)',
+            background: 'linear-gradient(135deg, rgba(251,191,36,0.1), rgba(245,158,11,0.06))',
+            border: '1.5px solid rgba(251,191,36,0.2)',
+            boxShadow: '0 8px 32px rgba(234,179,8,0.12)',
           }}
         >
+          {/* Glow effect */}
+          <div
+            className="absolute top-0 left-1/2 -translate-x-1/2 w-32 h-16 rounded-full blur-2xl opacity-30"
+            style={{ background: '#f59e0b' }}
+          />
           <motion.div
-            animate={{ y: [0, -4, 0] }}
-            transition={{ duration: 2.5, repeat: Infinity, ease: 'easeInOut' }}
+            animate={{ y: [0, -5, 0] }}
+            transition={{ duration: 3, repeat: Infinity, ease: 'easeInOut' }}
+            className="relative"
           >
-            <Trophy size={32} className="mx-auto text-amber-400 mb-2" />
+            <Trophy size={36} className="mx-auto text-amber-400 mb-3" />
           </motion.div>
-          <p className="text-sm font-black text-amber-300" style={{ fontFamily: 'Sora, sans-serif' }}>
+          <p className="text-base font-black text-amber-300 relative" style={{ fontFamily: 'Sora, sans-serif' }}>
             PM Master Awaits
           </p>
-          <p className="text-[11px] text-amber-400/80 mt-1">
+          <p className="text-[11px] text-amber-400/70 mt-1 relative">
             Complete all 35 days to earn the PM Master title
           </p>
-        </div>
+        </motion.div>
       </div>
     </div>
     <BottomNav />

@@ -388,3 +388,12 @@
 - [x] TemplateFiller: reduced Download PDF, Download Word, Reset buttons (py-3→py-1.5, text-sm→text-xs, rounded-xl→rounded-lg, smaller icons)
 - [x] OnboardingTour TOUR_STEPS bg values confirmed already using rgba(color, 0.12) — no change needed
 - [x] All 49 tests passing, TypeScript 0 errors
+
+## Journey Pages Visual Upgrade — Feb 23 2026
+
+- [x] JourneyPage: upgrade day nodes (larger, richer icons, star/XP labels, better active pulse), improve unit banners with gradient mesh, upgrade stats strip with glowing cards
+- [x] JourneyPage: add decorative connector path between nodes (curved/dashed), improve UnitPathCard with subtle gradient background
+- [x] LessonPage: upgrade question card (larger prompt, richer option buttons with letter badges), upgrade lesson complete screen (remove light bg stats, add animated confetti/stars, dark stat cards)
+- [x] LessonPage: upgrade no-hearts screen (richer layout, animated heart, countdown styling)
+- [x] EarnHeartPage: fix light-mode header (rose-100 bg → dark navy), fix card study modal header (deck.bgColor → dark navy), fix "Studied!" confirmation (bg-emerald-50 → dark)
+- [x] JourneySetupWizard: fix option buttons (light #fafaf8 bg → dark navy, border #e7e5e4 → rgba white), fix step dots inactive color (#e7e5e4 → rgba white)

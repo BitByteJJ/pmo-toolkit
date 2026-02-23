@@ -11,6 +11,7 @@ import {
   CheckCircle2,
   ChevronRight,
   X,
+  Sparkles,
 } from 'lucide-react';
 import { useJourney, TOPICS_TO_EARN_HEART, MAX_HEARTS } from '@/contexts/JourneyContext';
 import { CARDS, DECKS, getDeckById } from '@/lib/pmoData';
@@ -43,71 +44,83 @@ function CardStudyModal({
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
       className="fixed inset-0 z-50 flex items-end justify-center"
-      style={{ backgroundColor: 'rgba(0,0,0,0.5)' }}
+      style={{ backgroundColor: 'rgba(0,0,0,0.65)', backdropFilter: 'blur(4px)' }}
       onClick={onClose}
     >
       <motion.div
         initial={{ y: '100%' }}
         animate={{ y: 0 }}
         exit={{ y: '100%' }}
-        transition={{ type: 'spring', stiffness: 400, damping: 35 }}
+        transition={{ type: 'spring', stiffness: 380, damping: 32 }}
         className="w-full max-w-lg rounded-t-3xl overflow-hidden"
-        style={{ backgroundColor: '#0f1c30', maxHeight: '85vh', overflowY: 'auto' }}
+        style={{ backgroundColor: '#0f1c30', maxHeight: '88vh', overflowY: 'auto', border: '1px solid rgba(255,255,255,0.08)' }}
         onClick={e => e.stopPropagation()}
       >
-        {/* Card header */}
+        {/* Card header — dark navy with accent colour strip */}
         <div
           className="px-5 pt-5 pb-4 relative"
-          style={{ backgroundColor: deck?.bgColor ?? 'var(--background)' }}
+          style={{
+            background: `linear-gradient(135deg, rgba(15,28,48,0.95), rgba(15,28,48,0.85))`,
+            borderBottom: `2px solid ${deck?.color ?? '#4f46e5'}40`,
+          }}
         >
+          {/* Colour accent left bar */}
+          <div
+            className="absolute left-0 top-0 bottom-0 w-1 rounded-tl-3xl"
+            style={{ backgroundColor: deck?.color ?? '#4f46e5' }}
+          />
           <button
             onClick={onClose}
-            className="absolute top-4 right-4 w-8 h-8 rounded-full bg-black/10 flex items-center justify-center"
+            className="absolute top-4 right-4 w-8 h-8 rounded-full flex items-center justify-center hover:bg-white/10 transition-colors"
+            style={{ background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.1)' }}
           >
             <X size={14} className="text-slate-300" />
           </button>
           <div
             className="text-[9px] font-mono font-bold px-2 py-0.5 rounded-md inline-block mb-2"
-            style={{ backgroundColor: (deck?.color ?? '#888') + '20', color: deck?.textColor ?? '#333' }}
+            style={{ backgroundColor: (deck?.color ?? '#888') + '20', color: deck?.color ?? '#94a3b8', border: `1px solid ${deck?.color ?? '#888'}30` }}
           >
             {card.code}
           </div>
           <h3
-            className="text-lg font-black leading-tight"
-            style={{ fontFamily: 'Sora, sans-serif', color: deck?.textColor ?? '#e2e8f0' }}
+            className="text-lg font-black leading-tight text-white"
+            style={{ fontFamily: 'Sora, sans-serif' }}
           >
             {card.title}
           </h3>
-          <p className="text-[11px] mt-1" style={{ color: deck?.textColor ?? '#78716c', opacity: 0.7 }}>
+          <p className="text-[11px] mt-1 text-slate-400">
             {card.tagline}
           </p>
-          {/* Bottom accent */}
-          <div className="h-1 w-full mt-4 rounded-full" style={{ backgroundColor: deck?.color }} />
+          {/* Deck label */}
+          <div className="flex items-center gap-1.5 mt-2">
+            <div className="w-2 h-2 rounded-full" style={{ backgroundColor: deck?.color ?? '#888' }} />
+            <span className="text-[9px] font-semibold text-slate-400">{deck?.title}</span>
+          </div>
         </div>
 
         {/* Card body */}
         <div className="px-5 py-4 space-y-4">
           {card.whatItIs && (
             <div>
-              <p className="text-[10px] font-black uppercase tracking-widest text-slate-300 mb-1">What It Is</p>
+              <p className="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-1.5">What It Is</p>
               <p className="text-sm text-slate-300 leading-relaxed">{card.whatItIs}</p>
             </div>
           )}
           {card.whenToUse && (
             <div>
-              <p className="text-[10px] font-black uppercase tracking-widest text-slate-300 mb-1">When to Use</p>
+              <p className="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-1.5">When to Use</p>
               <p className="text-sm text-slate-300 leading-relaxed">{card.whenToUse}</p>
             </div>
           )}
           {card.steps && card.steps.length > 0 && (
             <div>
-              <p className="text-[10px] font-black uppercase tracking-widest text-slate-300 mb-2">Key Steps</p>
-              <ol className="space-y-1.5">
+              <p className="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-2">Key Steps</p>
+              <ol className="space-y-2">
                 {card.steps.map((step, i) => (
-                  <li key={i} className="flex items-start gap-2">
+                  <li key={i} className="flex items-start gap-2.5">
                     <span
                       className="shrink-0 w-5 h-5 rounded-full flex items-center justify-center text-[9px] font-bold text-white mt-0.5"
-                      style={{ backgroundColor: deck?.color ?? '#888' }}
+                      style={{ backgroundColor: deck?.color ?? '#4f46e5' }}
                     >
                       {i + 1}
                     </span>
@@ -119,13 +132,16 @@ function CardStudyModal({
           )}
           {card.proTip && (
             <div
-              className="rounded-xl p-3"
-              style={{ backgroundColor: (deck?.color ?? '#888') + '12', border: `1px solid ${deck?.color ?? '#888'}30` }}
+              className="rounded-xl p-3.5"
+              style={{
+                background: `${deck?.color ?? '#4f46e5'}10`,
+                border: `1px solid ${deck?.color ?? '#4f46e5'}25`,
+              }}
             >
-              <p className="text-[9px] font-black uppercase tracking-widest mb-1" style={{ color: deck?.color }}>
+              <p className="text-[9px] font-black uppercase tracking-widest mb-1.5" style={{ color: deck?.color ?? '#818cf8' }}>
                 Pro Tip
               </p>
-              <p className="text-[11px] text-slate-300 leading-relaxed">{card.proTip}</p>
+              <p className="text-[12px] text-slate-300 leading-relaxed">{card.proTip}</p>
             </div>
           )}
         </div>
@@ -133,14 +149,21 @@ function CardStudyModal({
         {/* Mark as studied button */}
         <div className="px-5 pb-8 pt-2">
           {confirmed || alreadyStudied ? (
-            <div className="w-full py-4 rounded-2xl bg-emerald-50 border border-emerald-200 flex items-center justify-center gap-2">
-              <CheckCircle2 size={18} className="text-emerald-500" />
-              <span className="text-sm font-bold text-emerald-700">Studied!</span>
+            <div
+              className="w-full py-4 rounded-2xl flex items-center justify-center gap-2"
+              style={{ background: 'rgba(16,185,129,0.12)', border: '1.5px solid rgba(16,185,129,0.3)' }}
+            >
+              <CheckCircle2 size={18} className="text-emerald-400" />
+              <span className="text-sm font-bold text-emerald-400">Studied!</span>
             </div>
           ) : (
             <button
               onClick={handleMarkStudied}
-              className="w-full py-4 rounded-2xl font-bold text-white text-base bg-blue-500 hover:bg-blue-600 active:scale-95 transition-all flex items-center justify-center gap-2"
+              className="w-full py-4 rounded-2xl font-bold text-white text-base flex items-center justify-center gap-2 active:scale-95 transition-all"
+              style={{
+                background: 'linear-gradient(135deg, #4f46e5, #6366f1)',
+                boxShadow: '0 4px 20px rgba(99,102,241,0.35)',
+              }}
             >
               <BookOpen size={18} />
               Mark as Studied
@@ -158,20 +181,17 @@ export default function EarnHeartPage() {
   const { state, studyTopicForHeart, topicsStudiedForHeart } = useJourney();
   const [selectedCard, setSelectedCard] = useState<typeof CARDS[0] | null>(null);
 
-  // Pick a curated set of cards for study — prioritise cards not yet studied
   const studyCards = useMemo(() => {
     const studied = new Set(state.earnHeartProgress.topicsStudied);
-    // First: unstudied cards, shuffled
     const unstudied = CARDS.filter(c => !studied.has(c.id));
     const shuffled = [...unstudied].sort(() => Math.random() - 0.5);
-    // Take up to 15 cards to show
     return shuffled.slice(0, 15);
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   const studiedInSession = state.earnHeartProgress.topicsStudied;
-  const progressInBatch = topicsStudiedForHeart; // 0–TOPICS_TO_EARN_HEART
-  const heartsEarned = state.earnHeartProgress.heartsEarned;
+  const progressInBatch = topicsStudiedForHeart;
   const currentHearts = state.hearts;
+  const isComplete = progressInBatch >= TOPICS_TO_EARN_HEART;
 
   const handleStudied = (cardId: string) => {
     studyTopicForHeart(cardId);
@@ -179,27 +199,30 @@ export default function EarnHeartPage() {
 
   return (
     <div className="min-h-screen pt-11 pb-24" style={{ background: '#0a1628' }}>
-      {/* Header */}
+      {/* Header — dark navy, rose accent */}
       <div
         className="sticky top-11 z-40 px-4 py-3"
         style={{
-          background: 'rgba(255,241,242,0.95)',
-          backdropFilter: 'blur(12px)',
-          borderBottom: '1px solid rgba(254,205,211,0.6)',
+          background: 'rgba(10,22,40,0.97)',
+          backdropFilter: 'blur(16px)',
+          borderBottom: '1px solid rgba(255,255,255,0.07)',
         }}
       >
         <div className="flex items-center gap-3">
           <button
             onClick={() => navigate('/journey')}
-            className="w-8 h-8 flex items-center justify-center rounded-xl hover:bg-rose-100 transition-colors"
+            className="w-8 h-8 flex items-center justify-center rounded-xl hover:bg-white/10 transition-colors"
           >
-            <ArrowLeft size={18} className="text-rose-600" />
+            <ArrowLeft size={18} className="text-slate-300" />
           </button>
           <div className="flex-1">
-            <h1 className="text-base font-black text-rose-800" style={{ fontFamily: 'Sora, sans-serif' }}>
-              Earn a Heart
-            </h1>
-            <p className="text-[10px] text-rose-500">Study {TOPICS_TO_EARN_HEART} topics to earn 1 heart</p>
+            <div className="flex items-center gap-1.5">
+              <Heart size={13} className="text-rose-400 fill-rose-400" />
+              <h1 className="text-base font-black text-white" style={{ fontFamily: 'Sora, sans-serif' }}>
+                Earn a Heart
+              </h1>
+            </div>
+            <p className="text-[10px] text-slate-400">Study {TOPICS_TO_EARN_HEART} topics to earn 1 heart</p>
           </div>
           {/* Current hearts */}
           <div className="flex items-center gap-1">
@@ -207,7 +230,7 @@ export default function EarnHeartPage() {
               <Heart
                 key={i}
                 size={16}
-                className={i < currentHearts ? 'text-rose-500 fill-rose-500' : 'text-slate-400 fill-slate-700'}
+                className={i < currentHearts ? 'text-rose-400 fill-rose-400' : 'text-slate-600 fill-slate-700'}
               />
             ))}
           </div>
@@ -216,10 +239,20 @@ export default function EarnHeartPage() {
 
       <div className="px-4 pt-5 space-y-5">
         {/* Progress toward next heart */}
-        <div className="rounded-2xl p-4 bg-card" style={{ boxShadow: '0 2px 8px rgba(0,0,0,0.06)' }}>
+        <div
+          className="rounded-2xl p-4 relative overflow-hidden"
+          style={{
+            background: 'linear-gradient(135deg, rgba(220,38,38,0.1), rgba(190,18,60,0.06))',
+            border: '1.5px solid rgba(220,38,38,0.2)',
+            boxShadow: '0 4px 20px rgba(220,38,38,0.08)',
+          }}
+        >
           <div className="flex items-center justify-between mb-3">
-            <p className="text-sm font-bold text-slate-300">Progress to next heart</p>
-            <span className="text-sm font-black text-rose-600">
+            <p className="text-sm font-bold text-slate-200">Progress to next heart</p>
+            <span
+              className="text-sm font-black px-2 py-0.5 rounded-full"
+              style={{ background: 'rgba(220,38,38,0.15)', color: '#f87171', border: '1px solid rgba(220,38,38,0.25)' }}
+            >
               {progressInBatch} / {TOPICS_TO_EARN_HEART}
             </span>
           </div>
@@ -227,12 +260,14 @@ export default function EarnHeartPage() {
             {Array.from({ length: TOPICS_TO_EARN_HEART }).map((_, i) => (
               <motion.div
                 key={i}
-                className="flex-1 h-3 rounded-full overflow-hidden bg-rose-100"
-                animate={i < progressInBatch ? { scale: [1, 1.05, 1] } : {}}
+                className="flex-1 h-3 rounded-full overflow-hidden"
+                style={{ background: 'rgba(220,38,38,0.15)' }}
+                animate={i < progressInBatch ? { scale: [1, 1.06, 1] } : {}}
                 transition={{ duration: 0.3, delay: i * 0.05 }}
               >
                 <motion.div
-                  className="h-full rounded-full bg-rose-400"
+                  className="h-full rounded-full"
+                  style={{ background: 'linear-gradient(90deg, #f43f5e, #fb7185)' }}
                   initial={{ width: 0 }}
                   animate={{ width: i < progressInBatch ? '100%' : '0%' }}
                   transition={{ duration: 0.4, delay: i * 0.05 }}
@@ -241,29 +276,33 @@ export default function EarnHeartPage() {
             ))}
           </div>
           {progressInBatch === 0 && (
-            <p className="text-[11px] text-slate-300 mt-2">
+            <p className="text-[11px] text-slate-400 mt-2">
               Open any card below and tap "Mark as Studied" to count it.
             </p>
           )}
-          {progressInBatch >= TOPICS_TO_EARN_HEART && (
+          {isComplete && (
             <motion.div
               initial={{ opacity: 0, y: 4 }}
               animate={{ opacity: 1, y: 0 }}
-              className="mt-3 flex items-center gap-2 p-2 rounded-xl bg-rose-900/20 border border-rose-500/30"
+              className="mt-3 flex items-center gap-2 p-3 rounded-xl"
+              style={{ background: 'rgba(16,185,129,0.1)', border: '1px solid rgba(16,185,129,0.25)' }}
             >
-              <Heart size={16} className="text-rose-500 fill-rose-500" />
-              <p className="text-[11px] font-bold text-rose-700">
+              <Heart size={16} className="text-rose-400 fill-rose-400 shrink-0" />
+              <p className="text-[11px] font-bold text-emerald-400">
                 Heart earned! Keep studying to earn more.
               </p>
             </motion.div>
           )}
         </div>
 
-        {/* Instruction */}
+        {/* Topics to study */}
         <div>
-          <p className="text-[11px] font-black uppercase tracking-widest text-slate-300 mb-3">
-            Topics to Study
-          </p>
+          <div className="flex items-center gap-2 mb-3">
+            <Sparkles size={12} className="text-violet-400" />
+            <p className="text-[11px] font-black uppercase tracking-widest text-slate-400">
+              Topics to Study
+            </p>
+          </div>
           <div className="space-y-2.5">
             {studyCards.map((card, i) => {
               const deck = getDeckById(card.deckId);
@@ -271,42 +310,47 @@ export default function EarnHeartPage() {
               return (
                 <motion.button
                   key={card.id}
-                  initial={{ opacity: 0, x: -10 }}
+                  initial={{ opacity: 0, x: -12 }}
                   animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: i * 0.04 }}
+                  transition={{ delay: i * 0.035 }}
                   onClick={() => setSelectedCard(card)}
                   whileHover={{ scale: 1.01 }}
                   whileTap={{ scale: 0.98 }}
-                  className="w-full text-left rounded-2xl p-3.5 bg-card flex items-center gap-3"
+                  className="w-full text-left rounded-2xl p-3.5 flex items-center gap-3 transition-all"
                   style={{
-                    boxShadow: '0 1px 4px rgba(0,0,0,0.06)',
-                    opacity: isStudied ? 0.7 : 1,
+                    background: isStudied
+                      ? 'rgba(16,185,129,0.06)'
+                      : 'rgba(255,255,255,0.04)',
+                    border: isStudied
+                      ? '1px solid rgba(16,185,129,0.2)'
+                      : '1px solid rgba(255,255,255,0.07)',
+                    opacity: isStudied ? 0.75 : 1,
                   }}
                 >
-                  {/* Deck colour dot */}
+                  {/* Deck colour bar */}
                   <div
-                    className="w-2 h-10 rounded-full shrink-0"
+                    className="w-1.5 h-10 rounded-full shrink-0"
                     style={{ backgroundColor: deck?.color ?? '#888' }}
                   />
                   <div className="flex-1 min-w-0">
                     <div className="flex items-center gap-1.5 mb-0.5">
                       <span
                         className="text-[8px] font-mono font-bold px-1.5 py-0.5 rounded-md"
-                        style={{ backgroundColor: (deck?.color ?? '#888') + '20', color: deck?.textColor ?? '#333' }}
+                        style={{ backgroundColor: (deck?.color ?? '#888') + '18', color: deck?.color ?? '#94a3b8', border: `1px solid ${deck?.color ?? '#888'}25` }}
                       >
                         {card.code}
                       </span>
-                      <span className="text-[9px] text-slate-300">{deck?.title}</span>
+                      <span className="text-[9px] text-slate-500">{deck?.title}</span>
                     </div>
                     <p className="text-sm font-bold text-slate-200 truncate" style={{ fontFamily: 'Sora, sans-serif' }}>
                       {card.title}
                     </p>
-                    <p className="text-[10px] text-slate-300 truncate">{card.tagline}</p>
+                    <p className="text-[10px] text-slate-400 truncate">{card.tagline}</p>
                   </div>
                   {isStudied ? (
-                    <CheckCircle2 size={18} className="text-emerald-500 shrink-0" />
+                    <CheckCircle2 size={18} className="text-emerald-400 shrink-0" />
                   ) : (
-                    <ChevronRight size={16} className="text-slate-400 shrink-0" />
+                    <ChevronRight size={16} className="text-slate-500 shrink-0" />
                   )}
                 </motion.button>
               );
@@ -317,7 +361,8 @@ export default function EarnHeartPage() {
         {/* Back to journey */}
         <button
           onClick={() => navigate('/journey')}
-          className="w-full py-3 rounded-2xl font-semibold text-slate-300 text-sm bg-card/10 hover:bg-card/15 active:scale-95 transition-all"
+          className="w-full py-3 rounded-2xl font-semibold text-slate-300 text-sm transition-all active:scale-95"
+          style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.08)' }}
         >
           Back to Journey Map
         </button>

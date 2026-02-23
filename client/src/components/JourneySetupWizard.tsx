@@ -53,7 +53,7 @@ const QUESTIONS = [
     subtitle: 'This helps us highlight the most useful lessons for you.',
     options: [
       { value: 'understand-basics', label: 'Understand the basics so I can feel confident', emoji: '💡' },
-      { value: 'handle-challenge', label: 'Handle a specific challenge I\'m facing right now', emoji: '🔧' },
+      { value: 'handle-challenge', label: "Handle a specific challenge I'm facing right now", emoji: '🔧' },
       { value: 'pass-exam', label: 'Prepare for a PM qualification or exam', emoji: '🏆' },
       { value: 'grow-career', label: 'Grow my career and take on bigger projects', emoji: '📈' },
     ],
@@ -121,7 +121,7 @@ export default function JourneySetupWizard({ onComplete }: Props) {
   return (
     <div
       className="fixed inset-0 z-[200] flex items-end sm:items-center justify-center px-4 pb-6 sm:pb-0"
-      style={{ background: 'rgba(0,0,0,0.55)', backdropFilter: 'blur(8px)' }}
+      style={{ background: 'rgba(0,0,0,0.7)', backdropFilter: 'blur(10px)' }}
     >
       <motion.div
         initial={{ y: 80, opacity: 0, scale: 0.95 }}
@@ -130,15 +130,16 @@ export default function JourneySetupWizard({ onComplete }: Props) {
         className="w-full max-w-sm rounded-3xl overflow-hidden"
         style={{
           background: '#0f1c30',
-          boxShadow: '0 32px 80px rgba(0,0,0,0.25), 0 4px 16px rgba(0,0,0,0.1)',
+          border: '1px solid rgba(255,255,255,0.1)',
+          boxShadow: '0 32px 80px rgba(0,0,0,0.5), 0 4px 16px rgba(0,0,0,0.3)',
         }}
       >
-        {/* Top accent bar */}
+        {/* Top gradient accent bar */}
         <div className="h-1.5 w-full" style={{ background: 'linear-gradient(to right, #7c3aed, #2563eb, #0ea5e9)' }} />
 
         <div className="px-6 pt-5 pb-6">
           {/* Header row */}
-          <div className="flex items-center justify-between mb-4">
+          <div className="flex items-center justify-between mb-5">
             <div className="flex items-center gap-2">
               {step > 0 && (
                 <button
@@ -150,8 +151,8 @@ export default function JourneySetupWizard({ onComplete }: Props) {
                 </button>
               )}
               <div className="flex items-center gap-1.5">
-                <Sparkles size={14} className="text-violet-500" />
-                <span className="text-[11px] font-bold text-slate-400 uppercase tracking-widest">
+                <Sparkles size={13} className="text-violet-400" />
+                <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">
                   Personalise your journey
                 </span>
               </div>
@@ -159,14 +160,14 @@ export default function JourneySetupWizard({ onComplete }: Props) {
             {/* Step dots */}
             <div className="flex gap-1.5">
               {QUESTIONS.map((_, i) => (
-                <div
+                <motion.div
                   key={i}
                   className="rounded-full transition-all duration-300"
-                  style={{
-                    width: i === step ? '16px' : '6px',
-                    height: '6px',
-                    backgroundColor: i <= step ? '#7c3aed' : '#e7e5e4',
+                  animate={{
+                    width: i === step ? 16 : 6,
+                    backgroundColor: i <= step ? '#7c3aed' : 'rgba(255,255,255,0.15)',
                   }}
+                  style={{ height: 6 }}
                 />
               ))}
             </div>
@@ -182,7 +183,7 @@ export default function JourneySetupWizard({ onComplete }: Props) {
               transition={{ duration: 0.2 }}
             >
               <h2
-                className="text-lg font-black text-slate-100 leading-tight mb-1"
+                className="text-lg font-black text-white leading-tight mb-1.5"
                 style={{ fontFamily: 'Sora, sans-serif' }}
               >
                 {q.question}
@@ -191,27 +192,34 @@ export default function JourneySetupWizard({ onComplete }: Props) {
 
               {/* Options */}
               <div className="space-y-2">
-                {q.options.map(opt => (
-                  <button
-                    key={opt.value}
-                    onClick={() => selectOption(opt.value)}
-                    className="w-full flex items-center gap-3 rounded-2xl px-4 py-3 text-left transition-all hover:scale-[1.01] active:scale-[0.98]"
-                    style={{
-                      border: '1.5px solid #e7e5e4',
-                      background: answers[q.id as keyof JourneyProfile] === opt.value
-                        ? 'linear-gradient(135deg, #7c3aed15, #2563eb10)'
-                        : '#fafaf8',
-                      borderColor: answers[q.id as keyof JourneyProfile] === opt.value
-                        ? '#7c3aed' : '#e7e5e4',
-                    }}
-                  >
-                    <span className="text-xl shrink-0">{opt.emoji}</span>
-                    <span className="text-sm font-semibold text-slate-300 leading-tight flex-1">
-                      {opt.label}
-                    </span>
-                    <ChevronRight size={14} className="text-slate-500 shrink-0" />
-                  </button>
-                ))}
+                {q.options.map(opt => {
+                  const isSelected = answers[q.id as keyof JourneyProfile] === opt.value;
+                  return (
+                    <button
+                      key={opt.value}
+                      onClick={() => selectOption(opt.value)}
+                      className="w-full flex items-center gap-3 rounded-2xl px-4 py-3 text-left transition-all hover:scale-[1.01] active:scale-[0.98]"
+                      style={{
+                        background: isSelected
+                          ? 'linear-gradient(135deg, rgba(124,58,237,0.2), rgba(37,99,235,0.15))'
+                          : 'rgba(255,255,255,0.04)',
+                        border: isSelected
+                          ? '1.5px solid rgba(124,58,237,0.5)'
+                          : '1.5px solid rgba(255,255,255,0.08)',
+                      }}
+                    >
+                      <span className="text-xl shrink-0">{opt.emoji}</span>
+                      <span className="text-sm font-semibold text-slate-200 leading-tight flex-1">
+                        {opt.label}
+                      </span>
+                      <ChevronRight
+                        size={14}
+                        className="shrink-0"
+                        style={{ color: isSelected ? '#a78bfa' : '#475569' }}
+                      />
+                    </button>
+                  );
+                })}
               </div>
             </motion.div>
           </AnimatePresence>
