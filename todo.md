@@ -188,3 +188,16 @@
 - [x] Verify all 166 templates have correct structure (no duplicate cardIds, all blocks properly opened/closed)
 - [x] Confirm TypeScript compilation: 0 errors, 0 warnings
 - [x] Final audit: all 166 cards have complete coverage (template, deep dive, case study, illustration)
+
+## PMBOK 8 New Cards — Feb 2026 (32 cards)
+
+- [x] Audit existing card structure and numbering patterns for new card IDs
+- [x] Write pmoData.ts entries for 32 new PMBOK 8 cards (T21–T43, A88–A93, people-19–21)
+- [x] Generate illustrations for all 32 new cards (fine-line caricature style, uploaded to CDN)
+- [x] Write templateData.ts entries for all 32 new cards
+- [x] Write deepDiveData.ts entries for all 32 new cards
+- [x] Write caseStudiesData.ts entries for all 32 new cards
+- [x] Write glossary entries for all 32 new cards (157 total glossary terms)
+- [x] Pass 1 validation: 198 cards — 0 structural issues (all fields, illustrations, templates, deep dives, case studies present)
+- [x] Pass 2 validation: 0 content issues (no PMBOK 7 mentions, no pip deck, TypeScript clean)
+- [x] Save checkpoint after all 32 cards complete

@@ -4302,8 +4302,1509 @@ Review date for these adjustments: ___`,
     ],
   },
 
-];
+  {
+    cardId: 'T21',
+    title: 'AI in Project Management — Use Case Assessment',
+    description: 'Evaluate which project tasks are suitable for AI augmentation and plan your implementation approach.',
+    sections: [
+      {
+        heading: 'Project Context',
+        content: `| Field | Your Entry |
+|---|---|
+| Project Name | |
+| Project Manager | |
+| Assessment Date | |
+| Project Type | Predictive / Agile / Hybrid |`,
+      },
+      {
+        heading: 'AI Use Case Inventory',
+        content: `| Task / Activity | Current Manual Effort (hrs/wk) | AI Tool / Approach | Expected Benefit | Feasibility (H/M/L) | Priority |
+|---|---|---|---|---|---|
+| Schedule forecasting | | Predictive analytics engine | Reduce replanning time | | |
+| Risk identification | | NLP-based risk scanner | Earlier detection | | |
+| Status reporting | | LLM-generated summaries | Save 2 hrs/week | | |
+| Resource optimisation | | AI scheduling tool | Reduce idle time | | |
+| Document review | | AI document analysis | Faster compliance check | | |
+| Meeting notes | | AI transcription + summary | Save admin time | | |`,
+      },
+      {
+        heading: 'Readiness Assessment',
+        content: `| Readiness Factor | Status | Gap / Action Needed |
+|---|---|---|
+| Data quality (clean, structured project data available) | ✅ / ❌ | |
+| Team AI literacy (basic understanding of tools) | ✅ / ❌ | |
+| Tool access (licences, integrations in place) | ✅ / ❌ | |
+| Governance (AI usage policy exists) | ✅ / ❌ | |
+| Ethical review (bias, privacy considerations done) | ✅ / ❌ | |`,
+      },
+      {
+        heading: 'Implementation Plan',
+        content: `| Use Case | Owner | Start Date | Success Metric | Review Date |
+|---|---|---|---|---|
+| | | | | |
+| | | | | |`,
+      },
+    ],
+  },
+  {
+    cardId: 'T22',
+    title: 'Predictive Analytics — Forecast Worksheet',
+    description: 'Apply predictive analytics to forecast project schedule, cost, and risk outcomes.',
+    sections: [
+      {
+        heading: 'Project Forecast Header',
+        content: `| Field | Detail |
+|---|---|
+| Project Name | |
+| Forecast Date | |
+| Data Source | |
+| Forecasting Method | Regression / Monte Carlo / ML Model / Trend Analysis |`,
+      },
+      {
+        heading: 'Schedule Forecast',
+        content: `| Milestone | Planned Date | Current Trend Date | Confidence Level | Corrective Action |
+|---|---|---|---|---|
+| | | | 80% / 90% / 95% | |
+| | | | | |
+| | | | | |`,
+      },
+      {
+        heading: 'Cost Forecast',
+        content: `| Cost Element | Budget (BAC) | EAC (Forecast at Completion) | Variance | Confidence | Action |
+|---|---|---|---|---|---|
+| Total Project | | | | | |
+| Phase 1 | | | | | |
+| Phase 2 | | | | | |`,
+      },
+      {
+        heading: 'Risk Probability Forecast',
+        content: `| Risk ID | Risk Description | Historical Occurrence Rate | Predicted Probability | Impact if Occurs | Recommended Response |
+|---|---|---|---|---|---|
+| | | | | | |
+| | | | | | |`,
+      },
+      {
+        heading: 'Forecast Assumptions and Limitations',
+        content: `Document the key assumptions underlying your forecasts and any data limitations that may affect accuracy.
 
+| Assumption / Limitation | Impact on Forecast Reliability |
+|---|---|
+| | |
+| | |`,
+      },
+    ],
+  },
+  {
+    cardId: 'T23',
+    title: 'Process Automation (RPA) Candidate Assessment',
+    description: 'Identify and prioritise project management tasks suitable for robotic process automation.',
+    sections: [
+      {
+        heading: 'Assessment Context',
+        content: `| Field | Detail |
+|---|---|
+| Project / Function | |
+| Assessor | |
+| Date | |`,
+      },
+      {
+        heading: 'Automation Candidate Scoring',
+        content: `Score each criterion 1–5 (5 = most suitable for automation).
+
+| Task Name | Rule-Based? (1–5) | High Volume? (1–5) | Stable Process? (1–5) | Digital Input? (1–5) | Total Score | Recommendation |
+|---|---|---|---|---|---|---|
+| Status report compilation | | | | | | |
+| Timesheet reminders | | | | | | |
+| Budget variance alerts | | | | | | |
+| Meeting scheduling | | | | | | |
+| Document routing / approvals | | | | | | |
+| Risk register updates | | | | | | |`,
+      },
+      {
+        heading: 'Business Case Summary',
+        content: `| Field | Detail |
+|---|---|
+| Top Automation Candidate | |
+| Current manual effort (hrs/month) | |
+| Estimated automation savings (hrs/month) | |
+| Implementation cost estimate | |
+| Payback period | |
+| Key risk of automating | |`,
+      },
+      {
+        heading: 'Implementation Checklist',
+        content: `| Step | Owner | Status |
+|---|---|---|
+| Document current process (as-is) | | ☐ |
+| Validate process is stable and rule-based | | ☐ |
+| Select RPA tool (UiPath, Power Automate, etc.) | | ☐ |
+| Build and test automation script | | ☐ |
+| Run parallel operation (manual + automated) | | ☐ |
+| Decommission manual process | | ☐ |
+| Monitor and maintain | | ☐ |`,
+      },
+    ],
+  },
+  {
+    cardId: 'T24',
+    title: 'Project Canvas',
+    description: 'A single-page visual overview of the entire project — purpose, stakeholders, scope, approach, and success criteria.',
+    sections: [
+      {
+        heading: 'Project Canvas',
+        content: `Complete all nine sections. Keep each entry to 2–3 bullet points maximum.
+
+| Section | Content |
+|---|---|
+| **1. Why** (Purpose / Problem) | What problem are we solving? Why does this project exist? |
+| **2. Who** (Key Stakeholders) | Sponsor: Customer: Team: |
+| **3. What** (Scope — In) | What is included in this project? |
+| **4. What Not** (Scope — Out) | What is explicitly excluded? |
+| **5. How** (Approach / Methodology) | Predictive / Agile / Hybrid. Key phases or sprints. |
+| **6. When** (Timeline) | Start: End: Key milestones: |
+| **7. How Much** (Budget) | Total budget: Contingency: |
+| **8. Success** (Definition of Done) | How will we know the project succeeded? |
+| **9. Risks** (Top 3) | 1. 2. 3. |`,
+      },
+      {
+        heading: 'Approval and Sign-Off',
+        content: `| Role | Name | Signature | Date |
+|---|---|---|---|
+| Project Sponsor | | | |
+| Project Manager | | | |
+| Key Stakeholder | | | |`,
+      },
+    ],
+  },
+  {
+    cardId: 'T25',
+    title: 'Critical Path Drag Analysis Worksheet',
+    description: 'Calculate the drag and drag cost for each activity on the critical path to prioritise compression efforts.',
+    sections: [
+      {
+        heading: 'Project Header',
+        content: `| Field | Detail |
+|---|---|
+| Project Name | |
+| Analysis Date | |
+| Project Duration (PD) | ___ working days |
+| Daily Cost of Delay | £/$ ___ per day |`,
+      },
+      {
+        heading: 'Critical Path Activity List',
+        content: `| Activity ID | Activity Name | Duration (days) | Parallel Activities on Critical Path? | Drag (days) | Drag Cost (£/$) | Compression Option |
+|---|---|---|---|---|---|---|
+| | | | Yes / No | | | |
+| | | | | | | |
+| | | | | | | |
+| | | | | | | |
+
+**Drag Calculation Rules:**
+- If an activity has no parallel activities: Drag = Activity Duration
+- If parallel activities exist: Drag = min(Activity Duration, longest parallel activity duration)
+- Drag Cost = Drag (days) × Daily Cost of Delay`,
+      },
+      {
+        heading: 'Compression Priority Matrix',
+        content: `Rank activities by drag cost to identify where schedule compression delivers the most value.
+
+| Priority | Activity | Drag Cost | Compression Method | Estimated Cost to Compress | Net Benefit |
+|---|---|---|---|---|---|
+| 1 (Highest) | | | Fast-track / Crash | | |
+| 2 | | | | | |
+| 3 | | | | | |`,
+      },
+    ],
+  },
+  {
+    cardId: 'T26',
+    title: 'Drag Cost and Schedule Compression Decision',
+    description: 'Use drag cost to make data-driven decisions about whether to invest in schedule compression.',
+    sections: [
+      {
+        heading: 'Compression Decision Context',
+        content: `| Field | Detail |
+|---|---|
+| Project Name | |
+| Current Project Duration | ___ days |
+| Target Duration | ___ days |
+| Days to Compress | ___ days |
+| Daily Value of Early Completion (or cost of delay) | £/$ ___ |`,
+      },
+      {
+        heading: 'Compression Options Analysis',
+        content: `| Option | Activity Affected | Days Saved | Cost to Compress | Drag Cost Eliminated | Net Benefit (Drag Cost − Compression Cost) | Recommended? |
+|---|---|---|---|---|---|---|
+| Fast-track Phase 2 & 3 | | | | | | Yes / No |
+| Add resources to Activity X | | | | | | |
+| Reduce scope of Activity Y | | | | | | |
+| Outsource Activity Z | | | | | | |`,
+      },
+      {
+        heading: 'Decision Summary',
+        content: `| Field | Detail |
+|---|---|
+| Selected Compression Option | |
+| Total Investment Required | |
+| Total Drag Cost Eliminated | |
+| Net Benefit | |
+| Approved by | |
+| Decision Date | |`,
+      },
+      {
+        heading: 'Risk of Compression',
+        content: `| Risk | Likelihood | Impact | Mitigation |
+|---|---|---|---|
+| Quality reduction from fast-tracking | | | |
+| Team burnout from resource loading | | | |
+| Scope creep from parallel working | | | |`,
+      },
+    ],
+  },
+  {
+    cardId: 'T27',
+    title: 'In-Progress Postmortem (Mid-Project Retrospective)',
+    description: 'Conduct a structured mid-project review to capture lessons and improve delivery before the project ends.',
+    sections: [
+      {
+        heading: 'Session Header',
+        content: `| Field | Detail |
+|---|---|
+| Project Name | |
+| Review Date | |
+| Facilitator | |
+| Participants | |
+| Phase / Sprint Reviewed | |`,
+      },
+      {
+        heading: 'What Is Working Well (Keep)',
+        content: `| # | Observation | Impact | Action to Reinforce |
+|---|---|---|---|
+| 1 | | | |
+| 2 | | | |
+| 3 | | | |`,
+      },
+      {
+        heading: 'What Is Not Working (Stop)',
+        content: `| # | Observation | Root Cause | Action to Stop / Fix | Owner | By When |
+|---|---|---|---|---|---|
+| 1 | | | | | |
+| 2 | | | | | |
+| 3 | | | | | |`,
+      },
+      {
+        heading: 'What We Should Try (Start)',
+        content: `| # | Proposed Experiment | Expected Benefit | Owner | By When |
+|---|---|---|---|---|
+| 1 | | | | |
+| 2 | | | | |`,
+      },
+      {
+        heading: 'Action Register',
+        content: `| Action | Owner | Due Date | Status |
+|---|---|---|---|
+| | | | ☐ Open |
+| | | | ☐ Open |`,
+      },
+    ],
+  },
+  {
+    cardId: 'T28',
+    title: 'Customer Talks and Tests — Feedback Capture Sheet',
+    description: 'Structure customer conversations and prototype tests to gather actionable product and project feedback.',
+    sections: [
+      {
+        heading: 'Session Header',
+        content: `| Field | Detail |
+|---|---|
+| Session Type | Customer Interview / Usability Test / Prototype Review |
+| Date | |
+| Customer / Participant | |
+| Product / Feature Being Tested | |
+| Facilitator | |
+| Observer / Note-Taker | |`,
+      },
+      {
+        heading: 'Key Questions',
+        content: `Prepare 5–7 open questions before the session. Do not lead the customer.
+
+| # | Question | Purpose |
+|---|---|---|
+| 1 | Tell me about how you currently [do X]... | Understand current behaviour |
+| 2 | What is the hardest part of [X] for you? | Identify pain points |
+| 3 | Walk me through what you would do with this [prototype]... | Observe natural behaviour |
+| 4 | What would you expect to happen when you [action]? | Identify mental model gaps |
+| 5 | | |`,
+      },
+      {
+        heading: 'Observation Log',
+        content: `| Timestamp | What the Customer Said / Did | Insight / Interpretation | Priority (H/M/L) |
+|---|---|---|---|
+| | | | |
+| | | | |
+| | | | |`,
+      },
+      {
+        heading: 'Synthesis — Key Findings',
+        content: `| Finding | Evidence (Quote / Observation) | Recommended Action | Owner |
+|---|---|---|---|
+| | | | |
+| | | | |`,
+      },
+    ],
+  },
+  {
+    cardId: 'T29',
+    title: 'Analogous Estimating Worksheet',
+    description: 'Use historical project data to produce a top-down estimate for a new project or phase.',
+    sections: [
+      {
+        heading: 'New Project Context',
+        content: `| Field | Detail |
+|---|---|
+| Project Name | |
+| Estimator | |
+| Estimate Date | |
+| Estimate Type | Duration / Cost / Effort |
+| Confidence Level Required | ±10% / ±25% / ±50% |`,
+      },
+      {
+        heading: 'Analogous Project Comparison',
+        content: `| Attribute | Historical Project 1 | Historical Project 2 | Historical Project 3 | New Project |
+|---|---|---|---|---|
+| Project Name | | | | (Current) |
+| Scope Complexity | Low / Med / High | | | |
+| Team Size | | | | |
+| Duration (weeks) | | | | |
+| Total Cost (£/$) | | | | |
+| Technology Similarity | High / Med / Low | | | |
+| Stakeholder Complexity | | | | |
+| Key Differences from New Project | | | | N/A |`,
+      },
+      {
+        heading: 'Adjustment Factors',
+        content: `| Factor | Direction | Adjustment % | Rationale |
+|---|---|---|---|
+| Scope is larger/smaller | +/− | | |
+| Team is more/less experienced | +/− | | |
+| Technology is newer/more complex | +/− | | |
+| Regulatory requirements | +/− | | |
+| **Net Adjustment** | | | |`,
+      },
+      {
+        heading: 'Final Estimate',
+        content: `| Metric | Historical Average | Adjusted Estimate | Range (±%) |
+|---|---|---|---|
+| Duration | | | |
+| Cost | | | |
+| Effort (person-days) | | | |`,
+      },
+    ],
+  },
+  {
+    cardId: 'T30',
+    title: 'Bottom-Up Estimating Worksheet',
+    description: 'Build a detailed estimate by summing work package estimates from the WBS.',
+    sections: [
+      {
+        heading: 'Estimate Header',
+        content: `| Field | Detail |
+|---|---|
+| Project Name | |
+| WBS Version | |
+| Estimator(s) | |
+| Estimate Date | |
+| Estimate Basis | Expert Judgement / Historical Data / Parametric |`,
+      },
+      {
+        heading: 'Work Package Estimates',
+        content: `| WBS Code | Work Package Name | Deliverable | Optimistic (O) | Most Likely (M) | Pessimistic (P) | PERT Estimate [(O+4M+P)/6] | Cost Rate (£/$/hr) | Total Cost |
+|---|---|---|---|---|---|---|---|---|
+| 1.1.1 | | | | | | | | |
+| 1.1.2 | | | | | | | | |
+| 1.2.1 | | | | | | | | |
+| 1.2.2 | | | | | | | | |
+| **TOTAL** | | | | | | | | |`,
+      },
+      {
+        heading: 'Contingency Reserve',
+        content: `| Risk Level | Recommended Reserve % | Reserve Amount |
+|---|---|---|
+| Low (well-understood scope) | 5–10% | |
+| Medium (some uncertainty) | 10–20% | |
+| High (novel or complex) | 20–30% | |
+| **Selected Reserve** | | |`,
+      },
+      {
+        heading: 'Estimate Summary',
+        content: `| Component | Amount (£/$) |
+|---|---|
+| Sum of Work Package Estimates | |
+| Contingency Reserve | |
+| Management Reserve (if applicable) | |
+| **Total Project Budget** | |`,
+      },
+    ],
+  },
+  {
+    cardId: 'T31',
+    title: 'Parametric Estimating Worksheet',
+    description: 'Calculate estimates using unit rates and statistical relationships from historical data.',
+    sections: [
+      {
+        heading: 'Estimate Context',
+        content: `| Field | Detail |
+|---|---|
+| Project Name | |
+| Estimator | |
+| Date | |
+| Parameter Being Estimated | Duration / Cost / Effort |`,
+      },
+      {
+        heading: 'Parameter Identification',
+        content: `| Work Element | Unit of Measure | Historical Rate (per unit) | Data Source | Quantity in This Project | Estimate |
+|---|---|---|---|---|---|
+| Software development | Function points | £X per FP | Previous projects | | |
+| Documentation | Pages | X hrs per page | Industry benchmark | | |
+| Testing | Test cases | X hrs per test case | Team data | | |
+| Training delivery | Participants | £X per participant | Training dept | | |
+| | | | | | |`,
+      },
+      {
+        heading: 'Rate Validation',
+        content: `| Rate Used | Source | Date of Data | Adjustment for Inflation/Complexity | Validated Rate |
+|---|---|---|---|---|
+| | | | | |
+| | | | | |`,
+      },
+      {
+        heading: 'Final Parametric Estimate',
+        content: `| Element | Quantity | Rate | Estimate | Confidence |
+|---|---|---|---|---|
+| | | | | ±___% |
+| | | | | |
+| **Total** | | | | |`,
+      },
+    ],
+  },
+  {
+    cardId: 'T32',
+    title: 'Cost of Quality (CoQ) Analysis',
+    description: 'Categorise and quantify quality costs to identify where prevention investment reduces total project cost.',
+    sections: [
+      {
+        heading: 'Project Header',
+        content: `| Field | Detail |
+|---|---|
+| Project Name | |
+| Analysis Period | |
+| Analyst | |
+| Total Project Budget | |`,
+      },
+      {
+        heading: 'Cost of Conformance (Prevention + Appraisal)',
+        content: `| Category | Activity | Estimated Cost (£/$) | Actual Cost (£/$) |
+|---|---|---|---|
+| **Prevention** | Requirements review | | |
+| | Design reviews | | |
+| | Process documentation | | |
+| | Training | | |
+| | Quality planning | | |
+| **Appraisal** | Testing and inspection | | |
+| | Audits | | |
+| | Peer reviews | | |
+| **Subtotal — Conformance** | | | |`,
+      },
+      {
+        heading: 'Cost of Non-Conformance (Internal + External Failure)',
+        content: `| Category | Activity | Estimated Cost (£/$) | Actual Cost (£/$) |
+|---|---|---|---|
+| **Internal Failure** | Rework | | |
+| | Defect fixing | | |
+| | Scrap / wasted effort | | |
+| **External Failure** | Customer complaints | | |
+| | Warranty / support | | |
+| | Reputational damage | | |
+| **Subtotal — Non-Conformance** | | | |`,
+      },
+      {
+        heading: 'CoQ Summary and Decision',
+        content: `| Metric | Value |
+|---|---|
+| Total Cost of Conformance | |
+| Total Cost of Non-Conformance | |
+| **Total Cost of Quality** | |
+| CoQ as % of Project Budget | |
+| Recommended Investment Shift | Increase prevention by £/$ ___ to reduce failure costs by £/$ ___ |`,
+      },
+    ],
+  },
+  {
+    cardId: 'T33',
+    title: 'Control Chart — Process Monitoring Sheet',
+    description: 'Set up and interpret a control chart to distinguish normal process variation from special cause variation.',
+    sections: [
+      {
+        heading: 'Control Chart Setup',
+        content: `| Field | Detail |
+|---|---|
+| Process Being Monitored | |
+| Metric / Measurement | |
+| Measurement Frequency | Daily / Weekly / Per Sprint |
+| Baseline Data Period | |
+| Number of Data Points for Baseline | Min. 20 recommended |`,
+      },
+      {
+        heading: 'Control Limit Calculation',
+        content: `| Statistic | Value |
+|---|---|
+| Process Mean (X̄) | |
+| Standard Deviation (σ) | |
+| Upper Control Limit (UCL = X̄ + 3σ) | |
+| Lower Control Limit (LCL = X̄ − 3σ) | |
+| Upper Specification Limit (if applicable) | |
+| Lower Specification Limit (if applicable) | |`,
+      },
+      {
+        heading: 'Data Log',
+        content: `| Period | Measurement | Within Control Limits? | Special Cause Signal? | Action Taken |
+|---|---|---|---|---|
+| 1 | | Yes / No | Yes / No | |
+| 2 | | | | |
+| 3 | | | | |
+| 4 | | | | |
+| 5 | | | | |`,
+      },
+      {
+        heading: 'Special Cause Rules (Nelson Rules)',
+        content: `Flag a special cause if any of these patterns appear:
+| Rule | Pattern | Detected? |
+|---|---|---|
+| Rule 1 | One point beyond ±3σ | |
+| Rule 2 | Nine consecutive points on same side of mean | |
+| Rule 3 | Six consecutive points trending up or down | |
+| Rule 4 | Fourteen alternating up-down points | |`,
+      },
+    ],
+  },
+  {
+    cardId: 'T34',
+    title: 'Schedule Compression Decision Matrix',
+    description: 'Evaluate crashing and fast-tracking options to compress the schedule with minimum cost and risk.',
+    sections: [
+      {
+        heading: 'Compression Context',
+        content: `| Field | Detail |
+|---|---|
+| Project Name | |
+| Current End Date | |
+| Required End Date | |
+| Days to Compress | |
+| Reason for Compression | |`,
+      },
+      {
+        heading: 'Fast-Tracking Options',
+        content: `Fast-tracking overlaps activities that were originally sequential. Increases risk of rework.
+
+| Activity Pair | Original Sequence | Overlap Possible? | Days Saved | Risk Introduced | Net Recommendation |
+|---|---|---|---|---|---|
+| Phase 2 start before Phase 1 complete | Sequential | | | Rework risk | |
+| Testing starts before all dev complete | Sequential | | | Defect risk | |
+| | | | | | |`,
+      },
+      {
+        heading: 'Crashing Options',
+        content: `Crashing adds resources to shorten activity duration. Increases cost.
+
+| Activity | Current Duration | Crashed Duration | Days Saved | Additional Cost | Cost per Day Saved | Recommended? |
+|---|---|---|---|---|---|---|
+| | | | | | | |
+| | | | | | | |`,
+      },
+      {
+        heading: 'Decision Summary',
+        content: `| Field | Detail |
+|---|---|
+| Selected Approach | Fast-track / Crash / Combination |
+| Total Days Saved | |
+| Total Additional Cost | |
+| Key Risks Accepted | |
+| Approved by | |`,
+      },
+    ],
+  },
+  {
+    cardId: 'T35',
+    title: 'Burnup Chart — Sprint / Release Tracker',
+    description: 'Track completed work against total scope to visualise progress and detect scope creep.',
+    sections: [
+      {
+        heading: 'Burnup Chart Setup',
+        content: `| Field | Detail |
+|---|---|
+| Project / Release Name | |
+| Start Date | |
+| Target End Date | |
+| Total Scope (story points / tasks) | |
+| Velocity (average points per sprint) | |
+| Projected Completion Date | |`,
+      },
+      {
+        heading: 'Sprint-by-Sprint Data Log',
+        content: `| Sprint # | Sprint End Date | Total Scope (cumulative) | Completed Work (cumulative) | Scope Added This Sprint | Scope Removed This Sprint | On Track? |
+|---|---|---|---|---|---|---|
+| 1 | | | | | | Yes / No |
+| 2 | | | | | | |
+| 3 | | | | | | |
+| 4 | | | | | | |
+| 5 | | | | | | |
+| 6 | | | | | | |`,
+      },
+      {
+        heading: 'Scope Change Log',
+        content: `| Date | Change Description | Points Added / Removed | Approved by | Impact on Release Date |
+|---|---|---|---|---|
+| | | | | |
+| | | | | |`,
+      },
+      {
+        heading: 'Release Forecast',
+        content: `| Scenario | Projected Completion Date | Assumptions |
+|---|---|---|
+| Current velocity maintained | | |
+| Velocity increases by 10% | | |
+| Scope reduced by 20% | | |`,
+      },
+    ],
+  },
+  {
+    cardId: 'T36',
+    title: 'Velocity Tracking and Forecasting Sheet',
+    description: 'Track team velocity across sprints and use it to forecast release dates and capacity.',
+    sections: [
+      {
+        heading: 'Team Context',
+        content: `| Field | Detail |
+|---|---|
+| Team Name | |
+| Sprint Length | ___ weeks |
+| Team Size (developers) | |
+| Tracking Start Date | |`,
+      },
+      {
+        heading: 'Velocity Log',
+        content: `| Sprint # | Sprint Goal | Points Committed | Points Completed | Velocity | Factors Affecting Velocity |
+|---|---|---|---|---|---|
+| 1 | | | | | |
+| 2 | | | | | |
+| 3 | | | | | |
+| 4 | | | | | |
+| 5 | | | | | |
+| 6 | | | | | |
+| **Average Velocity** | | | | | |`,
+      },
+      {
+        heading: 'Release Forecast',
+        content: `| Field | Detail |
+|---|---|
+| Total Remaining Story Points | |
+| Average Velocity (last 3 sprints) | |
+| Sprints Remaining | Total ÷ Velocity = ___ sprints |
+| Projected Release Date | |
+| Confidence Range | Optimistic: ___ / Pessimistic: ___ |`,
+      },
+      {
+        heading: 'Velocity Improvement Actions',
+        content: `| Issue Reducing Velocity | Root Cause | Action | Owner | Target Sprint |
+|---|---|---|---|---|
+| | | | | |
+| | | | | |`,
+      },
+    ],
+  },
+  {
+    cardId: 'T37',
+    title: 'Sprint Review Agenda and Feedback Capture',
+    description: 'Structure the Sprint Review to demonstrate working software and capture stakeholder feedback effectively.',
+    sections: [
+      {
+        heading: 'Sprint Review Header',
+        content: `| Field | Detail |
+|---|---|
+| Project / Product Name | |
+| Sprint Number | |
+| Sprint End Date | |
+| Facilitator (Scrum Master) | |
+| Product Owner | |
+| Stakeholders Invited | |`,
+      },
+      {
+        heading: 'Sprint Summary',
+        content: `| Metric | Value |
+|---|---|
+| Sprint Goal | |
+| Points Committed | |
+| Points Completed | |
+| Sprint Goal Achieved? | Yes / Partially / No |
+| Stories Completed | |
+| Stories Not Completed (and why) | |`,
+      },
+      {
+        heading: 'Demo Agenda',
+        content: `| # | Feature / Story | Demo Owner | Time Allocated | Stakeholder Questions |
+|---|---|---|---|---|
+| 1 | | | 5 min | |
+| 2 | | | 5 min | |
+| 3 | | | 5 min | |`,
+      },
+      {
+        heading: 'Stakeholder Feedback',
+        content: `| Feedback Item | From | Type | Priority | Action / Decision |
+|---|---|---|---|---|
+| | | Bug / Enhancement / Question / Approval | H/M/L | |
+| | | | | |
+| | | | | |`,
+      },
+      {
+        heading: 'Product Backlog Updates',
+        content: `| New / Modified Item | Type | Priority | Added to Backlog? |
+|---|---|---|---|
+| | Story / Bug / Spike | | Yes / No |
+| | | | |`,
+      },
+    ],
+  },
+  {
+    cardId: 'T38',
+    title: 'Multicriteria Decision Analysis (MCDA) Matrix',
+    description: 'Evaluate and score multiple options against weighted criteria to make an objective, defensible decision.',
+    sections: [
+      {
+        heading: 'Decision Context',
+        content: `| Field | Detail |
+|---|---|
+| Decision to Be Made | |
+| Decision Maker(s) | |
+| Date | |
+| Options Being Evaluated | List all options below |`,
+      },
+      {
+        heading: 'Criteria Weighting',
+        content: `Assign weights to each criterion (weights must total 100%).
+
+| # | Criterion | Weight (%) | Rationale |
+|---|---|---|---|
+| 1 | Cost | | |
+| 2 | Time to implement | | |
+| 3 | Risk level | | |
+| 4 | Strategic alignment | | |
+| 5 | Stakeholder acceptance | | |
+| 6 | Technical feasibility | | |
+| **Total** | | **100%** | |`,
+      },
+      {
+        heading: 'Scoring Matrix',
+        content: `Score each option against each criterion (1 = Poor, 5 = Excellent). Multiply score × weight for weighted score.
+
+| Criterion | Weight | Option A Score | Option A Weighted | Option B Score | Option B Weighted | Option C Score | Option C Weighted |
+|---|---|---|---|---|---|---|---|
+| Cost | | | | | | | |
+| Time | | | | | | | |
+| Risk | | | | | | | |
+| Strategic fit | | | | | | | |
+| Stakeholder acceptance | | | | | | | |
+| Technical feasibility | | | | | | | |
+| **Total Weighted Score** | | | | | | | |`,
+      },
+      {
+        heading: 'Decision and Rationale',
+        content: `| Field | Detail |
+|---|---|
+| Recommended Option | |
+| Key Reasons | |
+| Key Risks of This Decision | |
+| Approved by | |`,
+      },
+    ],
+  },
+  {
+    cardId: 'T39',
+    title: 'TCPI (To-Complete Performance Index) Tracker',
+    description: 'Calculate and monitor the TCPI to understand the efficiency required to complete the project within budget.',
+    sections: [
+      {
+        heading: 'EVM Baseline Data',
+        content: `| Field | Value |
+|---|---|
+| Budget at Completion (BAC) | £/$ |
+| Planned Value (PV) — work scheduled to date | £/$ |
+| Earned Value (EV) — work completed to date | £/$ |
+| Actual Cost (AC) — money spent to date | £/$ |`,
+      },
+      {
+        heading: 'Performance Indices',
+        content: `| Index | Formula | Value | Interpretation |
+|---|---|---|---|
+| Cost Performance Index (CPI) | EV ÷ AC | | >1.0 = under budget |
+| Schedule Performance Index (SPI) | EV ÷ PV | | >1.0 = ahead of schedule |
+| Cost Variance (CV) | EV − AC | | Positive = under budget |
+| Schedule Variance (SV) | EV − PV | | Positive = ahead |`,
+      },
+      {
+        heading: 'TCPI Calculation',
+        content: `| Scenario | Formula | Value | Feasibility |
+|---|---|---|---|
+| TCPI to complete within BAC | (BAC − EV) ÷ (BAC − AC) | | <1.1 = achievable |
+| TCPI to complete within EAC | (BAC − EV) ÷ (EAC − AC) | | |
+
+**EAC Options:**
+- EAC (if current CPI continues) = BAC ÷ CPI
+- EAC (if past variances are atypical) = AC + (BAC − EV)`,
+      },
+      {
+        heading: 'Recovery Action Plan',
+        content: `| If TCPI > 1.1 (recovery required) | Action | Owner | Target Date |
+|---|---|---|---|
+| Reduce scope | | | |
+| Add resources | | | |
+| Renegotiate contract / budget | | | |
+| Re-baseline (with sponsor approval) | | | |`,
+      },
+    ],
+  },
+  {
+    cardId: 'T40',
+    title: 'Benchmarking Analysis Worksheet',
+    description: 'Compare project or process performance against internal or external benchmarks to identify improvement opportunities.',
+    sections: [
+      {
+        heading: 'Benchmarking Context',
+        content: `| Field | Detail |
+|---|---|
+| Subject Being Benchmarked | |
+| Benchmarking Type | Internal / Competitive / Functional / Generic |
+| Benchmark Sources | |
+| Analysis Date | |`,
+      },
+      {
+        heading: 'Metrics Comparison',
+        content: `| Metric | Our Current Performance | Best-in-Class Benchmark | Gap | Gap as % | Priority to Close |
+|---|---|---|---|---|---|
+| Schedule performance (SPI) | | | | | H/M/L |
+| Cost performance (CPI) | | | | | |
+| Defect rate | | | | | |
+| Customer satisfaction score | | | | | |
+| Team velocity (if agile) | | | | | |
+| Time to resolve issues | | | | | |`,
+      },
+      {
+        heading: 'Root Cause of Gaps',
+        content: `| Gap | Root Cause | Contributing Factors |
+|---|---|---|
+| | | |
+| | | |`,
+      },
+      {
+        heading: 'Improvement Actions',
+        content: `| Gap to Close | Action | Owner | Target Date | Expected Improvement |
+|---|---|---|---|---|
+| | | | | |
+| | | | | |`,
+      },
+    ],
+  },
+  {
+    cardId: 'T41',
+    title: 'Prompt List — Risk Identification Worksheet',
+    description: 'Use structured prompt categories (PESTLE, TECOP, VUCA) to ensure comprehensive risk identification.',
+    sections: [
+      {
+        heading: 'Project Context',
+        content: `| Field | Detail |
+|---|---|
+| Project Name | |
+| Risk Workshop Date | |
+| Facilitator | |
+| Participants | |`,
+      },
+      {
+        heading: 'PESTLE Prompt List',
+        content: `For each category, brainstorm risks and opportunities. Record all items — filter later.
+
+| Category | Prompt Questions | Risks / Opportunities Identified |
+|---|---|---|
+| **P — Political** | Government policy changes? Regulatory shifts? Geopolitical instability? | |
+| **E — Economic** | Inflation? Exchange rates? Budget constraints? Recession risk? | |
+| **S — Social** | Stakeholder resistance? Cultural factors? Skills availability? | |
+| **T — Technological** | Technology obsolescence? Cybersecurity? Integration risks? AI disruption? | |
+| **L — Legal** | Compliance requirements? Contract risks? IP issues? | |
+| **E — Environmental** | Climate risk? Sustainability requirements? Supply chain disruption? | |`,
+      },
+      {
+        heading: 'Additional Prompts',
+        content: `| Category | Prompt Questions | Risks / Opportunities Identified |
+|---|---|---|
+| **Scope** | Unclear requirements? Scope creep? Dependencies? | |
+| **Resources** | Key person dependency? Skill gaps? Vendor reliability? | |
+| **Schedule** | Critical path risks? External dependencies? | |
+| **Stakeholders** | Conflicting interests? Disengaged sponsors? | |`,
+      },
+      {
+        heading: 'Risk Register Input',
+        content: `Transfer identified risks to the Risk Register (T6) for assessment and response planning.
+
+| Risk ID | Risk Description | Category | Initial Probability | Initial Impact | Owner |
+|---|---|---|---|---|---|
+| R001 | | | H/M/L | H/M/L | |
+| R002 | | | | | |`,
+      },
+    ],
+  },
+  {
+    cardId: 'T42',
+    title: 'Make-or-Buy Analysis Worksheet',
+    description: 'Evaluate whether to build a capability internally or procure it externally using a structured cost-benefit framework.',
+    sections: [
+      {
+        heading: 'Decision Context',
+        content: `| Field | Detail |
+|---|---|
+| Item / Capability Being Evaluated | |
+| Decision Owner | |
+| Date | |
+| Strategic Context | |`,
+      },
+      {
+        heading: 'Make (Build Internally) Analysis',
+        content: `| Factor | Assessment | Score (1–5) |
+|---|---|---|
+| Internal capability / expertise available | | |
+| Cost to build (one-time + ongoing) | £/$ | |
+| Time to build | ___ weeks | |
+| Control over quality and IP | High / Medium / Low | |
+| Strategic importance / core competency | High / Medium / Low | |
+| Flexibility for future changes | High / Medium / Low | |
+| **Total Score** | | |`,
+      },
+      {
+        heading: 'Buy (Procure Externally) Analysis',
+        content: `| Factor | Assessment | Score (1–5) |
+|---|---|---|
+| Market availability of suppliers | | |
+| Cost to buy (licence + integration + ongoing) | £/$ | |
+| Time to procure and implement | ___ weeks | |
+| Vendor reliability and support | High / Medium / Low | |
+| Dependency / lock-in risk | High / Medium / Low | |
+| Customisation possible | High / Medium / Low | |
+| **Total Score** | | |`,
+      },
+      {
+        heading: 'Decision Summary',
+        content: `| Field | Detail |
+|---|---|
+| Recommended Decision | Make / Buy / Hybrid |
+| Key Rationale | |
+| Total Cost Comparison (5-year TCO) | Make: £/$ ___ vs Buy: £/$ ___ |
+| Key Risks of Decision | |
+| Approved by | |`,
+      },
+    ],
+  },
+  {
+    cardId: 'T43',
+    title: 'AR/VR in Project Management — Use Case Planner',
+    description: 'Identify and plan the use of augmented and virtual reality tools to enhance project delivery.',
+    sections: [
+      {
+        heading: 'Project Context',
+        content: `| Field | Detail |
+|---|---|
+| Project Name | |
+| Project Type | Construction / Engineering / Training / Design / Other |
+| AR/VR Planner | |
+| Date | |`,
+      },
+      {
+        heading: 'AR/VR Use Case Assessment',
+        content: `| Use Case | AR or VR? | Applicable to This Project? | Expected Benefit | Feasibility (H/M/L) | Priority |
+|---|---|---|---|---|---|
+| Virtual site walkthrough / design review | VR | Yes / No | Reduce design errors | | |
+| AR overlay for construction inspection | AR | Yes / No | Faster snag identification | | |
+| Remote stakeholder collaboration | VR | Yes / No | Reduce travel costs | | |
+| Safety training simulation | VR | Yes / No | Safer training environment | | |
+| Progress visualisation (4D BIM) | AR/VR | Yes / No | Better schedule communication | | |
+| Customer / client experience preview | VR | Yes / No | Improve stakeholder buy-in | | |`,
+      },
+      {
+        heading: 'Implementation Requirements',
+        content: `| Requirement | Detail | Status |
+|---|---|---|
+| Hardware (headsets, devices) | | ☐ Sourced |
+| Software / platform | | ☐ Licenced |
+| 3D model / content creation | | ☐ Planned |
+| Team training | | ☐ Scheduled |
+| IT infrastructure / connectivity | | ☐ Confirmed |`,
+      },
+      {
+        heading: 'ROI Estimate',
+        content: `| Benefit | Estimated Value (£/$) | Confidence |
+|---|---|---|
+| Reduced rework from earlier design review | | |
+| Travel cost savings | | |
+| Training cost reduction | | |
+| **Total Estimated Benefit** | | |
+| **Implementation Cost** | | |
+| **Estimated ROI** | | |`,
+      },
+    ],
+  },
+
+// === ADVANCED TECHNIQUES: A88–A93 ===
+
+  {
+    cardId: 'A88',
+    title: 'PMBOK 8 Principles — Self-Assessment',
+    description: 'Assess how well your project applies each of the six PMBOK 8 principles and identify improvement actions.',
+    sections: [
+      {
+        heading: 'Assessment Context',
+        content: `| Field | Detail |
+|---|---|
+| Project Name | |
+| Assessor | |
+| Date | |
+| Project Phase | |`,
+      },
+      {
+        heading: 'Principles Self-Assessment',
+        content: `Rate your project's application of each principle: 1 = Not applied, 3 = Partially applied, 5 = Fully applied.
+
+| # | PMBOK 8 Principle | Rating (1–5) | Evidence / Examples | Gap / Improvement Action |
+|---|---|---|---|---|
+| 1 | **Be a Diligent, Respectful, and Caring Steward** — Act with integrity, care for people, finances, and environment | | | |
+| 2 | **Create a Collaborative Project Team Environment** — Build a high-performing team through trust, inclusion, and shared ownership | | | |
+| 3 | **Effectively Engage with Stakeholders** — Proactively involve stakeholders to understand needs and manage expectations | | | |
+| 4 | **Focus on Value** — Continuously evaluate and align work to deliver the intended benefits | | | |
+| 5 | **Recognise, Evaluate, and Respond to System Interactions** — Understand the project as part of a larger system and manage interdependencies | | | |
+| 6 | **Demonstrate Leadership Behaviours** — Motivate, influence, and adapt leadership style to context | | | |`,
+      },
+      {
+        heading: 'Priority Improvement Actions',
+        content: `| Principle | Improvement Action | Owner | By When |
+|---|---|---|---|
+| | | | |
+| | | | |
+| | | | |`,
+      },
+    ],
+  },
+  {
+    cardId: 'A89',
+    title: 'Sustainability in Project Management — ESG Impact Assessment',
+    description: 'Assess and plan the environmental, social, and governance impacts of your project.',
+    sections: [
+      {
+        heading: 'Project ESG Context',
+        content: `| Field | Detail |
+|---|---|
+| Project Name | |
+| Project Manager | |
+| Date | |
+| Organisational ESG Commitments | |`,
+      },
+      {
+        heading: 'Environmental Impact Assessment',
+        content: `| Environmental Factor | Current Project Impact | Mitigation / Enhancement Action | Owner | Target |
+|---|---|---|---|---|
+| Carbon emissions (travel, energy, materials) | High / Medium / Low | | | |
+| Waste generation | | | | |
+| Resource consumption (water, materials) | | | | |
+| Biodiversity / land use | | | | |
+| Supply chain environmental risk | | | | |`,
+      },
+      {
+        heading: 'Social Impact Assessment',
+        content: `| Social Factor | Current Project Impact | Mitigation / Enhancement Action | Owner | Target |
+|---|---|---|---|---|
+| Community impact (local employment, disruption) | | | | |
+| Diversity and inclusion in team | | | | |
+| Health and safety | | | | |
+| Stakeholder wellbeing | | | | |
+| Human rights in supply chain | | | | |`,
+      },
+      {
+        heading: 'Governance Assessment',
+        content: `| Governance Factor | Status | Action Needed |
+|---|---|---|
+| Ethical decision-making processes in place | ✅ / ❌ | |
+| Transparency in reporting | ✅ / ❌ | |
+| Anti-corruption and compliance controls | ✅ / ❌ | |
+| Stakeholder accountability mechanisms | ✅ / ❌ | |`,
+      },
+      {
+        heading: 'ESG Commitments and KPIs',
+        content: `| ESG Commitment | KPI | Baseline | Target | Reporting Frequency |
+|---|---|---|---|---|
+| | | | | |
+| | | | | |`,
+      },
+    ],
+  },
+  {
+    cardId: 'A90',
+    title: 'VRIO Framework — Resource and Capability Analysis',
+    description: 'Apply the VRIO framework to identify which organisational resources and capabilities create sustainable competitive advantage.',
+    sections: [
+      {
+        heading: 'Analysis Context',
+        content: `| Field | Detail |
+|---|---|
+| Organisation / Business Unit | |
+| Analyst | |
+| Date | |
+| Strategic Question | What capabilities should we build or protect? |`,
+      },
+      {
+        heading: 'VRIO Assessment Matrix',
+        content: `For each resource or capability, answer V, R, I, O with Yes/No.
+
+| Resource / Capability | Valuable? (V) | Rare? (R) | Inimitable? (I) | Organised to Exploit? (O) | Competitive Implication | Priority Action |
+|---|---|---|---|---|---|---|
+| | | | | | Disadvantage / Parity / Temporary Advantage / Sustained Advantage | |
+| | | | | | | |
+| | | | | | | |
+| | | | | | | |
+| | | | | | | |
+
+**Interpretation:**
+- V=No → Competitive Disadvantage
+- V=Yes, R=No → Competitive Parity
+- V=Yes, R=Yes, I=No → Temporary Competitive Advantage
+- V=Yes, R=Yes, I=Yes, O=No → Unexploited Advantage
+- V=Yes, R=Yes, I=Yes, O=Yes → Sustained Competitive Advantage`,
+      },
+      {
+        heading: 'Strategic Implications',
+        content: `| Capability | VRIO Result | Strategic Action | Investment Required | Priority |
+|---|---|---|---|---|
+| | Sustained Advantage | Protect and leverage | | High |
+| | Temporary Advantage | Build imitability barriers | | |
+| | Competitive Parity | Maintain or divest | | |`,
+      },
+    ],
+  },
+  {
+    cardId: 'A91',
+    title: 'Genetic Algorithm — Schedule Optimisation Worksheet',
+    description: 'Apply genetic algorithm principles to optimise complex project schedules with multiple constraints.',
+    sections: [
+      {
+        heading: 'Optimisation Problem Definition',
+        content: `| Field | Detail |
+|---|---|
+| Project Name | |
+| Optimisation Objective | Minimise duration / Minimise cost / Maximise resource utilisation |
+| Number of Activities | |
+| Number of Resources | |
+| Key Constraints | |`,
+      },
+      {
+        heading: 'Constraint Definition',
+        content: `| Constraint Type | Description | Hard or Soft? |
+|---|---|---|
+| Resource availability | | Hard |
+| Precedence relationships | | Hard |
+| Budget limit | | Hard |
+| Preferred working hours | | Soft |
+| Skill requirements | | Hard |
+| | | |`,
+      },
+      {
+        heading: 'Fitness Function Definition',
+        content: `Define how to score each potential schedule (higher = better).
+
+| Objective | Weight (%) | Measurement |
+|---|---|---|
+| Total project duration | | Days (lower = better) |
+| Total project cost | | £/$ (lower = better) |
+| Resource utilisation | | % (higher = better) |
+| Risk score | | (lower = better) |
+| **Total** | **100%** | |`,
+      },
+      {
+        heading: 'Algorithm Configuration (for software tool)',
+        content: `| Parameter | Value | Notes |
+|---|---|---|
+| Population size | 50–200 | Larger = more thorough but slower |
+| Number of generations | 100–500 | More = better optimisation |
+| Crossover rate | 0.7–0.9 | Probability of combining two solutions |
+| Mutation rate | 0.01–0.1 | Probability of random change |
+| Selection method | Tournament / Roulette | |`,
+      },
+      {
+        heading: 'Results Comparison',
+        content: `| Solution | Duration | Cost | Resource Utilisation | Risk Score | Fitness Score | Selected? |
+|---|---|---|---|---|---|---|
+| Baseline (current plan) | | | | | | |
+| GA Solution 1 | | | | | | |
+| GA Solution 2 | | | | | | |
+| GA Solution 3 | | | | | Yes / No | |`,
+      },
+    ],
+  },
+  {
+    cardId: 'A92',
+    title: 'Six Thinking Hats — Structured Decision Session',
+    description: 'Facilitate a Six Thinking Hats session to explore a decision or problem from six distinct perspectives.',
+    sections: [
+      {
+        heading: 'Session Setup',
+        content: `| Field | Detail |
+|---|---|
+| Topic / Decision | |
+| Facilitator | |
+| Date | |
+| Participants | |
+| Session Duration | 60–90 minutes recommended |`,
+      },
+      {
+        heading: 'Six Hats Sequence',
+        content: `Recommended sequence for decision-making: Blue → White → Green → Yellow → Black → Red → Blue.
+
+| Hat | Colour | Focus | Time | Key Questions | Outputs / Notes |
+|---|---|---|---|---|---|
+| **Blue Hat** | 🔵 Blue | Process and control | 5 min | What is the goal? What process will we use? | |
+| **White Hat** | ⚪ White | Facts and data | 10 min | What do we know? What data do we need? | |
+| **Green Hat** | 🟢 Green | Creativity and alternatives | 15 min | What new ideas can we generate? What if...? | |
+| **Yellow Hat** | 🟡 Yellow | Optimism and benefits | 10 min | What are the benefits? What is the best case? | |
+| **Black Hat** | ⚫ Black | Caution and risks | 10 min | What could go wrong? What are the weaknesses? | |
+| **Red Hat** | 🔴 Red | Emotions and intuition | 5 min | What is your gut feeling? What concerns you? | |
+| **Blue Hat** | 🔵 Blue | Summary and decision | 5 min | What have we decided? What are next steps? | |`,
+      },
+      {
+        heading: 'Decision Output',
+        content: `| Field | Detail |
+|---|---|
+| Decision Made | |
+| Key Benefits Identified | |
+| Key Risks to Mitigate | |
+| Dissenting Views Noted | |
+| Next Steps | |
+| Owner | |`,
+      },
+    ],
+  },
+  {
+    cardId: 'A93',
+    title: 'COCOMO Estimation Model Worksheet',
+    description: 'Apply the Constructive Cost Model (COCOMO) to estimate software project effort, duration, and team size.',
+    sections: [
+      {
+        heading: 'Project Context',
+        content: `| Field | Detail |
+|---|---|
+| Project Name | |
+| Estimator | |
+| Date | |
+| COCOMO Model Type | Basic / Intermediate / Detailed |
+| Software Category | Organic / Semi-Detached / Embedded |`,
+      },
+      {
+        heading: 'Size Estimation',
+        content: `| Method | Value | Notes |
+|---|---|---|
+| Estimated Lines of Code (KLOC) | | 1 KLOC = 1,000 lines |
+| Function Points (if using FP method) | | |
+| Conversion to KLOC (if using FP) | FP × language factor | |
+
+**Language Conversion Factors (approximate):**
+| Language | Lines of Code per Function Point |
+|---|---|
+| Java / C# | ~53 |
+| Python | ~33 |
+| JavaScript | ~47 |
+| C++ | ~55 |`,
+      },
+      {
+        heading: 'Basic COCOMO Calculation',
+        content: `| Software Category | Effort Coefficient (a) | Effort Exponent (b) | Duration Coefficient (c) | Duration Exponent (d) |
+|---|---|---|---|---|
+| Organic (small, familiar) | 2.4 | 1.05 | 2.5 | 0.38 |
+| Semi-Detached (medium, mixed) | 3.0 | 1.12 | 2.5 | 0.35 |
+| Embedded (large, complex) | 3.6 | 1.20 | 2.5 | 0.32 |
+
+**Formulas:**
+- Effort (person-months) = a × (KLOC)^b
+- Duration (months) = c × (Effort)^d
+- Team Size = Effort ÷ Duration
+
+| Metric | Calculation | Result |
+|---|---|---|
+| Estimated Effort (PM) | a × KLOC^b | |
+| Estimated Duration (months) | c × Effort^d | |
+| Recommended Team Size | Effort ÷ Duration | |`,
+      },
+      {
+        heading: 'Cost Calculation',
+        content: `| Field | Value |
+|---|---|
+| Average Monthly Cost per Person (£/$) | |
+| Total Effort (person-months) | |
+| **Estimated Total Cost** | |
+| Contingency Reserve (15–25%) | |
+| **Total Budget Estimate** | |`,
+      },
+    ],
+  },
+
+// === PEOPLE DECK: people-19–people-21 ===
+
+  {
+    cardId: 'people-19',
+    title: 'Cultural Intelligence (CQ) Team Assessment',
+    description: 'Assess and develop cultural intelligence across your project team to improve cross-cultural collaboration.',
+    sections: [
+      {
+        heading: 'Team Context',
+        content: `| Field | Detail |
+|---|---|
+| Project Name | |
+| Team Composition (nationalities / backgrounds) | |
+| Facilitator | |
+| Date | |`,
+      },
+      {
+        heading: 'CQ Self-Assessment (Individual)',
+        content: `Each team member rates themselves on each CQ dimension (1 = Low, 5 = High).
+
+| CQ Dimension | Description | Self-Rating (1–5) | Evidence / Example |
+|---|---|---|---|
+| **CQ Drive** | Motivation and confidence to work across cultures | | |
+| **CQ Knowledge** | Understanding of cultural differences (values, norms, practices) | | |
+| **CQ Strategy** | Ability to plan and adapt in cross-cultural situations | | |
+| **CQ Action** | Ability to adapt verbal and non-verbal behaviour across cultures | | |`,
+      },
+      {
+        heading: 'Team Cultural Inventory',
+        content: `| Team Member | Cultural Background | Communication Style | Decision-Making Style | Conflict Style | Key Strengths | Development Area |
+|---|---|---|---|---|---|---|
+| | | Direct / Indirect | Hierarchical / Consensus | Confrontational / Avoidant | | |
+| | | | | | | |
+| | | | | | | |`,
+      },
+      {
+        heading: 'Cultural Risk and Mitigation',
+        content: `| Cultural Risk | Potential Impact | Mitigation Strategy | Owner |
+|---|---|---|---|
+| Language barriers in written communication | Misunderstandings in requirements | Use plain language + visual aids | |
+| Different attitudes to hierarchy | Junior members not raising issues | Explicitly invite all voices | |
+| Different time zone working norms | Delayed responses | Agree core overlap hours | |
+| | | | |`,
+      },
+      {
+        heading: 'Team Development Actions',
+        content: `| Action | Purpose | Owner | By When |
+|---|---|---|---|
+| Cultural awareness workshop | Build shared understanding | | |
+| Buddy system across cultures | Build relationships | | |
+| Communication protocol agreement | Reduce misunderstandings | | |`,
+      },
+    ],
+  },
+  {
+    cardId: 'people-20',
+    title: 'Green HRM — Sustainable Team Practices Planner',
+    description: 'Plan and implement environmentally sustainable human resource practices across the project team.',
+    sections: [
+      {
+        heading: 'Context',
+        content: `| Field | Detail |
+|---|---|
+| Project / Organisation | |
+| Green HRM Lead | |
+| Date | |
+| Organisational Sustainability Goals | |`,
+      },
+      {
+        heading: 'Green HRM Practice Assessment',
+        content: `| Practice Area | Current State | Target State | Gap | Priority |
+|---|---|---|---|---|
+| **Recruitment** — Attract sustainability-minded talent; green employer branding | | | | H/M/L |
+| **Training** — Environmental awareness, green skills development | | | | |
+| **Performance Management** — Include sustainability KPIs in appraisals | | | | |
+| **Rewards** — Recognise and incentivise green behaviours | | | | |
+| **Working Practices** — Remote work, paperless processes, green travel policy | | | | |
+| **Wellbeing** — Biophilic workplace, mental health, work-life balance | | | | |`,
+      },
+      {
+        heading: 'Green Behaviours Action Plan',
+        content: `| Green Behaviour to Encourage | Initiative | Owner | Target Date | Measurement |
+|---|---|---|---|---|
+| Reduce business travel | Video-first policy | | | Travel cost / CO2 |
+| Paperless project management | Digital-only documentation | | | Paper usage |
+| Energy-conscious working | Flexible hours to reduce peak demand | | | Energy bills |
+| | | | | |`,
+      },
+      {
+        heading: 'Green KPIs',
+        content: `| KPI | Baseline | Target | Reporting Frequency |
+|---|---|---|---|
+| Business travel CO2 (tonnes/year) | | | Quarterly |
+| Paper consumption (reams/month) | | | Monthly |
+| Remote working days (% of total) | | | Monthly |
+| Team sustainability training completion | | 100% | Annual |`,
+      },
+    ],
+  },
+  {
+    cardId: 'people-21',
+    title: 'Storytelling in Project Management — Narrative Planner',
+    description: 'Craft compelling project narratives to engage stakeholders, communicate change, and drive action.',
+    sections: [
+      {
+        heading: 'Story Context',
+        content: `| Field | Detail |
+|---|---|
+| Story Purpose | Stakeholder buy-in / Change communication / Status update / Lessons learned |
+| Audience | |
+| Key Message (one sentence) | |
+| Desired Outcome | What should the audience think, feel, or do after hearing this story? |`,
+      },
+      {
+        heading: 'Story Structure (Hero\'s Journey Framework)',
+        content: `| Story Element | Your Content |
+|---|---|
+| **The World Before** — Set the scene. What was the situation before this project? | |
+| **The Challenge** — What problem or opportunity triggered this project? | |
+| **The Hero** — Who is the protagonist? (Could be the team, a customer, or the organisation) | |
+| **The Journey** — What obstacles were overcome? What did the team learn? | |
+| **The Transformation** — What changed as a result of the project? | |
+| **The Call to Action** — What do you want the audience to do next? | |`,
+      },
+      {
+        heading: 'Stakeholder-Specific Narrative Adaptation',
+        content: `| Stakeholder Group | What They Care About | Key Story Angle | Tone | Format |
+|---|---|---|---|---|
+| Executive Sponsor | ROI, strategic alignment | Business impact | Formal, concise | 2-min verbal + 1-slide |
+| Project Team | Recognition, purpose | Team achievement | Warm, celebratory | Team meeting story |
+| End Users | How it affects them | Personal benefit | Empathetic | Case study / testimonial |
+| Board / Governance | Risk, compliance | Accountability | Factual | Written report |`,
+      },
+      {
+        heading: 'Story Quality Checklist',
+        content: `| Criterion | ✅ / ❌ | Notes |
+|---|---|---|
+| Opens with a hook (surprising fact, question, or vivid scene) | | |
+| Has a clear protagonist the audience can identify with | | |
+| Includes specific, concrete details (not vague generalities) | | |
+| Shows emotion or human impact | | |
+| Has a clear, single key message | | |
+| Ends with a specific call to action | | |
+| Length is appropriate for the audience and format | | |`,
+      },
+    ],
+  },
+];
 // ─────────────────────────────────────────────────────────────────────────────
 // MASTER EXPORT
 // ─────────────────────────────────────────────────────────────────────────────
