@@ -16,6 +16,8 @@ import {
   ArrowLeft,
   X,
   Sparkles,
+  Brain,
+  ChevronRight,
 } from 'lucide-react';
 import { useJourney, MAX_HEARTS, TOPICS_TO_EARN_HEART } from '@/contexts/JourneyContext';
 import { JOURNEY_LESSONS, JOURNEY_UNITS, getLevelForXP, getNextLevel } from '@/lib/journeyData';
@@ -23,6 +25,7 @@ import { useState, useEffect } from 'react';
 import JourneySetupWizard, { JOURNEY_PROFILE_KEY, getPersonalisedTip, type JourneyProfile } from '@/components/JourneySetupWizard';
 import { useTheme } from '@/contexts/ThemeContext';
 import PageFooter from '@/components/PageFooter';
+import { useSpacedRepetition } from '@/hooks/useSpacedRepetition';
 
 // ─── HEARTS DISPLAY ───────────────────────────────────────────────────────────
 function HeartsBar() {
@@ -553,6 +556,51 @@ function UnitPathCard({ children, unitId }: { children: React.ReactNode; unitId:
   );
 }
 
+// ─── DUE TODAY BANNER ───────────────────────────────────────────────────────
+function DueTodayBanner() {
+  const [, navigate] = useLocation();
+  const { srState, getDueCount } = useSpacedRepetition();
+  const allScheduledIds = Object.keys(srState);
+  const dueCount = getDueCount(allScheduledIds);
+
+  if (dueCount === 0) return null;
+
+  return (
+    <motion.button
+      initial={{ opacity: 0, y: -8 }}
+      animate={{ opacity: 1, y: 0 }}
+      onClick={() => navigate('/review')}
+      className="mx-4 mb-3 w-[calc(100%-2rem)] rounded-2xl p-4 flex items-center gap-3 text-left active:scale-[0.98] transition-transform"
+      style={{
+        background: 'linear-gradient(135deg, rgba(99,102,241,0.15), rgba(59,130,246,0.1))',
+        border: '1.5px solid rgba(99,102,241,0.3)',
+        boxShadow: '0 4px 20px rgba(99,102,241,0.15)',
+      }}
+    >
+      <div
+        className="w-10 h-10 rounded-xl flex items-center justify-center shrink-0"
+        style={{ background: 'rgba(99,102,241,0.2)', border: '1px solid rgba(99,102,241,0.3)' }}
+      >
+        <Brain size={18} className="text-indigo-400" />
+      </div>
+      <div className="flex-1 min-w-0">
+        <div className="text-sm font-black text-foreground" style={{ fontFamily: 'Sora, sans-serif' }}>
+          {dueCount} card{dueCount !== 1 ? 's' : ''} due for review
+        </div>
+        <div className="text-[11px] text-muted-foreground mt-0.5">
+          Spaced repetition — tap to review now
+        </div>
+      </div>
+      <div
+        className="flex items-center justify-center w-7 h-7 rounded-full"
+        style={{ background: 'rgba(99,102,241,0.2)' }}
+      >
+        <ChevronRight size={14} className="text-indigo-400" />
+      </div>
+    </motion.button>
+  );
+}
+
 // ─── MAIN PAGE ────────────────────────────────────────────────────────────────
 const NODE_POSITIONS: Array<'left' | 'center' | 'right'> = [
   'center', 'left', 'right', 'center', 'left',
@@ -633,6 +681,9 @@ export default function JourneyPage() {
       <div className="pt-5">
         <StatsStrip />
       </div>
+
+      {/* Due Today SR Banner */}
+      <DueTodayBanner />
 
       {/* Personalised tip banner */}
       <AnimatePresence>

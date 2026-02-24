@@ -27,9 +27,16 @@ import GlossaryPage from './pages/GlossaryPage';
 import TemplateLibrary from './pages/TemplateLibrary';
 import TemplateFiller from './pages/TemplateFiller';
 import HowItWasBuilt from './pages/HowItWasBuilt';
+import ReviewPage from './pages/ReviewPage';
+import CompareCards from './pages/CompareCards';
+import HealthChecker from './pages/HealthChecker';
+import MindMap from './pages/MindMap';
+import AudioMode from './pages/AudioMode';
 import WelcomeModal from './components/WelcomeModal';
 import OnboardingTour, { useOnboardingTour } from './components/OnboardingTour';
 import { BookmarksProvider } from './contexts/BookmarksContext';
+import { AudioProvider } from './contexts/AudioContext';
+import AudioPlayerBar from './components/AudioPlayerBar';
 import { JourneyProvider } from './contexts/JourneyContext';
 import TopNav from './components/TopNav';
 import BottomNav from './components/BottomNav';
@@ -49,7 +56,12 @@ function GlobalBottomNav() {
   const [location] = useLocation();
   if (location.startsWith('/quiz')) return null;
   if (location.startsWith('/journey/lesson')) return null;
-  return <BottomNav />;
+  return (
+    <>
+      <AudioPlayerBar />
+      <BottomNav />
+    </>
+  );
 }
 
 // Show TopNav on all pages except quiz
@@ -109,6 +121,11 @@ function Router() {
         <Route path="/templates" component={TemplateLibrary} />
         <Route path="/templates/:cardId" component={TemplateFiller} />
         <Route path="/how-it-was-built" component={HowItWasBuilt} />
+        <Route path="/review" component={ReviewPage} />
+        <Route path="/compare" component={CompareCards} />
+        <Route path="/health" component={HealthChecker} />
+        <Route path="/mindmap" component={MindMap} />
+        <Route path="/audio" component={AudioMode} />
         <Route path="/404" component={NotFound} />
         <Route component={NotFound} />
       </Switch>
@@ -131,6 +148,7 @@ function App() {
   return (
     <ErrorBoundary>
       <ThemeProvider defaultTheme="dark" switchable={true}>
+        <AudioProvider>
         <JourneyProvider>
         <BookmarksProvider>
           <TooltipProvider>
@@ -139,6 +157,7 @@ function App() {
           </TooltipProvider>
         </BookmarksProvider>
         </JourneyProvider>
+        </AudioProvider>
       </ThemeProvider>
     </ErrorBoundary>
   );

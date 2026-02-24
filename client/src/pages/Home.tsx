@@ -7,6 +7,7 @@ import { motion } from 'framer-motion';
 import {
   LayoutGrid, Sparkles, Search, Bookmark, Route, Map,
   BookOpen, BookMarked, Compass, Zap, Flame, ArrowRight, FileText, Code2,
+  Brain, GitCompare, Activity, Network, Headphones,
 } from 'lucide-react';
 import { useOnboardingTour } from '@/components/OnboardingTour';
 import OnboardingTour from '@/components/OnboardingTour';
@@ -37,6 +38,11 @@ const FEATURE_TILES = [
   { path: '/decision',     icon: Compass,     label: 'Decision Helper',   sub: 'Find the right tool',        color: '#86EFAC', bg: 'rgba(134,239,172,0.10)', textColor: '#BBF7D0' },
   { path: '/templates',    icon: FileText,    label: 'Template Library',  sub: '198 fillable templates',     color: '#FB923C', bg: 'rgba(251,146,60,0.10)',  textColor: '#FED7AA' },
   { path: '/how-it-was-built', icon: Code2,  label: 'How It Was Built',  sub: 'Prompts, tools & process',   color: '#A78BFA', bg: 'rgba(167,139,250,0.10)', textColor: '#DDD6FE' },
+  { path: '/review',    icon: Brain,       label: 'Spaced Repetition', sub: 'Review cards at the right time', color: '#A855F7', bg: 'rgba(168,85,247,0.10)',  textColor: '#E9D5FF' },
+  { path: '/compare',   icon: GitCompare,  label: 'Compare Cards',     sub: 'Side-by-side tool comparison',  color: '#6366F1', bg: 'rgba(99,102,241,0.10)',  textColor: '#C7D2FE' },
+  { path: '/health',    icon: Activity,    label: 'Health Checker',    sub: 'Diagnose your project',          color: '#10B981', bg: 'rgba(16,185,129,0.10)',  textColor: '#A7F3D0' },
+  { path: '/mindmap',   icon: Network,     label: 'Mind Map',          sub: 'Explore tool relationships',     color: '#0EA5E9', bg: 'rgba(14,165,233,0.10)',  textColor: '#BAE6FD' },
+  { path: '/audio',     icon: Headphones,  label: 'Audio Mode',        sub: 'Listen on lock screen',          color: '#F59E0B', bg: 'rgba(245,158,11,0.10)',  textColor: '#FDE68A' },
 ];
 
 // ─── Stat pill ─────────────────────────────────────────────────────────────────

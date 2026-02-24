@@ -486,3 +486,69 @@
 - [x] Fix CardDetail hero: illustration box showing as grey rectangle (blend mode issue)
 - [x] Fix TemplateFiller description box: low contrast text in light mode
 - [x] Fix TemplateFiller table cells: raw markdown asterisks (**text**) not rendered as bold
+
+## Five New Features — Feb 2026
+
+### Feature 1: Spaced Repetition Engine
+- [ ] Add SR fields to localStorage card state: nextReview (timestamp), interval (days), easeFactor (float), repetitions (int)
+- [ ] Implement SM-2 algorithm: on answer, compute next interval from quality rating (0-5)
+- [ ] Add "Review" tab to Journey page showing cards due today
+- [ ] Add quality-rating buttons (Again / Hard / Good / Easy) to LessonPage card answer flow
+- [ ] Add SR stats to CardDetail (next review date, current interval, ease factor)
+- [ ] Add global "Due for Review" badge to BottomNav Journey icon
+
+### Feature 2: Card Comparison Tool
+- [ ] Add "Compare" button to CardDetail page (opens comparison picker)
+- [ ] Build CompareModal: search/select a second card, show side-by-side layout
+- [ ] Build ComparisonPage (/compare/:id1/:id2): full-page structured comparison table
+- [ ] Comparison rows: What It Is, When to Use, Key Steps, Strengths, Limitations, Best Paired With
+- [ ] Add "Compare with..." quick-select chips on CardDetail (pre-populated related cards)
+- [ ] Support light/dark mode in comparison layout
+
+### Feature 3: Project Health Checker
+- [ ] Design 15-question diagnostic (5 domains: Scope, Stakeholders, Risk, Delivery, Team)
+- [ ] Build HealthCheckerPage (/health-check): stepper questionnaire UI
+- [ ] Implement scoring engine: per-domain score (0-100) + overall health score
+- [ ] Build results page: radar/spider chart of 5 domains, top 5 recommended cards
+- [ ] Add "Check Project Health" CTA to Home page and AI page
+- [ ] Persist last health check result to localStorage with timestamp
+- [ ] Support light/dark mode in all health checker screens
+
+### Feature 4: Snowflake Mind Map
+- [ ] Add toolRelationships data to pmoData: for each card, list related cards by relationship type (pairs-with, leads-to, alternative-to, prerequisite-of)
+- [ ] Install and configure D3.js or react-force-graph for force-directed layout
+- [ ] Build MindMapPage (/mindmap): full-screen canvas with all 198 cards as nodes
+- [ ] Implement snowflake expand: click a node to highlight its direct relationships (1st ring), click again to expand 2nd ring
+- [ ] Node styling: colour by deck, size by connection count, glow on active
+- [ ] Add search/filter bar to highlight matching nodes
+- [ ] Add minimap / zoom controls
+- [ ] Clicking a node navigates to CardDetail
+- [ ] Add "View in Mind Map" button on CardDetail
+- [ ] Support light/dark mode in mind map canvas
+
+### Feature 5: Audio Mode (Lock-Screen Playback)
+- [ ] Build TTS pipeline: card text (What It Is + How to Use It + Key Steps) → chunked utterances
+- [ ] Use Web Speech API (SpeechSynthesis) as primary TTS (no API key needed, works offline)
+- [ ] Implement Media Session API: set metadata (title, artist=deck name, artwork=card illustration) so lock screen shows card info
+- [ ] Add playback controls: play/pause, next card, previous card, speed (0.75x/1x/1.25x/1.5x)
+- [ ] Build AudioPlayerBar: persistent bottom bar above BottomNav when audio is playing
+- [ ] Build AudioQueuePage (/audio): playlist of selected cards or full deck
+- [ ] Add "Listen" button to CardDetail and DeckView
+- [ ] Add "Listen to Deck" button to DecksPage
+- [ ] Ensure audio continues when screen locks (Media Session API handles this on iOS/Android)
+- [ ] Support light/dark mode in AudioPlayerBar and AudioQueuePage
+
+## New Features — Feb 24 2026 (Session 7)
+
+- [x] Spaced Repetition Engine (SM-2 algorithm): ReviewPage with due-today queue, rating buttons (Again/Hard/Good/Easy), interval scheduling, and stats
+- [x] DueTodayBanner on JourneyPage: shows count of cards due for review with link to /review
+- [x] Card Comparison Tool: CompareCards page with dual card pickers, structured attribute rows, random pair shuffle, and view-full-card links
+- [x] Project Health Checker: HealthChecker page with 16-question Likert scale across 8 dimensions, pure SVG radar chart, and personalised card recommendations
+- [x] Snowflake Mind Map: MindMap page with force-directed SVG graph, expand/collapse nodes, pan/zoom, search to focus, and selected node info panel
+- [x] Audio Mode: AudioMode page with Web Speech API TTS, Media Session API lock-screen controls (play/pause/next/prev), speed selector, deck/card playlist builder
+- [x] AudioContext: global provider with play/pause/stop/next/prev, rate/pitch/volume controls, and MediaMetadata for lock screen
+- [x] AudioPlayerBar: persistent mini-player bar above BottomNav when audio is active
+- [x] All 5 new routes wired into App.tsx (/review, /compare, /health, /mindmap, /audio)
+- [x] All 5 new tools added to TopNav Mini-Apps dropdown
+- [x] All 5 new tools added to Home page feature grid
+- [x] All 49 existing tests still passing after changes

@@ -8,6 +8,7 @@ import {
   Home, ChevronDown, LayoutGrid, Sparkles,
   BookMarked, BookOpen, Search, Bookmark, FileText, Compass,
   Map, Route, Grid3X3, Sun, Moon,
+  GitCompare, Activity, Network, Headphones, Brain,
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useBookmarks } from '@/contexts/BookmarksContext';
@@ -74,6 +75,41 @@ const MINI_APPS = [
     label: 'Case Studies',
     desc: 'Real-world PM stories for every tool',
     color: '#ef4444',
+  },
+  {
+    path: '/review',
+    icon: Brain,
+    label: 'Spaced Repetition',
+    desc: 'SM-2 algorithm — review cards at the right time',
+    color: '#a855f7',
+  },
+  {
+    path: '/compare',
+    icon: GitCompare,
+    label: 'Compare Cards',
+    desc: 'Side-by-side comparison of two PM tools',
+    color: '#6366f1',
+  },
+  {
+    path: '/health',
+    icon: Activity,
+    label: 'Health Checker',
+    desc: 'Diagnose your project across 8 dimensions',
+    color: '#10b981',
+  },
+  {
+    path: '/mindmap',
+    icon: Network,
+    label: 'Mind Map',
+    desc: 'Snowflake graph of tool relationships',
+    color: '#0ea5e9',
+  },
+  {
+    path: '/audio',
+    icon: Headphones,
+    label: 'Audio Mode',
+    desc: 'Listen to cards — works on lock screen',
+    color: '#f59e0b',
   },
 ];
 
