@@ -57,6 +57,7 @@ function NowPlaying() {
   const {
     isPlaying,
     isPaused,
+    isLoading,
     currentTrack,
     currentIndex,
     playlist,
@@ -109,12 +110,12 @@ function NowPlaying() {
         <div
           className="px-2 py-0.5 rounded-full text-[9px] font-bold"
           style={{
-            background: isPlaying && !isPaused ? 'rgba(16,185,129,0.15)' : 'rgba(245,158,11,0.15)',
-            color: isPlaying && !isPaused ? '#34d399' : '#fbbf24',
-            border: isPlaying && !isPaused ? '1px solid rgba(16,185,129,0.3)' : '1px solid rgba(245,158,11,0.3)',
+            background: isLoading ? 'rgba(99,102,241,0.15)' : isPlaying && !isPaused ? 'rgba(16,185,129,0.15)' : 'rgba(245,158,11,0.15)',
+            color: isLoading ? '#818cf8' : isPlaying && !isPaused ? '#34d399' : '#fbbf24',
+            border: isLoading ? '1px solid rgba(99,102,241,0.3)' : isPlaying && !isPaused ? '1px solid rgba(16,185,129,0.3)' : '1px solid rgba(245,158,11,0.3)',
           }}
         >
-          {isPlaying && !isPaused ? '▶ Playing' : '⏸ Paused'}
+          {isLoading ? '⏳ Generating…' : isPlaying && !isPaused ? '▶ Playing' : '⏸ Paused'}
         </div>
       </div>
 
@@ -353,7 +354,7 @@ function LockScreenInfo() {
 export default function AudioMode() {
   const [, navigate] = useLocation();
   const { isDark } = useTheme();
-  const { isPlaying, isPaused, isSupported, playAll } = useAudio();
+  const { isPlaying, isPaused, isLoading, isSupported, playAll } = useAudio();
   const [activeTab, setActiveTab] = useState<'playlist' | 'settings'>('playlist');
 
   const bg = isDark
@@ -411,17 +412,17 @@ export default function AudioMode() {
         >
           <p className="text-sm font-bold text-red-400 mb-1">Browser not supported</p>
           <p className="text-xs text-muted-foreground">
-            Your browser does not support the Web Speech API. Try Chrome, Edge, or Safari on a modern device.
+            Your browser does not support audio playback. Try Chrome, Edge, or Safari on a modern device.
           </p>
         </div>
       )}
 
       <div className="px-4 pt-4 space-y-4">
         {/* Now playing */}
-        {(isPlaying || isPaused) && <NowPlaying />}
+        {(isPlaying || isPaused || isLoading) && <NowPlaying />}
 
         {/* Speed control */}
-        {(isPlaying || isPaused) && (
+        {(isPlaying || isPaused || isLoading) && (
           <div
             className="rounded-2xl p-4"
             style={{

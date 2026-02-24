@@ -1,6 +1,6 @@
-// AudioContext — TTS narration using Web Speech API + Media Session API
-// Media Session API exposes lock-screen controls on mobile devices
-// Supports play/pause, next/prev card, and continuous playlist mode
+// AudioContext — Google Cloud TTS narration (Journey-O voice) + Media Session API
+// Uses HTMLAudioElement so the browser treats it as real media → lock-screen controls work
+// Caches generated audio in sessionStorage (base64) to avoid re-fetching
 
 import {
   createContext,
@@ -19,18 +19,18 @@ export interface AudioTrack {
   title: string;
   deckTitle: string;
   deckColor: string;
-  text: string; // full narration text
+  text: string; // full narration script sent to TTS
 }
 
 interface AudioState {
   isPlaying: boolean;
   isPaused: boolean;
+  isLoading: boolean; // true while fetching TTS audio
   currentTrack: AudioTrack | null;
   currentIndex: number;
   playlist: AudioTrack[];
   rate: number;
-  pitch: number;
-  volume: number;
+  error: string | null;
 }
 
 interface AudioContextValue extends AudioState {
@@ -43,25 +43,50 @@ interface AudioContextValue extends AudioState {
   next: () => void;
   prev: () => void;
   setRate: (rate: number) => void;
-  setPitch: (pitch: number) => void;
-  setVolume: (volume: number) => void;
   isSupported: boolean;
 }
 
-// ─── NARRATION BUILDER ────────────────────────────────────────────────────────
+// ─── PODCAST-STYLE NARRATION BUILDER ─────────────────────────────────────────
+// Writes a natural, conversational script — not a dry recitation of fields.
 function buildNarration(card: PMOCard): string {
   const parts: string[] = [];
-  parts.push(`${card.code}: ${card.title}.`);
+
+  // Hook — conversational opener
+  parts.push(
+    `Welcome to the ${card.title} card, from the ${getDeckById(card.deckId)?.title ?? 'PMO Toolkit'} deck.`
+  );
+
+  // Tagline as a one-liner
   parts.push(card.tagline + '.');
-  parts.push('What it is. ' + card.whatItIs);
-  parts.push('When to use it. ' + card.whenToUse);
+
+  // What it is — conversational bridge
+  parts.push(`So, what exactly is it? ${card.whatItIs}`);
+
+  // When to use — framed as advice
+  parts.push(`You'd reach for this tool when ${card.whenToUse.replace(/^when /i, '').replace(/^use this /i, '')}`);
+
+  // Steps — if present, narrate as a short list
   if (card.steps && card.steps.length > 0) {
-    parts.push('Key steps. ' + card.steps.join('. '));
+    const stepCount = card.steps.length;
+    parts.push(
+      `There are ${stepCount} key step${stepCount > 1 ? 's' : ''} to follow. ` +
+      card.steps.map((s, i) => `Step ${i + 1}: ${s}`).join('. ')
+    );
   }
-  parts.push('Pro tip. ' + card.proTip);
+
+  // Pro tip — framed as insider advice
+  parts.push(`Here's a pro tip from experienced practitioners. ${card.proTip}`);
+
+  // Example — if present
   if (card.example) {
-    parts.push('Example. ' + card.example);
+    parts.push(`To make this concrete, here's a real-world example. ${card.example}`);
   }
+
+  // Sign-off
+  parts.push(
+    `That's the ${card.title} card. Tap the screen to explore related tools, or keep listening for the next card in your playlist.`
+  );
+
   return parts.join(' ');
 }
 
@@ -76,46 +101,214 @@ function buildTrack(card: PMOCard): AudioTrack {
   };
 }
 
+// ─── TTS FETCH + CACHE ────────────────────────────────────────────────────────
+const TTS_CACHE_PREFIX = 'pmo_tts_v2_';
+
+async function fetchTtsAudio(text: string, cardId: string): Promise<string> {
+  const cacheKey = TTS_CACHE_PREFIX + cardId;
+  try {
+    const cached = sessionStorage.getItem(cacheKey);
+    if (cached) return cached;
+  } catch {}
+
+  const response = await fetch('/api/tts', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ text }),
+  });
+
+  if (!response.ok) {
+    const err = await response.text();
+    throw new Error(`TTS API error ${response.status}: ${err.slice(0, 200)}`);
+  }
+
+  const data = await response.json() as { audioContent?: string };
+  if (!data.audioContent) throw new Error('No audio content returned');
+
+  const dataUrl = `data:audio/mp3;base64,${data.audioContent}`;
+
+  try {
+    sessionStorage.setItem(cacheKey, dataUrl);
+  } catch {}
+
+  return dataUrl;
+}
+
 // ─── CONTEXT ─────────────────────────────────────────────────────────────────
 const Ctx = createContext<AudioContextValue | null>(null);
 
 export function AudioProvider({ children }: { children: ReactNode }) {
-  const isSupported = typeof window !== 'undefined' && 'speechSynthesis' in window;
+  const isSupported = typeof window !== 'undefined' && typeof Audio !== 'undefined';
 
   const [state, setState] = useState<AudioState>({
     isPlaying: false,
     isPaused: false,
+    isLoading: false,
     currentTrack: null,
     currentIndex: -1,
     playlist: [],
     rate: 1.0,
-    pitch: 1.0,
-    volume: 1.0,
+    error: null,
   });
 
-  const utteranceRef = useRef<SpeechSynthesisUtterance | null>(null);
+  const audioRef = useRef<HTMLAudioElement | null>(null);
   const stateRef = useRef(state);
   stateRef.current = state;
 
-  // ── Media Session API setup ──
+  // ── Ensure a single HTMLAudioElement exists ──
+  function getAudio(): HTMLAudioElement {
+    if (!audioRef.current) {
+      audioRef.current = new Audio();
+      audioRef.current.preload = 'auto';
+    }
+    return audioRef.current;
+  }
+
+  // ── Update Media Session metadata ──
+  function updateMediaSession(track: AudioTrack | null, playing: boolean) {
+    if (!('mediaSession' in navigator)) return;
+    if (!track) {
+      navigator.mediaSession.metadata = null;
+      navigator.mediaSession.playbackState = 'none';
+      return;
+    }
+    navigator.mediaSession.metadata = new MediaMetadata({
+      title: track.title,
+      artist: track.deckTitle,
+      album: 'StratAlign PMO Toolkit',
+      artwork: [
+        { src: '/icon-192.png', sizes: '192x192', type: 'image/png' },
+        { src: '/favicon.ico', sizes: '48x48', type: 'image/x-icon' },
+      ],
+    });
+    navigator.mediaSession.playbackState = playing ? 'playing' : 'paused';
+  }
+
+  // ── Core play function — fetches TTS then plays ──
+  const playTrackAtIndex = useCallback(
+    async (playlist: AudioTrack[], index: number) => {
+      if (index < 0 || index >= playlist.length) return;
+      const track = playlist[index];
+
+      // Stop any current audio
+      const audio = getAudio();
+      audio.pause();
+      audio.src = '';
+
+      setState(prev => ({
+        ...prev,
+        isLoading: true,
+        isPlaying: false,
+        isPaused: false,
+        currentTrack: track,
+        currentIndex: index,
+        playlist,
+        error: null,
+      }));
+      updateMediaSession(track, false);
+
+      let dataUrl: string;
+      try {
+        dataUrl = await fetchTtsAudio(track.text, track.cardId);
+      } catch (err) {
+        setState(prev => ({
+          ...prev,
+          isLoading: false,
+          isPlaying: false,
+          error: String(err),
+        }));
+        return;
+      }
+
+      audio.src = dataUrl;
+      audio.playbackRate = stateRef.current.rate;
+
+      // Auto-advance when track ends
+      audio.onended = () => {
+        const nextIdx = stateRef.current.currentIndex + 1;
+        if (nextIdx < stateRef.current.playlist.length) {
+          playTrackAtIndex(stateRef.current.playlist, nextIdx);
+        } else {
+          setState(prev => ({ ...prev, isPlaying: false, isPaused: false }));
+          updateMediaSession(stateRef.current.currentTrack, false);
+        }
+      };
+
+      audio.onerror = () => {
+        setState(prev => ({
+          ...prev,
+          isLoading: false,
+          isPlaying: false,
+          error: 'Audio playback error',
+        }));
+      };
+
+      try {
+        await audio.play();
+        setState(prev => ({
+          ...prev,
+          isLoading: false,
+          isPlaying: true,
+          isPaused: false,
+        }));
+        updateMediaSession(track, true);
+      } catch (err) {
+        setState(prev => ({
+          ...prev,
+          isLoading: false,
+          isPlaying: false,
+          error: 'Could not start playback: ' + String(err),
+        }));
+      }
+    },
+    []
+  );
+
+  // ── Media Session action handlers ──
+  // Must be registered AFTER audio starts (browsers require user gesture)
   useEffect(() => {
     if (!('mediaSession' in navigator)) return;
 
-    navigator.mediaSession.setActionHandler('play', () => {
-      resumeInternal();
-    });
-    navigator.mediaSession.setActionHandler('pause', () => {
-      pauseInternal();
-    });
-    navigator.mediaSession.setActionHandler('nexttrack', () => {
-      nextInternal();
-    });
-    navigator.mediaSession.setActionHandler('previoustrack', () => {
-      prevInternal();
-    });
-    navigator.mediaSession.setActionHandler('stop', () => {
-      stopInternal();
-    });
+    const registerHandlers = () => {
+      navigator.mediaSession.setActionHandler('play', () => {
+        const audio = getAudio();
+        audio.play().then(() => {
+          setState(prev => ({ ...prev, isPlaying: true, isPaused: false }));
+          updateMediaSession(stateRef.current.currentTrack, true);
+        }).catch(() => {});
+      });
+
+      navigator.mediaSession.setActionHandler('pause', () => {
+        const audio = getAudio();
+        audio.pause();
+        setState(prev => ({ ...prev, isPaused: true }));
+        updateMediaSession(stateRef.current.currentTrack, false);
+      });
+
+      navigator.mediaSession.setActionHandler('nexttrack', () => {
+        const { currentIndex, playlist } = stateRef.current;
+        if (currentIndex + 1 < playlist.length) {
+          playTrackAtIndex(playlist, currentIndex + 1);
+        }
+      });
+
+      navigator.mediaSession.setActionHandler('previoustrack', () => {
+        const { currentIndex, playlist } = stateRef.current;
+        if (currentIndex - 1 >= 0) {
+          playTrackAtIndex(playlist, currentIndex - 1);
+        }
+      });
+
+      navigator.mediaSession.setActionHandler('stop', () => {
+        const audio = getAudio();
+        audio.pause();
+        audio.src = '';
+        setState(prev => ({ ...prev, isPlaying: false, isPaused: false }));
+        updateMediaSession(null, false);
+      });
+    };
+
+    registerHandlers();
 
     return () => {
       (['play', 'pause', 'nexttrack', 'previoustrack', 'stop'] as MediaSessionAction[]).forEach(
@@ -124,162 +317,90 @@ export function AudioProvider({ children }: { children: ReactNode }) {
         }
       );
     };
-  }, []);
+  }, [playTrackAtIndex]);
 
-  // ── Update Media Session metadata when track changes ──
-  useEffect(() => {
-    if (!('mediaSession' in navigator)) return;
-    if (!state.currentTrack) {
-      navigator.mediaSession.metadata = null;
-      return;
-    }
-    navigator.mediaSession.metadata = new MediaMetadata({
-      title: state.currentTrack.title,
-      artist: state.currentTrack.deckTitle,
-      album: 'PMO Toolkit',
-      artwork: [
-        { src: '/favicon.ico', sizes: '48x48', type: 'image/x-icon' },
-      ],
-    });
-    navigator.mediaSession.playbackState = state.isPlaying && !state.isPaused ? 'playing' : 'paused';
-  }, [state.currentTrack, state.isPlaying, state.isPaused]);
-
-  // ── Internal speak function ──
-  function speakTrack(track: AudioTrack, index: number, playlist: AudioTrack[]) {
-    if (!isSupported) return;
-
-    window.speechSynthesis.cancel();
-
-    const utterance = new SpeechSynthesisUtterance(track.text);
-    utterance.rate = stateRef.current.rate;
-    utterance.pitch = stateRef.current.pitch;
-    utterance.volume = stateRef.current.volume;
-
-    utterance.onstart = () => {
-      setState(prev => ({
-        ...prev,
-        isPlaying: true,
-        isPaused: false,
-        currentTrack: track,
-        currentIndex: index,
-        playlist,
-      }));
-    };
-
-    utterance.onend = () => {
-      // Auto-advance to next track
-      const nextIdx = index + 1;
-      if (nextIdx < playlist.length) {
-        speakTrack(playlist[nextIdx], nextIdx, playlist);
-      } else {
-        setState(prev => ({
-          ...prev,
-          isPlaying: false,
-          isPaused: false,
-        }));
-        if ('mediaSession' in navigator) {
-          navigator.mediaSession.playbackState = 'none';
-        }
-      }
-    };
-
-    utterance.onerror = (e) => {
-      if (e.error === 'interrupted') return; // expected on cancel
-      setState(prev => ({ ...prev, isPlaying: false, isPaused: false }));
-    };
-
-    utteranceRef.current = utterance;
-    window.speechSynthesis.speak(utterance);
-  }
-
-  // ── Exposed controls ──
+  // ── Public API ──
   const playCard = useCallback((cardId: string) => {
     const card = CARDS.find(c => c.id === cardId);
     if (!card) return;
     const track = buildTrack(card);
-    const playlist = [track];
-    setState(prev => ({ ...prev, playlist, currentIndex: 0 }));
-    speakTrack(track, 0, playlist);
-  }, []);
+    playTrackAtIndex([track], 0);
+  }, [playTrackAtIndex]);
 
   const playDeck = useCallback((deckId: string) => {
     const deckCards = CARDS.filter(c => c.deckId === deckId);
     if (deckCards.length === 0) return;
     const playlist = deckCards.map(buildTrack);
-    setState(prev => ({ ...prev, playlist, currentIndex: 0 }));
-    speakTrack(playlist[0], 0, playlist);
-  }, []);
+    playTrackAtIndex(playlist, 0);
+  }, [playTrackAtIndex]);
 
   const playAll = useCallback(() => {
-    const playlist = CARDS.slice(0, 20).map(buildTrack); // limit to 20 for sanity
-    setState(prev => ({ ...prev, playlist, currentIndex: 0 }));
-    speakTrack(playlist[0], 0, playlist);
+    // Pick 20 cards spread across decks for a varied playlist
+    const playlist = CARDS.slice(0, 20).map(buildTrack);
+    playTrackAtIndex(playlist, 0);
+  }, [playTrackAtIndex]);
+
+  const pause = useCallback(() => {
+    const audio = getAudio();
+    audio.pause();
+    setState(prev => ({ ...prev, isPaused: true }));
+    updateMediaSession(stateRef.current.currentTrack, false);
   }, []);
 
-  function pauseInternal() {
-    if (!isSupported) return;
-    window.speechSynthesis.pause();
-    setState(prev => ({ ...prev, isPaused: true }));
-    if ('mediaSession' in navigator) navigator.mediaSession.playbackState = 'paused';
-  }
+  const resume = useCallback(() => {
+    const audio = getAudio();
+    audio.play().then(() => {
+      setState(prev => ({ ...prev, isPaused: false, isPlaying: true }));
+      updateMediaSession(stateRef.current.currentTrack, true);
+    }).catch(() => {});
+  }, []);
 
-  function resumeInternal() {
-    if (!isSupported) return;
-    window.speechSynthesis.resume();
-    setState(prev => ({ ...prev, isPaused: false }));
-    if ('mediaSession' in navigator) navigator.mediaSession.playbackState = 'playing';
-  }
+  const stop = useCallback(() => {
+    const audio = getAudio();
+    audio.pause();
+    audio.src = '';
+    setState(prev => ({
+      ...prev,
+      isPlaying: false,
+      isPaused: false,
+      isLoading: false,
+      currentTrack: null,
+      currentIndex: -1,
+      playlist: [],
+    }));
+    updateMediaSession(null, false);
+  }, []);
 
-  function stopInternal() {
-    if (!isSupported) return;
-    window.speechSynthesis.cancel();
-    setState(prev => ({ ...prev, isPlaying: false, isPaused: false }));
-    if ('mediaSession' in navigator) navigator.mediaSession.playbackState = 'none';
-  }
-
-  function nextInternal() {
+  const next = useCallback(() => {
     const { currentIndex, playlist } = stateRef.current;
-    const nextIdx = currentIndex + 1;
-    if (nextIdx < playlist.length) {
-      speakTrack(playlist[nextIdx], nextIdx, playlist);
+    if (currentIndex + 1 < playlist.length) {
+      playTrackAtIndex(playlist, currentIndex + 1);
     }
-  }
+  }, [playTrackAtIndex]);
 
-  function prevInternal() {
+  const prev = useCallback(() => {
     const { currentIndex, playlist } = stateRef.current;
-    const prevIdx = currentIndex - 1;
-    if (prevIdx >= 0) {
-      speakTrack(playlist[prevIdx], prevIdx, playlist);
+    if (currentIndex - 1 >= 0) {
+      playTrackAtIndex(playlist, currentIndex - 1);
     }
-  }
-
-  const pause = useCallback(pauseInternal, [isSupported]);
-  const resume = useCallback(resumeInternal, [isSupported]);
-  const stop = useCallback(stopInternal, [isSupported]);
-  const next = useCallback(nextInternal, []);
-  const prev = useCallback(prevInternal, []);
+  }, [playTrackAtIndex]);
 
   const setRate = useCallback((rate: number) => {
     setState(prev => ({ ...prev, rate }));
-    if (utteranceRef.current) utteranceRef.current.rate = rate;
-  }, []);
-
-  const setPitch = useCallback((pitch: number) => {
-    setState(prev => ({ ...prev, pitch }));
-    if (utteranceRef.current) utteranceRef.current.pitch = pitch;
-  }, []);
-
-  const setVolume = useCallback((volume: number) => {
-    setState(prev => ({ ...prev, volume }));
-    if (utteranceRef.current) utteranceRef.current.volume = volume;
+    const audio = audioRef.current;
+    if (audio) audio.playbackRate = rate;
   }, []);
 
   // Cleanup on unmount
   useEffect(() => {
     return () => {
-      if (isSupported) window.speechSynthesis.cancel();
+      const audio = audioRef.current;
+      if (audio) {
+        audio.pause();
+        audio.src = '';
+      }
     };
-  }, [isSupported]);
+  }, []);
 
   return (
     <Ctx.Provider
@@ -294,8 +415,6 @@ export function AudioProvider({ children }: { children: ReactNode }) {
         next,
         prev,
         setRate,
-        setPitch,
-        setVolume,
         isSupported,
       }}
     >

@@ -557,3 +557,12 @@
 
 - [x] Show card titles (names) in Mind Map nodes instead of card codes/IDs
 - [x] Smart text truncation and node sizing so titles remain readable at all zoom levels
+
+## Audio Mode Upgrade — Feb 24 2026
+
+- [x] Replace Web Speech API with Google Cloud TTS (Neural2/Journey voice) via server-side tRPC endpoint
+- [x] Build podcast-style card script (intro hook + explanation + example + takeaway) for richer narration
+- [x] Cache TTS audio in sessionStorage (base64) to avoid re-fetching the same card
+- [x] Fix Media Session API lock-screen controls (artwork, title, artist, action handlers)
+- [x] Update AudioContext to use HTMLAudioElement instead of SpeechSynthesis
+- [x] Update AudioMode UI to show loading state while TTS is being generated

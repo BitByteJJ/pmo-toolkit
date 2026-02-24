@@ -1,5 +1,5 @@
 // AudioPlayerBar — Persistent mini-player bar shown above BottomNav when audio is active
-// Displays current track, play/pause, next/prev controls
+// Shows loading spinner while Google TTS audio is being generated
 
 import { motion, AnimatePresence } from 'framer-motion';
 import {
@@ -8,7 +8,8 @@ import {
   SkipForward,
   SkipBack,
   X,
-  Volume2,
+  Loader2,
+  Headphones,
 } from 'lucide-react';
 import { useAudio } from '@/contexts/AudioContext';
 import { useTheme } from '@/contexts/ThemeContext';
@@ -18,6 +19,7 @@ export default function AudioPlayerBar() {
   const {
     isPlaying,
     isPaused,
+    isLoading,
     currentTrack,
     currentIndex,
     playlist,
@@ -28,7 +30,7 @@ export default function AudioPlayerBar() {
     prev,
   } = useAudio();
 
-  const isActive = isPlaying || isPaused;
+  const isActive = isPlaying || isPaused || isLoading;
 
   return (
     <AnimatePresence>
@@ -54,13 +56,21 @@ export default function AudioPlayerBar() {
               backdropFilter: 'blur(16px)',
             }}
           >
-            {/* Deck colour dot + track info */}
+            {/* Icon + track info */}
             <div className="flex items-center gap-2 flex-1 min-w-0">
               <div
-                className="w-7 h-7 rounded-lg flex items-center justify-center shrink-0"
+                className="w-7 h-7 rounded-lg flex items-center justify-center shrink-0 relative"
                 style={{ background: currentTrack.deckColor + '22' }}
               >
-                <Volume2 size={13} style={{ color: currentTrack.deckColor }} />
+                {isLoading ? (
+                  <Loader2
+                    size={13}
+                    className="animate-spin"
+                    style={{ color: currentTrack.deckColor }}
+                  />
+                ) : (
+                  <Headphones size={13} style={{ color: currentTrack.deckColor }} />
+                )}
               </div>
               <div className="min-w-0">
                 <div
@@ -70,11 +80,17 @@ export default function AudioPlayerBar() {
                   {currentTrack.title}
                 </div>
                 <div className="text-[9px] text-muted-foreground">
-                  {currentTrack.deckTitle}
-                  {playlist.length > 1 && (
-                    <span className="ml-1 opacity-60">
-                      · {currentIndex + 1}/{playlist.length}
-                    </span>
+                  {isLoading ? (
+                    <span style={{ color: currentTrack.deckColor }}>Generating audio…</span>
+                  ) : (
+                    <>
+                      {currentTrack.deckTitle}
+                      {playlist.length > 1 && (
+                        <span className="ml-1 opacity-60">
+                          · {currentIndex + 1}/{playlist.length}
+                        </span>
+                      )}
+                    </>
                   )}
                 </div>
               </div>
@@ -85,7 +101,7 @@ export default function AudioPlayerBar() {
               {playlist.length > 1 && (
                 <button
                   onClick={prev}
-                  disabled={currentIndex <= 0}
+                  disabled={currentIndex <= 0 || isLoading}
                   className="w-7 h-7 rounded-full flex items-center justify-center transition-opacity disabled:opacity-30"
                   style={{ background: isDark ? 'rgba(255,255,255,0.06)' : 'rgba(0,0,0,0.05)' }}
                 >
@@ -95,13 +111,16 @@ export default function AudioPlayerBar() {
 
               <button
                 onClick={isPaused ? resume : pause}
-                className="w-8 h-8 rounded-full flex items-center justify-center transition-all active:scale-90"
+                disabled={isLoading}
+                className="w-8 h-8 rounded-full flex items-center justify-center transition-all active:scale-90 disabled:opacity-50"
                 style={{
                   background: currentTrack.deckColor,
                   boxShadow: `0 2px 8px ${currentTrack.deckColor}50`,
                 }}
               >
-                {isPaused ? (
+                {isLoading ? (
+                  <Loader2 size={14} className="text-white animate-spin" />
+                ) : isPaused ? (
                   <Play size={14} className="text-white ml-0.5" />
                 ) : (
                   <Pause size={14} className="text-white" />
@@ -111,7 +130,7 @@ export default function AudioPlayerBar() {
               {playlist.length > 1 && (
                 <button
                   onClick={next}
-                  disabled={currentIndex >= playlist.length - 1}
+                  disabled={currentIndex >= playlist.length - 1 || isLoading}
                   className="w-7 h-7 rounded-full flex items-center justify-center transition-opacity disabled:opacity-30"
                   style={{ background: isDark ? 'rgba(255,255,255,0.06)' : 'rgba(0,0,0,0.05)' }}
                 >
