@@ -37,7 +37,7 @@ function TermCard({ term, onCardClick }: { term: GlossaryTerm; onCardClick: (car
       exit={{ opacity: 0 }}
       transition={{ duration: 0.22 }}
       className="bg-card rounded-2xl overflow-hidden"
-      style={{ boxShadow: '0 2px 10px rgba(0,0,0,0.3), 0 0 0 1px rgba(255,255,255,0.06)' }}
+      style={{ boxShadow: '0 2px 10px rgba(0,0,0,0.08), 0 0 0 1px rgba(0,0,0,0.06)' }}
     >
       <div className="flex">
         <div className="w-1 shrink-0 rounded-l-2xl" style={{ backgroundColor: colors.border }} />
@@ -92,7 +92,7 @@ function TermCard({ term, onCardClick }: { term: GlossaryTerm; onCardClick: (car
                               onClick={() => onCardClick(cardId)}
                               className="flex items-center gap-1 px-2 py-1 rounded-lg text-[10px] font-bold transition-all hover:opacity-80 active:scale-95"
                               style={{
-                                backgroundColor: deck ? deck.color + '18' : 'rgba(255,255,255,0.06)',
+                                backgroundColor: deck ? deck.color + '18' : 'rgba(99,102,241,0.08)',
                                 color: deck ? deck.color : '#57534e',
                               }}
                             >
@@ -116,7 +116,7 @@ function TermCard({ term, onCardClick }: { term: GlossaryTerm; onCardClick: (car
                             <span
                               key={id}
                               className="text-[10px] font-semibold px-2 py-0.5 rounded-full"
-                              style={{ backgroundColor: 'rgba(255,255,255,0.06)', color: '#78716c' }}
+                              style={{ backgroundColor: 'rgba(0,0,0,0.05)', color: '#78716c' }}
                             >
                               {related.term}
                             </span>
@@ -216,7 +216,7 @@ function GlossaryChecker() {
           >
             <Brain size={28} className="text-white" />
           </div>
-          <h2 className="text-[20px] font-black text-slate-100 mb-2" style={{ fontFamily: 'Sora, sans-serif' }}>
+            <h2 className="text-[20px] font-black text-foreground mb-2" style={{ fontFamily: 'Sora, sans-serif' }}>
             Glossary Checker
           </h2>
           <p className="text-[13px] text-foreground leading-relaxed mb-6">
@@ -258,7 +258,7 @@ function GlossaryChecker() {
               { icon: Zap, label: 'Pick the right term' },
               { icon: Trophy, label: 'Track your score' },
             ].map(({ icon: Icon, label }) => (
-              <div key={label} className="rounded-xl p-3" style={{ backgroundColor: 'rgba(255,255,255,0.06)' }}>
+              <div key={label} className="rounded-xl p-3" style={{ backgroundColor: 'rgba(0,0,0,0.04)' }}>
                 <Icon size={16} className="mx-auto mb-1.5 text-foreground" />
                 <p className="text-[10px] font-semibold text-foreground leading-tight">{label}</p>
               </div>
@@ -284,7 +284,7 @@ function GlossaryChecker() {
         >
           <div className="text-center mb-6">
             <Trophy size={40} className="mx-auto mb-3" style={{ color: gradeColor }} />
-            <h2 className="text-[22px] font-black text-slate-100 mb-1" style={{ fontFamily: 'Sora, sans-serif' }}>
+            <h2 className="text-[22px] font-black text-foreground mb-1" style={{ fontFamily: 'Sora, sans-serif' }}>
               {grade}
             </h2>
             <p className="text-[13px] text-foreground">
@@ -296,7 +296,7 @@ function GlossaryChecker() {
           <div className="flex justify-center mb-6">
             <div className="relative w-24 h-24">
               <svg viewBox="0 0 100 100" className="w-full h-full -rotate-90">
-                <circle cx="50" cy="50" r="40" fill="none" stroke="rgba(255,255,255,0.12)" strokeWidth="10" />
+                <circle cx="50" cy="50" r="40" fill="none" stroke="rgba(0,0,0,0.1)" strokeWidth="10" />
                 <circle
                   cx="50" cy="50" r="40" fill="none"
                   stroke={gradeColor} strokeWidth="10"
@@ -305,7 +305,7 @@ function GlossaryChecker() {
                 />
               </svg>
               <div className="absolute inset-0 flex items-center justify-center">
-                <span className="text-[18px] font-black text-slate-100">{pct}%</span>
+                <span className="text-[18px] font-black text-foreground">{pct}%</span>
               </div>
             </div>
           </div>
@@ -342,7 +342,7 @@ function GlossaryChecker() {
             <button
               onClick={() => setState('idle')}
               className="flex-1 py-3 rounded-2xl text-[13px] font-bold transition-all"
-              style={{ backgroundColor: 'rgba(255,255,255,0.06)', color: '#57534e' }}
+              style={{ backgroundColor: 'rgba(0,0,0,0.05)', color: '#57534e' }}
             >
               Change Settings
             </button>
@@ -417,9 +417,9 @@ function GlossaryChecker() {
           const isCorrect = idx === current.correctIndex;
           const revealed = state === 'answered';
 
-          let bg = 'rgba(255,255,255,0.06)';
-          let border = 'rgba(255,255,255,0.12)';
-          let textColor = '#e2e8f0';
+          let bg = 'rgba(0,0,0,0.04)';
+          let border = 'rgba(0,0,0,0.1)';
+          let textColor = 'var(--foreground)';
           let icon = null;
 
           if (revealed) {
@@ -430,7 +430,7 @@ function GlossaryChecker() {
               bg = 'rgba(248,113,113,0.15)'; border = '#f87171'; textColor = '#fca5a5';
               icon = <XCircle size={16} className="shrink-0" style={{ color: '#f87171' }} />;
             } else {
-              bg = 'rgba(255,255,255,0.03)'; border = 'rgba(255,255,255,0.06)'; textColor = '#64748b';
+              bg = 'rgba(0,0,0,0.02)'; border = 'rgba(0,0,0,0.05)'; textColor = '#64748b';
             }
           }
 
@@ -547,7 +547,7 @@ export default function GlossaryPage() {
             {/* Tab toggle */}
             <div
               className="flex rounded-xl overflow-hidden"
-              style={{ backgroundColor: 'rgba(255,255,255,0.06)', padding: '2px' }}
+              style={{ backgroundColor: 'rgba(0,0,0,0.06)', padding: '2px' }}
             >
               {(['browse', 'checker'] as const).map(tab => (
                 <button
@@ -593,7 +593,7 @@ export default function GlossaryPage() {
                   onClick={() => setSelectedCategory(null)}
                   className="shrink-0 px-2.5 py-1 rounded-full text-[10px] font-bold transition-all"
                   style={{
-                    backgroundColor: !selectedCategory ? '#6366f1' : 'rgba(255,255,255,0.07)',
+                    backgroundColor: !selectedCategory ? '#6366f1' : 'rgba(0,0,0,0.06)',
                     color: !selectedCategory ? '#fff' : '#57534e',
                   }}
                 >
@@ -631,7 +631,7 @@ export default function GlossaryPage() {
                   onClick={() => scrollToLetter(letter)}
                   className="shrink-0 w-7 h-7 rounded-lg text-[11px] font-black transition-all"
                   style={{
-                    backgroundColor: activeLetter === letter ? '#6366f1' : 'rgba(255,255,255,0.06)',
+                    backgroundColor: activeLetter === letter ? '#6366f1' : 'rgba(0,0,0,0.06)',
                     color: activeLetter === letter ? '#fff' : '#78716c',
                   }}
                 >
@@ -681,11 +681,11 @@ export default function GlossaryPage() {
                       <div className="flex items-center gap-2 mb-2">
                         <div
                           className="w-8 h-8 rounded-xl flex items-center justify-center text-[14px] font-black"
-                          style={{ backgroundColor: 'rgba(255,255,255,0.07)', color: '#e2e8f0' }}
+                          style={{ backgroundColor: 'rgba(0,0,0,0.06)', color: 'var(--foreground)' }}
                         >
                           {letter}
                         </div>
-                        <div className="flex-1 h-px bg-white/15" />
+                        <div className="flex-1 h-px bg-border" />
                         <span className="text-[10px] text-foreground font-semibold">{terms.length}</span>
                       </div>
                       <div className="space-y-2">

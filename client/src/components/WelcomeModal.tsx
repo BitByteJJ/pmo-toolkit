@@ -3,7 +3,7 @@
  *
  * Stored in localStorage under key 'pmo-welcome-seen'.
  * Offers two paths:
- *   1. "Help me find the right tool" → /decision (Decision Helper)
+ *   1. "Help me find the right tool" → /ai-suggest (AI Tool Finder)
  *   2. "I'll explore on my own" → dismisses modal
  */
 
@@ -62,7 +62,9 @@ export default function WelcomeModal() {
             className="w-full max-w-sm rounded-3xl overflow-hidden"
             style={{
               background: isDark ? '#0f1c30' : '#ffffff',
-              boxShadow: '0 24px 64px rgba(0,0,0,0.6), 0 4px 16px rgba(0,0,0,0.4), 0 0 0 1px rgba(255,255,255,0.08)',
+              boxShadow: isDark
+                ? '0 24px 64px rgba(0,0,0,0.6), 0 4px 16px rgba(0,0,0,0.4), 0 0 0 1px rgba(255,255,255,0.08)'
+                : '0 24px 64px rgba(0,0,0,0.18), 0 4px 16px rgba(0,0,0,0.1), 0 0 0 1px rgba(0,0,0,0.06)',
             }}
             onClick={e => e.stopPropagation()}
           >
@@ -72,10 +74,11 @@ export default function WelcomeModal() {
             {/* Close button */}
             <button
               onClick={dismiss}
-              className="absolute top-4 right-4 p-1.5 rounded-full hover:bg-white/10 transition-colors"
+              className="absolute top-4 right-4 p-1.5 rounded-full transition-colors"
+              style={{ background: isDark ? 'rgba(255,255,255,0.08)' : 'rgba(0,0,0,0.06)' }}
               aria-label="Close"
             >
-              <X size={14} className="text-slate-300" />
+              <X size={14} className={isDark ? 'text-slate-300' : 'text-slate-600'} />
             </button>
 
             <div className="px-6 pt-6 pb-7">
@@ -89,12 +92,12 @@ export default function WelcomeModal() {
 
               {/* Headline */}
               <h2
-                className="text-xl font-black text-slate-100 leading-tight mb-2"
-                style={{ fontFamily: 'Sora, sans-serif' }}
+                className="text-xl font-black leading-tight mb-2"
+                style={{ fontFamily: 'Sora, sans-serif', color: isDark ? '#f1f5f9' : '#0f172a' }}
               >
                 Welcome to StratAlign
               </h2>
-              <p className="text-sm text-slate-300 leading-relaxed mb-5">
+              <p className="text-sm leading-relaxed mb-5" style={{ color: isDark ? '#94a3b8' : '#475569' }}>
                 198 project management tools, techniques, and frameworks — all in one place.
                 Not sure where to start? Let us point you in the right direction.
               </p>
@@ -107,7 +110,7 @@ export default function WelcomeModal() {
                   className="w-full flex items-center gap-3 rounded-2xl px-4 py-3.5 text-left transition-all hover:opacity-90 active:scale-[0.98]"
                   style={{ background: 'linear-gradient(135deg, #4F46E5 0%, #7C3AED 100%)' }}
                 >
-                  <div className="w-8 h-8 rounded-xl bg-card/20 flex items-center justify-center shrink-0">
+                  <div className="w-8 h-8 rounded-xl bg-white/20 flex items-center justify-center shrink-0">
                     <Sparkles size={16} className="text-white" />
                   </div>
                   <div className="flex-1">
@@ -120,21 +123,31 @@ export default function WelcomeModal() {
                 {/* Secondary CTA */}
                 <button
                   onClick={dismiss}
-                  className="w-full flex items-center gap-3 rounded-2xl px-4 py-3 text-left transition-all hover:bg-white/5 active:scale-[0.98]"
-                  style={{ border: '1.5px solid rgba(255,255,255,0.12)', background: 'rgba(255,255,255,0.04)' }}
+                  className="w-full flex items-center gap-3 rounded-2xl px-4 py-3 text-left transition-all active:scale-[0.98]"
+                  style={{
+                    border: isDark ? '1.5px solid rgba(255,255,255,0.12)' : '1.5px solid rgba(0,0,0,0.1)',
+                    background: isDark ? 'rgba(255,255,255,0.04)' : 'rgba(0,0,0,0.03)',
+                  }}
                 >
-                  <div className="w-8 h-8 rounded-xl bg-white/10 flex items-center justify-center shrink-0">
-                    <Layers size={16} className="text-slate-300" />
+                  <div
+                    className="w-8 h-8 rounded-xl flex items-center justify-center shrink-0"
+                    style={{ background: isDark ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.07)' }}
+                  >
+                    <Layers size={16} className={isDark ? 'text-slate-300' : 'text-slate-600'} />
                   </div>
                   <div className="flex-1">
-                    <p className="text-sm font-bold text-slate-300 leading-tight">I'll explore on my own</p>
-                    <p className="text-[11px] text-slate-300 mt-0.5">Browse all 8 decks and 198 cards</p>
+                    <p className="text-sm font-bold leading-tight" style={{ color: isDark ? '#cbd5e1' : '#334155' }}>
+                      I'll explore on my own
+                    </p>
+                    <p className="text-[11px] mt-0.5" style={{ color: isDark ? '#94a3b8' : '#64748b' }}>
+                      Browse all 8 decks and 198 cards
+                    </p>
                   </div>
                 </button>
               </div>
 
               {/* Footnote */}
-              <p className="text-[10px] text-slate-400 text-center mt-4">
+              <p className="text-[10px] text-center mt-4" style={{ color: isDark ? '#64748b' : '#94a3b8' }}>
                 You won't see this again — it's a one-time welcome.
               </p>
             </div>

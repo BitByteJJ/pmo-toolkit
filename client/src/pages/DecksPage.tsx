@@ -281,7 +281,7 @@ export default function DecksPage() {
                 const hasBoth = deckBadges.length >= 2;
                 const hasOne = deckBadges.length === 1;
                 return (
-                  <div key={d.id} title={`${d.title}${hasBoth ? ' — Mastered!' : hasOne ? ' — 1 badge' : ''}`} className="w-6 h-6 rounded-full flex items-center justify-center" style={{ backgroundColor: hasBoth ? d.color : hasOne ? d.color + '50' : 'rgba(255,255,255,0.08)' }}>
+                  <div key={d.id} title={`${d.title}${hasBoth ? ' — Mastered!' : hasOne ? ' — 1 badge' : ''}`} className="w-6 h-6 rounded-full flex items-center justify-center" style={{ backgroundColor: hasBoth ? d.color : hasOne ? d.color + '50' : 'rgba(0,0,0,0.06)' }}>
                     {(hasBoth || hasOne) && <Star size={10} className={hasBoth ? 'text-white' : ''} style={hasOne && !hasBoth ? { color: d.color } : {}} />}
                   </div>
                 );

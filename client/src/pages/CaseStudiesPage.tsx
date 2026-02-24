@@ -168,8 +168,8 @@ export default function CaseStudiesPage() {
               onClick={() => setShowFilters(v => !v)}
               className="relative flex items-center gap-1.5 px-3 py-2 rounded-xl text-[11px] font-bold transition-all"
               style={{
-                backgroundColor: showFilters || activeFilterCount > 0 ? 'rgba(255,255,255,0.12)' : 'rgba(255,255,255,0.06)',
-                color: '#e2e8f0',
+                backgroundColor: showFilters || activeFilterCount > 0 ? 'rgba(0,0,0,0.1)' : 'rgba(0,0,0,0.05)',
+                color: 'var(--foreground)',
               }}
             >
               <Filter size={12} />
@@ -215,7 +215,7 @@ export default function CaseStudiesPage() {
               animate={{ height: 'auto', opacity: 1 }}
               exit={{ height: 0, opacity: 0 }}
               transition={{ duration: 0.22 }}
-              className="overflow-hidden border-t border-white/8"
+              className="overflow-hidden border-t border-border"
             >
               <div className="max-w-2xl mx-auto px-4 py-3 space-y-3">
                 {/* Deck filter */}
@@ -248,7 +248,7 @@ export default function CaseStudiesPage() {
                         onClick={() => setSelectedIndustry(selectedIndustry === ind ? null : ind)}
                         className="px-2.5 py-1 rounded-full text-[10px] font-semibold transition-all"
                         style={{
-                          backgroundColor: selectedIndustry === ind ? '#6366f1' : 'rgba(255,255,255,0.07)',
+                          backgroundColor: selectedIndustry === ind ? '#6366f1' : 'rgba(0,0,0,0.05)',
                           color: selectedIndustry === ind ? '#fff' : '#57534e',
                         }}
                       >

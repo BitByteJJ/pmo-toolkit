@@ -176,7 +176,7 @@ export default function TemplateLibrary() {
             <FileText size={16} className="text-white" />
           </div>
           <div>
-            <h1 className="text-base font-bold text-white" style={{ fontFamily: 'Sora, sans-serif' }}>Template Library</h1>
+            <h1 className="text-base font-bold text-foreground" style={{ fontFamily: 'Sora, sans-serif' }}>Template Library</h1>
             <p className="text-[10px] text-foreground">{allTemplates.length} fillable templates</p>
           </div>
         </div>
@@ -226,9 +226,9 @@ export default function TemplateLibrary() {
                   { icon: '✏️', label: 'Fillable', sub: 'Rich fields, dynamic rows, date pickers' },
                   { icon: '⬇️', label: 'Download', sub: 'PDF or Word with branding & copyright' },
                 ].map(f => (
-                  <div key={f.label} className="rounded-xl p-3 text-center" style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.08)' }}>
+                  <div key={f.label} className="rounded-xl p-3 text-center" style={{ background: isDark ? 'rgba(255,255,255,0.05)' : 'rgba(0,0,0,0.04)', border: isDark ? '1px solid rgba(255,255,255,0.08)' : '1px solid rgba(0,0,0,0.08)' }}>
                     <div className="text-2xl mb-1">{f.icon}</div>
-                    <div className="text-xs font-bold text-white mb-0.5">{f.label}</div>
+                    <div className="text-xs font-bold text-foreground mb-0.5">{f.label}</div>
                     <div className="text-[10px] text-foreground leading-tight">{f.sub}</div>
                   </div>
                 ))}
@@ -249,7 +249,7 @@ export default function TemplateLibrary() {
                 <button
                   onClick={() => setStep('browse')}
                   className="w-full py-3 rounded-2xl font-semibold text-foreground flex items-center justify-center gap-2"
-                  style={{ background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.10)' }}
+                  style={{ background: isDark ? 'rgba(255,255,255,0.06)' : 'rgba(0,0,0,0.05)', border: isDark ? '1px solid rgba(255,255,255,0.10)' : '1px solid rgba(0,0,0,0.1)' }}
                 >
                   <LayoutGrid size={16} />
                   Browse All {allTemplates.length} Templates
@@ -316,7 +316,7 @@ export default function TemplateLibrary() {
               <div className="flex items-center gap-2 mb-4">
                 <CheckCircle2 size={20} className="text-emerald-400" />
                 <div>
-                  <h2 className="text-base font-bold text-white" style={{ fontFamily: 'Sora, sans-serif' }}>Recommended Templates</h2>
+                  <h2 className="text-base font-bold text-foreground" style={{ fontFamily: 'Sora, sans-serif' }}>Recommended Templates</h2>
                   <p className="text-xs text-foreground">{recommendedIds.length} templates matched your situation</p>
                 </div>
               </div>
@@ -341,7 +341,7 @@ export default function TemplateLibrary() {
               <button
                 onClick={() => setStep('browse')}
                 className="w-full py-3 rounded-xl text-sm font-semibold text-foreground flex items-center justify-center gap-2"
-                style={{ background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.10)' }}
+                style={{ background: isDark ? 'rgba(255,255,255,0.06)' : 'rgba(0,0,0,0.05)', border: isDark ? '1px solid rgba(255,255,255,0.10)' : '1px solid rgba(0,0,0,0.1)' }}
               >
                 <LayoutGrid size={14} /> Browse All Templates
               </button>
@@ -359,8 +359,8 @@ export default function TemplateLibrary() {
                   placeholder="Search templates…"
                   value={searchQuery}
                   onChange={e => setSearchQuery(e.target.value)}
-                  className="w-full pl-9 pr-4 py-2.5 rounded-xl text-sm text-white placeholder-slate-500 outline-none"
-                  style={{ background: 'rgba(255,255,255,0.07)', border: '1px solid rgba(255,255,255,0.10)' }}
+                  className="w-full pl-9 pr-4 py-2.5 rounded-xl text-sm text-foreground placeholder-muted-foreground outline-none"
+                  style={{ background: isDark ? 'rgba(255,255,255,0.07)' : 'rgba(0,0,0,0.05)', border: isDark ? '1px solid rgba(255,255,255,0.10)' : '1px solid rgba(0,0,0,0.1)' }}
                 />
                 {searchQuery && (
                   <button onClick={() => setSearchQuery('')} className="absolute right-3 top-1/2 -translate-y-1/2">
@@ -376,7 +376,7 @@ export default function TemplateLibrary() {
                   className="shrink-0 px-3 py-1.5 rounded-full text-xs font-semibold transition-colors"
                   style={activeDeck === 'all'
                     ? { background: '#0284C7', color: '#fff' }
-                    : { background: 'rgba(255,255,255,0.07)', color: '#94a3b8' }}
+                    : { background: isDark ? 'rgba(255,255,255,0.07)' : 'rgba(0,0,0,0.06)', color: isDark ? '#94a3b8' : '#475569' }}
                 >
                   All ({allTemplates.length})
                 </button>
@@ -390,7 +390,7 @@ export default function TemplateLibrary() {
                       className="shrink-0 px-3 py-1.5 rounded-full text-xs font-semibold transition-colors"
                       style={activeDeck === deck.id
                         ? { background: theme.color, color: '#fff' }
-                        : { background: 'rgba(255,255,255,0.07)', color: '#94a3b8' }}
+                        : { background: isDark ? 'rgba(255,255,255,0.07)' : 'rgba(0,0,0,0.06)', color: isDark ? '#94a3b8' : '#475569' }}
                     >
                       {deck.title} ({count})
                     </button>
@@ -448,6 +448,7 @@ function QuestionCard({
   onAnswer: (value: string) => void;
   onBack: () => void;
 }) {
+  const { isDark } = useTheme();
   return (
     <div>
       <div className="flex items-center gap-2 mb-4">
@@ -456,12 +457,12 @@ function QuestionCard({
         </button>
         <span className="text-xs text-muted-foreground font-semibold">{stepLabel}</span>
       </div>
-      <div className="rounded-2xl p-5 mb-4" style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.08)' }}>
+      <div className="rounded-2xl p-5 mb-4" style={{ background: isDark ? 'rgba(255,255,255,0.05)' : 'rgba(0,0,0,0.04)', border: isDark ? '1px solid rgba(255,255,255,0.08)' : '1px solid rgba(0,0,0,0.08)' }}>
         <div className="flex items-center gap-2 mb-1">
           <Sparkles size={16} className="text-yellow-400" />
           <span className="text-xs text-yellow-400 font-semibold">AI Template Finder</span>
         </div>
-        <h2 className="text-lg font-bold text-white leading-snug" style={{ fontFamily: 'Sora, sans-serif' }}>
+        <h2 className="text-lg font-bold text-foreground leading-snug" style={{ fontFamily: 'Sora, sans-serif' }}>
           {question.text}
         </h2>
       </div>
@@ -472,7 +473,7 @@ function QuestionCard({
             whileTap={{ scale: 0.97 }}
             onClick={() => onAnswer(opt.value)}
             className="flex items-center gap-3 p-4 rounded-xl text-left transition-colors"
-            style={{ background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.09)' }}
+            style={{ background: isDark ? 'rgba(255,255,255,0.06)' : 'rgba(0,0,0,0.04)', border: isDark ? '1px solid rgba(255,255,255,0.09)' : '1px solid rgba(0,0,0,0.08)' }}
           >
             {opt.icon && <span className="text-xl shrink-0">{opt.icon}</span>}
             <span className="text-sm font-semibold text-foreground">{opt.label}</span>
@@ -494,12 +495,13 @@ function TemplateCard({
   rank?: number;
   onOpen: () => void;
 }) {
+  const { isDark } = useTheme();
   return (
     <motion.button
       whileTap={{ scale: 0.98 }}
       onClick={onOpen}
       className="flex items-start gap-3 p-4 rounded-2xl text-left w-full"
-      style={{ background: 'rgba(255,255,255,0.04)', border: `1px solid ${theme.color}33` }}
+      style={{ background: isDark ? 'rgba(255,255,255,0.04)' : 'rgba(0,0,0,0.03)', border: `1px solid ${theme.color}33` }}
     >
       {/* Rank badge */}
       {rank && (
@@ -521,7 +523,7 @@ function TemplateCard({
           </span>
           <span className="text-[10px] font-medium" style={{ color: theme.color, opacity: 0.7 }}>{theme.title}</span>
         </div>
-        <h3 className="text-sm font-bold text-white leading-snug mb-0.5" style={{ fontFamily: 'Sora, sans-serif' }}>
+        <h3 className="text-sm font-bold text-foreground leading-snug mb-0.5" style={{ fontFamily: 'Sora, sans-serif' }}>
           {template.title}
         </h3>
         <p className="text-[11px] text-foreground leading-relaxed line-clamp-2">{template.description}</p>

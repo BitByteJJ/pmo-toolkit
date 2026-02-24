@@ -964,8 +964,8 @@ export function VideoGuide({ data }: VideoGuideProps) {
       </div>
 
       {/* Narration text */}
-      <div className="rounded-2xl p-4 text-xs text-slate-300 leading-relaxed" style={{ backgroundColor: '#0f1c30', border: '1px solid rgba(255,255,255,0.08)' }}>
-        <span className="font-semibold text-slate-400 text-[10px] uppercase tracking-wide block mb-1">Narration</span>
+      <div className="rounded-2xl p-4 text-xs text-foreground leading-relaxed bg-card border border-border">
+        <span className="font-semibold text-muted-foreground text-[10px] uppercase tracking-wide block mb-1">Narration</span>
         {currentScene.narration}
       </div>
 

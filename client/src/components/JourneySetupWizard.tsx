@@ -147,7 +147,8 @@ export default function JourneySetupWizard({ onComplete }: Props) {
               {step > 0 && (
                 <button
                   onClick={goBack}
-                  className="p-1.5 rounded-full hover:bg-white/10 transition-colors"
+                  className="p-1.5 rounded-full transition-colors"
+                  style={{ background: isDark ? 'rgba(255,255,255,0.08)' : 'rgba(0,0,0,0.06)' }}
                   aria-label="Back"
                 >
                   <ArrowLeft size={14} className="text-slate-400" />
@@ -168,7 +169,7 @@ export default function JourneySetupWizard({ onComplete }: Props) {
                   className="rounded-full transition-all duration-300"
                   animate={{
                     width: i === step ? 16 : 6,
-                    backgroundColor: i <= step ? '#7c3aed' : 'rgba(255,255,255,0.15)',
+                    backgroundColor: i <= step ? '#7c3aed' : (isDark ? 'rgba(255,255,255,0.15)' : 'rgba(0,0,0,0.15)'),
                   }}
                   style={{ height: 6 }}
                 />

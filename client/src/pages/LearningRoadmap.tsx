@@ -34,13 +34,13 @@ function LevelCard({
         /* Frosted glass base */
         background: selected
           ? `linear-gradient(135deg, ${journey.color}28 0%, ${journey.color}10 100%)`
-          : 'rgba(255,255,255,0.04)',
+          : 'rgba(0,0,0,0.03)',
         backdropFilter: 'blur(12px) saturate(1.4)',
         WebkitBackdropFilter: 'blur(12px) saturate(1.4)',
-        border: `1.5px solid ${selected ? journey.color + '55' : 'rgba(255,255,255,0.09)'}`,
+        border: `1.5px solid ${selected ? journey.color + '55' : 'rgba(0,0,0,0.08)'}`,
         boxShadow: selected
-          ? `0 0 0 1px ${journey.color}22, 0 8px 24px ${journey.color}22, inset 0 1px 0 rgba(255,255,255,0.08)`
-          : 'inset 0 1px 0 rgba(255,255,255,0.05)',
+          ? `0 0 0 1px ${journey.color}22, 0 8px 24px ${journey.color}22`
+          : '0 1px 3px rgba(0,0,0,0.06)',
       }}
     >
       {/* Subtle accent glow strip at top when selected */}
@@ -86,7 +86,7 @@ function LevelCard({
             className="text-[15px] font-black leading-tight mb-1.5"
             style={{
               fontFamily: 'Sora, sans-serif',
-              color: selected ? '#f1f5f9' : '#cbd5e1',
+              color: 'var(--foreground)',
             }}
           >
             {journey.title}
@@ -105,23 +105,23 @@ function LevelCard({
             </span>
             <span
               className="text-[9px] font-semibold px-2 py-0.5 rounded-full"
-              style={{
-                background: 'rgba(255,255,255,0.06)',
-                color: '#94a3b8',
-                border: '1px solid rgba(255,255,255,0.08)',
-              }}
-            >
-              ~{journey.totalWeeks} weeks
+            style={{
+              background: 'rgba(0,0,0,0.05)',
+              color: '#64748b',
+              border: '1px solid rgba(0,0,0,0.08)',
+            }}
+          >
+            ~{journey.totalWeeks} weeks
             </span>
             <span
               className="text-[9px] font-semibold px-2 py-0.5 rounded-full"
-              style={{
-                background: 'rgba(255,255,255,0.06)',
-                color: '#94a3b8',
-                border: '1px solid rgba(255,255,255,0.08)',
-              }}
-            >
-              {journey.sections.length} sections
+            style={{
+              background: 'rgba(0,0,0,0.05)',
+              color: '#64748b',
+              border: '1px solid rgba(0,0,0,0.08)',
+            }}
+          >
+            {journey.sections.length} sections
             </span>
           </div>
         </div>
@@ -134,7 +134,7 @@ function LevelCard({
         >
           <ChevronDown
             size={16}
-            style={{ color: selected ? journey.color : 'rgba(255,255,255,0.25)' }}
+            style={{ color: selected ? journey.color : 'rgba(0,0,0,0.3)' }}
           />
         </motion.div>
       </div>
@@ -176,7 +176,7 @@ function RoadmapStep({
           style={{
             background: isRead
               ? `linear-gradient(to bottom, ${journey.color}60, ${journey.color}20)`
-              : 'rgba(255,255,255,0.08)',
+              : 'rgba(0,0,0,0.08)',
             height: 'calc(100% - 8px)',
           }}
         />
@@ -201,8 +201,8 @@ function RoadmapStep({
             <div
               className="w-9 h-9 rounded-full flex items-center justify-center"
               style={{
-                background: 'rgba(255,255,255,0.04)',
-                border: '1.5px solid rgba(255,255,255,0.08)',
+                background: 'rgba(0,0,0,0.04)',
+                border: '1.5px solid rgba(0,0,0,0.08)',
               }}
             >
               <Lock size={13} className="text-slate-600" />
@@ -231,22 +231,20 @@ function RoadmapStep({
             background: isRead
               ? `linear-gradient(135deg, ${journey.color}12, ${journey.color}06)`
               : isLocked
-              ? 'rgba(255,255,255,0.02)'
-              : 'rgba(255,255,255,0.05)',
+              ? 'rgba(0,0,0,0.02)'
+              : 'rgba(0,0,0,0.03)',
             backdropFilter: 'blur(8px)',
             WebkitBackdropFilter: 'blur(8px)',
             border: `1.5px solid ${
               isRead
                 ? journey.color + '35'
                 : isLocked
-                ? 'rgba(255,255,255,0.05)'
-                : 'rgba(255,255,255,0.10)'
+                ? 'rgba(0,0,0,0.06)'
+                : 'rgba(0,0,0,0.1)'
             }`,
             boxShadow: isRead
-              ? `inset 0 1px 0 ${journey.color}20`
-              : isLocked
-              ? 'none'
-              : 'inset 0 1px 0 rgba(255,255,255,0.06)',
+              ? `0 1px 4px ${journey.color}20`
+              : 'none',
             opacity: isLocked ? 0.45 : 1,
             cursor: isLocked ? 'default' : 'pointer',
           }}
@@ -300,14 +298,14 @@ function RoadmapStep({
                 className="text-[13px] font-bold leading-tight mb-1"
                 style={{
                   fontFamily: 'Sora, sans-serif',
-                  color: isLocked ? '#475569' : isRead ? '#f1f5f9' : '#e2e8f0',
+                  color: 'var(--foreground)',
                 }}
               >
                 {card.title}
               </h4>
               <p
                 className="text-[11px] leading-relaxed"
-                style={{ color: isLocked ? '#334155' : '#7c8fa8' }}
+                style={{ color: isLocked ? 'var(--muted-foreground)' : 'var(--muted-foreground)' }}
               >
                 {step.rationale}
               </p>
@@ -376,7 +374,7 @@ function JourneyRoadmap({ journey }: { journey: LearningJourney }) {
                 Your Progress
               </div>
               <div
-                className="text-[14px] font-black text-slate-100"
+                className="text-[14px] font-black text-foreground"
                 style={{ fontFamily: 'Sora, sans-serif' }}
               >
                 {completedSteps} of {totalSteps} cards read
@@ -431,8 +429,8 @@ function JourneyRoadmap({ journey }: { journey: LearningJourney }) {
             </div>
             <div className="flex-1 min-w-0">
               <div
-                className="text-[12px] font-black leading-tight"
-                style={{ fontFamily: 'Sora, sans-serif', color: '#f1f5f9' }}
+                className="text-[12px] font-black leading-tight text-foreground"
+                style={{ fontFamily: 'Sora, sans-serif' }}
               >
                 {section.title}
               </div>
@@ -522,14 +520,14 @@ export default function LearningRoadmap() {
           background: isDark ? 'rgba(10,22,40,0.92)' : 'rgba(241,245,249,0.92)',
           backdropFilter: 'blur(20px) saturate(1.4)',
           WebkitBackdropFilter: 'blur(20px) saturate(1.4)',
-          borderBottom: '1px solid rgba(255,255,255,0.07)',
-          boxShadow: '0 4px 24px rgba(0,0,0,0.25)',
+          borderBottom: isDark ? '1px solid rgba(255,255,255,0.07)' : '1px solid rgba(0,0,0,0.08)',
+          boxShadow: '0 4px 24px rgba(0,0,0,0.08)',
         }}
       >
         <div className="max-w-lg mx-auto py-3 flex items-center justify-between">
           <div>
             <h1
-              className="text-[18px] font-black text-slate-100 leading-tight"
+              className="text-[18px] font-black text-foreground leading-tight"
               style={{ fontFamily: 'Sora, sans-serif' }}
             >
               Learning Roadmap

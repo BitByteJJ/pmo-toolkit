@@ -43,7 +43,8 @@ function RecommendationCard({ rec, index }: { rec: Recommendation; index: number
   const card = getCardById(rec.cardId);
   const deck = card ? DECKS.find(d => d.id === card.deckId) : null;
   const accentColor = deck?.color ?? '#475569';
-  const bgColor = deck ? (deck.color + '18') : 'rgba(255,255,255,0.06)';
+  const { isDark } = useTheme();
+  const bgColor = deck ? (deck.color + '18') : (isDark ? 'rgba(255,255,255,0.06)' : 'rgba(0,0,0,0.05)');
 
   return (
     <motion.button
@@ -74,7 +75,7 @@ function RecommendationCard({ rec, index }: { rec: Recommendation; index: number
             <div className="flex items-center gap-2 mb-1">
               <span
                 className="text-[10px] font-mono font-bold px-1.5 py-0.5 rounded-md"
-                style={{ backgroundColor: deck ? (accentColor + '20') : 'rgba(255,255,255,0.06)', color: accentColor }}
+                style={{ backgroundColor: deck ? (accentColor + '20') : (isDark ? 'rgba(255,255,255,0.06)' : 'rgba(0,0,0,0.05)'), color: accentColor }}
               >
                 {rec.code}
               </span>
@@ -87,7 +88,7 @@ function RecommendationCard({ rec, index }: { rec: Recommendation; index: number
 
             {/* Title */}
             <h3
-              className="text-base font-bold leading-tight text-slate-100 mb-1"
+              className="text-base font-bold leading-tight text-foreground mb-1"
               style={{ fontFamily: "'Sora', sans-serif" }}
             >
               {rec.title}
@@ -419,11 +420,11 @@ export default function AiSuggest() {
               className="rounded-2xl p-4 mb-4 border"
               style={{ backgroundColor: 'rgba(244,63,94,0.12)', borderColor: 'rgba(244,63,94,0.3)' }}
             >
-              <p className="text-sm font-semibold text-rose-300 mb-1">Something went wrong</p>
-              <p className="text-xs text-rose-300 mb-3">{error}</p>
+              <p className="text-sm font-semibold text-rose-500 dark:text-rose-300 mb-1">Something went wrong</p>
+              <p className="text-xs text-rose-500 dark:text-rose-300 mb-3">{error}</p>
               <button
                 onClick={handleReset}
-                className="flex items-center gap-1.5 text-xs font-semibold text-rose-300 hover:text-rose-100"
+                className="flex items-center gap-1.5 text-xs font-semibold text-rose-500 dark:text-rose-300 hover:text-rose-700 dark:hover:text-rose-100"
               >
                 <RotateCcw size={12} />
                 Try again

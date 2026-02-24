@@ -146,7 +146,7 @@ export default function SprintMode({ deckId, startIndex = 0, onClose }: SprintMo
                     animate={{ opacity: 1, scale: 1 }}
                     exit={{ opacity: 0, scale: 0.96 }}
                     transition={{ duration: 0.22 }}
-                    className="absolute inset-0 flex flex-col p-6" style={{ backgroundColor: '#0f1c30' }}
+                    className="absolute inset-0 flex flex-col p-6 bg-card"
                   >
                     {/* Colour top bar */}
                     <div className="absolute top-0 left-0 right-0 h-2 rounded-t-3xl" style={{ backgroundColor: deck.color }} />
@@ -154,7 +154,7 @@ export default function SprintMode({ deckId, startIndex = 0, onClose }: SprintMo
                     <div className="flex items-start justify-between mt-3 mb-4">
                       <span
                         className="text-[10px] font-mono font-bold px-2 py-1 rounded-lg"
-                        style={{ backgroundColor: 'rgba(255,255,255,0.08)', color: deck.color }}
+                        style={{ backgroundColor: deck.color + '15', color: deck.color }}
                       >
                         {card.code}
                       </span>
@@ -168,11 +168,11 @@ export default function SprintMode({ deckId, startIndex = 0, onClose }: SprintMo
                     <div className="flex-1 flex flex-col justify-center items-center">
                       <h2
                         className="text-2xl font-black leading-tight mb-2 text-center"
-                        style={{ fontFamily: 'Sora, sans-serif', color: '#f1f5f9', letterSpacing: '-0.02em' }}
+                        style={{ fontFamily: 'Sora, sans-serif', letterSpacing: '-0.02em' }}
                       >
                         {card.title}
                       </h2>
-                      <p className="text-sm text-slate-300 leading-relaxed text-center mb-4">{card.tagline}</p>
+                      <p className="text-sm text-muted-foreground leading-relaxed text-center mb-4">{card.tagline}</p>
 
                       {/* Card illustration */}
                       {getCardIllustration(card.id) && (
@@ -191,7 +191,7 @@ export default function SprintMode({ deckId, startIndex = 0, onClose }: SprintMo
                           <div
                             className="absolute inset-0 pointer-events-none"
                             style={{
-                              background: 'radial-gradient(circle, transparent 55%, rgba(15,28,48,0.9) 90%)',
+                              background: 'radial-gradient(circle, transparent 55%, var(--card) 90%)',
                             }}
                           />
                         </div>
@@ -218,8 +218,7 @@ export default function SprintMode({ deckId, startIndex = 0, onClose }: SprintMo
                     animate={{ opacity: 1, scale: 1 }}
                     exit={{ opacity: 0, scale: 0.96 }}
                     transition={{ duration: 0.22 }}
-                    className="absolute inset-0 flex flex-col p-6"
-                    style={{ backgroundColor: '#0f1c30' }}
+                    className="absolute inset-0 flex flex-col p-6 bg-card"
                   >
                     {/* Colour top bar */}
                     <div className="absolute top-0 left-0 right-0 h-2 rounded-t-3xl" style={{ backgroundColor: deck.color }} />
@@ -244,7 +243,7 @@ export default function SprintMode({ deckId, startIndex = 0, onClose }: SprintMo
                           <div className="text-[9px] font-black uppercase tracking-widest mb-1" style={{ color: deck.color }}>
                             What it is
                           </div>
-                          <p className="text-[12px] text-slate-300 leading-relaxed">{card.whatItIs}</p>
+                          <p className="text-[12px] text-foreground leading-relaxed">{card.whatItIs}</p>
                         </div>
                       )}
                       {card.proTip && (
@@ -255,7 +254,7 @@ export default function SprintMode({ deckId, startIndex = 0, onClose }: SprintMo
                           <div className="text-[9px] font-black uppercase tracking-widest mb-1" style={{ color: deck.color }}>
                             Pro Tip
                           </div>
-                          <p className="text-[11px] text-slate-300 leading-relaxed">{card.proTip}</p>
+                          <p className="text-[11px] text-foreground leading-relaxed">{card.proTip}</p>
                         </div>
                       )}
                     </div>

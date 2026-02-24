@@ -73,8 +73,8 @@ function CardStudyModal({
           />
           <button
             onClick={onClose}
-            className="absolute top-4 right-4 w-8 h-8 rounded-full flex items-center justify-center hover:bg-white/10 transition-colors"
-            style={{ background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.1)' }}
+            className="absolute top-4 right-4 w-8 h-8 rounded-full flex items-center justify-center hover:bg-muted transition-colors"
+            style={{ background: 'rgba(0,0,0,0.05)', border: '1px solid rgba(0,0,0,0.1)' }}
           >
             <X size={14} className="text-foreground" />
           </button>
@@ -85,7 +85,7 @@ function CardStudyModal({
             {card.code}
           </div>
           <h3
-            className="text-lg font-black leading-tight text-white"
+            className="text-lg font-black leading-tight text-foreground"
             style={{ fontFamily: 'Sora, sans-serif' }}
           >
             {card.title}
@@ -214,7 +214,7 @@ export default function EarnHeartPage() {
         <div className="flex items-center gap-3">
           <button
             onClick={() => navigate('/journey')}
-            className="w-8 h-8 flex items-center justify-center rounded-xl hover:bg-white/10 transition-colors"
+            className="w-8 h-8 flex items-center justify-center rounded-xl hover:bg-muted transition-colors"
           >
             <ArrowLeft size={18} className="text-foreground" />
           </button>

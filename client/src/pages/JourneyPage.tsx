@@ -51,6 +51,7 @@ function HeartsBar() {
 // ─── XP / LEVEL BAR ──────────────────────────────────────────────────────────
 function XPBar() {
   const { state, level, nextLevel, xpProgressPercent } = useJourney();
+  const { isDark } = useTheme();
   return (
     <div className="flex items-center gap-2 min-w-0">
       <div
@@ -62,7 +63,7 @@ function XPBar() {
       </div>
       {nextLevel && (
         <div className="flex items-center gap-1.5 min-w-0 flex-1">
-          <div className="flex-1 h-1.5 rounded-full overflow-hidden" style={{ background: 'rgba(255,255,255,0.08)' }}>
+          <div className="flex-1 h-1.5 rounded-full overflow-hidden" style={{ background: isDark ? 'rgba(255,255,255,0.08)' : 'rgba(0,0,0,0.1)' }}>
             <motion.div
               className="h-full rounded-full"
               style={{ background: 'linear-gradient(90deg, #f59e0b, #fbbf24)' }}
@@ -191,6 +192,7 @@ function DayNode({
 }) {
   const [, navigate] = useLocation();
   const { isDayCompleted, isDayLocked, state } = useJourney();
+  const { isDark } = useTheme();
   const completed = isDayCompleted(lesson.day);
   const locked = isDayLocked(lesson.day);
   const active = lesson.day === state.highestDayUnlocked && !completed;
@@ -228,19 +230,19 @@ function DayNode({
         }`}
         style={{
           background: locked
-            ? 'rgba(30,40,60,0.8)'
+            ? (isDark ? 'rgba(30,40,60,0.8)' : 'rgba(200,210,230,0.8)')
             : completed
             ? `linear-gradient(135deg, #059669, #10b981)`
             : active
             ? `linear-gradient(135deg, ${unitAccent}cc, ${unitAccent})`
-            : 'rgba(30,45,70,0.9)',
+            : (isDark ? 'rgba(30,45,70,0.9)' : 'rgba(220,230,245,0.9)'),
           border: locked
-            ? '2px solid rgba(255,255,255,0.06)'
+            ? (isDark ? '2px solid rgba(255,255,255,0.06)' : '2px solid rgba(0,0,0,0.1)')
             : completed
             ? '2px solid rgba(16,185,129,0.5)'
             : active
             ? `2px solid ${unitAccent}`
-            : '2px solid rgba(255,255,255,0.12)',
+            : (isDark ? '2px solid rgba(255,255,255,0.12)' : '2px solid rgba(0,0,0,0.15)'),
           boxShadow: locked
             ? 'none'
             : completed
@@ -261,7 +263,7 @@ function DayNode({
         )}
         <span
           className="text-[8px] font-bold mt-0.5"
-          style={{ color: locked ? '#475569' : 'rgba(255,255,255,0.85)' }}
+          style={{ color: locked ? '#64748b' : (completed || active ? 'rgba(255,255,255,0.85)' : (isDark ? 'rgba(255,255,255,0.85)' : '#334155')) }}
         >
           Day {lesson.day}
         </span>
@@ -307,9 +309,9 @@ function NoHeartsBanner() {
           <Heart size={18} className="text-rose-400 fill-rose-400" />
         </div>
         <div className="flex-1 min-w-0">
-          <p className="text-[12px] font-bold text-rose-300 mb-0.5">Out of hearts</p>
-          <p className="text-[11px] text-rose-300/80">
-            Refills in <strong className="text-rose-200">{heartsRefillCountdown}</strong>, or study topics to earn one back.
+          <p className="text-[12px] font-bold text-rose-500 dark:text-rose-300 mb-0.5">Out of hearts</p>
+          <p className="text-[11px] text-rose-500/80 dark:text-rose-300/80">
+            Refills in <strong className="text-rose-600 dark:text-rose-200">{heartsRefillCountdown}</strong>, or study topics to earn one back.
           </p>
           <div className="mt-2 flex items-center gap-2">
             <div className="flex-1 h-1.5 rounded-full overflow-hidden" style={{ background: 'rgba(220,38,38,0.2)' }}>
@@ -326,7 +328,7 @@ function NoHeartsBanner() {
           </div>
           <button
             onClick={() => navigate('/journey/earn-heart')}
-            className="mt-2 text-[11px] font-bold text-rose-300 underline underline-offset-2 hover:text-rose-200 transition-colors"
+            className="mt-2 text-[11px] font-bold text-rose-500 dark:text-rose-300 underline underline-offset-2 hover:text-rose-600 dark:hover:text-rose-200 transition-colors"
           >
             Study topics to earn a heart →
           </button>
@@ -395,6 +397,7 @@ function WindingRoad({
   accent: string;
   completedCount: number;
 }) {
+  const { isDark } = useTheme();
   // Layout constants (must match DayNode layout)
   const CARD_WIDTH = 320;   // approximate card inner width in px
   const NODE_SIZE = 72;     // node diameter
@@ -465,7 +468,7 @@ function WindingRoad({
       <path
         d={pathD}
         fill="none"
-        stroke="rgba(15,28,48,0.95)"
+        stroke={isDark ? 'rgba(15,28,48,0.95)' : 'rgba(200,215,235,0.95)'}
         strokeWidth="22"
         strokeLinecap="round"
         strokeLinejoin="round"
@@ -501,7 +504,7 @@ function WindingRoad({
       <path
         d={pathD}
         fill="none"
-        stroke="rgba(255,255,255,0.12)"
+        stroke={isDark ? 'rgba(255,255,255,0.12)' : 'rgba(0,0,0,0.15)'}
         strokeWidth="3"
         strokeLinecap="round"
         strokeLinejoin="round"
@@ -613,7 +616,7 @@ export default function JourneyPage() {
           <div className="flex items-center gap-2">
             <Sparkles size={14} className="text-violet-400" />
             <h1
-              className="text-base font-black text-white"
+              className="text-base font-black text-foreground"
               style={{ fontFamily: 'Sora, sans-serif' }}
             >
               PM Journey

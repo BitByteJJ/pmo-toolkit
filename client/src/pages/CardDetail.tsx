@@ -112,7 +112,7 @@ function RelatedCardChip({ related, onNavigate }: {
               <div className="flex items-center gap-2 mb-1.5">
                 <span
                   className="text-[10px] font-mono font-bold px-1.5 py-0.5 rounded-md"
-                  style={{ backgroundColor: relDeck?.color ? relDeck.color + '22' : 'rgba(255,255,255,0.08)', color: relDeck?.color ?? '#94a3b8' }}
+                  style={{ backgroundColor: relDeck?.color ? relDeck.color + '22' : (isDark ? 'rgba(255,255,255,0.08)' : 'rgba(0,0,0,0.06)'), color: relDeck?.color ?? (isDark ? '#94a3b8' : '#64748b') }}
                 >
                   {related.code}
                 </span>
@@ -447,7 +447,7 @@ export default function CardDetail() {
                   <span className="text-sm font-bold text-foreground">My Notes</span>
                   <span
                     className="text-[9px] font-mono font-bold px-1.5 py-0.5 rounded-md"
-                    style={{ backgroundColor: deck?.color ? deck.color + '22' : 'rgba(255,255,255,0.08)', color: deck?.color ?? '#94a3b8' }}
+                    style={{ backgroundColor: deck?.color ? deck.color + '22' : (isDark ? 'rgba(255,255,255,0.08)' : 'rgba(0,0,0,0.06)'), color: deck?.color ?? (isDark ? '#94a3b8' : '#64748b') }}
                   >
                     {card.code}
                   </span>

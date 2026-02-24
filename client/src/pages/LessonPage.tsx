@@ -26,8 +26,9 @@ import PageFooter from '@/components/PageFooter';
 // ─── PROGRESS BAR ─────────────────────────────────────────────────────────────
 function ProgressBar({ current, total }: { current: number; total: number }) {
   const pct = total > 0 ? Math.min(100, Math.round((current / total) * 100)) : 0;
+  const { isDark } = useTheme();
   return (
-    <div className="h-2 rounded-full overflow-hidden flex-1" style={{ background: 'rgba(255,255,255,0.1)' }}>
+    <div className="h-2 rounded-full overflow-hidden flex-1" style={{ background: isDark ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.1)' }}>
       <motion.div
         className="h-full rounded-full"
         style={{ background: 'linear-gradient(90deg, #6366f1, #3b82f6)' }}
@@ -70,6 +71,7 @@ function QuestionCard({
 }) {
   const [selected, setSelected] = useState<number | null>(null);
   const [answerState, setAnswerState] = useState<AnswerState>('unanswered');
+  const { isDark } = useTheme();
 
   const handleSelect = (index: number) => {
     if (answerState !== 'unanswered') return;
@@ -83,7 +85,7 @@ function QuestionCard({
     if (answerState === 'unanswered') {
       return selected === index
         ? { background: 'rgba(99,102,241,0.2)', border: '2px solid rgba(99,102,241,0.6)' }
-        : { background: 'rgba(255,255,255,0.04)', border: '2px solid rgba(255,255,255,0.08)' };
+        : { background: isDark ? 'rgba(255,255,255,0.04)' : 'rgba(0,0,0,0.04)', border: isDark ? '2px solid rgba(255,255,255,0.08)' : '2px solid rgba(0,0,0,0.1)' };
     }
     if (index === question.correctIndex) {
       return { background: 'rgba(16,185,129,0.15)', border: '2px solid rgba(16,185,129,0.5)' };
@@ -91,7 +93,7 @@ function QuestionCard({
     if (index === selected && selected !== question.correctIndex) {
       return { background: 'rgba(239,68,68,0.12)', border: '2px solid rgba(239,68,68,0.4)' };
     }
-    return { background: 'rgba(255,255,255,0.02)', border: '2px solid rgba(255,255,255,0.05)', opacity: 0.45 };
+    return { background: isDark ? 'rgba(255,255,255,0.02)' : 'rgba(0,0,0,0.02)', border: isDark ? '2px solid rgba(255,255,255,0.05)' : '2px solid rgba(0,0,0,0.06)', opacity: 0.45 };
   };
 
   const typeLabel: Record<string, string> = {
@@ -207,7 +209,7 @@ function QuestionCard({
                       <span
                         key={ref}
                         className="text-[9px] font-bold px-1.5 py-0.5 rounded-md"
-                        style={{ background: 'rgba(255,255,255,0.08)', color: '#94a3b8' }}
+                        style={{ background: isDark ? 'rgba(255,255,255,0.08)' : 'rgba(0,0,0,0.07)', color: isDark ? '#94a3b8' : '#475569' }}
                       >
                         {ref}
                       </span>
@@ -294,7 +296,7 @@ function LessonCompleteScreen({
         initial={{ opacity: 0, y: 12 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.2 }}
-        className="text-2xl font-black text-white text-center mb-1"
+        className="text-2xl font-black text-foreground text-center mb-1"
         style={{ fontFamily: 'Sora, sans-serif' }}
       >
         {isPerfect ? '🎉 Perfect Score!' : 'Lesson Complete!'}
@@ -388,7 +390,7 @@ function NoHeartsScreen({ onEarnHeart, onGoBack }: { onEarnHeart: () => void; on
       </motion.div>
 
       <h2
-        className="text-2xl font-black text-rose-300 text-center mb-2"
+        className="text-2xl font-black text-rose-500 dark:text-rose-300 text-center mb-2"
         style={{ fontFamily: 'Sora, sans-serif' }}
       >
         Out of Hearts
@@ -401,7 +403,7 @@ function NoHeartsScreen({ onEarnHeart, onGoBack }: { onEarnHeart: () => void; on
         style={{ background: 'rgba(220,38,38,0.1)', border: '1px solid rgba(220,38,38,0.2)' }}
       >
         <span className="text-sm text-foreground">Hearts refill in:</span>
-        <span className="text-sm font-bold text-rose-300">{heartsRefillCountdown}</span>
+        <span className="text-sm font-bold text-rose-500 dark:text-rose-300">{heartsRefillCountdown}</span>
       </div>
 
       <div className="w-full max-w-xs space-y-3">
@@ -419,7 +421,7 @@ function NoHeartsScreen({ onEarnHeart, onGoBack }: { onEarnHeart: () => void; on
         <button
           onClick={onGoBack}
           className="w-full py-3 rounded-2xl font-semibold text-foreground text-sm transition-all active:scale-95"
-          style={{ background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.1)' }}
+          style={{ background: isDark ? 'rgba(255,255,255,0.06)' : 'rgba(0,0,0,0.04)', border: isDark ? '1px solid rgba(255,255,255,0.1)' : '1px solid rgba(0,0,0,0.1)' }}
         >
           Back to Journey Map
         </button>
@@ -594,7 +596,7 @@ export default function LessonPage() {
         style={{
           background: isDark ? 'rgba(10,22,40,0.97)' : 'rgba(241,245,249,0.97)',
           backdropFilter: 'blur(24px) saturate(1.6)',
-          borderBottom: '1px solid rgba(255,255,255,0.07)',
+          borderBottom: isDark ? '1px solid rgba(255,255,255,0.07)' : '1px solid rgba(0,0,0,0.08)',
         }}
       >
         <div className="flex items-center gap-3">
@@ -650,9 +652,9 @@ export default function LessonPage() {
             className="sticky bottom-0 px-4 pt-3"
             style={{
               paddingBottom: 'calc(1.5rem + env(safe-area-inset-bottom, 0px) + 64px)',
-              background: 'rgba(10,22,40,0.97)',
+              background: isDark ? 'rgba(10,22,40,0.97)' : 'rgba(241,245,249,0.97)',
               backdropFilter: 'blur(12px)',
-              borderTop: '1px solid rgba(255,255,255,0.07)',
+              borderTop: isDark ? '1px solid rgba(255,255,255,0.07)' : '1px solid rgba(0,0,0,0.08)',
             }}
           >
             {/* Hearts lost warning */}

@@ -448,34 +448,34 @@
 ## Light/Dark Theme Toggle — Feb 2026
 
 - [ ] Create ThemeContext with localStorage persistence
-- [ ] Define light mode CSS variable set in index.css
+- [x] Define light mode CSS variable set in index.css
 - [ ] Add theme toggle button to top navigation bar
 - [ ] Update hardcoded dark colours across all pages to use CSS theme variables
 - [x] Light/dark theme toggle (Sun/Moon button in TopNav, persisted to localStorage)
 
 ## Light Mode Readability Audit — Feb 2026
 
-- [ ] Fix CardDetail page light mode readability
-- [ ] Fix SearchPage light mode readability
-- [ ] Fix BookmarksPage light mode readability
-- [ ] Fix DecksPage light mode readability
-- [ ] Fix AiSuggest page light mode readability
-- [ ] Fix DecisionHelper page light mode readability
-- [ ] Fix GlossaryPage light mode readability
-- [ ] Fix CaseStudiesPage light mode readability
-- [ ] Fix LearningRoadmap page light mode readability
-- [ ] Fix TemplateLibrary page light mode readability
-- [ ] Fix TemplateFiller page light mode readability
-- [ ] Fix JourneyPage light mode readability
-- [ ] Fix LessonPage light mode readability
-- [ ] Fix QuizPage light mode readability
-- [ ] Fix WelcomeModal light mode readability
-- [ ] Fix OnboardingTour light mode readability
-- [ ] Fix SprintMode (DeckView) light mode readability
-- [ ] Fix HowItWasBuilt page light mode readability
-- [ ] Fix light mode contrast: Daily Challenge text, quiz options, card text invisible
+- [x] Fix CardDetail page light mode readability
+- [x] Fix SearchPage light mode readability
+- [x] Fix BookmarksPage light mode readability
+- [x] Fix DecksPage light mode readability
+- [x] Fix AiSuggest page light mode readability
+- [x] Fix DecisionHelper page light mode readability
+- [x] Fix GlossaryPage light mode readability
+- [x] Fix CaseStudiesPage light mode readability
+- [x] Fix LearningRoadmap page light mode readability
+- [x] Fix TemplateLibrary page light mode readability
+- [x] Fix TemplateFiller page light mode readability
+- [x] Fix JourneyPage light mode readability
+- [x] Fix LessonPage light mode readability
+- [x] Fix QuizPage light mode readability
+- [x] Fix WelcomeModal light mode readability
+- [x] Fix OnboardingTour light mode readability
+- [x] Fix SprintMode (DeckView) light mode readability
+- [x] Fix HowItWasBuilt page light mode readability
+- [x] Fix light mode contrast: Daily Challenge text, quiz options, card text invisible
 - [x] Restore footer disclaimer (owner name, month/year, educational disclaimer) on every page
-- [ ] Fix AI Suggest page: invisible title and example chip text in light mode
+- [x] Fix AI Suggest page: invisible title and example chip text in light mode
 - [x] Fix CardDetail template table row text in light mode
-- [ ] Fix MarkdownTemplateRenderer: theme-aware text colours
+- [x] Fix MarkdownTemplateRenderer: theme-aware text colours
 - [x] Fix home page illustrations: correct blend mode for light mode

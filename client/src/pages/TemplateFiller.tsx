@@ -201,18 +201,18 @@ function DynamicTable({
         </thead>
         <tbody>
           {rows.map((row, idx) => (
-            <tr key={row.id} className={idx % 2 === 0 ? 'bg-white/5' : 'bg-white/3'}>
+            <tr key={row.id} className={idx % 2 === 0 ? 'bg-muted/30' : 'bg-muted/20'}>
               {headers.map(h => {
                 const colType = inferColumnType(h);
                 const val = row.cells[h] || '';
                 return (
-                  <td key={h} className="px-2 py-1.5 border-b border-white/8 align-top">
+                  <td key={h} className="px-2 py-1.5 border-b border-border align-top">
                     {colType === 'date' ? (
                       <input
                         type="date"
                         value={val}
                         onChange={e => updateCell(row.id, h, e.target.value)}
-                        className="w-full text-xs border border-white/15 bg-white/5 text-slate-100 rounded-lg px-2 py-1 focus:outline-none focus:border-blue-400"
+                        className="w-full text-xs border border-border bg-muted/30 text-foreground rounded-lg px-2 py-1 focus:outline-none focus:border-blue-400"
                       />
                     ) : colType === 'rag' ? (
                       <RAGPicker value={val} onChange={v => updateCell(row.id, h, v)} />
@@ -224,7 +224,7 @@ function DynamicTable({
                         onChange={e => updateCell(row.id, h, e.target.value)}
                         rows={2}
                         placeholder={`Enter ${h.toLowerCase()}…`}
-                        className="w-full text-xs border border-white/15 bg-white/5 text-slate-100 placeholder-slate-500 rounded-lg px-2 py-1 focus:outline-none focus:border-blue-400 resize-none min-w-[140px]"
+                        className="w-full text-xs border border-border bg-muted/30 text-foreground placeholder-muted-foreground rounded-lg px-2 py-1 focus:outline-none focus:border-blue-400 resize-none min-w-[140px]"
                       />
                     ) : (
                       <input
@@ -232,13 +232,13 @@ function DynamicTable({
                         value={val}
                         onChange={e => updateCell(row.id, h, e.target.value)}
                         placeholder={`Enter ${h.toLowerCase()}…`}
-                        className="w-full text-xs border border-white/15 bg-white/5 text-slate-100 placeholder-slate-500 rounded-lg px-2 py-1 focus:outline-none focus:border-blue-400 min-w-[100px]"
+                        className="w-full text-xs border border-border bg-muted/30 text-foreground placeholder-muted-foreground rounded-lg px-2 py-1 focus:outline-none focus:border-blue-400 min-w-[100px]"
                       />
                     )}
                   </td>
                 );
               })}
-              <td className="px-1 py-1.5 border-b border-white/8 align-middle">
+              <td className="px-1 py-1.5 border-b border-border align-middle">
                 <button
                   type="button"
                   onClick={() => removeRow(row.id)}
@@ -293,7 +293,7 @@ function DynamicChecklist({
             value={item.text}
             onChange={e => updateText(item.id, e.target.value)}
             placeholder="Add checklist item…"
-            className="flex-1 text-sm border-b border-white/15 focus:border-blue-400 focus:outline-none py-0.5 bg-transparent text-foreground"
+            className="flex-1 text-sm border-b border-border focus:border-blue-400 focus:outline-none py-0.5 bg-transparent text-foreground"
             style={{ textDecoration: item.checked ? 'line-through' : 'none', opacity: item.checked ? 0.5 : 1 }}
           />
           <button type="button" onClick={() => removeItem(item.id)} className="p-0.5 text-foreground hover:text-red-400 transition-colors shrink-0">
@@ -356,7 +356,7 @@ function SectionForm({
   const textValue = (state.fields[textKey] as string) || '';
 
   return (
-    <div className="rounded-2xl overflow-hidden mb-4 bg-card shadow-sm border border-white/10">
+    <div className="rounded-2xl overflow-hidden mb-4 bg-card shadow-sm border border-border">
       {/* Section header */}
       <button
         type="button"
@@ -421,7 +421,7 @@ function SectionForm({
                             type="date"
                             value={val}
                             onChange={e => updateField(fieldKey, e.target.value)}
-                            className="w-full text-sm border border-white/15 bg-white/5 text-slate-100 rounded-xl px-3 py-2 focus:outline-none focus:border-blue-400"
+                            className="w-full text-sm border border-border bg-background text-foreground rounded-xl px-3 py-2 focus:outline-none focus:border-blue-400"
                           />
                         ) : field.isLong ? (
                           <textarea
@@ -429,7 +429,7 @@ function SectionForm({
                             onChange={e => updateField(fieldKey, e.target.value)}
                             rows={4}
                             placeholder={field.placeholder}
-                            className="w-full text-sm border border-white/15 bg-white/5 text-slate-100 placeholder-slate-500 rounded-xl px-3 py-2 focus:outline-none focus:border-blue-400 resize-y"
+                            className="w-full text-sm border border-border bg-background text-foreground placeholder-muted-foreground rounded-xl px-3 py-2 focus:outline-none focus:border-blue-400 resize-y"
                           />
                         ) : (
                           <input
@@ -437,7 +437,7 @@ function SectionForm({
                             value={val}
                             onChange={e => updateField(fieldKey, e.target.value)}
                             placeholder={field.placeholder}
-                            className="w-full text-sm border border-white/15 bg-white/5 text-slate-100 placeholder-slate-500 rounded-xl px-3 py-2 focus:outline-none focus:border-blue-400"
+                            className="w-full text-sm border border-border bg-background text-foreground placeholder-muted-foreground rounded-xl px-3 py-2 focus:outline-none focus:border-blue-400"
                           />
                         )}
                       </div>
@@ -668,7 +668,7 @@ export default function TemplateFiller() {
       <div className="min-h-screen flex items-center justify-center" style={{ background: isDark ? '#0a1628' : '#f1f5f9' }}>
         <div className="text-center">
           <AlertTriangle size={32} className="text-amber-400 mx-auto mb-3" />
-          <p className="text-white font-semibold">Template not found</p>
+          <p className="text-foreground font-semibold">Template not found</p>
           <button onClick={() => navigate('/templates')} className="text-blue-400 text-sm mt-2 underline">
             Back to Template Library
           </button>
@@ -720,17 +720,17 @@ export default function TemplateFiller() {
                   initial={{ opacity: 0, scale: 0.95, y: -4 }}
                   animate={{ opacity: 1, scale: 1, y: 0 }}
                   exit={{ opacity: 0, scale: 0.95, y: -4 }}
-                  className="absolute right-0 top-full mt-1 bg-card rounded-xl shadow-xl border border-white/10 overflow-hidden z-50 min-w-[160px]"
+                  className="absolute right-0 top-full mt-1 bg-card rounded-xl shadow-xl border border-border overflow-hidden z-50 min-w-[160px]"
                 >
                   <button
                     onClick={() => handleDownload('pdf')}
-                    className="flex items-center gap-2 w-full px-4 py-3 text-sm font-semibold text-foreground hover:bg-white/10 transition-colors"
+                    className="flex items-center gap-2 w-full px-4 py-3 text-sm font-semibold text-foreground hover:bg-muted/50 transition-colors"
                   >
                     <FileDown size={16} className="text-red-500" /> Download PDF
                   </button>
                   <button
                     onClick={() => handleDownload('docx')}
-                    className="flex items-center gap-2 w-full px-4 py-3 text-sm font-semibold text-foreground hover:bg-white/10 transition-colors border-t border-white/10"
+                    className="flex items-center gap-2 w-full px-4 py-3 text-sm font-semibold text-foreground hover:bg-muted/50 transition-colors border-t border-border"
                   >
                     <FileText size={16} className="text-blue-500" /> Download Word
                   </button>
@@ -755,7 +755,7 @@ export default function TemplateFiller() {
         </div>
 
         {/* Header fields */}
-        <div className="bg-card rounded-2xl shadow-sm border border-white/10 p-4 mb-4">
+        <div className="bg-card rounded-2xl shadow-sm border border-border p-4 mb-4">
           <h2 className="text-xs font-bold uppercase tracking-wider mb-3" style={{ color: theme.color }}>
             Document Header
           </h2>
@@ -768,7 +768,7 @@ export default function TemplateFiller() {
                 value={projectName}
                 onChange={e => setProjectName(e.target.value)}
                 placeholder="e.g. Digital Transformation Programme"
-                className="w-full text-sm border border-white/15 bg-white/5 text-slate-100 placeholder-slate-500 rounded-xl px-3 py-2 focus:outline-none focus:border-blue-400"
+                className="w-full text-sm border border-border bg-background text-foreground placeholder-muted-foreground rounded-xl px-3 py-2 focus:outline-none focus:border-blue-400"
               />
             </div>
             {/* Row 2: Prepared By + Version side by side */}
@@ -780,7 +780,7 @@ export default function TemplateFiller() {
                   value={projectOwner}
                   onChange={e => setProjectOwner(e.target.value)}
                   placeholder="Your name"
-                  className="w-full text-sm border border-white/15 bg-white/5 text-slate-100 placeholder-slate-500 rounded-xl px-3 py-2 focus:outline-none focus:border-blue-400"
+                  className="w-full text-sm border border-border bg-background text-foreground placeholder-muted-foreground rounded-xl px-3 py-2 focus:outline-none focus:border-blue-400"
                 />
               </div>
               <div>
@@ -790,7 +790,7 @@ export default function TemplateFiller() {
                   value={version}
                   onChange={e => setVersion(e.target.value)}
                   placeholder="1.0"
-                  className="w-full text-sm border border-white/15 bg-white/5 text-slate-100 placeholder-slate-500 rounded-xl px-3 py-2 focus:outline-none focus:border-blue-400"
+                  className="w-full text-sm border border-border bg-background text-foreground placeholder-muted-foreground rounded-xl px-3 py-2 focus:outline-none focus:border-blue-400"
                 />
               </div>
             </div>
@@ -801,7 +801,7 @@ export default function TemplateFiller() {
                 type="date"
                 value={projectDate}
                 onChange={e => setProjectDate(e.target.value)}
-                className="w-full text-sm border border-white/15 bg-white/5 text-slate-100 rounded-xl px-3 py-2 focus:outline-none focus:border-blue-400"
+                className="w-full text-sm border border-border bg-background text-foreground rounded-xl px-3 py-2 focus:outline-none focus:border-blue-400"
                 style={{ minWidth: 0, boxSizing: 'border-box' }}
               />
             </div>
@@ -830,7 +830,7 @@ export default function TemplateFiller() {
           <div className="flex gap-2 max-w-lg mx-auto">
             <button
               onClick={handleReset}
-              className="flex items-center gap-1 px-3 py-1.5 rounded-lg text-xs font-semibold bg-card shadow-md border border-white/15 text-foreground hover:bg-white/10 transition-colors"
+              className="flex items-center gap-1 px-3 py-1.5 rounded-lg text-xs font-semibold bg-card shadow-md border border-border text-foreground hover:bg-muted/50 transition-colors"
             >
               <RotateCcw size={12} /> Reset
             </button>

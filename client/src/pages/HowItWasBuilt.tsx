@@ -257,7 +257,7 @@ function CopyButton({ text }: { text: string }) {
     <button
       onClick={handleCopy}
       className="flex items-center gap-1 px-2.5 py-1 rounded-lg text-[10px] font-bold transition-all hover:opacity-80"
-      style={{ background: copied ? 'rgba(16,185,129,0.18)' : 'rgba(255,255,255,0.07)', color: copied ? '#6ee7b7' : '#94a3b8' }}
+      style={{ background: copied ? 'rgba(16,185,129,0.18)' : 'rgba(0,0,0,0.05)', color: copied ? '#059669' : 'var(--muted-foreground)' }}
     >
       {copied ? <Check size={11} strokeWidth={2.5} /> : <Copy size={11} strokeWidth={2} />}
       {copied ? 'Copied!' : 'Copy'}
@@ -268,7 +268,7 @@ function CopyButton({ text }: { text: string }) {
 function PromptCard({ title, prompt }: { title: string; prompt: string }) {
   const [expanded, setExpanded] = useState(false);
   return (
-    <div className="rounded-xl border border-white/10 overflow-hidden">
+    <div className="rounded-xl border border-border overflow-hidden">
       <button
         onClick={() => setExpanded(e => !e)}
         className="w-full flex items-center justify-between px-4 py-3 text-left hover:bg-card/5 transition-colors"
@@ -291,7 +291,7 @@ function PromptCard({ title, prompt }: { title: string; prompt: string }) {
                 <CopyButton text={prompt} />
               </div>
               <pre
-                className="text-[11.5px] leading-relaxed text-foreground whitespace-pre-wrap font-mono bg-card/5 rounded-lg p-3 border border-white/8"
+                className="text-[11.5px] leading-relaxed text-foreground whitespace-pre-wrap font-mono bg-muted rounded-lg p-3 border border-border"
                 style={{ fontFamily: 'JetBrains Mono, monospace' }}
               >
                 {prompt}
@@ -331,23 +331,23 @@ export default function HowItWasBuilt() {
             </div>
             <div>
               <h1
-                className="text-[22px] font-black text-white leading-tight"
-                style={{ fontFamily: 'Sora, sans-serif' }}
+                className="text-[22px] font-black leading-tight"
+                style={{ color: isDark ? '#ffffff' : '#1e1b4b', fontFamily: 'Sora, sans-serif' }}
               >
                 How It Was Built
               </h1>
-              <p className="text-[12px] text-indigo-300 mt-0.5">StratAlign — build documentation</p>
+              <p className="text-[12px] mt-0.5" style={{ color: isDark ? '#a5b4fc' : '#4338ca' }}>StratAlign — build documentation</p>
             </div>
           </div>
 
-          <p className="text-[13px] text-indigo-200 leading-relaxed opacity-80">
+          <p className="text-[13px] leading-relaxed opacity-90" style={{ color: isDark ? '#c7d2fe' : '#4338ca' }}>
             The full technical documentation for StratAlign — the tech stack, AI prompts, and build process.
             Source code on GitHub:{' '}
             <a
               href="https://github.com/BitByteJJ/pmo-toolkit"
               target="_blank"
               rel="noopener noreferrer"
-              className="text-violet-300 hover:text-violet-200 underline underline-offset-2 transition-colors"
+              className="underline underline-offset-2 transition-colors" style={{ color: isDark ? '#a78bfa' : '#5b21b6' }}
             >
               github.com/BitByteJJ/pmo-toolkit
             </a>
@@ -359,7 +359,7 @@ export default function HowItWasBuilt() {
 
       {/* Tab bar */}
       <div
-        className="sticky z-40 bg-card border-b border-white/8"
+        className="sticky z-40 bg-card border-b border-border"
         style={{ top: '48px' }}
       >
         <div className="flex" style={{ maxWidth: '480px', margin: '0 auto' }}>
@@ -407,8 +407,8 @@ export default function HowItWasBuilt() {
                 >
                   {step.step}
                 </div>
-                <div className="flex-1 pb-4 border-b border-white/8 last:border-0">
-                  <h3 className="text-[14px] font-bold text-slate-100 mb-1">{step.title}</h3>
+                <div className="flex-1 pb-4 border-b border-border last:border-0">
+                  <h3 className="text-[14px] font-bold text-foreground mb-1">{step.title}</h3>
                   <p className="text-[12px] text-foreground leading-relaxed">{step.desc}</p>
                 </div>
               </motion.div>
@@ -479,7 +479,7 @@ export default function HowItWasBuilt() {
             ))}
 
             {/* GitHub CTA */}
-            <div className="rounded-2xl p-4 border border-white/10 flex items-center gap-3">
+            <div className="rounded-2xl p-4 border border-border flex items-center gap-3">
               <Github size={20} strokeWidth={1.8} className="text-foreground shrink-0" />
               <div className="flex-1">
                 <div className="text-[13px] font-bold text-foreground">Source Code</div>
