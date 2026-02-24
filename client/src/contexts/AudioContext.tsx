@@ -266,51 +266,36 @@ async function fetchPodcastEpisodeSSE(
 const JINGLE_URL = '/stratalign-intro.mp3';
 const OUTRO_URL  = '/stratalign-outro.mp3';
 
-// Pre-warm the browser cache by creating hidden <audio> elements that load the files.
-// This is done at module init time (not inside a gesture) but <audio> src loading
-// doesn't require a gesture — only .play() does.
-let jingleEl: HTMLAudioElement | null = null;
-let outroEl:  HTMLAudioElement | null = null;
+// Always create a FRESH <audio> element for each play call.
+// Reusing elements causes stale onended handlers that fire immediately without playing.
+// The files are small (35KB / 17KB) so creating new elements is cheap.
 
-if (typeof window !== 'undefined') {
-  // Create elements and start loading immediately so they're ready when needed
-  jingleEl = new Audio(JINGLE_URL);
-  jingleEl.preload = 'auto';
-  outroEl = new Audio(OUTRO_URL);
-  outroEl.preload = 'auto';
+function playAudioFile(url: string): Promise<void> {
+  return new Promise((resolve) => {
+    const el = new Audio(url);
+    el.preload = 'auto';
+    el.playbackRate = 1.0;
+    el.onended = () => resolve();
+    el.onerror = (e) => {
+      console.warn('[StratAlign Theater] Audio error:', url, e);
+      resolve(); // always resolve so the chain continues
+    };
+    const p = el.play();
+    if (p) {
+      p.catch((err) => {
+        console.warn('[StratAlign Theater] play() blocked:', url, err);
+        resolve();
+      });
+    }
+  });
 }
 
 function playJingle(onEnded: () => void) {
-  // Reuse the pre-loaded element if available; fall back to a fresh one
-  const el = jingleEl ?? new Audio(JINGLE_URL);
-  el.currentTime = 0;
-  el.playbackRate = 1.0;
-  el.onended = onEnded;
-  el.onerror = (e) => {
-    console.warn('[StratAlign Theater] Jingle error:', e);
-    onEnded();
-  };
-  const p = el.play();
-  if (p) p.catch((err) => {
-    console.warn('[StratAlign Theater] Jingle play() blocked:', err);
-    onEnded();
-  });
+  playAudioFile(JINGLE_URL).then(onEnded);
 }
 
 function playOutro(onEnded: () => void) {
-  const el = outroEl ?? new Audio(OUTRO_URL);
-  el.currentTime = 0;
-  el.playbackRate = 1.0;
-  el.onended = onEnded;
-  el.onerror = (e) => {
-    console.warn('[StratAlign Theater] Outro error:', e);
-    onEnded();
-  };
-  const p = el.play();
-  if (p) p.catch((err) => {
-    console.warn('[StratAlign Theater] Outro play() blocked:', err);
-    onEnded();
-  });
+  playAudioFile(OUTRO_URL).then(onEnded);
 }
 
 // ─── CONTEXT ─────────────────────────────────────────────────────────────────
@@ -593,8 +578,8 @@ export function AudioProvider({ children }: { children: ReactNode }) {
       episodeTotalSegments: segments.length,
     }));
 
-    // Play intro jingle only for freshly generated (non-cached) episodes
-    playTrackSegments(track, 0, !wasFromCache);
+    // Play intro jingle on every episode start
+    playTrackSegments(track, 0, true);
   }, [playTrackSegments]);
 
   // ── Media Session action handlers ──

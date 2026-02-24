@@ -646,3 +646,9 @@
 - [x] Fix: jingle files copied to client/public and served as same-origin static assets (/stratalign-intro.mp3, /stratalign-outro.mp3)
 - [x] Files also uploaded to S3 CDN for production reference
 - [x] AudioContext updated to use same-origin paths — no CORS, no proxy, no autoplay policy issues
+
+## StratAlign Theater — Jingle Sequencing Fix — Feb 2026
+- [x] Root cause: reused HTMLAudioElement had stale onended handler that fired immediately
+- [x] Fix: playAudioFile() always creates a fresh element, returns a Promise, resolves on ended/error
+- [x] Jingle plays on every episode start (not just non-cached)
+- [x] Outro plays after last segment via clean Promise chain
