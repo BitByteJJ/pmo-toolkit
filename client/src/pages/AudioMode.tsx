@@ -170,6 +170,8 @@ function NowPlaying() {
     isPlaying,
     isPaused,
     isLoading,
+    loadingProgress,
+    loadingStatus,
     currentTrack,
     currentIndex,
     playlist,
@@ -185,6 +187,7 @@ function NowPlaying() {
     stop,
     next,
     prev,
+    downloadEpisode: ctxDownload,
   } = useAudio();
 
   const [isDownloading, setIsDownloading] = useState(false);
@@ -195,24 +198,7 @@ function NowPlaying() {
     setIsDownloading(true);
     setDownloadDone(false);
     try {
-      const res = await fetch('/api/podcast-download', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          segments: currentTrack.segments,
-          title: currentTrack.title,
-        }),
-      });
-      if (!res.ok) throw new Error('Download failed');
-      const blob = await res.blob();
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.href = url;
-      a.download = `${currentTrack.title.replace(/[^a-z0-9\s-]/gi, '').replace(/\s+/g, '-').toLowerCase()}-strataling-theater.mp3`;
-      document.body.appendChild(a);
-      a.click();
-      document.body.removeChild(a);
-      URL.revokeObjectURL(url);
+      await ctxDownload();
       setDownloadDone(true);
       setTimeout(() => setDownloadDone(false), 3000);
     } catch (err) {
@@ -220,12 +206,11 @@ function NowPlaying() {
     } finally {
       setIsDownloading(false);
     }
-  }, [currentTrack]);
+  }, [currentTrack, ctxDownload]);
 
   if (!currentTrack) return null;
 
   const cast = currentTrack.cast ?? ['Alex', 'Sam'];
-  const castLabel = cast.join(' · ');
   const progressBarColor = currentSpeaker ? SPEAKER_COLORS[currentSpeaker] : '#6366f1';
 
   return (
@@ -304,15 +289,45 @@ function NowPlaying() {
         </div>
       )}
 
-      {/* Loading message */}
+      {/* Loading progress — shows live SSE updates */}
       {isLoading && (
-        <div className="text-center py-2">
-          <p className="text-xs text-muted-foreground">
-            The StratAlign Theater cast is preparing your episode…
-          </p>
-          <p className="text-[10px] text-muted-foreground opacity-60 mt-1">
-            This takes about 20–40 seconds for a full episode
-          </p>
+        <div className="space-y-2 py-1">
+          <div className="flex items-center justify-between">
+            <p className="text-xs text-muted-foreground">
+              {loadingStatus || 'Preparing episode…'}
+            </p>
+            {loadingProgress && (
+              <span className="text-[10px] font-bold" style={{ color: '#818cf8' }}>
+                {loadingProgress.done}/{loadingProgress.total}
+              </span>
+            )}
+          </div>
+          {loadingProgress && loadingProgress.total > 0 && (
+            <div
+              className="h-1.5 rounded-full overflow-hidden"
+              style={{ background: isDark ? 'rgba(255,255,255,0.08)' : 'rgba(0,0,0,0.08)' }}
+            >
+              <motion.div
+                className="h-full rounded-full"
+                style={{ background: 'linear-gradient(90deg, #6366f1, #ec4899)' }}
+                animate={{ width: `${(loadingProgress.done / loadingProgress.total) * 100}%` }}
+                transition={{ duration: 0.3, ease: 'easeOut' }}
+              />
+            </div>
+          )}
+          {!loadingProgress && (
+            <div
+              className="h-1.5 rounded-full overflow-hidden"
+              style={{ background: isDark ? 'rgba(255,255,255,0.08)' : 'rgba(0,0,0,0.08)' }}
+            >
+              <motion.div
+                className="h-full rounded-full"
+                style={{ background: 'linear-gradient(90deg, #6366f1, #ec4899)', width: '30%' }}
+                animate={{ x: ['0%', '240%', '0%'] }}
+                transition={{ duration: 1.8, repeat: Infinity, ease: 'easeInOut' }}
+              />
+            </div>
+          )}
         </div>
       )}
 

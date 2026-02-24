@@ -593,3 +593,19 @@
 - [x] Update AudioContext CAST_META for all 5 characters
 - [x] Update AudioMode and AudioPlayerBar UI for 5-character cast
 - [x] 21 new vitest tests for cast selection, voice mapping, and script validation
+
+## StratAlign Theater Performance & Download — Feb 24 2026
+
+- [ ] Reduce episode generation latency: run TTS segments in parallel (Promise.all) instead of sequentially
+- [ ] Add streaming progress to UI: show "Generating segment X of Y" during loading
+- [ ] Fix MP3 download: stitch base64 segments server-side into a single valid MP3 binary and serve with correct Content-Type
+- [ ] Add client-side download fallback: if server stitch fails, concatenate base64 blobs in browser
+- [ ] Cache generated episodes in localStorage (not just sessionStorage) for persistence across page reloads
+
+## StratAlign Theater Performance & Download — Feb 2026
+- [x] Parallel TTS with concurrency cap (10 at once) — eliminates sequential batch latency
+- [x] SSE streaming progress endpoint — UI shows live "Generating audio 3/18" progress bar
+- [x] localStorage episode cache (persists across page reloads, auto-evicts when full)
+- [x] Download episode as MP3 — /api/podcast-download stitches segments and serves binary
+- [x] AudioContext downloadEpisode() helper — single source of truth for download logic
+- [x] NowPlaying loading state replaced with animated SSE progress bar
