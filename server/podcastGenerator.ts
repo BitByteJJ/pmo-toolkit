@@ -1,46 +1,23 @@
-// podcastGenerator.ts — StratAlign Theater
-// Multi-character podcast with up to 5 cast members.
-// The LLM selects 2–5 characters based on tool complexity and writes natural dialogue.
-// Each character has a distinct Google TTS Journey voice, role, and personality.
+// podcastGenerator.ts
+// Streaming two-host podcast generator.
 //
-// Cast:
-//   Alex  — Senior PM / host lead          — Journey-D (male, authoritative)
-//   Sam   — Business Analyst / co-host     — Journey-O (female, conversational)
-//   Jordan— Executive Sponsor / stakeholder— Journey-F (female, warm/decisive)
-//   Maya  — Team Lead / practitioner       — Journey-B (male, energetic/practical)
-//   Chris — Sceptic / devil's advocate     — Journey-E (female, calm/challenging)
+// Architecture (low-latency):
+//   1. LLM streams the script via SSE — we parse lines as they arrive.
+//   2. Each parsed dialogue line is immediately sent to Google TTS.
+//   3. As soon as a TTS response comes back it is flushed to the client as an
+//      NDJSON line: { speaker, line, audioContent, index, done: false }
+//   4. When all lines are done we flush { done: true, total }.
 //
-// Streaming: LLM streams script → each line TTS'd immediately → NDJSON flushed to client
-// Concurrency: up to 4 TTS requests in flight at once
+// The client can start playing the first segment ~3-5 s after pressing play,
+// while the rest of the episode loads in the background.
 
 import type { Request, Response } from 'express';
 
 const GOOGLE_TTS_URL = 'https://texttospeech.googleapis.com/v1/text:synthesize';
 
-// ─── CAST ─────────────────────────────────────────────────────────────────────
-export type CastMember = 'Alex' | 'Sam' | 'Jordan' | 'Maya' | 'Chris';
-
-const CAST_VOICES: Record<CastMember, { languageCode: string; name: string; ssmlGender: string }> = {
-  Alex:  { languageCode: 'en-US', name: 'en-US-Journey-D', ssmlGender: 'MALE' },
-  Sam:   { languageCode: 'en-US', name: 'en-US-Journey-O', ssmlGender: 'FEMALE' },
-  Jordan:{ languageCode: 'en-US', name: 'en-US-Journey-F', ssmlGender: 'FEMALE' },
-  Maya:  { languageCode: 'en-US', name: 'en-US-Journey-B', ssmlGender: 'MALE' },
-  Chris: { languageCode: 'en-US', name: 'en-US-Journey-E', ssmlGender: 'FEMALE' },
-};
-
-const CAST_ROLES: Record<CastMember, string> = {
-  Alex:  'Senior PM & Host',
-  Sam:   'Business Analyst',
-  Jordan:'Executive Sponsor',
-  Maya:  'Team Lead',
-  Chris: 'Devil\'s Advocate',
-};
-
-// Export cast info for the frontend
-export const CAST_INFO = Object.entries(CAST_ROLES).map(([name, role]) => ({
-  name: name as CastMember,
-  role,
-}));
+// ─── VOICE CONFIGS ────────────────────────────────────────────────────────────
+const VOICE_ALEX = { languageCode: 'en-US', name: 'en-US-Journey-D', ssmlGender: 'MALE' };
+const VOICE_SAM  = { languageCode: 'en-US', name: 'en-US-Journey-O', ssmlGender: 'FEMALE' };
 
 const AUDIO_CONFIG = {
   audioEncoding: 'MP3',
@@ -60,35 +37,20 @@ interface CardInput {
   proTip: string;
   example?: string;
   deckTitle: string;
-  complexity?: 'simple' | 'moderate' | 'complex'; // optional hint
 }
 
 interface DialogueLine {
-  speaker: CastMember;
+  speaker: 'Alex' | 'Sam';
   line: string;
 }
 
-// ─── PROMPTS ──────────────────────────────────────────────────────────────────
-function buildSystemPrompt(complexity: 'simple' | 'moderate' | 'complex'): string {
-  const castCount = complexity === 'simple' ? '2–3' : complexity === 'moderate' ? '3–4' : '4–5';
-  const lineCount = complexity === 'simple' ? '20–30' : complexity === 'moderate' ? '30–40' : '40–50';
+// ─── SCRIPT PROMPTS ───────────────────────────────────────────────────────────
+function buildSystemPrompt(): string {
+  return `You are a scriptwriter for "StratAlign Theater", a popular show where two hosts — Alex and Sam — have smart, engaging conversations about project management tools and techniques.
 
-  return `You are the head writer for "StratAlign Theater", a podcast drama about project management where a team of professionals discuss tools and techniques through realistic workplace conversations.
+Alex is experienced, slightly analytical, and loves real-world examples. Sam is curious, enthusiastic, and great at asking the questions listeners are thinking.
 
-THE CAST (choose ${castCount} of these for this episode based on who would naturally be involved):
-- Alex: Senior PM and show host. Experienced, analytical, loves real-world examples. Usually leads the discussion.
-- Sam: Business Analyst. Curious, enthusiastic, asks the questions listeners are thinking. Great at simplifying concepts.
-- Jordan: Executive Sponsor. Senior leader, focused on business value, ROI, and strategic fit. Brings the "why it matters to the business" angle. Only appears in episodes where executive buy-in or strategic context is relevant.
-- Maya: Team Lead / Practitioner. Hands-on, practical, speaks from the trenches. Brings real implementation experience and "what actually happens in practice". Appears when the tool has strong team-level implications.
-- Chris: Devil's Advocate. Calm but challenging. Asks "but what about when this goes wrong?" and "isn't this just over-engineering it?". Keeps the conversation honest. Appears when the tool has common failure modes or is often misused.
-
-SELECTION RULES:
-- Simple/foundational tools (e.g. meeting agenda, status report): use Alex + Sam only
-- Moderate tools (e.g. RACI, risk register): add Maya or Chris as appropriate
-- Complex/strategic tools (e.g. programme governance, benefits realisation): use 4–5 cast members
-- Jordan only appears when executive sponsorship, budget, or strategic alignment is relevant
-- Chris only appears when there are genuine failure modes or scepticism worth exploring
-- Always start with Alex and Sam as the anchor hosts
+Your scripts should feel like a genuine conversation — not a lecture. Use natural speech patterns: interruptions, "exactly!", "right", "that's a good point", rhetorical questions, and light humour where appropriate.
 
 OUTPUT FORMAT — return ONLY a JSON array, no markdown, no explanation:
 [
@@ -97,32 +59,28 @@ OUTPUT FORMAT — return ONLY a JSON array, no markdown, no explanation:
   ...
 ]
 
-EPISODE STRUCTURE (target ${lineCount} lines):
-1. Intro — Alex and Sam open the show and introduce the topic and today's guests (4–6 lines)
+Episode structure (target 30–50 lines for a 5–10 min episode):
+1. Warm intro — both hosts greet listeners and introduce the topic (4–6 lines)
 2. What it is — clear explanation with an analogy (6–8 lines)
-3. When to use it — real-world scenarios, guests chime in from their perspective (6–8 lines)
-4. Step-by-step walkthrough — practical, detailed (8–10 lines)
-5. Real-world example — specific project scenario with guest reactions (6–8 lines)
-6. Challenges & pro tips — Chris raises concerns if present, Maya shares field experience (4–6 lines)
-7. Wrap-up — each active cast member gives their key takeaway (3–5 lines)
+3. When to use it — real-world scenarios (6–8 lines)
+4. Step-by-step walkthrough — detailed, practical (8–10 lines)
+5. Real-world example — specific project scenario (6–8 lines)
+6. Common mistakes & pro tips (4–6 lines)
+7. Wrap-up — key takeaway + teaser for related sessions (4–6 lines)
 
-CONVERSATION RULES:
+Rules:
 - Each line: 1–3 natural sentences. Not too short (choppy) or too long (hard to follow).
-- Characters should react to each other — agree, push back, build on ideas.
-- Use natural speech: "exactly!", "right", "that's a fair point", "hold on though…", rhetorical questions.
-- Vary who leads and who responds — don't let one character dominate.
+- Vary who asks and who explains — don't let one host dominate.
 - NEVER use bullet points or numbered lists inside a line — speak naturally.
-- Guests (Jordan, Maya, Chris) should feel like they've just joined the conversation, not like they were always there.
 
-CRITICAL LANGUAGE RULES:
-- NEVER say "as you know", "as we all know", "you already know", or any variation assuming prior knowledge.
-- When mentioning another PMO tool by name, ALWAYS say "we cover that in another session", "that's a whole episode on its own", or "check out our session on [tool name]".
+CRITICAL language rules:
+- NEVER say "as you know", "as we all know", "you already know", "of course you know", or any variation that assumes prior knowledge.
+- When mentioning another PMO tool by name, ALWAYS frame it as a separate session: "we cover that in another session", "that's a whole episode on its own", "check out our session on [tool name]".
 - Treat every listener as if this is their very first episode.`;
 }
 
 function buildUserPrompt(card: CardInput): string {
-  const complexity = card.complexity ?? inferComplexity(card);
-  return `Create a StratAlign Theater episode about this PMO tool.
+  return `Create a podcast episode about this PMO tool:
 
 Title: ${card.title}
 Tagline: ${card.tagline}
@@ -132,29 +90,17 @@ Steps: ${card.steps?.join('; ') ?? 'N/A'}
 Pro tip: ${card.proTip}
 Example: ${card.example ?? 'N/A'}
 Deck: ${card.deckTitle}
-Complexity assessment: ${complexity}
 
-Select the right cast members for this topic and write a genuinely informative, entertaining episode. The listener should finish knowing exactly when and how to use this tool, with a concrete mental model.`;
-}
-
-function inferComplexity(card: CardInput): 'simple' | 'moderate' | 'complex' {
-  const text = [card.whatItIs, card.whenToUse, card.steps?.join(' ') ?? ''].join(' ').toLowerCase();
-  const complexKeywords = ['governance', 'programme', 'portfolio', 'strategic', 'executive', 'stakeholder', 'benefits', 'transformation', 'change management', 'enterprise'];
-  const simpleKeywords = ['template', 'checklist', 'agenda', 'status', 'log', 'tracker', 'simple', 'basic'];
-  const complexScore = complexKeywords.filter(k => text.includes(k)).length;
-  const simpleScore = simpleKeywords.filter(k => text.includes(k)).length;
-  if (complexScore >= 2) return 'complex';
-  if (simpleScore >= 2) return 'simple';
-  return 'moderate';
+Make this episode genuinely informative and entertaining. Target 30–50 lines. The listener should finish knowing exactly when and how to use this tool.`;
 }
 
 // ─── TTS HELPER ───────────────────────────────────────────────────────────────
 async function synthesiseLine(
   text: string,
-  speaker: CastMember,
+  speaker: 'Alex' | 'Sam',
   apiKey: string
 ): Promise<string> {
-  const voice = CAST_VOICES[speaker] ?? CAST_VOICES.Alex;
+  const voice = speaker === 'Alex' ? VOICE_ALEX : VOICE_SAM;
 
   const processed = text
     .replace(/\s*—\s*/g, ', ')
@@ -183,13 +129,13 @@ async function synthesiseLine(
 }
 
 // ─── LLM STREAMING SCRIPT GENERATOR ──────────────────────────────────────────
+// Calls the LLM with stream:true and yields DialogueLines as they are parsed
+// from the SSE token stream. This lets us start TTS before the full script is done.
 async function* streamScript(card: CardInput): AsyncGenerator<DialogueLine> {
   const apiUrl = process.env.OPENAI_BASE_URL || process.env.BUILT_IN_FORGE_API_URL;
   const apiKey = process.env.OPENAI_API_KEY || process.env.BUILT_IN_FORGE_API_KEY;
 
   if (!apiUrl || !apiKey) throw new Error('LLM API not configured');
-
-  const complexity = card.complexity ?? inferComplexity(card);
 
   const controller = new AbortController();
   const timeout = setTimeout(() => controller.abort(), 90000);
@@ -206,11 +152,11 @@ async function* streamScript(card: CardInput): AsyncGenerator<DialogueLine> {
       body: JSON.stringify({
         model: 'gemini-2.0-flash',
         messages: [
-          { role: 'system', content: buildSystemPrompt(complexity) },
+          { role: 'system', content: buildSystemPrompt() },
           { role: 'user',   content: buildUserPrompt(card) },
         ],
-        temperature: 0.78,
-        max_tokens: 5000,
+        temperature: 0.75,
+        max_tokens: 4000,
         stream: true,
       }),
     });
@@ -223,11 +169,15 @@ async function* streamScript(card: CardInput): AsyncGenerator<DialogueLine> {
     throw new Error(`LLM error ${res.status}: ${err.slice(0, 200)}`);
   }
 
+  // Read the SSE stream and accumulate tokens into a JSON buffer
   const reader = res.body!.getReader();
   const decoder = new TextDecoder();
-  let buffer = '';
-  let jsonBuffer = '';
+  let buffer = ''; // accumulated JSON text from tokens
+  let jsonBuffer = ''; // the raw SSE line buffer
 
+  // We parse the JSON array incrementally.
+  // Strategy: accumulate all tokens, then extract complete JSON objects
+  // using a simple brace-depth scanner as soon as we see a closing `}`.
   let depth = 0;
   let inString = false;
   let escape = false;
@@ -241,22 +191,31 @@ async function* streamScript(card: CardInput): AsyncGenerator<DialogueLine> {
       if (ch === '\\' && inString) { escape = true; continue; }
       if (ch === '"') { inString = !inString; continue; }
       if (inString) continue;
-      if (ch === '{') { if (depth === 0) objectStart = i; depth++; }
-      else if (ch === '}') {
+
+      if (ch === '{') {
+        if (depth === 0) objectStart = i;
+        depth++;
+      } else if (ch === '}') {
         depth--;
         if (depth === 0 && objectStart !== -1) {
           const raw = buffer.slice(objectStart, i + 1);
           try {
             const obj = JSON.parse(raw) as DialogueLine;
-            const validSpeakers: CastMember[] = ['Alex', 'Sam', 'Jordan', 'Maya', 'Chris'];
-            if (obj.speaker && validSpeakers.includes(obj.speaker) && obj.line) found.push(obj);
-          } catch { /* skip */ }
+            if (obj.speaker && obj.line) found.push(obj);
+          } catch {
+            // partial or malformed — skip
+          }
           objectStart = -1;
         }
       }
     }
+    // Trim consumed buffer up to the last complete object
     if (found.length > 0) {
-      let lastEnd = -1; let d2 = 0; let inS2 = false; let esc2 = false;
+      // Find the last `}` at depth 0 to trim
+      let lastEnd = -1;
+      let d2 = 0;
+      let inS2 = false;
+      let esc2 = false;
       for (let i = 0; i < buffer.length; i++) {
         const ch = buffer[i];
         if (esc2) { esc2 = false; continue; }
@@ -268,6 +227,7 @@ async function* streamScript(card: CardInput): AsyncGenerator<DialogueLine> {
       }
       if (lastEnd !== -1) {
         buffer = buffer.slice(lastEnd + 1);
+        // reset scanner state
         depth = 0; inString = false; escape = false; objectStart = -1;
       }
     }
@@ -277,9 +237,11 @@ async function* streamScript(card: CardInput): AsyncGenerator<DialogueLine> {
   while (true) {
     const { done, value } = await reader.read();
     if (done) break;
+
     jsonBuffer += decoder.decode(value, { stream: true });
     const lines = jsonBuffer.split('\n');
     jsonBuffer = lines.pop() ?? '';
+
     for (const line of lines) {
       if (!line.startsWith('data: ')) continue;
       const data = line.slice(6).trim();
@@ -295,9 +257,13 @@ async function* streamScript(card: CardInput): AsyncGenerator<DialogueLine> {
           for (const obj of extracted) yield obj;
         }
         if (chunk.choices?.[0]?.finish_reason === 'stop') return;
-      } catch { /* skip malformed SSE */ }
+      } catch {
+        // malformed SSE chunk — skip
+      }
     }
   }
+
+  // Final flush — try to extract any remaining complete objects
   const remaining = tryExtractObjects();
   for (const obj of remaining) yield obj;
 }
@@ -319,25 +285,26 @@ export async function handlePodcastGenerate(req: Request, res: Response): Promis
       return;
     }
 
-    console.log(`[Theater] Streaming episode for: ${card.title}`);
+    console.log(`[Podcast] Streaming episode for: ${card.title}`);
 
+    // Set up NDJSON streaming response
     res.setHeader('Content-Type', 'application/x-ndjson');
     res.setHeader('Transfer-Encoding', 'chunked');
     res.setHeader('Cache-Control', 'no-cache');
-    res.setHeader('X-Accel-Buffering', 'no');
+    res.setHeader('X-Accel-Buffering', 'no'); // disable nginx buffering
     res.status(200);
 
     let index = 0;
     let successCount = 0;
-    const activeSpeakers = new Set<CastMember>();
 
+    // Concurrency control: allow up to 4 TTS requests in flight at once
+    // to maximise throughput without hitting rate limits
     const MAX_CONCURRENT = 4;
     const inFlight: Promise<void>[] = [];
 
     const processLine = async (dialogueLine: DialogueLine, lineIndex: number) => {
       try {
         const audioContent = await synthesiseLine(dialogueLine.line, dialogueLine.speaker, ttsKey);
-        activeSpeakers.add(dialogueLine.speaker);
         const segment = {
           speaker: dialogueLine.speaker,
           line: dialogueLine.line,
@@ -347,15 +314,21 @@ export async function handlePodcastGenerate(req: Request, res: Response): Promis
         };
         res.write(JSON.stringify(segment) + '\n');
         successCount++;
-        console.log(`[Theater] Segment ${lineIndex} — ${dialogueLine.speaker}`);
+        console.log(`[Podcast] Streamed segment ${lineIndex} (${dialogueLine.speaker})`);
       } catch (err) {
-        console.error(`[Theater] TTS failed for line ${lineIndex}:`, err);
+        console.error(`[Podcast] TTS failed for line ${lineIndex}:`, err);
+        // Skip failed line — don't break the stream
       }
     };
 
     for await (const dialogueLine of streamScript(card)) {
       const lineIndex = index++;
-      if (inFlight.length >= MAX_CONCURRENT) await inFlight.shift();
+
+      // If at max concurrency, wait for one to finish
+      if (inFlight.length >= MAX_CONCURRENT) {
+        await inFlight.shift();
+      }
+
       const p = processLine(dialogueLine, lineIndex).then(() => {
         const idx = inFlight.indexOf(p);
         if (idx !== -1) inFlight.splice(idx, 1);
@@ -363,26 +336,25 @@ export async function handlePodcastGenerate(req: Request, res: Response): Promis
       inFlight.push(p);
     }
 
+    // Wait for all remaining TTS requests
     await Promise.all(inFlight);
 
     if (successCount === 0) {
       res.write(JSON.stringify({ error: 'All TTS segments failed', done: true }) + '\n');
     } else {
-      res.write(JSON.stringify({
-        done: true,
-        total: successCount,
-        cast: Array.from(activeSpeakers),
-      }) + '\n');
+      res.write(JSON.stringify({ done: true, total: successCount }) + '\n');
     }
 
     res.end();
-    console.log(`[Theater] Episode complete: ${successCount} segments, cast: ${Array.from(activeSpeakers).join(', ')}`);
+    console.log(`[Podcast] Episode complete: ${successCount} segments for "${card.title}"`);
 
   } catch (err) {
-    console.error('[Theater] Unexpected error:', err);
+    console.error('[Podcast] Unexpected error:', err);
     try {
       res.write(JSON.stringify({ error: String(err), done: true }) + '\n');
       res.end();
-    } catch { /* response already ended */ }
+    } catch {
+      // response already ended
+    }
   }
 }

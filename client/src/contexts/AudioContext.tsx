@@ -1,7 +1,11 @@
-// AudioContext — StratAlign Theater
-// Multi-character podcast (up to 5 cast members) with Google Cloud TTS Journey voices.
-// Plays the branded intro jingle before each episode, then streams segments.
-// Episode numbers (S1E#) are assigned per-card and persist in localStorage.
+// AudioContext — Two-host podcast mode using Google Cloud TTS (streaming)
+// Alex (Journey-D, male) and Sam (Journey-O, female) have a natural back-and-forth conversation.
+//
+// Streaming architecture:
+//   - /api/podcast returns NDJSON segments as each TTS line completes server-side
+//   - We start playing the FIRST segment as soon as it arrives (~3-5 s)
+//   - Subsequent segments are queued and played back-to-back with no gap
+//   - A "buffering" state is shown when the player is waiting for the next segment
 
 import {
   createContext,
@@ -12,23 +16,11 @@ import {
   useEffect,
   type ReactNode,
 } from 'react';
-import { CARDS, getDeckById } from '@/lib/pmoData';
-import { getEpisodeId } from '@/lib/episodeNumbers';
-
-// ─── CAST ─────────────────────────────────────────────────────────────────────
-export type CastMember = 'Alex' | 'Sam' | 'Jordan' | 'Maya' | 'Chris';
-
-export const CAST_META: Record<CastMember, { role: string; color: string; emoji: string }> = {
-  Alex:  { role: 'Senior PM & Host',    color: '#6366f1', emoji: '👨‍💼' },
-  Sam:   { role: 'Business Analyst',    color: '#ec4899', emoji: '👩‍💻' },
-  Jordan:{ role: 'Executive Sponsor',   color: '#f59e0b', emoji: '👩‍⚖️' },
-  Maya:  { role: 'Team Lead',           color: '#10b981', emoji: '👨‍🔧' },
-  Chris: { role: "Devil's Advocate",    color: '#ef4444', emoji: '🤔' },
-};
+import { CARDS, getDeckById, type PMOCard } from '@/lib/pmoData';
 
 // ─── TYPES ────────────────────────────────────────────────────────────────────
 export interface PodcastSegment {
-  speaker: CastMember;
+  speaker: 'Alex' | 'Sam';
   line: string;
   audioContent: string; // base64 MP3
   index: number;
@@ -39,23 +31,20 @@ export interface AudioTrack {
   title: string;
   deckTitle: string;
   deckColor: string;
-  episodeId: string; // e.g. "S1E7"
   segments: PodcastSegment[];
   currentSegmentIndex: number;
   totalSegments: number;
-  activeCast: CastMember[];
 }
 
 interface AudioState {
   isPlaying: boolean;
   isPaused: boolean;
-  isLoading: boolean;
-  isBuffering: boolean;
-  isJingle: boolean; // true while the intro jingle is playing
+  isLoading: boolean;      // fetching first segment
+  isBuffering: boolean;    // playing but waiting for next segment
   currentTrack: AudioTrack | null;
   currentIndex: number;
-  playlist: Omit<AudioTrack, 'segments' | 'currentSegmentIndex' | 'totalSegments' | 'activeCast'>[];
-  currentSpeaker: CastMember | null;
+  playlist: Omit<AudioTrack, 'segments' | 'currentSegmentIndex' | 'totalSegments'>[];
+  currentSpeaker: 'Alex' | 'Sam' | null;
   currentLine: string;
   rate: number;
   error: string | null;
@@ -64,7 +53,6 @@ interface AudioState {
   segmentDuration: number;
   episodeSegmentIndex: number;
   episodeTotalSegments: number;
-  activeCast: CastMember[];
 }
 
 interface AudioContextValue extends AudioState {
@@ -80,11 +68,8 @@ interface AudioContextValue extends AudioState {
   isSupported: boolean;
 }
 
-// ─── JINGLE ───────────────────────────────────────────────────────────────────
-const JINGLE_URL = 'https://files.manuscdn.com/user_upload_by_module/session_file/310419663029097403/emcbKlQRIrHjopVD.mp3';
-
-// ─── CACHE ────────────────────────────────────────────────────────────────────
-const CACHE_PREFIX = 'sat_podcast_v3_'; // bumped version for new cast
+// ─── PODCAST CACHE ────────────────────────────────────────────────────────────
+const CACHE_PREFIX = 'pmo_podcast_v2_';
 
 function getCachedEpisode(cardId: string): PodcastSegment[] | null {
   try {
@@ -111,7 +96,6 @@ export function AudioProvider({ children }: { children: ReactNode }) {
     isPaused: false,
     isLoading: false,
     isBuffering: false,
-    isJingle: false,
     currentTrack: null,
     currentIndex: -1,
     playlist: [],
@@ -124,23 +108,25 @@ export function AudioProvider({ children }: { children: ReactNode }) {
     segmentDuration: 0,
     episodeSegmentIndex: 0,
     episodeTotalSegments: 0,
-    activeCast: [],
   });
 
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const stateRef = useRef(state);
   stateRef.current = state;
 
+  // Segment queue — segments arrive from the stream and are queued here
+  // The playback engine dequeues them one by one
   const segmentQueueRef = useRef<PodcastSegment[]>([]);
-  const streamDoneRef = useRef(false);
-  const playingSegIdxRef = useRef(-1);
-  const isPlayingRef = useRef(false);
-  const currentCardIdRef = useRef<string>('');
+  const streamDoneRef = useRef(false);       // stream has finished sending segments
+  const playingSegIdxRef = useRef(-1);       // which segment index is currently playing
+  const isPlayingRef = useRef(false);        // avoid re-entrant playNext calls
+  const currentCardIdRef = useRef<string>(''); // guard against stale callbacks
 
   function getAudio(): HTMLAudioElement {
     if (!audioRef.current) {
       const audio = new Audio();
       audio.preload = 'auto';
+
       audio.addEventListener('timeupdate', () => {
         const dur = audio.duration || 0;
         const cur = audio.currentTime || 0;
@@ -153,10 +139,14 @@ export function AudioProvider({ children }: { children: ReactNode }) {
           }));
         }
       });
+
       audio.addEventListener('durationchange', () => {
         const dur = audio.duration || 0;
-        if (dur > 0 && isFinite(dur)) setState(prev => ({ ...prev, segmentDuration: dur }));
+        if (dur > 0 && isFinite(dur)) {
+          setState(prev => ({ ...prev, segmentDuration: dur }));
+        }
       });
+
       audioRef.current = audio;
     }
     return audioRef.current;
@@ -164,9 +154,9 @@ export function AudioProvider({ children }: { children: ReactNode }) {
 
   // ── Media Session ──
   function updateMediaSession(
-    track: Omit<AudioTrack, 'segments' | 'currentSegmentIndex' | 'totalSegments' | 'activeCast'> | null,
+    track: Omit<AudioTrack, 'segments' | 'currentSegmentIndex' | 'totalSegments'> | null,
     playing: boolean,
-    speaker?: CastMember | null
+    speaker?: 'Alex' | 'Sam' | null
   ) {
     if (!('mediaSession' in navigator)) return;
     if (!track) {
@@ -174,10 +164,9 @@ export function AudioProvider({ children }: { children: ReactNode }) {
       navigator.mediaSession.playbackState = 'none';
       return;
     }
-    const speakerMeta = speaker ? CAST_META[speaker] : null;
     navigator.mediaSession.metadata = new MediaMetadata({
-      title: `${track.episodeId}: ${track.title}`,
-      artist: speakerMeta ? `${speakerMeta.emoji} ${speaker} — ${speakerMeta.role}` : track.deckTitle,
+      title: track.title,
+      artist: speaker ? `${speaker} — ${track.deckTitle}` : track.deckTitle,
       album: 'StratAlign Theater',
       artwork: [
         { src: '/icon-192.png', sizes: '192x192', type: 'image/png' },
@@ -187,53 +176,22 @@ export function AudioProvider({ children }: { children: ReactNode }) {
     navigator.mediaSession.playbackState = playing ? 'playing' : 'paused';
   }
 
-  // ── Play intro jingle then call onDone ──
-  const playJingle = useCallback((cardId: string, onDone: () => void) => {
-    const audio = getAudio();
-    audio.pause();
-    audio.src = JINGLE_URL;
-    audio.playbackRate = stateRef.current.rate;
-
-    setState(prev => ({
-      ...prev,
-      isJingle: true,
-      isPlaying: true,
-      isLoading: false,
-      currentSpeaker: null,
-      currentLine: 'StratAlign Theater',
-      segmentProgress: 0,
-      segmentElapsed: 0,
-      segmentDuration: 0,
-    }));
-
-    audio.onended = () => {
-      if (cardId !== currentCardIdRef.current) return;
-      setState(prev => ({ ...prev, isJingle: false }));
-      onDone();
-    };
-    audio.onerror = () => {
-      // If jingle fails, skip it and go straight to episode
-      if (cardId !== currentCardIdRef.current) return;
-      setState(prev => ({ ...prev, isJingle: false }));
-      onDone();
-    };
-    audio.play().catch(() => {
-      setState(prev => ({ ...prev, isJingle: false }));
-      onDone();
-    });
-  }, []);
-
-  // ── Dequeue and play the next segment ──
+  // ── Dequeue and play the next available segment ──
   const playNextSegment = useCallback((cardId: string) => {
+    // Guard: if the card has changed, stop
     if (cardId !== currentCardIdRef.current) return;
     if (stateRef.current.isPaused) return;
 
     const queue = segmentQueueRef.current;
+
+    // Find the next segment in order
     const nextIdx = playingSegIdxRef.current + 1;
     const segment = queue.find(s => s.index === nextIdx);
 
     if (!segment) {
+      // Not in queue yet
       if (streamDoneRef.current) {
+        // Stream finished and no more segments — episode complete
         const { currentIndex, playlist } = stateRef.current;
         isPlayingRef.current = false;
         if (currentIndex + 1 < playlist.length) {
@@ -252,6 +210,7 @@ export function AudioProvider({ children }: { children: ReactNode }) {
           updateMediaSession(null, false);
         }
       } else {
+        // Still streaming — show buffering state and poll
         setState(prev => ({ ...prev, isBuffering: true }));
         isPlayingRef.current = false;
         setTimeout(() => {
@@ -273,12 +232,7 @@ export function AudioProvider({ children }: { children: ReactNode }) {
 
     const totalKnown = streamDoneRef.current
       ? queue.length
-      : Math.max(queue.length, nextIdx + 2);
-
-    // Track active cast members seen so far
-    const seenSpeakers = new Set<CastMember>(
-      queue.filter(s => s.index <= nextIdx).map(s => s.speaker)
-    );
+      : Math.max(queue.length, nextIdx + 2); // estimate
 
     setState(prev => ({
       ...prev,
@@ -286,7 +240,6 @@ export function AudioProvider({ children }: { children: ReactNode }) {
       isPaused: false,
       isBuffering: false,
       isLoading: false,
-      isJingle: false,
       currentSpeaker: segment.speaker,
       currentLine: segment.line,
       segmentProgress: 0,
@@ -294,14 +247,8 @@ export function AudioProvider({ children }: { children: ReactNode }) {
       segmentDuration: 0,
       episodeSegmentIndex: nextIdx,
       episodeTotalSegments: totalKnown,
-      activeCast: Array.from(seenSpeakers),
       currentTrack: prev.currentTrack
-        ? {
-            ...prev.currentTrack,
-            currentSegmentIndex: nextIdx,
-            segments: queue.slice(),
-            activeCast: Array.from(seenSpeakers),
-          }
+        ? { ...prev.currentTrack, currentSegmentIndex: nextIdx, segments: queue.slice() }
         : prev.currentTrack,
     }));
 
@@ -315,11 +262,12 @@ export function AudioProvider({ children }: { children: ReactNode }) {
       }
     };
     audio.onerror = () => {
-      console.warn('[Theater] Segment error, skipping');
+      console.warn('[Audio] Segment error, skipping');
       isPlayingRef.current = false;
       if (cardId === currentCardIdRef.current) playNextSegment(cardId);
     };
-    audio.play().catch(err => console.error('[Theater] play() failed:', err));
+
+    audio.play().catch(err => console.error('[Audio] play() failed:', err));
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   // ── Core: stream episode then play ──
@@ -334,8 +282,8 @@ export function AudioProvider({ children }: { children: ReactNode }) {
     const deck = getDeckById(card.deckId);
     const deckTitle = deck?.title ?? card.deckId;
     const deckColor = deck?.color ?? '#6366f1';
-    const episodeId = getEpisodeId(cardId);
 
+    // Stop current audio and reset state
     const audio = getAudio();
     audio.pause();
     audio.src = '';
@@ -348,7 +296,12 @@ export function AudioProvider({ children }: { children: ReactNode }) {
     playingSegIdxRef.current = -1;
     isPlayingRef.current = false;
 
-    const lightTrack = { cardId, title: card.title, deckTitle, deckColor, episodeId };
+    const lightTrack = {
+      cardId,
+      title: card.title,
+      deckTitle,
+      deckColor,
+    };
 
     setState(prev => ({
       ...prev,
@@ -356,7 +309,6 @@ export function AudioProvider({ children }: { children: ReactNode }) {
       isPlaying: false,
       isPaused: false,
       isBuffering: false,
-      isJingle: false,
       currentSpeaker: null,
       currentLine: '',
       currentIndex: playlistIndex,
@@ -367,64 +319,38 @@ export function AudioProvider({ children }: { children: ReactNode }) {
       segmentDuration: 0,
       episodeSegmentIndex: 0,
       episodeTotalSegments: 0,
-      activeCast: [],
       currentTrack: {
         cardId,
         title: card.title,
         deckTitle,
         deckColor,
-        episodeId,
         segments: [],
         currentSegmentIndex: 0,
         totalSegments: 0,
-        activeCast: [],
       },
     }));
 
-    // Determine if we should play jingle (not for cached replays to avoid repetition)
+    // Check cache first — if cached, skip streaming
     const cached = getCachedEpisode(cardId);
-    const shouldPlayJingle = !cached?.length;
-
-    const startEpisode = (segments?: PodcastSegment[]) => {
-      if (segments?.length) {
-        // Cached — load and play
-        segmentQueueRef.current = segments;
-        streamDoneRef.current = true;
-        const castSet = new Set<CastMember>(segments.map(s => s.speaker));
-        setState(prev => ({
-          ...prev,
-          isLoading: false,
-          episodeTotalSegments: segments.length,
-          activeCast: Array.from(castSet),
-          currentTrack: prev.currentTrack
-            ? { ...prev.currentTrack, segments, totalSegments: segments.length, activeCast: Array.from(castSet) }
-            : prev.currentTrack,
-        }));
-        playNextSegment(cardId);
-      }
-      // else: streaming will kick off playback when first segment arrives
-    };
-
-    if (shouldPlayJingle) {
-      // Play jingle first, then start streaming/playback
-      playJingle(cardId, () => {
-        if (cardId !== currentCardIdRef.current) return;
-        if (!streamDoneRef.current && segmentQueueRef.current.length === 0) {
-          // Still loading — show loading state while stream catches up
-          setState(prev => ({ ...prev, isJingle: false, isLoading: true }));
-        } else {
-          playNextSegment(cardId);
-        }
-      });
-    }
-
     if (cached?.length) {
-      console.log(`[Theater] Cache hit for: ${card.title}`);
-      startEpisode(cached);
+      console.log(`[Podcast] Cache hit for: ${card.title}`);
+      segmentQueueRef.current = cached;
+      streamDoneRef.current = true;
+      setState(prev => ({
+        ...prev,
+        isLoading: false,
+        episodeTotalSegments: cached.length,
+        currentTrack: prev.currentTrack
+          ? { ...prev.currentTrack, segments: cached, totalSegments: cached.length }
+          : prev.currentTrack,
+      }));
+      playNextSegment(cardId);
       return;
     }
 
-    // Fetch full episode as single JSON response (edge-proxy compatible)
+    // Stream from server
+    let streamStarted = false;
+
     try {
       const response = await fetch('/api/podcast', {
         method: 'POST',
@@ -443,48 +369,127 @@ export function AudioProvider({ children }: { children: ReactNode }) {
         }),
       });
 
-      if (!response.ok) {
+      if (!response.ok || !response.body) {
         const err = await response.text();
         throw new Error(`Podcast API error ${response.status}: ${err.slice(0, 200)}`);
       }
 
-      const data = await response.json() as { segments: PodcastSegment[]; total: number; cast: string[] };
+      const reader = response.body.getReader();
+      const decoder = new TextDecoder();
+      let lineBuffer = '';
 
-      if (cardId !== currentCardIdRef.current) return;
+      while (true) {
+        // Stop if card changed (user pressed a different card)
+        if (cardId !== currentCardIdRef.current) {
+          reader.cancel();
+          return;
+        }
 
-      if (!data.segments?.length) {
-        throw new Error('No segments returned from podcast API');
+        const { done, value } = await reader.read();
+        if (done) break;
+
+        lineBuffer += decoder.decode(value, { stream: true });
+        const lines = lineBuffer.split('\n');
+        lineBuffer = lines.pop() ?? '';
+
+        for (const line of lines) {
+          const trimmed = line.trim();
+          if (!trimmed) continue;
+          try {
+            const parsed = JSON.parse(trimmed);
+
+            if (parsed.done) {
+              streamDoneRef.current = true;
+              // Cache the complete episode
+              const allSegments = segmentQueueRef.current;
+              if (allSegments.length > 0) {
+                setCachedEpisode(cardId, allSegments);
+              }
+              // Update total count
+              setState(prev => ({
+                ...prev,
+                episodeTotalSegments: allSegments.length,
+                currentTrack: prev.currentTrack
+                  ? { ...prev.currentTrack, totalSegments: allSegments.length, segments: allSegments.slice() }
+                  : prev.currentTrack,
+              }));
+              // If buffering, kick off playback
+              if (!isPlayingRef.current && !stateRef.current.isPaused) {
+                playNextSegment(cardId);
+              }
+              continue;
+            }
+
+            if (parsed.error) {
+              console.error('[Podcast] Stream error:', parsed.error);
+              continue;
+            }
+
+            // It's a segment
+            const segment: PodcastSegment = {
+              speaker: parsed.speaker,
+              line: parsed.line,
+              audioContent: parsed.audioContent,
+              index: parsed.index,
+            };
+
+            segmentQueueRef.current = [...segmentQueueRef.current, segment];
+
+            // Start playback as soon as the first segment arrives
+            if (!streamStarted) {
+              streamStarted = true;
+              setState(prev => ({ ...prev, isLoading: false }));
+              if (!isPlayingRef.current) {
+                playNextSegment(cardId);
+              }
+            }
+
+            // Update track segments in state
+            const currentSegments = segmentQueueRef.current;
+            setState(prev => ({
+              ...prev,
+              episodeTotalSegments: streamDoneRef.current ? currentSegments.length : Math.max(prev.episodeTotalSegments, segment.index + 2),
+              currentTrack: prev.currentTrack
+                ? { ...prev.currentTrack, segments: currentSegments.slice() }
+                : prev.currentTrack,
+            }));
+
+          } catch {
+            // malformed JSON line — skip
+          }
+        }
       }
 
-      const segments = data.segments;
-      segmentQueueRef.current = segments;
+      // Handle any remaining buffered line
+      if (lineBuffer.trim()) {
+        try {
+          const parsed = JSON.parse(lineBuffer.trim());
+          if (parsed.done) {
+            streamDoneRef.current = true;
+            if (!isPlayingRef.current && !stateRef.current.isPaused) {
+              playNextSegment(cardId);
+            }
+          }
+        } catch { /* ignore */ }
+      }
+
       streamDoneRef.current = true;
-
-      const castSet = new Set<CastMember>(segments.map(s => s.speaker));
-      setCachedEpisode(cardId, segments);
-
-      setState(prev => ({
-        ...prev,
-        isLoading: false,
-        isBuffering: false,
-        episodeTotalSegments: segments.length,
-        activeCast: Array.from(castSet),
-        currentTrack: prev.currentTrack
-          ? { ...prev.currentTrack, totalSegments: segments.length, segments: segments.slice(), activeCast: Array.from(castSet) }
-          : prev.currentTrack,
-      }));
-
-      // Start playback if jingle has already finished (or was skipped)
-      if (!isPlayingRef.current && !stateRef.current.isJingle && !stateRef.current.isPaused) {
+      if (!isPlayingRef.current && !stateRef.current.isPaused) {
         playNextSegment(cardId);
       }
 
     } catch (err) {
-      if (cardId !== currentCardIdRef.current) return;
-      console.error('[Theater] Fetch error:', err);
-      setState(prev => ({ ...prev, isLoading: false, isBuffering: false, isPlaying: false, error: String(err) }));
+      if (cardId !== currentCardIdRef.current) return; // stale
+      console.error('[Podcast] Stream error:', err);
+      setState(prev => ({
+        ...prev,
+        isLoading: false,
+        isBuffering: false,
+        isPlaying: false,
+        error: String(err),
+      }));
     }
-  }, [playJingle, playNextSegment]);
+  }, [playNextSegment]);
 
   // ── Media Session action handlers ──
   useEffect(() => {
@@ -528,9 +533,15 @@ export function AudioProvider({ children }: { children: ReactNode }) {
       currentCardIdRef.current = '';
       setState(prev => ({
         ...prev,
-        isPlaying: false, isPaused: false, isBuffering: false, isJingle: false,
-        currentTrack: null, currentIndex: -1, playlist: [],
-        segmentProgress: 0, segmentElapsed: 0, segmentDuration: 0,
+        isPlaying: false,
+        isPaused: false,
+        isBuffering: false,
+        currentTrack: null,
+        currentIndex: -1,
+        playlist: [],
+        segmentProgress: 0,
+        segmentElapsed: 0,
+        segmentDuration: 0,
       }));
       updateMediaSession(null, false);
     });
@@ -547,13 +558,11 @@ export function AudioProvider({ children }: { children: ReactNode }) {
     const card = CARDS.find(c => c.id === cardId);
     if (!card) return;
     const deck = getDeckById(card.deckId);
-    const episodeId = getEpisodeId(cardId);
     const lightPlaylist = [{
       cardId,
       title: card.title,
       deckTitle: deck?.title ?? card.deckId,
       deckColor: deck?.color ?? '#6366f1',
-      episodeId,
     }];
     playCardById(cardId, 0, lightPlaylist);
   }, [playCardById]);
@@ -567,7 +576,6 @@ export function AudioProvider({ children }: { children: ReactNode }) {
       title: c.title,
       deckTitle: deck?.title ?? deckId,
       deckColor: deck?.color ?? '#6366f1',
-      episodeId: getEpisodeId(c.id),
     }));
     playCardById(deckCards[0].id, 0, lightPlaylist);
   }, [playCardById]);
@@ -582,6 +590,7 @@ export function AudioProvider({ children }: { children: ReactNode }) {
 
   const resume = useCallback(() => {
     const audio = getAudio();
+    // If we have a src, resume it; otherwise kick off next segment
     if (audio.src && audio.src !== window.location.href) {
       audio.play().then(() => {
         setState(prev => ({ ...prev, isPaused: false, isPlaying: true }));
@@ -607,22 +616,36 @@ export function AudioProvider({ children }: { children: ReactNode }) {
     isPlayingRef.current = false;
     setState(prev => ({
       ...prev,
-      isPlaying: false, isPaused: false, isLoading: false, isBuffering: false, isJingle: false,
-      currentTrack: null, currentIndex: -1, playlist: [], currentSpeaker: null, currentLine: '',
-      segmentProgress: 0, segmentElapsed: 0, segmentDuration: 0,
-      episodeSegmentIndex: 0, episodeTotalSegments: 0, activeCast: [],
+      isPlaying: false,
+      isPaused: false,
+      isLoading: false,
+      isBuffering: false,
+      currentTrack: null,
+      currentIndex: -1,
+      playlist: [],
+      currentSpeaker: null,
+      currentLine: '',
+      segmentProgress: 0,
+      segmentElapsed: 0,
+      segmentDuration: 0,
+      episodeSegmentIndex: 0,
+      episodeTotalSegments: 0,
     }));
     updateMediaSession(null, false);
   }, []);
 
   const next = useCallback(() => {
     const { currentIndex, playlist } = stateRef.current;
-    if (currentIndex + 1 < playlist.length) playCardById(playlist[currentIndex + 1].cardId, currentIndex + 1, playlist);
+    if (currentIndex + 1 < playlist.length) {
+      playCardById(playlist[currentIndex + 1].cardId, currentIndex + 1, playlist);
+    }
   }, [playCardById]);
 
   const prev = useCallback(() => {
     const { currentIndex, playlist } = stateRef.current;
-    if (currentIndex - 1 >= 0) playCardById(playlist[currentIndex - 1].cardId, currentIndex - 1, playlist);
+    if (currentIndex - 1 >= 0) {
+      playCardById(playlist[currentIndex - 1].cardId, currentIndex - 1, playlist);
+    }
   }, [playCardById]);
 
   const setRate = useCallback((rate: number) => {

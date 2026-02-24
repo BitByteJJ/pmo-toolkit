@@ -11,13 +11,14 @@ import {
   Loader2,
   Mic2,
 } from 'lucide-react';
-import { useAudio, CAST_META } from '@/contexts/AudioContext';
+import { useAudio } from '@/contexts/AudioContext';
 import { useTheme } from '@/contexts/ThemeContext';
 
-// Speaker avatar colours — derived from CAST_META so they stay in sync with all 5 cast members
-const SPEAKER_COLORS: Record<string, string> = Object.fromEntries(
-  Object.entries(CAST_META).map(([name, meta]) => [name, meta.color])
-);
+// Speaker avatar colours
+const SPEAKER_COLORS: Record<string, string> = {
+  Alex: '#6366f1', // indigo — male host
+  Sam:  '#ec4899', // pink — female host
+};
 
 function formatTime(seconds: number): string {
   if (!isFinite(seconds) || seconds < 0) return '0:00';
