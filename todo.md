@@ -625,3 +625,9 @@
 - [x] Improve podcast script prompt: fun, energetic, NPR-meets-The-Office vibe
 - [x] Character personalities drive disagreements, laughs, and pushback in every episode
 - [x] Cold open hook, rapid-fire takeaways, and energetic sign-off structure added
+
+## StratAlign Theater Jingle Upgrade & Outro — Feb 2026
+- [x] Generate new upbeat intro jingle (BPM=128, synth bass, snare, hi-hats, bright bell, 4s)
+- [x] Generate short outro stinger (~2.2s) — descending mirror of intro motif
+- [x] Upload both to CDN
+- [x] Wire outro to play after the final episode segment (graceful fallback if blocked)

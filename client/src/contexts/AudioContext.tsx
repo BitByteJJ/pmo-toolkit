@@ -253,22 +253,32 @@ async function fetchPodcastEpisodeSSE(
   return { segments: data.segments, cast };
 }
 
-// ─── JINGLE ──────────────────────────────────────────────────────────────────
-// Plays before the first spoken segment of a fresh (non-cached) episode.
-// Skipped when replaying a cached episode to avoid repetition.
-const JINGLE_URL = 'https://files.manuscdn.com/user_upload_by_module/session_file/310419663029097403/SytEZNhmNnemzRIb.mp3';
+// ─── JINGLE & OUTRO ─────────────────────────────────────────────────────────
+// Intro plays before the first spoken segment of a fresh (non-cached) episode.
+// Outro stinger plays after the final spoken segment of every episode.
+// Both use dedicated audio elements separate from the main episode player.
+const JINGLE_URL = 'https://files.manuscdn.com/user_upload_by_module/session_file/310419663029097403/lXKgYYBLgOycvYnu.mp3';
+const OUTRO_URL  = 'https://files.manuscdn.com/user_upload_by_module/session_file/310419663029097403/qQGwuVTucjEbrQxY.mp3';
 
-// Dedicated jingle audio element — separate from the main episode player
-// so there's no src/state collision. Created lazily on first use.
 let jingleAudio: HTMLAudioElement | null = null;
+let outroAudio:  HTMLAudioElement | null = null;
 
 function getJingleAudio(): HTMLAudioElement {
   if (!jingleAudio) {
     jingleAudio = new Audio();
     jingleAudio.preload = 'auto';
-    jingleAudio.src = JINGLE_URL; // pre-load immediately
+    jingleAudio.src = JINGLE_URL;
   }
   return jingleAudio;
+}
+
+function getOutroAudio(): HTMLAudioElement {
+  if (!outroAudio) {
+    outroAudio = new Audio();
+    outroAudio.preload = 'auto';
+    outroAudio.src = OUTRO_URL;
+  }
+  return outroAudio;
 }
 
 function playJingle(onEnded: () => void) {
@@ -276,8 +286,17 @@ function playJingle(onEnded: () => void) {
   j.currentTime = 0;
   j.playbackRate = 1.0;
   j.onended = onEnded;
-  j.onerror = () => onEnded(); // skip gracefully if CDN unreachable
-  j.play().catch(() => onEnded()); // autoplay blocked → skip gracefully
+  j.onerror = () => onEnded();
+  j.play().catch(() => onEnded());
+}
+
+function playOutro(onEnded: () => void) {
+  const o = getOutroAudio();
+  o.currentTime = 0;
+  o.playbackRate = 1.0;
+  o.onended = onEnded;
+  o.onerror = () => onEnded();
+  o.play().catch(() => onEnded());
 }
 
 // ─── CONTEXT ─────────────────────────────────────────────────────────────────
@@ -409,23 +428,28 @@ export function AudioProvider({ children }: { children: ReactNode }) {
     const playNext = (segIdx: number) => {
       const t = currentTrackRef.current;
       if (!t || segIdx >= t.segments.length) {
-        const { currentIndex, playlist } = stateRef.current;
-        if (currentIndex + 1 < playlist.length) {
-          const nextCard = CARDS.find(c => c.id === playlist[currentIndex + 1].cardId);
-          if (nextCard) {
-            playCardById(nextCard.id, currentIndex + 1, stateRef.current.playlist);
+        // Episode finished — play outro stinger then resolve
+        const finishEpisode = () => {
+          const { currentIndex, playlist } = stateRef.current;
+          if (currentIndex + 1 < playlist.length) {
+            const nextCard = CARDS.find(c => c.id === playlist[currentIndex + 1].cardId);
+            if (nextCard) {
+              playCardById(nextCard.id, currentIndex + 1, stateRef.current.playlist);
+            }
+          } else {
+            setState(prev => ({
+              ...prev,
+              isPlaying: false,
+              isPaused: false,
+              currentSpeaker: null,
+              currentLine: '',
+              segmentProgress: 1,
+            }));
+            updateMediaSession(null, false);
           }
-        } else {
-          setState(prev => ({
-            ...prev,
-            isPlaying: false,
-            isPaused: false,
-            currentSpeaker: null,
-            currentLine: '',
-            segmentProgress: 1,
-          }));
-          updateMediaSession(null, false);
-        }
+        };
+        // Play outro stinger (gracefully skip if blocked or CDN unreachable)
+        playOutro(finishEpisode);
         return;
       }
 
