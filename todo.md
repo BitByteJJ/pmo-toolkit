@@ -609,3 +609,10 @@
 - [x] Download episode as MP3 — /api/podcast-download stitches segments and serves binary
 - [x] AudioContext downloadEpisode() helper — single source of truth for download logic
 - [x] NowPlaying loading state replaced with animated SSE progress bar
+
+## StratAlign Theater Jingle — Feb 2026
+- [x] Generate StratAlign Theater intro jingle (3.5s rising arpeggio + broadcast chime)
+- [x] Host jingle on CDN
+- [x] Wire jingle playback into AudioContext: plays before first segment of each episode
+- [x] Skip jingle if episode is already cached (user replaying)
+- [x] Jingle gracefully skipped if CDN unreachable (onerror fallback)

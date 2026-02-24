@@ -253,6 +253,20 @@ async function fetchPodcastEpisodeSSE(
   return { segments: data.segments, cast };
 }
 
+// ─── JINGLE ──────────────────────────────────────────────────────────────────
+// Plays before the first spoken segment of a fresh (non-cached) episode.
+// Skipped when replaying a cached episode to avoid repetition.
+const JINGLE_URL = 'https://files.manuscdn.com/user_upload_by_module/session_file/310419663029097403/SytEZNhmNnemzRIb.mp3';
+
+function playJingle(audio: HTMLAudioElement, onEnded: () => void) {
+  audio.pause();
+  audio.src = JINGLE_URL;
+  audio.playbackRate = 1.0; // always play jingle at 1x
+  audio.onended = onEnded;
+  audio.onerror = onEnded; // skip if CDN unreachable
+  audio.play().catch(() => onEnded());
+}
+
 // ─── CONTEXT ─────────────────────────────────────────────────────────────────
 const Ctx = createContext<AudioContextValue | null>(null);
 
@@ -376,7 +390,7 @@ export function AudioProvider({ children }: { children: ReactNode }) {
     });
   }, []);
 
-  const playTrackSegments = useCallback((track: AudioTrack, startSegment = 0) => {
+  const playTrackSegments = useCallback((track: AudioTrack, startSegment = 0, playIntroJingle = false) => {
     currentTrackRef.current = { ...track, currentSegmentIndex: startSegment };
 
     const playNext = (segIdx: number) => {
@@ -419,7 +433,13 @@ export function AudioProvider({ children }: { children: ReactNode }) {
       playSegment(segment, segIdx, t.segments.length, () => playNext(segIdx + 1));
     };
 
-    playNext(startSegment);
+    if (playIntroJingle && startSegment === 0) {
+      // Play jingle first, then start the episode
+      const audio = getAudio();
+      playJingle(audio, () => playNext(startSegment));
+    } else {
+      playNext(startSegment);
+    }
   }, [playSegment]);
 
   const playCardById = useCallback(async (
@@ -471,7 +491,11 @@ export function AudioProvider({ children }: { children: ReactNode }) {
 
     let segments: PodcastSegment[];
     let cast: SpeakerName[];
+    let wasFromCache = false;
     try {
+      // Check cache before fetching so we know whether to play the jingle
+      const cached = getCachedEpisode(card.id);
+      if (cached) wasFromCache = true;
       const result = await fetchPodcastEpisodeSSE(
         card,
         deckTitle,
@@ -520,7 +544,8 @@ export function AudioProvider({ children }: { children: ReactNode }) {
       episodeTotalSegments: segments.length,
     }));
 
-    playTrackSegments(track, 0);
+    // Play intro jingle only for freshly generated (non-cached) episodes
+    playTrackSegments(track, 0, !wasFromCache);
   }, [playTrackSegments]);
 
   // ── Media Session action handlers ──
