@@ -575,3 +575,11 @@
 - [x] Update AudioContext to fetch and stitch podcast segments, playing them sequentially
 - [x] Update AudioMode UI to show host avatars and current speaker during playback
 - [x] Cache full podcast episodes in sessionStorage
+
+## Podcast Improvements — Feb 24 2026
+
+- [x] Fix podcast script prompt: no "as you know" / "already know" phrasing; reference other tools as "we cover that in another session"
+- [x] Add real-time progress bar + time remaining to AudioPlayerBar mini-player
+- [x] Add time elapsed / total duration to NowPlaying panel
+- [x] Add /api/podcast-download endpoint that stitches all segments into one MP3 (base64)
+- [x] Add Download Episode button in AudioMode NowPlaying panel

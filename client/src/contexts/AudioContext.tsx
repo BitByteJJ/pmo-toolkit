@@ -19,6 +19,7 @@ export interface PodcastSegment {
   speaker: 'Alex' | 'Sam';
   line: string;
   audioContent: string; // base64 MP3
+  durationSeconds?: number; // filled in after decode
 }
 
 export interface AudioTrack {
@@ -28,6 +29,7 @@ export interface AudioTrack {
   deckColor: string;
   segments: PodcastSegment[];
   currentSegmentIndex: number;
+  totalSegments: number;
 }
 
 interface AudioState {
@@ -36,11 +38,17 @@ interface AudioState {
   isLoading: boolean;
   currentTrack: AudioTrack | null;
   currentIndex: number;       // index in the playlist
-  playlist: Omit<AudioTrack, 'segments' | 'currentSegmentIndex'>[]; // lightweight playlist
+  playlist: Omit<AudioTrack, 'segments' | 'currentSegmentIndex' | 'totalSegments'>[]; // lightweight playlist
   currentSpeaker: 'Alex' | 'Sam' | null;
   currentLine: string;
   rate: number;
   error: string | null;
+  // Progress tracking
+  segmentProgress: number;    // 0–1 within current segment
+  segmentElapsed: number;     // seconds elapsed in current segment
+  segmentDuration: number;    // total seconds of current segment
+  episodeSegmentIndex: number; // which segment (0-based) we're on
+  episodeTotalSegments: number; // total segments in episode
 }
 
 interface AudioContextValue extends AudioState {
@@ -128,6 +136,11 @@ export function AudioProvider({ children }: { children: ReactNode }) {
     currentLine: '',
     rate: 1.0,
     error: null,
+    segmentProgress: 0,
+    segmentElapsed: 0,
+    segmentDuration: 0,
+    episodeSegmentIndex: 0,
+    episodeTotalSegments: 0,
   });
 
   const audioRef = useRef<HTMLAudioElement | null>(null);
@@ -139,14 +152,37 @@ export function AudioProvider({ children }: { children: ReactNode }) {
 
   function getAudio(): HTMLAudioElement {
     if (!audioRef.current) {
-      audioRef.current = new Audio();
-      audioRef.current.preload = 'auto';
+      const audio = new Audio();
+      audio.preload = 'auto';
+
+      // ── Progress tracking via timeupdate ──
+      audio.addEventListener('timeupdate', () => {
+        const dur = audio.duration || 0;
+        const cur = audio.currentTime || 0;
+        if (dur > 0) {
+          setState(prev => ({
+            ...prev,
+            segmentElapsed: cur,
+            segmentDuration: dur,
+            segmentProgress: cur / dur,
+          }));
+        }
+      });
+
+      audio.addEventListener('durationchange', () => {
+        const dur = audio.duration || 0;
+        if (dur > 0 && isFinite(dur)) {
+          setState(prev => ({ ...prev, segmentDuration: dur }));
+        }
+      });
+
+      audioRef.current = audio;
     }
     return audioRef.current;
   }
 
   // ── Media Session ──
-  function updateMediaSession(track: Omit<AudioTrack, 'segments' | 'currentSegmentIndex'> | null, playing: boolean, speaker?: 'Alex' | 'Sam' | null) {
+  function updateMediaSession(track: Omit<AudioTrack, 'segments' | 'currentSegmentIndex' | 'totalSegments'> | null, playing: boolean, speaker?: 'Alex' | 'Sam' | null) {
     if (!('mediaSession' in navigator)) return;
     if (!track) {
       navigator.mediaSession.metadata = null;
@@ -168,12 +204,24 @@ export function AudioProvider({ children }: { children: ReactNode }) {
   // ── Play a single segment (base64 MP3) ──
   const playSegment = useCallback((
     segment: PodcastSegment,
+    segIdx: number,
+    totalSegments: number,
     onEnded: () => void
   ) => {
     const audio = getAudio();
     audio.pause();
     audio.src = `data:audio/mp3;base64,${segment.audioContent}`;
     audio.playbackRate = stateRef.current.rate;
+
+    // Reset progress for new segment
+    setState(prev => ({
+      ...prev,
+      segmentProgress: 0,
+      segmentElapsed: 0,
+      segmentDuration: 0,
+      episodeSegmentIndex: segIdx,
+      episodeTotalSegments: totalSegments,
+    }));
 
     audio.onended = onEnded;
     audio.onerror = () => {
@@ -201,7 +249,14 @@ export function AudioProvider({ children }: { children: ReactNode }) {
             playCardById(nextCard.id, currentIndex + 1, stateRef.current.playlist);
           }
         } else {
-          setState(prev => ({ ...prev, isPlaying: false, isPaused: false, currentSpeaker: null, currentLine: '' }));
+          setState(prev => ({
+            ...prev,
+            isPlaying: false,
+            isPaused: false,
+            currentSpeaker: null,
+            currentLine: '',
+            segmentProgress: 1,
+          }));
           updateMediaSession(null, false);
         }
         return;
@@ -222,7 +277,7 @@ export function AudioProvider({ children }: { children: ReactNode }) {
       const lightTrack = stateRef.current.playlist[stateRef.current.currentIndex];
       updateMediaSession(lightTrack ?? null, true, segment.speaker);
 
-      playSegment(segment, () => playNext(segIdx + 1));
+      playSegment(segment, segIdx, t.segments.length, () => playNext(segIdx + 1));
     };
 
     playNext(startSegment);
@@ -257,6 +312,11 @@ export function AudioProvider({ children }: { children: ReactNode }) {
       currentIndex: playlistIndex,
       playlist,
       error: null,
+      segmentProgress: 0,
+      segmentElapsed: 0,
+      segmentDuration: 0,
+      episodeSegmentIndex: 0,
+      episodeTotalSegments: 0,
       currentTrack: {
         cardId,
         title: card.title,
@@ -264,6 +324,7 @@ export function AudioProvider({ children }: { children: ReactNode }) {
         deckColor,
         segments: [],
         currentSegmentIndex: 0,
+        totalSegments: 0,
       },
     }));
 
@@ -287,12 +348,14 @@ export function AudioProvider({ children }: { children: ReactNode }) {
       deckColor,
       segments,
       currentSegmentIndex: 0,
+      totalSegments: segments.length,
     };
 
     setState(prev => ({
       ...prev,
       isLoading: false,
       currentTrack: track,
+      episodeTotalSegments: segments.length,
     }));
 
     playTrackSegments(track, 0);
@@ -338,7 +401,17 @@ export function AudioProvider({ children }: { children: ReactNode }) {
       audio.pause();
       audio.src = '';
       currentTrackRef.current = null;
-      setState(prev => ({ ...prev, isPlaying: false, isPaused: false, currentTrack: null, currentIndex: -1, playlist: [] }));
+      setState(prev => ({
+        ...prev,
+        isPlaying: false,
+        isPaused: false,
+        currentTrack: null,
+        currentIndex: -1,
+        playlist: [],
+        segmentProgress: 0,
+        segmentElapsed: 0,
+        segmentDuration: 0,
+      }));
       updateMediaSession(null, false);
     });
 
@@ -408,6 +481,11 @@ export function AudioProvider({ children }: { children: ReactNode }) {
       playlist: [],
       currentSpeaker: null,
       currentLine: '',
+      segmentProgress: 0,
+      segmentElapsed: 0,
+      segmentDuration: 0,
+      episodeSegmentIndex: 0,
+      episodeTotalSegments: 0,
     }));
     updateMediaSession(null, false);
   }, []);

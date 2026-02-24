@@ -1,7 +1,7 @@
 // AudioMode — Two-host podcast player page
 // Alex (male, Journey-D) and Sam (female, Journey-O) discuss each PMO card
 
-import { useState } from 'react';
+import { useState, useCallback } from 'react';
 import { useLocation } from 'wouter';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
@@ -20,11 +20,21 @@ import {
   Mic2,
   Loader2,
   Radio,
+  Download,
+  CheckCircle2,
 } from 'lucide-react';
 import { CARDS, DECKS } from '@/lib/pmoData';
 import { useAudio } from '@/contexts/AudioContext';
 import { useTheme } from '@/contexts/ThemeContext';
 import PageFooter from '@/components/PageFooter';
+
+// ─── FORMAT TIME ─────────────────────────────────────────────────────────────
+function formatTime(seconds: number): string {
+  if (!isFinite(seconds) || seconds < 0) return '0:00';
+  const m = Math.floor(seconds / 60);
+  const s = Math.floor(seconds % 60);
+  return `${m}:${s.toString().padStart(2, '0')}`;
+}
 
 // ─── SPEAKER CONFIG ───────────────────────────────────────────────────────────
 const SPEAKERS = {
@@ -157,12 +167,52 @@ function NowPlaying() {
     playlist,
     currentSpeaker,
     currentLine,
+    segmentProgress,
+    segmentElapsed,
+    segmentDuration,
+    episodeSegmentIndex,
+    episodeTotalSegments,
     pause,
     resume,
     stop,
     next,
     prev,
   } = useAudio();
+
+  const [isDownloading, setIsDownloading] = useState(false);
+  const [downloadDone, setDownloadDone] = useState(false);
+
+  const downloadEpisode = useCallback(async () => {
+    if (!currentTrack?.segments?.length) return;
+    setIsDownloading(true);
+    setDownloadDone(false);
+    try {
+      const res = await fetch('/api/podcast-download', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          segments: currentTrack.segments,
+          title: currentTrack.title,
+        }),
+      });
+      if (!res.ok) throw new Error('Download failed');
+      const blob = await res.blob();
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `${currentTrack.title.replace(/[^a-z0-9\s-]/gi, '').replace(/\s+/g, '-').toLowerCase()}-pmo-podcast.mp3`;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+      setDownloadDone(true);
+      setTimeout(() => setDownloadDone(false), 3000);
+    } catch (err) {
+      console.error('[Download]', err);
+    } finally {
+      setIsDownloading(false);
+    }
+  }, [currentTrack]);
 
   if (!currentTrack) return null;
 
@@ -239,6 +289,36 @@ function NowPlaying() {
         <LiveTranscript line={currentLine} speaker={currentSpeaker ?? null} />
       )}
 
+      {/* Segment progress bar with time */}
+      {!isLoading && segmentDuration > 0 && (
+        <div className="space-y-1.5">
+          <div className="flex items-center justify-between">
+            <span className="text-[10px] text-muted-foreground">
+              {formatTime(segmentElapsed)}
+            </span>
+            <span className="text-[10px] text-muted-foreground opacity-60">
+              {episodeSegmentIndex + 1} / {episodeTotalSegments} exchanges
+            </span>
+            <span className="text-[10px] text-muted-foreground">
+              -{formatTime(segmentDuration - segmentElapsed)}
+            </span>
+          </div>
+          <div
+            className="h-1.5 rounded-full overflow-hidden"
+            style={{ background: isDark ? 'rgba(255,255,255,0.08)' : 'rgba(0,0,0,0.08)' }}
+          >
+            <div
+              className="h-full rounded-full"
+              style={{
+                width: `${segmentProgress * 100}%`,
+                background: currentSpeaker === 'Alex' ? '#6366f1' : '#ec4899',
+                transition: 'width 0.25s linear',
+              }}
+            />
+          </div>
+        </div>
+      )}
+
       {/* Playlist progress */}
       {playlist.length > 1 && (
         <div
@@ -301,6 +381,32 @@ function NowPlaying() {
           <Square size={16} className="text-foreground" />
         </button>
       </div>
+
+      {/* Download episode button */}
+      {!isLoading && currentTrack?.segments?.length > 0 && (
+        <button
+          onClick={downloadEpisode}
+          disabled={isDownloading}
+          className="w-full flex items-center justify-center gap-2 py-2.5 rounded-xl text-xs font-bold transition-all active:scale-98 disabled:opacity-60"
+          style={{
+            background: downloadDone
+              ? 'rgba(16,185,129,0.15)'
+              : isDark ? 'rgba(255,255,255,0.05)' : 'rgba(0,0,0,0.04)',
+            border: downloadDone
+              ? '1px solid rgba(16,185,129,0.3)'
+              : isDark ? '1px solid rgba(255,255,255,0.08)' : '1px solid rgba(0,0,0,0.08)',
+            color: downloadDone ? '#34d399' : 'var(--muted-foreground)',
+          }}
+        >
+          {isDownloading ? (
+            <><Loader2 size={13} className="animate-spin" /> Preparing MP3…</>
+          ) : downloadDone ? (
+            <><CheckCircle2 size={13} /> Downloaded!</>
+          ) : (
+            <><Download size={13} /> Download Episode MP3</>
+          )}
+        </button>
+      )}
     </motion.div>
   );
 }

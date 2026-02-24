@@ -8,6 +8,7 @@ import { handleAiVideoScript } from "./aiVideoScript.js";
 import { handleAiVideoGuide } from "./aiVideoGuide.js";
 import { handleGoogleTts } from './googleTts.js';
 import { handlePodcastGenerate } from './podcastGenerator.js';
+import { handlePodcastDownload } from './podcastDownload.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -52,6 +53,16 @@ async function startServer() {
     try {
       (req as any)._parsedBody = req.body;
       await handleGoogleTts(req as any, res as any);
+    } catch (e) {
+      next(e);
+    }
+  });
+
+  // Podcast download endpoint — stitches segments into a single MP3
+  app.post('/api/podcast-download', express.json({ limit: '50mb' }), async (req, res, next) => {
+    try {
+      (req as any)._parsedBody = req.body;
+      await handlePodcastDownload(req as any, res as any);
     } catch (e) {
       next(e);
     }

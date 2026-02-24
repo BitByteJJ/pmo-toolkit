@@ -44,7 +44,12 @@ Rules:
 - End with both hosts summarising their key insight and a teaser for listeners to explore related tools
 - Keep each line to 1–3 natural sentences — not too short (feels choppy) and not too long (hard to follow)
 - Vary who asks questions and who explains — don't let one host dominate
-- NEVER use bullet points or numbered lists inside a line — speak naturally`;
+- NEVER use bullet points or numbered lists inside a line — speak naturally
+
+CRITICAL language rules — violating these will ruin the listener experience:
+- NEVER say "as you know", "as we all know", "you already know", "of course you know", "as I'm sure you know", or any variation that assumes prior listener knowledge. The listener may be hearing about this topic for the first time.
+- When mentioning another PMO tool or technique by name (e.g. "Risk Register", "RACI Matrix", "Agile"), ALWAYS frame it as a separate session: say "we cover that in another session", "that's a whole episode on its own", "we have a dedicated session on that", or "check out our session on [tool name]" — never assume the listener has already heard it.
+- Treat every listener as if this is their very first episode. Introduce concepts clearly without condescension.`;
 }
 
 function buildUserPrompt(card: CardInput): string {
