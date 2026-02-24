@@ -266,36 +266,74 @@ async function fetchPodcastEpisodeSSE(
 const JINGLE_URL = '/stratalign-intro.mp3';
 const OUTRO_URL  = '/stratalign-outro.mp3';
 
-// Always create a FRESH <audio> element for each play call.
-// Reusing elements causes stale onended handlers that fire immediately without playing.
-// The files are small (35KB / 17KB) so creating new elements is cheap.
+// ─── WEB AUDIO API APPROACH ──────────────────────────────────────────────────
+// Problem: new Audio().play() after an async await fails silently on iOS/Safari
+// because the browser considers the user gesture chain broken after any await.
+//
+// Solution: Use the Web Audio API (AudioContext). Once unlocked with a single
+// user gesture (even a silent one), it stays unlocked permanently — no gesture
+// required for subsequent play() calls, even after async operations.
+//
+// We pre-fetch and decode both audio files as AudioBuffers on first use.
+// Playback via AudioContext.createBufferSource() never needs a gesture.
 
-function playAudioFile(url: string): Promise<void> {
+let _audioCtx: AudioContext | null = null;
+const _audioBuffers: Record<string, AudioBuffer> = {};
+
+// Call this synchronously inside a user gesture handler to unlock the AudioContext.
+export function unlockAudioContext() {
+  if (typeof window === 'undefined') return;
+  if (!_audioCtx) {
+    _audioCtx = new (window.AudioContext || (window as any).webkitAudioContext)();
+  }
+  if (_audioCtx.state === 'suspended') {
+    _audioCtx.resume().catch(() => {});
+  }
+}
+
+async function loadAudioBuffer(url: string): Promise<AudioBuffer | null> {
+  if (_audioBuffers[url]) return _audioBuffers[url];
+  if (!_audioCtx) return null;
+  try {
+    const resp = await fetch(url);
+    if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
+    const arrayBuf = await resp.arrayBuffer();
+    const decoded = await _audioCtx.decodeAudioData(arrayBuf);
+    _audioBuffers[url] = decoded;
+    return decoded;
+  } catch (e) {
+    console.warn('[StratAlign Theater] Failed to load audio buffer:', url, e);
+    return null;
+  }
+}
+
+function playAudioBuffer(buffer: AudioBuffer): Promise<void> {
   return new Promise((resolve) => {
-    const el = new Audio(url);
-    el.preload = 'auto';
-    el.playbackRate = 1.0;
-    el.onended = () => resolve();
-    el.onerror = (e) => {
-      console.warn('[StratAlign Theater] Audio error:', url, e);
-      resolve(); // always resolve so the chain continues
-    };
-    const p = el.play();
-    if (p) {
-      p.catch((err) => {
-        console.warn('[StratAlign Theater] play() blocked:', url, err);
-        resolve();
-      });
-    }
+    if (!_audioCtx) { resolve(); return; }
+    const source = _audioCtx.createBufferSource();
+    source.buffer = buffer;
+    source.connect(_audioCtx.destination);
+    source.onended = () => resolve();
+    source.start(0);
   });
 }
 
+async function playJingleAsync(): Promise<void> {
+  const buf = await loadAudioBuffer(JINGLE_URL);
+  if (buf) await playAudioBuffer(buf);
+}
+
+async function playOutroAsync(): Promise<void> {
+  const buf = await loadAudioBuffer(OUTRO_URL);
+  if (buf) await playAudioBuffer(buf);
+}
+
 function playJingle(onEnded: () => void) {
-  playAudioFile(JINGLE_URL).then(onEnded);
+  playJingleAsync().then(onEnded).catch(onEnded);
 }
 
 function playOutro(onEnded: () => void) {
-  playAudioFile(OUTRO_URL).then(onEnded);
+  playOutroAsync().then(onEnded).catch(onEnded);
 }
 
 // ─── CONTEXT ─────────────────────────────────────────────────────────────────
@@ -689,6 +727,10 @@ export function AudioProvider({ children }: { children: ReactNode }) {
 
   // ── Public API ──
   const playCard = useCallback((cardId: string) => {
+    // MUST unlock AudioContext synchronously here — this is the user gesture entry point.
+    // Any async work (fetch, await) after this point breaks the gesture chain on iOS/Safari.
+    // Once unlocked, AudioContext stays unlocked permanently for the session.
+    unlockAudioContext();
     const card = CARDS.find(c => c.id === cardId);
     if (!card) return;
     const deck = getDeckById(card.deckId);
@@ -703,6 +745,7 @@ export function AudioProvider({ children }: { children: ReactNode }) {
   }, [playCardById]);
 
   const playDeck = useCallback((deckId: string) => {
+    unlockAudioContext(); // unlock on user gesture
     const deckCards = CARDS.filter(c => c.deckId === deckId);
     if (!deckCards.length) return;
     const deck = getDeckById(deckId);

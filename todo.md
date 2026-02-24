@@ -649,6 +649,8 @@
 
 ## StratAlign Theater — Jingle Sequencing Fix — Feb 2026
 - [x] Root cause: reused HTMLAudioElement had stale onended handler that fired immediately
-- [x] Fix: playAudioFile() always creates a fresh element, returns a Promise, resolves on ended/error
-- [x] Jingle plays on every episode start (not just non-cached)
-- [x] Outro plays after last segment via clean Promise chain
+- [x] Root cause 2: user gesture chain broken after async await — new Audio().play() silently fails on iOS
+- [x] Fix: Web Audio API (AudioContext) unlocked synchronously on user tap, stays unlocked permanently
+- [x] Jingle/outro use AudioContext.createBufferSource() which never needs a gesture
+- [x] unlockAudioContext() called in playCard() and playDeck() before any async work
+- [x] Jingle plays on every episode start, outro plays after last segment
