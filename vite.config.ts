@@ -170,6 +170,36 @@ function vitePluginManusDebugCollector(): Plugin {
         }
       });
 
+      // POST /api/podcast — StratAlign Theater multi-character podcast generator (NDJSON stream)
+      server.middlewares.use("/api/podcast", async (req: any, res: any, next: any) => {
+        if (req.method !== 'POST') return next();
+        try {
+          const mjsPath = path.resolve(PROJECT_ROOT, 'server', 'podcastGenerator.mjs');
+          const { handlePodcastGenerate } = await import(/* @vite-ignore */ `${mjsPath}?t=${Date.now()}`);
+          await handlePodcastGenerate(req, res);
+        } catch (e) {
+          console.error('[Vite Podcast]', e);
+          try {
+            res.writeHead(500, { 'Content-Type': 'application/json' });
+            res.end(JSON.stringify({ error: String(e) }));
+          } catch { /* already sent */ }
+        }
+      });
+      // POST /api/podcast-download — stitch podcast segments into a single MP3 download
+      server.middlewares.use("/api/podcast-download", async (req: any, res: any, next: any) => {
+        if (req.method !== 'POST') return next();
+        try {
+          const mjsPath = path.resolve(PROJECT_ROOT, 'server', 'podcastDownload.mjs');
+          const { handlePodcastDownload } = await import(/* @vite-ignore */ `${mjsPath}?t=${Date.now()}`);
+          await handlePodcastDownload(req, res);
+        } catch (e) {
+          console.error('[Vite Podcast Download]', e);
+          try {
+            res.writeHead(500, { 'Content-Type': 'application/json' });
+            res.end(JSON.stringify({ error: String(e) }));
+          } catch { /* already sent */ }
+        }
+      });
       // GET /api/image-proxy?url=... — proxy CDN images to avoid CORS issues for PDF export
       server.middlewares.use("/api/image-proxy", async (req, res, next) => {
         if (req.method !== "GET") return next();

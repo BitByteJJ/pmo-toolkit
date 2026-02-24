@@ -618,3 +618,21 @@
 - [x] Update AudioMode UI to show all active speakers with role labels
 - [x] Wire intro jingle before first segment
 - [x] Add episode numbers (S1E#) to NowPlaying and Media Session
+
+## Audio Bug Fix — Feb 24 2026
+
+- [ ] Diagnose why audio loads then immediately closes/stops
+- [ ] Fix the streaming pipeline or AudioContext abort issue
+
+## Audio API Routing Fix — Feb 24 2026
+
+- [ ] Register /api/podcast, /api/tts, /api/podcast-download routes in the active server entry point
+- [ ] Verify all audio endpoints respond correctly (not 404)
+- [ ] Confirm jingle plays, characters appear, and download works
+
+## Audio Bug Fix — Feb 24 2026
+
+- [x] Diagnose why audio loads then immediately closes/stops (root cause: podcast .mjs not loaded by Vite dev server + streaming JSON parser failing on markdown-fenced LLM output)
+- [x] Fix: rewrite podcastGenerator.mjs with non-streaming LLM call + robust JSON parsing
+- [x] Fix: update voice mapping to Studio-Q/O and Neural2 voices (Journey voices not available on this API key)
+- [x] Verify: 28-segment RACI Matrix episode generates successfully end-to-end
