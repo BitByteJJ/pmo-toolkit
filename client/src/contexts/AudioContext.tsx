@@ -322,7 +322,14 @@ async function loadAudioBuffer(url: string): Promise<AudioBuffer | null> {
   return promise;
 }
 
-function playAudioBuffer(buffer: AudioBuffer): Promise<void> {
+async function playAudioBuffer(buffer: AudioBuffer): Promise<void> {
+  if (!_audioCtx) return;
+  // Always resume the AudioContext before playing — it may have been auto-suspended
+  // by the browser after a long async operation (e.g. episode generation).
+  // Without this, source.start(0) fires silently and onended fires immediately.
+  if (_audioCtx.state === 'suspended') {
+    try { await _audioCtx.resume(); } catch { /* ignore */ }
+  }
   return new Promise((resolve) => {
     if (!_audioCtx) { resolve(); return; }
     const source = _audioCtx.createBufferSource();
