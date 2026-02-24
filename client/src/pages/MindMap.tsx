@@ -43,8 +43,35 @@ interface GraphEdge {
 }
 
 // ─── CONSTANTS ────────────────────────────────────────────────────────────────
-const NODE_RADIUS_DEFAULT = 22;
-const NODE_RADIUS_ROOT = 30;
+const NODE_RADIUS_DEFAULT = 28;
+const NODE_RADIUS_ROOT = 36;
+
+// Truncate a title to fit inside a bubble of the given radius
+function truncateTitle(title: string, radius: number): string[] {
+  // Available width ≈ 1.7 × radius (chars at ~5.5px each)
+  const maxCharsPerLine = Math.floor((radius * 1.7) / 5.5);
+  const words = title.split(' ');
+  const lines: string[] = [];
+  let current = '';
+  for (const word of words) {
+    const candidate = current ? `${current} ${word}` : word;
+    if (candidate.length <= maxCharsPerLine) {
+      current = candidate;
+    } else {
+      if (current) lines.push(current);
+      // If a single word is too long, hard-truncate it
+      current = word.length > maxCharsPerLine ? word.slice(0, maxCharsPerLine - 1) + '…' : word;
+    }
+    if (lines.length === 2) break; // max 2 lines
+  }
+  if (current && lines.length < 2) lines.push(current);
+  // If still more words remain and we have 2 lines, add ellipsis to last line
+  if (lines.length === 2 && words.join(' ').length > lines.join(' ').length + 1) {
+    const last = lines[1];
+    lines[1] = last.length >= maxCharsPerLine ? last.slice(0, maxCharsPerLine - 1) + '…' : last + '…';
+  }
+  return lines;
+}
 const MAX_VISIBLE_NODES = 60;
 
 // Build a lookup map: cardCode → cardId
@@ -654,17 +681,33 @@ export default function MindMap() {
                     strokeOpacity="0.5"
                   />
                 )}
-                {/* Code label */}
-                <text
-                  textAnchor="middle"
-                  dy="0.35em"
-                  fontSize={node.radius > 25 ? 8 : 7}
-                  fontWeight="800"
-                  fill={dimmed ? 'rgba(255,255,255,0.2)' : 'white'}
-                  style={{ pointerEvents: 'none', fontFamily: 'JetBrains Mono, monospace' }}
-                >
-                  {node.code.length > 6 ? node.code.slice(0, 5) + '…' : node.code}
-                </text>
+                {/* Title label — word-wrapped into up to 2 lines */}
+                {(() => {
+                  const lines = truncateTitle(node.title, node.radius);
+                  const fontSize = node.radius >= 34 ? 7.5 : 6.5;
+                  const lineHeight = fontSize + 2;
+                  const totalH = lines.length * lineHeight;
+                  const startDy = -(totalH / 2) + lineHeight / 2;
+                  return (
+                    <text
+                      textAnchor="middle"
+                      fontSize={fontSize}
+                      fontWeight="700"
+                      fill={dimmed ? 'rgba(255,255,255,0.2)' : 'white'}
+                      style={{ pointerEvents: 'none', fontFamily: 'Inter, sans-serif' }}
+                    >
+                      {lines.map((line, li) => (
+                        <tspan
+                          key={li}
+                          x="0"
+                          dy={li === 0 ? startDy : lineHeight}
+                        >
+                          {line}
+                        </tspan>
+                      ))}
+                    </text>
+                  );
+                })()}
               </g>
             );
           })}

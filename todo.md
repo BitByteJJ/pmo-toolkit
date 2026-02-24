@@ -552,3 +552,8 @@
 - [x] All 5 new tools added to TopNav Mini-Apps dropdown
 - [x] All 5 new tools added to Home page feature grid
 - [x] All 49 existing tests still passing after changes
+
+## Mind Map Label Fix — Feb 24 2026
+
+- [x] Show card titles (names) in Mind Map nodes instead of card codes/IDs
+- [x] Smart text truncation and node sizing so titles remain readable at all zoom levels
