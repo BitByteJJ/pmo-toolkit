@@ -1,7 +1,10 @@
-// AudioContext — Two-host podcast mode using Google Cloud TTS
-// Alex (Journey-D, male) and Sam (Journey-O, female) have a natural back-and-forth conversation.
+// AudioContext — StratAlign Theater multi-host podcast mode
+// Up to 5 hosts (Alex, Sam, Jordan, Maya, Chris) using Google Cloud TTS Journey voices.
 // Each card generates a full podcast episode via /api/podcast (LLM script + TTS per segment).
 // Segments are played sequentially via HTMLAudioElement for proper lock-screen Media Session support.
+//
+// KEY FIX: audio MIME type must be 'audio/mpeg' (not 'audio/mp3') for browser compatibility.
+// Blob URLs are used instead of data: URLs for better mobile support.
 
 import {
   createContext,
@@ -15,8 +18,34 @@ import {
 import { CARDS, getDeckById, type PMOCard } from '@/lib/pmoData';
 
 // ─── TYPES ────────────────────────────────────────────────────────────────────
+export type SpeakerName = 'Alex' | 'Sam' | 'Jordan' | 'Maya' | 'Chris';
+
+export const SPEAKER_COLORS: Record<SpeakerName, string> = {
+  Alex:   '#6366f1', // indigo
+  Sam:    '#ec4899', // pink
+  Jordan: '#10b981', // emerald
+  Maya:   '#f59e0b', // amber
+  Chris:  '#3b82f6', // blue
+};
+
+export const SPEAKER_ROLES: Record<SpeakerName, string> = {
+  Alex:   'Senior PMO Consultant',
+  Sam:    'Agile Coach',
+  Jordan: 'Strategy Lead',
+  Maya:   'Data Specialist',
+  Chris:  'Product Manager',
+};
+
+export const SPEAKER_EMOJI: Record<SpeakerName, string> = {
+  Alex:   '🎙️',
+  Sam:    '💡',
+  Jordan: '🗺️',
+  Maya:   '📊',
+  Chris:  '🚀',
+};
+
 export interface PodcastSegment {
-  speaker: 'Alex' | 'Sam';
+  speaker: SpeakerName;
   line: string;
   audioContent: string; // base64 MP3
   durationSeconds?: number; // filled in after decode
@@ -30,6 +59,7 @@ export interface AudioTrack {
   segments: PodcastSegment[];
   currentSegmentIndex: number;
   totalSegments: number;
+  cast: SpeakerName[]; // active characters for this episode
 }
 
 interface AudioState {
@@ -39,7 +69,7 @@ interface AudioState {
   currentTrack: AudioTrack | null;
   currentIndex: number;       // index in the playlist
   playlist: Omit<AudioTrack, 'segments' | 'currentSegmentIndex' | 'totalSegments'>[]; // lightweight playlist
-  currentSpeaker: 'Alex' | 'Sam' | null;
+  currentSpeaker: SpeakerName | null;
   currentLine: string;
   rate: number;
   error: string | null;
@@ -65,28 +95,43 @@ interface AudioContextValue extends AudioState {
 }
 
 // ─── PODCAST CACHE ────────────────────────────────────────────────────────────
-const CACHE_PREFIX = 'pmo_podcast_v1_';
+const CACHE_PREFIX = 'pmo_podcast_v3_'; // bump version to invalidate old 2-host cache
 
-function getCachedEpisode(cardId: string): PodcastSegment[] | null {
+function getCachedEpisode(cardId: string): { segments: PodcastSegment[]; cast: SpeakerName[] } | null {
   try {
     const raw = sessionStorage.getItem(CACHE_PREFIX + cardId);
     if (!raw) return null;
-    return JSON.parse(raw) as PodcastSegment[];
+    return JSON.parse(raw) as { segments: PodcastSegment[]; cast: SpeakerName[] };
   } catch {
     return null;
   }
 }
 
-function setCachedEpisode(cardId: string, segments: PodcastSegment[]) {
+function setCachedEpisode(cardId: string, segments: PodcastSegment[], cast: SpeakerName[]) {
   try {
-    sessionStorage.setItem(CACHE_PREFIX + cardId, JSON.stringify(segments));
+    sessionStorage.setItem(CACHE_PREFIX + cardId, JSON.stringify({ segments, cast }));
   } catch {
     // sessionStorage full — skip caching
   }
 }
 
+// ─── BASE64 → BLOB URL ────────────────────────────────────────────────────────
+// Using Blob URLs with 'audio/mpeg' (not 'audio/mp3') for maximum browser compatibility.
+function base64ToBlobUrl(base64: string): string {
+  const binary = atob(base64);
+  const bytes = new Uint8Array(binary.length);
+  for (let i = 0; i < binary.length; i++) {
+    bytes[i] = binary.charCodeAt(i);
+  }
+  const blob = new Blob([bytes], { type: 'audio/mpeg' }); // MUST be 'audio/mpeg'
+  return URL.createObjectURL(blob);
+}
+
 // ─── FETCH PODCAST EPISODE ────────────────────────────────────────────────────
-async function fetchPodcastEpisode(card: PMOCard, deckTitle: string): Promise<PodcastSegment[]> {
+async function fetchPodcastEpisode(
+  card: PMOCard,
+  deckTitle: string
+): Promise<{ segments: PodcastSegment[]; cast: SpeakerName[] }> {
   const cached = getCachedEpisode(card.id);
   if (cached) return cached;
 
@@ -112,11 +157,12 @@ async function fetchPodcastEpisode(card: PMOCard, deckTitle: string): Promise<Po
     throw new Error(`Podcast API error ${response.status}: ${err.slice(0, 200)}`);
   }
 
-  const data = await response.json() as { segments: PodcastSegment[] };
+  const data = await response.json() as { segments: PodcastSegment[]; cast?: SpeakerName[] };
   if (!data.segments?.length) throw new Error('No podcast segments returned');
 
-  setCachedEpisode(card.id, data.segments);
-  return data.segments;
+  const cast = data.cast ?? ['Alex', 'Sam'];
+  setCachedEpisode(card.id, data.segments, cast);
+  return { segments: data.segments, cast };
 }
 
 // ─── CONTEXT ─────────────────────────────────────────────────────────────────
@@ -146,6 +192,9 @@ export function AudioProvider({ children }: { children: ReactNode }) {
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const stateRef = useRef(state);
   stateRef.current = state;
+
+  // Track current blob URL so we can revoke it when done
+  const currentBlobUrlRef = useRef<string | null>(null);
 
   // Ref to hold the current track's segments so the onended callback can access them
   const currentTrackRef = useRef<AudioTrack | null>(null);
@@ -181,18 +230,31 @@ export function AudioProvider({ children }: { children: ReactNode }) {
     return audioRef.current;
   }
 
+  // ── Revoke previous blob URL to free memory ──
+  function revokePreviousBlobUrl() {
+    if (currentBlobUrlRef.current) {
+      URL.revokeObjectURL(currentBlobUrlRef.current);
+      currentBlobUrlRef.current = null;
+    }
+  }
+
   // ── Media Session ──
-  function updateMediaSession(track: Omit<AudioTrack, 'segments' | 'currentSegmentIndex' | 'totalSegments'> | null, playing: boolean, speaker?: 'Alex' | 'Sam' | null) {
+  function updateMediaSession(
+    track: Omit<AudioTrack, 'segments' | 'currentSegmentIndex' | 'totalSegments'> | null,
+    playing: boolean,
+    speaker?: SpeakerName | null
+  ) {
     if (!('mediaSession' in navigator)) return;
     if (!track) {
       navigator.mediaSession.metadata = null;
       navigator.mediaSession.playbackState = 'none';
       return;
     }
+    const castLabel = track.cast?.join(', ') ?? (speaker ?? 'Alex & Sam');
     navigator.mediaSession.metadata = new MediaMetadata({
       title: track.title,
-      artist: speaker ? `${speaker} — ${track.deckTitle}` : track.deckTitle,
-      album: 'StratAlign PMO Podcast',
+      artist: `${castLabel} — ${track.deckTitle}`,
+      album: 'StratAlign Theater',
       artwork: [
         { src: '/icon-192.png', sizes: '192x192', type: 'image/png' },
         { src: '/favicon.ico', sizes: '48x48', type: 'image/x-icon' },
@@ -201,7 +263,7 @@ export function AudioProvider({ children }: { children: ReactNode }) {
     navigator.mediaSession.playbackState = playing ? 'playing' : 'paused';
   }
 
-  // ── Play a single segment (base64 MP3) ──
+  // ── Play a single segment (base64 MP3 → Blob URL) ──
   const playSegment = useCallback((
     segment: PodcastSegment,
     segIdx: number,
@@ -210,7 +272,13 @@ export function AudioProvider({ children }: { children: ReactNode }) {
   ) => {
     const audio = getAudio();
     audio.pause();
-    audio.src = `data:audio/mp3;base64,${segment.audioContent}`;
+
+    // Revoke previous blob URL and create a new one
+    revokePreviousBlobUrl();
+    const blobUrl = base64ToBlobUrl(segment.audioContent);
+    currentBlobUrlRef.current = blobUrl;
+
+    audio.src = blobUrl;
     audio.playbackRate = stateRef.current.rate;
 
     // Reset progress for new segment
@@ -224,13 +292,13 @@ export function AudioProvider({ children }: { children: ReactNode }) {
     }));
 
     audio.onended = onEnded;
-    audio.onerror = () => {
-      console.warn('[Audio] Segment playback error, skipping');
+    audio.onerror = (e) => {
+      console.warn('[StratAlign Theater] Segment playback error, skipping', e);
       onEnded(); // skip broken segment
     };
 
     audio.play().catch(err => {
-      console.error('[Audio] play() failed:', err);
+      console.error('[StratAlign Theater] play() failed:', err);
     });
   }, []);
 
@@ -300,6 +368,7 @@ export function AudioProvider({ children }: { children: ReactNode }) {
     const audio = getAudio();
     audio.pause();
     audio.src = '';
+    revokePreviousBlobUrl();
     currentTrackRef.current = null;
 
     setState(prev => ({
@@ -325,12 +394,16 @@ export function AudioProvider({ children }: { children: ReactNode }) {
         segments: [],
         currentSegmentIndex: 0,
         totalSegments: 0,
+        cast: ['Alex', 'Sam'],
       },
     }));
 
     let segments: PodcastSegment[];
+    let cast: SpeakerName[];
     try {
-      segments = await fetchPodcastEpisode(card, deckTitle);
+      const result = await fetchPodcastEpisode(card, deckTitle);
+      segments = result.segments;
+      cast = result.cast;
     } catch (err) {
       setState(prev => ({
         ...prev,
@@ -349,6 +422,7 @@ export function AudioProvider({ children }: { children: ReactNode }) {
       segments,
       currentSegmentIndex: 0,
       totalSegments: segments.length,
+      cast,
     };
 
     setState(prev => ({
@@ -400,6 +474,7 @@ export function AudioProvider({ children }: { children: ReactNode }) {
       const audio = getAudio();
       audio.pause();
       audio.src = '';
+      revokePreviousBlobUrl();
       currentTrackRef.current = null;
       setState(prev => ({
         ...prev,
@@ -432,6 +507,7 @@ export function AudioProvider({ children }: { children: ReactNode }) {
       title: card.title,
       deckTitle: deck?.title ?? card.deckId,
       deckColor: deck?.color ?? '#6366f1',
+      cast: ['Alex', 'Sam'] as SpeakerName[],
     }];
     playCardById(cardId, 0, lightPlaylist);
   }, [playCardById]);
@@ -445,6 +521,7 @@ export function AudioProvider({ children }: { children: ReactNode }) {
       title: c.title,
       deckTitle: deck?.title ?? deckId,
       deckColor: deck?.color ?? '#6366f1',
+      cast: ['Alex', 'Sam'] as SpeakerName[],
     }));
     playCardById(deckCards[0].id, 0, lightPlaylist);
   }, [playCardById]);
@@ -470,6 +547,7 @@ export function AudioProvider({ children }: { children: ReactNode }) {
     const audio = getAudio();
     audio.pause();
     audio.src = '';
+    revokePreviousBlobUrl();
     currentTrackRef.current = null;
     setState(prev => ({
       ...prev,
@@ -514,6 +592,7 @@ export function AudioProvider({ children }: { children: ReactNode }) {
     return () => {
       const audio = audioRef.current;
       if (audio) { audio.pause(); audio.src = ''; }
+      revokePreviousBlobUrl();
     };
   }, []);
 

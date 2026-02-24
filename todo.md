@@ -583,3 +583,13 @@
 - [x] Add time elapsed / total duration to NowPlaying panel
 - [x] Add /api/podcast-download endpoint that stitches all segments into one MP3 (base64)
 - [x] Add Download Episode button in AudioMode NowPlaying panel
+
+## StratAlign Theater v2 — Feb 24 2026
+
+- [x] Add 3 new characters (Jordan, Maya, Chris) to the 5-person cast
+- [x] Rename podcast to StratAlign Theater in server prompt and all UI labels
+- [x] Dynamic cast selection: complexity scoring selects 2-5 characters per episode
+- [x] Fix audio playback: Blob URLs with audio/mpeg MIME type instead of base64 data URLs
+- [x] Update AudioContext CAST_META for all 5 characters
+- [x] Update AudioMode and AudioPlayerBar UI for 5-character cast
+- [x] 21 new vitest tests for cast selection, voice mapping, and script validation

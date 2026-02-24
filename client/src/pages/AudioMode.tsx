@@ -1,5 +1,6 @@
-// AudioMode — Two-host podcast player page
-// Alex (male, Journey-D) and Sam (female, Journey-O) discuss each PMO card
+// AudioMode.tsx — StratAlign Theater
+// Multi-host podcast UI supporting up to 5 characters.
+// Characters are dynamically selected per episode based on topic complexity.
 
 import { useState, useCallback } from 'react';
 import { useLocation } from 'wouter';
@@ -22,9 +23,10 @@ import {
   Radio,
   Download,
   CheckCircle2,
+  Users,
 } from 'lucide-react';
 import { CARDS, DECKS } from '@/lib/pmoData';
-import { useAudio } from '@/contexts/AudioContext';
+import { useAudio, type SpeakerName, SPEAKER_COLORS, SPEAKER_ROLES, SPEAKER_EMOJI } from '@/contexts/AudioContext';
 import { useTheme } from '@/contexts/ThemeContext';
 import PageFooter from '@/components/PageFooter';
 
@@ -35,12 +37,6 @@ function formatTime(seconds: number): string {
   const s = Math.floor(seconds % 60);
   return `${m}:${s.toString().padStart(2, '0')}`;
 }
-
-// ─── SPEAKER CONFIG ───────────────────────────────────────────────────────────
-const SPEAKERS = {
-  Alex: { color: '#6366f1', label: 'Alex', role: 'Senior PM', emoji: '👨‍💼' },
-  Sam:  { color: '#ec4899', label: 'Sam',  role: 'PM Coach',  emoji: '👩‍💼' },
-};
 
 // ─── SPEED SELECTOR ───────────────────────────────────────────────────────────
 const SPEEDS = [0.75, 1.0, 1.25, 1.5, 1.75, 2.0];
@@ -68,52 +64,63 @@ function SpeedSelector() {
 }
 
 // ─── HOST AVATARS ─────────────────────────────────────────────────────────────
-function HostAvatars({ activeSpeaker }: { activeSpeaker: 'Alex' | 'Sam' | null }) {
+// Shows only the active cast for the current episode, with the speaking host animated.
+function HostAvatars({
+  activeSpeaker,
+  cast,
+}: {
+  activeSpeaker: SpeakerName | null;
+  cast: SpeakerName[];
+}) {
   const { isDark } = useTheme();
+  const displayCast = cast.length > 0 ? cast : (['Alex', 'Sam'] as SpeakerName[]);
+
   return (
-    <div className="flex items-center justify-center gap-6 py-2">
-      {(['Alex', 'Sam'] as const).map(name => {
-        const s = SPEAKERS[name];
+    <div className="flex items-center justify-center gap-3 py-2 flex-wrap">
+      {displayCast.map(name => {
+        const color = SPEAKER_COLORS[name];
+        const emoji = SPEAKER_EMOJI[name];
+        const role = SPEAKER_ROLES[name];
         const isActive = activeSpeaker === name;
         return (
           <div key={name} className="flex flex-col items-center gap-1.5">
             <motion.div
               animate={isActive ? { scale: [1, 1.06, 1], y: [0, -2, 0] } : { scale: 1, y: 0 }}
               transition={isActive ? { duration: 1.5, repeat: Infinity, ease: 'easeInOut' } : {}}
-              className="relative w-14 h-14 rounded-2xl flex items-center justify-center text-2xl"
+              className="relative w-12 h-12 rounded-2xl flex items-center justify-center text-xl"
               style={{
                 background: isActive
-                  ? `linear-gradient(135deg, ${s.color}30, ${s.color}15)`
+                  ? `linear-gradient(135deg, ${color}30, ${color}15)`
                   : isDark ? 'rgba(255,255,255,0.05)' : 'rgba(0,0,0,0.04)',
-                border: isActive ? `2px solid ${s.color}60` : '2px solid transparent',
-                boxShadow: isActive ? `0 0 20px ${s.color}30` : 'none',
+                border: isActive ? `2px solid ${color}60` : '2px solid transparent',
+                boxShadow: isActive ? `0 0 18px ${color}30` : 'none',
                 transition: 'all 0.3s ease',
               }}
             >
-              {s.emoji}
+              {emoji}
               {isActive && (
                 <motion.div
                   className="absolute -bottom-1 -right-1 w-4 h-4 rounded-full flex items-center justify-center"
-                  style={{ background: s.color }}
+                  style={{ background: color }}
                   animate={{ scale: [1, 1.3, 1] }}
                   transition={{ duration: 0.8, repeat: Infinity }}
                 >
-                  <Mic2 size={8} className="text-white" />
+                  <Mic2 size={7} className="text-white" />
                 </motion.div>
               )}
             </motion.div>
             <div className="text-center">
               <div
-                className="text-xs font-black"
+                className="text-[10px] font-black"
                 style={{
-                  color: isActive ? s.color : 'var(--muted-foreground)',
+                  color: isActive ? color : 'var(--muted-foreground)',
                   fontFamily: 'Sora, sans-serif',
                   transition: 'color 0.3s',
                 }}
               >
-                {s.label}
+                {name}
               </div>
-              <div className="text-[9px] text-muted-foreground">{s.role}</div>
+              <div className="text-[8px] text-muted-foreground opacity-70">{role.split(' ')[0]}</div>
             </div>
           </div>
         );
@@ -123,10 +130,11 @@ function HostAvatars({ activeSpeaker }: { activeSpeaker: 'Alex' | 'Sam' | null }
 }
 
 // ─── LIVE TRANSCRIPT LINE ─────────────────────────────────────────────────────
-function LiveTranscript({ line, speaker }: { line: string; speaker: 'Alex' | 'Sam' | null }) {
+function LiveTranscript({ line, speaker }: { line: string; speaker: SpeakerName | null }) {
   const { isDark } = useTheme();
   if (!line || !speaker) return null;
-  const s = SPEAKERS[speaker];
+  const color = SPEAKER_COLORS[speaker];
+  const emoji = SPEAKER_EMOJI[speaker];
   return (
     <AnimatePresence mode="wait">
       <motion.div
@@ -137,15 +145,15 @@ function LiveTranscript({ line, speaker }: { line: string; speaker: 'Alex' | 'Sa
         transition={{ duration: 0.25 }}
         className="rounded-xl p-3"
         style={{
-          background: isDark ? `${s.color}12` : `${s.color}08`,
-          border: `1px solid ${s.color}25`,
+          background: isDark ? `${color}12` : `${color}08`,
+          border: `1px solid ${color}25`,
         }}
       >
         <div className="flex items-start gap-2">
-          <span className="text-base shrink-0 mt-0.5">{s.emoji}</span>
+          <span className="text-base shrink-0 mt-0.5">{emoji}</span>
           <div>
-            <span className="text-[10px] font-bold mr-1.5" style={{ color: s.color }}>
-              {s.label}:
+            <span className="text-[10px] font-bold mr-1.5" style={{ color }}>
+              {speaker}:
             </span>
             <span className="text-xs text-foreground leading-relaxed">{line}</span>
           </div>
@@ -200,7 +208,7 @@ function NowPlaying() {
       const url = URL.createObjectURL(blob);
       const a = document.createElement('a');
       a.href = url;
-      a.download = `${currentTrack.title.replace(/[^a-z0-9\s-]/gi, '').replace(/\s+/g, '-').toLowerCase()}-pmo-podcast.mp3`;
+      a.download = `${currentTrack.title.replace(/[^a-z0-9\s-]/gi, '').replace(/\s+/g, '-').toLowerCase()}-strataling-theater.mp3`;
       document.body.appendChild(a);
       a.click();
       document.body.removeChild(a);
@@ -215,6 +223,10 @@ function NowPlaying() {
   }, [currentTrack]);
 
   if (!currentTrack) return null;
+
+  const cast = currentTrack.cast ?? ['Alex', 'Sam'];
+  const castLabel = cast.join(' · ');
+  const progressBarColor = currentSpeaker ? SPEAKER_COLORS[currentSpeaker] : '#6366f1';
 
   return (
     <motion.div
@@ -249,7 +261,7 @@ function NowPlaying() {
             {currentTrack.title}
           </div>
           <div className="text-[10px] text-muted-foreground flex items-center gap-1.5">
-            <span>PMO Podcast</span>
+            <span className="opacity-70">StratAlign Theater</span>
             {playlist.length > 1 && (
               <span className="opacity-50">· {currentIndex + 1}/{playlist.length}</span>
             )}
@@ -267,26 +279,51 @@ function NowPlaying() {
         </div>
       </div>
 
+      {/* Cast badge */}
+      {!isLoading && cast.length > 0 && (
+        <div className="flex items-center gap-1.5">
+          <Users size={10} className="text-muted-foreground opacity-60 shrink-0" />
+          <span className="text-[9px] text-muted-foreground opacity-70">
+            {cast.length === 2 ? 'Core duo' : cast.length === 3 ? '3-host panel' : cast.length === 4 ? '4-host roundtable' : 'Full cast'}:
+          </span>
+          <div className="flex gap-1 flex-wrap">
+            {cast.map(name => (
+              <span
+                key={name}
+                className="text-[9px] font-bold px-1.5 py-0.5 rounded-full"
+                style={{
+                  background: `${SPEAKER_COLORS[name]}20`,
+                  color: SPEAKER_COLORS[name],
+                  border: `1px solid ${SPEAKER_COLORS[name]}30`,
+                }}
+              >
+                {SPEAKER_EMOJI[name]} {name}
+              </span>
+            ))}
+          </div>
+        </div>
+      )}
+
       {/* Loading message */}
       {isLoading && (
         <div className="text-center py-2">
           <p className="text-xs text-muted-foreground">
-            Alex and Sam are preparing your episode…
+            The StratAlign Theater cast is preparing your episode…
           </p>
           <p className="text-[10px] text-muted-foreground opacity-60 mt-1">
-            This takes about 20–30 seconds for a full episode
+            This takes about 20–40 seconds for a full episode
           </p>
         </div>
       )}
 
       {/* Host avatars — only shown when playing */}
       {!isLoading && (
-        <HostAvatars activeSpeaker={currentSpeaker ?? null} />
+        <HostAvatars activeSpeaker={currentSpeaker} cast={cast} />
       )}
 
       {/* Live transcript */}
       {!isLoading && currentLine && (
-        <LiveTranscript line={currentLine} speaker={currentSpeaker ?? null} />
+        <LiveTranscript line={currentLine} speaker={currentSpeaker} />
       )}
 
       {/* Segment progress bar with time */}
@@ -311,8 +348,8 @@ function NowPlaying() {
               className="h-full rounded-full"
               style={{
                 width: `${segmentProgress * 100}%`,
-                background: currentSpeaker === 'Alex' ? '#6366f1' : '#ec4899',
-                transition: 'width 0.25s linear',
+                background: progressBarColor,
+                transition: 'width 0.25s linear, background 0.3s ease',
               }}
             />
           </div>
@@ -526,76 +563,129 @@ function PlaylistBuilder() {
   );
 }
 
+// ─── CAST BIOS ────────────────────────────────────────────────────────────────
+const ALL_CAST: { name: SpeakerName; bio: string }[] = [
+  {
+    name: 'Alex',
+    bio: 'Senior PMO Consultant with 15+ years in enterprise transformation. Loves real-world war stories and hard-won lessons from complex programmes.',
+  },
+  {
+    name: 'Sam',
+    bio: 'Agile Coach and people-first thinker. Great at asking the questions listeners are thinking, and champions simplicity over process bloat.',
+  },
+  {
+    name: 'Jordan',
+    bio: 'Strategy & Change Management Lead. Connects tools to organisational culture and asks "but why does this actually matter?" at every turn.',
+  },
+  {
+    name: 'Maya',
+    bio: 'Data & Analytics Specialist. Evidence-driven and metric-obsessed — challenges vague claims with "show me the data" and loves measurable outcomes.',
+  },
+  {
+    name: 'Chris',
+    bio: 'Startup Founder & Product Manager. Brings lean startup energy to enterprise tools — always asking what a small, fast-moving team can actually do.',
+  },
+];
+
 // ─── LOCK SCREEN INFO ─────────────────────────────────────────────────────────
 function LockScreenInfo() {
   const { isDark } = useTheme();
   return (
-    <div
-      className="rounded-2xl p-4 space-y-4"
-      style={{
-        background: isDark ? 'rgba(99,102,241,0.08)' : 'rgba(99,102,241,0.05)',
-        border: '1px solid rgba(99,102,241,0.2)',
-      }}
-    >
-      <div className="flex items-center gap-2">
-        <Smartphone size={15} className="text-indigo-400" />
-        <h3 className="text-sm font-black text-foreground" style={{ fontFamily: 'Sora, sans-serif' }}>
-          Lock Screen Controls
-        </h3>
+    <div className="space-y-4">
+      {/* Cast bios */}
+      <div
+        className="rounded-2xl p-4 space-y-3"
+        style={{
+          background: isDark ? 'rgba(99,102,241,0.08)' : 'rgba(99,102,241,0.05)',
+          border: '1px solid rgba(99,102,241,0.2)',
+        }}
+      >
+        <div className="flex items-center gap-2 mb-1">
+          <Users size={15} className="text-indigo-400" />
+          <h3 className="text-sm font-black text-foreground" style={{ fontFamily: 'Sora, sans-serif' }}>
+            Meet the Cast
+          </h3>
+        </div>
+        <p className="text-[10px] text-muted-foreground leading-relaxed">
+          StratAlign Theater dynamically selects 2–5 hosts per episode based on the topic's complexity and strategic depth. Simple tools get the core duo; complex frameworks get the full roundtable.
+        </p>
+        <div className="space-y-2">
+          {ALL_CAST.map(({ name, bio }) => {
+            const color = SPEAKER_COLORS[name];
+            const emoji = SPEAKER_EMOJI[name];
+            const role = SPEAKER_ROLES[name];
+            return (
+              <div
+                key={name}
+                className="rounded-xl p-3 flex items-start gap-3"
+                style={{
+                  background: isDark ? `${color}10` : `${color}07`,
+                  border: `1px solid ${color}20`,
+                }}
+              >
+                <span className="text-xl shrink-0 mt-0.5">{emoji}</span>
+                <div>
+                  <div className="flex items-center gap-1.5 mb-0.5">
+                    <span className="text-xs font-bold" style={{ color }}>{name}</span>
+                    <span className="text-[9px] text-muted-foreground opacity-70">· {role}</span>
+                  </div>
+                  <p className="text-[10px] text-muted-foreground leading-relaxed">{bio}</p>
+                </div>
+              </div>
+            );
+          })}
+        </div>
       </div>
 
-      {/* Host intro */}
+      {/* Lock screen controls */}
       <div
-        className="rounded-xl p-3 flex items-start gap-3"
-        style={{ background: isDark ? 'rgba(255,255,255,0.04)' : 'rgba(0,0,0,0.03)' }}
+        className="rounded-2xl p-4 space-y-4"
+        style={{
+          background: isDark ? 'rgba(255,255,255,0.02)' : 'rgba(0,0,0,0.02)',
+          border: isDark ? '1px solid rgba(255,255,255,0.06)' : '1px solid rgba(0,0,0,0.06)',
+        }}
       >
-        <div className="flex gap-1.5 shrink-0 mt-0.5">
-          <span className="text-lg">👨‍💼</span>
-          <span className="text-lg">👩‍💼</span>
+        <div className="flex items-center gap-2">
+          <Smartphone size={15} className="text-indigo-400" />
+          <h3 className="text-sm font-black text-foreground" style={{ fontFamily: 'Sora, sans-serif' }}>
+            Lock Screen Controls
+          </h3>
         </div>
-        <div>
-          <p className="text-xs font-bold text-foreground mb-0.5">Meet your hosts</p>
-          <p className="text-[10px] text-muted-foreground leading-relaxed">
-            <span className="font-semibold" style={{ color: '#6366f1' }}>Alex</span> is a seasoned PM who loves frameworks and real-world examples.{' '}
-            <span className="font-semibold" style={{ color: '#ec4899' }}>Sam</span> is a PM coach who asks the questions you're thinking.
-            Together they turn each card into a 4–6 minute deep-dive conversation.
+
+        <p className="text-xs text-muted-foreground leading-relaxed">
+          Once an episode starts, lock your screen — playback continues and controls appear on your lock screen and notification tray. The episode title and active cast are shown as the media metadata.
+        </p>
+
+        <div className="space-y-2">
+          {[
+            { icon: '▶', label: 'Play / Pause', desc: 'Toggle the episode' },
+            { icon: '⏭', label: 'Next card', desc: 'Skip to the next episode in your playlist' },
+            { icon: '⏮', label: 'Previous card', desc: 'Go back to the previous episode' },
+          ].map(item => (
+            <div key={item.label} className="flex items-center gap-3">
+              <div
+                className="w-7 h-7 rounded-lg flex items-center justify-center text-sm shrink-0"
+                style={{ background: 'rgba(99,102,241,0.15)' }}
+              >
+                {item.icon}
+              </div>
+              <div>
+                <div className="text-xs font-bold text-foreground">{item.label}</div>
+                <div className="text-[10px] text-muted-foreground">{item.desc}</div>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        <div
+          className="p-2.5 rounded-xl flex items-start gap-2"
+          style={{ background: 'rgba(245,158,11,0.1)', border: '1px solid rgba(245,158,11,0.2)' }}
+        >
+          <Info size={12} className="text-amber-400 mt-0.5 shrink-0" />
+          <p className="text-[10px] text-amber-300 leading-relaxed">
+            On iOS, keep the browser tab open when locking — the tab must be active. On Android Chrome, audio continues in the background automatically.
           </p>
         </div>
-      </div>
-
-      <p className="text-xs text-muted-foreground leading-relaxed">
-        Once an episode starts, lock your screen — playback continues and controls appear on your lock screen and notification tray. The episode title and current host are shown as the media metadata.
-      </p>
-
-      <div className="space-y-2">
-        {[
-          { icon: '▶', label: 'Play / Pause', desc: 'Toggle the episode' },
-          { icon: '⏭', label: 'Next card', desc: 'Skip to the next episode in your playlist' },
-          { icon: '⏮', label: 'Previous card', desc: 'Go back to the previous episode' },
-        ].map(item => (
-          <div key={item.label} className="flex items-center gap-3">
-            <div
-              className="w-7 h-7 rounded-lg flex items-center justify-center text-sm shrink-0"
-              style={{ background: 'rgba(99,102,241,0.15)' }}
-            >
-              {item.icon}
-            </div>
-            <div>
-              <div className="text-xs font-bold text-foreground">{item.label}</div>
-              <div className="text-[10px] text-muted-foreground">{item.desc}</div>
-            </div>
-          </div>
-        ))}
-      </div>
-
-      <div
-        className="p-2.5 rounded-xl flex items-start gap-2"
-        style={{ background: 'rgba(245,158,11,0.1)', border: '1px solid rgba(245,158,11,0.2)' }}
-      >
-        <Info size={12} className="text-amber-400 mt-0.5 shrink-0" />
-        <p className="text-[10px] text-amber-300 leading-relaxed">
-          On iOS, keep the browser tab open when locking — the tab must be active. On Android Chrome, audio continues in the background automatically.
-        </p>
       </div>
     </div>
   );
@@ -632,11 +722,12 @@ export default function AudioMode() {
         </button>
         <div className="flex items-center gap-2 flex-1">
           <div className="flex gap-0.5">
-            <span className="text-base">👨‍💼</span>
-            <span className="text-base">👩‍💼</span>
+            {(['🎙️', '💡', '🗺️'] as const).map((e, i) => (
+              <span key={i} className="text-sm">{e}</span>
+            ))}
           </div>
           <h1 className="text-base font-black text-foreground" style={{ fontFamily: 'Sora, sans-serif' }}>
-            PMO Podcast
+            StratAlign Theater
           </h1>
         </div>
         <div
@@ -648,7 +739,7 @@ export default function AudioMode() {
           }}
         >
           <Headphones size={9} />
-          Alex &amp; Sam
+          5 hosts
         </div>
       </div>
 
@@ -693,7 +784,7 @@ export default function AudioMode() {
         >
           {[
             { id: 'playlist' as const, label: 'Episodes', icon: List },
-            { id: 'settings' as const, label: 'Hosts & Lock Screen', icon: Smartphone },
+            { id: 'settings' as const, label: 'Cast & Controls', icon: Users },
           ].map(tab => (
             <button
               key={tab.id}

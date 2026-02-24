@@ -11,14 +11,8 @@ import {
   Loader2,
   Mic2,
 } from 'lucide-react';
-import { useAudio } from '@/contexts/AudioContext';
+import { useAudio, SPEAKER_COLORS, SPEAKER_EMOJI } from '@/contexts/AudioContext';
 import { useTheme } from '@/contexts/ThemeContext';
-
-// Speaker avatar colours
-const SPEAKER_COLORS: Record<string, string> = {
-  Alex: '#6366f1', // indigo — male host
-  Sam:  '#ec4899', // pink — female host
-};
 
 function formatTime(seconds: number): string {
   if (!isFinite(seconds) || seconds < 0) return '0:00';
@@ -104,7 +98,9 @@ export default function AudioPlayerBar() {
                   <Loader2 size={13} className="animate-spin" style={{ color: speakerColor }} />
                 ) : (
                   <>
-                    <Mic2 size={13} style={{ color: speakerColor }} />
+                    {currentSpeaker && SPEAKER_EMOJI[currentSpeaker]
+                      ? <span className="text-sm">{SPEAKER_EMOJI[currentSpeaker]}</span>
+                      : <Mic2 size={13} style={{ color: speakerColor }} />}
                     {isPlaying && (
                       <motion.div
                         className="absolute -top-0.5 -right-0.5 w-2 h-2 rounded-full"
