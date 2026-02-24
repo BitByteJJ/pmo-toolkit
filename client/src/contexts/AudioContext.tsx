@@ -281,10 +281,14 @@ let _audioCtx: AudioContext | null = null;
 const _audioBuffers: Record<string, AudioBuffer> = {};
 
 // Call this synchronously inside a user gesture handler to unlock the AudioContext.
+// Also pre-loads both jingle buffers so they're ready before the episode finishes generating.
 export function unlockAudioContext() {
   if (typeof window === 'undefined') return;
   if (!_audioCtx) {
     _audioCtx = new (window.AudioContext || (window as any).webkitAudioContext)();
+    // Pre-load both audio files immediately so they're cached as AudioBuffers
+    loadAudioBuffer(JINGLE_URL).catch(() => {});
+    loadAudioBuffer(OUTRO_URL).catch(() => {});
   }
   if (_audioCtx.state === 'suspended') {
     _audioCtx.resume().catch(() => {});
@@ -367,6 +371,9 @@ export function AudioProvider({ children }: { children: ReactNode }) {
   stateRef.current = state;
   const currentBlobUrlRef = useRef<string | null>(null);
   const currentTrackRef = useRef<AudioTrack | null>(null);
+  // Guard flag: set to true when stop() is called so that the audio element's
+  // onended event (which fires when src is cleared) does NOT trigger the outro.
+  const isStoppedRef = useRef(false);
 
   function getAudio(): HTMLAudioElement {
     if (!audioRef.current) {
@@ -460,12 +467,16 @@ export function AudioProvider({ children }: { children: ReactNode }) {
   }, []);
 
   const playTrackSegments = useCallback((track: AudioTrack, startSegment = 0, playIntroJingle = false) => {
+    // Reset stop guard so this new episode plays fully
+    isStoppedRef.current = false;
     currentTrackRef.current = { ...track, currentSegmentIndex: startSegment };
 
     const playNext = (segIdx: number) => {
+      // If stop() was called, bail out immediately — do NOT play outro
+      if (isStoppedRef.current) return;
       const t = currentTrackRef.current;
       if (!t || segIdx >= t.segments.length) {
-        // Episode finished — play outro stinger then resolve
+        // Episode finished naturally — play outro stinger
         const finishEpisode = () => {
           const { currentIndex, playlist } = stateRef.current;
           if (currentIndex + 1 < playlist.length) {
@@ -777,7 +788,12 @@ export function AudioProvider({ children }: { children: ReactNode }) {
   }, []);
 
   const stop = useCallback(() => {
+    // Set stop guard BEFORE clearing audio.src — clearing src fires onended
+    // which would otherwise trigger the outro via playNext
+    isStoppedRef.current = true;
     const audio = getAudio();
+    audio.onended = null; // also clear the handler explicitly
+    audio.onerror = null;
     audio.pause();
     audio.src = '';
     revokePreviousBlobUrl();

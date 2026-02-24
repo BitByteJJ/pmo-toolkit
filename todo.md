@@ -654,3 +654,9 @@
 - [x] Jingle/outro use AudioContext.createBufferSource() which never needs a gesture
 - [x] unlockAudioContext() called in playCard() and playDeck() before any async work
 - [x] Jingle plays on every episode start, outro plays after last segment
+
+## StratAlign Theater — Jingle/Outro Bug Fix — Feb 2026 (v2)
+- [x] Fix outro: was firing on stop because audio.src='' triggers onended — fixed with isStoppedRef guard
+- [x] Fix stop(): sets isStoppedRef=true and clears onended/onerror before clearing src
+- [x] Fix jingle: pre-loads AudioBuffers immediately when AudioContext is unlocked (no race condition)
+- [x] playTrackSegments resets isStoppedRef=false so new episodes always play fully
