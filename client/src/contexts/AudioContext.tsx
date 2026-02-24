@@ -256,47 +256,46 @@ async function fetchPodcastEpisodeSSE(
 // ─── JINGLE & OUTRO ─────────────────────────────────────────────────────────
 // Intro plays before the first spoken segment of a fresh (non-cached) episode.
 // Outro stinger plays after the final spoken segment of every episode.
-// Both use dedicated audio elements separate from the main episode player.
+//
+// iOS Safari / mobile autoplay policy: audio elements created outside a user-gesture
+// handler are blocked. We work around this by fetching the audio as a Blob inside the
+// gesture chain and creating a fresh <audio> element each time, which is always allowed.
 const JINGLE_URL = 'https://files.manuscdn.com/user_upload_by_module/session_file/310419663029097403/lXKgYYBLgOycvYnu.mp3';
 const OUTRO_URL  = 'https://files.manuscdn.com/user_upload_by_module/session_file/310419663029097403/qQGwuVTucjEbrQxY.mp3';
 
-let jingleAudio: HTMLAudioElement | null = null;
-let outroAudio:  HTMLAudioElement | null = null;
+// Pre-fetch blobs once so playback is instant (no network round-trip during gesture)
+let jingleBlob: string | null = null;
+let outroBlob:  string | null = null;
 
-function getJingleAudio(): HTMLAudioElement {
-  if (!jingleAudio) {
-    jingleAudio = new Audio();
-    jingleAudio.preload = 'auto';
-    jingleAudio.src = JINGLE_URL;
-  }
-  return jingleAudio;
+async function prefetchBlob(url: string): Promise<string> {
+  const res = await fetch(url);
+  const blob = await res.blob();
+  return URL.createObjectURL(blob);
 }
 
-function getOutroAudio(): HTMLAudioElement {
-  if (!outroAudio) {
-    outroAudio = new Audio();
-    outroAudio.preload = 'auto';
-    outroAudio.src = OUTRO_URL;
-  }
-  return outroAudio;
+// Kick off prefetch immediately (non-blocking)
+if (typeof window !== 'undefined') {
+  prefetchBlob(JINGLE_URL).then(u => { jingleBlob = u; }).catch(() => {});
+  prefetchBlob(OUTRO_URL).then(u  => { outroBlob  = u; }).catch(() => {});
+}
+
+function playAudioBlob(blobUrl: string | null, fallbackUrl: string, onEnded: () => void) {
+  const src = blobUrl ?? fallbackUrl;
+  // Create a fresh element each time — this is inside the gesture chain so autoplay is allowed
+  const el = new Audio(src);
+  el.playbackRate = 1.0;
+  el.onended = onEnded;
+  el.onerror = () => onEnded();
+  const p = el.play();
+  if (p) p.catch(() => onEnded());
 }
 
 function playJingle(onEnded: () => void) {
-  const j = getJingleAudio();
-  j.currentTime = 0;
-  j.playbackRate = 1.0;
-  j.onended = onEnded;
-  j.onerror = () => onEnded();
-  j.play().catch(() => onEnded());
+  playAudioBlob(jingleBlob, JINGLE_URL, onEnded);
 }
 
 function playOutro(onEnded: () => void) {
-  const o = getOutroAudio();
-  o.currentTime = 0;
-  o.playbackRate = 1.0;
-  o.onended = onEnded;
-  o.onerror = () => onEnded();
-  o.play().catch(() => onEnded());
+  playAudioBlob(outroBlob, OUTRO_URL, onEnded);
 }
 
 // ─── CONTEXT ─────────────────────────────────────────────────────────────────

@@ -635,3 +635,8 @@
 ## Bug Fixes — Mindmap & Compare Card — Feb 2026
 - [x] Fix mindmap: improved truncateTitle (accurate char-width, 3 lines for root nodes), fixed text fill colour in light mode
 - [x] Fix compare card: modal sheet now uses height+overflow-hidden+min-h-0 so card list scrolls on iOS Safari
+
+## StratAlign Theater — Jingle Fix & Jokes — Feb 2026
+- [x] Fix intro jingle: replaced singleton HTMLAudioElement with pre-fetched Blob + fresh element per play (iOS autoplay policy fix)
+- [x] Fix outro stinger: same approach, plays after final spoken segment
+- [x] Added 10 PM-specific joke templates to script prompt (scope creep, Gantt art, meeting-about-meetings, etc.)

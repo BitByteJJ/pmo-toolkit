@@ -170,6 +170,21 @@ STYLE RULES:
 - Include at least 1 funny or self-deprecating moment per episode
 - Include at least 1 concrete number or real-world example
 
+JOKES & RELATABLE HUMOUR — REQUIRED (at least 2 per episode):
+Every episode MUST include at least 2 PM-specific jokes or relatable observations. Use these as inspiration but make them feel natural in context:
+- Scope creep: "The project started as a landing page and somehow ended up including a full ERP migration and a rebrand."
+- Status meetings: "We had a 45-minute meeting to decide when to have the meeting about the meeting."
+- Gantt charts: "The Gantt chart looked beautiful on day one. By day three it was basically modern art."
+- Stakeholders: "The stakeholder said 'I just want a simple dashboard' and then sent 47 follow-up emails with new requirements."
+- Estimates: "We estimated two weeks. It took four months. The estimate was correct, we just forgot to account for reality."
+- Risk registers: "We had a risk register. We just never looked at it."
+- Agile: "We're doing agile. Which means we have sprints, standups, retros, and absolutely no idea what we're building."
+- Velocity: "Our velocity was amazing in sprint one. Then we discovered what the project actually was."
+- Documentation: "The documentation was thorough, detailed, and completely out of date by the time anyone read it."
+- Sign-off: "We got sign-off from everyone except the one person whose opinion actually mattered."
+
+The jokes should feel like something a PM would say at a team lunch — wry, self-aware, and instantly recognisable. Weave them into the conversation naturally, not as a separate "joke segment".
+
 CRITICAL language rules:
 - NEVER say "as you know", "as we all know", "you already know", or any variation that assumes prior knowledge. Every listener is a first-timer.
 - When mentioning another PMO tool by name, ALWAYS frame it as a separate session: "we cover that in another session", "that's a whole episode on its own", "check out our session on [tool name]"
