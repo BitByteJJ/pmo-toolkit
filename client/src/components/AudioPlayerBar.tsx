@@ -33,6 +33,7 @@ export default function AudioPlayerBar() {
     isPlaying,
     isPaused,
     isLoading,
+    isBuffering,
     currentTrack,
     currentIndex,
     playlist,
@@ -49,7 +50,7 @@ export default function AudioPlayerBar() {
     prev,
   } = useAudio();
 
-  const isActive = isPlaying || isPaused || isLoading;
+  const isActive = isPlaying || isPaused || isLoading || isBuffering;
   const speakerColor = currentSpeaker ? SPEAKER_COLORS[currentSpeaker] ?? currentTrack?.deckColor : currentTrack?.deckColor ?? '#6366f1';
   const timeRemaining = segmentDuration > 0 ? segmentDuration - segmentElapsed : 0;
 
@@ -100,7 +101,7 @@ export default function AudioPlayerBar() {
                 className="w-7 h-7 rounded-lg flex items-center justify-center shrink-0 relative"
                 style={{ background: (speakerColor) + '22' }}
               >
-                {isLoading ? (
+                {(isLoading || isBuffering) ? (
                   <Loader2 size={13} className="animate-spin" style={{ color: speakerColor }} />
                 ) : (
                   <>
@@ -128,6 +129,8 @@ export default function AudioPlayerBar() {
                 <div className="flex items-center gap-1.5 mt-0.5">
                   {isLoading ? (
                     <span className="text-[9px]" style={{ color: speakerColor }}>Generating episode…</span>
+                  ) : isBuffering ? (
+                    <span className="text-[9px]" style={{ color: speakerColor }}>Buffering…</span>
                   ) : (
                     <>
                       {currentSpeaker && (
@@ -189,7 +192,7 @@ export default function AudioPlayerBar() {
 
                 <button
                   onClick={isPaused ? resume : pause}
-                  disabled={isLoading}
+                  disabled={isLoading || isBuffering}
                   className="w-8 h-8 rounded-full flex items-center justify-center transition-all active:scale-90 disabled:opacity-50"
                   style={{
                     background: speakerColor,

@@ -1,17 +1,22 @@
 // podcastGenerator.ts
-// Generates a two-host podcast episode for a PMO card.
-// Step 1: LLM writes a rich, conversational dialogue between Alex (male) and Sam (female).
-// Step 2: Each dialogue line is sent to Google TTS with the matching voice.
-// Step 3: All base64 MP3 segments are returned to the client for sequential playback.
+// Streaming two-host podcast generator.
+//
+// Architecture (low-latency):
+//   1. LLM streams the script via SSE — we parse lines as they arrive.
+//   2. Each parsed dialogue line is immediately sent to Google TTS.
+//   3. As soon as a TTS response comes back it is flushed to the client as an
+//      NDJSON line: { speaker, line, audioContent, index, done: false }
+//   4. When all lines are done we flush { done: true, total }.
+//
+// The client can start playing the first segment ~3-5 s after pressing play,
+// while the rest of the episode loads in the background.
 
 import type { Request, Response } from 'express';
 
 const GOOGLE_TTS_URL = 'https://texttospeech.googleapis.com/v1/text:synthesize';
 
 // ─── VOICE CONFIGS ────────────────────────────────────────────────────────────
-// Alex — Journey-D: warm, authoritative male voice
 const VOICE_ALEX = { languageCode: 'en-US', name: 'en-US-Journey-D', ssmlGender: 'MALE' };
-// Sam — Journey-O: friendly, conversational female voice
 const VOICE_SAM  = { languageCode: 'en-US', name: 'en-US-Journey-O', ssmlGender: 'FEMALE' };
 
 const AUDIO_CONFIG = {
@@ -21,51 +26,6 @@ const AUDIO_CONFIG = {
   volumeGainDb: 1.5,
   effectsProfileId: ['headphone-class-device'],
 };
-
-// ─── PODCAST SCRIPT PROMPT ────────────────────────────────────────────────────
-function buildSystemPrompt(): string {
-  return `You are a scriptwriter for "The PMO Toolkit Podcast", a popular show where two hosts — Alex and Sam — have smart, engaging conversations about project management tools and techniques.
-
-Alex is experienced, slightly analytical, and loves real-world examples. Sam is curious, enthusiastic, and great at asking the questions listeners are thinking.
-
-Your scripts should feel like a genuine conversation — not a lecture. Use natural speech patterns: interruptions, "exactly!", "right", "that's a good point", rhetorical questions, and light humour where appropriate. Avoid bullet-point thinking; let ideas flow naturally.
-
-OUTPUT FORMAT — return ONLY a JSON array, no markdown, no explanation:
-[
-  { "speaker": "Alex", "line": "..." },
-  { "speaker": "Sam",  "line": "..." },
-  ...
-]
-
-Rules:
-- Minimum 20 exchanges (40+ lines total) — this should be a proper 4–6 minute episode
-- Start with a warm intro where both hosts introduce the topic
-- Cover: what the tool is, why it matters, when to use it, a detailed real-world example, common mistakes, and a memorable takeaway
-- End with both hosts summarising their key insight and a teaser for listeners to explore related tools
-- Keep each line to 1–3 natural sentences — not too short (feels choppy) and not too long (hard to follow)
-- Vary who asks questions and who explains — don't let one host dominate
-- NEVER use bullet points or numbered lists inside a line — speak naturally
-
-CRITICAL language rules — violating these will ruin the listener experience:
-- NEVER say "as you know", "as we all know", "you already know", "of course you know", "as I'm sure you know", or any variation that assumes prior listener knowledge. The listener may be hearing about this topic for the first time.
-- When mentioning another PMO tool or technique by name (e.g. "Risk Register", "RACI Matrix", "Agile"), ALWAYS frame it as a separate session: say "we cover that in another session", "that's a whole episode on its own", "we have a dedicated session on that", or "check out our session on [tool name]" — never assume the listener has already heard it.
-- Treat every listener as if this is their very first episode. Introduce concepts clearly without condescension.`;
-}
-
-function buildUserPrompt(card: CardInput): string {
-  return `Create a podcast episode about this PMO tool:
-
-Title: ${card.title}
-Tagline: ${card.tagline}
-What it is: ${card.whatItIs}
-When to use: ${card.whenToUse}
-Steps: ${card.steps?.join('; ') ?? 'N/A'}
-Pro tip: ${card.proTip}
-Example: ${card.example ?? 'N/A'}
-Deck: ${card.deckTitle}
-
-Make this episode genuinely informative and entertaining. The listener should finish it knowing exactly when and how to use this tool, with a concrete mental model.`;
-}
 
 // ─── TYPES ────────────────────────────────────────────────────────────────────
 interface CardInput {
@@ -84,10 +44,54 @@ interface DialogueLine {
   line: string;
 }
 
-interface PodcastSegment {
-  speaker: 'Alex' | 'Sam';
-  line: string;
-  audioContent: string; // base64 MP3
+// ─── SCRIPT PROMPTS ───────────────────────────────────────────────────────────
+function buildSystemPrompt(): string {
+  return `You are a scriptwriter for "The PMO Toolkit Podcast", a popular show where two hosts — Alex and Sam — have smart, engaging conversations about project management tools and techniques.
+
+Alex is experienced, slightly analytical, and loves real-world examples. Sam is curious, enthusiastic, and great at asking the questions listeners are thinking.
+
+Your scripts should feel like a genuine conversation — not a lecture. Use natural speech patterns: interruptions, "exactly!", "right", "that's a good point", rhetorical questions, and light humour where appropriate.
+
+OUTPUT FORMAT — return ONLY a JSON array, no markdown, no explanation:
+[
+  { "speaker": "Alex", "line": "..." },
+  { "speaker": "Sam",  "line": "..." },
+  ...
+]
+
+Episode structure (target 30–50 lines for a 5–10 min episode):
+1. Warm intro — both hosts greet listeners and introduce the topic (4–6 lines)
+2. What it is — clear explanation with an analogy (6–8 lines)
+3. When to use it — real-world scenarios (6–8 lines)
+4. Step-by-step walkthrough — detailed, practical (8–10 lines)
+5. Real-world example — specific project scenario (6–8 lines)
+6. Common mistakes & pro tips (4–6 lines)
+7. Wrap-up — key takeaway + teaser for related sessions (4–6 lines)
+
+Rules:
+- Each line: 1–3 natural sentences. Not too short (choppy) or too long (hard to follow).
+- Vary who asks and who explains — don't let one host dominate.
+- NEVER use bullet points or numbered lists inside a line — speak naturally.
+
+CRITICAL language rules:
+- NEVER say "as you know", "as we all know", "you already know", "of course you know", or any variation that assumes prior knowledge.
+- When mentioning another PMO tool by name, ALWAYS frame it as a separate session: "we cover that in another session", "that's a whole episode on its own", "check out our session on [tool name]".
+- Treat every listener as if this is their very first episode.`;
+}
+
+function buildUserPrompt(card: CardInput): string {
+  return `Create a podcast episode about this PMO tool:
+
+Title: ${card.title}
+Tagline: ${card.tagline}
+What it is: ${card.whatItIs}
+When to use: ${card.whenToUse}
+Steps: ${card.steps?.join('; ') ?? 'N/A'}
+Pro tip: ${card.proTip}
+Example: ${card.example ?? 'N/A'}
+Deck: ${card.deckTitle}
+
+Make this episode genuinely informative and entertaining. Target 30–50 lines. The listener should finish knowing exactly when and how to use this tool.`;
 }
 
 // ─── TTS HELPER ───────────────────────────────────────────────────────────────
@@ -98,7 +102,6 @@ async function synthesiseLine(
 ): Promise<string> {
   const voice = speaker === 'Alex' ? VOICE_ALEX : VOICE_SAM;
 
-  // Soften punctuation for more natural delivery
   const processed = text
     .replace(/\s*—\s*/g, ', ')
     .replace(/;/g, ',')
@@ -107,11 +110,7 @@ async function synthesiseLine(
     .trim()
     .slice(0, 4000);
 
-  const body = {
-    input: { text: processed },
-    voice,
-    audioConfig: AUDIO_CONFIG,
-  };
+  const body = { input: { text: processed }, voice, audioConfig: AUDIO_CONFIG };
 
   const res = await fetch(`${GOOGLE_TTS_URL}?key=${apiKey}`, {
     method: 'POST',
@@ -129,18 +128,21 @@ async function synthesiseLine(
   return data.audioContent;
 }
 
-// ─── LLM SCRIPT GENERATOR ────────────────────────────────────────────────────
-async function generateScript(card: CardInput): Promise<DialogueLine[]> {
+// ─── LLM STREAMING SCRIPT GENERATOR ──────────────────────────────────────────
+// Calls the LLM with stream:true and yields DialogueLines as they are parsed
+// from the SSE token stream. This lets us start TTS before the full script is done.
+async function* streamScript(card: CardInput): AsyncGenerator<DialogueLine> {
   const apiUrl = process.env.OPENAI_BASE_URL || process.env.BUILT_IN_FORGE_API_URL;
   const apiKey = process.env.OPENAI_API_KEY || process.env.BUILT_IN_FORGE_API_KEY;
 
   if (!apiUrl || !apiKey) throw new Error('LLM API not configured');
 
   const controller = new AbortController();
-  const timeout = setTimeout(() => controller.abort(), 45000); // 45s for longer scripts
+  const timeout = setTimeout(() => controller.abort(), 90000);
 
+  let res: globalThis.Response;
   try {
-    const res = await fetch(`${apiUrl}/v1/chat/completions`, {
+    res = await fetch(`${apiUrl}/v1/chat/completions`, {
       method: 'POST',
       signal: controller.signal,
       headers: {
@@ -153,44 +155,125 @@ async function generateScript(card: CardInput): Promise<DialogueLine[]> {
           { role: 'system', content: buildSystemPrompt() },
           { role: 'user',   content: buildUserPrompt(card) },
         ],
-        temperature: 0.75, // More creative for natural dialogue
-        max_tokens: 3000,
+        temperature: 0.75,
+        max_tokens: 4000,
+        stream: true,
       }),
     });
-    clearTimeout(timeout);
-
-    if (!res.ok) {
-      const err = await res.text();
-      throw new Error(`LLM error ${res.status}: ${err.slice(0, 200)}`);
-    }
-
-    const data = await res.json() as { choices: Array<{ message: { content: string } }> };
-    const content = data.choices?.[0]?.message?.content ?? '';
-
-    // Strip markdown code fences
-    const cleaned = content.replace(/^```(?:json)?\n?/, '').replace(/\n?```$/, '').trim();
-    const parsed = JSON.parse(cleaned) as DialogueLine[];
-
-    if (!Array.isArray(parsed) || parsed.length < 4) {
-      throw new Error('LLM returned invalid script structure');
-    }
-
-    return parsed;
   } finally {
     clearTimeout(timeout);
   }
-}
 
-// ─── MAIN HANDLER ─────────────────────────────────────────────────────────────
-export async function handlePodcastGenerate(req: Request, res: Response): Promise<void> {
-  const sendJson = (code: number, data: object) => {
-    res.status(code).json(data);
+  if (!res.ok) {
+    const err = await res.text();
+    throw new Error(`LLM error ${res.status}: ${err.slice(0, 200)}`);
+  }
+
+  // Read the SSE stream and accumulate tokens into a JSON buffer
+  const reader = res.body!.getReader();
+  const decoder = new TextDecoder();
+  let buffer = ''; // accumulated JSON text from tokens
+  let jsonBuffer = ''; // the raw SSE line buffer
+
+  // We parse the JSON array incrementally.
+  // Strategy: accumulate all tokens, then extract complete JSON objects
+  // using a simple brace-depth scanner as soon as we see a closing `}`.
+  let depth = 0;
+  let inString = false;
+  let escape = false;
+  let objectStart = -1;
+
+  const tryExtractObjects = (): DialogueLine[] => {
+    const found: DialogueLine[] = [];
+    for (let i = 0; i < buffer.length; i++) {
+      const ch = buffer[i];
+      if (escape) { escape = false; continue; }
+      if (ch === '\\' && inString) { escape = true; continue; }
+      if (ch === '"') { inString = !inString; continue; }
+      if (inString) continue;
+
+      if (ch === '{') {
+        if (depth === 0) objectStart = i;
+        depth++;
+      } else if (ch === '}') {
+        depth--;
+        if (depth === 0 && objectStart !== -1) {
+          const raw = buffer.slice(objectStart, i + 1);
+          try {
+            const obj = JSON.parse(raw) as DialogueLine;
+            if (obj.speaker && obj.line) found.push(obj);
+          } catch {
+            // partial or malformed — skip
+          }
+          objectStart = -1;
+        }
+      }
+    }
+    // Trim consumed buffer up to the last complete object
+    if (found.length > 0) {
+      // Find the last `}` at depth 0 to trim
+      let lastEnd = -1;
+      let d2 = 0;
+      let inS2 = false;
+      let esc2 = false;
+      for (let i = 0; i < buffer.length; i++) {
+        const ch = buffer[i];
+        if (esc2) { esc2 = false; continue; }
+        if (ch === '\\' && inS2) { esc2 = true; continue; }
+        if (ch === '"') { inS2 = !inS2; continue; }
+        if (inS2) continue;
+        if (ch === '{') d2++;
+        else if (ch === '}') { d2--; if (d2 === 0) lastEnd = i; }
+      }
+      if (lastEnd !== -1) {
+        buffer = buffer.slice(lastEnd + 1);
+        // reset scanner state
+        depth = 0; inString = false; escape = false; objectStart = -1;
+      }
+    }
+    return found;
   };
 
+  while (true) {
+    const { done, value } = await reader.read();
+    if (done) break;
+
+    jsonBuffer += decoder.decode(value, { stream: true });
+    const lines = jsonBuffer.split('\n');
+    jsonBuffer = lines.pop() ?? '';
+
+    for (const line of lines) {
+      if (!line.startsWith('data: ')) continue;
+      const data = line.slice(6).trim();
+      if (data === '[DONE]') return;
+      try {
+        const chunk = JSON.parse(data) as {
+          choices: Array<{ delta: { content?: string }; finish_reason?: string }>;
+        };
+        const token = chunk.choices?.[0]?.delta?.content ?? '';
+        if (token) {
+          buffer += token;
+          const extracted = tryExtractObjects();
+          for (const obj of extracted) yield obj;
+        }
+        if (chunk.choices?.[0]?.finish_reason === 'stop') return;
+      } catch {
+        // malformed SSE chunk — skip
+      }
+    }
+  }
+
+  // Final flush — try to extract any remaining complete objects
+  const remaining = tryExtractObjects();
+  for (const obj of remaining) yield obj;
+}
+
+// ─── STREAMING MAIN HANDLER ───────────────────────────────────────────────────
+export async function handlePodcastGenerate(req: Request, res: Response): Promise<void> {
   try {
     const ttsKey = process.env.GOOGLE_TTS_API_KEY;
     if (!ttsKey) {
-      sendJson(500, { error: 'Google TTS API key not configured' });
+      res.status(500).json({ error: 'Google TTS API key not configured' });
       return;
     }
 
@@ -198,57 +281,80 @@ export async function handlePodcastGenerate(req: Request, res: Response): Promis
     const card: CardInput = body.card;
 
     if (!card?.title || !card?.whatItIs) {
-      sendJson(400, { error: 'Missing card data' });
+      res.status(400).json({ error: 'Missing card data' });
       return;
     }
 
-    console.log(`[Podcast] Generating episode for: ${card.title}`);
+    console.log(`[Podcast] Streaming episode for: ${card.title}`);
 
-    // Step 1: Generate the dialogue script via LLM
-    let script: DialogueLine[];
-    try {
-      script = await generateScript(card);
-      console.log(`[Podcast] Script generated: ${script.length} lines`);
-    } catch (err) {
-      console.error('[Podcast] Script generation failed:', err);
-      sendJson(502, { error: 'Failed to generate podcast script', details: String(err) });
-      return;
-    }
+    // Set up NDJSON streaming response
+    res.setHeader('Content-Type', 'application/x-ndjson');
+    res.setHeader('Transfer-Encoding', 'chunked');
+    res.setHeader('Cache-Control', 'no-cache');
+    res.setHeader('X-Accel-Buffering', 'no'); // disable nginx buffering
+    res.status(200);
 
-    // Step 2: TTS each line concurrently (in batches of 5 to avoid rate limits)
-    const segments: PodcastSegment[] = [];
-    const BATCH_SIZE = 5;
+    let index = 0;
+    let successCount = 0;
 
-    for (let i = 0; i < script.length; i += BATCH_SIZE) {
-      const batch = script.slice(i, i + BATCH_SIZE);
-      const batchResults = await Promise.all(
-        batch.map(async (line) => {
-          try {
-            const audioContent = await synthesiseLine(line.line, line.speaker, ttsKey);
-            return { speaker: line.speaker, line: line.line, audioContent };
-          } catch (err) {
-            console.error(`[Podcast] TTS failed for line: ${line.line.slice(0, 50)}`, err);
-            // Skip failed lines rather than failing the whole episode
-            return null;
-          }
-        })
-      );
+    // Concurrency control: allow up to 4 TTS requests in flight at once
+    // to maximise throughput without hitting rate limits
+    const MAX_CONCURRENT = 4;
+    const inFlight: Promise<void>[] = [];
 
-      for (const result of batchResults) {
-        if (result) segments.push(result);
+    const processLine = async (dialogueLine: DialogueLine, lineIndex: number) => {
+      try {
+        const audioContent = await synthesiseLine(dialogueLine.line, dialogueLine.speaker, ttsKey);
+        const segment = {
+          speaker: dialogueLine.speaker,
+          line: dialogueLine.line,
+          audioContent,
+          index: lineIndex,
+          done: false,
+        };
+        res.write(JSON.stringify(segment) + '\n');
+        successCount++;
+        console.log(`[Podcast] Streamed segment ${lineIndex} (${dialogueLine.speaker})`);
+      } catch (err) {
+        console.error(`[Podcast] TTS failed for line ${lineIndex}:`, err);
+        // Skip failed line — don't break the stream
       }
+    };
+
+    for await (const dialogueLine of streamScript(card)) {
+      const lineIndex = index++;
+
+      // If at max concurrency, wait for one to finish
+      if (inFlight.length >= MAX_CONCURRENT) {
+        await inFlight.shift();
+      }
+
+      const p = processLine(dialogueLine, lineIndex).then(() => {
+        const idx = inFlight.indexOf(p);
+        if (idx !== -1) inFlight.splice(idx, 1);
+      });
+      inFlight.push(p);
     }
 
-    if (segments.length === 0) {
-      sendJson(500, { error: 'All TTS segments failed' });
-      return;
+    // Wait for all remaining TTS requests
+    await Promise.all(inFlight);
+
+    if (successCount === 0) {
+      res.write(JSON.stringify({ error: 'All TTS segments failed', done: true }) + '\n');
+    } else {
+      res.write(JSON.stringify({ done: true, total: successCount }) + '\n');
     }
 
-    console.log(`[Podcast] Generated ${segments.length} audio segments`);
-    sendJson(200, { segments, totalLines: script.length });
+    res.end();
+    console.log(`[Podcast] Episode complete: ${successCount} segments for "${card.title}"`);
 
   } catch (err) {
     console.error('[Podcast] Unexpected error:', err);
-    sendJson(500, { error: 'Internal podcast generation error', details: String(err) });
+    try {
+      res.write(JSON.stringify({ error: String(err), done: true }) + '\n');
+      res.end();
+    } catch {
+      // response already ended
+    }
   }
 }

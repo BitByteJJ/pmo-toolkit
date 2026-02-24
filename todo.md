@@ -583,3 +583,12 @@
 - [x] Add time elapsed / total duration to NowPlaying panel
 - [x] Add /api/podcast-download endpoint that stitches all segments into one MP3 (base64)
 - [x] Add Download Episode button in AudioMode NowPlaying panel
+
+## Podcast Streaming (Low Latency) — Feb 24 2026
+
+- [x] Rewrite /api/podcast to stream NDJSON segments as each TTS line completes
+- [x] LLM streams script lines via SSE; each line is TTS'd immediately as it arrives
+- [x] AudioContext reads the NDJSON stream and starts playback on the first segment
+- [x] Subsequent segments are queued and played back-to-back with no gap
+- [x] Tune script to 30–50 lines for 5–10 min episodes
+- [x] Show "buffering" indicator when player is waiting for next segment

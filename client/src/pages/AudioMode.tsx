@@ -162,6 +162,7 @@ function NowPlaying() {
     isPlaying,
     isPaused,
     isLoading,
+    isBuffering,
     currentTrack,
     currentIndex,
     playlist,
@@ -263,19 +264,21 @@ function NowPlaying() {
             border: isLoading ? '1px solid rgba(99,102,241,0.3)' : isPlaying ? '1px solid rgba(16,185,129,0.3)' : '1px solid rgba(245,158,11,0.3)',
           }}
         >
-          {isLoading ? '⏳ Generating…' : isPlaying ? '● LIVE' : '⏸ Paused'}
+          {isLoading ? '⏳ Generating…' : isBuffering ? '⏳ Buffering…' : isPlaying ? '● LIVE' : '⏸ Paused'}
         </div>
       </div>
 
-      {/* Loading message */}
-      {isLoading && (
+      {/* Loading / buffering message */}
+      {(isLoading || isBuffering) && (
         <div className="text-center py-2">
           <p className="text-xs text-muted-foreground">
-            Alex and Sam are preparing your episode…
+            {isLoading ? 'Alex and Sam are preparing your episode…' : 'Loading next exchange…'}
           </p>
-          <p className="text-[10px] text-muted-foreground opacity-60 mt-1">
-            This takes about 20–30 seconds for a full episode
-          </p>
+          {isLoading && (
+            <p className="text-[10px] text-muted-foreground opacity-60 mt-1">
+              Playback starts in a few seconds
+            </p>
+          )}
         </div>
       )}
 
