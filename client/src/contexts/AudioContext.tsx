@@ -257,45 +257,60 @@ async function fetchPodcastEpisodeSSE(
 // Intro plays before the first spoken segment of a fresh (non-cached) episode.
 // Outro stinger plays after the final spoken segment of every episode.
 //
-// iOS Safari / mobile autoplay policy: audio elements created outside a user-gesture
-// handler are blocked. We work around this by fetching the audio as a Blob inside the
-// gesture chain and creating a fresh <audio> element each time, which is always allowed.
-const JINGLE_URL = 'https://files.manuscdn.com/user_upload_by_module/session_file/310419663029097403/lXKgYYBLgOycvYnu.mp3';
-const OUTRO_URL  = 'https://files.manuscdn.com/user_upload_by_module/session_file/310419663029097403/qQGwuVTucjEbrQxY.mp3';
+// Root cause of previous failure: browser fetch() to CDN was blocked by CORS
+// (CDN doesn't send Access-Control-Allow-Origin). Fix: route through our own
+// /api/audio-proxy endpoint which proxies the file server-side with CORS headers.
+// The <audio> src is set to the same-origin proxy URL, which is always allowed.
+// Files are served directly from client/public as same-origin static assets.
+// This bypasses all CORS issues — no proxy, no CDN fetch, no autoplay policy.
+const JINGLE_URL = '/stratalign-intro.mp3';
+const OUTRO_URL  = '/stratalign-outro.mp3';
 
-// Pre-fetch blobs once so playback is instant (no network round-trip during gesture)
-let jingleBlob: string | null = null;
-let outroBlob:  string | null = null;
+// Pre-warm the browser cache by creating hidden <audio> elements that load the files.
+// This is done at module init time (not inside a gesture) but <audio> src loading
+// doesn't require a gesture — only .play() does.
+let jingleEl: HTMLAudioElement | null = null;
+let outroEl:  HTMLAudioElement | null = null;
 
-async function prefetchBlob(url: string): Promise<string> {
-  const res = await fetch(url);
-  const blob = await res.blob();
-  return URL.createObjectURL(blob);
-}
-
-// Kick off prefetch immediately (non-blocking)
 if (typeof window !== 'undefined') {
-  prefetchBlob(JINGLE_URL).then(u => { jingleBlob = u; }).catch(() => {});
-  prefetchBlob(OUTRO_URL).then(u  => { outroBlob  = u; }).catch(() => {});
-}
-
-function playAudioBlob(blobUrl: string | null, fallbackUrl: string, onEnded: () => void) {
-  const src = blobUrl ?? fallbackUrl;
-  // Create a fresh element each time — this is inside the gesture chain so autoplay is allowed
-  const el = new Audio(src);
-  el.playbackRate = 1.0;
-  el.onended = onEnded;
-  el.onerror = () => onEnded();
-  const p = el.play();
-  if (p) p.catch(() => onEnded());
+  // Create elements and start loading immediately so they're ready when needed
+  jingleEl = new Audio(JINGLE_URL);
+  jingleEl.preload = 'auto';
+  outroEl = new Audio(OUTRO_URL);
+  outroEl.preload = 'auto';
 }
 
 function playJingle(onEnded: () => void) {
-  playAudioBlob(jingleBlob, JINGLE_URL, onEnded);
+  // Reuse the pre-loaded element if available; fall back to a fresh one
+  const el = jingleEl ?? new Audio(JINGLE_URL);
+  el.currentTime = 0;
+  el.playbackRate = 1.0;
+  el.onended = onEnded;
+  el.onerror = (e) => {
+    console.warn('[StratAlign Theater] Jingle error:', e);
+    onEnded();
+  };
+  const p = el.play();
+  if (p) p.catch((err) => {
+    console.warn('[StratAlign Theater] Jingle play() blocked:', err);
+    onEnded();
+  });
 }
 
 function playOutro(onEnded: () => void) {
-  playAudioBlob(outroBlob, OUTRO_URL, onEnded);
+  const el = outroEl ?? new Audio(OUTRO_URL);
+  el.currentTime = 0;
+  el.playbackRate = 1.0;
+  el.onended = onEnded;
+  el.onerror = (e) => {
+    console.warn('[StratAlign Theater] Outro error:', e);
+    onEnded();
+  };
+  const p = el.play();
+  if (p) p.catch((err) => {
+    console.warn('[StratAlign Theater] Outro play() blocked:', err);
+    onEnded();
+  });
 }
 
 // ─── CONTEXT ─────────────────────────────────────────────────────────────────

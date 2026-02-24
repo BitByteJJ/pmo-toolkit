@@ -88,6 +88,36 @@ async function startServer() {
     }
   });
 
+  // Audio proxy for jingle/outro files (avoids CORS on CDN fetch from browser)
+  app.get("/api/audio-proxy", async (req, res) => {
+    try {
+      const audioUrl = req.query.url as string;
+      if (!audioUrl) {
+        res.status(400).json({ error: "Missing url parameter" });
+        return;
+      }
+      const parsed = new URL(audioUrl);
+      if (!parsed.hostname.endsWith("manuscdn.com")) {
+        res.status(403).json({ error: "Domain not allowed" });
+        return;
+      }
+      const response = await fetch(audioUrl);
+      if (!response.ok) {
+        res.status(response.status).end();
+        return;
+      }
+      const buffer = Buffer.from(await response.arrayBuffer());
+      res.set({
+        "Content-Type": "audio/mpeg",
+        "Cache-Control": "public, max-age=86400",
+        "Access-Control-Allow-Origin": "*",
+      });
+      res.send(buffer);
+    } catch (e) {
+      res.status(500).json({ error: String(e) });
+    }
+  });
+
   // Image proxy for PDF export (avoids CORS issues with CDN images)
   app.get("/api/image-proxy", async (req, res) => {
     try {

@@ -640,3 +640,9 @@
 - [x] Fix intro jingle: replaced singleton HTMLAudioElement with pre-fetched Blob + fresh element per play (iOS autoplay policy fix)
 - [x] Fix outro stinger: same approach, plays after final spoken segment
 - [x] Added 10 PM-specific joke templates to script prompt (scope creep, Gantt art, meeting-about-meetings, etc.)
+
+## StratAlign Theater — Jingle Deep Fix — Feb 2026
+- [x] Root cause found: browser fetch() to CDN blocked by CORS (no Access-Control-Allow-Origin header)
+- [x] Fix: jingle files copied to client/public and served as same-origin static assets (/stratalign-intro.mp3, /stratalign-outro.mp3)
+- [x] Files also uploaded to S3 CDN for production reference
+- [x] AudioContext updated to use same-origin paths — no CORS, no proxy, no autoplay policy issues
