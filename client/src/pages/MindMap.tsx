@@ -46,10 +46,17 @@ interface GraphEdge {
 const NODE_RADIUS_DEFAULT = 28;
 const NODE_RADIUS_ROOT = 36;
 
-// Truncate a title to fit inside a bubble of the given radius
+// Truncate a title to fit inside a bubble of the given radius.
+// Uses a tighter char estimate (4.8px per char at the rendered font sizes)
+// and allows up to 3 lines for larger root nodes.
 function truncateTitle(title: string, radius: number): string[] {
-  // Available width ≈ 1.7 × radius (chars at ~5.5px each)
-  const maxCharsPerLine = Math.floor((radius * 1.7) / 5.5);
+  // fontSize is 7.5px for root (r≥34), 6.5px otherwise.
+  // Average char width ≈ 0.55 × fontSize.
+  const fontSize = radius >= 34 ? 7.5 : 6.5;
+  const charWidth = fontSize * 0.58;
+  // Usable diameter for text ≈ 1.65 × radius (leaves a small margin)
+  const maxCharsPerLine = Math.max(6, Math.floor((radius * 1.65) / charWidth));
+  const maxLines = radius >= 34 ? 3 : 2;
   const words = title.split(' ');
   const lines: string[] = [];
   let current = '';
@@ -62,13 +69,15 @@ function truncateTitle(title: string, radius: number): string[] {
       // If a single word is too long, hard-truncate it
       current = word.length > maxCharsPerLine ? word.slice(0, maxCharsPerLine - 1) + '…' : word;
     }
-    if (lines.length === 2) break; // max 2 lines
+    if (lines.length === maxLines) break;
   }
-  if (current && lines.length < 2) lines.push(current);
-  // If still more words remain and we have 2 lines, add ellipsis to last line
-  if (lines.length === 2 && words.join(' ').length > lines.join(' ').length + 1) {
-    const last = lines[1];
-    lines[1] = last.length >= maxCharsPerLine ? last.slice(0, maxCharsPerLine - 1) + '…' : last + '…';
+  if (current && lines.length < maxLines) lines.push(current);
+  // If still more words remain and we've hit maxLines, add ellipsis to last line
+  if (lines.length === maxLines && words.join(' ').length > lines.join(' ').length + 1) {
+    const last = lines[maxLines - 1];
+    lines[maxLines - 1] = last.length >= maxCharsPerLine
+      ? last.slice(0, maxCharsPerLine - 1) + '…'
+      : last + '…';
   }
   return lines;
 }
@@ -685,16 +694,21 @@ export default function MindMap() {
                 {(() => {
                   const lines = truncateTitle(node.title, node.radius);
                   const fontSize = node.radius >= 34 ? 7.5 : 6.5;
-                  const lineHeight = fontSize + 2;
+                  const lineHeight = fontSize + 1.8;
                   const totalH = lines.length * lineHeight;
+                  // Centre the text block vertically within the circle
                   const startDy = -(totalH / 2) + lineHeight / 2;
                   return (
                     <text
                       textAnchor="middle"
                       fontSize={fontSize}
                       fontWeight="700"
-                      fill={dimmed ? 'rgba(255,255,255,0.2)' : 'white'}
-                      style={{ pointerEvents: 'none', fontFamily: 'Inter, sans-serif' }}
+                      fill={
+                        dimmed
+                          ? (isDark ? 'rgba(255,255,255,0.2)' : 'rgba(0,0,0,0.2)')
+                          : (isSelected ? '#ffffff' : (isDark ? '#ffffff' : '#ffffff'))
+                      }
+                      style={{ pointerEvents: 'none', fontFamily: 'Inter, sans-serif', letterSpacing: '0.01em' }}
                     >
                       {lines.map((line, li) => (
                         <tspan

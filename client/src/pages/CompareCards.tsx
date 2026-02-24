@@ -130,10 +130,11 @@ function CardPicker({
               animate={{ y: 0 }}
               exit={{ y: '100%' }}
               transition={{ type: 'spring', stiffness: 300, damping: 30 }}
-              className="mt-auto rounded-t-3xl flex flex-col"
+              className="mt-auto rounded-t-3xl flex flex-col overflow-hidden"
               style={{
                 background: isDark ? '#0d1f38' : '#ffffff',
-                maxHeight: '80vh',
+                maxHeight: '82vh',
+                height: '82vh',
               }}
               onClick={e => e.stopPropagation()}
             >
@@ -202,8 +203,8 @@ function CardPicker({
                 ))}
               </div>
 
-              {/* Card list */}
-              <div className="flex-1 overflow-y-auto px-4 pb-8">
+              {/* Card list — min-h-0 is required for flex-1 + overflow-y-auto to work on iOS Safari */}
+              <div className="flex-1 min-h-0 overflow-y-auto px-4 pb-8" style={{ WebkitOverflowScrolling: 'touch' }}>
                 {filtered.length === 0 ? (
                   <p className="text-center text-sm text-muted-foreground py-8">No cards found</p>
                 ) : (

@@ -631,3 +631,7 @@
 - [x] Generate short outro stinger (~2.2s) — descending mirror of intro motif
 - [x] Upload both to CDN
 - [x] Wire outro to play after the final episode segment (graceful fallback if blocked)
+
+## Bug Fixes — Mindmap & Compare Card — Feb 2026
+- [x] Fix mindmap: improved truncateTitle (accurate char-width, 3 lines for root nodes), fixed text fill colour in light mode
+- [x] Fix compare card: modal sheet now uses height+overflow-hidden+min-h-0 so card list scrolls on iOS Safari
