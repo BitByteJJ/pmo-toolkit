@@ -660,3 +660,13 @@
 - [x] Fix stop(): sets isStoppedRef=true and clears onended/onerror before clearing src
 - [x] Fix jingle: pre-loads AudioBuffers immediately when AudioContext is unlocked (no race condition)
 - [x] playTrackSegments resets isStoppedRef=false so new episodes always play fully
+
+## StratAlign Theater — Intro Jingle Debug — Feb 2026
+- [ ] Confirm intro jingle plays via live browser test with console logging
+- [ ] Fix confirmed root cause from browser console evidence
+
+## StratAlign Theater — Intro Jingle Final Fix — Feb 24 2026
+- [x] Browser test confirmed: file loads fine (200, audio/mpeg, 35KB, 4s decoded)
+- [x] Root cause: loadAudioBuffer returned null for in-flight fetch (no promise caching)
+- [x] Fix: _audioBufferPromises cache stores in-flight Promises so concurrent callers await the same fetch
+- [x] unlockAudioContext() now stores both promises immediately so playJingle always awaits a real result

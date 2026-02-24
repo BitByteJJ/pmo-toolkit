@@ -279,6 +279,8 @@ const OUTRO_URL  = '/stratalign-outro.mp3';
 
 let _audioCtx: AudioContext | null = null;
 const _audioBuffers: Record<string, AudioBuffer> = {};
+// Store in-flight fetch promises so concurrent callers share the same fetch
+const _audioBufferPromises: Record<string, Promise<AudioBuffer | null>> = {};
 
 // Call this synchronously inside a user gesture handler to unlock the AudioContext.
 // Also pre-loads both jingle buffers so they're ready before the episode finishes generating.
@@ -286,9 +288,10 @@ export function unlockAudioContext() {
   if (typeof window === 'undefined') return;
   if (!_audioCtx) {
     _audioCtx = new (window.AudioContext || (window as any).webkitAudioContext)();
-    // Pre-load both audio files immediately so they're cached as AudioBuffers
-    loadAudioBuffer(JINGLE_URL).catch(() => {});
-    loadAudioBuffer(OUTRO_URL).catch(() => {});
+    // Pre-load both audio files immediately so they're cached as AudioBuffers.
+    // Store the promises so playJingle/playOutro can await them instead of getting null.
+    _audioBufferPromises[JINGLE_URL] = loadAudioBuffer(JINGLE_URL);
+    _audioBufferPromises[OUTRO_URL]  = loadAudioBuffer(OUTRO_URL);
   }
   if (_audioCtx.state === 'suspended') {
     _audioCtx.resume().catch(() => {});
@@ -296,19 +299,27 @@ export function unlockAudioContext() {
 }
 
 async function loadAudioBuffer(url: string): Promise<AudioBuffer | null> {
+  // Return cached buffer immediately
   if (_audioBuffers[url]) return _audioBuffers[url];
+  // Return in-flight promise if one already exists (prevents duplicate fetches)
+  const existing = _audioBufferPromises[url];
+  if (existing) return existing;
   if (!_audioCtx) return null;
-  try {
-    const resp = await fetch(url);
-    if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
-    const arrayBuf = await resp.arrayBuffer();
-    const decoded = await _audioCtx.decodeAudioData(arrayBuf);
-    _audioBuffers[url] = decoded;
-    return decoded;
-  } catch (e) {
-    console.warn('[StratAlign Theater] Failed to load audio buffer:', url, e);
-    return null;
-  }
+  const promise = (async () => {
+    try {
+      const resp = await fetch(url);
+      if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
+      const arrayBuf = await resp.arrayBuffer();
+      const decoded = await _audioCtx!.decodeAudioData(arrayBuf);
+      _audioBuffers[url] = decoded;
+      return decoded;
+    } catch (e) {
+      console.warn('[StratAlign Theater] Failed to load audio buffer:', url, e);
+      return null;
+    }
+  })();
+  _audioBufferPromises[url] = promise;
+  return promise;
 }
 
 function playAudioBuffer(buffer: AudioBuffer): Promise<void> {
