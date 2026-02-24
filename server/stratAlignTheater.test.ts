@@ -1,11 +1,11 @@
 // stratAlignTheater.test.ts
 // Tests for StratAlign Theater podcast generator:
-// - Cast selection based on topic complexity
+// - Cast selection based on topic complexity with rotation
 // - Voice mapping for all 5 characters
 // - Prompt building with correct speaker lists
 // - Script validation and filtering
 
-import { describe, it, expect } from 'vitest';
+import { describe, it, expect, beforeEach } from 'vitest';
 
 // ─── Re-implement the pure logic functions for testing ─────────────────────────
 // (We test the logic directly without importing the Express handler)
@@ -43,11 +43,23 @@ function scoreComplexity(card: CardInput): number {
   return score;
 }
 
+// Mirror the new rotation-based selectCast from podcastGenerator.ts
+const GUEST_ROTATION: SpeakerName[] = ['Jordan', 'Maya', 'Chris'];
+let _guestRotationIndex = 0;
+
 function selectCast(card: CardInput): SpeakerName[] {
   const complexity = scoreComplexity(card);
-  if (complexity <= 1) return ['Alex', 'Sam'];
-  if (complexity <= 3) return ['Alex', 'Sam', 'Jordan'];
-  if (complexity <= 5) return ['Alex', 'Sam', 'Jordan', 'Maya'];
+  if (complexity <= 1) {
+    const guest = GUEST_ROTATION[_guestRotationIndex % GUEST_ROTATION.length];
+    _guestRotationIndex++;
+    return ['Alex', 'Sam', guest];
+  }
+  if (complexity <= 3) {
+    const g1 = GUEST_ROTATION[_guestRotationIndex % GUEST_ROTATION.length];
+    const g2 = GUEST_ROTATION[(_guestRotationIndex + 1) % GUEST_ROTATION.length];
+    _guestRotationIndex += 2;
+    return ['Alex', 'Sam', g1, g2];
+  }
   return ['Alex', 'Sam', 'Jordan', 'Maya', 'Chris'];
 }
 
@@ -129,7 +141,10 @@ describe('StratAlign Theater — Complexity Scoring', () => {
   });
 });
 
-describe('StratAlign Theater — Cast Selection', () => {
+describe('StratAlign Theater — Cast Selection (rotation-based)', () => {
+  // Reset rotation index before each test for deterministic results
+  beforeEach(() => { _guestRotationIndex = 0; });
+
   const simpleCard: CardInput = {
     title: 'Simple Tool',
     tagline: 'Basic',
@@ -139,33 +154,39 @@ describe('StratAlign Theater — Cast Selection', () => {
     deckTitle: 'Phases',
   };
 
-  it('simple card (score 0) gets 2-host cast: Alex + Sam', () => {
+  it('simple card (score 0) gets 3-host cast: Alex, Sam + 1 rotating guest', () => {
     const cast = selectCast(simpleCard);
-    expect(cast).toHaveLength(2);
+    expect(cast).toHaveLength(3);
     expect(cast).toContain('Alex');
     expect(cast).toContain('Sam');
-  });
-
-  it('moderately complex card (score 2-3) gets 3-host cast', () => {
-    const card = {
-      ...simpleCard,
-      steps: ['S1', 'S2', 'S3'],
-      deckTitle: 'Strategic Planning', // +1 for strategic
-    };
-    const cast = selectCast(card);
-    expect(cast).toHaveLength(3);
+    // First rotation slot is Jordan
     expect(cast).toContain('Jordan');
   });
 
-  it('complex card (score 4-5) gets 4-host cast', () => {
+  it('rotation cycles through Jordan, Maya, Chris for simple cards', () => {
+    const cast1 = selectCast(simpleCard); // rotation index 0 → Jordan
+    const cast2 = selectCast(simpleCard); // rotation index 1 → Maya
+    const cast3 = selectCast(simpleCard); // rotation index 2 → Chris
+    const cast4 = selectCast(simpleCard); // rotation index 3 → Jordan again
+
+    expect(cast1).toContain('Jordan');
+    expect(cast2).toContain('Maya');
+    expect(cast3).toContain('Chris');
+    expect(cast4).toContain('Jordan');
+  });
+
+  it('medium card (score 2-3) gets 4-host cast: Alex, Sam + 2 rotating guests', () => {
     const card = {
       ...simpleCard,
-      steps: ['S1', 'S2', 'S3', 'S4', 'S5', 'S6'], // +2
-      whatItIs: 'A'.repeat(301), // +1
-      whenToUse: 'C'.repeat(201), // +1
+      steps: ['S1', 'S2', 'S3'],        // +1
+      deckTitle: 'Strategic Planning',   // +1 → score 2
     };
     const cast = selectCast(card);
     expect(cast).toHaveLength(4);
+    expect(cast).toContain('Alex');
+    expect(cast).toContain('Sam');
+    // First two rotation slots: Jordan + Maya
+    expect(cast).toContain('Jordan');
     expect(cast).toContain('Maya');
   });
 
@@ -173,13 +194,17 @@ describe('StratAlign Theater — Cast Selection', () => {
     const card = {
       ...simpleCard,
       steps: ['S1', 'S2', 'S3', 'S4', 'S5', 'S6'], // +2
-      whatItIs: 'A'.repeat(301), // +1
-      whenToUse: 'C'.repeat(201), // +1
-      example: 'B'.repeat(201), // +1
-      deckTitle: 'Methodologies', // +1
+      whatItIs: 'A'.repeat(301),                      // +1
+      whenToUse: 'C'.repeat(201),                     // +1
+      example: 'B'.repeat(201),                       // +1
+      deckTitle: 'Methodologies',                     // +1 → score 6
     };
     const cast = selectCast(card);
     expect(cast).toHaveLength(5);
+    expect(cast).toContain('Alex');
+    expect(cast).toContain('Sam');
+    expect(cast).toContain('Jordan');
+    expect(cast).toContain('Maya');
     expect(cast).toContain('Chris');
   });
 
@@ -194,6 +219,19 @@ describe('StratAlign Theater — Cast Selection', () => {
       expect(cast[0]).toBe('Alex');
       expect(cast[1]).toBe('Sam');
     }
+  });
+
+  it('all 5 characters appear across 9 consecutive simple card episodes', () => {
+    const allSeen = new Set<SpeakerName>();
+    for (let i = 0; i < 9; i++) {
+      const cast = selectCast(simpleCard);
+      cast.forEach(c => allSeen.add(c));
+    }
+    expect(allSeen.has('Alex')).toBe(true);
+    expect(allSeen.has('Sam')).toBe(true);
+    expect(allSeen.has('Jordan')).toBe(true);
+    expect(allSeen.has('Maya')).toBe(true);
+    expect(allSeen.has('Chris')).toBe(true);
   });
 });
 

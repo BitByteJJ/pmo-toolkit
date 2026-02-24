@@ -670,3 +670,8 @@
 - [x] Root cause: loadAudioBuffer returned null for in-flight fetch (no promise caching)
 - [x] Fix: _audioBufferPromises cache stores in-flight Promises so concurrent callers await the same fetch
 - [x] unlockAudioContext() now stores both promises immediately so playJingle always awaits a real result
+
+## StratAlign Theater — Cast Selection Fix — Feb 2026
+- [x] Root cause: selectCast required score ≥6 for all 5 characters but max possible score was 6 (most cards score 2–4)
+- [x] Fix: rotation-based selectCast — Jordan/Maya/Chris cycle as guests; simple cards get 3 hosts, medium get 4, complex get all 5
+- [x] Updated 22 vitest tests to match new rotation logic (all pass)

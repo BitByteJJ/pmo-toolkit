@@ -109,11 +109,31 @@ function scoreComplexity(card: CardInput): number {
   return score;
 }
 
+// All 5 characters rotate through every episode.
+// Complexity determines cast size (3–5), but the rotating guest slot ensures
+// Maya and Chris appear just as often as Jordan.
+const GUEST_ROTATION: SpeakerName[] = ['Jordan', 'Maya', 'Chris'];
+let _guestRotationIndex = 0;
+
 function selectCast(card: CardInput): SpeakerName[] {
   const complexity = scoreComplexity(card);
-  if (complexity <= 1) return ['Alex', 'Sam'];
-  if (complexity <= 3) return ['Alex', 'Sam', 'Jordan'];
-  if (complexity <= 5) return ['Alex', 'Sam', 'Jordan', 'Maya'];
+
+  // Alex and Sam are always the core duo.
+  // Pick 1–3 guests from the rotation so every character appears regularly.
+  if (complexity <= 1) {
+    // Simple card: 3 hosts — Alex, Sam + 1 rotating guest
+    const guest = GUEST_ROTATION[_guestRotationIndex % GUEST_ROTATION.length];
+    _guestRotationIndex++;
+    return ['Alex', 'Sam', guest];
+  }
+  if (complexity <= 3) {
+    // Medium card: 4 hosts — Alex, Sam + 2 rotating guests
+    const g1 = GUEST_ROTATION[_guestRotationIndex % GUEST_ROTATION.length];
+    const g2 = GUEST_ROTATION[(_guestRotationIndex + 1) % GUEST_ROTATION.length];
+    _guestRotationIndex += 2;
+    return ['Alex', 'Sam', g1, g2];
+  }
+  // Complex card: full 5-person panel
   return ['Alex', 'Sam', 'Jordan', 'Maya', 'Chris'];
 }
 
