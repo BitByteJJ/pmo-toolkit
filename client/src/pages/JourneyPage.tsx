@@ -22,6 +22,7 @@ import { JOURNEY_LESSONS, JOURNEY_UNITS, getLevelForXP, getNextLevel } from '@/l
 import { useState, useEffect } from 'react';
 import JourneySetupWizard, { JOURNEY_PROFILE_KEY, getPersonalisedTip, type JourneyProfile } from '@/components/JourneySetupWizard';
 import { useTheme } from '@/contexts/ThemeContext';
+import PageFooter from '@/components/PageFooter';
 
 // ─── HEARTS DISPLAY ───────────────────────────────────────────────────────────
 function HeartsBar() {
@@ -544,6 +545,7 @@ function UnitPathCard({ children, unitId }: { children: React.ReactNode; unitId:
       <div className="py-6">
         {children}
       </div>
+      <PageFooter />
     </div>
   );
 }

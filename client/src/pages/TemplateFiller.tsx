@@ -14,6 +14,7 @@ import { DECK_THEME, COPYRIGHT_STATEMENT } from '@/lib/templateFieldSchema';
 import { generateTemplatePDF } from '@/lib/pdfGenerator';
 import { generateTemplateDocx } from '@/lib/docxGenerator';
 import { useTheme } from '@/contexts/ThemeContext';
+import PageFooter from '@/components/PageFooter';
 
 // ─── Types ───────────────────────────────────────────────────────────────────
 interface TableRow {
@@ -865,6 +866,7 @@ export default function TemplateFiller() {
           <p className="text-[10px] text-foreground text-center leading-relaxed">{COPYRIGHT_STATEMENT}</p>
         </div>
       </div>
+      <PageFooter />
     </div>
   );
 }

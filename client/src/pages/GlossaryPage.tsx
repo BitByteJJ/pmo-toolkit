@@ -21,6 +21,7 @@ import {
 } from '@/lib/glossaryData';
 import { getCardById, getDeckById } from '@/lib/pmoData';
 import { useTheme } from '@/contexts/ThemeContext';
+import PageFooter from '@/components/PageFooter';
 
 // ─── Term Card (Browse mode) ──────────────────────────────────────────────────
 
@@ -701,6 +702,7 @@ export default function GlossaryPage() {
         )}
       </AnimatePresence>
 
+      <PageFooter />
     </div>
   );
 }

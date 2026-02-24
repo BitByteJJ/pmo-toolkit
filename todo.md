@@ -473,3 +473,5 @@
 - [ ] Fix OnboardingTour light mode readability
 - [ ] Fix SprintMode (DeckView) light mode readability
 - [ ] Fix HowItWasBuilt page light mode readability
+- [ ] Fix light mode contrast: Daily Challenge text, quiz options, card text invisible
+- [x] Restore footer disclaimer (owner name, month/year, educational disclaimer) on every page

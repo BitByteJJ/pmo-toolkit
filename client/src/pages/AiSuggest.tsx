@@ -8,6 +8,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Sparkles, ArrowRight, RotateCcw, Lightbulb, Send, ChevronRight } from 'lucide-react';
 import { DECKS, getCardById } from '@/lib/pmoData';
 import { useTheme } from '@/contexts/ThemeContext';
+import PageFooter from '@/components/PageFooter';
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
@@ -494,6 +495,7 @@ export default function AiSuggest() {
         </AnimatePresence>
       </div>
 
+      <PageFooter />
     </div>
   );
 }

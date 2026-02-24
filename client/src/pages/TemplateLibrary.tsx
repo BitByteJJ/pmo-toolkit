@@ -11,6 +11,7 @@ import { CARDS, DECKS } from '@/lib/pmoData';
 import { DECK_THEME } from '@/lib/templateFieldSchema';
 import { ALL_TEMPLATES, CardTemplate } from '@/lib/templateData';
 import { useTheme } from '@/contexts/ThemeContext';
+import PageFooter from '@/components/PageFooter';
 
 // ─── AI Question Flow ────────────────────────────────────────────────────────
 interface Question {
@@ -479,6 +480,7 @@ function QuestionCard({
           </motion.button>
         ))}
       </div>
+      <PageFooter />
     </div>
   );
 }

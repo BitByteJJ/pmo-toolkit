@@ -21,6 +21,7 @@ import { useJourney, MAX_HEARTS } from '@/contexts/JourneyContext';
 import { JOURNEY_LESSONS, getLessonByDay } from '@/lib/journeyData';
 import { CARDS, getCardById } from '@/lib/pmoData';
 import { useTheme } from '@/contexts/ThemeContext';
+import PageFooter from '@/components/PageFooter';
 
 // ─── PROGRESS BAR ─────────────────────────────────────────────────────────────
 function ProgressBar({ current, total }: { current: number; total: number }) {
@@ -682,6 +683,7 @@ export default function LessonPage() {
           </motion.div>
         )}
       </AnimatePresence>
+      <PageFooter />
     </div>
     </>
   );

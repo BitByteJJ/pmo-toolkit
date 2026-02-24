@@ -9,6 +9,7 @@ import { LEARNING_JOURNEYS, type JourneyLevel, type LearningJourney } from '@/li
 import { getCardById } from '@/lib/pmoData';
 import { useCardProgress } from '@/hooks/useCardProgress';
 import { useTheme } from '@/contexts/ThemeContext';
+import PageFooter from '@/components/PageFooter';
 
 // ─── Level Selector Card ──────────────────────────────────────────────────────
 
@@ -600,6 +601,7 @@ export default function LearningRoadmap() {
           </motion.div>
         )}
       </div>
+      <PageFooter />
     </div>
   );
 }

@@ -21,6 +21,7 @@ import SprintMode from '@/components/SprintMode';
 import { CARDS_WITH_CASE_STUDIES } from '@/lib/caseStudiesData';
 import { BookOpen } from 'lucide-react';
 import { useTheme } from '@/contexts/ThemeContext';
+import PageFooter from '@/components/PageFooter';
 
 const itemVariants = {
   hidden: { opacity: 0, y: 12 },
@@ -936,6 +937,7 @@ export default function DeckView() {
           )}
         </motion.div>
       </div>
+      <PageFooter />
     </div>
   );
 }

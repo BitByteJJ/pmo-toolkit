@@ -30,6 +30,7 @@ import { VideoGuide } from '@/components/VideoGuide';
 import { generateCardPDF } from '@/lib/cardPdfExport';
 import { useMasteryBadges } from '@/hooks/useMasteryBadges';
 import { useTheme } from '@/contexts/ThemeContext';
+import PageFooter from '@/components/PageFooter';
 
 // ─── Sub-components ───────────────────────────────────────────────────────────
 
@@ -1385,6 +1386,7 @@ export default function CardDetail() {
         title={card.title}
         tagline={card.tagline}
       />
+      <PageFooter />
     </div>
   );
 }

@@ -16,6 +16,7 @@ import {
 import { useJourney, TOPICS_TO_EARN_HEART, MAX_HEARTS } from '@/contexts/JourneyContext';
 import { CARDS, DECKS, getDeckById } from '@/lib/pmoData';
 import { useTheme } from '@/contexts/ThemeContext';
+import PageFooter from '@/components/PageFooter';
 
 // ─── CARD STUDY MODAL ─────────────────────────────────────────────────────────
 function CardStudyModal({
@@ -381,6 +382,7 @@ export default function EarnHeartPage() {
           />
         )}
       </AnimatePresence>
+      <PageFooter />
     </div>
   );
 }

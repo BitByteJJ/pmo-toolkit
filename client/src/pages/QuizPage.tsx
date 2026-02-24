@@ -13,6 +13,7 @@ import { getQuizForDeck } from '@/lib/quizData';
 import type { JourneyQuestion } from '@/lib/journeyData';
 import { useMasteryBadges } from '@/hooks/useMasteryBadges';
 import { useTheme } from '@/contexts/ThemeContext';
+import PageFooter from '@/components/PageFooter';
 
 // ─── PROGRESS BAR ─────────────────────────────────────────────────────────────
 function ProgressBar({ current, total, color }: { current: number; total: number; color: string }) {
@@ -396,6 +397,7 @@ export default function QuizPage() {
           />
         )}
       </div>
+      <PageFooter />
     </div>
   );
 }

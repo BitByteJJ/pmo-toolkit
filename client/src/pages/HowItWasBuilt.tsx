@@ -11,6 +11,7 @@ import {
 } from 'lucide-react';
 import { useLocation } from 'wouter';
 import { useTheme } from '@/contexts/ThemeContext';
+import PageFooter from '@/components/PageFooter';
 
 // ── Data ─────────────────────────────────────────────────────────────────────
 
@@ -537,6 +538,7 @@ export default function HowItWasBuilt() {
         )}
       </div>
 
+      <PageFooter />
     </div>
   );
 }

@@ -10,6 +10,7 @@ import {
 import { getAllCaseStudies, type CaseStudy } from '@/lib/caseStudiesData';
 import { DECKS, getDeckById } from '@/lib/pmoData';
 import { useTheme } from '@/contexts/ThemeContext';
+import PageFooter from '@/components/PageFooter';
 
 // ─── Helpers ──────────────────────────────────────────────────────────────────
 
@@ -298,6 +299,7 @@ export default function CaseStudiesPage() {
         )}
       </div>
 
+      <PageFooter />
     </div>
   );
 }

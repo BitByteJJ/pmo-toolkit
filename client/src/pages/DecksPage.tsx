@@ -9,6 +9,7 @@ import { DECKS, getCardsByDeck } from '@/lib/pmoData';
 import { useCardProgress } from '@/hooks/useCardProgress';
 import { useMasteryBadges } from '@/hooks/useMasteryBadges';
 import { useTheme } from '@/contexts/ThemeContext';
+import PageFooter from '@/components/PageFooter';
 
 // Cover illustrations for each deck (same as Home.tsx)
 const DECK_COVERS: Record<string, string> = {
@@ -302,6 +303,7 @@ export default function DecksPage() {
           </div>
         </div>
       </div>
+      <PageFooter />
     </div>
   );
 }

@@ -9,6 +9,7 @@ import { searchCards, getDeckById, DECKS, getCardsByDeck } from '@/lib/pmoData';
 import { useBookmarks } from '@/contexts/BookmarksContext';
 import { getCardLevel, LEVEL_LABELS, LEVEL_COLORS, DifficultyLevel } from '@/lib/cardLevels';
 import { useTheme } from '@/contexts/ThemeContext';
+import PageFooter from '@/components/PageFooter';
 
 const DECK_FILTERS = [
   { id: 'all', label: 'All' },
@@ -259,6 +260,7 @@ export default function SearchPage() {
         )}
       </div>
 
+      <PageFooter />
     </div>
   );
 }

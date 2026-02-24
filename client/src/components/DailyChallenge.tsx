@@ -101,17 +101,19 @@ export default function DailyChallenge({ darkMode = false }: { darkMode?: boolea
 
   const color = deck?.color ?? '#475569';
 
-  // Dark mode colour helpers
+  // Theme-aware colour helpers — proper contrast for both modes
   const cardBg = darkMode ? 'rgba(255,255,255,0.06)' : '#ffffff';
-  const cardBorder = darkMode ? `1.5px solid ${color}30` : `1.5px solid ${color}30`;
+  const cardBorder = `1.5px solid ${color}30`;
   const cardShadow = darkMode
     ? `0 4px 20px ${color}30, 0 2px 8px rgba(0,0,0,0.3), 0 0 0 1px ${color}25`
     : `0 3px 12px ${color}20, 0 1px 4px rgba(0,0,0,0.06)`;
-  const titleColor = '#f1f5f9';
-  const subtitleColor = darkMode ? 'rgba(148,163,184,0.7)' : '#a8a29e';
-  const chevronColor = darkMode ? 'rgba(148,163,184,0.7)' : '#a8a29e';
-  const questionColor = '#f1f5f9';
-  const typeColor = darkMode ? 'rgba(148,163,184,0.6)' : '#a8a29e';
+
+  // Text colours — dark mode uses light text, light mode uses dark text
+  const titleColor = darkMode ? '#f1f5f9' : '#0f172a';
+  const subtitleColor = darkMode ? 'rgba(148,163,184,0.7)' : '#64748b';
+  const chevronColor = darkMode ? 'rgba(148,163,184,0.7)' : '#94a3b8';
+  const questionColor = darkMode ? '#e2e8f0' : '#1e293b';
+  const typeColor = darkMode ? 'rgba(148,163,184,0.6)' : '#64748b';
 
   return (
     <motion.div
@@ -188,37 +190,50 @@ export default function DailyChallenge({ darkMode = false }: { darkMode?: boolea
               {/* Options */}
               <div className="flex flex-col gap-2">
                 {question.options.map((opt, i) => {
-                  let style: string;
-                  if (darkMode) {
-                    style = 'border border-white/10 text-slate-200 bg-white/5';
-                    if (answerState !== 'unanswered') {
-                      if (i === question.correctIndex) style = 'border-2 border-emerald-400 bg-emerald-500/20 text-emerald-200';
-                      else if (i === selected && answerState === 'wrong') style = 'border-2 border-red-400 bg-red-500/20 text-red-200';
-                      else style = 'border border-white/5 text-slate-400 opacity-40';
-                    }
+                  let optBg: string;
+                  let optBorder: string;
+                  let optTextColor: string;
+                  let optOpacity = 1;
+
+                  if (answerState === 'unanswered') {
+                    optBg = darkMode ? 'rgba(255,255,255,0.05)' : 'rgba(0,0,0,0.03)';
+                    optBorder = darkMode ? '1px solid rgba(255,255,255,0.10)' : '1px solid rgba(0,0,0,0.10)';
+                    optTextColor = darkMode ? '#e2e8f0' : '#1e293b';
+                  } else if (i === question.correctIndex) {
+                    optBg = darkMode ? 'rgba(52,211,153,0.15)' : '#f0fdf4';
+                    optBorder = '2px solid #10b981';
+                    optTextColor = darkMode ? '#6ee7b7' : '#065f46';
+                  } else if (i === selected && answerState === 'wrong') {
+                    optBg = darkMode ? 'rgba(239,68,68,0.15)' : '#fef2f2';
+                    optBorder = '2px solid #ef4444';
+                    optTextColor = darkMode ? '#fca5a5' : '#991b1b';
                   } else {
-                    style = 'border border-white/10 text-slate-300';
-                    if (answerState !== 'unanswered') {
-                      if (i === question.correctIndex) style = 'border-2 border-emerald-500 bg-emerald-50 text-slate-300';
-                      else if (i === selected && answerState === 'wrong') style = 'border-2 border-red-400 bg-red-50 text-slate-300';
-                      else style = 'border border-white/10 text-slate-300 opacity-50';
-                    }
+                    optBg = darkMode ? 'rgba(255,255,255,0.02)' : 'rgba(0,0,0,0.02)';
+                    optBorder = darkMode ? '1px solid rgba(255,255,255,0.05)' : '1px solid rgba(0,0,0,0.06)';
+                    optTextColor = darkMode ? '#64748b' : '#94a3b8';
+                    optOpacity = 0.5;
                   }
-                  const hoverClass = answerState === 'unanswered' && !alreadyDone
-                    ? (darkMode ? 'hover:bg-white/10 cursor-pointer' : 'hover:bg-white/5 cursor-pointer')
-                    : '';
+
+                  const hoverClass = answerState === 'unanswered' && !alreadyDone ? 'cursor-pointer' : '';
+
                   return (
                     <button
                       key={i}
                       onClick={() => handleSelect(i)}
                       disabled={answerState !== 'unanswered' || alreadyDone}
-                      className={`w-full text-left px-3 py-2.5 rounded-xl transition-all text-[12px] font-medium flex items-center gap-2 ${style} ${hoverClass}`}
+                      className={`w-full text-left px-3 py-2.5 rounded-xl transition-all text-[12px] font-medium flex items-center gap-2 ${hoverClass}`}
+                      style={{
+                        background: optBg,
+                        border: optBorder,
+                        color: optTextColor,
+                        opacity: optOpacity,
+                      }}
                     >
                       <span
                         className="w-5 h-5 rounded-full border flex items-center justify-center text-[10px] font-bold shrink-0"
                         style={{
-                          borderColor: darkMode ? 'rgba(148,163,184,0.3)' : '#d6d3d1',
-                          color: darkMode ? 'rgba(148,163,184,0.7)' : '#78716c',
+                          borderColor: darkMode ? 'rgba(148,163,184,0.3)' : 'rgba(0,0,0,0.2)',
+                          color: darkMode ? 'rgba(148,163,184,0.7)' : '#475569',
                         }}
                       >
                         {String.fromCharCode(65 + i)}
@@ -251,7 +266,7 @@ export default function DailyChallenge({ darkMode = false }: { darkMode?: boolea
                         : (darkMode ? '1px solid rgba(251,191,36,0.3)' : '1px solid #fde68a'),
                     }}
                   >
-                    <p className="text-[11px] leading-relaxed" style={{ color: darkMode ? 'rgba(203,213,225,0.85)' : '#57534e' }}>
+                    <p className="text-[11px] leading-relaxed" style={{ color: darkMode ? 'rgba(203,213,225,0.85)' : '#374151' }}>
                       {question.explanation}
                     </p>
                     <button
@@ -270,11 +285,11 @@ export default function DailyChallenge({ darkMode = false }: { darkMode?: boolea
                 <div
                   className="rounded-xl p-3 text-center"
                   style={{
-                    background: 'rgba(255,255,255,0.05)',
-                    border: darkMode ? '1px solid rgba(255,255,255,0.08)' : '1px solid #e7e5e4',
+                    background: darkMode ? 'rgba(255,255,255,0.05)' : 'rgba(0,0,0,0.03)',
+                    border: darkMode ? '1px solid rgba(255,255,255,0.08)' : '1px solid rgba(0,0,0,0.08)',
                   }}
                 >
-                  <p className="text-[11px]" style={{ color: darkMode ? 'rgba(148,163,184,0.7)' : '#78716c' }}>
+                  <p className="text-[11px]" style={{ color: darkMode ? 'rgba(148,163,184,0.7)' : '#475569' }}>
                     You've completed today's challenge. Come back tomorrow!
                   </p>
                   {streak.count > 0 && (

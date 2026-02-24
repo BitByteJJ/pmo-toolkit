@@ -7,6 +7,7 @@ import { Bookmark, BookmarkX, ArrowRight } from 'lucide-react';
 import { getCardById, getDeckById } from '@/lib/pmoData';
 import { useBookmarks } from '@/contexts/BookmarksContext';
 import { useTheme } from '@/contexts/ThemeContext';
+import PageFooter from '@/components/PageFooter';
 
 export default function BookmarksPage() {
   const [, navigate] = useLocation();
@@ -126,6 +127,7 @@ export default function BookmarksPage() {
         )}
       </div>
 
+      <PageFooter />
     </div>
   );
 }

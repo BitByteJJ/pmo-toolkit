@@ -22,6 +22,7 @@ import {
 } from '@/lib/decisionData';
 import { CARDS, DECKS, getCardById } from '@/lib/pmoData';
 import { useTheme } from '@/contexts/ThemeContext';
+import PageFooter from '@/components/PageFooter';
 
 // ─────────────────────────────────────────────────────────────────────────────
 // Types
@@ -505,6 +506,7 @@ export default function DecisionHelper() {
         </AnimatePresence>
       </div>
 
+      <PageFooter />
     </div>
   );
 }
