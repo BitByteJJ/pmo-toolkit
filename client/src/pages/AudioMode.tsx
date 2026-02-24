@@ -162,7 +162,6 @@ function NowPlaying() {
     isPlaying,
     isPaused,
     isLoading,
-    isBuffering,
     currentTrack,
     currentIndex,
     playlist,
@@ -250,7 +249,7 @@ function NowPlaying() {
             {currentTrack.title}
           </div>
           <div className="text-[10px] text-muted-foreground flex items-center gap-1.5">
-            <span>StratAlign Theater</span>
+            <span>PMO Podcast</span>
             {playlist.length > 1 && (
               <span className="opacity-50">· {currentIndex + 1}/{playlist.length}</span>
             )}
@@ -264,21 +263,19 @@ function NowPlaying() {
             border: isLoading ? '1px solid rgba(99,102,241,0.3)' : isPlaying ? '1px solid rgba(16,185,129,0.3)' : '1px solid rgba(245,158,11,0.3)',
           }}
         >
-          {isLoading ? '⏳ Generating…' : isBuffering ? '⏳ Buffering…' : isPlaying ? '● LIVE' : '⏸ Paused'}
+          {isLoading ? '⏳ Generating…' : isPlaying ? '● LIVE' : '⏸ Paused'}
         </div>
       </div>
 
-      {/* Loading / buffering message */}
-      {(isLoading || isBuffering) && (
+      {/* Loading message */}
+      {isLoading && (
         <div className="text-center py-2">
           <p className="text-xs text-muted-foreground">
-            {isLoading ? 'Alex and Sam are preparing your episode…' : 'Loading next exchange…'}
+            Alex and Sam are preparing your episode…
           </p>
-          {isLoading && (
-            <p className="text-[10px] text-muted-foreground opacity-60 mt-1">
-              Playback starts in a few seconds
-            </p>
-          )}
+          <p className="text-[10px] text-muted-foreground opacity-60 mt-1">
+            This takes about 20–30 seconds for a full episode
+          </p>
         </div>
       )}
 
@@ -639,7 +636,7 @@ export default function AudioMode() {
             <span className="text-base">👩‍💼</span>
           </div>
           <h1 className="text-base font-black text-foreground" style={{ fontFamily: 'Sora, sans-serif' }}>
-            StratAlign Theater
+            PMO Podcast
           </h1>
         </div>
         <div
