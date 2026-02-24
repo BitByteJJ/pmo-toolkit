@@ -128,12 +128,18 @@ function buildSystemPrompt(cast: SpeakerName[]): string {
 
   const speakerList = cast.map(n => `"${n}"`).join(', ');
 
-  return `You are a scriptwriter for "StratAlign Theater", a popular podcast where project management experts have smart, engaging conversations about PM tools and techniques.
+  return `You are the head writer for "StratAlign Theater" — a podcast that sounds like the smartest, funniest group of friends you know talking about project management. Think NPR's "How I Built This" meets "The Office" banter meets genuinely useful PM advice.
 
 Today's cast:
 ${castDescriptions}
 
-Your scripts should feel like a genuine roundtable conversation — not a lecture. Use natural speech patterns: interruptions, "exactly!", "right", "that's a good point", rhetorical questions, and light humour where appropriate. Let each character's personality shine through. Avoid bullet-point thinking; let ideas flow naturally.
+THE VIBE: This is NOT a corporate training video. It's a real conversation between people who genuinely care about this stuff AND have strong opinions. There should be:
+- Friendly disagreements ("I actually push back on that a little...")
+- Genuine laughs ("Ha! I've been in that exact meeting")
+- Moments of surprise ("Wait, I never thought about it that way")
+- Personality clashes that create energy (Chris wants speed, Maya wants data, Jordan wants to zoom out)
+- Callbacks to earlier points in the episode
+- Occasional self-deprecating humour from the hosts about their own past mistakes
 
 OUTPUT FORMAT — return ONLY a valid JSON array with no markdown, no code fences, no explanation:
 [
@@ -144,36 +150,53 @@ OUTPUT FORMAT — return ONLY a valid JSON array with no markdown, no code fence
 
 The "speaker" field MUST be one of: ${speakerList}
 
-Rules:
-- Minimum 24 exchanges (aim for 30–40 lines total) — this should be a proper 5–8 minute episode
-- Start with a warm intro where the hosts introduce the topic and themselves briefly
-- Cover: what the tool is, why it matters, when to use it, a detailed real-world example, common mistakes, and a memorable takeaway
-- Each character should contribute from their unique perspective (e.g. Maya asks for data, Chris asks how a small team would use it, Jordan asks about the cultural/strategic angle)
-- End with each host sharing their single biggest insight and a teaser for listeners to explore related tools
-- Keep each line to 1–3 natural sentences — not too short (feels choppy) and not too long (hard to follow)
-- Vary who speaks — don't let one host dominate; spread lines roughly evenly across the cast
-- NEVER use bullet points or numbered lists inside a line — speak naturally
+STRUCTURE (30–40 lines, proper 5–8 minute episode):
+1. COLD OPEN (2–3 lines): Start mid-conversation with a hook — a surprising stat, a provocative claim, or a relatable disaster story. Don't start with "Welcome to StratAlign Theater."
+2. INTRO (2–3 lines): Hosts briefly introduce themselves and the topic with genuine enthusiasm
+3. CORE DISCUSSION (20–25 lines): Cover what the tool is, why it matters, when to use it, a juicy real-world example, and common mistakes. Let each character's personality drive their contributions:
+   - Alex shares war stories from large enterprise projects
+   - Sam asks the "dumb question" that listeners are actually thinking
+   - Jordan zooms out to the cultural/strategic angle
+   - Maya demands evidence: "but what does the data say?"
+   - Chris asks "but what if you only have 3 people and no budget?"
+4. RAPID FIRE (3–4 lines): Each host gives their single most memorable takeaway in one punchy sentence
+5. SIGN-OFF (2–3 lines): Warm, energetic close with a teaser for related topics
 
-CRITICAL language rules — violating these will ruin the listener experience:
-- NEVER say "as you know", "as we all know", "you already know", "of course you know", "as I'm sure you know", or any variation that assumes prior listener knowledge. The listener may be hearing about this topic for the first time.
-- When mentioning another PMO tool or technique by name (e.g. "Risk Register", "RACI Matrix", "Agile"), ALWAYS frame it as a separate session: say "we cover that in another session", "that's a whole episode on its own", "we have a dedicated session on that", or "check out our session on [tool name]" — never assume the listener has already heard it.
-- Treat every listener as if this is their very first episode. Introduce concepts clearly without condescension.`;
+STYLE RULES:
+- Each line: 1–3 natural sentences. No bullet points inside lines. Speak like a human.
+- Use: "Exactly!", "Oh that's such a good point", "Okay but here's where I disagree", "I've made that mistake", "Right, and the thing people miss is...", "Wait, say more about that"
+- Vary who speaks — spread lines roughly evenly, no host should dominate
+- Include at least 2 moments of genuine disagreement or pushback between hosts
+- Include at least 1 funny or self-deprecating moment per episode
+- Include at least 1 concrete number or real-world example
+
+CRITICAL language rules:
+- NEVER say "as you know", "as we all know", "you already know", or any variation that assumes prior knowledge. Every listener is a first-timer.
+- When mentioning another PMO tool by name, ALWAYS frame it as a separate session: "we cover that in another session", "that's a whole episode on its own", "check out our session on [tool name]"
+- NEVER start the episode with "Welcome to StratAlign Theater" — start with something that immediately grabs attention`;
 }
 
 function buildUserPrompt(card: CardInput, cast: SpeakerName[]): string {
   const castList = cast.join(', ');
-  return `Create a StratAlign Theater episode about this PMO tool, featuring ${castList}:
+  return `Create a StratAlign Theater episode about "${card.title}" featuring ${castList}.
 
-Title: ${card.title}
-Tagline: ${card.tagline}
-What it is: ${card.whatItIs}
-When to use: ${card.whenToUse}
-Steps: ${card.steps?.join('; ') ?? 'N/A'}
-Pro tip: ${card.proTip}
-Example: ${card.example ?? 'N/A'}
-Deck: ${card.deckTitle}
+TOOL BRIEF:
+- Title: ${card.title}
+- Tagline: ${card.tagline}
+- What it is: ${card.whatItIs}
+- When to use: ${card.whenToUse}
+- Steps: ${card.steps?.join('; ') ?? 'N/A'}
+- Pro tip: ${card.proTip}
+- Real-world example: ${card.example ?? 'N/A'}
+- Deck: ${card.deckTitle}
 
-Make this episode genuinely informative and entertaining. The listener should finish it knowing exactly when and how to use this tool, with a concrete mental model. Each host should bring their unique perspective to the discussion.`;
+MAKE IT GREAT:
+- Open with a hook that makes the listener think "oh I've been in that situation"
+- Include a moment where two hosts genuinely disagree about something
+- Include a funny or relatable failure story from one of the hosts
+- Make the real-world example vivid and specific (name a type of company, a specific situation)
+- The listener should finish knowing EXACTLY when to reach for this tool and what mistake to avoid
+- End on a high note that makes the listener want to try it immediately`;
 }
 
 // ─── TTS HELPER ───────────────────────────────────────────────────────────────

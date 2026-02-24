@@ -258,13 +258,26 @@ async function fetchPodcastEpisodeSSE(
 // Skipped when replaying a cached episode to avoid repetition.
 const JINGLE_URL = 'https://files.manuscdn.com/user_upload_by_module/session_file/310419663029097403/SytEZNhmNnemzRIb.mp3';
 
-function playJingle(audio: HTMLAudioElement, onEnded: () => void) {
-  audio.pause();
-  audio.src = JINGLE_URL;
-  audio.playbackRate = 1.0; // always play jingle at 1x
-  audio.onended = onEnded;
-  audio.onerror = onEnded; // skip if CDN unreachable
-  audio.play().catch(() => onEnded());
+// Dedicated jingle audio element — separate from the main episode player
+// so there's no src/state collision. Created lazily on first use.
+let jingleAudio: HTMLAudioElement | null = null;
+
+function getJingleAudio(): HTMLAudioElement {
+  if (!jingleAudio) {
+    jingleAudio = new Audio();
+    jingleAudio.preload = 'auto';
+    jingleAudio.src = JINGLE_URL; // pre-load immediately
+  }
+  return jingleAudio;
+}
+
+function playJingle(onEnded: () => void) {
+  const j = getJingleAudio();
+  j.currentTime = 0;
+  j.playbackRate = 1.0;
+  j.onended = onEnded;
+  j.onerror = () => onEnded(); // skip gracefully if CDN unreachable
+  j.play().catch(() => onEnded()); // autoplay blocked → skip gracefully
 }
 
 // ─── CONTEXT ─────────────────────────────────────────────────────────────────
@@ -435,8 +448,7 @@ export function AudioProvider({ children }: { children: ReactNode }) {
 
     if (playIntroJingle && startSegment === 0) {
       // Play jingle first, then start the episode
-      const audio = getAudio();
-      playJingle(audio, () => playNext(startSegment));
+      playJingle(() => playNext(startSegment));
     } else {
       playNext(startSegment);
     }
@@ -491,11 +503,10 @@ export function AudioProvider({ children }: { children: ReactNode }) {
 
     let segments: PodcastSegment[];
     let cast: SpeakerName[];
-    let wasFromCache = false;
+    // Check cache BEFORE fetching — fetchPodcastEpisodeSSE returns cache immediately
+    // so we must check here to know whether to play the intro jingle
+    const wasFromCache = !!getCachedEpisode(card.id);
     try {
-      // Check cache before fetching so we know whether to play the jingle
-      const cached = getCachedEpisode(card.id);
-      if (cached) wasFromCache = true;
       const result = await fetchPodcastEpisodeSSE(
         card,
         deckTitle,

@@ -616,3 +616,12 @@
 - [x] Wire jingle playback into AudioContext: plays before first segment of each episode
 - [x] Skip jingle if episode is already cached (user replaying)
 - [x] Jingle gracefully skipped if CDN unreachable (onerror fallback)
+
+## Bug Fixes — Feb 24 2026
+- [ ] Remove "Notify Owner" UI element visible on page (leftover template scaffold)
+
+## StratAlign Theater Jingle & Engagement Fix — Feb 2026
+- [x] Fix jingle not playing (dedicated separate audio element, pre-loaded, cache-check moved before fetch)
+- [x] Improve podcast script prompt: fun, energetic, NPR-meets-The-Office vibe
+- [x] Character personalities drive disagreements, laughs, and pushback in every episode
+- [x] Cold open hook, rapid-fire takeaways, and energetic sign-off structure added
