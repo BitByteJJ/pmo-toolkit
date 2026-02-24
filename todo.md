@@ -636,3 +636,10 @@
 - [x] Fix: rewrite podcastGenerator.mjs with non-streaming LLM call + robust JSON parsing
 - [x] Fix: update voice mapping to Studio-Q/O and Neural2 voices (Journey voices not available on this API key)
 - [x] Verify: 28-segment RACI Matrix episode generates successfully end-to-end
+
+## Journey Voice Restoration — Feb 24 2026
+
+- [x] Diagnose why Journey voices appeared missing (Google /voices endpoint does not list them, but they work when called directly)
+- [x] Confirmed available Journey voices: Journey-D (male), Journey-F (female), Journey-O (female)
+- [x] Restored: Alex=Journey-D, Sam=Journey-O, Maya=Journey-F, Jordan=Journey-D, Chris=Journey-D
+- [x] Verified end-to-end: 28-segment RACI Matrix episode generates successfully with all Journey voices

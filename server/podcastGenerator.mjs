@@ -5,14 +5,14 @@
 
 const GOOGLE_TTS_URL = 'https://texttospeech.googleapis.com/v1/text:synthesize';
 
-// Studio voices = highest quality (broadcast-grade)
-// Neural2 voices = natural, conversational
+// Available Journey voices on this API key: Journey-D (male), Journey-F (female), Journey-O (female)
+// Journey voices are unlisted by the /voices endpoint but work when called directly
 const CAST_VOICES = {
-  Alex:   { languageCode: 'en-US', name: 'en-US-Studio-Q',   ssmlGender: 'MALE' },    // Senior PM host — warm, authoritative male
-  Sam:    { languageCode: 'en-US', name: 'en-US-Studio-O',   ssmlGender: 'FEMALE' },  // Analyst — clear, engaging female
-  Jordan: { languageCode: 'en-US', name: 'en-US-Neural2-J',  ssmlGender: 'MALE' },    // Exec Sponsor — confident male
-  Maya:   { languageCode: 'en-US', name: 'en-US-Neural2-F',  ssmlGender: 'FEMALE' },  // Team Lead — practical female
-  Chris:  { languageCode: 'en-US', name: 'en-US-Neural2-D',  ssmlGender: 'MALE' },    // Devil's Advocate — measured male
+  Alex:   { languageCode: 'en-US', name: 'en-US-Journey-D', ssmlGender: 'MALE' },    // Senior PM host — warm, authoritative male
+  Sam:    { languageCode: 'en-US', name: 'en-US-Journey-O', ssmlGender: 'FEMALE' },  // Analyst — clear, engaging female
+  Jordan: { languageCode: 'en-US', name: 'en-US-Journey-D', ssmlGender: 'MALE' },    // Exec Sponsor — confident male (same voice, different character)
+  Maya:   { languageCode: 'en-US', name: 'en-US-Journey-F', ssmlGender: 'FEMALE' },  // Team Lead — practical female
+  Chris:  { languageCode: 'en-US', name: 'en-US-Journey-D', ssmlGender: 'MALE' },    // Devil's Advocate — measured male
 };
 
 const AUDIO_CONFIG = {
