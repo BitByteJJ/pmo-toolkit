@@ -6,7 +6,8 @@ import { handleAiSuggest } from "./aiSuggest.js";
 import { handleAiDeepDive } from "./aiDeepDive.js";
 import { handleAiVideoScript } from "./aiVideoScript.js";
 import { handleAiVideoGuide } from "./aiVideoGuide.js";
-import { handleGoogleTts } from "./googleTts.js";
+import { handleGoogleTts } from './googleTts.js';
+import { handlePodcastGenerate } from './podcastGenerator.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -51,6 +52,16 @@ async function startServer() {
     try {
       (req as any)._parsedBody = req.body;
       await handleGoogleTts(req as any, res as any);
+    } catch (e) {
+      next(e);
+    }
+  });
+
+  // Podcast generation endpoint — LLM script + two-voice TTS
+  app.post('/api/podcast', express.json(), async (req, res, next) => {
+    try {
+      (req as any)._parsedBody = req.body;
+      await handlePodcastGenerate(req as any, res as any);
     } catch (e) {
       next(e);
     }

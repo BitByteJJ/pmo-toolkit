@@ -1,5 +1,5 @@
-// AudioPlayerBar — Persistent mini-player bar shown above BottomNav when audio is active
-// Shows loading spinner while Google TTS audio is being generated
+// AudioPlayerBar — Persistent mini-player shown above BottomNav during podcast playback
+// Shows which host is currently speaking with an animated indicator
 
 import { motion, AnimatePresence } from 'framer-motion';
 import {
@@ -9,10 +9,16 @@ import {
   SkipBack,
   X,
   Loader2,
-  Headphones,
+  Mic2,
 } from 'lucide-react';
 import { useAudio } from '@/contexts/AudioContext';
 import { useTheme } from '@/contexts/ThemeContext';
+
+// Speaker avatar colours
+const SPEAKER_COLORS: Record<string, string> = {
+  Alex: '#6366f1', // indigo — male host
+  Sam:  '#ec4899', // pink — female host
+};
 
 export default function AudioPlayerBar() {
   const { isDark } = useTheme();
@@ -23,6 +29,7 @@ export default function AudioPlayerBar() {
     currentTrack,
     currentIndex,
     playlist,
+    currentSpeaker,
     pause,
     resume,
     stop,
@@ -31,6 +38,7 @@ export default function AudioPlayerBar() {
   } = useAudio();
 
   const isActive = isPlaying || isPaused || isLoading;
+  const speakerColor = currentSpeaker ? SPEAKER_COLORS[currentSpeaker] ?? currentTrack?.deckColor : currentTrack?.deckColor;
 
   return (
     <AnimatePresence>
@@ -46,32 +54,36 @@ export default function AudioPlayerBar() {
           <div
             className="rounded-2xl px-3 py-2.5 flex items-center gap-3"
             style={{
-              background: isDark
-                ? 'rgba(10,22,40,0.97)'
-                : 'rgba(255,255,255,0.97)',
-              border: isDark
-                ? `1.5px solid ${currentTrack.deckColor}40`
-                : `1.5px solid ${currentTrack.deckColor}30`,
-              boxShadow: `0 -4px 24px ${currentTrack.deckColor}20, 0 4px 16px rgba(0,0,0,0.2)`,
+              background: isDark ? 'rgba(10,22,40,0.97)' : 'rgba(255,255,255,0.97)',
+              border: `1.5px solid ${speakerColor}40`,
+              boxShadow: `0 -4px 24px ${speakerColor}20, 0 4px 16px rgba(0,0,0,0.2)`,
               backdropFilter: 'blur(16px)',
             }}
           >
-            {/* Icon + track info */}
+            {/* Speaker avatar + track info */}
             <div className="flex items-center gap-2 flex-1 min-w-0">
+              {/* Animated speaker avatar */}
               <div
                 className="w-7 h-7 rounded-lg flex items-center justify-center shrink-0 relative"
-                style={{ background: currentTrack.deckColor + '22' }}
+                style={{ background: (speakerColor ?? '#6366f1') + '22' }}
               >
                 {isLoading ? (
-                  <Loader2
-                    size={13}
-                    className="animate-spin"
-                    style={{ color: currentTrack.deckColor }}
-                  />
+                  <Loader2 size={13} className="animate-spin" style={{ color: speakerColor }} />
                 ) : (
-                  <Headphones size={13} style={{ color: currentTrack.deckColor }} />
+                  <>
+                    <Mic2 size={13} style={{ color: speakerColor }} />
+                    {isPlaying && (
+                      <motion.div
+                        className="absolute -top-0.5 -right-0.5 w-2 h-2 rounded-full"
+                        style={{ background: speakerColor }}
+                        animate={{ scale: [1, 1.4, 1], opacity: [1, 0.6, 1] }}
+                        transition={{ duration: 1.2, repeat: Infinity }}
+                      />
+                    )}
+                  </>
                 )}
               </div>
+
               <div className="min-w-0">
                 <div
                   className="text-xs font-black text-foreground truncate leading-tight"
@@ -79,18 +91,18 @@ export default function AudioPlayerBar() {
                 >
                   {currentTrack.title}
                 </div>
-                <div className="text-[9px] text-muted-foreground">
+                <div className="text-[9px] text-muted-foreground flex items-center gap-1">
                   {isLoading ? (
-                    <span style={{ color: currentTrack.deckColor }}>Generating audio…</span>
+                    <span style={{ color: speakerColor }}>Generating episode…</span>
+                  ) : currentSpeaker ? (
+                    <span style={{ color: speakerColor }} className="font-semibold">
+                      {currentSpeaker} speaking
+                    </span>
                   ) : (
-                    <>
-                      {currentTrack.deckTitle}
-                      {playlist.length > 1 && (
-                        <span className="ml-1 opacity-60">
-                          · {currentIndex + 1}/{playlist.length}
-                        </span>
-                      )}
-                    </>
+                    currentTrack.deckTitle
+                  )}
+                  {playlist.length > 1 && !isLoading && (
+                    <span className="opacity-50">· {currentIndex + 1}/{playlist.length}</span>
                   )}
                 </div>
               </div>
@@ -114,8 +126,8 @@ export default function AudioPlayerBar() {
                 disabled={isLoading}
                 className="w-8 h-8 rounded-full flex items-center justify-center transition-all active:scale-90 disabled:opacity-50"
                 style={{
-                  background: currentTrack.deckColor,
-                  boxShadow: `0 2px 8px ${currentTrack.deckColor}50`,
+                  background: speakerColor,
+                  boxShadow: `0 2px 8px ${speakerColor}50`,
                 }}
               >
                 {isLoading ? (

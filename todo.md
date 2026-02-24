@@ -566,3 +566,12 @@
 - [x] Fix Media Session API lock-screen controls (artwork, title, artist, action handlers)
 - [x] Update AudioContext to use HTMLAudioElement instead of SpeechSynthesis
 - [x] Update AudioMode UI to show loading state while TTS is being generated
+
+## Two-Host Podcast Audio — Feb 24 2026
+
+- [x] Build LLM-powered two-host podcast script generator (Host A: Journey-O, Host B: Journey-D)
+- [x] Update /api/tts endpoint to accept voice parameter (journey-o / journey-d)
+- [x] Add /api/podcast endpoint that generates multi-segment script via LLM then TTS each segment
+- [x] Update AudioContext to fetch and stitch podcast segments, playing them sequentially
+- [x] Update AudioMode UI to show host avatars and current speaker during playback
+- [x] Cache full podcast episodes in sessionStorage

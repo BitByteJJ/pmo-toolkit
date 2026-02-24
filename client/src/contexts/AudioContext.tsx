@@ -1,6 +1,7 @@
-// AudioContext — Google Cloud TTS narration (Journey-O voice) + Media Session API
-// Uses HTMLAudioElement so the browser treats it as real media → lock-screen controls work
-// Caches generated audio in sessionStorage (base64) to avoid re-fetching
+// AudioContext — Two-host podcast mode using Google Cloud TTS
+// Alex (Journey-D, male) and Sam (Journey-O, female) have a natural back-and-forth conversation.
+// Each card generates a full podcast episode via /api/podcast (LLM script + TTS per segment).
+// Segments are played sequentially via HTMLAudioElement for proper lock-screen Media Session support.
 
 import {
   createContext,
@@ -14,21 +15,30 @@ import {
 import { CARDS, getDeckById, type PMOCard } from '@/lib/pmoData';
 
 // ─── TYPES ────────────────────────────────────────────────────────────────────
+export interface PodcastSegment {
+  speaker: 'Alex' | 'Sam';
+  line: string;
+  audioContent: string; // base64 MP3
+}
+
 export interface AudioTrack {
   cardId: string;
   title: string;
   deckTitle: string;
   deckColor: string;
-  text: string; // full narration script sent to TTS
+  segments: PodcastSegment[];
+  currentSegmentIndex: number;
 }
 
 interface AudioState {
   isPlaying: boolean;
   isPaused: boolean;
-  isLoading: boolean; // true while fetching TTS audio
+  isLoading: boolean;
   currentTrack: AudioTrack | null;
-  currentIndex: number;
-  playlist: AudioTrack[];
+  currentIndex: number;       // index in the playlist
+  playlist: Omit<AudioTrack, 'segments' | 'currentSegmentIndex'>[]; // lightweight playlist
+  currentSpeaker: 'Alex' | 'Sam' | null;
+  currentLine: string;
   rate: number;
   error: string | null;
 }
@@ -36,102 +46,69 @@ interface AudioState {
 interface AudioContextValue extends AudioState {
   playCard: (cardId: string) => void;
   playDeck: (deckId: string) => void;
-  playAll: () => void;
   pause: () => void;
   resume: () => void;
   stop: () => void;
   next: () => void;
   prev: () => void;
   setRate: (rate: number) => void;
+  playAll: () => void;
   isSupported: boolean;
 }
 
-// ─── PODCAST-STYLE NARRATION BUILDER ─────────────────────────────────────────
-// Writes a natural, conversational script — not a dry recitation of fields.
-function buildNarration(card: PMOCard): string {
-  const parts: string[] = [];
+// ─── PODCAST CACHE ────────────────────────────────────────────────────────────
+const CACHE_PREFIX = 'pmo_podcast_v1_';
 
-  // Hook — conversational opener
-  parts.push(
-    `Welcome to the ${card.title} card, from the ${getDeckById(card.deckId)?.title ?? 'PMO Toolkit'} deck.`
-  );
-
-  // Tagline as a one-liner
-  parts.push(card.tagline + '.');
-
-  // What it is — conversational bridge
-  parts.push(`So, what exactly is it? ${card.whatItIs}`);
-
-  // When to use — framed as advice
-  parts.push(`You'd reach for this tool when ${card.whenToUse.replace(/^when /i, '').replace(/^use this /i, '')}`);
-
-  // Steps — if present, narrate as a short list
-  if (card.steps && card.steps.length > 0) {
-    const stepCount = card.steps.length;
-    parts.push(
-      `There are ${stepCount} key step${stepCount > 1 ? 's' : ''} to follow. ` +
-      card.steps.map((s, i) => `Step ${i + 1}: ${s}`).join('. ')
-    );
-  }
-
-  // Pro tip — framed as insider advice
-  parts.push(`Here's a pro tip from experienced practitioners. ${card.proTip}`);
-
-  // Example — if present
-  if (card.example) {
-    parts.push(`To make this concrete, here's a real-world example. ${card.example}`);
-  }
-
-  // Sign-off
-  parts.push(
-    `That's the ${card.title} card. Tap the screen to explore related tools, or keep listening for the next card in your playlist.`
-  );
-
-  return parts.join(' ');
-}
-
-function buildTrack(card: PMOCard): AudioTrack {
-  const deck = getDeckById(card.deckId);
-  return {
-    cardId: card.id,
-    title: card.title,
-    deckTitle: deck?.title ?? card.deckId,
-    deckColor: deck?.color ?? '#6366f1',
-    text: buildNarration(card),
-  };
-}
-
-// ─── TTS FETCH + CACHE ────────────────────────────────────────────────────────
-const TTS_CACHE_PREFIX = 'pmo_tts_v2_';
-
-async function fetchTtsAudio(text: string, cardId: string): Promise<string> {
-  const cacheKey = TTS_CACHE_PREFIX + cardId;
+function getCachedEpisode(cardId: string): PodcastSegment[] | null {
   try {
-    const cached = sessionStorage.getItem(cacheKey);
-    if (cached) return cached;
-  } catch {}
+    const raw = sessionStorage.getItem(CACHE_PREFIX + cardId);
+    if (!raw) return null;
+    return JSON.parse(raw) as PodcastSegment[];
+  } catch {
+    return null;
+  }
+}
 
-  const response = await fetch('/api/tts', {
+function setCachedEpisode(cardId: string, segments: PodcastSegment[]) {
+  try {
+    sessionStorage.setItem(CACHE_PREFIX + cardId, JSON.stringify(segments));
+  } catch {
+    // sessionStorage full — skip caching
+  }
+}
+
+// ─── FETCH PODCAST EPISODE ────────────────────────────────────────────────────
+async function fetchPodcastEpisode(card: PMOCard, deckTitle: string): Promise<PodcastSegment[]> {
+  const cached = getCachedEpisode(card.id);
+  if (cached) return cached;
+
+  const response = await fetch('/api/podcast', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ text }),
+    body: JSON.stringify({
+      card: {
+        title: card.title,
+        tagline: card.tagline,
+        whatItIs: card.whatItIs,
+        whenToUse: card.whenToUse,
+        steps: card.steps,
+        proTip: card.proTip,
+        example: card.example,
+        deckTitle,
+      },
+    }),
   });
 
   if (!response.ok) {
     const err = await response.text();
-    throw new Error(`TTS API error ${response.status}: ${err.slice(0, 200)}`);
+    throw new Error(`Podcast API error ${response.status}: ${err.slice(0, 200)}`);
   }
 
-  const data = await response.json() as { audioContent?: string };
-  if (!data.audioContent) throw new Error('No audio content returned');
+  const data = await response.json() as { segments: PodcastSegment[] };
+  if (!data.segments?.length) throw new Error('No podcast segments returned');
 
-  const dataUrl = `data:audio/mp3;base64,${data.audioContent}`;
-
-  try {
-    sessionStorage.setItem(cacheKey, dataUrl);
-  } catch {}
-
-  return dataUrl;
+  setCachedEpisode(card.id, data.segments);
+  return data.segments;
 }
 
 // ─── CONTEXT ─────────────────────────────────────────────────────────────────
@@ -147,6 +124,8 @@ export function AudioProvider({ children }: { children: ReactNode }) {
     currentTrack: null,
     currentIndex: -1,
     playlist: [],
+    currentSpeaker: null,
+    currentLine: '',
     rate: 1.0,
     error: null,
   });
@@ -155,7 +134,9 @@ export function AudioProvider({ children }: { children: ReactNode }) {
   const stateRef = useRef(state);
   stateRef.current = state;
 
-  // ── Ensure a single HTMLAudioElement exists ──
+  // Ref to hold the current track's segments so the onended callback can access them
+  const currentTrackRef = useRef<AudioTrack | null>(null);
+
   function getAudio(): HTMLAudioElement {
     if (!audioRef.current) {
       audioRef.current = new Audio();
@@ -164,8 +145,8 @@ export function AudioProvider({ children }: { children: ReactNode }) {
     return audioRef.current;
   }
 
-  // ── Update Media Session metadata ──
-  function updateMediaSession(track: AudioTrack | null, playing: boolean) {
+  // ── Media Session ──
+  function updateMediaSession(track: Omit<AudioTrack, 'segments' | 'currentSegmentIndex'> | null, playing: boolean, speaker?: 'Alex' | 'Sam' | null) {
     if (!('mediaSession' in navigator)) return;
     if (!track) {
       navigator.mediaSession.metadata = null;
@@ -174,8 +155,8 @@ export function AudioProvider({ children }: { children: ReactNode }) {
     }
     navigator.mediaSession.metadata = new MediaMetadata({
       title: track.title,
-      artist: track.deckTitle,
-      album: 'StratAlign PMO Toolkit',
+      artist: speaker ? `${speaker} — ${track.deckTitle}` : track.deckTitle,
+      album: 'StratAlign PMO Podcast',
       artwork: [
         { src: '/icon-192.png', sizes: '192x192', type: 'image/png' },
         { src: '/favicon.ico', sizes: '48x48', type: 'image/x-icon' },
@@ -184,174 +165,231 @@ export function AudioProvider({ children }: { children: ReactNode }) {
     navigator.mediaSession.playbackState = playing ? 'playing' : 'paused';
   }
 
-  // ── Core play function — fetches TTS then plays ──
-  const playTrackAtIndex = useCallback(
-    async (playlist: AudioTrack[], index: number) => {
-      if (index < 0 || index >= playlist.length) return;
-      const track = playlist[index];
+  // ── Play a single segment (base64 MP3) ──
+  const playSegment = useCallback((
+    segment: PodcastSegment,
+    onEnded: () => void
+  ) => {
+    const audio = getAudio();
+    audio.pause();
+    audio.src = `data:audio/mp3;base64,${segment.audioContent}`;
+    audio.playbackRate = stateRef.current.rate;
 
-      // Stop any current audio
-      const audio = getAudio();
-      audio.pause();
-      audio.src = '';
+    audio.onended = onEnded;
+    audio.onerror = () => {
+      console.warn('[Audio] Segment playback error, skipping');
+      onEnded(); // skip broken segment
+    };
 
-      setState(prev => ({
-        ...prev,
-        isLoading: true,
-        isPlaying: false,
-        isPaused: false,
-        currentTrack: track,
-        currentIndex: index,
-        playlist,
-        error: null,
-      }));
-      updateMediaSession(track, false);
+    audio.play().catch(err => {
+      console.error('[Audio] play() failed:', err);
+    });
+  }, []);
 
-      let dataUrl: string;
-      try {
-        dataUrl = await fetchTtsAudio(track.text, track.cardId);
-      } catch (err) {
-        setState(prev => ({
-          ...prev,
-          isLoading: false,
-          isPlaying: false,
-          error: String(err),
-        }));
+  // ── Play all segments of a track sequentially ──
+  const playTrackSegments = useCallback((track: AudioTrack, startSegment = 0) => {
+    currentTrackRef.current = { ...track, currentSegmentIndex: startSegment };
+
+    const playNext = (segIdx: number) => {
+      const t = currentTrackRef.current;
+      if (!t || segIdx >= t.segments.length) {
+        // Episode finished — advance to next track in playlist
+        const { currentIndex, playlist } = stateRef.current;
+        if (currentIndex + 1 < playlist.length) {
+          const nextCard = CARDS.find(c => c.id === playlist[currentIndex + 1].cardId);
+          if (nextCard) {
+            playCardById(nextCard.id, currentIndex + 1, stateRef.current.playlist);
+          }
+        } else {
+          setState(prev => ({ ...prev, isPlaying: false, isPaused: false, currentSpeaker: null, currentLine: '' }));
+          updateMediaSession(null, false);
+        }
         return;
       }
 
-      audio.src = dataUrl;
-      audio.playbackRate = stateRef.current.rate;
+      const segment = t.segments[segIdx];
+      currentTrackRef.current = { ...t, currentSegmentIndex: segIdx };
 
-      // Auto-advance when track ends
-      audio.onended = () => {
-        const nextIdx = stateRef.current.currentIndex + 1;
-        if (nextIdx < stateRef.current.playlist.length) {
-          playTrackAtIndex(stateRef.current.playlist, nextIdx);
-        } else {
-          setState(prev => ({ ...prev, isPlaying: false, isPaused: false }));
-          updateMediaSession(stateRef.current.currentTrack, false);
-        }
-      };
+      setState(prev => ({
+        ...prev,
+        isPlaying: true,
+        isPaused: false,
+        currentSpeaker: segment.speaker,
+        currentLine: segment.line,
+        currentTrack: currentTrackRef.current,
+      }));
 
-      audio.onerror = () => {
-        setState(prev => ({
-          ...prev,
-          isLoading: false,
-          isPlaying: false,
-          error: 'Audio playback error',
-        }));
-      };
+      const lightTrack = stateRef.current.playlist[stateRef.current.currentIndex];
+      updateMediaSession(lightTrack ?? null, true, segment.speaker);
 
-      try {
-        await audio.play();
-        setState(prev => ({
-          ...prev,
-          isLoading: false,
-          isPlaying: true,
-          isPaused: false,
-        }));
-        updateMediaSession(track, true);
-      } catch (err) {
-        setState(prev => ({
-          ...prev,
-          isLoading: false,
-          isPlaying: false,
-          error: 'Could not start playback: ' + String(err),
-        }));
-      }
-    },
-    []
-  );
+      playSegment(segment, () => playNext(segIdx + 1));
+    };
+
+    playNext(startSegment);
+  }, [playSegment]);
+
+  // ── Core: fetch episode then play ──
+  const playCardById = useCallback(async (
+    cardId: string,
+    playlistIndex: number,
+    playlist: AudioState['playlist']
+  ) => {
+    const card = CARDS.find(c => c.id === cardId);
+    if (!card) return;
+
+    const deck = getDeckById(card.deckId);
+    const deckTitle = deck?.title ?? card.deckId;
+    const deckColor = deck?.color ?? '#6366f1';
+
+    // Stop current audio
+    const audio = getAudio();
+    audio.pause();
+    audio.src = '';
+    currentTrackRef.current = null;
+
+    setState(prev => ({
+      ...prev,
+      isLoading: true,
+      isPlaying: false,
+      isPaused: false,
+      currentSpeaker: null,
+      currentLine: '',
+      currentIndex: playlistIndex,
+      playlist,
+      error: null,
+      currentTrack: {
+        cardId,
+        title: card.title,
+        deckTitle,
+        deckColor,
+        segments: [],
+        currentSegmentIndex: 0,
+      },
+    }));
+
+    let segments: PodcastSegment[];
+    try {
+      segments = await fetchPodcastEpisode(card, deckTitle);
+    } catch (err) {
+      setState(prev => ({
+        ...prev,
+        isLoading: false,
+        isPlaying: false,
+        error: String(err),
+      }));
+      return;
+    }
+
+    const track: AudioTrack = {
+      cardId,
+      title: card.title,
+      deckTitle,
+      deckColor,
+      segments,
+      currentSegmentIndex: 0,
+    };
+
+    setState(prev => ({
+      ...prev,
+      isLoading: false,
+      currentTrack: track,
+    }));
+
+    playTrackSegments(track, 0);
+  }, [playTrackSegments]);
 
   // ── Media Session action handlers ──
-  // Must be registered AFTER audio starts (browsers require user gesture)
   useEffect(() => {
     if (!('mediaSession' in navigator)) return;
 
-    const registerHandlers = () => {
-      navigator.mediaSession.setActionHandler('play', () => {
-        const audio = getAudio();
-        audio.play().then(() => {
-          setState(prev => ({ ...prev, isPlaying: true, isPaused: false }));
-          updateMediaSession(stateRef.current.currentTrack, true);
-        }).catch(() => {});
-      });
+    navigator.mediaSession.setActionHandler('play', () => {
+      const audio = getAudio();
+      audio.play().then(() => {
+        setState(prev => ({ ...prev, isPlaying: true, isPaused: false }));
+        const { playlist, currentIndex, currentSpeaker } = stateRef.current;
+        updateMediaSession(playlist[currentIndex] ?? null, true, currentSpeaker);
+      }).catch(() => {});
+    });
 
-      navigator.mediaSession.setActionHandler('pause', () => {
-        const audio = getAudio();
-        audio.pause();
-        setState(prev => ({ ...prev, isPaused: true }));
-        updateMediaSession(stateRef.current.currentTrack, false);
-      });
+    navigator.mediaSession.setActionHandler('pause', () => {
+      const audio = getAudio();
+      audio.pause();
+      setState(prev => ({ ...prev, isPaused: true, isPlaying: false }));
+      const { playlist, currentIndex, currentSpeaker } = stateRef.current;
+      updateMediaSession(playlist[currentIndex] ?? null, false, currentSpeaker);
+    });
 
-      navigator.mediaSession.setActionHandler('nexttrack', () => {
-        const { currentIndex, playlist } = stateRef.current;
-        if (currentIndex + 1 < playlist.length) {
-          playTrackAtIndex(playlist, currentIndex + 1);
-        }
-      });
+    navigator.mediaSession.setActionHandler('nexttrack', () => {
+      const { currentIndex, playlist } = stateRef.current;
+      if (currentIndex + 1 < playlist.length) {
+        playCardById(playlist[currentIndex + 1].cardId, currentIndex + 1, playlist);
+      }
+    });
 
-      navigator.mediaSession.setActionHandler('previoustrack', () => {
-        const { currentIndex, playlist } = stateRef.current;
-        if (currentIndex - 1 >= 0) {
-          playTrackAtIndex(playlist, currentIndex - 1);
-        }
-      });
+    navigator.mediaSession.setActionHandler('previoustrack', () => {
+      const { currentIndex, playlist } = stateRef.current;
+      if (currentIndex - 1 >= 0) {
+        playCardById(playlist[currentIndex - 1].cardId, currentIndex - 1, playlist);
+      }
+    });
 
-      navigator.mediaSession.setActionHandler('stop', () => {
-        const audio = getAudio();
-        audio.pause();
-        audio.src = '';
-        setState(prev => ({ ...prev, isPlaying: false, isPaused: false }));
-        updateMediaSession(null, false);
-      });
-    };
-
-    registerHandlers();
+    navigator.mediaSession.setActionHandler('stop', () => {
+      const audio = getAudio();
+      audio.pause();
+      audio.src = '';
+      currentTrackRef.current = null;
+      setState(prev => ({ ...prev, isPlaying: false, isPaused: false, currentTrack: null, currentIndex: -1, playlist: [] }));
+      updateMediaSession(null, false);
+    });
 
     return () => {
       (['play', 'pause', 'nexttrack', 'previoustrack', 'stop'] as MediaSessionAction[]).forEach(
-        action => {
-          try { navigator.mediaSession.setActionHandler(action, null); } catch {}
-        }
+        action => { try { navigator.mediaSession.setActionHandler(action, null); } catch {} }
       );
     };
-  }, [playTrackAtIndex]);
+  }, [playCardById]);
 
   // ── Public API ──
   const playCard = useCallback((cardId: string) => {
     const card = CARDS.find(c => c.id === cardId);
     if (!card) return;
-    const track = buildTrack(card);
-    playTrackAtIndex([track], 0);
-  }, [playTrackAtIndex]);
+    const deck = getDeckById(card.deckId);
+    const lightPlaylist = [{
+      cardId,
+      title: card.title,
+      deckTitle: deck?.title ?? card.deckId,
+      deckColor: deck?.color ?? '#6366f1',
+    }];
+    playCardById(cardId, 0, lightPlaylist);
+  }, [playCardById]);
 
   const playDeck = useCallback((deckId: string) => {
     const deckCards = CARDS.filter(c => c.deckId === deckId);
-    if (deckCards.length === 0) return;
-    const playlist = deckCards.map(buildTrack);
-    playTrackAtIndex(playlist, 0);
-  }, [playTrackAtIndex]);
-
-  const playAll = useCallback(() => {
-    // Pick 20 cards spread across decks for a varied playlist
-    const playlist = CARDS.slice(0, 20).map(buildTrack);
-    playTrackAtIndex(playlist, 0);
-  }, [playTrackAtIndex]);
+    if (!deckCards.length) return;
+    const deck = getDeckById(deckId);
+    const lightPlaylist = deckCards.map(c => ({
+      cardId: c.id,
+      title: c.title,
+      deckTitle: deck?.title ?? deckId,
+      deckColor: deck?.color ?? '#6366f1',
+    }));
+    playCardById(deckCards[0].id, 0, lightPlaylist);
+  }, [playCardById]);
 
   const pause = useCallback(() => {
     const audio = getAudio();
     audio.pause();
-    setState(prev => ({ ...prev, isPaused: true }));
-    updateMediaSession(stateRef.current.currentTrack, false);
+    setState(prev => ({ ...prev, isPaused: true, isPlaying: false }));
+    const { playlist, currentIndex, currentSpeaker } = stateRef.current;
+    updateMediaSession(playlist[currentIndex] ?? null, false, currentSpeaker);
   }, []);
 
   const resume = useCallback(() => {
     const audio = getAudio();
     audio.play().then(() => {
       setState(prev => ({ ...prev, isPaused: false, isPlaying: true }));
-      updateMediaSession(stateRef.current.currentTrack, true);
+      const { playlist, currentIndex, currentSpeaker } = stateRef.current;
+      updateMediaSession(playlist[currentIndex] ?? null, true, currentSpeaker);
     }).catch(() => {});
   }, []);
 
@@ -359,6 +397,7 @@ export function AudioProvider({ children }: { children: ReactNode }) {
     const audio = getAudio();
     audio.pause();
     audio.src = '';
+    currentTrackRef.current = null;
     setState(prev => ({
       ...prev,
       isPlaying: false,
@@ -367,6 +406,8 @@ export function AudioProvider({ children }: { children: ReactNode }) {
       currentTrack: null,
       currentIndex: -1,
       playlist: [],
+      currentSpeaker: null,
+      currentLine: '',
     }));
     updateMediaSession(null, false);
   }, []);
@@ -374,16 +415,16 @@ export function AudioProvider({ children }: { children: ReactNode }) {
   const next = useCallback(() => {
     const { currentIndex, playlist } = stateRef.current;
     if (currentIndex + 1 < playlist.length) {
-      playTrackAtIndex(playlist, currentIndex + 1);
+      playCardById(playlist[currentIndex + 1].cardId, currentIndex + 1, playlist);
     }
-  }, [playTrackAtIndex]);
+  }, [playCardById]);
 
   const prev = useCallback(() => {
     const { currentIndex, playlist } = stateRef.current;
     if (currentIndex - 1 >= 0) {
-      playTrackAtIndex(playlist, currentIndex - 1);
+      playCardById(playlist[currentIndex - 1].cardId, currentIndex - 1, playlist);
     }
-  }, [playTrackAtIndex]);
+  }, [playCardById]);
 
   const setRate = useCallback((rate: number) => {
     setState(prev => ({ ...prev, rate }));
@@ -391,33 +432,27 @@ export function AudioProvider({ children }: { children: ReactNode }) {
     if (audio) audio.playbackRate = rate;
   }, []);
 
-  // Cleanup on unmount
   useEffect(() => {
     return () => {
       const audio = audioRef.current;
-      if (audio) {
-        audio.pause();
-        audio.src = '';
-      }
+      if (audio) { audio.pause(); audio.src = ''; }
     };
   }, []);
 
   return (
-    <Ctx.Provider
-      value={{
-        ...state,
-        playCard,
-        playDeck,
-        playAll,
-        pause,
-        resume,
-        stop,
-        next,
-        prev,
-        setRate,
-        isSupported,
-      }}
-    >
+    <Ctx.Provider value={{
+      ...state,
+      playCard,
+      playDeck,
+      playAll: () => playDeck(CARDS[0]?.deckId ?? ''),
+      pause,
+      resume,
+      stop,
+      next,
+      prev,
+      setRate,
+      isSupported,
+    }}>
       {children}
     </Ctx.Provider>
   );
