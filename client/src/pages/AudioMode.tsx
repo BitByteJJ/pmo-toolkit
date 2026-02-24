@@ -24,7 +24,7 @@ import {
   CheckCircle2,
 } from 'lucide-react';
 import { CARDS, DECKS } from '@/lib/pmoData';
-import { useAudio } from '@/contexts/AudioContext';
+import { useAudio, CAST_META, type CastMember } from '@/contexts/AudioContext';
 import { useTheme } from '@/contexts/ThemeContext';
 import PageFooter from '@/components/PageFooter';
 
@@ -37,10 +37,8 @@ function formatTime(seconds: number): string {
 }
 
 // ─── SPEAKER CONFIG ───────────────────────────────────────────────────────────
-const SPEAKERS = {
-  Alex: { color: '#6366f1', label: 'Alex', role: 'Senior PM', emoji: '👨‍💼' },
-  Sam:  { color: '#ec4899', label: 'Sam',  role: 'PM Coach',  emoji: '👩‍💼' },
-};
+// Use CAST_META from AudioContext for all 5 characters
+const ALL_CAST: CastMember[] = ['Alex', 'Sam', 'Jordan', 'Maya', 'Chris'];
 
 // ─── SPEED SELECTOR ───────────────────────────────────────────────────────────
 const SPEEDS = [0.75, 1.0, 1.25, 1.5, 1.75, 2.0];
@@ -68,19 +66,21 @@ function SpeedSelector() {
 }
 
 // ─── HOST AVATARS ─────────────────────────────────────────────────────────────
-function HostAvatars({ activeSpeaker }: { activeSpeaker: 'Alex' | 'Sam' | null }) {
+function HostAvatars({ activeSpeaker, activeCast }: { activeSpeaker: CastMember | null; activeCast: CastMember[] }) {
   const { isDark } = useTheme();
+  // Show only the cast members who have appeared in this episode
+  const visibleCast = activeCast.length > 0 ? activeCast : (['Alex', 'Sam'] as CastMember[]);
   return (
-    <div className="flex items-center justify-center gap-6 py-2">
-      {(['Alex', 'Sam'] as const).map(name => {
-        const s = SPEAKERS[name];
+    <div className="flex items-center justify-center gap-3 py-2 flex-wrap">
+      {visibleCast.map(name => {
+        const s = CAST_META[name];
         const isActive = activeSpeaker === name;
         return (
-          <div key={name} className="flex flex-col items-center gap-1.5">
+          <div key={name} className="flex flex-col items-center gap-1">
             <motion.div
               animate={isActive ? { scale: [1, 1.06, 1], y: [0, -2, 0] } : { scale: 1, y: 0 }}
               transition={isActive ? { duration: 1.5, repeat: Infinity, ease: 'easeInOut' } : {}}
-              className="relative w-14 h-14 rounded-2xl flex items-center justify-center text-2xl"
+              className="relative w-12 h-12 rounded-2xl flex items-center justify-center text-xl"
               style={{
                 background: isActive
                   ? `linear-gradient(135deg, ${s.color}30, ${s.color}15)`
@@ -104,16 +104,16 @@ function HostAvatars({ activeSpeaker }: { activeSpeaker: 'Alex' | 'Sam' | null }
             </motion.div>
             <div className="text-center">
               <div
-                className="text-xs font-black"
+                className="text-[10px] font-black"
                 style={{
                   color: isActive ? s.color : 'var(--muted-foreground)',
                   fontFamily: 'Sora, sans-serif',
                   transition: 'color 0.3s',
                 }}
               >
-                {s.label}
+                {name}
               </div>
-              <div className="text-[9px] text-muted-foreground">{s.role}</div>
+              <div className="text-[8px] text-muted-foreground leading-tight max-w-[60px] text-center">{s.role}</div>
             </div>
           </div>
         );
@@ -123,10 +123,10 @@ function HostAvatars({ activeSpeaker }: { activeSpeaker: 'Alex' | 'Sam' | null }
 }
 
 // ─── LIVE TRANSCRIPT LINE ─────────────────────────────────────────────────────
-function LiveTranscript({ line, speaker }: { line: string; speaker: 'Alex' | 'Sam' | null }) {
+function LiveTranscript({ line, speaker }: { line: string; speaker: CastMember | null }) {
   const { isDark } = useTheme();
   if (!line || !speaker) return null;
-  const s = SPEAKERS[speaker];
+  const s = CAST_META[speaker];
   return (
     <AnimatePresence mode="wait">
       <motion.div
@@ -145,7 +145,7 @@ function LiveTranscript({ line, speaker }: { line: string; speaker: 'Alex' | 'Sa
           <span className="text-base shrink-0 mt-0.5">{s.emoji}</span>
           <div>
             <span className="text-[10px] font-bold mr-1.5" style={{ color: s.color }}>
-              {s.label}:
+              {speaker}:
             </span>
             <span className="text-xs text-foreground leading-relaxed">{line}</span>
           </div>
@@ -173,6 +173,8 @@ function NowPlaying() {
     segmentDuration,
     episodeSegmentIndex,
     episodeTotalSegments,
+    activeCast,
+    isJingle,
     pause,
     resume,
     stop,
@@ -251,6 +253,11 @@ function NowPlaying() {
           </div>
           <div className="text-[10px] text-muted-foreground flex items-center gap-1.5">
             <span>StratAlign Theater</span>
+            {currentTrack.episodeId && (
+              <span className="font-bold" style={{ color: currentSpeaker ? CAST_META[currentSpeaker]?.color : '#6366f1' }}>
+                · {currentTrack.episodeId}
+              </span>
+            )}
             {playlist.length > 1 && (
               <span className="opacity-50">· {currentIndex + 1}/{playlist.length}</span>
             )}
@@ -284,7 +291,7 @@ function NowPlaying() {
 
       {/* Host avatars — only shown when playing */}
       {!isLoading && (
-        <HostAvatars activeSpeaker={currentSpeaker ?? null} />
+        <HostAvatars activeSpeaker={currentSpeaker ?? null} activeCast={activeCast} />
       )}
 
       {/* Live transcript */}
@@ -314,7 +321,7 @@ function NowPlaying() {
               className="h-full rounded-full"
               style={{
                 width: `${segmentProgress * 100}%`,
-                background: currentSpeaker === 'Alex' ? '#6366f1' : '#ec4899',
+                background: currentSpeaker ? CAST_META[currentSpeaker]?.color ?? '#6366f1' : '#6366f1',
                 transition: 'width 0.25s linear',
               }}
             />

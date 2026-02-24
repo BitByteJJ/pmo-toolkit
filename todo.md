@@ -598,3 +598,23 @@
 - [x] Rename podcast from "The PMO Toolkit Podcast" to "StratAlign Theater" in server prompt
 - [x] Update Media Session album name to "StratAlign Theater"
 - [x] Update all UI labels (AudioMode page, AudioPlayerBar) to "StratAlign Theater"
+
+## Jingle + Episode Numbers — Feb 24 2026
+
+- [ ] Generate StratAlign Theater intro jingle via Google TTS (branded spoken intro + tone)
+- [ ] Serve jingle as a static asset from /public
+- [ ] Wire jingle playback into AudioContext as segment index -1 before episode starts
+- [ ] Add episode number tracking in localStorage (card ID → episode number, global counter)
+- [ ] Display episode number (S1E12) in NowPlaying header and AudioPlayerBar subtitle
+- [ ] Include episode number in Media Session title metadata
+
+## Multi-Character Cast — Feb 24 2026
+
+- [x] Define 5-character cast: Alex (PM lead), Sam (analyst), Jordan (sponsor/exec), Maya (team lead), Chris (sceptic/devil's advocate)
+- [x] Assign each character a unique Google TTS Journey voice
+- [x] Update LLM prompt to select 2-5 characters based on tool complexity
+- [x] Update server TTS handler to route each character to their voice
+- [x] Update AudioContext to handle 5 speakers (colours, avatars)
+- [x] Update AudioMode UI to show all active speakers with role labels
+- [x] Wire intro jingle before first segment
+- [x] Add episode numbers (S1E#) to NowPlaying and Media Session
