@@ -515,8 +515,9 @@ export default function CardDetail() {
                   maxWidth: '280px',
                   height: 'auto',
                   objectFit: 'contain',
-                  mixBlendMode: 'screen',
-                  opacity: 0.55,
+                  mixBlendMode: isDark ? 'screen' : 'multiply',
+                  opacity: isDark ? 0.55 : 0.75,
+                  filter: isDark ? 'invert(1) grayscale(1) brightness(1.8)' : 'grayscale(1) brightness(0.75) contrast(1.1)',
                 }}
                 loading="eager"
               />

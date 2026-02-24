@@ -299,8 +299,8 @@ export default function AiSuggest() {
               <Sparkles size={16} className="text-white" />
             </div>
             <h1
-              className="text-xl font-black text-slate-100"
-              style={{ fontFamily: "'Sora', sans-serif" }}
+              className="text-xl font-black"
+              style={{ fontFamily: "'Sora', sans-serif", color: isDark ? '#f1f5f9' : '#0f172a' }}
             >
               AI Tool Finder
             </h1>
@@ -329,7 +329,7 @@ export default function AiSuggest() {
                   src="https://files.manuscdn.com/user_upload_by_module/session_file/310419663029097403/wYAdBnNHDXPbyggk.png"
                   alt="AI Tool Finder"
                   className="w-48 h-auto"
-                  style={{ mixBlendMode: 'screen', opacity: 0.4 }}
+                  style={{ mixBlendMode: isDark ? 'screen' : 'multiply', opacity: isDark ? 0.4 : 0.7 }}
                 />
               </div>
 
@@ -381,10 +381,10 @@ export default function AiSuggest() {
                       animate={{ opacity: 1, x: 0 }}
                       transition={{ duration: 0.25, delay: i * 0.05 }}
                       onClick={() => handleExampleClick(prompt)}
-                      className="w-full text-left px-3.5 py-2.5 rounded-xl bg-card text-xs text-foreground hover:text-slate-100 transition-all flex items-center gap-2 group"
+                      className="w-full text-left px-3.5 py-2.5 rounded-xl bg-card text-xs text-foreground transition-all flex items-center gap-2 group"
                       style={{ boxShadow: '0 1px 3px rgba(0,0,0,0.06)', border: '1px solid rgba(0,0,0,0.05)' }}
                     >
-                      <ArrowRight size={12} className="shrink-0 text-muted-foreground group-hover:text-indigo-400 transition-colors" />
+                      <ArrowRight size={12} className="shrink-0 text-indigo-500 transition-colors" />
                       <span className="leading-relaxed">{prompt}</span>
                     </motion.button>
                   ))}

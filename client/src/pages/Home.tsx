@@ -283,10 +283,11 @@ export default function Home() {
               width: 'auto',
               maxWidth: '72%',
               objectFit: 'contain',
-              opacity: isDark ? 0.52 : 0.35,
+              opacity: isDark ? 0.52 : 0.70,
+              mixBlendMode: isDark ? 'screen' : 'multiply',
               filter: isDark
-                ? 'invert(1) brightness(2.2) saturate(0.7) hue-rotate(200deg) drop-shadow(0 0 32px rgba(139,92,246,0.45))'
-                : 'invert(1) brightness(0) saturate(0) hue-rotate(200deg) drop-shadow(0 0 20px rgba(99,102,241,0.20))',
+                ? 'invert(1) grayscale(1) brightness(2.2) drop-shadow(0 0 32px rgba(139,92,246,0.45))'
+                : 'grayscale(1) brightness(0.80) contrast(1.15)',
             }}
           />
 

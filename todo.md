@@ -475,3 +475,7 @@
 - [ ] Fix HowItWasBuilt page light mode readability
 - [ ] Fix light mode contrast: Daily Challenge text, quiz options, card text invisible
 - [x] Restore footer disclaimer (owner name, month/year, educational disclaimer) on every page
+- [ ] Fix AI Suggest page: invisible title and example chip text in light mode
+- [x] Fix CardDetail template table row text in light mode
+- [ ] Fix MarkdownTemplateRenderer: theme-aware text colours
+- [x] Fix home page illustrations: correct blend mode for light mode

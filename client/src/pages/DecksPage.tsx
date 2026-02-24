@@ -166,8 +166,9 @@ function DeckCard({ deck, index }: { deck: typeof DECKS[0]; index: number }) {
                   width: 'auto',
                   maxWidth: '55%',
                   objectFit: 'contain',
-                  mixBlendMode: 'screen',
-                  opacity: 0.35,
+                  mixBlendMode: isDark ? 'screen' : 'multiply',
+                  opacity: isDark ? 0.35 : 0.70,
+                  filter: isDark ? 'invert(1) grayscale(1) brightness(1.8)' : 'grayscale(1) brightness(0.75) contrast(1.1)',
                 }}
               />
               <div
