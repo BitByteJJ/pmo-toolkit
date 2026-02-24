@@ -479,3 +479,10 @@
 - [x] Fix CardDetail template table row text in light mode
 - [x] Fix MarkdownTemplateRenderer: theme-aware text colours
 - [x] Fix home page illustrations: correct blend mode for light mode
+
+## Light Mode Fixes Round 2 — Feb 2026
+
+- [x] Fix CardDetail hero header: title text invisible in light mode (light text on light bg)
+- [x] Fix CardDetail hero: illustration box showing as grey rectangle (blend mode issue)
+- [x] Fix TemplateFiller description box: low contrast text in light mode
+- [x] Fix TemplateFiller table cells: raw markdown asterisks (**text**) not rendered as bold

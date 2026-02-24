@@ -43,11 +43,22 @@ function generateId() {
 }
 
 /** Parse a Markdown pipe-table into column headers and initial rows */
+/** Strip markdown bold/italic markers from a cell value */
+function stripMarkdown(s: string): string {
+  return s
+    .replace(/\*\*([^*]+)\*\*/g, '$1')  // **bold**
+    .replace(/\*([^*]+)\*/g, '$1')       // *italic*
+    .replace(/__([^_]+)__/g, '$1')       // __bold__
+    .replace(/_([^_]+)_/g, '$1')         // _italic_
+    .replace(/`([^`]+)`/g, '$1')         // `code`
+    .trim();
+}
+
 function parseMarkdownTable(content: string): { headers: string[]; rows: string[][] } | null {
   const lines = content.trim().split('\n').filter(l => l.trim().startsWith('|'));
   if (lines.length < 2) return null;
   const parseRow = (line: string) =>
-    line.replace(/^\|/, '').replace(/\|$/, '').split('|').map(c => c.trim());
+    line.replace(/^\|/, '').replace(/\|$/, '').split('|').map(c => stripMarkdown(c));
   const headers = parseRow(lines[0]);
   const sepLine = lines[1];
   if (!/^[\|\-\s:]+$/.test(sepLine)) return null;
@@ -551,6 +562,9 @@ export default function TemplateFiller() {
     if (!card) return DECK_THEME.tools;
     return DECK_THEME[card.deckId] || DECK_THEME.tools;
   }, [card]);
+  // Use light-mode-safe text/bg when not in dark mode
+  const themeText = isDark ? theme.text : theme.lightText;
+  const themeBg = isDark ? theme.bg : theme.lightBg;
 
   // Load saved data on mount (keyed by cardId)
   const savedData = useMemo(() => cardId ? loadSavedData(cardId) : null, [cardId]);
@@ -749,9 +763,9 @@ export default function TemplateFiller() {
       <div ref={formRef} className="px-4 pt-4">
         {/* Template description */}
         <div className="rounded-2xl p-4 mb-4 flex items-start gap-3"
-          style={{ backgroundColor: theme.bg, border: `1px solid ${theme.color}33` }}>
+          style={{ backgroundColor: themeBg, border: `1px solid ${theme.color}33` }}>
           <Info size={16} style={{ color: theme.color, flexShrink: 0, marginTop: 2 }} />
-          <p className="text-sm leading-relaxed" style={{ color: theme.text }}>{template.description}</p>
+          <p className="text-sm leading-relaxed" style={{ color: themeText }}>{template.description}</p>
         </div>
 
         {/* Header fields */}

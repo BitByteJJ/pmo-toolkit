@@ -272,6 +272,9 @@ export default function CardDetail() {
 
   const deck = getDeckById(card.deckId);
   const deckCards = getCardsByDeck(card.deckId);
+  // In light mode, deck.textColor is a pale pastel (invisible on light bg).
+  // Use deck.color (the vivid accent) darkened for light mode, or the pastel for dark mode.
+  const headerTextColor = isDark ? (deck?.textColor ?? '#e2e8f0') : (deck?.color ?? '#1e293b');
   const currentIndex = deckCards.findIndex(c => c.id === card.id);
   const prevCard = currentIndex > 0 ? deckCards[currentIndex - 1] : null;
   const nextCard = currentIndex < deckCards.length - 1 ? deckCards[currentIndex + 1] : null;
@@ -516,8 +519,8 @@ export default function CardDetail() {
                   height: 'auto',
                   objectFit: 'contain',
                   mixBlendMode: isDark ? 'screen' : 'multiply',
-                  opacity: isDark ? 0.55 : 0.75,
-                  filter: isDark ? 'invert(1) grayscale(1) brightness(1.8)' : 'grayscale(1) brightness(0.75) contrast(1.1)',
+                  opacity: isDark ? 0.55 : 0.65,
+                  filter: isDark ? 'invert(1) grayscale(1) brightness(1.8)' : 'grayscale(1) brightness(0.6) contrast(1.2) saturate(0.5)',
                 }}
                 loading="eager"
               />
@@ -544,14 +547,14 @@ export default function CardDetail() {
             <div className="flex items-center justify-between mb-4">
               <button
                 onClick={() => fromRoadmap ? navigate('/roadmap') : navigate(`/deck/${card.deckId}`)}
-                className="flex items-center gap-1.5 text-[11px] font-semibold opacity-60 hover:opacity-100 transition-opacity"
-                style={{ color: deck?.textColor }}
+                className="flex items-center gap-1.5 text-[11px] font-semibold opacity-70 hover:opacity-100 transition-opacity"
+                style={{ color: headerTextColor }}
               >
                 <ArrowLeft size={13} />
                 {fromRoadmap ? 'Back to Roadmap' : (deck?.title ?? 'Back')}
               </button>
               <div className="flex items-center gap-1.5">
-                <span className="text-[10px] font-medium opacity-50" style={{ color: deck?.textColor }}>
+                <span className="text-[10px] font-medium opacity-60" style={{ color: headerTextColor }}>
                   {currentIndex + 1} / {deckCards.length}
                 </span>
                 {/* Notes button */}
@@ -561,7 +564,7 @@ export default function CardDetail() {
                   style={{ backgroundColor: deck?.color + '20' }}
                   title="My notes"
                 >
-                  <StickyNote size={14} style={{ color: hasNote(card.id) ? deck?.color : deck?.textColor, opacity: hasNote(card.id) ? 1 : 0.6 }} />
+                  <StickyNote size={14} style={{ color: hasNote(card.id) ? deck?.color : headerTextColor, opacity: hasNote(card.id) ? 1 : 0.6 }} />
                   {hasNote(card.id) && (
                     <span
                       className="absolute -top-0.5 -right-0.5 w-2 h-2 rounded-full"
@@ -576,7 +579,7 @@ export default function CardDetail() {
                   style={{ backgroundColor: deck?.color + '20' }}
                   title="Share"
                 >
-                  <Share2 size={14} style={{ color: deck?.textColor, opacity: 0.7 }} />
+                  <Share2 size={14} style={{ color: headerTextColor, opacity: 0.7 }} />
                 </button>
                 {/* Bookmark button */}
                 <button
@@ -586,7 +589,7 @@ export default function CardDetail() {
                 >
                   {bookmarked
                     ? <BookmarkCheck size={16} className="text-rose-500" />
-                    : <Bookmark size={16} style={{ color: deck?.textColor, opacity: 0.7 }} />
+                    : <Bookmark size={16} style={{ color: headerTextColor, opacity: 0.7 }} />
                   }
                 </button>
               </div>
@@ -602,7 +605,7 @@ export default function CardDetail() {
               </span>
               <span
                 className="text-[10px] font-semibold capitalize px-2 py-0.5 rounded-full"
-                style={{ backgroundColor: deck?.color + '20', color: deck?.textColor, opacity: 0.8 }}
+                style={{ backgroundColor: deck?.color + '20', color: headerTextColor, opacity: 0.85 }}
               >
                 {card.type}
               </span>
@@ -630,7 +633,7 @@ export default function CardDetail() {
               {copyrightNotices.length > 0 && (
                 <span
                   className="text-[9px] font-semibold px-2 py-0.5 rounded-full flex items-center gap-1"
-                  style={{ backgroundColor: 'rgba(251,191,36,0.15)', color: '#fde68a' }}
+                  style={{ backgroundColor: 'rgba(251,191,36,0.15)', color: isDark ? '#fde68a' : '#92400e' }}
                 >
                   <ShieldCheck size={9} />
                   Proprietary
@@ -640,20 +643,20 @@ export default function CardDetail() {
             {/* Title */}
             <h1
               className="text-[22px] font-bold leading-tight mb-2"
-              style={{ fontFamily: 'Sora, sans-serif', color: deck?.textColor, maxWidth: '68%' }}
+              style={{ fontFamily: 'Sora, sans-serif', color: headerTextColor, maxWidth: '68%' }}
             >
               {card.title}
             </h1>
 
             {/* Tagline */}
-            <p className="text-sm leading-relaxed" style={{ color: deck?.textColor, opacity: 0.7, maxWidth: '68%' }}>
+            <p className="text-sm leading-relaxed" style={{ color: headerTextColor, opacity: 0.75, maxWidth: '68%' }}>
               {card.tagline}
             </p>
 
             {/* Deck progress bar */}
             <div className="mt-4 space-y-1">
               <div className="flex items-center justify-between">
-                <span className="text-[9px] font-semibold" style={{ color: deck?.textColor, opacity: 0.8 }}>
+                <span className="text-[9px] font-semibold" style={{ color: headerTextColor, opacity: 0.8 }}>
                   Deck progress
                 </span>
                 <span className="text-[9px] font-bold" style={{ color: deck?.color }}>

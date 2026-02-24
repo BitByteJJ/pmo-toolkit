@@ -57,15 +57,15 @@ export interface FillableTemplate {
 // ─────────────────────────────────────────────────────────────────────────────
 // Deck colour map (mirrors pmoData.ts DECKS)
 // ─────────────────────────────────────────────────────────────────────────────
-export const DECK_THEME: Record<string, { color: string; bg: string; text: string; title: string }> = {
-  phases:       { color: '#FBBF24', bg: 'rgba(217,119,6,0.18)',  text: '#fde68a', title: 'Project Phases' },
-  archetypes:   { color: '#2DD4BF', bg: 'rgba(13,148,136,0.18)', text: '#99f6e4', title: 'Archetyping Guide' },
-  methodologies:{ color: '#818CF8', bg: 'rgba(79,70,229,0.18)',  text: '#c7d2fe', title: 'Methodologies' },
-  people:       { color: '#FB7185', bg: 'rgba(225,29,72,0.18)',  text: '#fecdd3', title: 'People Domain' },
-  process:      { color: '#34D399', bg: 'rgba(5,150,105,0.18)',  text: '#a7f3d0', title: 'Process Domain' },
-  business:     { color: '#A78BFA', bg: 'rgba(124,58,237,0.18)', text: '#ddd6fe', title: 'Business Environment' },
-  tools:        { color: '#38BDF8', bg: 'rgba(2,132,199,0.18)',  text: '#bae6fd', title: 'Tools Deck' },
-  techniques:   { color: '#94a3b8', bg: 'rgba(100,116,139,0.18)',text: '#e2e8f0', title: 'Advanced Techniques' },
+export const DECK_THEME: Record<string, { color: string; bg: string; text: string; lightBg: string; lightText: string; title: string }> = {
+  phases:       { color: '#FBBF24', bg: 'rgba(217,119,6,0.18)',  text: '#fde68a', lightBg: 'rgba(217,119,6,0.10)',  lightText: '#92400e', title: 'Project Phases' },
+  archetypes:   { color: '#2DD4BF', bg: 'rgba(13,148,136,0.18)', text: '#99f6e4', lightBg: 'rgba(13,148,136,0.10)', lightText: '#065f46', title: 'Archetyping Guide' },
+  methodologies:{ color: '#818CF8', bg: 'rgba(79,70,229,0.18)',  text: '#c7d2fe', lightBg: 'rgba(79,70,229,0.10)',  lightText: '#3730a3', title: 'Methodologies' },
+  people:       { color: '#FB7185', bg: 'rgba(225,29,72,0.18)',  text: '#fecdd3', lightBg: 'rgba(225,29,72,0.10)',  lightText: '#9f1239', title: 'People Domain' },
+  process:      { color: '#34D399', bg: 'rgba(5,150,105,0.18)',  text: '#a7f3d0', lightBg: 'rgba(5,150,105,0.10)',  lightText: '#065f46', title: 'Process Domain' },
+  business:     { color: '#A78BFA', bg: 'rgba(124,58,237,0.18)', text: '#ddd6fe', lightBg: 'rgba(124,58,237,0.10)', lightText: '#5b21b6', title: 'Business Environment' },
+  tools:        { color: '#38BDF8', bg: 'rgba(2,132,199,0.18)',  text: '#bae6fd', lightBg: 'rgba(2,132,199,0.10)',  lightText: '#0c4a6e', title: 'Tools Deck' },
+  techniques:   { color: '#94a3b8', bg: 'rgba(100,116,139,0.18)',text: '#e2e8f0', lightBg: 'rgba(100,116,139,0.10)', lightText: '#334155', title: 'Advanced Techniques' },
 };
 
 // ─────────────────────────────────────────────────────────────────────────────
