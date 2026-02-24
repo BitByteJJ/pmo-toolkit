@@ -167,7 +167,7 @@ export function AudioProvider({ children }: { children: ReactNode }) {
     navigator.mediaSession.metadata = new MediaMetadata({
       title: track.title,
       artist: speaker ? `${speaker} — ${track.deckTitle}` : track.deckTitle,
-      album: 'StratAlign PMO Podcast',
+      album: 'StratAlign Theater',
       artwork: [
         { src: '/icon-192.png', sizes: '192x192', type: 'image/png' },
         { src: '/favicon.ico', sizes: '48x48', type: 'image/x-icon' },

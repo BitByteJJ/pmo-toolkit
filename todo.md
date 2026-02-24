@@ -592,3 +592,9 @@
 - [x] Subsequent segments are queued and played back-to-back with no gap
 - [x] Tune script to 30–50 lines for 5–10 min episodes
 - [x] Show "buffering" indicator when player is waiting for next segment
+
+## Podcast Rename — Feb 24 2026
+
+- [x] Rename podcast from "The PMO Toolkit Podcast" to "StratAlign Theater" in server prompt
+- [x] Update Media Session album name to "StratAlign Theater"
+- [x] Update all UI labels (AudioMode page, AudioPlayerBar) to "StratAlign Theater"

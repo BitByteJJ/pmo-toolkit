@@ -46,7 +46,7 @@ interface DialogueLine {
 
 // ─── SCRIPT PROMPTS ───────────────────────────────────────────────────────────
 function buildSystemPrompt(): string {
-  return `You are a scriptwriter for "The PMO Toolkit Podcast", a popular show where two hosts — Alex and Sam — have smart, engaging conversations about project management tools and techniques.
+  return `You are a scriptwriter for "StratAlign Theater", a popular show where two hosts — Alex and Sam — have smart, engaging conversations about project management tools and techniques.
 
 Alex is experienced, slightly analytical, and loves real-world examples. Sam is curious, enthusiastic, and great at asking the questions listeners are thinking.
 

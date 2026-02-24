@@ -250,7 +250,7 @@ function NowPlaying() {
             {currentTrack.title}
           </div>
           <div className="text-[10px] text-muted-foreground flex items-center gap-1.5">
-            <span>PMO Podcast</span>
+            <span>StratAlign Theater</span>
             {playlist.length > 1 && (
               <span className="opacity-50">· {currentIndex + 1}/{playlist.length}</span>
             )}
@@ -639,7 +639,7 @@ export default function AudioMode() {
             <span className="text-base">👩‍💼</span>
           </div>
           <h1 className="text-base font-black text-foreground" style={{ fontFamily: 'Sora, sans-serif' }}>
-            PMO Podcast
+            StratAlign Theater
           </h1>
         </div>
         <div
