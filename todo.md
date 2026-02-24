@@ -643,3 +643,10 @@
 - [x] Confirmed available Journey voices: Journey-D (male), Journey-F (female), Journey-O (female)
 - [x] Restored: Alex=Journey-D, Sam=Journey-O, Maya=Journey-F, Jordan=Journey-D, Chris=Journey-D
 - [x] Verified end-to-end: 28-segment RACI Matrix episode generates successfully with all Journey voices
+
+## Audio Fix (Edge Proxy) — Feb 24 2026
+
+- [x] Diagnose: edge proxy blocks NDJSON streaming (x-e2bp-resp-type: general_error)
+- [x] Rewrite /api/podcast to return single JSON response instead of NDJSON stream
+- [x] Update AudioContext to use response.json() instead of streaming reader
+- [x] Verified: 25 segments returned correctly, Journey voices working

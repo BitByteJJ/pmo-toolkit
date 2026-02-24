@@ -424,9 +424,7 @@ export function AudioProvider({ children }: { children: ReactNode }) {
       return;
     }
 
-    // Stream from server
-    let streamStarted = false;
-
+    // Fetch full episode as single JSON response (edge-proxy compatible)
     try {
       const response = await fetch('/api/podcast', {
         method: 'POST',
@@ -445,93 +443,45 @@ export function AudioProvider({ children }: { children: ReactNode }) {
         }),
       });
 
-      if (!response.ok || !response.body) {
+      if (!response.ok) {
         const err = await response.text();
         throw new Error(`Podcast API error ${response.status}: ${err.slice(0, 200)}`);
       }
 
-      const reader = response.body.getReader();
-      const decoder = new TextDecoder();
-      let lineBuffer = '';
+      const data = await response.json() as { segments: PodcastSegment[]; total: number; cast: string[] };
 
-      while (true) {
-        if (cardId !== currentCardIdRef.current) { reader.cancel(); return; }
+      if (cardId !== currentCardIdRef.current) return;
 
-        const { done, value } = await reader.read();
-        if (done) break;
-
-        lineBuffer += decoder.decode(value, { stream: true });
-        const lines = lineBuffer.split('\n');
-        lineBuffer = lines.pop() ?? '';
-
-        for (const line of lines) {
-          const trimmed = line.trim();
-          if (!trimmed) continue;
-          try {
-            const parsed = JSON.parse(trimmed);
-
-            if (parsed.done) {
-              streamDoneRef.current = true;
-              const allSegments = segmentQueueRef.current;
-              if (allSegments.length > 0) setCachedEpisode(cardId, allSegments);
-              const castSet = new Set<CastMember>(allSegments.map(s => s.speaker));
-              setState(prev => ({
-                ...prev,
-                episodeTotalSegments: allSegments.length,
-                activeCast: Array.from(castSet),
-                currentTrack: prev.currentTrack
-                  ? { ...prev.currentTrack, totalSegments: allSegments.length, segments: allSegments.slice(), activeCast: Array.from(castSet) }
-                  : prev.currentTrack,
-              }));
-              if (!isPlayingRef.current && !stateRef.current.isPaused && !stateRef.current.isJingle) {
-                playNextSegment(cardId);
-              }
-              continue;
-            }
-
-            if (parsed.error) { console.error('[Theater] Stream error:', parsed.error); continue; }
-
-            const segment: PodcastSegment = {
-              speaker: parsed.speaker as CastMember,
-              line: parsed.line,
-              audioContent: parsed.audioContent,
-              index: parsed.index,
-            };
-
-            segmentQueueRef.current = [...segmentQueueRef.current, segment];
-
-            if (!streamStarted) {
-              streamStarted = true;
-              setState(prev => ({ ...prev, isLoading: false }));
-              // Only start playback if jingle has already finished
-              if (!isPlayingRef.current && !stateRef.current.isJingle) {
-                playNextSegment(cardId);
-              }
-            }
-
-            const currentSegments = segmentQueueRef.current;
-            setState(prev => ({
-              ...prev,
-              episodeTotalSegments: streamDoneRef.current
-                ? currentSegments.length
-                : Math.max(prev.episodeTotalSegments, segment.index + 2),
-              currentTrack: prev.currentTrack
-                ? { ...prev.currentTrack, segments: currentSegments.slice() }
-                : prev.currentTrack,
-            }));
-
-          } catch { /* skip malformed line */ }
-        }
+      if (!data.segments?.length) {
+        throw new Error('No segments returned from podcast API');
       }
 
+      const segments = data.segments;
+      segmentQueueRef.current = segments;
       streamDoneRef.current = true;
-      if (!isPlayingRef.current && !stateRef.current.isPaused && !stateRef.current.isJingle) {
+
+      const castSet = new Set<CastMember>(segments.map(s => s.speaker));
+      setCachedEpisode(cardId, segments);
+
+      setState(prev => ({
+        ...prev,
+        isLoading: false,
+        isBuffering: false,
+        episodeTotalSegments: segments.length,
+        activeCast: Array.from(castSet),
+        currentTrack: prev.currentTrack
+          ? { ...prev.currentTrack, totalSegments: segments.length, segments: segments.slice(), activeCast: Array.from(castSet) }
+          : prev.currentTrack,
+      }));
+
+      // Start playback if jingle has already finished (or was skipped)
+      if (!isPlayingRef.current && !stateRef.current.isJingle && !stateRef.current.isPaused) {
         playNextSegment(cardId);
       }
 
     } catch (err) {
       if (cardId !== currentCardIdRef.current) return;
-      console.error('[Theater] Stream error:', err);
+      console.error('[Theater] Fetch error:', err);
       setState(prev => ({ ...prev, isLoading: false, isBuffering: false, isPlaying: false, error: String(err) }));
     }
   }, [playJingle, playNextSegment]);
