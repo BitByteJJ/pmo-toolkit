@@ -56,13 +56,15 @@ const CHARACTERS: Record<SpeakerName, CharacterConfig> = {
   },
 };
 
-// Voice assignments — Journey voices: D (male), O (female), F (female)
+// Voice assignments — each character gets a distinct voice
+// Males: Journey-D (Alex), Studio-Q (Chris)
+// Females: Journey-O (Sam), Journey-F (Jordan), Studio-O (Maya)
 const VOICE_MAP: Record<SpeakerName, { languageCode: string; name: string; ssmlGender: string }> = {
-  Alex:   { languageCode: 'en-US', name: 'en-US-Journey-D', ssmlGender: 'MALE' },
-  Sam:    { languageCode: 'en-US', name: 'en-US-Journey-O', ssmlGender: 'FEMALE' },
-  Jordan: { languageCode: 'en-US', name: 'en-US-Journey-F', ssmlGender: 'FEMALE' },
-  Maya:   { languageCode: 'en-US', name: 'en-US-Journey-D', ssmlGender: 'MALE' },
-  Chris:  { languageCode: 'en-US', name: 'en-US-Journey-O', ssmlGender: 'FEMALE' },
+  Alex:   { languageCode: 'en-US', name: 'en-US-Journey-D',  ssmlGender: 'MALE'   },  // warm, experienced male
+  Sam:    { languageCode: 'en-US', name: 'en-US-Journey-O',  ssmlGender: 'FEMALE' },  // bright, enthusiastic female
+  Jordan: { languageCode: 'en-US', name: 'en-US-Journey-F',  ssmlGender: 'FEMALE' },  // thoughtful, measured female
+  Maya:   { languageCode: 'en-US', name: 'en-US-Studio-O',   ssmlGender: 'FEMALE' },  // crisp, data-driven female (Studio)
+  Chris:  { languageCode: 'en-US', name: 'en-US-Studio-Q',   ssmlGender: 'MALE'   },  // sharp, pragmatic male (Studio)
 };
 
 const AUDIO_CONFIG = {

@@ -258,15 +258,22 @@ function buildCatalogueText(): string {
   ).join('\n');
 }
 
-const SYSTEM_PROMPT = `PMO expert. Given a project problem, pick 4-6 most relevant cards from this catalogue and explain why each helps.
+const SYSTEM_PROMPT = `You are a senior PMO consultant with 20+ years of experience. A practitioner has described a real project challenge. Your job is to recommend the 4-6 most valuable tools, techniques, or frameworks from the PMO Toolkit catalogue that will directly help them solve it.
 
 CATALOGUE (code|title|tagline|tags):
 ${buildCatalogueText()}
 
-Reply ONLY with JSON:
-{"summary":"1-2 sentences on the problem","recommendations":[{"cardId":"exact code","reason":"1-2 sentences why this card helps"}]}
+Your recommendations must:
+1. Be SPECIFIC to the exact problem described — not generic "always useful" tools
+2. Include a CONCRETE reason explaining HOW each card addresses their specific situation
+3. Be ORDERED by impact — most immediately useful first
+4. Cover different angles: e.g. don't recommend 3 risk tools when 1 is enough
+5. Mention a SPECIFIC action the practitioner should take with each tool
 
-Rules: use exact cardIds from catalogue, 4-6 cards ordered by relevance, reasons must be specific to the problem.`;
+Reply ONLY with valid JSON (no markdown fences):
+{"summary":"2-3 sentences diagnosing the core problem and what success looks like","recommendations":[{"cardId":"exact code from catalogue","reason":"2-3 sentences: what the tool does, why it fits this specific situation, and the first concrete action to take"}]}
+
+Rules: use exact cardIds from catalogue, 4-6 cards, reasons must reference specifics from the problem description.`;
 
 export async function handleAiSuggest(req: IncomingMessage, res: ServerResponse): Promise<void> {
   if (req.method !== 'POST') {
@@ -311,7 +318,7 @@ export async function handleAiSuggest(req: IncomingMessage, res: ServerResponse)
 
   // Set a 20-second timeout on the request
   const controller = new AbortController();
-  const timeoutId = setTimeout(() => controller.abort(), 20000);
+  const timeoutId = setTimeout(() => controller.abort(), 30000);
 
   try {
     const llmRes = await fetch(`${apiUrl}/v1/chat/completions`, {
@@ -328,7 +335,7 @@ export async function handleAiSuggest(req: IncomingMessage, res: ServerResponse)
           { role: 'user', content: `My problem: ${problem}` },
         ],
         temperature: 0.3,
-        max_tokens: 600,
+        max_tokens: 1200,
       }),
     });
     clearTimeout(timeoutId);

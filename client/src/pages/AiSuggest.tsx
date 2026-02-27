@@ -5,7 +5,8 @@
 import { useState, useRef, useEffect } from 'react';
 import { useLocation } from 'wouter';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Sparkles, ArrowRight, RotateCcw, Lightbulb, Send, ChevronRight } from 'lucide-react';
+import { Sparkles, ArrowRight, RotateCcw, Lightbulb, Send, ChevronRight, Headphones } from 'lucide-react';
+import { useAudio } from '@/contexts/AudioContext';
 import { DECKS, getCardById } from '@/lib/pmoData';
 import { useTheme } from '@/contexts/ThemeContext';
 import PageFooter from '@/components/PageFooter';
@@ -44,23 +45,24 @@ function RecommendationCard({ rec, index }: { rec: Recommendation; index: number
   const deck = card ? DECKS.find(d => d.id === card.deckId) : null;
   const accentColor = deck?.color ?? '#475569';
   const { isDark } = useTheme();
+  const { playCard } = useAudio();
   const bgColor = deck ? (deck.color + '18') : (isDark ? 'rgba(255,255,255,0.06)' : 'rgba(0,0,0,0.05)');
 
   return (
-    <motion.button
+    <motion.div
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.35, delay: index * 0.08, ease: [0.22, 1, 0.36, 1] }}
-      onClick={() => card && navigate(`/card/${rec.cardId}`)}
       className="w-full text-left rounded-2xl overflow-hidden bg-card relative"
       style={{ boxShadow: `0 2px 16px ${accentColor}20, 0 1px 4px rgba(0,0,0,0.06)` }}
-      whileHover={{ scale: 1.015, y: -2 }}
-      whileTap={{ scale: 0.98 }}
     >
       {/* Top accent bar */}
       <div className="h-1 w-full" style={{ backgroundColor: accentColor }} />
 
-      <div className="p-4">
+      <button
+        className="w-full text-left p-4"
+        onClick={() => card && navigate(`/card/${rec.cardId}`)}
+      >
         <div className="flex items-start gap-3">
           {/* Rank badge */}
           <div
@@ -102,7 +104,7 @@ function RecommendationCard({ rec, index }: { rec: Recommendation; index: number
             {/* AI reason */}
             <div
               className="rounded-xl p-3 text-xs leading-relaxed"
-              style={{ backgroundColor: bgColor, color: deck?.textColor ?? '#94a3b8' }}
+              style={{ backgroundColor: bgColor, color: isDark ? '#cbd5e1' : '#475569' }}
             >
               <span className="font-semibold" style={{ color: accentColor }}>Why this helps: </span>
               {rec.reason}
@@ -112,8 +114,22 @@ function RecommendationCard({ rec, index }: { rec: Recommendation; index: number
           {/* Arrow */}
           <ChevronRight size={16} className="shrink-0 text-muted-foreground mt-1" />
         </div>
-      </div>
-    </motion.button>
+      </button>
+
+      {/* Podcast shortcut */}
+      {card && (
+        <div className="px-4 pb-3 flex justify-end">
+          <button
+            onClick={(e) => { e.stopPropagation(); playCard(card.id); }}
+            className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-[11px] font-semibold transition-all"
+            style={{ backgroundColor: accentColor + '18', color: accentColor }}
+          >
+            <Headphones size={12} />
+            Listen to episode
+          </button>
+        </div>
+      )}
+    </motion.div>
   );
 }
 
@@ -466,7 +482,7 @@ export default function AiSuggest() {
                   <Sparkles size={14} className="text-indigo-500" />
                   <span className="text-[11px] font-bold text-indigo-600 uppercase tracking-wider">AI Analysis</span>
                 </div>
-                <p className="text-sm text-indigo-900 leading-relaxed">{result.summary}</p>
+                <p className="text-sm leading-relaxed" style={{ color: isDark ? '#c7d2fe' : '#312e81' }}>{result.summary}</p>
               </motion.div>
 
               {/* Recommendation cards */}
