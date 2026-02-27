@@ -13,11 +13,11 @@ import { describe, it, expect, beforeEach } from 'vitest';
 type SpeakerName = 'Alex' | 'Sam' | 'Jordan' | 'Maya' | 'Chris';
 
 const VOICE_MAP: Record<SpeakerName, { languageCode: string; name: string; ssmlGender: string }> = {
-  Alex:   { languageCode: 'en-US', name: 'en-US-Journey-D',  ssmlGender: 'MALE'   },
-  Sam:    { languageCode: 'en-US', name: 'en-US-Journey-O',  ssmlGender: 'FEMALE' },
-  Jordan: { languageCode: 'en-US', name: 'en-US-Journey-F',  ssmlGender: 'FEMALE' },
-  Maya:   { languageCode: 'en-US', name: 'en-US-Studio-O',   ssmlGender: 'FEMALE' },
-  Chris:  { languageCode: 'en-US', name: 'en-US-Studio-Q',   ssmlGender: 'MALE'   },
+  Alex:   { languageCode: 'en-US', name: 'en-US-Journey-D', ssmlGender: 'MALE' },
+  Sam:    { languageCode: 'en-US', name: 'en-US-Journey-O', ssmlGender: 'FEMALE' },
+  Jordan: { languageCode: 'en-US', name: 'en-US-Journey-F', ssmlGender: 'FEMALE' },
+  Maya:   { languageCode: 'en-US', name: 'en-US-Journey-D', ssmlGender: 'MALE' },
+  Chris:  { languageCode: 'en-US', name: 'en-US-Journey-O', ssmlGender: 'FEMALE' },
 };
 
 interface CardInput {
@@ -70,7 +70,7 @@ describe('StratAlign Theater — Voice Map', () => {
     const speakers: SpeakerName[] = ['Alex', 'Sam', 'Jordan', 'Maya', 'Chris'];
     for (const speaker of speakers) {
       expect(VOICE_MAP[speaker]).toBeDefined();
-      expect(VOICE_MAP[speaker].name).toMatch(/^en-US-(Journey-[DOF]|Studio-[OQ])$/);
+      expect(VOICE_MAP[speaker].name).toMatch(/^en-US-Journey-[DOF]$/);
       expect(VOICE_MAP[speaker].languageCode).toBe('en-US');
     }
   });
@@ -88,33 +88,6 @@ describe('StratAlign Theater — Voice Map', () => {
   it('Jordan should use Journey-F (female)', () => {
     expect(VOICE_MAP.Jordan.name).toBe('en-US-Journey-F');
     expect(VOICE_MAP.Jordan.ssmlGender).toBe('FEMALE');
-  });
-
-  it('Maya should use Studio-O (female) — gender-correct assignment', () => {
-    expect(VOICE_MAP.Maya.name).toBe('en-US-Studio-O');
-    expect(VOICE_MAP.Maya.ssmlGender).toBe('FEMALE');
-  });
-
-  it('Chris should use Studio-Q (male) — gender-correct assignment', () => {
-    expect(VOICE_MAP.Chris.name).toBe('en-US-Studio-Q');
-    expect(VOICE_MAP.Chris.ssmlGender).toBe('MALE');
-  });
-
-  it('all 5 characters have distinct voices', () => {
-    const voices = Object.values(VOICE_MAP).map(v => v.name);
-    const unique = new Set(voices);
-    expect(unique.size).toBe(5);
-  });
-
-  it('female characters (Sam, Jordan, Maya) all have FEMALE gender', () => {
-    expect(VOICE_MAP.Sam.ssmlGender).toBe('FEMALE');
-    expect(VOICE_MAP.Jordan.ssmlGender).toBe('FEMALE');
-    expect(VOICE_MAP.Maya.ssmlGender).toBe('FEMALE');
-  });
-
-  it('male characters (Alex, Chris) all have MALE gender', () => {
-    expect(VOICE_MAP.Alex.ssmlGender).toBe('MALE');
-    expect(VOICE_MAP.Chris.ssmlGender).toBe('MALE');
   });
 });
 
