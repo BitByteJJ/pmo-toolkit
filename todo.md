@@ -675,3 +675,10 @@
 - [x] Root cause: selectCast required score ≥6 for all 5 characters but max possible score was 6 (most cards score 2–4)
 - [x] Fix: rotation-based selectCast — Jordan/Maya/Chris cycle as guests; simple cards get 3 hosts, medium get 4, complex get all 5
 - [x] Updated 22 vitest tests to match new rotation logic (all pass)
+
+## SEO Fixes — Home Page (/)
+- [x] Fix page title: "StratAlign — PMO Toolkit for Project Managers" (49 chars, within 30–60)
+- [x] Add meta description (145 chars): 198 tools, 8 decks, AI finder, templates, podcasts
+- [x] Add meta keywords tag with 9 PM-relevant keywords
+- [x] Fix hero image alt text: "Project manager working with PM tools and frameworks"
+- [x] Add document.title setter in Home.tsx useEffect to reinforce on SPA navigation

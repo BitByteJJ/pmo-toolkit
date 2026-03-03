@@ -214,6 +214,15 @@ export default function Home() {
   const heroRef = useRef<HTMLDivElement>(null);
   const [scrollY, setScrollY] = useState(0);
 
+  // Set page title and meta description for SEO
+  useEffect(() => {
+    document.title = 'StratAlign — PMO Toolkit for Project Managers';
+    const metaDesc = document.querySelector('meta[name="description"]');
+    if (metaDesc) {
+      metaDesc.setAttribute('content', 'StratAlign gives project managers 198 PM tools, frameworks, and techniques across 8 card decks. AI-powered tool finder, templates, podcasts, and more.');
+    }
+  }, []);
+
   useEffect(() => {
     const onScroll = () => setScrollY(window.scrollY);
     window.addEventListener('scroll', onScroll, { passive: true });
@@ -278,8 +287,7 @@ export default function Home() {
           {/* Illustration with parallax */}
           <img
             src={HERO_IMG}
-            alt=""
-            aria-hidden="true"
+            alt="Project manager working with PM tools and frameworks"
             className="absolute"
             style={{
               right: '-5%',
